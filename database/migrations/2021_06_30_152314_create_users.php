@@ -20,6 +20,8 @@ class CreateUsers extends Migration
             $table->string('email');
             $table->string('avatar')->nullable();
             $table->string('password');
+            $table->text('token');
+            $table->text('fcm_token');
             $table->datetime('birth')->nullable();
             $table->timestamps();
         });
