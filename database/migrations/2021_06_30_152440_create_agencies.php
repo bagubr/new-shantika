@@ -17,6 +17,7 @@ class CreateAgencies extends Migration
             $table->id();
             $table->string('name');
             $table->integer('city_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

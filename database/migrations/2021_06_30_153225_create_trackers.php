@@ -19,6 +19,7 @@ class CreateTrackers extends Migration
             $table->integer('route_id');
             $table->string('name');
             $table->time('arrived_at');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

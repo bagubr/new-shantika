@@ -18,6 +18,7 @@ class CreateLayouts extends Migration
             $table->string('type');
             $table->integer('total');
             $table->string('note')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

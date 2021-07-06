@@ -16,6 +16,7 @@ class CreateFleetClasses extends Migration
         Schema::create('fleet_classes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

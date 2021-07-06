@@ -17,6 +17,7 @@ class CreateUserAgents extends Migration
             $table->id();
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('agency_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

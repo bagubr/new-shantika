@@ -22,6 +22,7 @@ class CreateOrders extends Migration
             $table->integer('agent_depature_id');
             $table->integer('agent_destination_id');
             $table->integer('price');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

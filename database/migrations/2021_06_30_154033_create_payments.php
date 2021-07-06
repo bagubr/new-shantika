@@ -19,6 +19,7 @@ class CreatePayments extends Migration
             $table->integer('order_id');
             $table->string('status');
             $table->datetime('expired_at');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

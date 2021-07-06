@@ -15,14 +15,15 @@ class CreateUsers extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->string('phone');
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('avatar')->nullable();
-            $table->string('password');
-            $table->text('token');
-            $table->text('fcm_token');
+            $table->string('password')->nullable();
+            $table->text('token')->nullable();
+            $table->text('fcm_token')->nullable();
             $table->datetime('birth')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

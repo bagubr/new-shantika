@@ -22,6 +22,7 @@ class CreateOrderDetails extends Migration
             $table->string('email')->nullable();
             $table->string('layout_name');
             $table->string('type');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

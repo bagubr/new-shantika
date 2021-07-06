@@ -20,6 +20,7 @@ class CreateRoutes extends Migration
             $table->time('departure_at')->nullable();
             $table->time('arrived_at')->nullable();
             $table->integer('price');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

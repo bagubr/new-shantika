@@ -20,6 +20,7 @@ class CreateFleets extends Migration
             $table->integer('fleet_class_id');
             $table->string('image')->nullable();
             $table->integer('layout_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
