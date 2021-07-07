@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\FleetClassRepository;
 use Illuminate\Http\Request;
 
 class FleetClassController extends Controller
 {
+    private $fleetclassRepository;
+    public function __construct(FleetClassRepository $fleetclassRepository)
+    {
+        $this->fleetclassRepository = $fleetclassRepository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +19,8 @@ class FleetClassController extends Controller
      */
     public function index()
     {
-        return view('fleetclass.index');
+        $fleetclasses = $this->fleetclassRepository->all();
+        return view('fleetclass.index', compact('fleetclasses'));
     }
 
     /**
