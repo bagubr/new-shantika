@@ -20,7 +20,7 @@ class ApiAuthMiddleware
     public function handle(Request $request, Closure $next)
     {
         $token = $request->bearerToken() ?? $this->sendFailedResponse([], "Oops, anda sepertinya harus login ulang", 401);
-        $user = UserRepository::findByToken($token);
+        $user = UserRepository::findByToken($token) ?? $this->sendFailedResponse([], "Oops, anda sepertinya harus login ulang", 401);
         //Check token
         if(!str_contains($user->token, $token)) {
             $this->sendFailedResponse([], "Oops, anda sepertinya harus login ulang",401);
