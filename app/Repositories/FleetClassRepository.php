@@ -6,7 +6,7 @@ use App\Models\FleetClass;
 
 class FleetClassRepository
 {
-    public function all()
+    public static function all()
     {
         return FleetClass::all();
     }

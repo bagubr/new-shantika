@@ -7,11 +7,6 @@ use Illuminate\Http\Request;
 
 class FleetClassController extends Controller
 {
-    private $fleetclassRepository;
-    public function __construct(FleetClassRepository $fleetclassRepository)
-    {
-        $this->fleetclassRepository = $fleetclassRepository;
-    }
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +14,7 @@ class FleetClassController extends Controller
      */
     public function index()
     {
-        $fleetclasses = $this->fleetclassRepository->all();
+        $fleetclasses = FleetClassRepository::all();
         return view('fleetclass.index', compact('fleetclasses'));
     }
 
