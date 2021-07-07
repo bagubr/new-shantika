@@ -13,4 +13,5 @@ Route::middleware(['api.auth'])->group(function() {
     Route::get('privacy_policy', 'PrivacyPolicyController@index');
     Route::get('informations', 'InformationController@index');
     Route::get('social_media', 'SocialMediaController@index');
+    Route::get('customer_menu', 'CustomerMenuController@index');
 });
