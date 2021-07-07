@@ -11,4 +11,5 @@ Route::middleware(['api.auth'])->group(function() {
     });
 
     Route::get('privacy_policy', 'PrivacyPolicyController@index');
+    Route::get('informations', 'InformationController@index');
 });
