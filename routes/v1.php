@@ -16,4 +16,5 @@ Route::middleware(['api.auth'])->group(function() {
     Route::get('customer_menu', 'CustomerMenuController@index');
     Route::get('term_and_condition', 'TermAndConditionController@index');
     Route::get('faq', 'FaqController@index');
+    Route::get('chat', 'ChatController@index');
 });
