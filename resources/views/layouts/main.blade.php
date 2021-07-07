@@ -63,7 +63,10 @@
         <!-- /.control-sidebar -->
         @endauth
     </div>
+    @guest
     @yield('content')
+    @endguest
+
 
     <!-- ./wrapper -->
 
