@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FleetController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,3 +20,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('dashboard');
 });
+Route::resources([
+    'fleets' => FleetController::class
+]);
