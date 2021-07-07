@@ -59,8 +59,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('logout') }}" onclick="event.preventDefault();
-                    document.getElementById('logout-form').submit();"
-                        class="nav-link {{Request::routeIs('dashboard') ? 'active' : ''}}">
+                    document.getElementById('logout-form').submit();" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Logout

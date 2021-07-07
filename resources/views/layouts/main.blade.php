@@ -35,6 +35,7 @@
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
+        @auth
 
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
@@ -60,7 +61,10 @@
             <!-- Control sidebar content goes here -->
         </aside>
         <!-- /.control-sidebar -->
+        @endauth
     </div>
+    @yield('content')
+
     <!-- ./wrapper -->
 
     <!-- jQuery -->
