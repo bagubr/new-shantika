@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
-use App\Models\Information;
+use App\Models\SocialMedia;
 use Illuminate\Http\Request;
 
-class InformationController extends Controller
+class SocialMediaController extends Controller
 {
     public function index() {
         $this->sendSuccessResponse([
-            'informations'=>Information::all()
+            'social_medias'=>SocialMedia::all()
         ]);
     }
 }

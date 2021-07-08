@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
-use App\Models\Information;
+use App\Models\Facility;
 use Illuminate\Http\Request;
 
-class InformationController extends Controller
+class FacilityController extends Controller
 {
     public function index() {
         $this->sendSuccessResponse([
-            'informations'=>Information::all()
+            'facilities'=>Facility::all()
         ]);
     }
 }
