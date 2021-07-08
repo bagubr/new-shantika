@@ -41,7 +41,7 @@ class FleetClassController extends Controller
     {
         $data = $request->all();
         FleetClass::create($data);
-        session()->flash('success', 'Fleet Created Successfully');
+        session()->flash('success', 'Fleet Class Created Successfully');
         return redirect(route('fleetclass.index'));
     }
 
