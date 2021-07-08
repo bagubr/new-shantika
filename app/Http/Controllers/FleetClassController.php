@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateFleetClassRequest;
+use App\Models\FleetClass;
 use App\Repositories\FleetClassRepository;
 use Illuminate\Http\Request;
 
@@ -37,7 +38,9 @@ class FleetClassController extends Controller
      */
     public function store(CreateFleetClassRequest $request)
     {
-        FleetClassRepository::store($request);
+        $data = $request->all();
+        FleetClass::create($data);
+        session()->flash('success', 'Fleet Created Successfully');
         return redirect(route('fleetclass.index'));
     }
 
@@ -47,9 +50,8 @@ class FleetClassController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(FleetClass $fleetclass)
     {
-        //
     }
 
     /**
@@ -58,9 +60,9 @@ class FleetClassController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(FleetClass $fleetclass)
     {
-        //
+        return view('fleetclass.create', compact('fleetclass'));
     }
 
     /**
