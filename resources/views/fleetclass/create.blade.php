@@ -31,9 +31,10 @@ Fleet
                     </div>
                 </div>
                 <div class="card-body" style="display: block;">
+                    @include('partials.error')
                     <form action="@isset($fleetclass)
                         {{route('fleetclass.update', $fleetclass->id)}}
-                    @endisset @empty($fleetclass) {{route('fleetclass.store')}}" @endempty method="POST">
+                    @endisset @empty($fleetclass) {{route('fleetclass.store')}} @endempty" method="POST">
                         @csrf
                         @isset($fleetclass)
                         @method('PUT')

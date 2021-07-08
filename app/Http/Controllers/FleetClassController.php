@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateFleetClassRequest;
+use App\Http\Requests\FleetClass\UpdateFleetClassRequest;
 use App\Models\FleetClass;
 use App\Repositories\FleetClassRepository;
 use Illuminate\Http\Request;
@@ -72,9 +73,12 @@ class FleetClassController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateFleetClassRequest $request, FleetClass $fleetclass)
     {
-        //
+        $data = $request->all();
+        $fleetclass->update($data);
+        session()->flash('success', 'Fleet Class Updated Successfully');
+        return redirect(route('fleetclass.index'));
     }
 
     /**
@@ -85,6 +89,14 @@ class FleetClassController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $fleetclass = FleetClassRepository::deleteId($id);
+        if ($fleetclass->trashed()) {
+            $fleetclass->forceDelete();
+            session()->flash('success', 'Fleet Class Deleted Successfully');
+        } else {
+            $fleetclass->delete();
+            session()->flash('success', 'Fleet Class Trashed Successfully');
+        }
+        return redirect(route('fleetclass.index'));
     }
 }

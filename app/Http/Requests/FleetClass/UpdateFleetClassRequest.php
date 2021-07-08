@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\FleetClass;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateFleetClassRequest extends FormRequest
+class UpdateFleetClassRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class CreateFleetClassRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:fleet_classes,name'
+            'name' => 'required|unique:fleet_classes,name,' . $this->fleetclass->id
         ];
     }
 }
