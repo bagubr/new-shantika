@@ -37,12 +37,16 @@ Fleet Class
                             <thead>
                                 <tr>
                                     <th>Name</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($fleetclasses as $fleetclass)
                                 <tr>
                                     <td>{{$fleetclass->name}}</td>
+                                    <td><a href="{{route('fleetclass.edit',$fleetclass->id)}}"
+                                            class="btn btn-block btn-warning btn-xs">Edit</a>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
