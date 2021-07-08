@@ -33,6 +33,7 @@ Fleet Class
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
+                        @include('partials.success')
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
@@ -45,7 +46,14 @@ Fleet Class
                                 <tr>
                                     <td>{{$fleetclass->name}}</td>
                                     <td><a href="{{route('fleetclass.edit',$fleetclass->id)}}"
-                                            class="btn btn-block btn-warning btn-xs">Edit</a>
+                                            class="btn btn-warning btn-xs">Edit</a>
+                                        <form action="{{route('fleetclass.destroy',$fleetclass->id)}}" class="d-inline"
+                                            method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger btn-xs"
+                                                onclick="return confirm('Are you sure?')" type="submit">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                                 @endforeach

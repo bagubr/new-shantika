@@ -77,7 +77,7 @@ class FleetClassController extends Controller
     {
         $data = $request->all();
         $fleetclass->update($data);
-        session()->flash('success', 'Product Updated Successfully');
+        session()->flash('success', 'Fleet Class Updated Successfully');
         return redirect(route('fleetclass.index'));
     }
 
@@ -89,6 +89,14 @@ class FleetClassController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $fleetclass = FleetClassRepository::deleteId($id);
+        if ($fleetclass->trashed()) {
+            $fleetclass->forceDelete();
+            session()->flash('success', 'Fleet Class Deleted Successfully');
+        } else {
+            $fleetclass->delete();
+            session()->flash('success', 'Fleet Class Trashed Successfully');
+        }
+        return redirect(route('fleetclass.index'));
     }
 }
