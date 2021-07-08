@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FleetClassController;
 use App\Http\Controllers\FleetController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,12 +17,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-Route::get('/', function () {
-    return view('dashboard');
-});
-Route::resources([
-    'fleets' => FleetController::class
+Auth::routes([
+    'register' => false,
+    'reset' => false,
+    'verify' => false,
 ]);
+
+Route::group(['middleware' => ['auth']], function () {
+
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resources([
+        'fleets' => FleetController::class,
+        'fleetclass' => FleetClassController::class
+    ]);
+});
