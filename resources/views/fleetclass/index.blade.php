@@ -28,12 +28,12 @@ Fleet Class
                     <div class="card-header">
                         <h3 class="card-title">Table Fleet Class</h3>
                         <div class="text-right">
-                            <a href="{{route('fleetclass.create')}}" class="btn btn-primary">Create</a>
+                            <a href="{{route('fleetclass.create')}}" class="btn btn-primary btn-sm">Create</a>
                         </div>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        @include('partials.success')
+                        {{-- @include('partials.success') --}}
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
