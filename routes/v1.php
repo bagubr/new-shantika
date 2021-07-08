@@ -17,4 +17,5 @@ Route::middleware(['api.auth'])->group(function() {
     Route::get('term_and_condition', 'TermAndConditionController@index');
     Route::get('faq', 'FaqController@index');
     Route::get('chat', 'ChatController@index');
+    Route::get('facility', 'FacilityController@index');
 });
