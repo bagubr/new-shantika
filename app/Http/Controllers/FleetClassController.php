@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateFleetClassRequest;
+use App\Http\Requests\FleetClass\UpdateFleetClassRequest;
 use App\Models\FleetClass;
 use App\Repositories\FleetClassRepository;
 use Illuminate\Http\Request;
@@ -72,9 +73,12 @@ class FleetClassController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateFleetClassRequest $request, FleetClass $fleetclass)
     {
-        //
+        $data = $request->all();
+        $fleetclass->update($data);
+        session()->flash('success', 'Product Updated Successfully');
+        return redirect(route('fleetclass.index'));
     }
 
     /**
