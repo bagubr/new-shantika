@@ -71,6 +71,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{route('privacy_policy.index')}}"
+                        class="nav-link {{Request::routeIs('privacy_policy.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-question"></i>
+                        <p>
+                            FAQ
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('logout') }}" onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();" class="nav-link">
                         <i class="nav-icon fas fa-door-open"></i>

@@ -5,6 +5,7 @@ use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FleetClassController;
 use App\Http\Controllers\FleetController;
 use App\Http\Controllers\InformationController;
+use App\Http\Controllers\PrivacyPolicyController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -33,5 +34,6 @@ Route::group(['middleware' => ['auth']], function () {
         'fleetclass' => FleetClassController::class,
         'information' => InformationController::class,
         'faq' => FaqController::class,
+        'privacy_policy' => PrivacyPolicyController::class,
     ]);
 });
