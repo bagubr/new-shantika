@@ -17,13 +17,9 @@
                 <a href="#" class="d-block">{{Auth::user()->name}}</a>
             </div>
         </div>
-
-
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
-       with font-awesome or any other icon font library -->
                 <li class="nav-item">
                     <a href="{{route('dashboard')}}" class="nav-link {{Request::routeIs('dashboard') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -56,6 +52,15 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('information.index')}}"
+                        class="nav-link {{Request::routeIs('information.index') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Information
+                        </p>
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('logout') }}" onclick="event.preventDefault();
