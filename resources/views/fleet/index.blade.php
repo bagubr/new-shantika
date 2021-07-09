@@ -27,29 +27,40 @@ Fleet
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Table Fleet</h3>
+                        <div class="text-right">
+                            <a href="{{route('fleets.create')}}" class="btn btn-primary btn-sm">Create</a>
+                        </div>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Rendering engine</th>
-                                    <th>Browser</th>
-                                    <th>Platform(s)</th>
-                                    <th>Engine version</th>
-                                    <th>CSS grade</th>
+                                    <th>Name</th>
+                                    <th>Fleet Class</th>
+                                    <th>Image</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($fleets as $fleet)
                                 <tr>
-                                    <td>Trident</td>
-                                    <td>Internet
-                                        Explorer 4.0
+                                    <td>{{$fleet->name}}</td>
+                                    <td>{{$fleet->fleetclass->name ?? 'Not Found'}}</td>
+                                    <td><img src="{{$fleet->image}}" height="100px" alt=""></td>
+                                    <td><a href="{{route('fleets.edit',$fleet->id)}}"
+                                            class="btn btn-warning btn-xs">Edit</a>
+                                        <form action="{{route('fleets.destroy',$fleet->id)}}" class="d-inline"
+                                            method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger btn-xs"
+                                                onclick="return confirm('Are you sure?')" type="submit">Delete</button>
+                                        </form>
                                     </td>
-                                    <td>Win 95+</td>
-                                    <td> 4</td>
-                                    <td>X</td>
                                 </tr>
+                                @endforeach
+                            </tbody>
                         </table>
                     </div>
                     <!-- /.card-body -->
