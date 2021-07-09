@@ -1,5 +1,7 @@
 @extends('layouts.main')
-
+@section('title')
+Login
+@endsection
 @section('content')
 <div class="hold-transition login-page">
     <div class="login-box">
