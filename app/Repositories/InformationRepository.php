@@ -10,4 +10,8 @@ class InformationRepository
     {
         return Information::all();
     }
+    public static function deleteId($id)
+    {
+        return Information::find($id);
+    }
 }

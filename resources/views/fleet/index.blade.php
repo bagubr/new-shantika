@@ -47,7 +47,7 @@ Fleet
                                 <tr>
                                     <td>{{$fleet->name}}</td>
                                     <td>{{$fleet->fleetclass->name ?? 'Not Found'}}</td>
-                                    <td><img src="{{$fleet->image}}" height="100px" alt=""></td>
+                                    <td><img src="{{asset('storage/'.$fleet->image)}}" height="100px" alt=""></td>
                                     <td><a href="{{route('fleets.edit',$fleet->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('fleets.destroy',$fleet->id)}}" class="d-inline"

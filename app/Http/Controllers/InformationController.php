@@ -84,7 +84,7 @@ class InformationController extends Controller
             $data['image'] = $image;
         }
         $information->update($data);
-        session()->flash('success', 'Fleet Updated Successfully');
+        session()->flash('success', 'Information Updated Successfully');
         return redirect(route('information.index'));
     }
 
@@ -96,6 +96,10 @@ class InformationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $information = InformationRepository::deleteId($id);
+        $information->deleteImage();
+        $information->delete();
+        session()->flash('success', 'Information Deleted Successfully');
+        return redirect(route('information.index'));
     }
 }
