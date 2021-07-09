@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PrivacyPolicy\CreatePrivacyPolicyRequest;
+use App\Http\Requests\PrivacyPolicy\UpdatePrivacyPolicy;
 use App\Models\PrivacyPolicy;
 use App\Repositories\PrivacyPolicyRepository;
 use Illuminate\Http\Request;
@@ -40,7 +41,7 @@ class PrivacyPolicyController extends Controller
     {
         $data = $request->all();
         PrivacyPolicy::create($data);
-        session()->flash('success', 'Information Created Successfully');
+        session()->flash('success', 'Privacy Policy Created Successfully');
         return redirect(route('privacy_policy.index'));
     }
 
@@ -61,9 +62,9 @@ class PrivacyPolicyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(PrivacyPolicy $privacy_policy)
     {
-        //
+        return view('privacy_policy.create', compact('privacy_policy'));
     }
 
     /**
@@ -73,9 +74,12 @@ class PrivacyPolicyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePrivacyPolicy $request, PrivacyPolicy $privacy_policy)
     {
-        //
+        $data = $request->all();
+        $privacy_policy->update($data);
+        session()->flash('success', 'Privacy Policy Updated Successfully');
+        return redirect(route('privacy_policy.index'));
     }
 
     /**
