@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Fleet\CreateFleetRequest;
+use App\Http\Requests\Fleet\UpdateFleetRequest;
 use App\Models\Fleet;
 use App\Repositories\FleetClassRepository;
 use App\Repositories\FleetRepository;
@@ -40,10 +41,9 @@ class FleetController extends Controller
      */
     public function store(CreateFleetRequest $request)
     {
-        $image = $request->file('image');
         $data = $request->all();
         $data['layout_id'] = 1;
-        $data['image'] = $image->store('fleet');
+        $data['image'] = $request->image->store('image', 'public');
 
         Fleet::create($data);
         session()->flash('success', 'Fleet Created Successfully');
@@ -80,9 +80,17 @@ class FleetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateFleetRequest $request, Fleet $fleet)
     {
-        //
+        $data = $request->only(['name', 'layout_id', 'fleet_class_id', 'description']);
+        if ($request->hasFile('image')) {
+            $image = $request->image->store('image', 'public');
+            $fleet->deleteImage();
+            $data['image'] = $image;
+        };
+        $fleet->update($data);
+        session()->flash('success', 'Fleet Updated Successfully');
+        return redirect(route('fleets.index'));
     }
 
     /**

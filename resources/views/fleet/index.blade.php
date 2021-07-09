@@ -37,6 +37,8 @@ Fleet
                             <thead>
                                 <tr>
                                     <th>Name</th>
+                                    <th>Fleet Class</th>
+                                    <th>Image</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -44,6 +46,8 @@ Fleet
                                 @foreach ($fleets as $fleet)
                                 <tr>
                                     <td>{{$fleet->name}}</td>
+                                    <td>{{$fleet->fleetclass->name ?? 'Not Found'}}</td>
+                                    <td><img src="{{$fleet->image}}" height="100px" alt=""></td>
                                     <td><a href="{{route('fleets.edit',$fleet->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('fleets.destroy',$fleet->id)}}" class="d-inline"
