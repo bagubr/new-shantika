@@ -101,6 +101,14 @@ class FleetController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $fleet = FleetRepository::deleteId($id);
+        if ($fleet->trashed()) {
+            $fleet->forceDelete();
+            session()->flash('success', 'Fleet Deleted Successfully');
+        } else {
+            $fleet->delete();
+            session()->flash('success', 'Fleet Trashed Successfully');
+        }
+        return redirect(route('fleets.index'));
     }
 }

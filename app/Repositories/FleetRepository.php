@@ -10,4 +10,8 @@ class FleetRepository
     {
         return Fleet::all();
     }
+    public static function deleteId($id)
+    {
+        return Fleet::withTrashed()->where('id', $id)->firstOrFail();
+    }
 }
