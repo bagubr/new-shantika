@@ -2,7 +2,12 @@
 
 namespace App\Repositories;
 
-class FleetRepository {
+use App\Models\Fleet;
 
+class FleetRepository
+{
+    public static function all()
+    {
+        return Fleet::all();
+    }
 }
-        
