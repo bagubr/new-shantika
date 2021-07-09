@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Information\CreateInformationRequest;
+use App\Http\Requests\Information\UpdateInformationRequest;
 use App\Models\Information;
 use App\Repositories\InformationRepository;
 use Illuminate\Http\Request;
@@ -62,9 +63,9 @@ class InformationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Information $information)
     {
-        //
+        return view('information.create', compact('information'));
     }
 
     /**
@@ -74,9 +75,17 @@ class InformationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateInformationRequest $request, Information $information)
     {
-        //
+        $data = $request->only(['name', 'address', 'description']);
+        if ($request->hasFile('image')) {
+            $image = $request->image->store('information', 'public');
+            $information->deleteImage();
+            $data['image'] = $image;
+        }
+        $information->update($data);
+        session()->flash('success', 'Fleet Updated Successfully');
+        return redirect(route('information.index'));
     }
 
     /**
