@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FleetClassController;
 use App\Http\Controllers\FleetController;
 use App\Http\Controllers\InformationController;
@@ -31,5 +32,6 @@ Route::group(['middleware' => ['auth']], function () {
         'fleets' => FleetController::class,
         'fleetclass' => FleetClassController::class,
         'information' => InformationController::class,
+        'faq' => FaqController::class,
     ]);
 });
