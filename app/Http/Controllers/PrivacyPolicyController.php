@@ -88,8 +88,10 @@ class PrivacyPolicyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(PrivacyPolicy $privacy_policy)
     {
-        //
+        $privacy_policy->delete();
+        session()->flash('success', 'Privacy Policy Deleted Successfully');
+        return redirect(route('privacy_policy.index'));
     }
 }
