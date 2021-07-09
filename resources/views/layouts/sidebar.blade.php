@@ -55,7 +55,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{route('information.index')}}"
-                        class="nav-link {{Request::routeIs('information.index') ? 'active' : ''}}">
+                        class="nav-link {{Request::routeIs('information.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Information

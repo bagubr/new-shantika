@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Information\CreateInformationRequest;
 use App\Models\Information;
+use App\Repositories\InformationRepository;
 use Illuminate\Http\Request;
 
 class InformationController extends Controller
@@ -15,7 +16,8 @@ class InformationController extends Controller
      */
     public function index()
     {
-        //
+        $informations = InformationRepository::all();
+        return view('information.index', compact('informations'));
     }
 
     /**
@@ -37,7 +39,7 @@ class InformationController extends Controller
     public function store(CreateInformationRequest $request)
     {
         $data = $request->all();
-        $data['image'] = $request->image->store('information');
+        $data['image'] = $request->image->store('information', 'public');
         Information::create($data);
         session()->flash('success', 'Information Created Successfully');
         return redirect(route('information.index'));

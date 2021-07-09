@@ -11,4 +11,9 @@ class Information extends Model
 
     protected $table = 'informations';
     protected $fillable = ['name', 'address', 'description', 'image'];
+
+    public function getImageAttribute($value)
+    {
+        return url('storage/' . $value);
+    }
 }

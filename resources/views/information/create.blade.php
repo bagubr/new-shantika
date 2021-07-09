@@ -1,18 +1,18 @@
 @extends('layouts.main')
 @section('title')
-Fleet
+Information
 @endsection
 @section('content')
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Fleet Form</h1>
+                <h1>Information Form</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Fleet</li>
+                    <li class="breadcrumb-item active">Information</li>
                 </ol>
             </div>
         </div>
@@ -41,7 +41,7 @@ Fleet
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label for="inputName">Fleet Name</label>
+                            <label for="inputName">Information Name</label>
                             <input type="text" id="inputName" class="form-control" name="name" placeholder="Enter Name"
                                 value="{{isset($information) ? $information->name : ''}}">
                         </div>
