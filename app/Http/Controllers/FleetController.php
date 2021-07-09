@@ -103,6 +103,7 @@ class FleetController extends Controller
     {
         $fleet = FleetRepository::deleteId($id);
         if ($fleet->trashed()) {
+            $fleet->deleteImage();
             $fleet->forceDelete();
             session()->flash('success', 'Fleet Deleted Successfully');
         } else {

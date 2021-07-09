@@ -17,13 +17,9 @@
                 <a href="#" class="d-block">{{Auth::user()->name}}</a>
             </div>
         </div>
-
-
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
-       with font-awesome or any other icon font library -->
                 <li class="nav-item">
                     <a href="{{route('dashboard')}}" class="nav-link {{Request::routeIs('dashboard') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -34,7 +30,7 @@
                 </li>
                 <li class="nav-item {{Request::routeIs('fleets.*','fleetclass.*') ? 'menu-open' : ''}}">
                     <a href="#" class="nav-link {{Request::routeIs('fleets.*','fleetclass.*') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-bus"></i>
                         <p>
                             Fleet
                             <i class="right fas fa-angle-left"></i>
@@ -58,9 +54,26 @@
                     </ul>
                 </li>
                 <li class="nav-item">
+                    <a href="{{route('information.index')}}"
+                        class="nav-link {{Request::routeIs('information.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-info"></i>
+                        <p>
+                            Information
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('faq.index')}}" class="nav-link {{Request::routeIs('faq.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-question"></i>
+                        <p>
+                            FAQ
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('logout') }}" onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();" class="nav-link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <i class="nav-icon fas fa-door-open"></i>
                         <p>
                             Logout
                         </p>

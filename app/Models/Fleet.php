@@ -17,12 +17,8 @@ class Fleet extends Model
     {
         return $this->belongsTo(FleetClass::class, 'fleet_class_id', 'id');
     }
-    public function getImageAttribute($value)
-    {
-        return url('storage/' . $value);
-    }
     public function deleteImage()
     {
-        Storage::delete($this->image);
+        Storage::disk('public')->delete($this->image);
     }
 }
