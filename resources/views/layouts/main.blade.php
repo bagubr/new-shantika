@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
     <!-- Toastr -->
     <link rel="stylesheet" href="{{asset('plugins/toastr/toastr.min.css')}}">
-<<<<<<< HEAD
     <!-- Select2 -->
     <link rel="stylesheet" href="{{asset('plugins/select2/css/select2.min.css')}}">
     <link rel="stylesheet" href="{{asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
@@ -30,10 +29,8 @@
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="{{asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
     @yield('css')
-=======
 
     <script src="https://unpkg.com/alpinejs@3.2.1/dist/cdn.min.js" defer></script>
->>>>>>> [add] a lot
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
