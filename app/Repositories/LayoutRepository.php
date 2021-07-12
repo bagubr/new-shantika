@@ -12,5 +12,9 @@ class LayoutRepository {
     public static function latestWithChairs() {
         return Layout::with('chairs')->orderBy('id', 'desc')->first();
     }
+
+    public static function paginateWithChairs($paginate = 20) {
+        return Layout::with('chairs')->orderBy('id', 'desc')->paginate($paginate);
+    }
 }
         

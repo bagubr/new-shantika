@@ -7,7 +7,11 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Layout Armada</h1>
+                @if(request()->is('layouts/create'))
+                <h1 class="m-0">Create Layout Armada</h1>
+                @else
+                <h1 class="m-0">Edit Layout Armada "{{$layout->name}}"</h1>
+                @endif
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -22,67 +26,79 @@
 <div class="content" x-data="layout">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12 col-md-2">
+            <div class="col-12 col-md-6">
                 <div class="row">
-                    <div class="form-group">
-                        <label for="">Nama Layout</label>
-                        <input type="text" class="form-control" x-model="layout.name">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Jumlah Baris</label>
-                        <div class="row">
-                            <div class="col-2">
-                                <button class="form-control" x-on:click="decreaseRow()">-</button>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="">Nama Layout</label>
+                            <input type="text" class="form-control" x-model="layout.name">
+                        </div>
+                        <div class="form-group">
+                            <label for="">Jumlah Baris</label>
+                            <div class="row">
+                                <div class="col-3">
+                                    <button class="form-control" x-on:click="decreaseRow()">-</button>
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" type="number" x-model="layout.row" class="form-control text-center" x-init="$watch('layout.row', (val, old) => handleRowChange(val, old))">
+                                </div>
+                                <div class="col-3">
+                                    <button class="form-control" x-on:click="increaseRow()">+</button>
+                                </div>
                             </div>
-                            <div class="col-4">
-                                <input type="text" type="number" x-model="layout.row" class="form-control" x-init="$watch('layout.row', (val, old) => handleRowChange(val, old))">
-                            </div>
-                            <div class="col-2">
-                                <button class="form-control" x-on:click="increaseRow()">+</button>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Jumlah Kolom</label>
+                            <div class="row">
+                                <div class="col-3">
+                                    <button class="form-control" x-on:click="decreaseCol()">-</button>
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" type="number" x-model="layout.col" class="form-control text-center" x-init="$watch('layout.col', (val, old) => handleColChange(val, old))">
+                                </div>
+                                <div class="col-3">
+                                    <button class="form-control" x-on:click="increaseCol()">+</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="">Jumlah Kolom</label>
-                        <div class="row">
-                            <div class="col-2">
-                                <button class="form-control" x-on:click="decreaseCol()">-</button>
-                            </div>
-                            <div class="col-4">
-                                <input type="text" type="number" x-model="layout.col" class="form-control" x-init="$watch('layout.col', (val, old) => handleColChange(val, old))">
-                            </div>
-                            <div class="col-2">
-                                <button class="form-control" x-on:click="increaseCol()">+</button>
-                            </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="">Note</label>
+                            <textarea x-model="layout.note" class="form-control" rows="7"></textarea>
                         </div>
                     </div>
                 </div>
-                <table class="table-bordered table-striped table-primary w-100">
-                    <tbody>
-                        <tr>
-                            <td>Jumlah Kursi</td>
-                            <td>0</td>
-                        </tr>
-                        <tr>
-                            <td>Jumlah Toilet</td>
-                            <td>0</td>
-                        </tr>
-                        <tr>
-                            <td>Jumlah Pintu</td>
-                            <td>0</td>
-                        </tr>
-                        <tr>
-                            <td>Jumlah Jarak</td>
-                            <td>0</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="row">
+                    <div class="col-12">
+                        <table class="table-bordered table-striped table-primary w-100">
+                            <tbody>
+                                <tr>
+                                    <td>Jumlah Kursi</td>
+                                    <td x-text="(layout.col * layout.row) - (layout.toilet_indexes.length + layout.door_indexes.length + layout.space_indexes.length)"></td>
+                                </tr>
+                                <tr>
+                                    <td>Jumlah Toilet</td>
+                                    <td x-text="layout.toilet_indexes.length | 0"></td>
+                                </tr>
+                                <tr>
+                                    <td>Jumlah Pintu</td>
+                                    <td x-text="layout.door_indexes.length || 0"></td>
+                                </tr>
+                                <tr>
+                                    <td>Jumlah Jarak</td>
+                                    <td x-text="layout.space_indexes.length || 0"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            <div class="col-12 col-md-8">
+            <div class="col-12 col-md-4">
                 <template x-for="r in layout.row">
                     <div class="row">
                         <template x-for="c in layout.col">
-                            <div :class="setClass(r,c, $el)" :id="getIndex(r,c)" x-on:click="addData($el)" contenteditable="true"> 
+                            <div :class="setClass(r,c, $el)" :id="getIndex(r,c)" x-on:click="addData($el)" contenteditable="true" x-text="getText($el)"> 
                             </div>
                         </template>
                     </div>
@@ -137,6 +153,13 @@
             focus: 0,
             incrementIndex: 0,
 
+            getText(el) {
+                try {
+                    return this.layout.chairs.filter(e => e.index == el.id)[0].name
+                } catch(err) {
+                    return ''
+                }
+            },
             increaseCol() {
                 this.layout.col += 1
             },
@@ -261,9 +284,9 @@
                     name: this.layout.name,
                     row: this.layout.row,
                     col: this.layout.col,
-                    space_indexes: this.layout.space_indexes,
-                    toilet_indexes: this.layout.toilet_indexes,
-                    door_indexes: this.layout.door_indexes,
+                    space_indexes: this.layout.space_indexes.map(e => parseInt(e)),
+                    toilet_indexes: this.layout.toilet_indexes.map(e => parseInt(e)),
+                    door_indexes: this.layout.door_indexes.map(e => parseInt(e)),
                     chair_indexes: arr,
                     note: this.layout.note || ''
                 }

@@ -19,7 +19,8 @@ class LayoutController extends Controller
      */
     public function index()
     {
-        throw new NotFoundHttpException();
+        $layouts = LayoutRepository::paginateWithChairs();
+        return view('layout.index', compact('layouts'));
     }
 
     /**
