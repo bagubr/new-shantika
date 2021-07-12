@@ -23,6 +23,40 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 col-md-2">
+                <div class="row">
+                    <div class="form-group">
+                        <label for="">Nama Layout</label>
+                        <input type="text" class="form-control" x-model="layout.name">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Jumlah Baris</label>
+                        <div class="row">
+                            <div class="col-2">
+                                <button class="form-control" x-on:click="decreaseRow()">-</button>
+                            </div>
+                            <div class="col-4">
+                                <input type="text" type="number" x-model="layout.row" class="form-control" x-init="$watch('layout.row', (val, old) => handleRowChange(val, old))">
+                            </div>
+                            <div class="col-2">
+                                <button class="form-control" x-on:click="increaseRow()">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Jumlah Kolom</label>
+                        <div class="row">
+                            <div class="col-2">
+                                <button class="form-control" x-on:click="decreaseCol()">-</button>
+                            </div>
+                            <div class="col-4">
+                                <input type="text" type="number" x-model="layout.col" class="form-control" x-init="$watch('layout.col', (val, old) => handleColChange(val, old))">
+                            </div>
+                            <div class="col-2">
+                                <button class="form-control" x-on:click="increaseCol()">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <table class="table-bordered table-striped table-primary w-100">
                     <tbody>
                         <tr>
@@ -48,7 +82,8 @@
                 <template x-for="r in layout.row">
                     <div class="row">
                         <template x-for="c in layout.col">
-                            <button :class="setClass(r,c, $el)" x-text="getText(r,c)" :id="getIndex(r,c)" x-on:click="addData($el)"></button>
+                            <div :class="setClass(r,c, $el)" :id="getIndex(r,c)" x-on:click="addData($el)" contenteditable="true"> 
+                            </div>
                         </template>
                     </div>
                     <br>
@@ -64,9 +99,15 @@
             <hr class="col-12">
             <div class="col-2 align-self-end offset-10">
                 <div class="row justify-content-center">
-                    <button class="btn btn-primary w-75">
+                    @if(!request()->is('layouts/create'))
+                    <button class="btn btn-primary w-75" x-on:click="submitEdit($el)">
                         Lanjutkan
                     </button>
+                    @else
+                    <button class="btn btn-primary w-75" x-on:click="submitCreate($el)">
+                        Lanjutkan
+                    </button>
+                    @endif
                 </div>
             </div>
         </div>
@@ -77,13 +118,8 @@
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('layout', () => ({
-            layout: {!!$layout!!},
-            formData: {
-                chairs: [],
-                toiletIndex: [],
-                doorIndex: [],
-                spaceIndex: [],
-            },
+            layout: {!! @$layout !!},
+            formData: {},
             focuses: [
                 {
                     name: 'toilet',
@@ -101,6 +137,31 @@
             focus: 0,
             incrementIndex: 0,
 
+            increaseCol() {
+                this.layout.col += 1
+            },
+            decreaseCol() {
+                this.layout.col -= 1
+            },
+            increaseRow() {
+                this.layout.row += 1
+            },
+            decreaseRow() {
+                this.layout.row -= 1  
+            },
+            refilterIndexes() {
+                this.layout.toilet_indexes = this.layout.toilet_indexes.filter((e, i) => e <= this.layout.row * this.layout.col - 1)
+                this.layout.space_indexes = this.layout.space_indexes.filter((e, i) => e <= this.layout.row * this.layout.col - 1)
+                this.layout.door_indexes = this.layout.door_indexes.filter((e, i) => e <= this.layout.row * this.layout.col - 1)
+            },
+            handleRowChange(val, old) {
+                this.layout.row = parseInt(val)
+                this.refilterIndexes()
+            },
+            handleColChange(val, old) {
+                this.layout.col = parseInt(val)
+                this.refilterIndexes()
+            },
             getIndex(row, col) {
                 return (((row - 1) * this.layout.col) + col) - 1
             },
@@ -109,7 +170,6 @@
                 if(id != null) {
                     document.getElementById(id).removeAttribute('class')
                     document.getElementById(id).setAttribute('class', classes)
-                    document.getElementById(id).innerHTML = this.focuses[this.focus].name
                 }
                 return classes
             },
@@ -131,47 +191,42 @@
                     }
                 })
             },
-            getText(row, col) {
+            setClass(row, col, el) {
                 let index = this.getIndex(row, col)
-                let elem = document.getElementById(index)
-                this.checkInUnusedIndex(index).then(res => {
-                    elem.innerText = res.name
-                }).catch(() => {
-                    elem.innerText = 'Pnmpg'
-                })
-            },
-            async setClass(row, col, el) {
-                let index = this.getIndex(row, col)
-                let elem = document.getElementById(index)
-
                 let classes = this.setButtonClass()
 
-                await this.checkInUnusedIndex(index).then((res) => {
-                    classes += res.class
-                    el.setAttribute('class', classes)
-                }).catch(() => {
-                    classes += 'primary'
-                    el.setAttribute('class', classes)
-                })
+                if(this.layout.toilet_indexes.includes(index)) {
+                    classes = this.setButtonClass(this.focuses[0].class)
+                }
+                else if(this.layout.door_indexes.includes(index)) {
+                    classes = this.setButtonClass(this.focuses[1].class)
+                }
+                else if(this.layout.space_indexes.includes(index)) {
+                    classes = this.setButtonClass(this.focuses[2].class)
+                } else {
+                    classes = this.setButtonClass('primary') 
+                }
+
+                return classes
             },
             addData(el) {
                 let index = el.id
-                if(this.formData.toiletIndex.includes(index) 
-                || this.formData.doorIndex.includes(index)
-                || this.formData.spaceIndex.includes(index)) {
+                if(this.layout.toilet_indexes.includes(index) 
+                || this.layout.door_indexes.includes(index)
+                || this.layout.space_indexes.includes(index)) {
                     return this.removeData(el)
                 }
                 switch (this.focus) {
                     case 0:
-                        this.formData.toiletIndex.push(index)
+                        this.layout.toilet_indexes.push(index)
                         this.setButtonClass(this.focuses[0].class, index)
                         break;
                     case 1:
-                        this.formData.doorIndex.push(index)
+                        this.layout.door_indexes.push(index)
                         this.setButtonClass(this.focuses[1].class, index)
                         break;
                     case 2:
-                        this.formData.spaceIndex.push(index)
+                        this.layout.space_indexes.push(index)
                         this.setButtonClass(this.focuses[2].class, index)
                         break;
                     default:
@@ -180,20 +235,88 @@
             },
             removeData(el) {
                 this.setButtonClass('primary', el.id)
-                switch (this.focus) {
-                    case 0:
-                        this.formData.toiletIndex = this.formData.toiletIndex.filter(e => e != el.id)
-                        break;
-                    case 1:
-                        this.formData.doorIndex = this.formData.doorIndex.filter(e => e != el.id)
-                        break;
-                    case 2:
-                        this.formData.spaceIndex = this.formData.spaceIndex.filter(e => e != el.id)
-                        break;
-                    default:
-                        break;
+                this.layout.toilet_indexes = this.layout.toilet_indexes.filter(e => e != el.id)
+                this.layout.door_indexes = this.layout.door_indexes.filter(e => e != el.id)
+                this.layout.space_indexes = this.layout.space_indexes.filter(e => e != el.id)
+            },
+            submitEdit(el) {
+                el.disable = true;
+                let csrf = '{!!csrf_token()!!}'
+                let arr = []
+                let total_indexes = (this.layout.row * this.layout.col) - 1
+                for(let i=0;i <= total_indexes;i++) {
+                    arr.push(i)
                 }
-                document.getElementById(el.id).innerText = 'Pnmpg'
+                arr = arr.filter(e => !this.layout.space_indexes.includes(e))
+                    .filter(e => !this.layout.toilet_indexes.includes(e))
+                    .filter(e => !this.layout.door_indexes.includes(e))
+                arr = arr.map((e, i) => {
+                    return {
+                        name: document.getElementById(e).innerText || i + 1,
+                        index: e
+                    }
+                })
+                this.formData = {
+                    id: this.layout.id,
+                    name: this.layout.name,
+                    row: this.layout.row,
+                    col: this.layout.col,
+                    space_indexes: this.layout.space_indexes,
+                    toilet_indexes: this.layout.toilet_indexes,
+                    door_indexes: this.layout.door_indexes,
+                    chair_indexes: arr,
+                    note: this.layout.note || ''
+                }
+                let formData = this.formData
+                fetch(`http://localhost:8000/layouts/${this.layout.id}`, {
+                    body: JSON.stringify(formData),
+                    method: 'PUT',
+                    headers: {
+                        'X-CSRF-TOKEN': csrf,
+                        'Content-Type': 'application/json',
+                    }
+                }).then(res => res.json()).finally(e => {
+                    el.disable = false;
+                })
+            },
+            submitCreate(el) {
+                el.disable = true;
+                let csrf = '{!!csrf_token()!!}'
+                let arr = []
+                let total_indexes = (this.layout.row * this.layout.col) - 1
+                for(let i=0;i <= total_indexes;i++) {
+                    arr.push(i)
+                }
+                arr = arr.filter(e => !this.layout.space_indexes.includes(e))
+                    .filter(e => !this.layout.toilet_indexes.includes(e))
+                    .filter(e => !this.layout.door_indexes.includes(e))
+                arr = arr.map((e, i) => {
+                    return {
+                        name: document.getElementById(e).innerText || i + 1,
+                        index: e
+                    }
+                })
+                this.formData = {
+                    name: this.layout.name,
+                    row: this.layout.row,
+                    col: this.layout.col,
+                    space_indexes: this.layout.space_indexes,
+                    toilet_indexes: this.layout.toilet_indexes,
+                    door_indexes: this.layout.door_indexes,
+                    chair_indexes: arr,
+                    note: this.layout.note || ''
+                }
+                let formData = this.formData
+                fetch('http://localhost:8000/layouts', {
+                    body: JSON.stringify(formData),
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrf,
+                        'Content-Type': 'application/json',
+                    }
+                }).then(res => res.json()).finally(e => {
+                    el.disable = false;
+                })
             }
         }))
     })

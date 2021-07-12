@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Layout\CreateLayoutRequest;
+use App\Http\Requests\Layout\UpdateLayoutRequest;
 use App\Models\Layout;
+use App\Models\LayoutChair;
 use App\Repositories\LayoutRepository;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -26,7 +29,8 @@ class LayoutController extends Controller
      */
     public function create()
     {
-        //
+        $layout = LayoutRepository::latestWithChairs();
+        return view('layout.edit', compact('layout'));
     }
 
     /**
@@ -35,9 +39,18 @@ class LayoutController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateLayoutRequest $request)
     {
-        //
+        $layout = Layout::create($request->all());
+        $chairs = [];
+        foreach($request->chair_indexes as $i) {
+            $chairs[] = LayoutChair::create(array_merge($i, [
+                'layout_id'=>$layout->id
+            ]));
+        }
+        return response([
+            $layout,  $chairs     
+        ]);
     }
 
     /**
@@ -60,7 +73,7 @@ class LayoutController extends Controller
     public function edit($id)
     {        
         $layout = LayoutRepository::findWithChairs($id);
-
+        
         return view('layout.edit', compact('layout'));
     }
 
@@ -71,9 +84,22 @@ class LayoutController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateLayoutRequest $request, $id)
     {
-        //
+        $layout = Layout::find($id);
+        $layout->update($request->except(['chair_indexes']));
+        $layout->refresh();
+        $layout->chairs()->delete();
+
+        $chairs = [];
+        foreach($request->chair_indexes as $i) {
+            $chairs[] = LayoutChair::create(array_merge($i, [
+                'layout_id'=>$layout->id
+            ]));
+        }
+        return response([
+            $layout,  $chairs
+        ]);
     }
 
     /**
