@@ -29,6 +29,8 @@
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="{{asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
     @yield('css')
+
+    <script src="https://unpkg.com/alpinejs@3.2.1/dist/cdn.min.js" defer></script>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -103,7 +105,7 @@
         toastr.success("{{session()->get('success')}}")
     </script>
     @endif
-    @yield('script')
+    @stack('script')
 </body>
 
 </html>

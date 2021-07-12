@@ -18,7 +18,7 @@ class FleetController extends Controller
      */
     public function index()
     {
-        $fleets = FleetRepository::all();
+        $fleets = FleetRepository::getWithLayout();
         return view('fleet.index', compact('fleets'));
     }
 

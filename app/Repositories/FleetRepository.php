@@ -10,6 +10,11 @@ class FleetRepository
     {
         return Fleet::all();
     }
+
+    public static function getWithLayout() {
+        return Fleet::with('layout')->get();
+    }
+
     public static function deleteId($id)
     {
         return Fleet::withTrashed()->where('id', $id)->firstOrFail();
