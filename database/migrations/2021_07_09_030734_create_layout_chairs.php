@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLayouts extends Migration
+class CreateLayoutChairs extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateLayouts extends Migration
      */
     public function up()
     {
-        Schema::create('layouts', function (Blueprint $table) {
+        Schema::create('layout_chairs', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
-            $table->integer('total');
-            $table->string('note')->nullable();
-            $table->softDeletes();
+            $table->string('name');
+            $table->integer('index');
+            $table->integer('layout_id');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateLayouts extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('layouts');
+        Schema::dropIfExists('layout_chairs');
     }
 }
