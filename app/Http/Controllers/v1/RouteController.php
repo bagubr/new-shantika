@@ -9,6 +9,6 @@ use Illuminate\Http\Request;
 class RouteController extends Controller
 {
     public function getAvailableRoutes(ApiGetAvailableRouteRequest $request) {
-        Route   
+           
     }
 }
