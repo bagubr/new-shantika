@@ -70,7 +70,7 @@ Privacy Policy
     </div>
 </div>
 @endsection
-@section('script')
+@push('script')
 <script>
     $(function () {
       $("#example1").DataTable({
@@ -78,4 +78,4 @@ Privacy Policy
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
 </script>
-@endsection
+@endpush

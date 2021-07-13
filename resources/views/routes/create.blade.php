@@ -1,18 +1,18 @@
 @extends('layouts.main')
 @section('title')
-Fleet
+Route
 @endsection
 @section('content')
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Fleet Form</h1>
+                <h1>Route Form</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Fleet</li>
+                    <li class="breadcrumb-item active">Route</li>
                 </ol>
             </div>
         </div>
@@ -32,43 +32,51 @@ Fleet
                 </div>
                 <div class="card-body" style="display: block;">
                     @include('partials.error')
-                    <form action="@isset($fleet)
-                        {{route('fleets.update', $fleet->id)}}
-                    @endisset @empty($fleet) {{route('fleets.store')}} @endempty" method="POST"
-                        enctype="multipart/form-data">
+                    <form action="@isset($routes)
+                        {{route('routes.update', $routes->id)}}
+                    @endisset @empty($routes) {{route('routes.store')}} @endempty" method="POST">
                         @csrf
-                        @isset($fleet)
+                        @isset($routes)
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label for="inputName">Fleet Name</label>
-                            <input type="text" id="inputName" class="form-control" name="name" placeholder="Enter Name"
-                                value="{{isset($fleet) ? $fleet->name : ''}}">
+                            <label>Route Name</label>
+                            <input type="text" class="form-control" name="name" placeholder="Enter Name"
+                                value="{{isset($routes) ? $routes->name : ''}}">
                         </div>
                         <div class="form-group">
-                            <label>Description</label>
-                            <textarea class="form-control" rows="3" name="description"
-                                placeholder="Enter Description">{{isset($fleet) ? $fleet->description : ''}}</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Fleet Class</label>
-                            <select class="form-control select2" name="fleet_class_id" style="width: 100%;">
-                                <option>Select Fleet Class</option>
-                                @foreach ($fleetclasses as $fleetclass)
-                                <option value="{{$fleetclass->id}}" @isset($fleet) @if ($fleetclass->id ===
+                            <label>Fleet</label>
+                            <select class="form-control select2" name="fleet_id" style="width: 100%;">
+                                <option>Select Fleet</option>
+                                @foreach ($fleets as $fleet)
+                                <option value="{{$fleet->id}}" @isset($fleet) @if ($fleet->id ===
                                     $fleet->fleet_class_id)
                                     selected
-                                    @endif @endisset>{{$fleetclass->name}}
+                                    @endif @endisset>{{$fleet->name}}
                                 </option>
                                 @endforeach
                             </select>
                         </div>
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Departure at</label>
+                                    <input type="time" name="departure_at" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Arrived at</label>
+                                    <input type="time" name="arrived_at" class="form-control">
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
-                            <label for="">Image</label>
-                            <input type="file" accept="image/*" class="form-control" name="image">
+                            <label>Price</label>
+                            <input type="number" name="price" class="form-control" placeholder="Enter Price">
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Cancel</a>
-                        <input type="submit" value="Create new Porject" class="btn btn-success float-right">
+                        <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
                 </div>
                 <!-- /.card-body -->

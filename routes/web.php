@@ -7,6 +7,7 @@ use App\Http\Controllers\FleetController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\LayoutController;
+use App\Http\Controllers\RoutesController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -30,13 +31,14 @@ Auth::routes([
 Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-    
+
     Route::resources([
         'fleets' => FleetController::class,
         'fleetclass' => FleetClassController::class,
         'information' => InformationController::class,
         'faq' => FaqController::class,
         'privacy_policy' => PrivacyPolicyController::class,
-        'layouts'=> LayoutController::class
+        'layouts' => LayoutController::class,
+        'routes' => RoutesController::class
     ]);
 });

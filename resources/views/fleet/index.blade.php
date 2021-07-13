@@ -48,11 +48,13 @@ Fleet
                                 <tr>
                                     <td>{{$fleet->name}}</td>
                                     <td>
-                                        <a href="{{route('fleetclass.edit', $fleet->fleet_class_id)}}" target="_blank">{{$fleet->fleetclass?->name ?? '-'}}</a>
+                                        <a href="{{route('fleetclass.edit', $fleet->fleet_class_id)}}"
+                                            target="_blank">{{$fleet->fleetclass?->name ?? '-'}}</a>
                                     </td>
                                     <td><img src="{{asset('storage/'.$fleet->image)}}" height="100px" alt=""></td>
                                     <td>
-                                        <a href="{{route('layouts.edit', $fleet->layout_id)}}" target="_blank">{{$fleet->layout?->name ?? '-'}}</a>
+                                        <a href="{{route('layouts.edit', $fleet->layout_id)}}"
+                                            target="_blank">{{$fleet->layout?->name ?? '-'}}</a>
                                     </td>
                                     <td>
                                         <a href="{{route('fleets.edit',$fleet->id)}}"
@@ -79,7 +81,7 @@ Fleet
     </div>
 </div>
 @endsection
-@section('script')
+@push('script')
 <script>
     $(function () {
       $("#example1").DataTable({
@@ -87,4 +89,4 @@ Fleet
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
 </script>
-@endsection
+@endpush

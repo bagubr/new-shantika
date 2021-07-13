@@ -17,15 +17,18 @@ class Route extends Model
         'created_at', 'updated_at', 'deleted_at'
     ];
 
-    public function city() {
+    public function city()
+    {
         return $this->belongsTo(City::class, 'city_id', 'id');
     }
 
-    public function fleet() {
+    public function fleet()
+    {
         return $this->belongsTo(Fleet::class, 'fleet_id', 'id');
     }
 
-    public function checkpoints() {
+    public function checkpoints()
+    {
         return $this->hasMany(Checkpoint::class, 'id', 'route_id');
     }
 }
