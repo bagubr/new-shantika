@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Fleet
+Layout
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->
@@ -8,12 +8,12 @@ Fleet
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Fleet</h1>
+                <h1 class="m-0">Layout</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Fleet</li>
+                    <li class="breadcrumb-item active">Layout</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -26,9 +26,9 @@ Fleet
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Fleet</h3>
+                        <h3 class="card-title">Table Layout</h3>
                         <div class="text-right">
-                            <a href="{{route('fleets.create')}}" class="btn btn-primary btn-sm">Create</a>
+                            <a href="{{route('layouts.create')}}" class="btn btn-primary btn-sm">Create</a>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -37,27 +37,16 @@ Fleet
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Fleet Class</th>
-                                    <th>Image</th>
-                                    <th>Layout</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($fleets as $fleet)
+                                @foreach ($layouts as $layout)
                                 <tr>
-                                    <td>{{$fleet->name}}</td>
+                                    <td>{{$layout->name}}</td>
                                     <td>
-                                        <a href="{{route('fleetclass.edit', $fleet->fleet_class_id)}}" target="_blank">{{$fleet->fleetclass?->name ?? '-'}}</a>
-                                    </td>
-                                    <td><img src="{{asset('storage/'.$fleet->image)}}" height="100px" alt=""></td>
-                                    <td>
-                                        <a href="{{route('layouts.edit', $fleet->layout_id)}}" target="_blank">{{$fleet->layout?->name ?? '-'}}</a>
-                                    </td>
-                                    <td>
-                                        <a href="{{route('fleets.edit',$fleet->id)}}"
+                                        <a href="{{route('layouts.edit',$layout->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
-                                        <form action="{{route('fleets.destroy',$fleet->id)}}" class="d-inline"
+                                        <form action="{{route('layouts.destroy',$layout->id)}}" class="d-inline"
                                             method="POST">
                                             @csrf
                                             @method('DELETE')
@@ -84,7 +73,17 @@ Fleet
     $(function () {
       $("#example1").DataTable({
         "responsive": true, "lengthChange": false, "autoWidth": false,
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+      $('#example2').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+      });
     });
 </script>
 @endsection

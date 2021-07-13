@@ -41,14 +41,21 @@
                             <a href="{{route('fleets.index')}}"
                                 class="nav-link {{Request::routeIs('fleets.*') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Fleet</p>
+                                <p>Fleets</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{route('fleetclass.index')}}"
                                 class="nav-link {{Request::routeIs('fleetclass.*') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Fleet Class</p>
+                                <p>Fleet Classes</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('layouts.index')}}"
+                                class="nav-link {{Request::routeIs('layouts.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Fleet's Layout</p>
                             </a>
                         </li>
                     </ul>

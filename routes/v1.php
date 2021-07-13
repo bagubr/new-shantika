@@ -18,4 +18,8 @@ Route::middleware(['api.auth'])->group(function() {
     Route::get('faq', 'FaqController@index');
     Route::get('chat', 'ChatController@index');
     Route::get('facility', 'FacilityController@index');
+
+    Route::get('routes', 'RouteController@getAvailableRoutes');
+    Route::get('fleet/layout', 'LayoutController@getFleetLayout');
+    Route::get('fleet/{id}', 'FleetController@showFleet');
 });

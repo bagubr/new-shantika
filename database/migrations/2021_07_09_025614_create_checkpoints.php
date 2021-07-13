@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTrackers extends Migration
+class CreateCheckpoints extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateTrackers extends Migration
      */
     public function up()
     {
-        Schema::create('trackers', function (Blueprint $table) {
+        Schema::create('checkpoints', function (Blueprint $table) {
             $table->id();
-            $table->integer('city_id');
             $table->integer('route_id');
-            $table->string('name');
-            $table->time('arrived_at');
-            $table->softDeletes();
+            $table->time('arrived_at')->nullable();
+            $table->integer('agency_id');
+            $table->integer('order');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateTrackers extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('trackers');
+        Schema::dropIfExists('checkpoints');
     }
 }
