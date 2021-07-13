@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function login(ApiLoginRequest $request) {
+    public function loginPhone(ApiLoginRequest $request) {
         $user = UserRepository::findByPhone($request['phone'])
             ?? $this->sendFailedResponse([], "Oops! Sepertinya anda belum pernah registrasi pake nomor ini");
 
@@ -24,7 +24,7 @@ class AuthController extends Controller
         $user = UserRepository::findByPhone($request['phone']) ?? $this->sendFailedResponse([], "Oops! Sepertinya anda belum pernah registrasi pake nomor ini");
 
         return $this->sendSuccessResponse([
-            'user'=>AuthService::login($user, $request['fcm_token'], $request['phone']),
+            'user'=>AuthService::login($user, $request['fcm_token'], $request['phone'], $request['uid']),
             'token'=>$user->token
         ]);
     }
