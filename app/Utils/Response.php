@@ -3,23 +3,23 @@ namespace App\Utils;
 
 trait Response {
     public function successResponse($data = [], $message = 'success', $code = 200) {
-        $data = [
+        $data = array_merge([
             'code'=>$code,
             'success'=>true,
             'message'=>$message,
             'data'=>$data
-        ];
+        ], $data);
 
         return response($data);
     }
 
     public function failedResponse($data = [], $message = 'Something is missing out!', $code = 400) {
-        $data = [
+        $data = array_merge([
             'code'=>$code,
-            'success'=>false,
+            'success'=>true,
             'message'=>$message,
             'data'=>$data
-        ];
+        ], $data);
 
         return response($data);
     }
