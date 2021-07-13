@@ -5,17 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class City extends Model
+class UserAgent extends Model
 {
     use HasFactory;
 
-    protected $table = 'cities';
+    protected $table = 'users_agents';
 
     protected $fillable = [
-        'name', 'province_id'
-    ];
-
-    protected $hidden = [
-        'created_at', 'updated_at', 'deleted_at', 'province_id'
+        'user_id', 'agency_id'
     ];
 }

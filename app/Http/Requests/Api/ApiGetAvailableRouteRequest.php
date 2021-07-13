@@ -16,7 +16,10 @@ class ApiGetAvailableRouteRequest extends ApiRequest
     public function rules()
     {
         return [
-            //
+            'fleet_class_id'=>'required',
+            'agency_id'=>'required',
+            'time_start'=>'required',
+            'time_end'=>'required'
         ];
     }
 }

@@ -26,6 +26,6 @@ class Route extends Model
     }
 
     public function checkpoints() {
-        return $this->hasMany(Checkpoint::class, 'id', 'route_id');
+        return $this->hasMany(Checkpoint::class, 'route_id', 'id');
     }
 }

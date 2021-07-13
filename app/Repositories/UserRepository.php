@@ -13,13 +13,18 @@ class UserRepository {
         return User::whereToken($token)->first();
     }
 
-    public static function authenticate(User|null $user, $token, $fcm_token = '', $phone = '') { 
+    public static function findByEmail($email) {
+        return User::where('email', $email)->first();
+    }
+
+    public static function authenticate(User|null $user, $token, $fcm_token = '', $phone = '', $uid = '') { 
         if($user == null) {
             $user = self::findByPhone($phone);
         }
         $user->update([
             'token'=>$token['token'],
-            'fcm_token'=>'dsadsa'
+            'fcm_token'=>$fcm_token,
+            'uid'=>$uid
         ]);
         return $user;
     }
