@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function login(ApiLoginRequest $request) {
+    public function loginPhone(ApiLoginRequest $request) {
         $user = UserRepository::findByPhone($request['phone'])
             ?? $this->sendFailedResponse([], "Oops! Sepertinya anda belum pernah registrasi pake nomor ini");
 
