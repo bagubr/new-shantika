@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Fleet;
+namespace App\Http\Requests\Routes;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateFleetRequest extends FormRequest
+class UpdateRouteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,11 @@ class CreateFleetRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:fleets,name',
-            'description' => 'required',
-            'layout_id' => 'required|exists:layouts,id',
-            'fleet_class_id' => 'required|exists:fleet_classes,id',
-            'image' => 'required|image|max:2048'
+            'name' => 'required|unique:routes,name,' . $this->route->id,
+            'fleet_id' => 'required|exists:fleets,id',
+            'departure_at' => 'required',
+            'arrived_at' => 'required',
+            'price' => 'required|numeric'
         ];
     }
 }

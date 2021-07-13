@@ -51,9 +51,22 @@ Fleet
                                 placeholder="Enter Description">{{isset($fleet) ? $fleet->description : ''}}</textarea>
                         </div>
                         <div class="form-group">
+                            <label>Fleet Layout</label>
+                            <select class="form-control select2" name="layout_id" style="width: 100%;">
+                                <option value="">Select Fleet Layout</option>
+                                @foreach ($layouts as $layout)
+                                <option value="{{$layout->id}}" @isset($fleet) @if ($layout->id ===
+                                    $fleet->layout_id)
+                                    selected
+                                    @endif @endisset>{{$layout->name}}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label>Fleet Class</label>
                             <select class="form-control select2" name="fleet_class_id" style="width: 100%;">
-                                <option>Select Fleet Class</option>
+                                <option value="">Select Fleet Class</option>
                                 @foreach ($fleetclasses as $fleetclass)
                                 <option value="{{$fleetclass->id}}" @isset($fleet) @if ($fleetclass->id ===
                                     $fleet->fleet_class_id)
@@ -78,7 +91,7 @@ Fleet
     </div>
 </section>
 @endsection
-@section('script')
+@push('script')
 <script>
     $(function () {
         $('.select2').select2()
@@ -87,4 +100,4 @@ Fleet
       theme: 'bootstrap4'
     })
 </script>
-@endsection
+@endpush

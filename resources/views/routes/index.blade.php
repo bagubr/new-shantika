@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Information
+Route
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->
@@ -8,12 +8,12 @@ Information
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Information</h1>
+                <h1 class="m-0">Route</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Information</li>
+                    <li class="breadcrumb-item active">Route</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -26,9 +26,9 @@ Information
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Information</h3>
+                        <h3 class="card-title">Table Route</h3>
                         <div class="text-right">
-                            <a href="{{route('information.create')}}" class="btn btn-primary btn-sm">Create</a>
+                            <a href="{{route('routes.create')}}" class="btn btn-primary btn-sm">Create</a>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -37,19 +37,24 @@ Information
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Image</th>
+                                    <th>Fleet</th>
+                                    <th>Price</th>
+                                    <th>Departure at - Arrived At</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($informations as $information)
+                                @foreach ($routes as $route)
                                 <tr>
-                                    <td>{{$information->name}}</td>
-                                    <td><img src="{{asset('storage/'.$information->image)}}" height="100px" alt=""></td>
-                                    <td><a href="{{route('information.edit',$information->id)}}"
+                                    <td>{{$route->name}}</td>
+                                    <td><a href="{{route('fleets.edit', $route->fleet_id)}}">{{$route->fleet->name}}</a>
+                                    <td>Rp {{number_format($route->price, 2)}}</td>
+                                    <td>{{$route->departure_at}} - {{$route->arrived_at}}</td>
+                                    </td>
+                                    <td><a href="{{route('routes.edit',$route->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
-                                        <form action="{{route('information.destroy',$information->id)}}"
-                                            class="d-inline" method="POST">
+                                        <form action="{{route('routes.destroy',$route->id)}}" class="d-inline"
+                                            method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger btn-xs"

@@ -61,6 +61,15 @@
                     </ul>
                 </li>
                 <li class="nav-item">
+                    <a href="{{route('routes.index')}}"
+                        class="nav-link {{Request::routeIs('routes.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-route"></i>
+                        <p>
+                            Routes
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{route('information.index')}}"
                         class="nav-link {{Request::routeIs('information.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-info"></i>
