@@ -7,7 +7,7 @@ use App\Http\Requests\Fleet\UpdateFleetRequest;
 use App\Models\Fleet;
 use App\Repositories\FleetClassRepository;
 use App\Repositories\FleetRepository;
-use Illuminate\Http\Request;
+use App\Repositories\LayoutRepository;
 
 class FleetController extends Controller
 {
@@ -30,7 +30,8 @@ class FleetController extends Controller
     public function create()
     {
         $fleetclasses = FleetClassRepository::all();
-        return view('fleet.create', compact('fleetclasses'));
+        $layouts = LayoutRepository::all();
+        return view('fleet.create', compact('fleetclasses', 'layouts'));
     }
 
     /**
@@ -42,7 +43,6 @@ class FleetController extends Controller
     public function store(CreateFleetRequest $request)
     {
         $data = $request->all();
-        $data['layout_id'] = 1;
         $data['image'] = $request->image->store('image', 'public');
 
         Fleet::create($data);
@@ -70,7 +70,8 @@ class FleetController extends Controller
     public function edit(Fleet $fleet)
     {
         $fleetclasses = FleetClassRepository::all();
-        return view('fleet.create', compact('fleet', 'fleetclasses'));
+        $layouts = LayoutRepository::all();
+        return view('fleet.create', compact('fleet', 'fleetclasses', 'layouts'));
     }
 
     /**

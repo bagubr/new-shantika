@@ -26,6 +26,7 @@ class CreateFleetRequest extends FormRequest
         return [
             'name' => 'required|unique:fleets,name',
             'description' => 'required',
+            'layout_id' => 'required|exists:layouts,id',
             'fleet_class_id' => 'required|exists:fleet_classes,id',
             'image' => 'required|image|max:2048'
         ];

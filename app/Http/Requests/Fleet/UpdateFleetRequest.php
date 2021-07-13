@@ -26,6 +26,7 @@ class UpdateFleetRequest extends FormRequest
         return [
             'name' => 'required|unique:fleets,name,' . $this->fleet->id,
             'description' => 'required',
+            'layout_id' => 'required|exists:layouts,id',
             'fleet_class_id' => 'required|exists:fleet_classes,id',
             'image' => 'image|max:2048'
         ];
