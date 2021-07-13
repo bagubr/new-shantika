@@ -20,6 +20,7 @@ class User extends Authenticatable
         'token',
         'fcm_token',
         'birth',
+        'uid'
     ];
 
     protected $hidden = [
