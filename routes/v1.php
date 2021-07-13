@@ -3,12 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::post( 'login', 'AuthController@login');
-Route::post('login/email', 'AuthController@loginEmail');
-Route::post('login/uid', 'AuthController@loginUid');
-
 Route::group([
-    'middleware'=>'api.auth'
 ], function() {
     Route::get('privacy_policy', 'PrivacyPolicyController@index');
     Route::get('informations', 'InformationController@index');
@@ -23,7 +18,7 @@ Route::group([
         'prefix'    => 'agen'
     ],function() {
         Route::post('login', 'AuthController@loginEmail');
-        Route::post('login/email', 'AuthController@loginPhone');
+        Route::post('login/phone', 'AuthController@loginPhone');
         Route::post('login/uid', 'AuthController@loginUid');
 
         
@@ -39,16 +34,16 @@ Route::group([
     });
 
     Route::group([
-        'prefix'    => 'user'
+        'prefix'    => 'customer'
     ], function() {
         Route::post('login', 'AuthController@loginEmail');
-        Route::post('login/email', 'AuthController@loginPhone');
+        Route::post('login/phone', 'AuthController@loginPhone');
         Route::post('login/uid', 'AuthController@loginUid');
 
         Route::group([
             'middleware'=>'api.auth.user',
         ], function() {
             //
-        })
+        });
     });
 });
