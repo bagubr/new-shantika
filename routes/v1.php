@@ -22,4 +22,6 @@ Route::middleware(['api.auth'])->group(function() {
     Route::get('routes/available', 'RouteController@getAvailableRoutes');
     Route::get('fleet/layout', 'LayoutController@getFleetLayout');
     Route::get('fleet/{id}', 'FleetController@showFleet');
+    Route::get('cities', 'CityController@index');
+    Route::get('agencies', 'AgencyController@index');
 });
