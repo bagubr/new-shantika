@@ -53,7 +53,7 @@ Fleet
                         <div class="form-group">
                             <label>Fleet Class</label>
                             <select class="form-control select2" name="fleet_class_id" style="width: 100%;">
-                                <option>Select Fleet Class</option>
+                                <option value="">Select Fleet Class</option>
                                 @foreach ($fleetclasses as $fleetclass)
                                 <option value="{{$fleetclass->id}}" @isset($fleet) @if ($fleetclass->id ===
                                     $fleet->fleet_class_id)

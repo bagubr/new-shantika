@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Routes\CreateRoutesRequest;
+use App\Http\Requests\Routes\UpdateRouteRequest;
 use App\Models\Route;
 use App\Repositories\FleetRepository;
 use App\Repositories\RoutesRepository;
@@ -63,9 +64,10 @@ class RoutesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Route $route)
     {
-        //
+        $fleets = FleetRepository::all();
+        return view('routes.create', compact('route', 'fleets'));
     }
 
     /**
@@ -75,9 +77,12 @@ class RoutesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRouteRequest $request, Route $route)
     {
-        //
+        $data = $request->all();
+        $route->update($data);
+        session()->flash('success', 'Route Updated Successfully');
+        return redirect(route('routes.index'));
     }
 
     /**

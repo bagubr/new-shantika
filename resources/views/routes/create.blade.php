@@ -32,48 +32,53 @@ Route
                 </div>
                 <div class="card-body" style="display: block;">
                     @include('partials.error')
-                    <form action="@isset($routes)
-                        {{route('routes.update', $routes->id)}}
-                    @endisset @empty($routes) {{route('routes.store')}} @endempty" method="POST">
+                    <form action="@isset($route)
+                        {{route('routes.update', $route->id)}}
+                    @endisset @empty($route) {{route('routes.store')}} @endempty" method="POST">
                         @csrf
-                        @isset($routes)
+                        @isset($route)
                         @method('PUT')
                         @endisset
                         <div class="form-group">
                             <label>Route Name</label>
                             <input type="text" class="form-control" name="name" placeholder="Enter Name"
-                                value="{{isset($routes) ? $routes->name : ''}}">
+                                value="{{isset($route) ? $route->name : ''}}">
                         </div>
                         <div class="form-group">
                             <label>Fleet</label>
                             <select class="form-control select2" name="fleet_id" style="width: 100%;">
-                                <option>Select Fleet</option>
+                                <option value="">Select Fleet</option>
                                 @foreach ($fleets as $fleet)
-                                <option value="{{$fleet->id}}" @isset($fleet) @if ($fleet->id ===
-                                    $fleet->fleet_class_id)
+                                <option value="{{$fleet->id}}" @isset($route) @if ($fleet->id ===
+                                    $route->fleet_id)
                                     selected
                                     @endif @endisset>{{$fleet->name}}
                                 </option>
                                 @endforeach
                             </select>
+                            <span><a href="{{route('fleets.create')}}">Add Fleet</a></span>
+
                         </div>
                         <div class="form-row">
                             <div class="col">
                                 <div class="form-group">
                                     <label>Departure at</label>
-                                    <input type="time" name="departure_at" class="form-control">
+                                    <input type="time" name="departure_at" class="form-control"
+                                        value="{{isset($route) ? $route->departure_at : ''}}">
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label>Arrived at</label>
-                                    <input type="time" name="arrived_at" class="form-control">
+                                    <input type="time" name="arrived_at" class="form-control"
+                                        value="{{isset($route) ? $route->arrived_at : ''}}">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Price</label>
-                            <input type="number" name="price" class="form-control" placeholder="Enter Price">
+                            <input type="number" name="price" class="form-control" placeholder="Enter Price"
+                                value="{{isset($route) ? $route->price : ''}}">
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Cancel</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
