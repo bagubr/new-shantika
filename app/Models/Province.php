@@ -5,17 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class City extends Model
+class Province extends Model
 {
     use HasFactory;
 
-    protected $table = 'cities';
+    protected $table = 'provinces';
 
     protected $fillable = [
-        'name', 'province_id'
-    ];
-
-    protected $hidden = [
-        'created_at', 'updated_at', 'deleted_at', 'province_id'
+        'name'
     ];
 }

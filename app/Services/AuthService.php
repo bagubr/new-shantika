@@ -3,17 +3,24 @@
 namespace App\Services;
 
 use App\Repositories\UserRepository;
+use App\Utils\Response;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService {
-    public static function login($user, $fcm_token = '') {
+    use Response;
+
+    public static function login($user, $fcm_token = '', $phone = '',$uid = '') {
+        if($user == null) (new self)->sendFailedResponse([], "Sepertinya akun anda belum terdaftar");
         $token = self::generateToken($user);
-        $user = UserRepository::authenticate($user, $token, $fcm_token);
+        $user = UserRepository::authenticate($user, $token, $fcm_token, $phone, $uid);
         return $user;
     }
 
-    public static function refreshToken($user, $token, $refresh_token) {
-
+    public static function loginByEmail($user, $fcm_token = '', $password = '') {
+        if($user == null) (new self)->sendFailedResponse([], "Sepertinya akun anda belum terdaftar");
+        $token = self::generateToken($user);
+        $user = UserRepository::authenticate($user, $token, $fcm_token);
+        return $user;
     }
     
     private static function generateToken($user) {

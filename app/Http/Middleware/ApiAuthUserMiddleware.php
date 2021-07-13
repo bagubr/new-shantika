@@ -8,7 +8,7 @@ use App\Utils\Response;
 use Closure;
 use Illuminate\Http\Request;
 
-class ApiAuthMiddleware
+class ApiAuthUserMiddleware
 {
     use Response;
     /**
@@ -32,6 +32,9 @@ class ApiAuthMiddleware
         if(!str_contains($user->token, $serialized)) {
             $this->sendFailedResponse([], "Oops, anda sepertinya harus login ulang",401);
         }
+        //Check if not agent
+        $agent = UserAgent::where('user_id', $user->id)->first();
+        if($agent) $this->sendFailedResponse([], 'Oops, kamu pakai akun agent untuk mengakses aplikasi customer?!', 401);
         
         return $next($request);
     }
