@@ -42,6 +42,8 @@ class GenerateRequest extends Command
             mkdir($dir);
         }
         $name = $this->argument('name');
+        $name = explode("/",$name);
+        $name = $name[count($name) - 1];
         $filename = $name.'.php';
         $path = $dir.'/'.$filename;
         if(file_exists($path)) {
