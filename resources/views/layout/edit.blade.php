@@ -330,7 +330,7 @@
                     note: this.layout.note || ''
                 }
                 let formData = this.formData
-                fetch('http://localhost:8000/layouts', {
+                fetch('http://shantika.idaman.org:8000/layouts', {
                     body: JSON.stringify(formData),
                     method: 'POST',
                     headers: {
