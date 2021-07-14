@@ -69,6 +69,14 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{route('chat.index')}}" class="nav-link {{Request::routeIs('chat.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-comment"></i>
+                        <p>
+                            Chat
+                        </p>
+                    </a>
+                </li>
                 {{-- <li class="nav-item">
                     <a href="{{route('checkpoint.index')}}"
                 class="nav-link {{Request::routeIs('checkpoint.*') ? 'active' : ''}}">

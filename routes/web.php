@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AgencyController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CheckpointController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FaqController;
@@ -43,6 +44,7 @@ Route::group(['middleware' => ['auth']], function () {
         'layouts' => LayoutController::class,
         'routes' => RoutesController::class,
         'checkpoint' => CheckpointController::class,
-        'agency' => AgencyController::class
+        'agency' => AgencyController::class,
+        'chat' => ChatController::class
     ]);
 });
