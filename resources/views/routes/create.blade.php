@@ -57,7 +57,6 @@ Route
                                 @endforeach
                             </select>
                             <span><a href="{{route('fleets.create')}}">Add Fleet</a></span>
-
                         </div>
                         <div class="form-row">
                             <div class="col">

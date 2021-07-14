@@ -70,6 +70,24 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{route('checkpoint.index')}}"
+                        class="nav-link {{Request::routeIs('checkpoint.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-route"></i>
+                        <p>
+                            Checkpoint
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('checkpoint.index')}}"
+                        class="nav-link {{Request::routeIs('checkpoint.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-route"></i>
+                        <p>
+                            Agency
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{route('information.index')}}"
                         class="nav-link {{Request::routeIs('information.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-info"></i>
