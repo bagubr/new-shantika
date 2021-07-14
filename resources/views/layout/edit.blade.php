@@ -291,7 +291,7 @@
                     note: this.layout.note || ''
                 }
                 let formData = this.formData
-                fetch(`http://localhost:8000/layouts/${this.layout.id}`, {
+                fetch(`http://shantika.idaman.org/layouts/${this.layout.id}`, {
                     body: JSON.stringify(formData),
                     method: 'PUT',
                     headers: {
