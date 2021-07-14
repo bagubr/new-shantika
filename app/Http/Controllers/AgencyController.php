@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Agency\CreateAgencyRequest;
+use App\Models\Agency;
+use App\Repositories\AgencyRepository;
 use App\Repositories\CityRepository;
 use Illuminate\Http\Request;
 
@@ -14,7 +17,8 @@ class AgencyController extends Controller
      */
     public function index()
     {
-        //
+        $agencies = AgencyRepository::all();
+        return view('agency.index', compact('agencies'));
     }
 
     /**
@@ -34,9 +38,12 @@ class AgencyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateAgencyRequest $request)
     {
-        //
+        $data = $request->all();
+        Agency::create($data);
+        session()->flash('success', 'Agency Created Successfully');
+        return redirect(route('agency.index'));
     }
 
     /**
