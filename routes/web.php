@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AgencyController;
+use App\Http\Controllers\CheckpointController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FleetClassController;
@@ -39,6 +41,8 @@ Route::group(['middleware' => ['auth']], function () {
         'faq' => FaqController::class,
         'privacy_policy' => PrivacyPolicyController::class,
         'layouts' => LayoutController::class,
-        'routes' => RoutesController::class
+        'routes' => RoutesController::class,
+        'checkpoint' => CheckpointController::class,
+        'agency' => AgencyController::class
     ]);
 });
