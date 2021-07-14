@@ -51,7 +51,10 @@ Route
                                     <td>Rp {{number_format($route->price, 2)}}</td>
                                     <td>{{$route->departure_at}} - {{$route->arrived_at}}</td>
                                     </td>
-                                    <td><a href="{{route('routes.edit',$route->id)}}"
+                                    <td>
+                                        <a href="{{route('routes.show',$route->id)}}"
+                                            class="btn btn-primary btn-xs">Show</a>
+                                        <a href="{{route('routes.edit',$route->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('routes.destroy',$route->id)}}" class="d-inline"
                                             method="POST">
