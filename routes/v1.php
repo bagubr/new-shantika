@@ -30,6 +30,8 @@ Route::group([
             Route::get('fleet/{id}', 'FleetController@showFleet');
             Route::get('cities', 'CityController@index');
             Route::get('agencies', 'AgencyController@index');
+
+            Route::get('kelas_armada', 'FleetClassController@index');
         });
     });
 
