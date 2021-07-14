@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Agency\CreateAgencyRequest;
+use App\Http\Requests\Agency\UpdateAgencyRequest;
 use App\Models\Agency;
 use App\Repositories\AgencyRepository;
 use App\Repositories\CityRepository;
@@ -63,9 +64,10 @@ class AgencyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Agency $agency)
     {
-        //
+        $cities = CityRepository::all();
+        return view('agency.create', compact('agency', 'cities'));
     }
 
     /**
@@ -75,9 +77,12 @@ class AgencyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateAgencyRequest $request, Agency $agency)
     {
-        //
+        $data = $request->all();
+        $agency->update($data);
+        session()->flash('success', 'Agency Updated Successfully');
+        return redirect(route('agency.index'));
     }
 
     /**
@@ -86,8 +91,10 @@ class AgencyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Agency $agency)
     {
-        //
+        $agency->delete();
+        session()->flash('success', 'Agency Deleted Successfully');
+        return redirect(route('agency.index'));
     }
 }
