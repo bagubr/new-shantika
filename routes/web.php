@@ -44,7 +44,7 @@ Route::group(['middleware' => ['auth']], function () {
         'layouts' => LayoutController::class,
         'routes' => RoutesController::class,
         'agency' => AgencyController::class,
-        'chat' => ChatController::class
+        'chat' => ChatController::class,
+        'checkpoint' => CheckpointController::class
     ]);
-    Route::post('checkpoint/store', [RoutesController::class, 'checkpointstore'])->name('checkpoint.store');
 });

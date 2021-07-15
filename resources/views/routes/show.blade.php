@@ -100,7 +100,6 @@ Route
                             <label for="">Order</label>
                             <input type="number" class="form-control" name="order">
                         </div>
-                        <a href="{{URL::previous()}}" class="btn btn-secondary">Cancel</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
                 </div>
@@ -124,6 +123,7 @@ Route
                         <th>Order</th>
                         <th>Agency</th>
                         <th>Arrived At</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -132,6 +132,15 @@ Route
                         <td>{{$checkpoint->order}}</td>
                         <td>{{$checkpoint->agency->name}}/{{$checkpoint->agency->city->name}}</td>
                         <td>{{$checkpoint->arrived_at}}</td>
+                        <td>
+                            <form action="{{route('checkpoint.destroy',$checkpoint->id)}}" class="d-inline"
+                                method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger btn-xs" onclick="return confirm('Are you sure?')"
+                                    type="submit">Delete</button>
+                            </form>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>

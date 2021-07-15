@@ -27,7 +27,7 @@ class CreateCheckpointRequest extends FormRequest
             'route_id' => 'required|exists:routes,id',
             'arrived_at' => 'required',
             'agency_id' => 'required|exists:agencies,id',
-            'order' => 'required|numeric,'
+            'order' => 'required|numeric'
         ];
     }
 }

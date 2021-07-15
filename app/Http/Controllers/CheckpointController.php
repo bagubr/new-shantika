@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Checkpoint\CreateCheckpointRequest;
+use App\Models\Checkpoint;
 use Illuminate\Http\Request;
 
 class CheckpointController extends Controller
@@ -35,7 +36,10 @@ class CheckpointController extends Controller
      */
     public function store(CreateCheckpointRequest $request)
     {
-        //
+        $data = $request->all();
+        Checkpoint::create($data);
+        session()->flash('success', 'Checkpoint Created Successfully');
+        return redirect(route('routes.show', $request->route_id));
     }
 
     /**
@@ -78,8 +82,10 @@ class CheckpointController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Checkpoint $checkpoint)
     {
-        //
+        $checkpoint->delete();
+        session()->flash('success', 'Checkpoint Deleted Successfully');
+        return redirect()->back();
     }
 }

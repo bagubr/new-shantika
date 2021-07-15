@@ -62,12 +62,6 @@ class RoutesController extends Controller
         $agencies = AgencyRepository::all();
         return view('routes.show', compact('route', 'agencies', 'checkpoints'));
     }
-    public function checkpointstore(CreateCheckpointRequest $request)
-    {
-        $data = $request->all();
-        Checkpoint::create($data);
-        return redirect(route('routes.show', $request->route_id));
-    }
 
     /**
      * Show the form for editing the specified resource.
