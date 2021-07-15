@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Checkpoint\CreateCheckpointRequest;
 use App\Http\Requests\Routes\CreateRoutesRequest;
 use App\Http\Requests\Routes\UpdateRouteRequest;
+use App\Models\Checkpoint;
 use App\Models\Route;
+use App\Repositories\AgencyRepository;
 use App\Repositories\FleetRepository;
 use App\Repositories\RoutesRepository;
 use Illuminate\Http\Request;
@@ -55,7 +58,9 @@ class RoutesController extends Controller
      */
     public function show(Route $route)
     {
-        return view('routes.show', compact('route'));
+        $checkpoints = Checkpoint::where('route_id', $route->id)->get();
+        $agencies = AgencyRepository::all();
+        return view('routes.show', compact('route', 'agencies', 'checkpoints'));
     }
 
     /**

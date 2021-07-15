@@ -43,8 +43,8 @@ Route::group(['middleware' => ['auth']], function () {
         'privacy_policy' => PrivacyPolicyController::class,
         'layouts' => LayoutController::class,
         'routes' => RoutesController::class,
-        'checkpoint' => CheckpointController::class,
         'agency' => AgencyController::class,
-        'chat' => ChatController::class
+        'chat' => ChatController::class,
+        'checkpoint' => CheckpointController::class
     ]);
 });
