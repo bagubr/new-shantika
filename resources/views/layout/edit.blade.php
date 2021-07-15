@@ -98,7 +98,7 @@
                 <template x-for="r in layout.row">
                     <div class="row">
                         <template x-for="c in layout.col">
-                            <div :class="setClass(r,c, $el)" :id="getIndex(r,c)" x-on:click="addData($el)" contenteditable="true" x-text="getText($el)"> 
+                            <div :class="setClass(r,c, $el)" :id="getIndex(r,c)" x-on:dblclick="addData($el)" contenteditable="true" x-text="getText($el)"> 
                             </div>
                         </template>
                     </div>
@@ -263,6 +263,7 @@
                 this.layout.space_indexes = this.layout.space_indexes.filter(e => e != el.id)
             },
             submitEdit(el) {
+                el.innerText = 'Memproses...'
                 el.disable = true;
                 let csrf = '{!!csrf_token()!!}'
                 let arr = []
@@ -291,7 +292,7 @@
                     note: this.layout.note || ''
                 }
                 let formData = this.formData
-                fetch(`http://shantika.idaman.org/layouts/${this.layout.id}`, {
+                fetch(`{{ env('APP_URL') }}/layouts/${this.layout.id}`, {
                     body: JSON.stringify(formData),
                     method: 'PUT',
                     headers: {
@@ -299,10 +300,13 @@
                         'Content-Type': 'application/json',
                     }
                 }).then(res => res.json()).finally(e => {
+                    el.innerText = 'Lanjutkan'
+                    window.location.reload(true)
                     el.disable = false;
                 })
             },
             submitCreate(el) {
+                el.innerText = 'Memproses...'
                 el.disable = true;
                 let csrf = '{!!csrf_token()!!}'
                 let arr = []
@@ -330,7 +334,7 @@
                     note: this.layout.note || ''
                 }
                 let formData = this.formData
-                fetch('http://shantika.idaman.org:8000/layouts', {
+                fetch(`{{ env('APP_URL') }}/layouts`, {
                     body: JSON.stringify(formData),
                     method: 'POST',
                     headers: {
@@ -338,6 +342,8 @@
                         'Content-Type': 'application/json',
                     }
                 }).then(res => res.json()).finally(e => {
+                    el.innerText = 'Lanjutkan'
+                    window.location = '{{ url()->previous() }}'
                     el.disable = false;
                 })
             }
