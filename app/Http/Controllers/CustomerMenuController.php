@@ -94,8 +94,11 @@ class CustomerMenuController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(CustomerMenu $customer_menu)
     {
-        //
+        $customer_menu->deleteImage();
+        $customer_menu->delete();
+        session()->flash('success', 'Customer Menu Deleted Successfully');
+        return redirect(route('customer_menu.index'));
     }
 }
