@@ -8,7 +8,6 @@ Route::group([
     Route::get('privacy_policy', 'PrivacyPolicyController@index');
     Route::get('informations', 'InformationController@index');
     Route::get('social_media', 'SocialMediaController@index');
-    Route::get('customer_menu', 'CustomerMenuController@index');
     Route::get('term_and_condition', 'TermAndConditionController@index');
     Route::get('faq', 'FaqController@index');
     Route::get('chat', 'ChatController@index');
@@ -43,10 +42,13 @@ Route::group([
         Route::post('login/uid', 'AuthController@loginUid');
         Route::post('registrasi','AuthController@registerCustomer');
 
+        Route::get('profile', 'UserController@showCustomer');
+        Route::post('update', 'UserController@updateProfileCustomer');
+
         Route::group([
             'middleware'=>'api.auth.user',
         ], function() {
-            //
+            Route::get('customer_menu', 'CustomerMenuController@index');
         });
     });
 });
