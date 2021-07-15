@@ -15,13 +15,19 @@ class CreateRoutes extends Migration
     {
         Schema::create('routes', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->integer('fleet_id');
+            $table->string('name')->nullable();
+            $table->unsignedBigInteger('fleet_id');
             $table->time('departure_at')->nullable();
             $table->time('arrived_at')->nullable();
             $table->integer('price');
             $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('fleet_id')
+            ->references('id')
+            ->on('fleets')
+            ->onUpdate('CASCADE')
+            ->onDelete('RESTRICT');
         });
     }
 

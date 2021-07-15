@@ -15,12 +15,20 @@ class CreateNotifications extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->integer('reference_id');
             $table->string('title');
             $table->string('message');
-            $table->integer('reference_id');
             $table->string('type');
             $table->boolean('is_seen')->default(false);
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('user_id')
+            ->references('id')
+            ->on('users')
+            ->onUpdate('CASCADE')
+            ->onDelete('RESTRICT');
         });
     }
 

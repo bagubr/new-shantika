@@ -7,7 +7,7 @@ use App\Models\Layout;
 use App\Models\LayoutChair;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-
+use Faker\Factory as Faker;
 class LayoutSeeder extends Seeder
 {
     /**
@@ -17,26 +17,48 @@ class LayoutSeeder extends Seeder
      */
     public function run()
     {
-        $fleet = Fleet::all();
-        DB::beginTransaction();
-        foreach($fleet as $i) {
+        $faker = Faker::create('id_ID');
+        $array = array (0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25);
+        for ($i=0; $i < 2; $i++) { 
             $layout = Layout::create([
-                'name'=>'A-'.$i->name,
-                'row'=>5,
-                'col'=>7,
-                'space_indexes'=>json_encode([2,7,12,17,22,27,32]),
-                'toilet_indexes'=>json_encode([31]),
-                'door_indexes'=>json_encode([30]),
-                'note'=>'satriotol busuk'
+                'name'          =>$faker->sentence($nbWords = 1, $variableNbWords = true),
+                'row'           =>$faker->randomElement($array = array (5, 4)),
+                'col'           =>$faker->randomElement($array = array (8, 9, 7)),
+                'space_indexes' =>json_encode($faker->randomElements($array, $count = 3)),
+                'toilet_indexes'=>json_encode($faker->randomElements($array, $count = 1)),
+                'door_indexes'  =>json_encode($faker->randomElements($array, $count = 1)),
+                'note'          =>$faker->sentence($nbWords = 6, $variableNbWords = true)
             ]);
-            foreach([0,1,3,4,5,6,8,9,10,11,13,14,15,16,18,19,20,21,23,24,25,26,28,29,33,34] as $index => $x) {
-                LayoutChair::create([
-                    'name'=>++$index,
-                    'index'=>$x,
-                    'layout_id'=>$layout->id
-                ]);
+            $count = $layout->col * $layout->row;
+            $name_chair = 0;
+            for ($i=0; $i < $count; $i++) { 
+                if(in_array($i, json_decode($layout->space_indexes))){
+                    LayoutChair::create([
+                        'name'      =>'Space',
+                        'index'     =>$i,
+                        'layout_id' =>$layout->id,
+                    ]);
+                }elseif(in_array($i, json_decode($layout->toilet_indexes))){
+                    LayoutChair::create([
+                        'name'      =>'Toilet',
+                        'index'     =>$i,
+                        'layout_id' =>$layout->id,
+                    ]);
+                }elseif(in_array($i, json_decode($layout->door_indexes))){
+                    LayoutChair::create([
+                        'name'      =>'Pintu',
+                        'index'     =>$i,
+                        'layout_id' =>$layout->id,
+                    ]);
+                }else{
+                    $name_chair +=  1;
+                    LayoutChair::create([
+                        'name'      =>$name_chair,
+                        'index'     =>$i,
+                        'layout_id' =>$layout->id,
+                    ]);
+                }
             }
         }
-        DB::commit();
     }
 }

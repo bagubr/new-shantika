@@ -15,10 +15,22 @@ class CreateUserAgents extends Migration
     {
         Schema::create('users_agents', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('user_id');
-            $table->unsignedInteger('agency_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('agency_id');
             $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('user_id')
+            ->references('id')
+            ->on('users')
+            ->onUpdate('CASCADE')
+            ->onDelete('RESTRICT');
+
+            $table->foreign('agency_id')
+            ->references('id')
+            ->on('agencies')
+            ->onUpdate('CASCADE')
+            ->onDelete('RESTRICT');
         });
     }
 

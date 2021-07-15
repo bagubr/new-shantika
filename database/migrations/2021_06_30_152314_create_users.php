@@ -22,7 +22,8 @@ class CreateUsers extends Migration
             $table->string('password')->nullable();
             $table->text('token')->nullable();
             $table->text('fcm_token')->nullable();
-            $table->datetime('birth')->nullable();
+            $table->date('birth')->nullable();
+            $table->string('uid')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
