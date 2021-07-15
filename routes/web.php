@@ -4,6 +4,7 @@ use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CheckpointController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FleetClassController;
 use App\Http\Controllers\FleetController;
@@ -45,6 +46,7 @@ Route::group(['middleware' => ['auth']], function () {
         'routes' => RoutesController::class,
         'agency' => AgencyController::class,
         'chat' => ChatController::class,
-        'checkpoint' => CheckpointController::class
+        'checkpoint' => CheckpointController::class,
+        'facility'=>FacilityController::class
     ]);
 });

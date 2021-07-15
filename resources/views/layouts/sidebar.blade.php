@@ -105,6 +105,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{route('facility.index')}}"
+                        class="nav-link {{Request::routeIs('facility.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-sign"></i>
+                        <p>
+                            Facilities
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{route('faq.index')}}" class="nav-link {{Request::routeIs('faq.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-question"></i>
                         <p>
