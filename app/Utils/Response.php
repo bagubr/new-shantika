@@ -7,7 +7,6 @@ trait Response {
             'code'=>$code,
             'success'=>true,
             'message'=>$message,
-            'data'=>$data
         ], $data);
 
         return response($data);
@@ -18,7 +17,6 @@ trait Response {
             'code'=>$code,
             'success'=>true,
             'message'=>$message,
-            'data'=>$data
         ], $data);
 
         return response($data);
