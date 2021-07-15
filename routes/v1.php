@@ -13,6 +13,8 @@ Route::group([
     Route::get('faq', 'FaqController@index');
     Route::get('chat', 'ChatController@index');
     Route::get('facility', 'FacilityController@index');
+    Route::get('cities', 'CityController@index');
+    Route::get('agencies', 'AgencyController@index');
 
     Route::group([
         'prefix'    => 'agen'
@@ -29,8 +31,6 @@ Route::group([
             Route::get('routes/available', 'RouteController@getAvailableRoutes');
             Route::get('fleet/layout', 'LayoutController@getFleetLayout');
             Route::get('fleet/{id}', 'FleetController@showFleet');
-            Route::get('cities', 'CityController@index');
-            Route::get('agencies', 'AgencyController@index');
 
             Route::get('kelas_armada', 'FleetClassController@index');
         });
