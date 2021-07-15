@@ -12,7 +12,6 @@ Route::group([
     Route::get('faq', 'FaqController@index');
     Route::get('chat', 'ChatController@index');
     Route::get('facility', 'FacilityController@index');
-    Route::get('customer_menu', 'CustomerMenuController@index');
 
     Route::group([
         'prefix'    => 'agen'
@@ -43,6 +42,7 @@ Route::group([
         Route::post('login/phone', 'AuthController@loginPhone');
         Route::post('login/uid', 'AuthController@loginUid');
         Route::post('registrasi','AuthController@registerCustomer');
+        Route::get('customer_menu', 'CustomerMenuController@index');
 
         Route::group([
             'middleware'=>'api.auth.user',
