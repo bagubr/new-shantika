@@ -41,7 +41,7 @@ class AuthController extends Controller
     }
 
     public function registerCustomer(ApiRegisterCustomerRequest $request) {
-        $user = (new UserService)->register($request->all());          
+        $user = UserService::register($request->all());          
 
         return $this->sendSuccessResponse([
             'user'=>$user,
