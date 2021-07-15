@@ -1,18 +1,18 @@
 @extends('layouts.main')
 @section('title')
-Fleet
+Customer Menu
 @endsection
 @section('content')
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Fleet Class Form</h1>
+                <h1>Customer Menu Form</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Fleet Class</li>
+                    <li class="breadcrumb-item active">Customer Menu</li>
                 </ol>
             </div>
         </div>
@@ -32,20 +32,26 @@ Fleet
                 </div>
                 <div class="card-body" style="display: block;">
                     @include('partials.error')
-                    <form action="@isset($fleetclass)
-                        {{route('fleetclass.update', $fleetclass->id)}}
-                    @endisset @empty($fleetclass) {{route('fleetclass.store')}} @endempty" method="POST">
+                    <form action="@isset($customer_menu)
+                        {{route('customer_menu.update', $customer_menu->id)}}
+                    @endisset @empty($customer_menu) {{route('customer_menu.store')}} @endempty" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
-                        @isset($fleetclass)
+                        @isset($customer_menu)
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label for="inputName">Fleet Name</label>
-                            <input type="text" id="inputName" class="form-control" name="name"
-                                value="{{isset($fleetclass) ? $fleetclass->name : ''}}">
+                            <label>Customer Menu Name</label>
+                            <input type="text" class="form-control" name="name"
+                                value="{{isset($customer_menu) ? $customer_menu->name : ''}}">
+                        </div>
+                        <div class="form-group">
+                            <label>Icon</label>
+                            <input type="file" class="form-control" name="icon" accept="image/*"
+                                value="{{isset($customer_menu) ? $customer_menu->icon : ''}}">
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Cancel</a>
-                        <input type="submit" value="Create new Porject" class="btn btn-success float-right">
+                        <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
                 </div>
                 <!-- /.card-body -->

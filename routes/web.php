@@ -3,6 +3,7 @@
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CheckpointController;
+use App\Http\Controllers\CustomerMenuController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\FaqController;
@@ -47,6 +48,7 @@ Route::group(['middleware' => ['auth']], function () {
         'agency' => AgencyController::class,
         'chat' => ChatController::class,
         'checkpoint' => CheckpointController::class,
-        'facility'=>FacilityController::class
+        'facility' => FacilityController::class,
+        'customer_menu' => CustomerMenuController::class
     ]);
 });

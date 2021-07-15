@@ -77,15 +77,6 @@
                         </p>
                     </a>
                 </li>
-                {{-- <li class="nav-item">
-                    <a href="{{route('checkpoint.index')}}"
-                class="nav-link {{Request::routeIs('checkpoint.*') ? 'active' : ''}}">
-                <i class="nav-icon fas fa-route"></i>
-                <p>
-                    Checkpoint
-                </p>
-                </a>
-                </li> --}}
                 <li class="nav-item">
                     <a href="{{route('agency.index')}}"
                         class="nav-link {{Request::routeIs('agency.*') ? 'active' : ''}}">
@@ -110,6 +101,15 @@
                         <i class="nav-icon fas fa-sign"></i>
                         <p>
                             Facilities
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('customer_menu.index')}}"
+                        class="nav-link {{Request::routeIs('customer_menu.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-bars"></i>
+                        <p>
+                            Customer Menus
                         </p>
                     </a>
                 </li>

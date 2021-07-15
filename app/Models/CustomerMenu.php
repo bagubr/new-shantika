@@ -10,4 +10,5 @@ class CustomerMenu extends Model
     use HasFactory;
 
     protected $table = "customer_menus";
+    protected $fillable = ['name', 'icon'];
 }
