@@ -41,6 +41,7 @@ Route::group([
         Route::post('login', 'AuthController@loginEmail');
         Route::post('login/phone', 'AuthController@loginPhone');
         Route::post('login/uid', 'AuthController@loginUid');
+        Route::post('registrasi','AuthController@registerCustomer');
 
         Route::group([
             'middleware'=>'api.auth.user',
