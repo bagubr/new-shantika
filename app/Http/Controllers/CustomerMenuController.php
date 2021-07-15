@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CustomerMenu\CreateCustomerMenuRequest;
 use App\Models\CustomerMenu;
+use CreateCustomerMenus;
 use Illuminate\Http\Request;
 
 class CustomerMenuController extends Controller
@@ -62,9 +63,9 @@ class CustomerMenuController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(CustomerMenu $customer_menu)
     {
-        //
+        return view('customer_menu.create', compact('customer_menu'));
     }
 
     /**
@@ -74,9 +75,17 @@ class CustomerMenuController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CreateCustomerMenuRequest $request, CustomerMenu $customer_menu)
     {
-        //
+        $data = $request->only(['name']);
+        if ($request->hasFile('icon')) {
+            $icon = $request->icon->store('icon', 'public');
+            $customer_menu->deleteImage();
+            $data['icon'] = $icon;
+        }
+        $customer_menu->update($data);
+        session()->flash('success', 'Customer Menu Updated Successfully');
+        return redirect(route('customer_menu.index'));
     }
 
     /**
