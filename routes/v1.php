@@ -12,6 +12,7 @@ Route::group([
     Route::get('faq', 'FaqController@index');
     Route::get('chat', 'ChatController@index');
     Route::get('facility', 'FacilityController@index');
+    Route::get('customer_menu', 'CustomerMenuController@index');
 
     Route::group([
         'prefix'    => 'agen'
@@ -22,7 +23,8 @@ Route::group([
 
         
         Route::group([
-            'middleware'=> 'api.auth.agent'
+            'middleware'=> 'api.auth.agent',
+            'namespace'=> 'Agent'
         ], function() {
             Route::get('routes/available', 'RouteController@getAvailableRoutes');
             Route::get('fleet/layout', 'LayoutController@getFleetLayout');
@@ -42,13 +44,14 @@ Route::group([
         Route::post('login/uid', 'AuthController@loginUid');
         Route::post('registrasi','AuthController@registerCustomer');
 
-        Route::get('profile', 'UserController@showCustomer');
-        Route::post('update', 'UserController@updateProfileCustomer');
-
         Route::group([
             'middleware'=>'api.auth.user',
+            'namespace'=>'Customer'
         ], function() {
-            Route::get('customer_menu', 'CustomerMenuController@index');
+            
+            Route::get('profile', 'UserController@showCustomer');
+            Route::post('update', 'UserController@updateProfileCustomer');
+
         });
     });
 });
