@@ -8,6 +8,8 @@ use App\Models\Layout;
 use App\Models\LayoutChair;
 use App\Repositories\LayoutRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class LayoutController extends Controller
@@ -87,17 +89,23 @@ class LayoutController extends Controller
      */
     public function update(UpdateLayoutRequest $request, $id)
     {
+        DB::beginTransaction();
         $layout = Layout::find($id);
         $layout->update($request->except(['chair_indexes']));
         $layout->refresh();
         $layout->chairs()->delete();
 
         $chairs = [];
-        foreach($request->chair_indexes as $i) {
-            $chairs[] = LayoutChair::create(array_merge($i, [
-                'layout_id'=>$layout->id
-            ]));
+        try {
+            foreach($request->chair_indexes as $i) {
+                $chairs[] = LayoutChair::create(array_merge($i, [
+                    'layout_id'=>$layout->id
+                ]));
+            }
+        } catch(\Exception $e) {
+            return $e;
         }
+        DB::commit();
         return response([
             $layout,  $chairs
         ]);
