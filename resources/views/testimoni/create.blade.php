@@ -35,38 +35,41 @@ Slider
                 </div>
                 <div class="card-body" style="display: block;">
                     @include('partials.error')
-                    <form action="@isset($slider)
-                        {{route('slider.update', $slider->id)}}
-                    @endisset @empty($slider) {{route('slider.store')}} @endempty" method="POST"
+                    <form action="@isset($testimoni)
+                        {{route('testimoni.update', $testimoni->id)}}
+                    @endisset @empty($testimoni) {{route('testimoni.store')}} @endempty" method="POST"
                         enctype="multipart/form-data">
                         @csrf
-                        @isset($slider)
+                        @isset($testimoni)
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label>Nama</label>
-                            <input type="text" class="form-control" name="name" placeholder="Masukkan Nama"
-                                value="{{isset($slider) ? $slider->name : ''}}">
+                            <label>Pengguna</label>
+                            <select name="user_id" class="form-control select2" id="">
+                                <option value="">Pilih Pengguna</option>
+                                @foreach ($users as $user)
+                                <option value="{{$user->id}}">{{$user->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group">
                             <label>Gambar</label>
                             <input type="file" class="form-control" name="image" accept="image/*">
                         </div>
                         <div class="form-group">
-                            <label>Deskripsi</label>
-                            <textarea id="summernote" name="description">
-                                {{isset($slider) ? $slider->description : ''}}
+                            <label>Review</label>
+                            <textarea id="summernote" name="review">
+                                {{isset($testimoni) ? $testimoni->review : ''}}
                             </textarea>
                         </div>
                         <div class="form-group">
-                            <label>Tipe</label>
-                            <select name="type" class="form-control">
-                                <option value="">Pilih Tipe</option>
-                                @foreach ($types as $type)
-                                <option value="{{$type}}" @isset($slider) @if ($type===$slider->type)
-                                    selected
-                                    @endif @endisset>{{$type}}</option>
-                                @endforeach
+                            <label>Rating</label>
+                            <select name="rating" class="form-control" id="">
+                                <option value="">Pilih Rating</option>
+                                @for ($i = 5; $i > 0; $i--)
+                                <option value="{{$i}}">{{$i}}</option>
+                                @endfor
+
                             </select>
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
@@ -84,8 +87,17 @@ Slider
 <script src="{{asset('plugins/summernote/summernote-bs4.min.js')}}"></script>
 <script>
     $(function () {
+        $('.select2').select2()
+    })
+    $('.select2bs4').select2({
+        theme: 'bootstrap4'
+    })
+
+</script>
+<script>
+    $(function () {
         $('#summernote').summernote({
-            placeholder: 'Masukkan Deskripsi',
+            placeholder: 'Masukkan Review',
             height: 120,
             toolbar: [
                 ['font', ['bold', 'underline', 'clear']],

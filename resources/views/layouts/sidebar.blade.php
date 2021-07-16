@@ -146,6 +146,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{route('testimoni.index')}}"
+                        class="nav-link {{Request::routeIs('testimoni.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Testimoni
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('logout') }}" onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();" class="nav-link">
                         <i class="nav-icon fas fa-door-open"></i>
