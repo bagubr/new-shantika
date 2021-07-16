@@ -45,7 +45,7 @@ Informasi
                                 @foreach ($informations as $information)
                                 <tr>
                                     <td>{{$information->name}}</td>
-                                    <td><img src="{{asset('storage/'.$information->image)}}" height="100px" alt=""></td>
+                                    <td><img src="{{$information->image}}" height="100px" alt=""></td>
                                     <td><a href="{{route('information.edit',$information->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('information.destroy',$information->id)}}"

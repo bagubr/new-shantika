@@ -78,7 +78,7 @@
                 <li class="nav-item">
                     <a href="{{route('agency.index')}}"
                         class="nav-link {{Request::routeIs('agency.*') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-user-secret"></i>
+                        <i class="nav-icon fas fa-street-view"></i>
                         <p>
                             Agent
                         </p>
@@ -125,6 +125,32 @@
                         <i class="nav-icon fas fa-handshake"></i>
                         <p>
                             Kebijakan Privasi
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('slider.index')}}"
+                        class="nav-link {{Request::routeIs('slider.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-sliders-h"></i>
+                        <p>
+                            Slider
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('user.index')}}" class="nav-link {{Request::routeIs('user.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Users
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('testimoni.index')}}"
+                        class="nav-link {{Request::routeIs('testimoni.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Testimoni
                         </p>
                     </a>
                 </li>

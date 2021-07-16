@@ -51,7 +51,7 @@ Armada
                                         <a href="{{route('fleetclass.edit', $fleet->fleet_class_id)}}"
                                             target="_blank">{{$fleet->fleetclass?->name ?? '-'}}</a>
                                     </td>
-                                    <td><img src="{{asset('storage/'.$fleet->image)}}" height="100px" alt=""></td>
+                                    <td><img src="{{$fleet->image}}" height="100px" alt=""></td>
                                     <td>
                                         <a href="{{route('layouts.edit', $fleet->layout_id)}}"
                                             target="_blank">{{$fleet->layout?->name ?? '-'}}</a>

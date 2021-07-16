@@ -1,18 +1,21 @@
 @extends('layouts.main')
 @section('title')
-Facility
+Slider
 @endsection
+@push('css')
+<link rel="stylesheet" href="{{asset('plugins/summernote/summernote-bs4.min.css')}}">
+@endpush
 @section('content')
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Facility Form</h1>
+                <h1>Slider Form</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Facility</li>
+                    <li class="breadcrumb-item active">Slider</li>
                 </ol>
             </div>
         </div>
@@ -32,22 +35,28 @@ Facility
                 </div>
                 <div class="card-body" style="display: block;">
                     @include('partials.error')
-                    <form action="@isset($facility)
-                        {{route('facility.update', $facility->id)}}
-                        @endisset @empty($facility) {{route('facility.store')}} @endempty" method="POST"
+                    <form action="@isset($slider)
+                        {{route('slider.update', $slider->id)}}
+                    @endisset @empty($slider) {{route('slider.store')}} @endempty" method="POST"
                         enctype="multipart/form-data">
                         @csrf
-                        @isset($facility)
+                        @isset($slider)
                         @method('PUT')
                         @endisset
                         <div class="form-group">
                             <label>Nama</label>
                             <input type="text" class="form-control" name="name" placeholder="Masukkan Nama"
-                                value="{{isset($facility) ? $facility->name : ''}}">
+                                value="{{isset($slider) ? $slider->name : ''}}">
                         </div>
                         <div class="form-group">
                             <label>Gambar</label>
-                            <input type="file" name="image" accept="image/*" class="form-control" alt="">
+                            <input type="file" class="form-control" name="image" accept="image/*">
+                        </div>
+                        <div class="form-group">
+                            <label>Deskripsi</label>
+                            <textarea id="summernote" name="description">
+                                {{isset($slider) ? $slider->description : ''}}
+                            </textarea>
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
@@ -61,4 +70,30 @@ Facility
 </section>
 @endsection
 @push('script')
+<script src="{{asset('plugins/summernote/summernote-bs4.min.js')}}"></script>
+<script>
+    $(function () {
+        $('.select2').select2()
+    })
+    $('.select2bs4').select2({
+        theme: 'bootstrap4'
+    })
+
+</script>
+<script>
+    $(function () {
+        $('#summernote').summernote({
+            placeholder: 'Masukkan Deskripsi',
+            height: 120,
+            toolbar: [
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link']],
+                ['view', ['fullscreen']]
+            ]
+        })
+    })
+
+</script>
 @endpush

@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="{{asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
-    @yield('css')
+    @stack('css')
 
     <script src="https://unpkg.com/alpinejs@3.2.1/dist/cdn.min.js" defer></script>
 </head>

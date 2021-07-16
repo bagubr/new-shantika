@@ -13,17 +13,21 @@ class Fleet extends Model
     protected $table = 'fleets';
     protected $fillable = ['name', 'description', 'fleet_class_id', 'image', 'layout_id'];
 
-    public function layout() {
+    public function layout()
+    {
         return $this->hasOne(Layout::class, 'id', 'layout_id');
     }
-    
+
     public function fleetclass()
     {
         return $this->belongsTo(FleetClass::class, 'fleet_class_id', 'id');
     }
-
+    public function getImageAttribute($value)
+    {
+        return url('storage/' . $value);
+    }
     public function deleteImage()
     {
-        Storage::disk('public')->delete($this->image);
+        Storage::disk('public')->delete($this->attributes['image']);
     }
 }

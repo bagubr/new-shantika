@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Facility
+Fasilitas
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->
@@ -8,12 +8,12 @@ Facility
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Facility</h1>
+                <h1 class="m-0">Fasilitas</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Facility</li>
+                    <li class="breadcrumb-item active">Fasilitas</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -26,7 +26,7 @@ Facility
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Facility</h3>
+                        <h3 class="card-title">Table Fasilitas</h3>
                         <div class="text-right">
                             <a href="{{route('facility.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
@@ -46,8 +46,8 @@ Facility
                                 <tr>
                                     <td>{{ $facility->name }}</td>
                                     <td class="text-center">
-                                        <img src="{{ $facility->image }}" class="img-thumbnail"
-                                            style="max-height: 100px" alt="">
+                                        <img src="{{$facility->image}}" class="img-thumbnail" style="max-height: 100px"
+                                            alt="">
                                     </td>
                                     <td>
                                         <a href="{{route('facility.edit',$facility->id)}}"
