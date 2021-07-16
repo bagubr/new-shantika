@@ -1,18 +1,18 @@
 @extends('layouts.main')
 @section('title')
-Informasi
+Menu Pengguna
 @endsection
 @section('content')
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Informasi Form</h1>
+                <h1>Menu Pengguna Form</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Informasi</li>
+                    <li class="breadcrumb-item active">Menu Pengguna</li>
                 </ol>
             </div>
         </div>
@@ -32,33 +32,23 @@ Informasi
                 </div>
                 <div class="card-body" style="display: block;">
                     @include('partials.error')
-                    <form action="@isset($information)
-                        {{route('information.update', $information->id)}}
-                    @endisset @empty($information) {{route('information.store')}} @endempty" method="POST"
+                    <form action="@isset($customer_menu)
+                        {{route('customer_menu.update', $customer_menu->id)}}
+                    @endisset @empty($customer_menu) {{route('customer_menu.store')}} @endempty" method="POST"
                         enctype="multipart/form-data">
                         @csrf
-                        @isset($information)
+                        @isset($customer_menu)
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label for="inputName">Informasi Nama</label>
-                            <input type="text" id="inputName" class="form-control" name="name"
-                                placeholder="Masukkan Nama" value="{{isset($information) ? $information->name : ''}}">
+                            <label>Menu Pengguna Nama</label>
+                            <input type="text" class="form-control" name="name"
+                                value="{{isset($customer_menu) ? $customer_menu->name : ''}}">
                         </div>
                         <div class="form-group">
-                            <label for="inputName">Alamat</label>
-                            <input type="text" id="inputName" class="form-control" name="address"
-                                placeholder="Masukkan address"
-                                value="{{isset($information) ? $information->address : ''}}">
-                        </div>
-                        <div class="form-group">
-                            <label>Deskripsi</label>
-                            <textarea class="form-control" rows="3" name="description"
-                                placeholder="Masukkan Deskripsi">{{isset($information) ? $information->description : ''}}</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="">Gambar</label>
-                            <input type="file" accept="image/*" class="form-control" name="image">
+                            <label>Icon</label>
+                            <input type="file" class="form-control" name="icon" accept="image/*"
+                                value="{{isset($customer_menu) ? $customer_menu->icon : ''}}">
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
@@ -70,14 +60,4 @@ Informasi
         </div>
     </div>
 </section>
-@endsection
-@section('script')
-<script>
-    $(function () {
-        $('.select2').select2()
-    })
-    $('.select2bs4').select2({
-      theme: 'bootstrap4'
-    })
-</script>
 @endsection

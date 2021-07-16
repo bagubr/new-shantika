@@ -41,26 +41,26 @@ Checkpoint
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label for="inputName">Checkpoint Name</label>
-                            <input type="text" id="inputName" class="form-control" name="name" placeholder="Enter Name"
-                                value="{{isset($information) ? $information->name : ''}}">
+                            <label for="inputName">Checkpoint Nama</label>
+                            <input type="text" id="inputName" class="form-control" name="name"
+                                placeholder="Masukkan Nama" value="{{isset($information) ? $information->name : ''}}">
                         </div>
                         <div class="form-group">
-                            <label for="inputName">Address</label>
+                            <label for="inputName">Alamat</label>
                             <input type="text" id="inputName" class="form-control" name="address"
-                                placeholder="Enter address"
+                                placeholder="Masukkan address"
                                 value="{{isset($information) ? $information->address : ''}}">
                         </div>
                         <div class="form-group">
-                            <label>Description</label>
+                            <label>Deskripsi</label>
                             <textarea class="form-control" rows="3" name="description"
-                                placeholder="Enter Description">{{isset($information) ? $information->description : ''}}</textarea>
+                                placeholder="Masukkan Deskripsi">{{isset($information) ? $information->description : ''}}</textarea>
                         </div>
                         <div class="form-group">
-                            <label for="">Image</label>
+                            <label for="">Gambar</label>
                             <input type="file" accept="image/*" class="form-control" name="image">
                         </div>
-                        <a href="{{URL::previous()}}" class="btn btn-secondary">Cancel</a>
+                        <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
                 </div>

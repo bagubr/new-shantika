@@ -38,7 +38,7 @@ class CheckpointController extends Controller
     {
         $data = $request->all();
         Checkpoint::create($data);
-        session()->flash('success', 'Checkpoint Created Successfully');
+        session()->flash('success', 'Checkpoint Berhasil Ditambahkan');
         return redirect(route('routes.show', $request->route_id));
     }
 
@@ -85,7 +85,7 @@ class CheckpointController extends Controller
     public function destroy(Checkpoint $checkpoint)
     {
         $checkpoint->delete();
-        session()->flash('success', 'Checkpoint Deleted Successfully');
+        session()->flash('success', 'Checkpoint Berhasil Dihapus');
         return redirect()->back();
     }
 }

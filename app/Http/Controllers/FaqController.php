@@ -40,7 +40,7 @@ class FaqController extends Controller
     {
         $data = $request->all();
         Faq::create($data);
-        session()->flash('success', 'FAQ Created Successfully');
+        session()->flash('success', 'FAQ Berhasil Ditambahkan');
         return redirect(route('faq.index'));
     }
 
@@ -76,7 +76,7 @@ class FaqController extends Controller
     {
         $data = $request->all();
         $faq->update($data);
-        session()->flash('success', 'FAQ Updated Successfully');
+        session()->flash('success', 'FAQ Berhasil Diperbarui');
         return redirect(route('faq.index'));
     }
 
@@ -89,7 +89,7 @@ class FaqController extends Controller
     public function destroy(Faq $faq)
     {
         $faq->delete();
-        session()->flash('success', 'FAQ Deleted Successfully');
+        session()->flash('success', 'FAQ Berhasil Dihapus');
         return redirect(route('faq.index'));
     }
 }

@@ -28,7 +28,7 @@ FAQ
                     <div class="card-header">
                         <h3 class="card-title">Table FAQ</h3>
                         <div class="text-right">
-                            <a href="{{route('faq.create')}}" class="btn btn-primary btn-sm">Create</a>
+                            <a href="{{route('faq.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -36,9 +36,9 @@ FAQ
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Question</th>
-                                    <th>Answer</th>
-                                    <th>Action</th>
+                                    <th>Pertanyaan</th>
+                                    <th>Jawaban</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>

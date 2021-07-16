@@ -46,7 +46,7 @@ class RoutesController extends Controller
     {
         $data = $request->all();
         Route::create($data);
-        session()->flash('success', 'Route Created Successfully');
+        session()->flash('success', 'Route Berhasil Ditambahkan');
         return redirect(route('routes.index'));
     }
 
@@ -86,7 +86,7 @@ class RoutesController extends Controller
     {
         $data = $request->all();
         $route->update($data);
-        session()->flash('success', 'Route Updated Successfully');
+        session()->flash('success', 'Route Berhasil Diperbarui');
         return redirect(route('routes.index'));
     }
 
@@ -99,7 +99,7 @@ class RoutesController extends Controller
     public function destroy(Route $route)
     {
         $route->delete();
-        session()->flash('success', 'Route Deleted Successfully');
+        session()->flash('success', 'Route Berhasil Dihapus');
         return redirect(route('routes.index'));
     }
 }

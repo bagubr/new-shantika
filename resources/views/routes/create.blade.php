@@ -40,14 +40,14 @@ Route
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label>Route Name</label>
-                            <input type="text" class="form-control" name="name" placeholder="Enter Name"
+                            <label>Nama Route</label>
+                            <input type="text" class="form-control" name="name" placeholder="Masukkan Nama Route"
                                 value="{{isset($route) ? $route->name : ''}}">
                         </div>
                         <div class="form-group">
-                            <label>Fleet</label>
+                            <label>Armada</label>
                             <select class="form-control select2" name="fleet_id" style="width: 100%;">
-                                <option value="">Select Fleet</option>
+                                <option value="">Pilih Armada</option>
                                 @foreach ($fleets as $fleet)
                                 <option value="{{$fleet->id}}" @isset($route) @if ($fleet->id ===
                                     $route->fleet_id)
@@ -56,30 +56,30 @@ Route
                                 </option>
                                 @endforeach
                             </select>
-                            <span><a href="{{route('fleets.create')}}">Add Fleet</a></span>
+                            <span><a href="{{route('fleets.create')}}">Tambah Armada</a></span>
                         </div>
                         <div class="form-row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label>Departure at</label>
+                                    <label>Keberangkatan</label>
                                     <input type="time" name="departure_at" class="form-control"
                                         value="{{isset($route) ? $route->departure_at : ''}}">
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label>Arrived at</label>
+                                    <label>Kedatangan</label>
                                     <input type="time" name="arrived_at" class="form-control"
                                         value="{{isset($route) ? $route->arrived_at : ''}}">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Price</label>
-                            <input type="number" name="price" class="form-control" placeholder="Enter Price"
+                            <label>Harga</label>
+                            <input type="number" name="price" class="form-control" placeholder="Masukkan Harga"
                                 value="{{isset($route) ? $route->price : ''}}">
                         </div>
-                        <a href="{{URL::previous()}}" class="btn btn-secondary">Cancel</a>
+                        <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
                 </div>

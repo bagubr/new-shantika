@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Facility
+Menu Pengguna
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->
@@ -8,12 +8,12 @@ Facility
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Facility</h1>
+                <h1 class="m-0">Menu Pengguna</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Facility</li>
+                    <li class="breadcrumb-item active">Menu Pengguna</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -26,9 +26,9 @@ Facility
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Facility</h3>
+                        <h3 class="card-title">Table Menu Pengguna</h3>
                         <div class="text-right">
-                            <a href="{{route('facility.create')}}" class="btn btn-primary btn-sm">Tambah</a>
+                            <a href="{{route('customer_menu.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -37,23 +37,20 @@ Facility
                             <thead>
                                 <tr>
                                     <th>Nama</th>
-                                    <th>Gambar</th>
+                                    <th>Icon</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($facilities as $facility)
+                                @foreach ($customer_menus as $customer_menu)
                                 <tr>
-                                    <td>{{ $facility->name }}</td>
-                                    <td class="text-center">
-                                        <img src="{{ $facility->image }}" class="img-thumbnail"
-                                            style="max-height: 100px" alt="">
+                                    <td>{{$customer_menu->name}}</td>
+                                    <td><img src="{{asset('storage/'.$customer_menu->icon)}}" height="100px" alt="">
                                     </td>
-                                    <td>
-                                        <a href="{{route('facility.edit',$facility->id)}}"
+                                    <td><a href="{{route('customer_menu.edit',$customer_menu->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
-                                        <form action="{{route('facility.destroy',$facility->id)}}" class="d-inline"
-                                            method="POST">
+                                        <form action="{{route('customer_menu.destroy',$customer_menu->id)}}"
+                                            class="d-inline" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger btn-xs"

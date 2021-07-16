@@ -41,15 +41,15 @@ Facility
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" class="form-control" name="name" placeholder="Enter Name"
+                            <label>Nama</label>
+                            <input type="text" class="form-control" name="name" placeholder="Masukkan Nama"
                                 value="{{isset($facility) ? $facility->name : ''}}">
                         </div>
                         <div class="form-group">
                             <label>Gambar</label>
                             <input type="file" name="image" class="form-control" alt="">
                         </div>
-                        <a href="{{URL::previous()}}" class="btn btn-secondary">Cancel</a>
+                        <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
                 </div>

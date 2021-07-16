@@ -1,18 +1,18 @@
 @extends('layouts.main')
 @section('title')
-Agency
+Agen
 @endsection
 @section('content')
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Agency Form</h1>
+                <h1>Agen Form</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Agency</li>
+                    <li class="breadcrumb-item active">Agen</li>
                 </ol>
             </div>
         </div>
@@ -41,14 +41,14 @@ Agency
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label for="inputName">Agency Name</label>
-                            <input type="text" id="inputName" class="form-control" name="name" placeholder="Enter Name"
-                                value="{{isset($agency) ? $agency->name : ''}}">
+                            <label for="inputName">Agen Nama</label>
+                            <input type="text" id="inputName" class="form-control" name="name"
+                                placeholder="Masukkan Nama" value="{{isset($agency) ? $agency->name : ''}}">
                         </div>
                         <div class="form-group">
-                            <label>City</label>
+                            <label>Kota</label>
                             <select class="form-control select2" name="city_id" style="width: 100%;">
-                                <option value="">Select City</option>
+                                <option value="">Pilih Kota</option>
                                 @foreach ($cities as $city)
                                 <option value="{{$city->id}}" @isset($agency) @if ($city->id ===
                                     $agency->city_id)
@@ -59,7 +59,7 @@ Agency
                             </select>
                             {{-- <span><a href="{{route('fleets.create')}}">Add Fleet</a></span> --}}
                         </div>
-                        <a href="{{URL::previous()}}" class="btn btn-secondary">Cancel</a>
+                        <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
                 </div>

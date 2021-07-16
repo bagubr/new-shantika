@@ -41,7 +41,7 @@ class FleetClassController extends Controller
     {
         $data = $request->all();
         FleetClass::create($data);
-        session()->flash('success', 'Fleet Class Created Successfully');
+        session()->flash('success', 'Armada Kelas Berhasil Ditambahkan');
         return redirect(route('fleetclass.index'));
     }
 
@@ -77,7 +77,7 @@ class FleetClassController extends Controller
     {
         $data = $request->all();
         $fleetclass->update($data);
-        session()->flash('success', 'Fleet Class Updated Successfully');
+        session()->flash('success', 'Fleet Class Berhasil Diperbarui');
         return redirect(route('fleetclass.index'));
     }
 
@@ -92,10 +92,10 @@ class FleetClassController extends Controller
         $fleetclass = FleetClassRepository::deleteId($id);
         if ($fleetclass->trashed()) {
             $fleetclass->forceDelete();
-            session()->flash('success', 'Fleet Class Deleted Successfully');
+            session()->flash('success', 'Fleet Class Berhasil Dihapus');
         } else {
             $fleetclass->delete();
-            session()->flash('success', 'Fleet Class Trashed Successfully');
+            session()->flash('success', 'Fleet Class Berhasil Diarsip');
         }
         return redirect(route('fleetclass.index'));
     }
