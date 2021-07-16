@@ -39,7 +39,7 @@ Route
                                     <th>Nama</th>
                                     <th>Armada</th>
                                     <th>Harga</th>
-                                    <th>Kebrangkatan - Kedatangan</th>
+                                    <th>Keberangkatan - Kedatangan</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
