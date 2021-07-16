@@ -10,6 +10,7 @@ Route::group([
         Route::post('login/phone', 'AuthController@loginPhone');
         Route::post('registration','AuthController@registerCustomer');
     });
+    Route::get('fleet_lists','FleetController@index');
     
     Route::group([
         'middleware'=>'api.auth.user'
