@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserAgents extends Migration
+class CreateSliders extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateUserAgents extends Migration
      */
     public function up()
     {
-        Schema::create('users_agents', function (Blueprint $table) {
+        Schema::create('sliders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('user_id');
-            $table->unsignedInteger('agency_id');
-            $table->softDeletes();
+            $table->string('name');
+            $table->string('image')->nullable();
+            $table->text('description');
+            $table->enum('type', ['AGENT', 'CUST']);
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateUserAgents extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_agents');
+        Schema::dropIfExists('sliders');
     }
 }

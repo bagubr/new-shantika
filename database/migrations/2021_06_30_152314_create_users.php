@@ -19,10 +19,12 @@ class CreateUsers extends Migration
             $table->string('phone');
             $table->string('email')->nullable();
             $table->string('avatar')->nullable();
-            $table->string('password')->nullable();
             $table->text('token')->nullable();
             $table->text('fcm_token')->nullable();
-            $table->datetime('birth')->nullable();
+            $table->date('birth')->nullable();
+            $table->string('birth_place')->nullable();
+            $table->enum('gender', ['Male', 'Female', 'Other'])->nullable();
+            $table->string('uuid')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

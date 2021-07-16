@@ -17,11 +17,24 @@ class CreateFleets extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->integer('fleet_class_id');
+            $table->unsignedBigInteger('fleet_class_id');
+            $table->unsignedBigInteger('layout_id');
             $table->string('image')->nullable();
-            $table->integer('layout_id');
             $table->softDeletes();
             $table->timestamps();
+            
+            $table->foreign('fleet_class_id')
+            ->references('id')
+            ->on('fleet_classes')
+            ->onUpdate('CASCADE')
+            ->onDelete('RESTRICT');
+
+            $table->foreign('layout_id')
+            ->references('id')
+            ->on('layouts')
+            ->onUpdate('CASCADE')
+            ->onDelete('RESTRICT');
+
         });
     }
 

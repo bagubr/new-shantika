@@ -16,8 +16,15 @@ class CreateCities extends Migration
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->unsignedBigInteger('province_id');
             $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('province_id')
+            ->references('id')
+            ->on('provinces')
+            ->onUpdate('CASCADE')
+            ->onDelete('RESTRICT');
         });
     }
 

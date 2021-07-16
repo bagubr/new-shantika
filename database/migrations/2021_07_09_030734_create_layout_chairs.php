@@ -19,6 +19,12 @@ class CreateLayoutChairs extends Migration
             $table->integer('index');
             $table->integer('layout_id');
             $table->timestamps();
+
+            $table->foreign('layout_id')
+            ->references('id')
+            ->on('layouts')
+            ->onUpdate('CASCADE')
+            ->onDelete('RESTRICT');
         });
     }
 

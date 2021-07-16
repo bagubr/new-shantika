@@ -15,10 +15,13 @@ class AdminSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('admins')->insert([
-            'name' => 'Admin',
-            'email' => 'admin@gmail.com',
-            'password' => Hash::make('admin')
-        ]);
+        $data = ['superadmin', 'admin_satrio', 'admin_indra', 'admin_bagu'];
+        foreach ($data as $key => $value) {
+            DB::table('admins')->insert([
+                'name' => $value,
+                'email' => $value.'@gmail.com',
+                'password' => Hash::make('12345678')
+            ]);
+        }
     }
 }

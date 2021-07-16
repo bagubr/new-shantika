@@ -9,20 +9,17 @@ use Illuminate\Support\Facades\Hash;
 class AuthService {
     use Response;
 
-    public static function login($user, $fcm_token = '', $phone = '',$uid = '') {
+    public static function login($user, $fcm_token = '', $phone = '',$uuid = '') {
         if($user == null) (new self)->sendFailedResponse([], "Sepertinya akun anda belum terdaftar");
         $token = self::generateToken($user);
-        if(!empty($uid) && $user->uid != $uid) {    
-            (new self)->sendFailedResponse([], "Oops, sepertinya anda harus login ulang");
-        }
-        $user = UserRepository::authenticate($user, $token, $fcm_token, $phone, $uid);
+        $user = UserRepository::authenticate($user, $token, $fcm_token, $uuid);
         return $user;
     }
-
-    public static function loginByEmail($user, $fcm_token = '', $password = '') {
+    
+    public static function loginByEmail($user, $fcm_token = '', $email = '',$uuid = '') {
         if($user == null) (new self)->sendFailedResponse([], "Sepertinya akun anda belum terdaftar");
         $token = self::generateToken($user);
-        $user = UserRepository::authenticate($user, $token, $fcm_token);
+        $user = UserRepository::authenticate($user, $token, $fcm_token, $uuid);
         return $user;
     }
     

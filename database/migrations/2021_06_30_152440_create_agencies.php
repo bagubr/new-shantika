@@ -16,9 +16,15 @@ class CreateAgencies extends Migration
         Schema::create('agencies', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('city_id');
+            $table->unsignedBigInteger('city_id');
             $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('city_id')
+            ->references('id')
+            ->on('cities')
+            ->onUpdate('CASCADE')
+            ->onDelete('RESTRICT');
         });
     }
 
