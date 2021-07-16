@@ -19,7 +19,6 @@ class CreateChats extends Migration
             $table->string('value')->nullable();
             $table->string('type')->nullable();
             $table->string('icon')->nullable();
-            $table->string('role')->nullable();
             $table->timestamps();
         });
     }
