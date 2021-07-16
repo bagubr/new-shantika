@@ -62,9 +62,9 @@ class SliderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Slider $slider)
     {
-        //
+        return view('slider.create', compact('slider'));
     }
 
     /**
@@ -74,9 +74,18 @@ class SliderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CreateSliderRequest $request, Slider $slider)
     {
-        //
+        $data = $request->all();
+        if ($request->hasFile('image')) {
+            $image = $request->image->store('slider_image', 'public');
+            $slider->deleteImage();
+            $data['image'] = $image;
+        };
+        $slider->update($data);
+
+        session()->flash('success', 'Slider Berhasil Diperbarui');
+        return redirect(route('slider.index'));
     }
 
     /**

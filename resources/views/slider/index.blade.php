@@ -48,7 +48,7 @@ Slider
                                 <tr>
                                     <td>{{$slider->name}}</td>
                                     <td><img src="{{$slider->image}}" height="100px" alt=""></td>
-                                    <td>{{$slider->description}}</td>
+                                    {{-- <td>{!!$slider->description!!}</td> --}}
                                     <td>{{$slider->type}}</td>
                                     <td><a href="{{route('slider.edit',$slider->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>

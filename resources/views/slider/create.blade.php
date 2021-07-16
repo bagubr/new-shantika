@@ -55,15 +55,19 @@ Slider
                         <div class="form-group">
                             <label>Deskripsi</label>
                             <textarea id="summernote" name="description">
-
+                                {{isset($slider) ? $slider->description : ''}}
                             </textarea>
                         </div>
                         <div class="form-group">
                             <label>Tipe</label>
                             <select name="type" class="form-control">
-                                <option value="">Pilih Tipe</option>
+                                <option value="{{isset($slider) ? $slider->type : ''}}">
+                                    {{isset($slider) ? $slider->type : ''}}</option>
+                                @if ($slider->type == "AGENT")
+                                <option value="CUST">CUST</option>
+                                @else
                                 <option value="AGENT">AGENT</option>
-                                <option value="CUST">CUSTOMER</option>
+                                @endif
                             </select>
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
