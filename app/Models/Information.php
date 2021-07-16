@@ -13,8 +13,12 @@ class Information extends Model
     protected $table = 'informations';
     protected $fillable = ['name', 'address', 'description', 'image'];
 
+    public function getImageAttribute($value)
+    {
+        return url('storage/' . $value);
+    }
     public function deleteImage()
     {
-        Storage::disk('public')->delete($this->image);
+        Storage::disk('public')->delete($this->attributes['image']);
     }
 }
