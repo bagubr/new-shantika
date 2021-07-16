@@ -30,6 +30,7 @@ class RouteSeeder extends Seeder
                 'arrived_at'    =>date('H:i:s', strtotime($departure_at) + 60 * (60 * $faker->randomDigit())),
                 'price'         =>$faker->numberBetween(50000, 500000)
             ]);
+            $checkpoints = '';
             for($i = 0; $i <= $faker->randomDigit(); $i++) {
                 $checkpoint = Checkpoint::create([
                     'route_id'  =>$route->id,
@@ -37,10 +38,10 @@ class RouteSeeder extends Seeder
                     'agency_id' =>Agency::inRandomOrder()->first()->id,
                     'order'     =>$i
                 ]);
-                $checkpoint .= '~'.$checkpoint->agency()->first()->name.'~';
+                $checkpoints .= '~'.$checkpoint->agency()->first()->name.'~';
             }
             $route->update([
-                'name' => $checkpoint,
+                'name' => $checkpoints,
             ]);
         }
     }

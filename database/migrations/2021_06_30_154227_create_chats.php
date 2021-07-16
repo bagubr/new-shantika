@@ -17,9 +17,8 @@ class CreateChats extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->string('value')->nullable();
-            $table->string('type')->nullable();
+            $table->enum('type', ['AGENT', 'CUST'])->nullable();
             $table->string('icon')->nullable();
-            $table->string('role')->nullable();
             $table->timestamps();
         });
     }

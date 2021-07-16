@@ -10,4 +10,14 @@ class ChatRepository
     {
         return Chat::orderBy('id', 'desc')->get();
     }
+
+    public static function getAllAgent()
+    {
+        return Chat::whereType('AGENT')->get();
+    }
+    
+    public static function getAllCust()
+    {
+        return Chat::whereType('CUST')->get();
+    }
 }

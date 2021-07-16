@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Layout;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class UpdateLayoutRequest extends FormRequest
 {
@@ -17,9 +18,9 @@ class UpdateLayoutRequest extends FormRequest
             'name'=>'required',
             'col'=>'required|numeric',
             'row'=>'required|numeric',
-            'space_indexes'=>'required|array',
-            'toilet_indexes'=>'required|array',
-            'door_indexes'=>'required|array',
+            'space_indexes'=>'nullable|array',
+            'toilet_indexes'=>'nullable|array',
+            'door_indexes'=>'nullable|array',
             'chair_indexes'=>'required|array',
             'note'=>'string|nullable',
         ];

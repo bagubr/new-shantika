@@ -5,10 +5,10 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'prefix'    => 'agen',
 ],function() {
-    Route::post('login', 'AuthController@loginEmail');
-    Route::post('login/phone', 'AuthController@loginPhone');
-    Route::post('login/uid', 'AuthController@loginUid');
-
+    Route::group(['namespace'=>'Agent'], function() {
+        Route::post('login/email', 'AuthController@loginEmail');
+        Route::post('login/phone', 'AuthController@loginPhone');
+    });
     
     Route::group([
         'middleware'=> 'api.auth.agent',
@@ -20,7 +20,8 @@ Route::group([
         Route::get('kelas_armada', 'FleetClassController@index');
 
         Route::group(['namespace'=>'Agent'], function() {
-
+            Route::get('profile', 'UserController@show');
+            Route::post('update', 'UserController@update');
         });
     });
 });
