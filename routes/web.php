@@ -13,6 +13,7 @@ use App\Http\Controllers\InformationController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\RoutesController;
+use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -49,6 +50,7 @@ Route::group(['middleware' => ['auth']], function () {
         'chat' => ChatController::class,
         'checkpoint' => CheckpointController::class,
         'facility' => FacilityController::class,
-        'customer_menu' => CustomerMenuController::class
+        'customer_menu' => CustomerMenuController::class,
+        'slider' => SliderController::class
     ]);
 });

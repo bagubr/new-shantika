@@ -78,7 +78,7 @@
                 <li class="nav-item">
                     <a href="{{route('agency.index')}}"
                         class="nav-link {{Request::routeIs('agency.*') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-user-secret"></i>
+                        <i class="nav-icon fas fa-street-view"></i>
                         <p>
                             Agent
                         </p>
@@ -125,6 +125,15 @@
                         <i class="nav-icon fas fa-handshake"></i>
                         <p>
                             Kebijakan Privasi
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('slider.index')}}"
+                        class="nav-link {{Request::routeIs('slider.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-handshake"></i>
+                        <p>
+                            Slider
                         </p>
                     </a>
                 </li>
