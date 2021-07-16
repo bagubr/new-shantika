@@ -15,6 +15,6 @@ Route::group([
     Route::get('cities', 'CityController@index');
     Route::get('agencies', 'AgencyController@index');
 
-    Route::group(base_path('routes/Factory/Api/v1/Agen/index.php'));
-    Route::group(base_path('routes/Factory/Api/v1/Customer/index.php'));
+    Route::group([],base_path('routes/Factory/Api/v1/Agen/index.php'));
+    Route::group([],base_path('routes/Factory/Api/v1/Customer/index.php'));
 });
