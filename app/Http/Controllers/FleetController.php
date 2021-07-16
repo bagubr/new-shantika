@@ -46,7 +46,7 @@ class FleetController extends Controller
         $data['image'] = $request->image->store('image', 'public');
 
         Fleet::create($data);
-        session()->flash('success', 'Fleet Created Successfully');
+        session()->flash('success', 'Armada Berhasil Ditambahkan');
         return redirect(route('fleets.index'));
     }
 
@@ -90,7 +90,7 @@ class FleetController extends Controller
             $data['image'] = $image;
         };
         $fleet->update($data);
-        session()->flash('success', 'Fleet Updated Successfully');
+        session()->flash('success', 'Armada Berhasil Diperbarui');
         return redirect(route('fleets.index'));
     }
 
@@ -106,10 +106,10 @@ class FleetController extends Controller
         if ($fleet->trashed()) {
             $fleet->deleteImage();
             $fleet->forceDelete();
-            session()->flash('success', 'Fleet Deleted Successfully');
+            session()->flash('success', 'Armada Berhasil Dihapus');
         } else {
             $fleet->delete();
-            session()->flash('success', 'Fleet Trashed Successfully');
+            session()->flash('success', 'Armada Berhasil Diarsip');
         }
         return redirect(route('fleets.index'));
     }

@@ -28,7 +28,7 @@ Layout
                     <div class="card-header">
                         <h3 class="card-title">Table Layout</h3>
                         <div class="text-right">
-                            <a href="{{route('layouts.create')}}" class="btn btn-primary btn-sm">Create</a>
+                            <a href="{{route('layouts.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -36,7 +36,7 @@ Layout
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
+                                    <th>Nama</th>
                                 </tr>
                             </thead>
                             <tbody>

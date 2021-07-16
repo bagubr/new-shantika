@@ -32,8 +32,8 @@ Route
                 </div>
                 <div class="card-body" style="display: block;">
                     <div class="form-group">
-                        <label>Route Name</label>
-                        <input type="text" class="form-control" name="name" placeholder="Enter Name"
+                        <label>Route Nama</label>
+                        <input type="text" class="form-control" name="name" placeholder="Masukkan Nama"
                             value="{{$route->name}}" disabled>
                     </div>
                     <div class="form-group">
@@ -57,9 +57,9 @@ Route
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Price</label>
-                        <input type="number" name="price" class="form-control" placeholder="Enter Price"
-                            value="{{$route->price}}" disabled>
+                        <label>Harga</label>
+                        <input type="number" name="Harga" class="form-control" placeholder="Masukkan Harga"
+                            value="{{$route->Harga}}" disabled>
                     </div>
                 </div>
                 <!-- /.card-body -->
@@ -82,9 +82,9 @@ Route
                         @csrf
                         <input type="hidden" value="{{$route->id}}" name="route_id">
                         <div class="form-group">
-                            <label>Agency</label>
+                            <label>Agen</label>
                             <select class="form-control select2" name="agency_id" style="width: 100%;">
-                                <option value="">Select Agency</option>
+                                <option value="">Pilih Agen</option>
                                 @foreach ($agencies as $agency)
                                 <option value="{{$agency->id}}">
                                     {{$agency->name}}
@@ -121,9 +121,9 @@ Route
                 <thead>
                     <tr>
                         <th>Order</th>
-                        <th>Agency</th>
+                        <th>Agen</th>
                         <th>Arrived At</th>
-                        <th>Action</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -1,18 +1,18 @@
 @extends('layouts.main')
 @section('title')
-Fleet
+Armada
 @endsection
 @section('content')
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Fleet Form</h1>
+                <h1>Armada Form</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Fleet</li>
+                    <li class="breadcrumb-item active">Armada</li>
                 </ol>
             </div>
         </div>
@@ -41,19 +41,19 @@ Fleet
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label for="inputName">Fleet Name</label>
-                            <input type="text" id="inputName" class="form-control" name="name" placeholder="Enter Name"
-                                value="{{isset($fleet) ? $fleet->name : ''}}">
+                            <label for="inputName">Nama Armada</label>
+                            <input type="text" id="inputName" class="form-control" name="name"
+                                placeholder="Masukkan Nama" value="{{isset($fleet) ? $fleet->name : ''}}">
                         </div>
                         <div class="form-group">
-                            <label>Description</label>
+                            <label>Deskripsi</label>
                             <textarea class="form-control" rows="3" name="description"
-                                placeholder="Enter Description">{{isset($fleet) ? $fleet->description : ''}}</textarea>
+                                placeholder="Masukkan Deskripsi">{{isset($fleet) ? $fleet->description : ''}}</textarea>
                         </div>
                         <div class="form-group">
-                            <label>Fleet Layout</label>
+                            <label>Armada Layout</label>
                             <select class="form-control select2" name="layout_id" style="width: 100%;">
-                                <option value="">Select Fleet Layout</option>
+                                <option value="">Pilih Armada Layout</option>
                                 @foreach ($layouts as $layout)
                                 <option value="{{$layout->id}}" @isset($fleet) @if ($layout->id ===
                                     $fleet->layout_id)
@@ -64,9 +64,9 @@ Fleet
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Fleet Class</label>
+                            <label>Kelas Armada</label>
                             <select class="form-control select2" name="fleet_class_id" style="width: 100%;">
-                                <option value="">Select Fleet Class</option>
+                                <option value="">Pilih Kelas Armada</option>
                                 @foreach ($fleetclasses as $fleetclass)
                                 <option value="{{$fleetclass->id}}" @isset($fleet) @if ($fleetclass->id ===
                                     $fleet->fleet_class_id)
@@ -77,11 +77,11 @@ Fleet
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="">Image</label>
+                            <label for="">Gambar</label>
                             <input type="file" accept="image/*" class="form-control" name="image">
                         </div>
-                        <a href="{{URL::previous()}}" class="btn btn-secondary">Cancel</a>
-                        <input type="submit" value="Create new Porject" class="btn btn-success float-right">
+                        <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
+                        <input type="submit" value="Tambah" class="btn btn-success float-right">
                     </form>
                 </div>
                 <!-- /.card-body -->

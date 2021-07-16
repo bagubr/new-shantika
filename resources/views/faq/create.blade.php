@@ -40,16 +40,16 @@ FAQ
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label>Question</label>
+                            <label>Pertanyaan</label>
                             <textarea class="form-control" rows="3" name="question"
-                                placeholder="Enter Question">{{isset($faq) ? $faq->question : ''}}</textarea>
+                                placeholder="Masukkan Pertanyaan">{{isset($faq) ? $faq->question : ''}}</textarea>
                         </div>
                         <div class="form-group">
-                            <label>Answer</label>
+                            <label>Jawaban</label>
                             <textarea class="form-control" rows="3" name="answer"
-                                placeholder="Enter Answer">{{isset($faq) ? $faq->answer : ''}}</textarea>
+                                placeholder="Masukkan Jawaban">{{isset($faq) ? $faq->answer : ''}}</textarea>
                         </div>
-                        <a href="{{URL::previous()}}" class="btn btn-secondary">Cancel</a>
+                        <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
                 </div>

@@ -42,7 +42,7 @@ class InformationController extends Controller
         $data = $request->all();
         $data['image'] = $request->image->store('information', 'public');
         Information::create($data);
-        session()->flash('success', 'Information Created Successfully');
+        session()->flash('success', 'Information Berhasil Ditambahkan');
         return redirect(route('information.index'));
     }
 
@@ -84,7 +84,7 @@ class InformationController extends Controller
             $data['image'] = $image;
         }
         $information->update($data);
-        session()->flash('success', 'Information Updated Successfully');
+        session()->flash('success', 'Information Berhasil Diperbarui');
         return redirect(route('information.index'));
     }
 
@@ -99,7 +99,7 @@ class InformationController extends Controller
         $information = InformationRepository::deleteId($id);
         $information->deleteImage();
         $information->delete();
-        session()->flash('success', 'Information Deleted Successfully');
+        session()->flash('success', 'Information Berhasil Dihapus');
         return redirect(route('information.index'));
     }
 }

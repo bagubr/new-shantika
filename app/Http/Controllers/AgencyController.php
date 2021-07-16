@@ -43,7 +43,7 @@ class AgencyController extends Controller
     {
         $data = $request->all();
         Agency::create($data);
-        session()->flash('success', 'Agency Created Successfully');
+        session()->flash('success', 'Agency Berhasil Ditambahkan');
         return redirect(route('agency.index'));
     }
 
@@ -81,7 +81,7 @@ class AgencyController extends Controller
     {
         $data = $request->all();
         $agency->update($data);
-        session()->flash('success', 'Agency Updated Successfully');
+        session()->flash('success', 'Agency Berhasil Diperbarui');
         return redirect(route('agency.index'));
     }
 
@@ -94,7 +94,7 @@ class AgencyController extends Controller
     public function destroy(Agency $agency)
     {
         $agency->delete();
-        session()->flash('success', 'Agency Deleted Successfully');
+        session()->flash('success', 'Agency Berhasil Dihapus');
         return redirect(route('agency.index'));
     }
 }

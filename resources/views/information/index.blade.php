@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Information
+Informasi
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->
@@ -8,12 +8,12 @@ Information
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Information</h1>
+                <h1 class="m-0">Informasi</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Information</li>
+                    <li class="breadcrumb-item active">Informasi</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -26,9 +26,9 @@ Information
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Information</h3>
+                        <h3 class="card-title">Table Informasi</h3>
                         <div class="text-right">
-                            <a href="{{route('information.create')}}" class="btn btn-primary btn-sm">Create</a>
+                            <a href="{{route('information.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -36,9 +36,9 @@ Information
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Image</th>
-                                    <th>Action</th>
+                                    <th>Nama</th>
+                                    <th>Gambar</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>

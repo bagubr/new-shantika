@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Privacy Policy
+Kebijakan Privasi
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->
@@ -8,12 +8,12 @@ Privacy Policy
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Privacy Policy</h1>
+                <h1 class="m-0">Kebijakan Privasi</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Privacy Policy</li>
+                    <li class="breadcrumb-item active">Kebijakan Privasi</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -26,9 +26,9 @@ Privacy Policy
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Privacy Policy</h3>
+                        <h3 class="card-title">Table Kebijakan Privasi</h3>
                         <div class="text-right">
-                            <a href="{{route('privacy_policy.create')}}" class="btn btn-primary btn-sm">Create</a>
+                            <a href="{{route('privacy_policy.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -36,9 +36,9 @@ Privacy Policy
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Content</th>
-                                    <th>Action</th>
+                                    <th>Nama</th>
+                                    <th>Konten</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
