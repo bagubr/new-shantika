@@ -1,8 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="{{route('dashboard')}}" class="brand-link">
-        <img src="{{asset('dist/img/AdminLTELogo.png')}}" alt="New Shantika" class="brand-image img-circle elevation-3"
-            style="opacity: .8">
+    <a href="{{route('dashboard')}}" class="brand-link text-center">
         <span class="brand-text font-weight-light">New Shantika</span>
     </a>
 
@@ -32,7 +30,7 @@
                     <a href="#" class="nav-link {{Request::routeIs('fleets.*','fleetclass.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-bus"></i>
                         <p>
-                            Fleet
+                            Armada
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -41,14 +39,14 @@
                             <a href="{{route('fleets.index')}}"
                                 class="nav-link {{Request::routeIs('fleets.*') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Fleets</p>
+                                <p>Armada</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{route('fleetclass.index')}}"
                                 class="nav-link {{Request::routeIs('fleetclass.*') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Fleet Classes</p>
+                                <p>Kelas Armada</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -65,7 +63,7 @@
                         class="nav-link {{Request::routeIs('routes.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-route"></i>
                         <p>
-                            Routes
+                            Rute
                         </p>
                     </a>
                 </li>
@@ -82,7 +80,7 @@
                         class="nav-link {{Request::routeIs('agency.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-user-secret"></i>
                         <p>
-                            Agency
+                            Agent
                         </p>
                     </a>
                 </li>
@@ -91,7 +89,7 @@
                         class="nav-link {{Request::routeIs('information.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-info"></i>
                         <p>
-                            Information
+                            Informasi
                         </p>
                     </a>
                 </li>
@@ -100,7 +98,7 @@
                         class="nav-link {{Request::routeIs('facility.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-sign"></i>
                         <p>
-                            Facilities
+                            Fasilitas
                         </p>
                     </a>
                 </li>
@@ -109,7 +107,7 @@
                         class="nav-link {{Request::routeIs('customer_menu.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-bars"></i>
                         <p>
-                            Customer Menus
+                            Menu Pengguna
                         </p>
                     </a>
                 </li>
@@ -126,7 +124,7 @@
                         class="nav-link {{Request::routeIs('privacy_policy.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-handshake"></i>
                         <p>
-                            Privacy Policy
+                            Kebijakan Privasi
                         </p>
                     </a>
                 </li>
@@ -135,7 +133,7 @@
                     document.getElementById('logout-form').submit();" class="nav-link">
                         <i class="nav-icon fas fa-door-open"></i>
                         <p>
-                            Logout
+                            Keluar
                         </p>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf

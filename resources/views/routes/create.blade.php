@@ -79,7 +79,7 @@ Route
                             <input type="number" name="price" class="form-control" placeholder="Enter Price"
                                 value="{{isset($route) ? $route->price : ''}}">
                         </div>
-                        <a href="{{URL::previous()}}" class="btn btn-secondary">Cancel</a>
+                        <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
                 </div>

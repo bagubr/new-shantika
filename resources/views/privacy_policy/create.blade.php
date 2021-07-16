@@ -49,7 +49,7 @@ Privacy Policy
                             <textarea class="form-control" rows="3" name="content"
                                 placeholder="Enter Content">{{isset($privacy_policy) ? $privacy_policy->content : ''}}</textarea>
                         </div>
-                        <a href="{{URL::previous()}}" class="btn btn-secondary">Cancel</a>
+                        <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
                 </div>

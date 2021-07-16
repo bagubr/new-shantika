@@ -50,7 +50,7 @@ Customer Menu
                             <input type="file" class="form-control" name="icon" accept="image/*"
                                 value="{{isset($customer_menu) ? $customer_menu->icon : ''}}">
                         </div>
-                        <a href="{{URL::previous()}}" class="btn btn-secondary">Cancel</a>
+                        <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
                 </div>

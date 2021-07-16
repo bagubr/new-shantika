@@ -28,7 +28,7 @@ Information
                     <div class="card-header">
                         <h3 class="card-title">Table Information</h3>
                         <div class="text-right">
-                            <a href="{{route('information.create')}}" class="btn btn-primary btn-sm">Create</a>
+                            <a href="{{route('information.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
                     </div>
                     <!-- /.card-header -->

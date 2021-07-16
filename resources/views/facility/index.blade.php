@@ -28,7 +28,7 @@ Facility
                     <div class="card-header">
                         <h3 class="card-title">Table Facility</h3>
                         <div class="text-right">
-                            <a href="{{route('facility.create')}}" class="btn btn-primary btn-sm">Create</a>
+                            <a href="{{route('facility.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -46,7 +46,8 @@ Facility
                                 <tr>
                                     <td>{{ $facility->name }}</td>
                                     <td class="text-center">
-                                        <img src="{{ $facility->image }}" class="img-thumbnail" style="max-height: 100px" alt="">
+                                        <img src="{{ $facility->image }}" class="img-thumbnail"
+                                            style="max-height: 100px" alt="">
                                     </td>
                                     <td>
                                         <a href="{{route('facility.edit',$facility->id)}}"

@@ -65,7 +65,7 @@ Chat
                             <input type="text" class="form-control" name="role" placeholder="Enter Role"
                                 value="{{isset($chat) ? $chat->icon : ''}}">
                         </div>
-                        <a href="{{URL::previous()}}" class="btn btn-secondary">Cancel</a>
+                        <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
                 </div>

@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Fleet
+Armada
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->
@@ -8,12 +8,12 @@ Fleet
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Fleet</h1>
+                <h1 class="m-0">Armada</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Fleet</li>
+                    <li class="breadcrumb-item active">Armada</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -26,9 +26,9 @@ Fleet
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Fleet</h3>
+                        <h3 class="card-title">Table Armada</h3>
                         <div class="text-right">
-                            <a href="{{route('fleets.create')}}" class="btn btn-primary btn-sm">Create</a>
+                            <a href="{{route('fleets.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -37,8 +37,8 @@ Fleet
                             <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Fleet Class</th>
-                                    <th>Image</th>
+                                    <th>Kelas Armada</th>
+                                    <th>Gambar</th>
                                     <th>Layout</th>
                                     <th>Action</th>
                                 </tr>

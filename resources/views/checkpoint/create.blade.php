@@ -60,7 +60,7 @@ Checkpoint
                             <label for="">Image</label>
                             <input type="file" accept="image/*" class="form-control" name="image">
                         </div>
-                        <a href="{{URL::previous()}}" class="btn btn-secondary">Cancel</a>
+                        <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
                 </div>

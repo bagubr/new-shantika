@@ -49,7 +49,7 @@ FAQ
                             <textarea class="form-control" rows="3" name="answer"
                                 placeholder="Enter Answer">{{isset($faq) ? $faq->answer : ''}}</textarea>
                         </div>
-                        <a href="{{URL::previous()}}" class="btn btn-secondary">Cancel</a>
+                        <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
                 </div>

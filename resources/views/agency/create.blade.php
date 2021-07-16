@@ -59,7 +59,7 @@ Agency
                             </select>
                             {{-- <span><a href="{{route('fleets.create')}}">Add Fleet</a></span> --}}
                         </div>
-                        <a href="{{URL::previous()}}" class="btn btn-secondary">Cancel</a>
+                        <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
                 </div>

@@ -49,7 +49,7 @@ Facility
                             <label>Gambar</label>
                             <input type="file" name="image" class="form-control" alt="">
                         </div>
-                        <a href="{{URL::previous()}}" class="btn btn-secondary">Cancel</a>
+                        <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
                 </div>

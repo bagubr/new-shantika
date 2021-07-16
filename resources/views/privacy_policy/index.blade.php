@@ -28,7 +28,7 @@ Privacy Policy
                     <div class="card-header">
                         <h3 class="card-title">Table Privacy Policy</h3>
                         <div class="text-right">
-                            <a href="{{route('privacy_policy.create')}}" class="btn btn-primary btn-sm">Create</a>
+                            <a href="{{route('privacy_policy.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
                     </div>
                     <!-- /.card-header -->
