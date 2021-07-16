@@ -41,7 +41,7 @@ class PrivacyPolicyController extends Controller
     {
         $data = $request->all();
         PrivacyPolicy::create($data);
-        session()->flash('success', 'Privacy Policy Created Successfully');
+        session()->flash('success', 'Privacy Policy Berhasil Ditambahkan');
         return redirect(route('privacy_policy.index'));
     }
 
@@ -78,7 +78,7 @@ class PrivacyPolicyController extends Controller
     {
         $data = $request->all();
         $privacy_policy->update($data);
-        session()->flash('success', 'Privacy Policy Updated Successfully');
+        session()->flash('success', 'Privacy Policy Berhasil Diperbarui');
         return redirect(route('privacy_policy.index'));
     }
 
@@ -91,7 +91,7 @@ class PrivacyPolicyController extends Controller
     public function destroy(PrivacyPolicy $privacy_policy)
     {
         $privacy_policy->delete();
-        session()->flash('success', 'Privacy Policy Deleted Successfully');
+        session()->flash('success', 'Privacy Policy Berhasil Dihapus');
         return redirect(route('privacy_policy.index'));
     }
 }

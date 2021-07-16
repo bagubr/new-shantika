@@ -40,7 +40,7 @@ class ChatController extends Controller
     {
         $data = $request->all();
         Chat::create($data);
-        session()->flash('success', 'Chat Created Successfully');
+        session()->flash('success', 'Chat Berhasil Ditambahkan');
         return redirect(route('chat.index'));
     }
 
