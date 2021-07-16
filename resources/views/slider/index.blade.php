@@ -39,7 +39,6 @@ Slider
                                     <th>Nama</th>
                                     <th>Gambar</th>
                                     <th>Deskripsi</th>
-                                    <th>Tipe</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>

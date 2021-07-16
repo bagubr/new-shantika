@@ -94,8 +94,11 @@ class SliderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Slider $slider)
     {
-        //
+        $slider->deleteImage();
+        $slider->delete();
+        session()->flash('success', 'Slider Berhasil Dihapus');
+        return redirect(route('slider.index'));
     }
 }
