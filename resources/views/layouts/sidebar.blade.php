@@ -148,7 +148,7 @@
                 <li class="nav-item">
                     <a href="{{route('testimoni.index')}}"
                         class="nav-link {{Request::routeIs('testimoni.*') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-users"></i>
+                        <i class="nav-icon fas fa-quote-left"></i>
                         <p>
                             Testimoni
                         </p>
