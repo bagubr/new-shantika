@@ -15,13 +15,13 @@ class User extends Authenticatable
         'name',
         'email',
         'phone',
-        'email',
         'avatar',
-        'password',
         'token',
         'fcm_token',
         'birth',
-        'uid'
+        'birth_place',
+        'gender',
+        'uuid'
     ];
 
     protected $hidden = [

@@ -24,9 +24,9 @@ class LayoutSeeder extends Seeder
                 'name'          =>$faker->sentence($nbWords = 1, $variableNbWords = true),
                 'row'           =>$faker->randomElement($array = array (5, 4)),
                 'col'           =>$faker->randomElement($array = array (8, 9, 7)),
-                'space_indexes' =>json_encode($faker->randomElements($array, $count = 3)),
-                'toilet_indexes'=>json_encode($faker->randomElements($array, $count = 1)),
-                'door_indexes'  =>json_encode($faker->randomElements($array, $count = 1)),
+                'space_indexes' =>$faker->randomElements($array, $count = 3),
+                'toilet_indexes'=>$faker->randomElements($array, $count = 1),
+                'door_indexes'  =>$faker->randomElements($array, $count = 1),
                 'note'          =>$faker->sentence($nbWords = 6, $variableNbWords = true)
             ]);
             $count = $layout->col * $layout->row;

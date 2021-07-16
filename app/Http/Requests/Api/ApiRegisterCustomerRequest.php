@@ -16,12 +16,14 @@ class ApiRegisterCustomerRequest extends ApiRequest
     public function rules()
     {
         return [
-            'name'=>'required',
-            'phone'=>'required|unique:users,phone',
-            'email'=>'required|unique:users,email',
-            'avatar'=>'nullable',
-            'password'=>'required|min:6|max:16',
-            'birth'=>'nullable|date'
+            'name'          =>'required',
+            'phone'         =>'required|unique:users,phone',
+            'email'         =>'required|unique:users,email|email:rfc,dns',
+            'avatar'        =>'nullable',
+            'birth'         =>'required|date',
+            'birth_place'   =>'required|string',
+            'gender'        =>'required|in:Male,Female',
+            'uuid'          =>'required'
         ];
     }
 }

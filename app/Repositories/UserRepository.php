@@ -17,14 +17,15 @@ class UserRepository {
         return User::where('email', $email)->first();
     }
 
-    public static function authenticate(User|null $user, $token, $fcm_token = '', $phone = '', $uid = '') { 
-        if($user == null) {
-            $user = self::findByPhone($phone);
-        }
+    public static function getAll() {
+        return User::all();
+    }
+
+    public static function authenticate(User $user, $token, $fcm_token = '', $uuid = '') { 
         $user->update([
             'token'=>$token['token'],
             'fcm_token'=>$fcm_token,
-            'uid'=>$uid
+            'uuid'=>$uuid
         ]);
         return $user;
     }

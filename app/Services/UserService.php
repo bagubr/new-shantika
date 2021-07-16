@@ -11,7 +11,7 @@ class UserService {
     public static function register(array $data) {
         Image::uploadFile($data['avatar'], 'avatar');
         $user = User::create($data);
-        $user = AuthService::login($user, null, null, $data['uid']);
+        $user = AuthService::login($user, null, null, $data['uuid']);
         return $user;
     }
 

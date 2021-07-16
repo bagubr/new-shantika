@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group([
 ], function() {
+    Route::post('checkUuid', 'AuthController@checkUuid');
     Route::get('privacy_policy', 'PrivacyPolicyController@index');
     Route::get('informations', 'InformationController@index');
     Route::get('social_media', 'SocialMediaController@index');

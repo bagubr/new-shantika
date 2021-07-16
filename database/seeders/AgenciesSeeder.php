@@ -111,10 +111,10 @@ class AgenciesSeeder extends Seeder
                     'phone' => $faker->e164PhoneNumber,
                     'email' => $faker->email,
                     'avatar' => '',
-                    'password' => Hash::make('12345678'),
                     'token' => $faker->regexify('[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}'),
                     'fcm_token' => $faker->sha256,
                     'birth' => $faker->date($format = 'Y-m-d', $max = 'now'),
+                    'gender' => $faker->randomElement($array = array ('Male', 'Female')),
                 ]);
                 UserAgent::create([
                     'user_id'    => $user->id,

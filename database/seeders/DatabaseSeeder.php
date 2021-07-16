@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call([FleetSeeder::class]);
         $this->call([RouteSeeder::class]);
         $this->call([CustomerMenuSeeder::class]);
+        $this->call([SliderSeeder::class]);
     }
 }
