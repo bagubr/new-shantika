@@ -2,6 +2,14 @@
 @section('title')
     Layout Armada
 @endsection
+@section('css')
+<style>
+    .box {
+        width: 5rem;
+        margin: 3px;
+    }
+</style>
+@endsection
 @section('content')
 <div class="content-header">
     <div class="container-fluid">
@@ -95,15 +103,17 @@
                 </div>
             </div>
             <div class="col-12 col-md-4">
-                <template x-for="r in layout.row">
-                    <div class="row">
-                        <template x-for="c in layout.col">
-                            <div :class="setClass(r,c, $el)" :id="getIndex(r,c)" x-on:dblclick="addData($el)" contenteditable="true" x-text="getText($el)"> 
-                            </div>
-                        </template>
-                    </div>
-                    <br>
-                </template>
+                <div class="container-fluid" style="overflow: scroll">
+                    <template x-for="r in layout.row">
+                        <div class="d-flex">
+                            <template x-for="c in layout.col">
+                                <div :class="setClass(r,c, $el)" :id="getIndex(r,c)" x-on:dblclick="addData($el)" contenteditable="true" x-text="getText($el)"> 
+                                </div>
+                            </template>
+                        </div>
+                        <br>
+                    </template>
+                </div>
             </div>
             <div class="col-12 col-md-2">
                 <template x-for="(f, focusIndex) in focuses">
@@ -189,7 +199,7 @@
                 return (((row - 1) * this.layout.col) + col) - 1
             },
             setButtonClass(string = '', id = null) {
-                let classes = 'text-capitalize col m-1 btn btn-' + string
+                let classes = 'text-capitalize box btn btn-' + string
                 if(id != null) {
                     document.getElementById(id).removeAttribute('class')
                     document.getElementById(id).setAttribute('class', classes)
@@ -233,7 +243,8 @@
                 return classes
             },
             addData(el) {
-                let index = el.id
+                let index = parseInt(el.id)
+                el.innerText = ''
                 if(this.layout.toilet_indexes.includes(index) 
                 || this.layout.door_indexes.includes(index)
                 || this.layout.space_indexes.includes(index)) {
@@ -271,13 +282,19 @@
                 for(let i=0;i <= total_indexes;i++) {
                     arr.push(i)
                 }
-                arr = arr.filter(e => !this.layout.space_indexes.includes(e))
-                    .filter(e => !this.layout.toilet_indexes.includes(e))
-                    .filter(e => !this.layout.door_indexes.includes(e))
                 arr = arr.map((e, i) => {
-                    return {
-                        name: document.getElementById(e).innerText || i + 1,
-                        index: e
+                    if(this.layout.space_indexes.includes(e) 
+                        && this.layout.toilet_indexes.includes(e)
+                        && this.layout.door_indexes.includes(e)) {
+                        return {
+                            name: ' ',
+                            index: e
+                        }
+                    } else {
+                        return {
+                            name: document.getElementById(e)?.innerText || ' ',
+                            index: e
+                        }
                     }
                 })
                 this.formData = {
@@ -314,13 +331,19 @@
                 for(let i=0;i <= total_indexes;i++) {
                     arr.push(i)
                 }
-                arr = arr.filter(e => !this.layout.space_indexes.includes(e))
-                    .filter(e => !this.layout.toilet_indexes.includes(e))
-                    .filter(e => !this.layout.door_indexes.includes(e))
                 arr = arr.map((e, i) => {
-                    return {
-                        name: document.getElementById(e).innerText || i + 1,
-                        index: e
+                    if(this.layout.space_indexes.includes(e) 
+                        && this.layout.toilet_indexes.includes(e)
+                        && this.layout.door_indexes.includes(e)) {
+                        return {
+                            name: ' ',
+                            index: e
+                        }
+                    } else {
+                        return {
+                            name: document.getElementById(e)?.innerText || ' ',
+                            index: e
+                        }
                     }
                 })
                 this.formData = {
