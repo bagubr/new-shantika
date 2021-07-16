@@ -131,9 +131,17 @@
                 <li class="nav-item">
                     <a href="{{route('slider.index')}}"
                         class="nav-link {{Request::routeIs('slider.*') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-handshake"></i>
+                        <i class="nav-icon fas fa-sliders-h"></i>
                         <p>
                             Slider
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('user.index')}}" class="nav-link {{Request::routeIs('user.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Users
                         </p>
                     </a>
                 </li>

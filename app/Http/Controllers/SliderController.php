@@ -26,7 +26,8 @@ class SliderController extends Controller
      */
     public function create()
     {
-        return view('slider.create');
+        $types = ['CUST', 'AGENT'];
+        return view('slider.create', compact('types'));
     }
 
     /**
@@ -64,7 +65,8 @@ class SliderController extends Controller
      */
     public function edit(Slider $slider)
     {
-        return view('slider.create', compact('slider'));
+        $types = ['CUST', 'AGENT'];
+        return view('slider.create', compact('slider', 'types'));
     }
 
     /**
