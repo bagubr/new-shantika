@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\LayoutRepository;
 use Illuminate\Http\Request;
-
-class LayoutController extends Controller
-{
-    public function index(Request $request)
+use App\Repositories\ArticleRepository;
+class ArticleController extends Controller
+{   
+    public function articleDetail($id)
     {
-        $data = LayoutRepository::findWithChairs($request->id);
+        $data = ArticleRepository::findById($id);
         
         $this->sendSuccessResponse([
             'data'=>$data

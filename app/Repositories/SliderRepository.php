@@ -14,5 +14,10 @@ class SliderRepository {
         return Slider::whereType('AGENT')->orderBy('id', 'desc')->get();
     }
 
+    public static function findById($id)
+    {
+        return Slider::find($id);
+    }
+
 }
         

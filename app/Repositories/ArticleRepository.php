@@ -8,5 +8,10 @@ class ArticleRepository {
     {
         return Article::orderBy('id', 'desc')->get();
     }
+
+    public static function findById($id)
+    {
+        return Article::find($id);
+    }
 }
         

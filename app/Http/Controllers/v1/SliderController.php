@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\LayoutRepository;
 use Illuminate\Http\Request;
+use App\Repositories\SliderRepository;
 
-class LayoutController extends Controller
+class SliderController extends Controller
 {
-    public function index(Request $request)
+    public function sliderDetail($id)
     {
-        $data = LayoutRepository::findWithChairs($request->id);
+        $data = SliderRepository::findById($id);
         
         $this->sendSuccessResponse([
             'data'=>$data
