@@ -28,6 +28,7 @@ class UsersSeeder extends Seeder
                 'fcm_token' => $faker->sha256,
                 'birth' => $faker->date($format = 'Y-m-d', $max = 'now'),
                 'gender' => $faker->randomElement($array = array ('Male', 'Female')),
+                'address' => $faker->address,
             ]);
             NotificationSetting::create([
                 'user_id' => $user->id,
