@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Agency
+Agen
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->
@@ -8,12 +8,12 @@ Agency
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Agency</h1>
+                <h1 class="m-0">Agen</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Agency</li>
+                    <li class="breadcrumb-item active">Agen</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -26,7 +26,7 @@ Agency
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Agency</h3>
+                        <h3 class="card-title">Table Agen</h3>
                         <div class="text-right">
                             <a href="{{route('agency.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
@@ -36,9 +36,9 @@ Agency
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>City</th>
-                                    <th>Action</th>
+                                    <th>Nama</th>
+                                    <th>Kota</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>

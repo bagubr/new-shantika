@@ -40,7 +40,7 @@ Fleet
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label for="inputName">Fleet Name</label>
+                            <label for="inputName">Nama Kelas Armada</label>
                             <input type="text" id="inputName" class="form-control" name="name"
                                 value="{{isset($fleetclass) ? $fleetclass->name : ''}}">
                         </div>

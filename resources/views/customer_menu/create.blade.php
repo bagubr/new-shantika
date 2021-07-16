@@ -1,18 +1,18 @@
 @extends('layouts.main')
 @section('title')
-Customer Menu
+Menu Pengguna
 @endsection
 @section('content')
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Customer Menu Form</h1>
+                <h1>Menu Pengguna Form</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Customer Menu</li>
+                    <li class="breadcrumb-item active">Menu Pengguna</li>
                 </ol>
             </div>
         </div>
@@ -41,7 +41,7 @@ Customer Menu
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label>Customer Menu Name</label>
+                            <label>Menu Pengguna Nama</label>
                             <input type="text" class="form-control" name="name"
                                 value="{{isset($customer_menu) ? $customer_menu->name : ''}}">
                         </div>

@@ -36,12 +36,12 @@ Chat
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
+                                    <th>Nama</th>
                                     <th>Message</th>
                                     <th>Type</th>
                                     <th>Icon</th>
                                     <th>Role</th>
-                                    <th>Action</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>

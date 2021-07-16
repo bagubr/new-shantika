@@ -41,28 +41,28 @@ Chat
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label>Chat Name</label>
-                            <input type="text" class="form-control" name="name" placeholder="Enter Name"
+                            <label>Chat Nama</label>
+                            <input type="text" class="form-control" name="name" placeholder="Masukkan Nama"
                                 value="{{isset($chat) ? $chat->name : ''}}">
                         </div>
                         <div class="form-group">
                             <label for="">Value</label>
                             <textarea name="value" id="" class="form-control"
-                                placeholder="Enter Message">{{isset($chat) ? $chat->value : ''}}</textarea>
+                                placeholder="Masukkan Message">{{isset($chat) ? $chat->value : ''}}</textarea>
                         </div>
                         <div class="form-group">
                             <label>Type</label>
-                            <input type="text" class="form-control" name="type" placeholder="Enter Type"
+                            <input type="text" class="form-control" name="type" placeholder="Masukkan Type"
                                 value="{{isset($chat) ? $chat->type : ''}}">
                         </div>
                         <div class="form-group">
                             <label>Icon</label>
-                            <input type="text" class="form-control" name="icon" placeholder="Enter Icon"
+                            <input type="text" class="form-control" name="icon" placeholder="Masukkan Icon"
                                 value="{{isset($chat) ? $chat->icon : ''}}">
                         </div>
                         <div class="form-group">
                             <label>Role</label>
-                            <input type="text" class="form-control" name="role" placeholder="Enter Role"
+                            <input type="text" class="form-control" name="role" placeholder="Masukkan Role"
                                 value="{{isset($chat) ? $chat->icon : ''}}">
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>

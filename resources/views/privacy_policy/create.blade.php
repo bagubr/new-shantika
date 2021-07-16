@@ -1,18 +1,18 @@
 @extends('layouts.main')
 @section('title')
-Privacy Policy
+Kebijakan Privasi
 @endsection
 @section('content')
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Privacy Policy Form</h1>
+                <h1>Kebijakan Privasi Form</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Privacy Policy</li>
+                    <li class="breadcrumb-item active">Kebijakan Privasi</li>
                 </ol>
             </div>
         </div>
@@ -40,14 +40,14 @@ Privacy Policy
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label>Privacy Name</label>
-                            <input type="text" class="form-control" name="name" placeholder="Enter Name"
+                            <label>Nama Kebijakan</label>
+                            <input type="text" class="form-control" name="name" placeholder="Masukkan Nama"
                                 value="{{isset($privacy_policy) ? $privacy_policy->name : ''}}">
                         </div>
                         <div class="form-group">
-                            <label>Content</label>
+                            <label>Konten</label>
                             <textarea class="form-control" rows="3" name="content"
-                                placeholder="Enter Content">{{isset($privacy_policy) ? $privacy_policy->content : ''}}</textarea>
+                                placeholder="Masukkan Konten">{{isset($privacy_policy) ? $privacy_policy->content : ''}}</textarea>
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">

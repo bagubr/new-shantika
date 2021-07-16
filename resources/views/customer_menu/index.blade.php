@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Customer Menu
+Menu Pengguna
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->
@@ -8,12 +8,12 @@ Customer Menu
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Customer Menu</h1>
+                <h1 class="m-0">Menu Pengguna</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Customer Menu</li>
+                    <li class="breadcrumb-item active">Menu Pengguna</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -26,7 +26,7 @@ Customer Menu
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Customer Menu</h3>
+                        <h3 class="card-title">Table Menu Pengguna</h3>
                         <div class="text-right">
                             <a href="{{route('customer_menu.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
@@ -36,9 +36,9 @@ Customer Menu
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
+                                    <th>Nama</th>
                                     <th>Icon</th>
-                                    <th>Action</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>

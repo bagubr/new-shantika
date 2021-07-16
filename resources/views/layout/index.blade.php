@@ -36,7 +36,7 @@ Layout
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Name</th>
+                                    <th>Nama</th>
                                 </tr>
                             </thead>
                             <tbody>

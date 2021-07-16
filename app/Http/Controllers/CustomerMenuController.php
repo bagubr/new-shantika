@@ -42,7 +42,7 @@ class CustomerMenuController extends Controller
         $data['icon'] = $request->icon->store('icon', 'public');
 
         CustomerMenu::create($data);
-        session()->flash('success', 'Customer Menu Berhasil Ditambahkan');
+        session()->flash('success', 'Menu Pengguna Berhasil Ditambahkan');
         return redirect(route('customer_menu.index'));
     }
 
@@ -84,7 +84,7 @@ class CustomerMenuController extends Controller
             $data['icon'] = $icon;
         }
         $customer_menu->update($data);
-        session()->flash('success', 'Customer Menu Berhasil Diperbarui');
+        session()->flash('success', 'Menu Pengguna Berhasil Diperbarui');
         return redirect(route('customer_menu.index'));
     }
 
@@ -98,7 +98,7 @@ class CustomerMenuController extends Controller
     {
         $customer_menu->deleteImage();
         $customer_menu->delete();
-        session()->flash('success', 'Customer Menu Berhasil Dihapus');
+        session()->flash('success', 'Menu Pengguna Berhasil Dihapus');
         return redirect(route('customer_menu.index'));
     }
 }

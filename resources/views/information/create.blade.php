@@ -1,18 +1,18 @@
 @extends('layouts.main')
 @section('title')
-Information
+Informasi
 @endsection
 @section('content')
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Information Form</h1>
+                <h1>Informasi Form</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Information</li>
+                    <li class="breadcrumb-item active">Informasi</li>
                 </ol>
             </div>
         </div>
@@ -41,23 +41,23 @@ Information
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label for="inputName">Information Name</label>
-                            <input type="text" id="inputName" class="form-control" name="name" placeholder="Enter Name"
-                                value="{{isset($information) ? $information->name : ''}}">
+                            <label for="inputName">Informasi Nama</label>
+                            <input type="text" id="inputName" class="form-control" name="name"
+                                placeholder="Masukkan Nama" value="{{isset($information) ? $information->name : ''}}">
                         </div>
                         <div class="form-group">
-                            <label for="inputName">Address</label>
+                            <label for="inputName">Alamat</label>
                             <input type="text" id="inputName" class="form-control" name="address"
-                                placeholder="Enter address"
+                                placeholder="Masukkan address"
                                 value="{{isset($information) ? $information->address : ''}}">
                         </div>
                         <div class="form-group">
-                            <label>Description</label>
+                            <label>Deskripsi</label>
                             <textarea class="form-control" rows="3" name="description"
-                                placeholder="Enter Description">{{isset($information) ? $information->description : ''}}</textarea>
+                                placeholder="Masukkan Deskripsi">{{isset($information) ? $information->description : ''}}</textarea>
                         </div>
                         <div class="form-group">
-                            <label for="">Image</label>
+                            <label for="">Gambar</label>
                             <input type="file" accept="image/*" class="form-control" name="image">
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>

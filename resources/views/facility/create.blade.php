@@ -41,8 +41,8 @@ Facility
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" class="form-control" name="name" placeholder="Enter Name"
+                            <label>Nama</label>
+                            <input type="text" class="form-control" name="name" placeholder="Masukkan Nama"
                                 value="{{isset($facility) ? $facility->name : ''}}">
                         </div>
                         <div class="form-group">

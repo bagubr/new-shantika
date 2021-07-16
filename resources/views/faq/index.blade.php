@@ -36,9 +36,9 @@ FAQ
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Question</th>
-                                    <th>Answer</th>
-                                    <th>Action</th>
+                                    <th>Pertanyaan</th>
+                                    <th>Jawaban</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
