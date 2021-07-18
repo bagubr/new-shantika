@@ -12,6 +12,7 @@ Route::group([
     Route::get('term_and_condition', 'TermAndConditionController@index');
     Route::get('faq', 'FaqController@index');
     Route::get('chat', 'ChatController@index');
+    Route::get('time', 'TimeClassificationController@index');
     
     Route::get('facility', 'FacilityController@index');
     Route::get('cities', 'CityController@index');

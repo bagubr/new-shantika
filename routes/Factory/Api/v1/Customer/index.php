@@ -19,6 +19,7 @@ Route::group([
         
         Route::group(['namespace' => 'Customer'], function() {
             Route::get('home', 'HomeController@home');
+            Route::get('routes/available', 'RouteController@getAvailableRoutes');
             Route::get('chats', 'ChatController@index');
             Route::get('profile', 'UserController@show');
             Route::post('update', 'UserController@update');

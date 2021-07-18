@@ -8,7 +8,7 @@ class FleetRepository
 {
     public static function all($search)
     {
-        return Fleet::all();
+        return Fleet::get();
     }
 
     public static function allWithSearch($search = '')
