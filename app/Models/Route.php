@@ -17,6 +17,10 @@ class Route extends Model
         'created_at', 'updated_at', 'deleted_at'
     ];
 
+    protected $appends = [
+        'fleet_class'
+    ];
+
     public function city()
     {
         return $this->belongsTo(City::class, 'city_id', 'id');
@@ -30,5 +34,10 @@ class Route extends Model
     public function checkpoints()
     {
         return $this->hasMany(Checkpoint::class, 'route_id', 'id');
+    }
+
+    public function getFleetClassAttribute()
+    {
+        return $this->fleet()->first()->fleetclass()->first()->name;
     }
 }

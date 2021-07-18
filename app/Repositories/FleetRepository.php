@@ -6,9 +6,14 @@ use App\Models\Fleet;
 
 class FleetRepository
 {
-    public static function all()
+    public static function all($search = '')
     {
-        return Fleet::all();
+        return Fleet::get();
+    }
+
+    public static function allWithSearch($search = '')
+    {
+        return Fleet::where('name', 'ilike', '%'.$search.'%')->get();
     }
 
     public static function getWithLayout() {

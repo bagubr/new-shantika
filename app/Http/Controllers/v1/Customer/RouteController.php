@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\v1;
+namespace App\Http\Controllers\v1\Customer;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\v1\RouteController as BaseRouteController;
+use Illuminate\Http\Request;
 use App\Http\Requests\Api\ApiGetAvailableRouteRequest;
 use App\Http\Resources\Route\AvailableRoutesResource;
 use App\Models\Route;
-use Illuminate\Http\Request;
+use App\Repositories\TimeClassificationRepository;
 
-class RouteController extends BaseRouteController
+class RouteController extends Controller
 {
     public function getAvailableRoutes(ApiGetAvailableRouteRequest $request) {
+        // return 'oke';
         $routes = Route::with(['fleet', 'checkpoints.agency.city'])
             ->whereHas('fleet', function($query) use ($request) {
                 $query->when(($request->fleet_class_id), function ($q) use ($request) { 
@@ -19,7 +20,9 @@ class RouteController extends BaseRouteController
                 });
             })
             ->whereHas('checkpoints', function($query) use ($request) {
-                $query->where('agency_id', $request->agency_id)->orderBy('order', 'desc');
+                $query->when(($request->agency_departure_id && $request->agency_arrived_id), function ($q) use ($request) { 
+                    $q->whereIn('agency_id', [$request->agency_departure_id, $request->agency_arrived_id])->orderBy('order', 'desc');
+                });
             })
             ->when(($request->time), function ($q) use ($request) { 
                 $time_start = TimeClassificationRepository::findByName($request->time)->time_start;

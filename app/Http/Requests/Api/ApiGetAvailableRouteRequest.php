@@ -4,6 +4,8 @@ namespace App\Http\Requests\Api;
 
 use App\Http\Requests\ApiRequest;
 use Illuminate\Support\Facades\Validator;
+use App\Models\TimeClassification;
+use Illuminate\Validation\Rule;
 
 class ApiGetAvailableRouteRequest extends ApiRequest
 {
@@ -15,11 +17,13 @@ class ApiGetAvailableRouteRequest extends ApiRequest
      */
     public function rules()
     {
+        $time = implode(",",TimeClassification::name()->toArray());
         return [
-            'fleet_class_id'=>'required',
-            'agency_id'=>'required',
-            'time_start'=>'required',
-            'time_end'=>'required'
+            'agency_id'=>'sometimes',
+            'fleet_class_id'=>'sometimes',
+            'agency_departure_id'=>'sometimes',
+            'agency_arrived_id'=>'sometimes',
+            'time'=>'sometimes|in:'.$time,
         ];
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReviews extends Migration
+class CreateTimeClassifications extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateReviews extends Migration
      */
     public function up()
     {
-        Schema::create('reviews', function (Blueprint $table) {
+        Schema::create('time_classifications', function (Blueprint $table) {
             $table->id();
-            $table->integer('order_id');
-            $table->integer('review');
+            $table->string('name');
+            $table->time('time_start');
+            $table->time('time_end');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateReviews extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reviews');
+        Schema::dropIfExists('time_classifications');
     }
 }

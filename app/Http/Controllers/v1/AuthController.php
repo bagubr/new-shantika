@@ -22,7 +22,10 @@ class AuthController extends Controller
         if(!empty($request['uuid']) && $user->uuid != $request['uuid']) {    
             $this->sendFailedResponse([], $message = "Oops! Uuid doesn't match", $code = 401);
         }else{
-            $this->sendFailedResponse([], $message = "Uuid Matched !!!", $code = 200);
+            $this->sendFailedResponse([
+                'user' => $user,
+                'token'=>$user->token,
+            ], $message = "Uuid Matched !!!", $code = 200);
         }
     }
 }
