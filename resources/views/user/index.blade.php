@@ -49,7 +49,13 @@ User
                                     <td>{{$user->name}}</td>
                                     <td>{{$user->phone}}</td>
                                     <td>{{$user->email}}</td>
-                                    <td><img src="{{$user->image}}" height="100px" alt=""></td>
+                                    <td>
+                                        @if ($user->avatar)
+                                        <img src="{{$user->avatar}}" height="100px" alt="">
+                                        @else
+                                        Tidak Ada Foto
+                                        @endif
+                                    </td>
                                     <td>
                                         <a href="{{route('user.edit',$user->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>

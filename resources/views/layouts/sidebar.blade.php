@@ -68,14 +68,6 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('chat.index')}}" class="nav-link {{Request::routeIs('chat.*') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-comment"></i>
-                        <p>
-                            Chat
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a href="{{route('agency.index')}}"
                         class="nav-link {{Request::routeIs('agency.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-street-view"></i>
@@ -102,15 +94,51 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-header">USER</li>
+                <li class="nav-item">
+                    <a href="{{route('user.index')}}" class="nav-link {{Request::routeIs('user.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Users
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="{{route('customer_menu.index')}}"
                         class="nav-link {{Request::routeIs('customer_menu.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-bars"></i>
                         <p>
-                            Menu Pengguna
+                            Menu Customer
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{route('chat.index')}}" class="nav-link {{Request::routeIs('chat.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-comment"></i>
+                        <p>
+                            Chat
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('slider.index')}}"
+                        class="nav-link {{Request::routeIs('slider.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-sliders-h"></i>
+                        <p>
+                            Slider
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('testimoni.index')}}"
+                        class="nav-link {{Request::routeIs('testimoni.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-quote-left"></i>
+                        <p>
+                            Testimoni
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-header">LAINNYA</li>
                 <li class="nav-item">
                     <a href="{{route('faq.index')}}" class="nav-link {{Request::routeIs('faq.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-question"></i>
@@ -125,32 +153,6 @@
                         <i class="nav-icon fas fa-handshake"></i>
                         <p>
                             Kebijakan Privasi
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{route('slider.index')}}"
-                        class="nav-link {{Request::routeIs('slider.*') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-sliders-h"></i>
-                        <p>
-                            Slider
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{route('user.index')}}" class="nav-link {{Request::routeIs('user.*') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p>
-                            Users
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{route('testimoni.index')}}"
-                        class="nav-link {{Request::routeIs('testimoni.*') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-quote-left"></i>
-                        <p>
-                            Testimoni
                         </p>
                     </a>
                 </li>
