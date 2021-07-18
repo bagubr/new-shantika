@@ -6,7 +6,7 @@ use App\Models\Fleet;
 
 class FleetRepository
 {
-    public static function all($search)
+    public static function all($search = '')
     {
         return Fleet::get();
     }
