@@ -24,6 +24,11 @@ Route::group([
     Route::get('article_detail/{id}', 'ArticleController@articleDetail');
     Route::get('testimonial_detail/{id}', 'TestimonialController@testimonialDetail');
 
+    Route::get('about_us', 'AboutController@index');
+
+    Route::get('notification', 'NotificationController@index');
+    Route::post('notification/read', 'NotificationController@read');
+
     Route::group([],base_path('routes/Factory/Api/v1/Agen/index.php'));
     Route::group([],base_path('routes/Factory/Api/v1/Customer/index.php'));
 });
