@@ -20,16 +20,18 @@ class RouteController extends Controller
                 });
             })
             ->whereHas('checkpoints', function($query) use ($request) {
-                $query->when(($request->agency_id), function ($q) use ($request) { 
-                    $q->where('agency_id', $request->agency_departure_id)->orderBy('order', 'desc');
-                    $q->orWhere('agency_id', $request->agency_arrived_id)->orderBy('order', 'desc');
+                $query->when(($request->agency_departure_id && $request->agency_arrived_id), function ($q) use ($request) { 
+                    $q->whereIn('agency_id', [$request->agency_departure_id, $request->agency_arrived_id])->orderBy('order', 'desc');
                 });
             })
             ->when(($request->time), function ($q) use ($request) { 
                 $time_start = TimeClassificationRepository::findByName($request->time)->time_start;
                 $time_end = TimeClassificationRepository::findByName($request->time)->time_end;
-                $q->where('departure_at', '>', $time_start)
-                    ->where('arrived_at', '<', $time_end);
+                $q->where(function ($que) use ($time_start, $time_end)
+                {
+                    $que->where('departure_at', '>', $time_start);
+                    $que->orWhere('arrived_at', '<', $time_end);
+                });
             })
             ->get();
 

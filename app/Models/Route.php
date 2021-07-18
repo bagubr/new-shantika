@@ -38,6 +38,6 @@ class Route extends Model
 
     public function getFleetClassAttribute()
     {
-        return $this->fleet()->first()->fleetclass()->first()->id;
+        return $this->fleet()->first()->fleetclass()->first()->name;
     }
 }

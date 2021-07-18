@@ -19,6 +19,7 @@ class ApiGetAvailableRouteRequest extends ApiRequest
     {
         $time = implode(",",TimeClassification::name()->toArray());
         return [
+            'agency_id'=>'sometimes',
             'fleet_class_id'=>'sometimes',
             'agency_departure_id'=>'sometimes',
             'agency_arrived_id'=>'sometimes',

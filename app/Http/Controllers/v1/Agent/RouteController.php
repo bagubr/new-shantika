@@ -14,14 +14,21 @@ class RouteController extends BaseRouteController
     public function getAvailableRoutes(ApiGetAvailableRouteRequest $request) {
         $routes = Route::with(['fleet', 'checkpoints.agency.city'])
             ->whereHas('fleet', function($query) use ($request) {
-                $query->where('fleet_class_id', $request->fleet_class_id);
+                $query->when(($request->fleet_class_id), function ($q) use ($request) { 
+                    $q->where('fleet_class_id', $request->fleet_class_id);
+                });
             })
             ->whereHas('checkpoints', function($query) use ($request) {
                 $query->where('agency_id', $request->agency_id)->orderBy('order', 'desc');
             })
-            ->where(function($query) use ($request) {
-                $query->where('departure_at', '>=', $request->time_start)
-                    ->where('departure_at', '<=', $request->time_end);
+            ->when(($request->time), function ($q) use ($request) { 
+                $time_start = TimeClassificationRepository::findByName($request->time)->time_start;
+                $time_end = TimeClassificationRepository::findByName($request->time)->time_end;
+                $q->where(function ($que) use ($time_start, $time_end)
+                {
+                    $que->where('departure_at', '>', $time_start);
+                    $que->orWhere('arrived_at', '<', $time_end);
+                });
             })
             ->get();
 
