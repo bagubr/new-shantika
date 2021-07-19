@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Repositories;
-
+use App\Http\Resources\Fleet\InformationFleetResource;
 use App\Models\Fleet;
 
 class FleetRepository
@@ -11,9 +11,10 @@ class FleetRepository
         return Fleet::get();
     }
 
-    public static function allWithSearch($search = '')
+    public static function allWithRoute($search = '')
     {
-        return Fleet::where('name', 'ilike', '%'.$search.'%')->get();
+        $fleet = Fleet::where('name', 'ilike', '%'.$search.'%')->get();
+        return InformationFleetResource::collection($fleet);
     }
 
     public static function getWithLayout() {
@@ -23,5 +24,10 @@ class FleetRepository
     public static function deleteId($id)
     {
         return Fleet::withTrashed()->where('id', $id)->firstOrFail();
+    }
+
+    public static function getWithRoute($id)
+    {
+        
     }
 }

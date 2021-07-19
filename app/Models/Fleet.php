@@ -18,6 +18,11 @@ class Fleet extends Model
         return $this->hasOne(Layout::class, 'id', 'layout_id');
     }
 
+    public function route()
+    {
+        return $this->hasOne(Route::class, 'fleet_id', 'id');
+    }
+
     public function fleetclass()
     {
         return $this->belongsTo(FleetClass::class, 'fleet_class_id', 'id');

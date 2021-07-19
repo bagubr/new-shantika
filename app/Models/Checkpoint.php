@@ -15,6 +15,21 @@ class Checkpoint extends Model
         'route_id', 'arrived_at', 'agency_id', 'order'
     ];
 
+    protected $appends = [
+        'name_city',
+        'name_agent',
+    ];
+
+    public function getNameCityAttribute()
+    {
+        return $this->agency()->first()?->city()->first()?->name;
+    }
+    
+    public function getNameAgentAttribute()
+    {
+        return $this->agency()->first()?->name;
+    }
+
     public function route() {
         return $this->belongsTo(Route::class, 'route_id', 'id');
     }

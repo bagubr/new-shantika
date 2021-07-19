@@ -14,13 +14,18 @@ class RouteController extends Controller
     public function getAvailableRoutes(ApiGetAvailableRouteRequest $request) {
         // return 'oke';
         $routes = Route::with(['fleet', 'checkpoints.agency.city'])
-            ->whereHas('fleet', function($query) use ($request) {
-                $query->when(($request->fleet_class_id), function ($q) use ($request) { 
-                    $q->where('fleet_class_id', $request->fleet_class_id);
-                });
-            })
-            ->whereHas('checkpoints', function($query) use ($request) {
-                $query->when(($request->agency_departure_id && $request->agency_arrived_id), function ($q) use ($request) { 
+        ->whereHas('fleet', function($query) use ($request) {
+            $query->when(($request->fleet_class_id), function ($q) use ($request) { 
+                $q->where('fleet_class_id', $request->fleet_class_id);
+            });
+        })
+        ->whereHas('checkpoints.agency.city', function($query) use ($request) {
+            $query->when(($request->city_id), function ($q) use ($request) { 
+                $q->where('id', $request->city_id);
+            });
+        })
+        ->whereHas('checkpoints', function($query) use ($request) {
+            $query->when(($request->agency_departure_id && $request->agency_arrived_id), function ($q) use ($request) { 
                     $q->whereIn('agency_id', [$request->agency_departure_id, $request->agency_arrived_id])->orderBy('order', 'desc');
                 });
             })

@@ -11,6 +11,7 @@ Route::group([
         Route::post('registration','AuthController@registerCustomer');
     });
     Route::get('fleet_lists','FleetController@index');
+    Route::get('fleet_detail/{id}','FleetController@show');
     
     Route::group([
         'middleware'=>'api.auth.user'
