@@ -18,8 +18,6 @@ class HomeController extends Controller
         $data['testimonial'] = TestimonialRepository::getAll();
         $data['customer_menu'] = CustomerMenuRepository::getAll();
 
-        $this->sendSuccessResponse([
-            $data
-        ]);
+        $this->sendSuccessResponse($data);
     }
 }
