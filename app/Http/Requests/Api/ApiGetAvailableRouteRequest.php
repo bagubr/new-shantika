@@ -17,7 +17,7 @@ class ApiGetAvailableRouteRequest extends ApiRequest
      */
     public function rules()
     {
-        $time = implode(",",TimeClassification::name()->toArray());
+        $time = implode(",",TimeClassification::pluck('name')->toArray());
         return [
             'agency_id'=>'sometimes',
             'fleet_class_id'=>'sometimes',

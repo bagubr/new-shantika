@@ -23,6 +23,8 @@ class AvailableRoutesResource extends JsonResource
             'departure_at'       => $this->departure_at,
             'arrived_at'         => $this->arrived_at,
             'fleet_class'        => $this->fleet_class,
+            'price'              => $this->price,
+            'chairs_available'   => rand(1, 32),
             'checkpoints'        => (object) [
                 'start' => (object) [
                     'agency_id'=>$this->checkpoints[0]?->agency?->id ?? "",
