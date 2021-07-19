@@ -12,9 +12,4 @@ class TimeClassification extends Model
     protected $fillable = [
         'name', 'time_start', 'time_end'
     ];
-
-    public static function name()
-    {
-        return self::get()->pluck('name');
-    }
 }

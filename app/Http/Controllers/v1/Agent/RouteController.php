@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\v1;
+namespace App\Http\Controllers\v1\Agent;
 
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\v1\RouteController as BaseRouteController;
 use App\Http\Requests\Api\ApiGetAvailableRouteRequest;
 use App\Http\Resources\Route\AvailableRoutesResource;
 use App\Models\Route;
+use App\Repositories\TimeClassificationRepository;
 use Illuminate\Http\Request;
 
 class RouteController extends BaseRouteController
