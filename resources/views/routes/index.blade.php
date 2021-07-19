@@ -48,7 +48,7 @@ Route
                                 <tr>
                                     <td>{{$route->name}}</td>
                                     <td><a href="{{route('fleets.edit', $route->fleet_id)}}">{{$route->fleet->name}}</a>
-                                    <td>Rp {{number_format($route->Harga, 2)}}</td>
+                                    <td>Rp {{number_format($route->price, 2)}}</td>
                                     <td>{{$route->departure_at}} - {{$route->arrived_at}}</td>
                                     </td>
                                     <td>
