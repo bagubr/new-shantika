@@ -19,7 +19,7 @@ class HomeController extends Controller
         $data['customer_menu'] = CustomerMenuRepository::getAll();
 
         $this->sendSuccessResponse([
-            'data'=>$data
+            $data
         ]);
     }
 }
