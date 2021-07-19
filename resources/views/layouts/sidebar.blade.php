@@ -77,6 +77,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{route('time_classification.index')}}"
+                        class="nav-link {{Request::routeIs('time_classification.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-clock"></i>
+                        <p>
+                            Waktu
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{route('information.index')}}"
                         class="nav-link {{Request::routeIs('information.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-info"></i>
