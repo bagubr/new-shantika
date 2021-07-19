@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AgencyController;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CheckpointController;
 use App\Http\Controllers\CustomerMenuController;
@@ -55,6 +56,7 @@ Route::group(['middleware' => ['auth']], function () {
         'customer_menu' => CustomerMenuController::class,
         'slider' => SliderController::class,
         'user' => UserController::class,
-        'testimoni' => TestimoniController::class
+        'testimoni' => TestimoniController::class,
+        'article' => ArticleController::class
     ]);
 });
