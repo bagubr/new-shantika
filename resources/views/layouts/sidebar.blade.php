@@ -157,6 +157,14 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{route('about.index')}}" class="nav-link {{Request::routeIs('about.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-question"></i>
+                        <p>
+                            Tentang Kita
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{route('privacy_policy.index')}}"
                         class="nav-link {{Request::routeIs('privacy_policy.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-handshake"></i>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ChatController;
@@ -57,6 +58,7 @@ Route::group(['middleware' => ['auth']], function () {
         'slider' => SliderController::class,
         'user' => UserController::class,
         'testimoni' => TestimoniController::class,
-        'article' => ArticleController::class
+        'article' => ArticleController::class,
+        'about' => AboutController::class
     ]);
 });

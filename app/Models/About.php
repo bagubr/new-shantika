@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Utils\StorageParser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class About extends Model
 {
@@ -16,7 +17,12 @@ class About extends Model
         'image', 'description', 'address'
     ];
 
-    public function getImageAttribute() {
+    public function getImageAttribute()
+    {
         return $this->appendPath($this->attributes['image']);
+    }
+    public function deleteImage()
+    {
+        Storage::disk('public')->delete($this->attributes['image']);
     }
 }
