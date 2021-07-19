@@ -25,7 +25,7 @@ class AuthService {
     
     private static function generateToken($user) {
         $token = md5(request()->userAgent().env('API_KEY', ''));
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%&=';
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $token .= '.';
         $salt = "";
