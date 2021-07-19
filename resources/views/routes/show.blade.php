@@ -58,13 +58,49 @@ Route
                     </div>
                     <div class="form-group">
                         <label>Harga</label>
-                        <input type="number" name="Harga" class="form-control" placeholder="Masukkan Harga"
-                            value="{{$route->Harga}}" disabled>
+                        <input type="number" name="price" class="form-control" placeholder="Masukkan Harga"
+                            value="{{$route->price}}" disabled>
                     </div>
                 </div>
                 <!-- /.card-body -->
             </div>
             <!-- /.card -->
+        </div>
+        <div class="col-md-6">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">{{$route->name}}</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" style="display: block;">
+                    <div class="timeline">
+                        <div class="time-label">
+                            <span class="bg-warning">Keberangkatan</span>
+                        </div>
+                        @foreach ($checkpoints as $checkpoint)
+                        <div class="time-label">
+                            <span class="bg-primary">{{$checkpoint->arrived_at}}</span>
+                        </div>
+                        <div>
+                            <i class="fas fa-bus bg-blue"></i>
+                            <div class="timeline-item">
+                                <h3 class="timeline-header"><span class="time"><i class="fas fa-clock"></i>
+                                        {{$checkpoint->agency->name}} | {{$checkpoint->agency->city->name}}</span>
+                                </h3>
+                            </div>
+                        </div>
+                        @endforeach
+                        <div class="time-label">
+                            <span class="bg-success">Kedatangan</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
         </div>
         <div class="col-md-6">
             <div class="card card-primary">
@@ -106,48 +142,51 @@ Route
                 <!-- /.card-body -->
             </div>
         </div>
-    </div>
-    <div class="card card-primary">
-        <div class="card-header">
-            <h3 class="card-title">Checkpoint</h3>
-            <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                    <i class="fas fa-minus"></i>
-                </button>
+        <div class="col-md-6">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Checkpoint</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" style="display: block;">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Order</th>
+                                <th>Agen</th>
+                                <th>Arrived At</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($checkpoints as $checkpoint)
+                            <tr>
+                                <td>{{$checkpoint->order}}</td>
+                                <td>{{$checkpoint->agency->name}}/{{$checkpoint->agency->city->name}}</td>
+                                <td>{{$checkpoint->arrived_at}}</td>
+                                <td>
+                                    <form action="{{route('checkpoint.destroy',$checkpoint->id)}}" class="d-inline"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger btn-xs" onclick="return confirm('Are you sure?')"
+                                            type="submit">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
             </div>
         </div>
-        <div class="card-body" style="display: block;">
-            <table id="example1" class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>Order</th>
-                        <th>Agen</th>
-                        <th>Arrived At</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($checkpoints as $checkpoint)
-                    <tr>
-                        <td>{{$checkpoint->order}}</td>
-                        <td>{{$checkpoint->agency->name}}/{{$checkpoint->agency->city->name}}</td>
-                        <td>{{$checkpoint->arrived_at}}</td>
-                        <td>
-                            <form action="{{route('checkpoint.destroy',$checkpoint->id)}}" class="d-inline"
-                                method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-danger btn-xs" onclick="return confirm('Are you sure?')"
-                                    type="submit">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-        <!-- /.card-body -->
     </div>
+
 </section>
 @endsection
 @push('script')

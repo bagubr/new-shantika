@@ -58,7 +58,7 @@ class RoutesController extends Controller
      */
     public function show(Route $route)
     {
-        $checkpoints = Checkpoint::where('route_id', $route->id)->get();
+        $checkpoints = Checkpoint::where('route_id', $route->id)->orderBy('order')->get();
         $agencies = AgencyRepository::all();
         return view('routes.show', compact('route', 'agencies', 'checkpoints'));
     }

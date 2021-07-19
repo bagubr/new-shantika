@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Route
+Tentang Kita
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->
@@ -8,12 +8,12 @@ Route
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Route</h1>
+                <h1 class="m-0">Tentang Kita</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Route</li>
+                    <li class="breadcrumb-item active">Tentang Kita</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -26,9 +26,9 @@ Route
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Route</h3>
+                        <h3 class="card-title">Table Tentang Kita</h3>
                         <div class="text-right">
-                            <a href="{{route('routes.create')}}" class="btn btn-primary btn-sm">Tambah</a>
+                            <a href="{{route('about.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -36,27 +36,22 @@ Route
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Nama</th>
-                                    <th>Armada</th>
-                                    <th>Harga</th>
-                                    <th>Keberangkatan - Kedatangan</th>
+                                    <th>Gambar</th>
+                                    <th>Alamat</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($routes as $route)
+                                @foreach ($abouts as $about)
                                 <tr>
-                                    <td>{{$route->name}}</td>
-                                    <td><a href="{{route('fleets.edit', $route->fleet_id)}}">{{$route->fleet->name}}</a>
-                                    <td>Rp {{number_format($route->price, 2)}}</td>
-                                    <td>{{$route->departure_at}} - {{$route->arrived_at}}</td>
-                                    </td>
                                     <td>
-                                        <a href="{{route('routes.show',$route->id)}}"
-                                            class="btn btn-primary btn-xs">Show</a>
-                                        <a href="{{route('routes.edit',$route->id)}}"
+                                        <img src="{{$about->image}}" height="100" alt="">
+                                    </td>
+                                    <td>{{$about->address}}</td>
+                                    <td>
+                                        <a href="{{route('about.edit',$about->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
-                                        <form action="{{route('routes.destroy',$route->id)}}" class="d-inline"
+                                        <form action="{{route('about.destroy',$about->id)}}" class="d-inline"
                                             method="POST">
                                             @csrf
                                             @method('DELETE')

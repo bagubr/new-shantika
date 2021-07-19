@@ -53,7 +53,7 @@
                             <a href="{{route('layouts.index')}}"
                                 class="nav-link {{Request::routeIs('layouts.*') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Fleet's Layout</p>
+                                <p>Layout Armada</p>
                             </a>
                         </li>
                     </ul>
@@ -91,6 +91,15 @@
                         <i class="nav-icon fas fa-sign"></i>
                         <p>
                             Fasilitas
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('article.index')}}"
+                        class="nav-link {{Request::routeIs('article.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-newspaper"></i>
+                        <p>
+                            Artikel
                         </p>
                     </a>
                 </li>
@@ -144,6 +153,14 @@
                         <i class="nav-icon fas fa-question"></i>
                         <p>
                             FAQ
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('about.index')}}" class="nav-link {{Request::routeIs('about.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-question"></i>
+                        <p>
+                            Tentang Kita
                         </p>
                     </a>
                 </li>

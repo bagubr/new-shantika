@@ -1,62 +1,53 @@
 @extends('layouts.main')
 @section('title')
-Route
+Artikel
 @endsection
 @section('content')
-<!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Route</h1>
-            </div><!-- /.col -->
+                <h1 class="m-0">Artikel</h1>
+            </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Route</li>
+                    <li class="breadcrumb-item active">Artikel</li>
                 </ol>
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
+            </div>
+        </div>
+    </div>
 </div>
-<!-- /.content-header -->
 <div class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Route</h3>
+                        <h3 class="card-title">Table Artikel</h3>
                         <div class="text-right">
-                            <a href="{{route('routes.create')}}" class="btn btn-primary btn-sm">Tambah</a>
+                            <a href="{{route('article.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
                     </div>
-                    <!-- /.card-header -->
                     <div class="card-body">
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>Nama</th>
-                                    <th>Armada</th>
-                                    <th>Harga</th>
-                                    <th>Keberangkatan - Kedatangan</th>
+                                    <th>Gambar</th>
+                                    <th>Deskripsi</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($routes as $route)
+                                @foreach ($articles as $article)
                                 <tr>
-                                    <td>{{$route->name}}</td>
-                                    <td><a href="{{route('fleets.edit', $route->fleet_id)}}">{{$route->fleet->name}}</a>
-                                    <td>Rp {{number_format($route->price, 2)}}</td>
-                                    <td>{{$route->departure_at}} - {{$route->arrived_at}}</td>
-                                    </td>
-                                    <td>
-                                        <a href="{{route('routes.show',$route->id)}}"
-                                            class="btn btn-primary btn-xs">Show</a>
-                                        <a href="{{route('routes.edit',$route->id)}}"
+                                    <td>{{$article->name}}</td>
+                                    <td><img src="{{$article->image}}" height="100px" alt=""></td>
+                                    <td>{{$article->description}}</td>
+                                    <td><a href="{{route('article.edit',$article->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
-                                        <form action="{{route('routes.destroy',$route->id)}}" class="d-inline"
+                                        <form action="{{route('article.destroy',$article->id)}}" class="d-inline"
                                             method="POST">
                                             @csrf
                                             @method('DELETE')
@@ -69,11 +60,8 @@ Route
                             </tbody>
                         </table>
                     </div>
-                    <!-- /.card-body -->
                 </div>
-                <!-- /.card -->
             </div>
-            <!-- /.col -->
         </div>
     </div>
 </div>
