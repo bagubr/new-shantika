@@ -158,7 +158,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{route('about.index')}}" class="nav-link {{Request::routeIs('about.*') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-question"></i>
+                        <i class="nav-icon fas fa-info"></i>
                         <p>
                             Tentang Kita
                         </p>
