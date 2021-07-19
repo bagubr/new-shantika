@@ -77,6 +77,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{route('time_classification.index')}}"
+                        class="nav-link {{Request::routeIs('time_classification.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-clock"></i>
+                        <p>
+                            Waktu
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{route('information.index')}}"
                         class="nav-link {{Request::routeIs('information.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-info"></i>
@@ -161,6 +170,15 @@
                         <i class="nav-icon fas fa-info"></i>
                         <p>
                             Tentang Kita
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('social_media.index')}}"
+                        class="nav-link {{Request::routeIs('social_media.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-hashtag"></i>
+                        <p>
+                            Social Media
                         </p>
                     </a>
                 </li>
