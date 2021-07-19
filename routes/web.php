@@ -16,6 +16,7 @@ use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\RoutesController;
 use App\Http\Controllers\SliderController;
+use App\Http\Controllers\SocialMediaController;
 use App\Http\Controllers\TestimoniController;
 use App\Http\Controllers\TimeClassificationController;
 use App\Http\Controllers\UserController;
@@ -61,6 +62,7 @@ Route::group(['middleware' => ['auth']], function () {
         'testimoni' => TestimoniController::class,
         'article' => ArticleController::class,
         'about' => AboutController::class,
-        'time_classification' => TimeClassificationController::class
+        'time_classification' => TimeClassificationController::class,
+        'social_media' => SocialMediaController::class
     ]);
 });

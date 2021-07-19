@@ -174,6 +174,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{route('social_media.index')}}"
+                        class="nav-link {{Request::routeIs('social_media.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-hashtag"></i>
+                        <p>
+                            Social Media
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{route('privacy_policy.index')}}"
                         class="nav-link {{Request::routeIs('privacy_policy.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-handshake"></i>
