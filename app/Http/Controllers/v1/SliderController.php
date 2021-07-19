@@ -13,7 +13,7 @@ class SliderController extends Controller
         $data = SliderRepository::findById($id);
         
         $this->sendSuccessResponse([
-            'data'=>$data
+            'slider'=>$data
         ]);
     }
 }

@@ -12,7 +12,7 @@ class ArticleController extends Controller
         $data = ArticleRepository::findById($id);
         
         $this->sendSuccessResponse([
-            'data'=>$data
+            'article'=>$data
         ]);
     }
 }
