@@ -13,7 +13,6 @@ Route::group([
     Route::group([
         'middleware'=> 'api.auth.agent',
     ], function() {
-        Route::get('routes/available', 'RouteController@getAvailableRoutes');
         Route::get('fleet/layout', 'LayoutController@getFleetLayout');
         Route::get('fleet/{id}', 'FleetController@showFleet');
 
@@ -23,6 +22,8 @@ Route::group([
         Route::group(['namespace'=>'Agent'], function() {
             Route::get('profile', 'UserController@show');
             Route::post('update', 'UserController@update');
+
+            Route::get('routes/available', 'RouteController@getAvailableRoutes');
 
             Route::get('home', 'HomeController@home');
         });
