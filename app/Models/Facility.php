@@ -15,9 +15,9 @@ class Facility extends Model
     protected $fillable = [
         'name', 'image'
     ];
-    public function getImageAttribute()
+    public function getImageAttribute($value)
     {
-        return env('STORAGE_URL') . '/' . $this->attributes['image'];
+        return url('storage/' . $value);
     }
     public function deleteImage()
     {
