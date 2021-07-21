@@ -12,7 +12,14 @@ class CustomerMenu extends Model
 
     protected $table = "customer_menus";
     protected $fillable = ['name', 'icon'];
-    
+
+    public static function boot()
+    {
+        parent::boot();
+        static::orderBy('id');
+    }
+
+
     public function deleteImage()
     {
         Storage::disk('public')->delete($this->icon);
