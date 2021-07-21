@@ -26,6 +26,8 @@ Route::group([
             Route::get('routes/available', 'RouteController@getAvailableRoutes');
 
             Route::get('home', 'HomeController@home');
+        
+            Route::post('booking', 'OrderController@booking');
         });
     });
 });
