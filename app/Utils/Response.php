@@ -15,7 +15,7 @@ trait Response {
     public function failedResponse($data = [], $message = 'Something is missing out!', $code = 400) {
         $data = array_merge([
             'code'=>$code,
-            'success'=>true,
+            'success'=>false,
             'message'=>$message,
         ], $data);
 
