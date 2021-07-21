@@ -4,6 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Order;
+use App\Models\Route;
+use App\Models\User;
+use App\Models\OrderDetail;
 use Faker\Factory as Faker;
 class OrderSeeder extends Seeder
 {

@@ -17,6 +17,11 @@ class About extends Model
         'image', 'description', 'address'
     ];
 
+    public function getCreatedAtAttribute($value)
+    {
+        return date('Y-m-d H:i:s', strtotime($value));
+    }
+
     public function getImageAttribute()
     {
         return $this->appendPath($this->attributes['image']);

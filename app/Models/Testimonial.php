@@ -9,7 +9,7 @@ class Testimonial extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'user_id', 'review', 'rating', 'image'
+        'user_id', 'title', 'review', 'rating', 'image'
     ];
 
     protected $appends = [
@@ -19,6 +19,11 @@ class Testimonial extends Model
     public function getNameCustomerAttribute()
     {
         return $this->user()->first()?->name;
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return date('Y-m-d H:i:s', strtotime($value));
     }
 
     public function user()
