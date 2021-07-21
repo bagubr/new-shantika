@@ -15,12 +15,26 @@ class CreatePayments extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->integer('payment_id');
-            $table->integer('order_id');
+            $table->unsignedBigInteger('payment_type_id');
+            $table->unsignedBigInteger('order_id');
+            $table->text('secret_key');
             $table->string('status');
             $table->datetime('expired_at');
             $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('payment_type_id')
+            ->references('id')
+            ->on('payment_types')
+            ->onUpdate('CASCADE')
+            ->onDelete('RESTRICT');
+
+            $table->foreign('order_id')
+            ->references('id')
+            ->on('orders')
+            ->onUpdate('CASCADE')
+            ->onDelete('RESTRICT');
+
         });
     }
 

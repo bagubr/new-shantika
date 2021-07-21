@@ -15,15 +15,29 @@ class CreateOrderDetails extends Migration
     {
         Schema::create('order_details', function (Blueprint $table) {
             $table->id();
-            $table->integer('order_id');
-            $table->string('ticket_code');
+            $table->unsignedBigInteger('order_id');
+            $table->unsignedBigInteger('layout_chair_id');
+            $table->string('code_ticket');
             $table->string('name')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
-            $table->string('layout_name');
-            $table->string('type');
+            $table->string('is_feed');
+            $table->string('is_travel');
+            $table->string('is_member');
             $table->softDeletes();
             $table->timestamps();
+
+            $table->foreign('order_id')
+            ->references('id')
+            ->on('orders')
+            ->onUpdate('CASCADE')
+            ->onDelete('RESTRICT');
+
+            $table->foreign('layout_chair_id')
+            ->references('id')
+            ->on('layout_chairs')
+            ->onUpdate('CASCADE')
+            ->onDelete('RESTRICT');
         });
     }
 
