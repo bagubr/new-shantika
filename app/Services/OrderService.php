@@ -10,7 +10,7 @@ use App\Utils\Response;
 class OrderService {
     use Response;
 
-    public static function create(Order $data, array $details) {
+    public static function create(Order $data, $detail) {
         $route = Route::find($data->route_id)
             ?? (new self)->sendFailedResponse([], 'Rute perjalanan tidak ditemukan');
 
@@ -26,11 +26,7 @@ class OrderService {
         if(!$data->expired_at) {
             $data->expired_at = self::getExpiredAt();
         }
-
         $order = Order::create($data->toArray());
-
-        foreach($details as $detail) {
-            $detail = (object) $detail;
             foreach($detail->layout_chair_id as $layout_chair_id) {
                 OrderDetail::create([
                     'order_id'          => $order->id,
@@ -44,7 +40,6 @@ class OrderService {
                     'is_member'         => $detail->is_member
                 ]);
             }
-        }
 
         return $order;
     } 

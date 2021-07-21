@@ -18,16 +18,15 @@ class ApiOrderCreateRequest extends ApiRequest
         return [
             'route_id'=>'required|numeric',
             'reserve_at'=>'required|date',
-            'details'=>'required|array',
-            'details.*.layout_chair_id'=>'required|array',
-            'details.*.layout_chair_id.*'=>'numeric',
-            'details.*.name'=>'required|string',
-            'details.*.phone'=>'required|string',
-            'details.*.email'=>'required|email',
-            'details.*.is_member'=>'required|boolean',
-            'details.*.id_member'=>'required|string',
-            'details.*.is_travel'=>'required|boolean',
-            'details.*.is_feed'=>'required|boolean'
+            'layout_chair_id'=>'required|array',
+            'layout_chair_id.*'=>'numeric',
+            'name'=>'required|string',
+            'phone'=>'required|string',
+            'email'=>'required|email',
+            'is_member'=>'required|boolean',
+            'id_member'=>'required|string',
+            'is_travel'=>'required|boolean',
+            'is_feed'=>'required|boolean'
         ];
     }
 }

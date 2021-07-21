@@ -19,8 +19,8 @@ class OrderController extends Controller
             'route_id'=>$request->route_id,
             'reserve_at'=>$request->reserve_at
         ]);
-        $order = OrderService::create($order, $request->details);
-
+        $order = OrderService::create($order, $request);
+        DB::commit();
         return $this->sendSuccessResponse([
             'order'=>$order
         ]);
