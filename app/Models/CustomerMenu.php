@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Builder;
 
 class CustomerMenu extends Model
 {
@@ -13,10 +14,10 @@ class CustomerMenu extends Model
     protected $table = "customer_menus";
     protected $fillable = ['name', 'icon'];
 
-    protected static function booted()
+    public static function booted()
     {
         static::addGlobalScope('order', function (Builder $builder) {
-            $builder->orderBy('id');
+            $builder->orderBy('order');
         });
     }
 
@@ -26,7 +27,7 @@ class CustomerMenu extends Model
         Storage::disk('public')->delete($this->icon);
     }
 
-    public function getAvatarAttribute($value)
+    public function getIconAttribute($value)
     {
         return url('storage/' . $value);
     }

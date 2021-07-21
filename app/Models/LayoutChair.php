@@ -25,8 +25,6 @@ class LayoutChair extends Model
     public function getIsAvailableAttribute()
     {
         $space  = $this->layout()->first()->space_indexes;
-        $toilet = $this->layout()->first()->toilet_indexes;
-        $door   = $this->layout()->first()->door_indexes;
         return (in_array($this->index, $space))? false : true;
     }
     
@@ -44,8 +42,10 @@ class LayoutChair extends Model
 
     public function getIsBookingAttribute()
     {
-        // $booking = Booking::where('route_id', $this->layout()->firts()->route_id);
         return false;
+        // $this->getBooking($request->route_id);
+
+        // return false;
     }
 
     public function layout()
