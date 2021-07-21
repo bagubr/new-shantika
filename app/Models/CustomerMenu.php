@@ -17,7 +17,7 @@ class CustomerMenu extends Model
     public static function booted()
     {
         static::addGlobalScope('order', function (Builder $builder) {
-            $builder->orderBy('id');
+            $builder->orderBy('order');
         });
     }
 
