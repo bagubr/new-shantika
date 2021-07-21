@@ -59,6 +59,8 @@ Testimoni Pengguna
                                             @endfor
                                     </td>
                                     <td>
+                                        <a href="{{route('testimoni.edit',$testimoni->id)}}"
+                                            class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('testimoni.destroy',$testimoni->id)}}" class="d-inline"
                                             method="POST">
                                             @csrf

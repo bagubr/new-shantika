@@ -53,7 +53,10 @@ Testimoni
                             <select name="user_id" class="form-control select2" id="">
                                 <option value="">Pilih Pengguna</option>
                                 @foreach ($users as $user)
-                                <option value="{{$user->id}}">{{$user->name}}</option>
+                                <option value="{{$user->id}}" @isset($testimoni) @if ($user->id == $testimoni->user_id)
+                                    selected
+                                    @endif
+                                    @endisset>{{$user->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -72,7 +75,10 @@ Testimoni
                             <select name="rating" class="form-control" id="">
                                 <option value="">Pilih Rating</option>
                                 @for ($i = 5; $i > 0; $i--)
-                                <option value="{{$i}}">{{$i}}</option>
+                                <option value="{{$i}}" @isset($testimoni) @if ($i==$testimoni->rating)
+                                    selected
+                                    @endif
+                                    @endisset>{{$i}}</option>
                                 @endfor
 
                             </select>
