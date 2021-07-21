@@ -130,6 +130,15 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a href="{{route('schedule_not_operate.index')}}"
+                        class="nav-link {{Request::routeIs('schedule_not_operate.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-calendar"></i>
+                        <p>
+                            Jadwal
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-header">USER</li>
                 <li class="nav-item">
                     <a href="{{route('user.index')}}" class="nav-link {{Request::routeIs('user.*') ? 'active' : ''}}">

@@ -16,6 +16,7 @@ use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\PaymentType\PaymentTypeController;
 use App\Http\Controllers\RoutesController;
+use App\Http\Controllers\ScheduleNotOperateController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\SocialMediaController;
 use App\Http\Controllers\TermsAndConditionController;
@@ -67,6 +68,7 @@ Route::group(['middleware' => ['auth']], function () {
         'time_classification' => TimeClassificationController::class,
         'social_media' => SocialMediaController::class,
         'terms_condition' => TermsAndConditionController::class,
-        'payment_type' => PaymentTypeController::class
+        'payment_type' => PaymentTypeController::class,
+        'schedule_not_operate' => ScheduleNotOperateController::class
     ]);
 });
