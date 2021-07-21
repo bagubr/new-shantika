@@ -14,6 +14,7 @@ use App\Http\Controllers\FleetController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\LayoutController;
+use App\Http\Controllers\PaymentType\PaymentTypeController;
 use App\Http\Controllers\RoutesController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\SocialMediaController;
@@ -65,6 +66,7 @@ Route::group(['middleware' => ['auth']], function () {
         'about' => AboutController::class,
         'time_classification' => TimeClassificationController::class,
         'social_media' => SocialMediaController::class,
-        'terms_condition' => TermsAndConditionController::class
+        'terms_condition' => TermsAndConditionController::class,
+        'payment_type' => PaymentTypeController::class
     ]);
 });
