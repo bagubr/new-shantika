@@ -36,6 +36,7 @@ Testimoni Pengguna
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
+                                    <th>Judul Testimoni</th>
                                     <th>Nama</th>
                                     <th>Image</th>
                                     <th>Review</th>
@@ -46,6 +47,7 @@ Testimoni Pengguna
                             <tbody>
                                 @foreach ($testimonials as $testimoni)
                                 <tr>
+                                    <td>{{$testimoni->title}}</td>
                                     <td>{{$testimoni->user->name}}</td>
                                     <td><img src="{{$testimoni->image}}" height="100px"
                                             alt="{{$testimoni->user->name}}">

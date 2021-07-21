@@ -40,7 +40,9 @@ class TestimoniController extends Controller
     public function store(CreateTestimoniRequest $request)
     {
         $data = $request->all();
-        $data['image'] = $request->image->store('testimonial', 'public');
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->image->store('testimonial', 'public');
+        }
 
         Testimonial::create($data);
         session()->flash('success', 'Testimoni Berhasil Ditambahkan');
