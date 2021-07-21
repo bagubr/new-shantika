@@ -12,8 +12,14 @@ class CustomerMenu extends Model
 
     protected $table = "customer_menus";
     protected $fillable = ['name', 'icon'];
+    
     public function deleteImage()
     {
         Storage::disk('public')->delete($this->icon);
+    }
+
+    public function getAvatarAttribute($value)
+    {
+        return url('storage/' . $value);
     }
 }
