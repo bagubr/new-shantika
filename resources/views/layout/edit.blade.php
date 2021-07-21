@@ -2,14 +2,14 @@
 @section('title')
     Layout Armada
 @endsection
-@section('css')
+@push('css')
 <style>
     .box {
-        width: 5rem;
+        min-width: 4rem;
         margin: 3px;
     }
 </style>
-@endsection
+@endpush
 @section('content')
 <div class="content-header">
     <div class="container-fluid">
