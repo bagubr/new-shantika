@@ -17,6 +17,7 @@ class LayoutChair extends Model
 
     protected $appends = [
         'is_available',
+        'is_booking',
         'is_door',
         'is_toilet',
     ];
@@ -37,6 +38,11 @@ class LayoutChair extends Model
     {
         $toilet = $this->layout()->first()->toilet_indexes;
         return (in_array($this->index, $toilet))? true : false;
+    }
+
+    public function getIsBookingAttribute()
+    {
+        return false;
     }
 
     public function layout()
