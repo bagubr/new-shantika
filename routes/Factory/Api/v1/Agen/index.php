@@ -27,7 +27,7 @@ Route::group([
 
             Route::get('home', 'HomeController@home');
         
-            Route::post('booking', 'OrderController@booking');
+            Route::post('booking', 'BookingController@booking');
         });
     });
 });
