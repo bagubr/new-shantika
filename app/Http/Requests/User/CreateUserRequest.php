@@ -27,7 +27,7 @@ class CreateUserRequest extends FormRequest
             'name' => 'required',
             'phone' => 'required',
             'email' => 'required|email',
-            'avatar' => 'required|image|max:2048',
+            'avatar' => 'nullable|image|max:2048',
             'birth_place' => 'required',
             'birth' => 'required|date',
             'address' => 'required',

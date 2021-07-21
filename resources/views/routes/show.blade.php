@@ -105,7 +105,7 @@ Route
         <div class="col-md-6">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Form</h3>
+                    <h3 class="card-title">Checkpoint Form</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -166,7 +166,9 @@ Route
                             @foreach ($checkpoints as $checkpoint)
                             <tr>
                                 <td>{{$checkpoint->order}}</td>
-                                <td>{{$checkpoint->agency->name}}/{{$checkpoint->agency->city->name}}</td>
+                                <td><a
+                                        href="{{route('agency.edit',$checkpoint->agency_id)}}">{{$checkpoint->agency->name}}/{{$checkpoint->agency->city->name}}</a>
+                                </td>
                                 <td>{{$checkpoint->arrived_at}}</td>
                                 <td>
                                     <form action="{{route('checkpoint.destroy',$checkpoint->id)}}" class="d-inline"

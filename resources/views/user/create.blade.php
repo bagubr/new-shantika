@@ -58,17 +58,10 @@ User
                         <div class="form-row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="">Kota Lahir</label>
-                                    <select name="birth_place" class="form-control select2" id="">
-                                        <option value="">Pilih Kota</option>
-                                        @foreach ($cities as $city)
-                                        <option value="{{$city->id}}" @isset($user)@if ($city->id ==
-                                            $user->birth_place)
-                                            selected
-                                            @endif
-                                            @endisset>{{$city->name}}</option>
-                                        @endforeach
-                                    </select>
+                                    <label>Kota Lahir</label>
+                                    <input type="text" name="birth_place" class="form-control"
+                                        value="{{isset($user) ? $user->birth_place: '' }}"
+                                        placeholder="Masukkan Kota Kelahiran">
                                 </div>
                             </div>
                             <div class="col">
@@ -79,8 +72,9 @@ User
                         </div>
                         <div class="form-group">
                             <label>Phone</label>
-                            <input type="number" name="phone" class="form-control" id="" placeholder="Masukkan Nomor Hp"
+                            <input type="text" name="phone" class="form-control" id="" placeholder="Masukkan Nomor Hp"
                                 value="{{isset($user) ? $user->phone : ''}}">
+                            <span class="text-red">co. +62812345678</span>
                         </div>
                         <div class="form-group">
                             <label for="">Email</label>
