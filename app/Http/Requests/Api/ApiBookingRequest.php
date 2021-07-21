@@ -18,7 +18,8 @@ class ApiBookingRequest extends ApiRequest
         return [
             'route_id'=>'required',
             'booking_at'=>'required|date',
-            'layout_chair_id'=>'required|numeric'
+            'layout_chair_id'=>'required|array',
+            'layout_chair_id.*'=>'required|numeric'
         ];
     }
 }
