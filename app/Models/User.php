@@ -45,8 +45,12 @@ class User extends Authenticatable
         return url('storage/' . $this->avatar);
     }
 
-    public function deleteImage()
+    public function deleteAvatar()
     {
         Storage::disk('public')->delete($this->attributes['avatar']);
+    }
+    public function agencies()
+    {
+        return $this->belongsTo(UserAgent::class, 'id', 'user_id');
     }
 }

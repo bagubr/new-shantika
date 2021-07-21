@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Models\Agency;
 use App\Models\User;
+use App\Models\UserAgent;
 use App\Repositories\CityRepository;
 use Illuminate\Http\Request;
 
@@ -29,8 +31,8 @@ class UserController extends Controller
     public function create()
     {
         $genders = ['Male', 'Female'];
-        $cities = CityRepository::all();
-        return view('user.create', compact('genders', 'cities'));
+        $agencies = Agency::all();
+        return view('user.create', compact('genders', 'agencies'));
     }
 
     /**
@@ -41,10 +43,15 @@ class UserController extends Controller
      */
     public function store(CreateUserRequest $request)
     {
-        $data = $request->all();
-        $data['avatar'] = $request->avatar->store('avatar', 'public');
-
-        User::create($data);
+        $data = $request->except(['agency_id']);
+        if ($request->hasFile('avatar')) {
+            $data['avatar'] = $request->avatar->store('avatar', 'public');
+        }
+        $user = User::create($data);
+        UserAgent::create([
+            'user_id' => $user->id,
+            'agency_id' => $request->agency_id
+        ]);
         session()->flash('success', 'User Berhasil Ditambahkan');
         return redirect(route('user.index'));
     }
@@ -69,8 +76,8 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $genders = ['Male', 'Female'];
-        $cities = CityRepository::all();
-        return view('user.create', compact('user', 'genders', 'cities'));
+        $agencies = Agency::all();
+        return view('user.create', compact('user', 'genders', 'agencies'));
     }
 
     /**
@@ -85,10 +92,17 @@ class UserController extends Controller
         $data = $request->only(['name', 'phone', 'email', 'birth_place', 'birth', 'address', 'gender']);
         if ($request->hasFile('avatar')) {
             $avatar = $request->avatar->store('avatar', 'public');
-            $user->deleteImage();
+            $user->deleteAvatar();
             $data['avatar'] = $avatar;
         };
         $user->update($data);
+        if ($request->agency_id == "") {
+            $user->agencies->delete();
+        } else {
+            $user->agencies->update([
+                'agency_id' => $request->agency_id
+            ]);
+        }
         session()->flash('success', 'User Berhasil Diperbarui');
         return redirect(route('user.index'));
     }
@@ -101,7 +115,10 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->deleteImage();
+        $user->deleteAvatar();
+        if ($user->agencies) {
+            $user->agencies->delete();
+        }
         $user->delete();
         session()->flash('success', 'User Berhasil Dihapus');
         return redirect(route('user.index'));
