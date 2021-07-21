@@ -55,6 +55,19 @@ User
                                 @endforeach
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label>Agent</label>
+                            <select name="agency_id" class="form-control select2" id="">
+                                <option value="">Pilih Agent</option>
+                                @foreach ($agencies as $agency)
+                                <option value="{{$agency->id}}" @isset($user) @if ($agency->id ==
+                                    $user->agencies->agency_id)
+                                    selected
+                                    @endif
+                                    @endisset>{{$agency->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="form-row">
                             <div class="col">
                                 <div class="form-group">
