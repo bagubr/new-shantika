@@ -20,4 +20,9 @@ class Slider extends Model
     {
         Storage::disk('public')->delete($this->attributes['image']);
     }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return date('Y-m-d H:i:s', strtotime($value));
+    }
 }

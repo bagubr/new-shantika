@@ -12,8 +12,22 @@ class CustomerMenu extends Model
 
     protected $table = "customer_menus";
     protected $fillable = ['name', 'icon'];
+
+    protected static function booted()
+    {
+        static::addGlobalScope('order', function (Builder $builder) {
+            $builder->orderBy('id');
+        });
+    }
+
+
     public function deleteImage()
     {
         Storage::disk('public')->delete($this->icon);
+    }
+
+    public function getAvatarAttribute($value)
+    {
+        return url('storage/' . $value);
     }
 }

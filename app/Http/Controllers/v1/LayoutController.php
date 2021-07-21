@@ -13,7 +13,7 @@ class LayoutController extends Controller
         $data = LayoutRepository::findWithChairs($request->id);
         
         $this->sendSuccessResponse([
-            'data'=>$data
+            'layout'=>$data
         ]);
     }
 }

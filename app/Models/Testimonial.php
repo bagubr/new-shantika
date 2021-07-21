@@ -10,7 +10,7 @@ class Testimonial extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'user_id', 'review', 'rating', 'image'
+        'user_id', 'title', 'review', 'rating', 'image'
     ];
 
     protected $appends = [
@@ -29,6 +29,12 @@ class Testimonial extends Model
     {
         Storage::disk('public')->delete($this->attributes['image']);
     }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return date('Y-m-d H:i:s', strtotime($value));
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
