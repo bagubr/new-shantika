@@ -43,9 +43,6 @@ class LayoutChair extends Model
     public function getIsBookingAttribute()
     {
         return false;
-        // $this->getBooking($request->route_id);
-
-        // return false;
     }
 
     public function layout()

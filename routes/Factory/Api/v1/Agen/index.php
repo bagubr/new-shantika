@@ -28,6 +28,7 @@ Route::group([
             Route::get('home', 'HomeController@home');
         
             Route::post('booking', 'BookingController@booking');
+            Route::post('order_tiket', 'OrderController@order');
         });
     });
 });
