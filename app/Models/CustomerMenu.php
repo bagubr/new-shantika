@@ -27,7 +27,7 @@ class CustomerMenu extends Model
         Storage::disk('public')->delete($this->icon);
     }
 
-    public function getAvatarAttribute($value)
+    public function getIconAttribute($value)
     {
         return url('storage/' . $value);
     }
