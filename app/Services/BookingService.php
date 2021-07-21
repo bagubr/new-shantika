@@ -17,7 +17,6 @@ class BookingService {
         if(BookingRepository::isBooked($booking->layout_chair_id, date('Y-m-d'))) {
             return (new self)->sendFailedResponse([], 'Mohon maaf, kursi sudah dibooking');
         }
-        
         $booking = Booking::create($booking->toArray());
 
         return $booking;
