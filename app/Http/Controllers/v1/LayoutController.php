@@ -10,7 +10,7 @@ class LayoutController extends Controller
 {
     public function index(Request $request)
     {
-        $data = LayoutRepository::findWithChairs($request->id);
+        $data = LayoutRepository::findWithChairs($request->layout_id);
         
         $this->sendSuccessResponse([
             'layout'=>$data
