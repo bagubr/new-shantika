@@ -6,7 +6,7 @@ class CustomerMenuRepository {
 
     public static function getAll()
     {
-        return CustomerMenu::orderBy('id', 'desc')->get();
+        return CustomerMenu::get();
     }
 }
         

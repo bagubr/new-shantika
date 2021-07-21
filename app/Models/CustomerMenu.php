@@ -13,10 +13,11 @@ class CustomerMenu extends Model
     protected $table = "customer_menus";
     protected $fillable = ['name', 'icon'];
 
-    public static function boot()
+    protected static function booted()
     {
-        parent::boot();
-        static::orderBy('id');
+        static::addGlobalScope('order', function (Builder $builder) {
+            $builder->orderBy('id');
+        });
     }
 
 
