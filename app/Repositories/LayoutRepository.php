@@ -2,8 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Http\Resources\Layout\LayoutResource;
 use App\Models\Layout;
-
+use App\Models\Route;
 class LayoutRepository
 {
     public static function all()
@@ -14,6 +15,13 @@ class LayoutRepository
     public static function findWithChairs($id)
     {
         return Layout::with('chairs')->find($id);
+    }
+    
+    public static function findByRouteId($id)
+    {
+        $route = Route::find($id);
+        $layout = Layout::with('chairs')->find($route->fleet->layout_id);
+        return new LayoutResource($layout);
     }
 
     public static function latestWithChairs()

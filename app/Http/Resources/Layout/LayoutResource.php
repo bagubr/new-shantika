@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Layout;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-
+use App\Models\Booking;
 class LayoutResource extends JsonResource
 {
     /**
@@ -14,14 +14,23 @@ class LayoutResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
+        $data = [
             'id'            => $this->id,
             'name'          => $this->name,
-            'index'         => $this->index,
-            'is_available'  => $this->is_available,
-            'is_booking'    => (Booking::where('route_id', $request->route_id)->where('expired_at', date('Y-m-d H:i:s'))->first())?true:false,
-            'is_door'       => $this->is_door,
-            'is_toilet'     => $this->is_toilet,
+            'row'           => $this->row,
+            'col'           => $this->col,
+            'space_indexes' => $this->space_indexes,
+            'toilet_indexes'=> $this->toilet_indexes,
+            'door_indexes'  => $this->door_indexes,
+            'note'          => $this->note,
+            'total_indexes' => $this->total_indexes,
+            'chairs'        => $this->chairs->map(function ($item, $key) use ($request)
+            {
+                $booking = Booking::where('route_id', $request->id)->where('layout_chair_id', $item->id)->where('expired_at', '>=', date('Y-m-d H:i:s'))->first();
+                $item->is_booking = ($booking)?true:false;
+                return $item;
+            }),
         ];
+        return $data;
     }
 }

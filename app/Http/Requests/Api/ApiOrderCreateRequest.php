@@ -23,8 +23,8 @@ class ApiOrderCreateRequest extends ApiRequest
             'name'=>'required|string',
             'phone'=>'required|string',
             'email'=>'required|email',
-            'is_member'=>'required|boolean',
-            'id_member'=>'required|string',
+            'is_member'=>'sometimes|required|boolean',
+            'id_member'=>'sometimes|required|string',
             'is_travel'=>'required|boolean',
             'is_feed'=>'required|boolean'
         ];
