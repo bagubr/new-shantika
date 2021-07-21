@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\TermsCondition;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateChatRequest extends FormRequest
+class CreateTermsConditionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +25,7 @@ class CreateChatRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'value' => 'required',
-            'type' => 'required',
-            'icon' => 'nullable|image|max:2048',
+            'content' => 'required'
         ];
     }
 }

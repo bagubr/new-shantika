@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateChatRequest;
-use App\Models\Chat;
-use App\Repositories\ChatRepository;
+use App\Http\Requests\TermsCondition\CreateTermsConditionRequest;
+use App\Models\TermAndCondition;
 use Illuminate\Http\Request;
 
-class ChatController extends Controller
+class TermsAndConditionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +15,8 @@ class ChatController extends Controller
      */
     public function index()
     {
-        $chats = ChatRepository::all();
-        return view('chat.index', compact('chats'));
+        $terms_conditions = TermAndCondition::all();
+        return view('terms_condition.index', compact('terms_conditions'));
     }
 
     /**
@@ -27,7 +26,7 @@ class ChatController extends Controller
      */
     public function create()
     {
-        return view('chat.create');
+        return view('terms_condition.create');
     }
 
     /**
@@ -36,13 +35,12 @@ class ChatController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateChatRequest $request)
+    public function store(CreateTermsConditionRequest $request)
     {
         $data = $request->all();
-        $data['icon'] = $request->icon->store('icon', 'public');
-        Chat::create($data);
-        session()->flash('success', 'Chat Berhasil Ditambahkan');
-        return redirect(route('chat.index'));
+        TermAndCondition::create($data);
+        session()->flash('success', 'Syarat Dan Ketentuan Berhasil Ditambahkan');
+        return redirect(route('terms_condition.index'));
     }
 
     /**
@@ -62,9 +60,9 @@ class ChatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Chat $chat)
+    public function edit(TermAndCondition $terms_condition)
     {
-        return view('chat.create', compact('chat'));
+        return view('terms_condition.create', compact('terms_condition'));
     }
 
     /**
@@ -74,17 +72,12 @@ class ChatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CreateChatRequest $request, Chat $chat)
+    public function update(CreateTermsConditionRequest $request, TermAndCondition $terms_condition)
     {
-        $data = $request->only(['name', 'value', 'type']);
-        if ($request->hasFile('icon')) {
-            $icon = $request->icon->store('icon', 'public');
-            $chat->deleteIcon();
-            $data['icon'] = $icon;
-        }
-        $chat->update($data);
-        session()->flash('success', 'Chat Update Successfully');
-        return redirect(route('chat.index'));
+        $data = $request->all();
+        $terms_condition->update($data);
+        session()->flash('success', 'Syarat Dan Ketentuan Berhasil Dirubah');
+        return redirect(route('terms_condition.index'));
     }
 
     /**
@@ -93,11 +86,10 @@ class ChatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Chat $chat)
+    public function destroy(TermAndCondition $terms_condition)
     {
-        $chat->deleteIcon();
-        $chat->delete();
-        session()->flash('success', 'Chat Delete Successfully');
-        return redirect(route('chat.index'));
+        $terms_condition->delete();
+        session()->flash('success', 'Syarat Dan Ketentuan Berhasil Dihapus');
+        return redirect(route('terms_condition.index'));
     }
 }

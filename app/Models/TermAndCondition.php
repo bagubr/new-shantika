@@ -10,4 +10,5 @@ class TermAndCondition extends Model
     use HasFactory;
 
     protected $table = 'terms_and_conditions';
+    protected $fillable = ['name', 'content'];
 }

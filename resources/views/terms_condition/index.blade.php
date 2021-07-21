@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Chat
+Syarat Dan Ketentuan
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->
@@ -8,12 +8,12 @@ Chat
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Chat</h1>
+                <h1 class="m-0">Syarat Dan Ketentuan</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Chat</li>
+                    <li class="breadcrumb-item active">Syarat Dan Ketentuan</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -26,9 +26,9 @@ Chat
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Chat</h3>
+                        <h3 class="card-title">Table Syarat Dan Ketentuan</h3>
                         <div class="text-right">
-                            <a href="{{route('chat.create')}}" class="btn btn-primary btn-sm">Tambah</a>
+                            <a href="{{route('terms_condition.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -37,23 +37,20 @@ Chat
                             <thead>
                                 <tr>
                                     <th>Nama</th>
-                                    <th>Message</th>
-                                    <th>Tipe</th>
-                                    <th>Icon</th>
+                                    <th>Konten</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($chats as $chat)
+                                @foreach ($terms_conditions as $term_condition)
                                 <tr>
-                                    <td>{{$chat->name}}</td>
-                                    <td>{{$chat->value}}</td>
-                                    <td>{{$chat->type}}</td>
-                                    <td><img src="{{$chat->icon}}" height="100px" alt=""></td>
-                                    <td><a href="{{route('chat.edit',$chat->id)}}"
+                                    <td>{{$term_condition->name}}</td>
+                                    <td>{{$term_condition->content}}</td>
+                                    <td>
+                                        <a href="{{route('terms_condition.edit',$term_condition->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
-                                        <form action="{{route('chat.destroy',$chat->id)}}" class="d-inline"
-                                            method="POST">
+                                        <form action="{{route('terms_condition.destroy',$term_condition->id)}}"
+                                            class="d-inline" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger btn-xs"
