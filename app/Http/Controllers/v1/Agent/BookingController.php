@@ -16,12 +16,12 @@ use Illuminate\Support\Facades\DB;
 class BookingController extends Controller
 {
     public function booking(ApiBookingRequest $request) {
-        $booking = new BookingInterface(
-            $request->route_id,
-            $request->layout_chair_id,
-            BookingService::getCurrentExpiredAt(),
-            UserRepository::findByToken($request->bearerToken())?->id
-        );
+        $booking = new Booking([
+            'route_id'=>$request->route_id,
+            'layout_chair_id'=>$request->layout_chair_id,
+            'expired_at'=>BookingService::getCurrentExpiredAt(),
+            'user_id'=>UserRepository::findByToken($request->bearerToken())?->id
+        ]);
         $booking = BookingService::create($booking);
     
         return $this->sendSuccessResponse([
