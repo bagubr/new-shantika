@@ -18,7 +18,6 @@ class CreateBookingsTable extends Migration
             $table->unsignedBigInteger('route_id');
             $table->unsignedBigInteger('layout_chair_id');
             $table->unsignedBigInteger('user_id');
-            $table->datetime('booking_at');
             $table->datetime('expired_at');
             $table->timestamps();
 
