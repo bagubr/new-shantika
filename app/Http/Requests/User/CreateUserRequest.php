@@ -31,7 +31,8 @@ class CreateUserRequest extends FormRequest
             'birth_place' => 'required',
             'birth' => 'required|date',
             'address' => 'required',
-            'gender' => 'required|in:Male,Female'
+            'gender' => 'required|in:Male,Female',
+            'agency_id' => 'nullable',
         ];
     }
 }

@@ -112,6 +112,33 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item {{Request::routeIs('payment_type.*') ? 'menu-open' : ''}}">
+                    <a href="#" class="nav-link {{Request::routeIs('payment_type.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-credit-card"></i>
+                        <p>
+                            Pembayaran
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('payment_type.index')}}"
+                                class="nav-link {{Request::routeIs('payment_type.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Tipe Pembayaran</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('schedule_not_operate.index')}}"
+                        class="nav-link {{Request::routeIs('schedule_not_operate.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-calendar"></i>
+                        <p>
+                            Jadwal
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-header">USER</li>
                 <li class="nav-item">
                     <a href="{{route('user.index')}}" class="nav-link {{Request::routeIs('user.*') ? 'active' : ''}}">
