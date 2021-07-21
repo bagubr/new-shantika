@@ -35,11 +35,6 @@ class Testimonial extends Model
         return date('Y-m-d H:i:s', strtotime($value));
     }
 
-    public function getCreatedAtAttribute($value)
-    {
-        return date('Y-m-d H:i:s', strtotime($value));
-    }
-
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
