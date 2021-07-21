@@ -15,6 +15,7 @@ class CreateOrderSchedules extends Migration
     {
         Schema::create('order_schedules', function (Blueprint $table) {
             $table->id();
+            $table->date('date');
             $table->timestamps();
         });
     }

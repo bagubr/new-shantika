@@ -36,9 +36,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getAvatarAttribute()
+    // public function getAvatarAttribute()
+    // {
+    //     return $this->appendPath($this->attributes['avatar']);
+    // }
+
+    public function getAvatarAttribute($value)
     {
-        return $this->appendPath($this->attributes['avatar']);
+        return url('storage/' . $value);
     }
 
     public function deleteImage()

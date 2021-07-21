@@ -18,6 +18,7 @@ class AvailableRoutesResource extends JsonResource
         $checkpoint_max_index = count($this->checkpoints) - 1;
         return [
             'id'                 => $this->id,
+            'layout_id'          => $this->fleet->layout->id,
             'route_name'         => $this->name,
             'fleet_name'         => $this->fleet?->name ?? "",
             'departure_at'       => $this->departure_at,

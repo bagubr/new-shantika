@@ -10,8 +10,6 @@ use Illuminate\Http\Request;
 class AboutController extends Controller
 {
     public function index() {
-        $route = Route::all()->random();
-        return $route->fleet->layout->chairs;
         return $this->sendSuccessResponse([
             'about'=>About::first()
         ]);
