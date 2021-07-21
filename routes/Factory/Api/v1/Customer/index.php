@@ -9,6 +9,7 @@ Route::group([
         Route::post('login/email', 'AuthController@loginEmail');
         Route::post('login/phone', 'AuthController@loginPhone');
         Route::post('registration','AuthController@registerCustomer');
+        Route::get('home', 'HomeController@home');
     });
     Route::get('fleet_lists','FleetController@index');
     Route::get('fleet_detail/{id}','FleetController@show');
@@ -19,7 +20,6 @@ Route::group([
         
         
         Route::group(['namespace' => 'Customer'], function() {
-            Route::get('home', 'HomeController@home');
             Route::get('routes/available', 'RouteController@getAvailableRoutes');
             Route::get('chats', 'ChatController@index');
             Route::get('profile', 'UserController@show');
