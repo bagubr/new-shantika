@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOrderSchedules extends Migration
+class CreateScheduleNotOperates extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,19 @@ class CreateOrderSchedules extends Migration
      */
     public function up()
     {
-        Schema::create('order_schedules', function (Blueprint $table) {
+        Schema::create('schedule_not_operates', function (Blueprint $table) {
             $table->id();
-            $table->date('date');
+            $table->unsignedBiginteger('route_id');
+            $table->string('note');
+            $table->date('schedule_at');
             $table->timestamps();
+
+            $table->foreign('route_id')
+            ->references('id')
+            ->on('routes')
+            ->onUpdate('CASCADE')
+            ->onDelete('RESTRICT');
+
         });
     }
 

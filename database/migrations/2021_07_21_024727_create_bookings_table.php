@@ -36,7 +36,7 @@ class CreateBookingsTable extends Migration
 
             $table->foreign('layout_chair_id')
             ->references('id')
-            ->on('layout_chair')
+            ->on('layout_chairs')
             ->onUpdate('CASCADE')
             ->onDelete('RESTRICT');
 

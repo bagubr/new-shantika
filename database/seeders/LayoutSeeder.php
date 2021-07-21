@@ -24,27 +24,27 @@ class LayoutSeeder extends Seeder
                 'name'          =>$faker->sentence($nbWords = 1, $variableNbWords = true),
                 'row'           =>$faker->randomElement($array = array (5, 4)),
                 'col'           =>$faker->randomElement($array = array (8, 9, 7)),
-                'space_indexes' =>json_encode($faker->randomElements($array, $count = 3)),
-                'toilet_indexes'=>json_encode($faker->randomElements($array, $count = 1)),
-                'door_indexes'  =>json_encode($faker->randomElements($array, $count = 1)),
+                'space_indexes' =>$faker->randomElements($array, $count = 3),
+                'toilet_indexes'=>$faker->randomElements($array, $count = 1),
+                'door_indexes'  =>$faker->randomElements($array, $count = 1),
                 'note'          =>$faker->sentence($nbWords = 6, $variableNbWords = true)
             ]);
             $count = $layout->col * $layout->row;
             $name_chair = 0;
             for ($i=0; $i < $count; $i++) { 
-                if(in_array($i, json_decode($layout->space_indexes))){
+                if(in_array($i, $layout->space_indexes)){
                     LayoutChair::create([
                         'name'      =>'Space',
                         'index'     =>$i,
                         'layout_id' =>$layout->id,
                     ]);
-                }elseif(in_array($i, json_decode($layout->toilet_indexes))){
+                }elseif(in_array($i, $layout->toilet_indexes)){
                     LayoutChair::create([
                         'name'      =>'Toilet',
                         'index'     =>$i,
                         'layout_id' =>$layout->id,
                     ]);
-                }elseif(in_array($i, json_decode($layout->door_indexes))){
+                }elseif(in_array($i, $layout->door_indexes)){
                     LayoutChair::create([
                         'name'      =>'Pintu',
                         'index'     =>$i,

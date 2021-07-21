@@ -24,21 +24,21 @@ class LayoutChair extends Model
 
     public function getIsAvailableAttribute()
     {
-        $space  = json_decode($this->layout()->first()->space_indexes);
-        $toilet = json_decode($this->layout()->first()->toilet_indexes);
-        $door   = json_decode($this->layout()->first()->door_indexes);
+        $space  = $this->layout()->first()->space_indexes;
+        $toilet = $this->layout()->first()->toilet_indexes;
+        $door   = $this->layout()->first()->door_indexes;
         return (in_array($this->index, $space))? false : true;
     }
     
     public function getIsDoorAttribute()
     {
-        $door   = json_decode($this->layout()->first()->door_indexes);
+        $door   = $this->layout()->first()->door_indexes;
         return (in_array($this->index, $door))? true : false;
     }
     
     public function getIsToiletAttribute()
     {
-        $toilet = json_decode($this->layout()->first()->toilet_indexes);
+        $toilet = $this->layout()->first()->toilet_indexes;
         return (in_array($this->index, $toilet))? true : false;
     }
 

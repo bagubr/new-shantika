@@ -27,11 +27,14 @@ class OrderSeeder extends Seeder
                 'expired_at' => date('Y-m-d H:i:s', strtotime($date . ' +3 day')),
                 'reserve_at' => $date,
             ]);
-            $fleet = Fleet::find($route->fleet_id);
-            $layout = Layout::find($fleet->layout_id);
+            
+            $space  = $route->fleet->layout->space_indexes;
+            $toilet = $route->fleet->layout->toilet_indexes;
+            $door   = $route->fleet->layout->door_indexes;
             OrderDetail::create([
                 'order_id'          => $order->id,
-                'layout_chair_id'   => '',
+                'layout_chair_id'   => $route->fleet->layout->chairs->whereNotIn('index', $space)
+                ->whereNotIn('index', $toilet)->whereNotIn('index', $door)->random()->id,
                 'code_ticket'       => 'STK-'.date('YmdHis'),
                 'name'              => User::find($order->user_id)->name??'',
                 'phone'             => User::find($order->user_id)->phone??'',
