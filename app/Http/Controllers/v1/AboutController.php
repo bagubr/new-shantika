@@ -4,13 +4,14 @@ namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\About;
+use App\Models\Route;
 use Illuminate\Http\Request;
 
 class AboutController extends Controller
 {
     public function index() {
-        $date = date('Y-m-d H:i:s');
-        return date('Y-m-d H:i:s', strtotime($date . ' +1 day'));
+        $route = Route::all()->random();
+        return $route->fleet->layout->chairs;
         return $this->sendSuccessResponse([
             'about'=>About::first()
         ]);
