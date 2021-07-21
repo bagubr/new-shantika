@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Testimoni\CreateTestimoniRequest;
+use App\Http\Requests\Testimoni\UpdateTestimoniRequest;
 use App\Models\Testimonial;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -40,7 +41,9 @@ class TestimoniController extends Controller
     public function store(CreateTestimoniRequest $request)
     {
         $data = $request->all();
-        $data['image'] = $request->image->store('testimonial', 'public');
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->image->store('testimonial', 'public');
+        }
 
         Testimonial::create($data);
         session()->flash('success', 'Testimoni Berhasil Ditambahkan');
@@ -64,9 +67,10 @@ class TestimoniController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Testimonial $testimoni)
     {
-        //
+        $users = User::all();
+        return view('testimoni.create', compact('testimoni', 'users'));
     }
 
     /**
@@ -76,9 +80,17 @@ class TestimoniController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateTestimoniRequest $request, Testimonial $testimoni)
     {
-        //
+        $data = $request->except('image');
+        if ($request->hasFile('image')) {
+            $image = $request->image->store('testimonial', 'public');
+            $testimoni->deleteImage();
+            $data['image'] = $image;
+        };
+        $testimoni->update($data);
+        session()->flash('success', 'Testimoni Berhasil Dirubah');
+        return redirect(route('testimoni.index'));
     }
 
     /**
@@ -89,6 +101,7 @@ class TestimoniController extends Controller
      */
     public function destroy(Testimonial $testimoni)
     {
+        $testimoni->deleteImage();
         $testimoni->delete();
         session()->flash('success', 'Testimoni Berhasil Dihapus');
         return redirect(route('testimoni.index'));

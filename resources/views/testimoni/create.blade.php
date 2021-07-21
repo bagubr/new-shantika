@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Slider
+Testimoni
 @endsection
 @push('css')
 <link rel="stylesheet" href="{{asset('plugins/summernote/summernote-bs4.min.css')}}">
@@ -10,12 +10,12 @@ Slider
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Slider Form</h1>
+                <h1>Testimoni Form</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Slider</li>
+                    <li class="breadcrumb-item active">Testimoni</li>
                 </ol>
             </div>
         </div>
@@ -44,11 +44,19 @@ Slider
                         @method('PUT')
                         @endisset
                         <div class="form-group">
+                            <label>Judul</label>
+                            <input type="text" name="title" class="form-control" placeholder="Masukkan Judul"
+                                value="{{isset($testimoni) ? $testimoni->title : ''}}">
+                        </div>
+                        <div class="form-group">
                             <label>Pengguna</label>
                             <select name="user_id" class="form-control select2" id="">
                                 <option value="">Pilih Pengguna</option>
                                 @foreach ($users as $user)
-                                <option value="{{$user->id}}">{{$user->name}}</option>
+                                <option value="{{$user->id}}" @isset($testimoni) @if ($user->id == $testimoni->user_id)
+                                    selected
+                                    @endif
+                                    @endisset>{{$user->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -67,7 +75,10 @@ Slider
                             <select name="rating" class="form-control" id="">
                                 <option value="">Pilih Rating</option>
                                 @for ($i = 5; $i > 0; $i--)
-                                <option value="{{$i}}">{{$i}}</option>
+                                <option value="{{$i}}" @isset($testimoni) @if ($i==$testimoni->rating)
+                                    selected
+                                    @endif
+                                    @endisset>{{$i}}</option>
                                 @endfor
 
                             </select>

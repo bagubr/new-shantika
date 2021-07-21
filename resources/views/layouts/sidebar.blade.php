@@ -174,6 +174,15 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{route('terms_condition.index')}}"
+                        class="nav-link {{Request::routeIs('terms_condition.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-balance-scale"></i>
+                        <p>
+                            Syarat dan Ketentuan
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{route('social_media.index')}}"
                         class="nav-link {{Request::routeIs('social_media.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-hashtag"></i>

@@ -24,6 +24,7 @@ class CreateTestimoniRequest extends FormRequest
     public function rules()
     {
         return [
+            'title' => 'required',
             'user_id' => 'required|exists:users,id',
             'image' => 'nullable|max:2048|image',
             'review' => 'nullable',

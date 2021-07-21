@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Testimoni Pengguna
+Syarat Dan Ketentuan
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->
@@ -8,12 +8,12 @@ Testimoni Pengguna
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Testimoni Pengguna</h1>
+                <h1 class="m-0">Syarat Dan Ketentuan</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Testimoni Pengguna</li>
+                    <li class="breadcrumb-item active">Syarat Dan Ketentuan</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -26,9 +26,9 @@ Testimoni Pengguna
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Testimoni Pengguna</h3>
+                        <h3 class="card-title">Table Syarat Dan Ketentuan</h3>
                         <div class="text-right">
-                            <a href="{{route('testimoni.create')}}" class="btn btn-primary btn-sm">Tambah</a>
+                            <a href="{{route('terms_condition.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -36,33 +36,21 @@ Testimoni Pengguna
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Judul Testimoni</th>
                                     <th>Nama</th>
-                                    <th>Image</th>
-                                    <th>Review</th>
-                                    <th>Rating</th>
+                                    <th>Konten</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($testimonials as $testimoni)
+                                @foreach ($terms_conditions as $term_condition)
                                 <tr>
-                                    <td>{{$testimoni->title}}</td>
-                                    <td>{{$testimoni->user->name}}</td>
-                                    <td><img src="{{$testimoni->image}}" height="100px"
-                                            alt="{{$testimoni->user->name}}">
-                                    </td>
-                                    <td>{!!$testimoni->review!!}</td>
+                                    <td>{{$term_condition->name}}</td>
+                                    <td>{{$term_condition->content}}</td>
                                     <td>
-                                        @for ($i = 0; $i < $testimoni->rating; $i++)
-                                            <i class="fas fa-star"></i>
-                                            @endfor
-                                    </td>
-                                    <td>
-                                        <a href="{{route('testimoni.edit',$testimoni->id)}}"
+                                        <a href="{{route('terms_condition.edit',$term_condition->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
-                                        <form action="{{route('testimoni.destroy',$testimoni->id)}}" class="d-inline"
-                                            method="POST">
+                                        <form action="{{route('terms_condition.destroy',$term_condition->id)}}"
+                                            class="d-inline" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger btn-xs"

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Testimoni;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateChatRequest extends FormRequest
+class UpdateTestimoniRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,11 @@ class CreateChatRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'value' => 'required',
-            'type' => 'required',
-            'icon' => 'nullable|image|max:2048',
+            'title' => 'required',
+            'user_id' => 'required|exists:users,id',
+            'image' => 'nullable|max:2048|image',
+            'review' => 'nullable',
+            'rating' => 'required|integer'
         ];
     }
 }

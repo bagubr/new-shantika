@@ -38,9 +38,8 @@ Chat
                                 <tr>
                                     <th>Nama</th>
                                     <th>Message</th>
-                                    <th>Type</th>
+                                    <th>Tipe</th>
                                     <th>Icon</th>
-                                    <th>Role</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -50,8 +49,7 @@ Chat
                                     <td>{{$chat->name}}</td>
                                     <td>{{$chat->value}}</td>
                                     <td>{{$chat->type}}</td>
-                                    <td>{{$chat->icon}}</td>
-                                    <td>{{$chat->role}}</td>
+                                    <td><img src="{{$chat->icon}}" height="100px" alt=""></td>
                                     <td><a href="{{route('chat.edit',$chat->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('chat.destroy',$chat->id)}}" class="d-inline"

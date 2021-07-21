@@ -46,7 +46,7 @@ Route
                             <tbody>
                                 @foreach ($routes as $route)
                                 <tr>
-                                    <td>{{$route->name}}</td>
+                                    <td><a href="{{route('routes.show',$route->id)}}">{{$route->name}}</a></td>
                                     <td><a href="{{route('fleets.edit', $route->fleet_id)}}">{{$route->fleet->name}}</a>
                                     <td>Rp {{number_format($route->price, 2)}}</td>
                                     <td>{{$route->departure_at}} - {{$route->arrived_at}}</td>
