@@ -11,6 +11,7 @@ use App\Repositories\OrderRepository;
 use App\Http\Resources\Order\OrderListCustomerResource;
 use App\Http\Resources\Order\OrderDetailCustomerResource;
 use App\Services\OrderService;
+use App\Services\PaymentService;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
@@ -28,9 +29,10 @@ class OrderController extends Controller
     
     public function show($id)
     {
-        $order = OrderRepository::findWithDetail($id);
+        $order = OrderRepository::findWithDetailWithPayment($id);
         return $this->sendSuccessResponse([
-            'order'=> new OrderDetailCustomerResource($order),
+            'order' => new OrderDetailCustomerResource($order),
+            'payment' => OrderService::getInvoice($order->payment()->first())
         ]);
     }
 
@@ -44,7 +46,7 @@ class OrderController extends Controller
         ]);
         $request['is_travel'] = false;
         $request['is_feed'] = true;
-        $order = OrderService::create($order, $request);
+        $order = OrderService::create($order, $request, $request->payment_type_id);
         DB::commit();
         return $this->sendSuccessResponse([
             'order'=>$order

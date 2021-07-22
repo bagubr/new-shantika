@@ -9,9 +9,9 @@ class OrderRepository {
         return Order::whereUserId($user_id)->get();
     }
     
-    public static function findWithDetail($id)
+    public static function findWithDetailWithPayment($id)
     {
-        return Order::with('order_detail')->find($id);
+        return Order::with(['order_detail', 'payment'])->find($id);
     }
 }
         
