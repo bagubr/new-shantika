@@ -45,7 +45,7 @@ Jadwal Tidak Beroperasi
                         @endisset
                         <div class="form-group">
                             <label>Rute</label>
-                            <select name="route_id" id="" class="form-control select2">
+                            <select name="route_id[]" id="" multiple class="form-control select2">
                                 <option value="">Pilih Rute</option>
                                 @foreach ($routes as $route)
                                 <option value="{{$route->id}}">{{$route->name}}</option>

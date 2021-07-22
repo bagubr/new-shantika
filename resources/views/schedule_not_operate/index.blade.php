@@ -32,7 +32,22 @@ Jadwal
                         </div>
                     </div>
                     <!-- /.card-header -->
-                    <div class="card-body">
+                    <div class="card-body" style="display: block;">
+                        <form action="{{route('schedule_not_operate.search')}}" method="GET">
+                            <div class="form-group">
+                                <label>Cari Rute</label>
+                                <select name="search" id="" class="form-control select2">
+                                    <option value="">Cari Rute</option>
+                                    @foreach ($routes as $route)
+                                    <option value="{{$route->id}}">{{$route->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="text-right">
+                                <button class="btn btn-success" type="submit">Submit</button>
+                            </div>
+                        </form>
+                        @isset($search)
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
@@ -43,14 +58,12 @@ Jadwal
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($schedule_not_operates as $schedule_not_operate)
+                                @foreach ($search as $schedule_not_operate)
                                 <tr>
                                     <td>{{$schedule_not_operate->route->name}}</td>
                                     <td>{{$schedule_not_operate->note}}</td>
                                     <td>{{$schedule_not_operate->schedule_at}}</td>
                                     <td>
-                                        {{-- <a href="{{route('schedule_not_operate.edit',$schedule_not_operate->id)}}"
-                                        class="btn btn-warning btn-xs">Edit</a>
                                         <form
                                             action="{{route('schedule_not_operate.destroy',$schedule_not_operate->id)}}"
                                             class="d-inline" method="POST">
@@ -58,12 +71,13 @@ Jadwal
                                             @method('DELETE')
                                             <button class="btn btn-danger btn-xs"
                                                 onclick="return confirm('Are you sure?')" type="submit">Delete</button>
-                                        </form> --}}
+                                        </form>
                                     </td>
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
+                        @endisset
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -75,6 +89,14 @@ Jadwal
 </div>
 @endsection
 @push('script')
+<script>
+    $(function () {
+        $('.select2').select2()
+    })
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+</script>
 <script>
     $(function () {
       $("#example1").DataTable({

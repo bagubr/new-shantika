@@ -32,25 +32,25 @@ Route
                 </div>
                 <div class="card-body" style="display: block;">
                     <div class="form-group">
-                        <label>Route Nama</label>
+                        <label>Nama Rute</label>
                         <input type="text" class="form-control" name="name" placeholder="Masukkan Nama"
                             value="{{$route->name}}" disabled>
                     </div>
                     <div class="form-group">
-                        <label>Fleet</label>
+                        <label>Armada</label>
                         <input type="text" class="form-control" value="{{$route->fleet->name}}" disabled>
                     </div>
                     <div class="form-row">
                         <div class="col">
                             <div class="form-group">
-                                <label>Departure at</label>
+                                <label>Keberangkatan</label>
                                 <input type="time" name="departure_at" class="form-control"
                                     value="{{$route->departure_at}}" disabled>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <label>Arrived at</label>
+                                <label>Kedatangan</label>
                                 <input type="time" name="arrived_at" class="form-control" disabled
                                     value="{{$route->arrived_at}}">
                             </div>

@@ -24,7 +24,7 @@ class CreateScheduleNotOperateRequest extends FormRequest
     public function rules()
     {
         return [
-            'route_id' => 'required|exists:routes,id',
+            'route_id' => 'required|exists:routes,id|array',
             'note' => 'required',
             'schedule_at' => 'required|array',
         ];

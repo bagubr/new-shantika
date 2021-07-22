@@ -16,8 +16,17 @@ class ScheduleNotOperateController extends Controller
      */
     public function index()
     {
+        $routes = Route::whereHas('schedule_not_operates')->get();
         $schedule_not_operates = ScheduleNotOperate::all();
-        return view('schedule_not_operate.index', compact('schedule_not_operates'));
+        return view('schedule_not_operate.index', compact('schedule_not_operates', 'routes'));
+    }
+    public function search(Request $request)
+    {
+        $search = ScheduleNotOperate::where('route_id', 'LIKE', '%' . $request->search . '%')->get();
+        $routes = Route::whereHas('schedule_not_operates')->get();
+        // dd($search);
+        // $routes = Route::whereHas('schedule_not_operates')->get();
+        return view('schedule_not_operate.index', compact('search', 'routes'));
     }
 
     /**
@@ -39,15 +48,17 @@ class ScheduleNotOperateController extends Controller
      */
     public function store(CreateScheduleNotOperateRequest $request)
     {
-        foreach ($request->schedule_at as $value) {
-            ScheduleNotOperate::create([
-                'route_id' => $request->route_id,
-                'note' => $request->note,
-                'schedule_at' => $value
-            ]);
+        foreach ($request->route_id as $route) {
+            foreach ($request->schedule_at as $value) {
+                ScheduleNotOperate::create([
+                    'route_id' => $route,
+                    'note' => $request->note,
+                    'schedule_at' => $value
+                ]);
+            }
         }
         session()->flash('success', 'Jadwal Libur Berhasil Ditambahkan');
-        return view('schedule_not_operate.index');
+        return redirect(route('schedule_not_operate.index'));
     }
 
     /**
@@ -90,8 +101,10 @@ class ScheduleNotOperateController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(ScheduleNotOperate $schedule_not_operate)
     {
-        //
+        $schedule_not_operate->delete();
+        session()->flash('success', 'Jadwal Libur Berhasil Dihapus');
+        return redirect()->back();
     }
 }
