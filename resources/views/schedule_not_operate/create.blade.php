@@ -3,7 +3,7 @@
 Jadwal Tidak Beroperasi
 @endsection
 @push('css')
-<link rel="stylesheet" href="{{asset('plugins/summernote/summernote-bs4.min.css')}}">
+<link rel="stylesheet" href="{{asset('plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css')}}">
 @endpush
 @section('content')
 <section class="content-header">
@@ -45,8 +45,7 @@ Jadwal Tidak Beroperasi
                         @endisset
                         <div class="form-group">
                             <label>Rute</label>
-                            <select name="route_id[]" id="" multiple class="form-control select2">
-                                <option value="">Pilih Rute</option>
+                            <select name="route_id[]" id="" multiple class="form-control duallistbox">
                                 @foreach ($routes as $route)
                                 <option value="{{$route->id}}">{{$route->name}}</option>
                                 @endforeach
@@ -84,14 +83,7 @@ Jadwal Tidak Beroperasi
 </section>
 @endsection
 @push('script')
-<script>
-    $(function () {
-        $('.select2').select2()
-    })
-    $('.select2bs4').select2({
-      theme: 'bootstrap4'
-    })
-</script>
+<script src="{{asset('plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js')}}"></script>
 <script type="text/javascript">
     // add row
     $("#addRow").click(function () {
@@ -111,5 +103,6 @@ Jadwal Tidak Beroperasi
     $(document).on('click', '#removeRow', function () {
         $(this).closest('#inputFormRow').remove();
     });
+    $('.duallistbox').bootstrapDualListbox()
 </script>
 @endpush

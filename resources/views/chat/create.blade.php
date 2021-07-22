@@ -46,9 +46,9 @@ Chat
                                 value="{{isset($chat) ? $chat->name : ''}}">
                         </div>
                         <div class="form-group">
-                            <label for="">Value</label>
+                            <label for="">Pesan</label>
                             <textarea name="value" id="" class="form-control"
-                                placeholder="Masukkan Message">{{isset($chat) ? $chat->value : ''}}</textarea>
+                                placeholder="Masukkan Pesan">{{isset($chat) ? $chat->value : ''}}</textarea>
                         </div>
                         <div class="form-group">
                             <label>Tipe</label>
