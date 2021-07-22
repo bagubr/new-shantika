@@ -21,6 +21,9 @@ Route::group([
         
         
         Route::group(['namespace' => 'Customer'], function() {
+            Route::post('order_tiket', 'OrderController@store');
+            Route::get('riwayat', 'OrderController@index');
+            Route::get('riwayat/{id}', 'OrderController@show');
             Route::get('routes/available', 'RouteController@getAvailableRoutes');
             Route::get('profile', 'UserController@show');
             Route::post('update', 'UserController@update');

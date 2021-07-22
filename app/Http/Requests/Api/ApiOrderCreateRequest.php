@@ -25,8 +25,8 @@ class ApiOrderCreateRequest extends ApiRequest
             'email'=>'required|email',
             'is_member'=>'sometimes|required|boolean',
             'id_member'=>'sometimes|required|string',
-            'is_travel'=>'required|boolean',
-            'is_feed'=>'required|boolean'
+            'is_travel'=>'sometimes|required|boolean',
+            'is_feed'=>'sometimes|required|boolean'
         ];
     }
 }
