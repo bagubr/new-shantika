@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\UserAgent;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateUserRequest extends FormRequest
+class UpdateUserAgentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -32,6 +32,7 @@ class CreateUserRequest extends FormRequest
             'birth' => 'required|date',
             'address' => 'required',
             'gender' => 'required|in:Male,Female',
+            'agency_id' => 'required',
         ];
     }
 }

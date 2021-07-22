@@ -53,7 +53,7 @@ User
                                         @if ($user->avatar)
                                         <img src="{{$user->avatar_url}}" height="100px" alt="">
                                         @elseif($user->avatar === null || $user->avatar === '')
-                                        <img src="{{asset('img/no-image.jpg')}}" height="100px" alt="">
+                                        Tidak Ada Gambar
                                         @endif
                                     </td>
                                     <td>

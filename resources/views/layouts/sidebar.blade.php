@@ -26,8 +26,9 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item {{Request::routeIs('fleets.*','fleetclass.*') ? 'menu-open' : ''}}">
-                    <a href="#" class="nav-link {{Request::routeIs('fleets.*','fleetclass.*') ? 'active' : ''}}">
+                <li class="nav-item {{Request::routeIs('fleets.*','fleetclass.*','layouts.*') ? 'menu-open' : ''}}">
+                    <a href="#"
+                        class="nav-link {{Request::routeIs('fleets.*','fleetclass.*','layouts.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-bus"></i>
                         <p>
                             Armada
@@ -67,14 +68,30 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{route('agency.index')}}"
-                        class="nav-link {{Request::routeIs('agency.*') ? 'active' : ''}}">
+                <li class="nav-item {{Request::routeIs('agency.*','user_agent.*') ? 'menu-open' : ''}}">
+                    <a href="#" class="nav-link {{Request::routeIs('agency.*','user_agent.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-street-view"></i>
                         <p>
                             Agent
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('agency.index')}}"
+                                class="nav-link {{Request::routeIs('agency.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Agent</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('user_agent.index')}}"
+                                class="nav-link {{Request::routeIs('user_agent.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Akun Agent</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="{{route('time_classification.index')}}"

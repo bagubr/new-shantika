@@ -1,18 +1,18 @@
 @extends('layouts.main')
 @section('title')
-User
+User Agent
 @endsection
 @section('content')
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>User Form</h1>
+                <h1>User Agent Form</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">User</li>
+                    <li class="breadcrumb-item active">User Agent</li>
                 </ol>
             </div>
         </div>
@@ -32,26 +32,40 @@ User
                 </div>
                 <div class="card-body" style="display: block;">
                     @include('partials.error')
-                    <form action="@isset($user)
-                        {{route('user.update', $user->id)}}
-                    @endisset @empty($user) {{route('user.store')}} @endempty" method="POST"
+                    <form action="@isset($user_agent)
+                        {{route('user_agent.update', $user_agent->id)}}
+                    @endisset @empty($user_agent) {{route('user_agent.store')}} @endempty" method="POST"
                         enctype="multipart/form-data">
                         @csrf
-                        @isset($user)
+                        @isset($user_agent)
                         @method('PUT')
                         @endisset
                         <div class="form-group">
                             <label>Nama</label>
                             <input type="text" class="form-control" name="name" placeholder="Masukkan Nama"
-                                value="{{isset($user) ? $user->name : ''}}">
+                                value="{{isset($user_agent) ? $user_agent->name : ''}}">
                         </div>
                         <div class="form-group">
                             <label>Jenis Kelamin</label>
                             <select name="gender" class="form-control">
                                 <option value="">Pilih Jenis Kelamin</option>
                                 @foreach ($genders as $gender)
-                                <option value="{{$gender}}" @isset($user)@if ($gender==$user->gender) selected @endif
+                                <option value="{{$gender}}" @isset($user_agent)@if ($gender==$user_agent->gender)
+                                    selected @endif
                                     @endisset>{{$gender}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Agent</label>
+                            <select name="agency_id" class="form-control select2" id="">
+                                <option value="">Pilih Agent</option>
+                                @foreach ($agencies as $agency)
+                                <option value="{{$agency->id}}" @isset($user_agent) @if ($agency->id ==
+                                    $user_agent->agencies->agency_id)
+                                    selected
+                                    @endif
+                                    @endisset>{{$agency->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -60,31 +74,31 @@ User
                                 <div class="form-group">
                                     <label>Kota Lahir</label>
                                     <input type="text" name="birth_place" class="form-control"
-                                        value="{{isset($user) ? $user->birth_place: '' }}"
+                                        value="{{isset($user_agent) ? $user_agent->birth_place: '' }}"
                                         placeholder="Masukkan Kota Kelahiran">
                                 </div>
                             </div>
                             <div class="col">
                                 <label>Tanggal Lahir</label>
                                 <input type="date" class="form-control" name="birth"
-                                    value="{{isset($user) ? $user->birth : ''}}">
+                                    value="{{isset($user_agent) ? $user_agent->birth : ''}}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Phone</label>
                             <input type="text" name="phone" class="form-control" id="" placeholder="Masukkan Nomor Hp"
-                                value="{{isset($user) ? $user->phone : ''}}">
+                                value="{{isset($user_agent) ? $user_agent->phone : ''}}">
                             <span class="text-red">co. +62812345678</span>
                         </div>
                         <div class="form-group">
                             <label for="">Email</label>
                             <input type="email" name="email" class="form-control" name="email" id=""
-                                placeholder="Masukkan Email" value="{{isset($user) ? $user->email : ''}}">
+                                placeholder="Masukkan Email" value="{{isset($user_agent) ? $user_agent->email : ''}}">
                         </div>
                         <div class="form-group">
                             <label>Alamat</label>
                             <textarea name="address" class="form-control"
-                                id="">{{isset($user) ? $user->address : ''}}</textarea>
+                                id="">{{isset($user_agent) ? $user_agent->address : ''}}</textarea>
                         </div>
                         <div class="form-group">
                             <label>Avatar</label>
