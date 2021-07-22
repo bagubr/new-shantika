@@ -30,6 +30,10 @@ class Route extends Model
     {
         return $this->hasMany(Checkpoint::class, 'route_id', 'id');
     }
+    public  function schedule_not_operates()
+    {
+        return $this->hasMany(ScheduleNotOperate::class, 'route_id', 'id');
+    }
 
     public function getFleetClassAttribute()
     {

@@ -46,6 +46,7 @@ Auth::routes([
 Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('schedule_not_operate/search', [ScheduleNotOperateController::class, 'search'])->name('schedule_not_operate.search');
 
     Route::resources([
         'fleets' => FleetController::class,

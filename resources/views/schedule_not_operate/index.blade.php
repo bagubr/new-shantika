@@ -2,6 +2,9 @@
 @section('title')
 Jadwal
 @endsection
+@push('css')
+<link rel="stylesheet" href="{{asset('plugins/fullcalendar/main.css')}}">
+@endpush
 @section('content')
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -32,38 +35,59 @@ Jadwal
                         </div>
                     </div>
                     <!-- /.card-header -->
-                    <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Nama</th>
-                                    <th>Catatan</th>
-                                    <th>Tanggal</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($schedule_not_operates as $schedule_not_operate)
-                                <tr>
-                                    <td>{{$schedule_not_operate->route->name}}</td>
-                                    <td>{{$schedule_not_operate->note}}</td>
-                                    <td>{{$schedule_not_operate->schedule_at}}</td>
-                                    <td>
-                                        {{-- <a href="{{route('schedule_not_operate.edit',$schedule_not_operate->id)}}"
-                                        class="btn btn-warning btn-xs">Edit</a>
-                                        <form
-                                            action="{{route('schedule_not_operate.destroy',$schedule_not_operate->id)}}"
-                                            class="d-inline" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger btn-xs"
-                                                onclick="return confirm('Are you sure?')" type="submit">Delete</button>
-                                        </form> --}}
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                    <div class="card-body" style="display: block;">
+                        <form action="{{route('schedule_not_operate.search')}}" method="GET">
+                            <div class="form-group">
+                                <label>Cari Rute</label>
+                                <select name="search" id="" class="form-control select2">
+                                    <option value="">Cari Rute</option>
+                                    @foreach ($routes as $route)
+                                    <option value="{{$route->id}}">{{$route->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="text-right">
+                                <button class="btn btn-success" type="submit">Cari</button>
+                            </div>
+                        </form>
+                        @isset($search)
+                        <div class="row">
+                            <div class="col-3">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Catatan</th>
+                                            <th>Tanggal</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($search as $schedule_not_operate)
+                                        <tr>
+                                            <td>{{$schedule_not_operate->note}}</td>
+                                            <td>{{$schedule_not_operate->schedule_at}}</td>
+                                            <td>
+                                                <form
+                                                    action="{{route('schedule_not_operate.destroy',$schedule_not_operate->id)}}"
+                                                    class="d-inline" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-danger btn-xs"
+                                                        onclick="return confirm('Are you sure?')"
+                                                        type="submit">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-9">
+                                <div id='calendar'></div>
+                            </div>
+                        </div>
+                        @endisset
+
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -75,10 +99,44 @@ Jadwal
 </div>
 @endsection
 @push('script')
+@isset($search)
+<script src="{{asset('plugins/fullcalendar/main.js')}}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        headerToolbar: {
+        left  : 'prev,next today',
+        center: 'title',
+        right : 'dayGridMonth'
+      },
+      themeSystem: 'bootstrap',
+      events: [
+            @foreach ($search as $s)
+            { 
+                title: '{{$s->note}}',
+                start: '{{$s->schedule_at}}'
+            },
+            @endforeach
+        ],
+
+    });
+    calendar.render();
+});
+</script>
+@endisset
+<script>
+    $(function () {
+        $('.select2').select2()
+    })
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+</script>
 <script>
     $(function () {
       $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
+        "responsive": true, "lengthChange": false, "autoWidth": false,"searching": false,
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
 </script>
