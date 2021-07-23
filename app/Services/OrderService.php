@@ -8,6 +8,7 @@ use App\Models\Payment;
 use App\Models\Route;
 use App\Utils\Response;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class OrderService {
     use Response;
@@ -60,6 +61,17 @@ class OrderService {
         }
         
         return PaymentService::getSecretAttribute($payment);
+    }
+
+    public static function exchangeTicket(Order &$order) {
+        DB::beginTransaction();
+        $order->update([
+            'status'=>Order::STATUS5
+        ]);
+        DB::commit();
+        $order->refresh();
+
+        return $order;
     }
 
     public static function generateCodeOrder() {
