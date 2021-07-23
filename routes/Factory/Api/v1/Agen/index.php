@@ -31,6 +31,8 @@ Route::group([
             Route::post('order_tiket', 'OrderController@order');
             Route::get('riwayat', 'OrderController@index');
             Route::get('riwayat/{id}', 'OrderController@show');
+
+            Route::post('exchange_ticket', 'OrderController@exchange');
         });
     });
 });

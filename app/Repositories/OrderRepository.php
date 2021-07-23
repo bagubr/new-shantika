@@ -13,5 +13,9 @@ class OrderRepository {
     {
         return Order::with(['order_detail', 'payment'])->find($id);
     }
+
+    public static function findByCodeOrder($code_order) {
+        return Order::where('code_order', $code_order)->first();
+    }
 }
         
