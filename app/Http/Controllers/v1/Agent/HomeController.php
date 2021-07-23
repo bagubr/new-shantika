@@ -12,7 +12,7 @@ class HomeController extends Controller
 {
     public function home(Request $request) {
         $testis = Testimonial::get();
-        $unread_notifs = NotificationRepository::getUnreadNotification($request->bearerToken())->count();
+        $unread_notifs = NotificationRepository::getUnreadNotificationByUserToken($request->bearerToken())->count();
         $articles = ArticleRepository::getAll();
         $this->sendSuccessResponse([
             'testimonials'=>$testis,
