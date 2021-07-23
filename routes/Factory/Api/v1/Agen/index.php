@@ -29,6 +29,8 @@ Route::group([
         
             Route::post('booking', 'BookingController@booking');
             Route::post('order_tiket', 'OrderController@order');
+            Route::get('riwayat', 'OrderController@index');
+            Route::get('riwayat/{id}', 'OrderController@show');
         });
     });
 });
