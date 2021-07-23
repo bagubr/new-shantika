@@ -38,7 +38,7 @@ class OrderService {
                 'code_ticket'       => self::generateCodeOrder(),
                 'name'              => $detail->name,
                 'phone'             => $detail->phone,
-                'email'             => $detail->email,
+                'email'             => $detail->email ?? $data->user->email,
                 'is_feed'           => $detail->is_feed,
                 'is_travel'         => $detail->is_travel,
                 'is_member'         => $detail->is_member
