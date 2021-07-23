@@ -31,7 +31,7 @@ class OrderController extends Controller
 
     public function index(Request $request) {
         $user_id = UserRepository::findByToken($request->bearerToken())?->id;
-        $order = OrderRepository::getByUserId($user_id);
+        $order = OrderRepository::getByUserIdAndDate($user_id, $request->date);
         
         return $this->sendSuccessResponse([
             'order'=> OrderListAgentResource::collection($order),
@@ -53,6 +53,15 @@ class OrderController extends Controller
 
         return $this->sendSuccessResponse([
             'order'=> new OrderDetailAgentResource($order)
+        ]);
+    }
+
+    public function exchangeConfirm(Request $request) {
+        $order = OrderRepository::findWithDetailWithPayment($request->id);
+        $order = OrderService::exchangeTicket($order);
+
+        return $this->sendSuccessResponse([
+            'order' => new OrderDetailAgentResource($order)
         ]);
     }
 }

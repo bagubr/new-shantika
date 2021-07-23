@@ -33,6 +33,7 @@ Route::group([
             Route::get('riwayat/{id}', 'OrderController@show');
 
             Route::post('exchange_ticket', 'OrderController@exchange');
+            Route::post('exchange_ticket/confirm', 'OrderController@confirmExchange');
         });
     });
 });
