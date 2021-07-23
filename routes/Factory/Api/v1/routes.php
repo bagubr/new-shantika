@@ -27,6 +27,7 @@ Route::group([
     Route::get('about_us', 'AboutController@index');
 
     Route::get('notification', 'NotificationController@index');
+    Route::get('notification/unread', 'NotificationController@indexUnread');
     Route::post('notification/read', 'NotificationController@read');
 
     Route::group([],base_path('routes/Factory/Api/v1/Agen/index.php'));
