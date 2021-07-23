@@ -16,6 +16,12 @@ class NotificationController extends Controller
         ]);
     }
 
+    public function indexUnread(Request $request) {
+        return $this->sendSuccessResponse([
+            'notifications'=>NotificationRepository::getUnreadNotificationByUserToken($request->bearerToken())
+        ]);
+    }
+
     public function read(Request $request) {
         $notification = Notification::findOrFail($request->id);
         $notification = NotificationService::read($notification);
