@@ -30,4 +30,10 @@ class NotificationController extends Controller
             'notification'=>$notification
         ]);
     }
+
+    public function readAll(Request $request) {
+        $notification = NotificationService::readAll($request->bearerToken());
+
+        return $this->sendSuccessResponse([]);
+    }
 }
