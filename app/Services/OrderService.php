@@ -51,7 +51,10 @@ class OrderService {
         return $order;
     } 
 
-    public static function getInvoice(Payment|int $payment) {
+    public static function getInvoice(Payment|int|null $payment = null) {
+        if($payment == null) {
+            return '';
+        }
         if($payment instanceof int) {
             $payment = Payment::find($payment);
         }
