@@ -46,4 +46,13 @@ class OrderController extends Controller
             'payment' => OrderService::getInvoice($order->payment()->first())
         ]);
     }
+
+    public function exchange(Request $request) {
+        $order = OrderRepository::findByCodeOrder($request->code_order);
+        $order = OrderRepository::findWithDetailWithPayment($order->id);
+
+        return $this->sendSuccessResponse([
+            'order'=> new OrderDetailAgentResource($order)
+        ]);
+    }
 }
