@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use App\Models\UserAgent;
 
 class UserRepository {
     public static function findByPhone($phone) {
@@ -32,5 +33,10 @@ class UserRepository {
 
     public static function findByTokenAndRefreshToken($token, $refresh_token) {
         return User::whereToken($token)->whereRefreshToken($refresh_token)->first();
+    }
+
+    public static function findUserIsAgent($user_id)
+    {
+        (UserAgent::whereUserId($user_id)->first())?true:false;
     }
 }

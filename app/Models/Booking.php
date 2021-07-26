@@ -13,7 +13,8 @@ class Booking extends Model
         'route_id',
         'layout_chair_id', 
         'user_id', 
-        'expired_at'
+        'expired_at',
+        'booking_at',
     ];
 
     public function route()
