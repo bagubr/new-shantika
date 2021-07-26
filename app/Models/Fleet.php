@@ -11,7 +11,7 @@ class Fleet extends Model
 {
     use HasFactory, SoftDeletes;
     protected $table = 'fleets';
-    protected $fillable = ['name', 'description', 'fleet_class_id', 'image', 'layout_id'];
+    protected $fillable = ['name', 'description', 'fleet_class_id', 'image', 'layout_id', 'images'];
 
     public function layout()
     {
