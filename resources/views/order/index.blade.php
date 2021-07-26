@@ -23,7 +23,7 @@ Pemesanan
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12">
+            <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Table Pemesanan</h3>
@@ -33,37 +33,6 @@ Pemesanan
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <form action="{{route('order.search')}}" method="GET" class="mb-5">
-                            <div class="form-group">
-                                <label>Cari Rute</label>
-                                <select name="route_id" id="" class="form-control select2">
-                                    <option value="">--Semua Rute--</option>
-                                    @foreach ($routes as $route)
-                                    @if (old('route_id') == $route->id)
-                                    <option value="{{$route->id}}" selected>{{$route->name}}</option>
-                                    @else
-                                    <option value="{{$route->id}}">{{$route->name}}</option>
-                                    @endif
-                                    @endforeach
-                                </select>
-                                <div class="form-group">
-                                    <label for="">Cari Status</label>
-                                    <select name="status" class="form-control" id="">
-                                        <option value="">--Semua Status--</option>
-                                        @foreach ($status as $s)
-                                        @if (old('status') == $s)
-                                        <option value="{{$s}}" selected>{{$s}}</option>
-                                        @else
-                                        <option value="{{$s}}">{{$s}}</option>
-                                        @endif
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <button class="btn btn-success" type="submit">Cari</button>
-                            </div>
-                        </form>
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
@@ -101,7 +70,60 @@ Pemesanan
                 </div>
                 <!-- /.card -->
             </div>
-            <!-- /.col -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Cari Pemesan</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{route('order.search')}}" method="GET">
+                            <div class="form-group">
+                                <label>Cari Rute</label>
+                                <select name="route_id" id="" class="form-control select2">
+                                    <option value="">--Semua Rute--</option>
+                                    @foreach ($routes as $route)
+                                    @if (old('route_id') == $route->id)
+                                    <option value="{{$route->id}}" selected>{{$route->name}}</option>
+                                    @else
+                                    <option value="{{$route->id}}">{{$route->name}}</option>
+                                    @endif
+                                    @endforeach
+                                </select>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="">Cari Status</label>
+                                <select name="status" class="form-control" id="">
+                                    <option value="">--Semua Status--</option>
+                                    @foreach ($status as $s)
+                                    @if (old('status') == $s)
+                                    <option value="{{$s}}" selected>{{$s}}</option>
+                                    @else
+                                    <option value="{{$s}}">{{$s}}</option>
+                                    @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Agent</label>
+                                <select name="agent" id="" class="form-control">
+                                    <option value="">--Semua Pemesan--</option>
+                                    @foreach ($agent as $a)
+                                    @if (old('agent'))
+                                    <option value="{{$a}}" selected>{{$a}}</option>
+                                    @else
+                                    <option value="{{$a}}">{{$a}}</option>
+                                    @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="text-right">
+                                <button class="btn btn-success" type="submit">Cari</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

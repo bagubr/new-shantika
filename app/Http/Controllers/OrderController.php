@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Route;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -24,19 +25,31 @@ class OrderController extends Controller
     {
         $routes_search = $request->route_id;
         $status_search = $request->status;
+        $status_agent = $request->agent;
         $routes = Route::all();
         $orders = Order::query();
         $status = ['PENDING', 'EXCHANGED', 'PAID', 'CANCELED', 'EXPIRED'];
+        $agent = ['AGENT', 'UMUM'];
         if (!empty($routes_search)) {
             $orders = $orders->where('route_id', $routes_search);
         }
         if (!empty($status_search)) {
             $orders = $orders->where('status', $status_search);
         }
+        if (!empty($status_agent)) {
+            if ($status_agent == 'AGENT') {
+                $orders = $orders->whereHas('user', function ($q) {
+                    $q->has('agencies');
+                });
+            } elseif ($status_agent == 'UMUM') {
+                $orders = $orders->whereHas('user', function ($y) {
+                    $y->doesntHave('agencies');
+                });
+            }
+        }
         $test = $request->flash();
         $orders = $orders->get();
-        // return redirect(route('order.index', compact('orders', 'routes', 'status')))->withInput();
-        return view('order.index', compact('orders', 'routes', 'status', 'test'));
+        return view('order.index', compact('orders', 'routes', 'status', 'test', 'agent'));
     }
 
     /**
