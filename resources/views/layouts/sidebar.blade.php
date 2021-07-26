@@ -59,9 +59,9 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item {{Request::routeIs('area.*','fleetclass.*','layouts.*') ? 'menu-open' : ''}}">
+                <li class="nav-item {{Request::routeIs('area.*','province.*','layouts.*') ? 'menu-open' : ''}}">
                     <a href="#"
-                        class="nav-link {{Request::routeIs('area.*','fleetclass.*','layouts.*') ? 'active' : ''}}">
+                        class="nav-link {{Request::routeIs('area.*','province.*','layouts.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-map-marker"></i>
                         <p>
                             Wilayah
@@ -77,8 +77,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('fleetclass.index')}}"
-                                class="nav-link {{Request::routeIs('fleetclass.*') ? 'active' : ''}}">
+                            <a href="{{route('province.index')}}"
+                                class="nav-link {{Request::routeIs('province.*') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Provinsi</p>
                             </a>

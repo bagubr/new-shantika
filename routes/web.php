@@ -16,6 +16,7 @@ use App\Http\Controllers\InformationController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\PaymentType\PaymentTypeController;
+use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\RoutesController;
 use App\Http\Controllers\ScheduleNotOperateController;
 use App\Http\Controllers\SliderController;
@@ -74,6 +75,7 @@ Route::group(['middleware' => ['auth']], function () {
         'terms_condition' => TermsAndConditionController::class,
         'payment_type' => PaymentTypeController::class,
         'schedule_not_operate' => ScheduleNotOperateController::class,
-        'area' => AreaController::class
+        'area' => AreaController::class,
+        'province' => ProvinceController::class
     ]);
 });
