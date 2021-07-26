@@ -16,6 +16,7 @@ use App\Http\Controllers\FleetController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\LayoutController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentType\PaymentTypeController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\RoutesController;
@@ -51,6 +52,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('schedule_not_operate/search', [ScheduleNotOperateController::class, 'search'])->name('schedule_not_operate.search');
+    Route::get('order/search', [OrderController::class, 'search'])->name('order.search');
 
     Route::resources([
         'fleets' => FleetController::class,
@@ -78,6 +80,7 @@ Route::group(['middleware' => ['auth']], function () {
         'schedule_not_operate' => ScheduleNotOperateController::class,
         'area' => AreaController::class,
         'province' => ProvinceController::class,
-        'city' => CityController::class
+        'city' => CityController::class,
+        'order' => OrderController::class
     ]);
 });

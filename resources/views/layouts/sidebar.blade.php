@@ -92,6 +92,14 @@
                     </ul>
                 </li>
                 <li class="nav-item">
+                    <a href="{{route('order.index')}}" class="nav-link {{Request::routeIs('order.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-shopping-cart"></i>
+                        <p>
+                            Pemesanan
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{route('routes.index')}}"
                         class="nav-link {{Request::routeIs('routes.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-route"></i>

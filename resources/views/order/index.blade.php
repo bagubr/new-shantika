@@ -1,0 +1,115 @@
+@extends('layouts.main')
+@section('title')
+Pemesanan
+@endsection
+@section('content')
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Pemesanan</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
+                    <li class="breadcrumb-item active">Pemesanan</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Table Pemesanan</h3>
+                        <div class="text-right">
+                            <a href="{{route('order.create')}}" class="btn btn-primary btn-sm">Tambah</a>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <form action="{{route('order.search')}}" method="GET">
+                            <div class="form-group">
+                                <label>Cari Rute</label>
+                                <select name="route_id" id="" class="form-control select2">
+                                    <option value="">Cari Rute</option>
+                                    @foreach ($routes as $route)
+                                    <option value="{{$route->id}}">{{$route->name}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="form-group">
+                                    <label for="">Cari Status</label>
+                                    <select name="status" class="form-control" id="">
+                                        <option value="">Cari Status</option>
+                                        @foreach ($status as $s)
+                                        <option value="{{$s}}" @isset($status) @if ($status==$s) selected @endif
+                                            @endisset>{{$s}}</option>
+                                        @endforeach
+                                        {{-- <option value="PENDING">PENDING</option>
+                                        <option value="EXCHANGED">EXCHANGED</option>
+                                        <option value="PAID">PAID</option>
+                                        <option value="CANCELED">CANCELED</option>
+                                        <option value="EXPIRED">EXPIRED</option> --}}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <button class="btn btn-success" type="submit">Cari</button>
+                            </div>
+                        </form>
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Kode Order</th>
+                                    <th>Customer</th>
+                                    <th>Rute</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($orders as $order)
+                                <tr>
+                                    <td>{{$order->code_order}}</td>
+                                    <td>{{$order->user->name}}</td>
+                                    <td>{{$order->route->name}}</td>
+                                    <td>{{$order->status}}</td>
+                                    <td>
+                                        <a href="{{route('order.edit',$order->id)}}"
+                                            class="btn btn-warning btn-xs">Edit</a>
+                                        <form action="{{route('order.destroy',$order->id)}}" class="d-inline"
+                                            method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger btn-xs"
+                                                onclick="return confirm('Are you sure?')" type="submit">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+    </div>
+</div>
+@endsection
+@push('script')
+<script>
+    $(function () {
+      $("#example1").DataTable({
+        "responsive": true, "lengthChange": false, "autoWidth": false,
+      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
+</script>
+@endpush
