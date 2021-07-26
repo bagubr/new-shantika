@@ -33,8 +33,6 @@ class OrderController extends Controller
     public function index(Request $request) {
         $user_id = UserRepository::findByToken($request->bearerToken())?->id;
         $order = OrderRepository::unionBookingByUserIdAndDate($user_id, $request->date);
-        die($order);
-        
         return $this->sendSuccessResponse([
             'order'=> OrderListAgentResource::collection($order),
         ]);

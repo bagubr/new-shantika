@@ -7,6 +7,7 @@ use App\Models\OrderDetail;
 use App\Models\Payment;
 use App\Models\Route;
 use App\Utils\Response;
+use App\Repositories\UserRepository;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
@@ -44,8 +45,10 @@ class OrderService {
                 'is_member'         => $detail->is_member
             ]);
         }
-
-        PaymentService::createOrderPayment($order, $payment_type_id);
+        // Jika customer
+        if(!UserRepository::findUserIsAgent($order->user_id)){
+            PaymentService::createOrderPayment($order, $payment_type_id);
+        }
 
         $order = Order::find($order->id);
 

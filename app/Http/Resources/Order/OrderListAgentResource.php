@@ -17,12 +17,11 @@ class OrderListAgentResource extends JsonResource
         $checkpoint_max_index = count($this->route->checkpoints) - 1;
         return [
             'id'=>$this->id,
-            'code_order'=>$this->code_order,
             'name_fleet'=>$this->route?->fleet?->name,
             'fleet_class'=>$this->route?->fleet?->fleetclass?->name,
-            'created_at'=>date('Y-m-d H:i:s', strtotime($this->created_at)),
-            'price'=>$this->price,
+            'reserve_at'=>$this->reserve_at,
             'status'=>$this->status,
+            'type'=>'PEMBELIAN',
             'checkpoints'        => (object) [
                 'start' => (object) [
                     'agency_id'=>$this->route->checkpoints[0]?->agency?->id ?? "",

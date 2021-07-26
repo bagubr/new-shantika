@@ -23,12 +23,14 @@ class OrderRepository {
     }
 
     public static function unionBookingByUserIdAndDate($user_id, $date) {
-        $booking = Booking::whereUserId($user_id)
-            ->select('route_id', 'user_id');
-        return Order::whereUserId($user_id)->where('created_at', 'ilike', '%'.$date.'%')
-            ->select('route_id', 'user_id')
+        $booking = Booking::with('layout_chair')->select('id', 'route_id', 'user_id', 'created_at as reserve_at', 'status')
+        ->whereUserId($user_id);
+        $union =  Order::select('id', 'route_id', 'user_id', 'reserve_at', 'status')
+            ->whereUserId($user_id)
+            ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
             ->union($booking)
             ->get();
+        return $union;  
     }
 }
         

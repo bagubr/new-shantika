@@ -22,6 +22,7 @@ class BookingController extends Controller
             $_booking = new Booking([
                 'route_id'=>$request->route_id,
                 'layout_chair_id'=>$layout_chair_id,
+                'booking_at'=>$request->booking_at,
                 'expired_at'=>BookingService::getCurrentExpiredAt(),
                 'user_id'=>UserRepository::findByToken($request->bearerToken())?->id
             ]);
