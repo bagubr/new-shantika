@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AgencyController;
+use App\Http\Controllers\AreaController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CheckpointController;
@@ -72,6 +73,7 @@ Route::group(['middleware' => ['auth']], function () {
         'social_media' => SocialMediaController::class,
         'terms_condition' => TermsAndConditionController::class,
         'payment_type' => PaymentTypeController::class,
-        'schedule_not_operate' => ScheduleNotOperateController::class
+        'schedule_not_operate' => ScheduleNotOperateController::class,
+        'area' => AreaController::class
     ]);
 });
