@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Payment extends Model
 {
     use HasFactory;
+
+    public const STATUS1 = 'PENDING';
+    
     protected $fillable = [
         'payment_type_id',
         'order_id',

@@ -8,10 +8,18 @@ class OrderRepository {
     {
         return Order::whereUserId($user_id)->get();
     }
+
+    public static function getByUserIdAndDate($user_id, $date) {
+        return Order::whereUserId($user_id)->where('created_at', 'ilike', '%'.$date.'%')->get();
+    }
     
-    public static function findWithDetail($id)
+    public static function findWithDetailWithPayment($id)
     {
-        return Order::with('order_detail')->find($id);
+        return Order::with(['order_detail', 'payment'])->find($id);
+    }
+
+    public static function findByCodeOrder($code_order) {
+        return Order::where('code_order', $code_order)->first();
     }
 }
         

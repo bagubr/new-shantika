@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Models\Notification;
 
 class NotificationRepository {
-    public static function getUnreadNotification($token) {
+    public static function getUnreadNotificationByUserToken($token) {
         return Notification::whereHas('user', function($query) use ($token) {
             $query->where('token', $token);
         })->where('is_seen', false)->get();
