@@ -7,6 +7,7 @@ use App\Http\Requests\Api\ApiOrderCreateRequest;
 use App\Http\Resources\Order\OrderDetailAgentResource;
 use App\Http\Resources\Order\OrderListAgentResource;
 use App\Models\Order;
+use App\Repositories\OrderDetailRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\UserRepository;
 use App\Services\OrderService;
@@ -31,7 +32,8 @@ class OrderController extends Controller
 
     public function index(Request $request) {
         $user_id = UserRepository::findByToken($request->bearerToken())?->id;
-        $order = OrderRepository::getByUserIdAndDate($user_id, $request->date);
+        $order = OrderRepository::unionBookingByUserIdAndDate($user_id, $request->date);
+        die($order);
         
         return $this->sendSuccessResponse([
             'order'=> OrderListAgentResource::collection($order),
@@ -48,7 +50,8 @@ class OrderController extends Controller
     }
 
     public function exchange(Request $request) {
-        $order = OrderRepository::findByCodeOrder($request->code_order);
+        $order = OrderDetailRepository::findByCodeTicket($request->code_ticket)
+            ?? $this->sendFailedResponse([], "Kode ticket tidak ditemukan");
         $order = OrderRepository::findWithDetailWithPayment($order->id);
 
         return $this->sendSuccessResponse([

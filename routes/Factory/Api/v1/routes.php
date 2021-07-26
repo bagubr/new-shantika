@@ -31,6 +31,8 @@ Route::group([
     Route::post('notification/read', 'NotificationController@read');
     Route::post('notification/read/all', 'NotificationController@readAll');
 
+    Route::get('payment_types', 'PaymentTypeController@index');
+
     Route::group([],base_path('routes/Factory/Api/v1/Agen/index.php'));
     Route::group([],base_path('routes/Factory/Api/v1/Customer/index.php'));
 });
