@@ -4,7 +4,6 @@ return [
 
     'price_list' => [
         'member'    => 10000,
-        'feed'      => 19000,
         'travel'    => 20000,
     ],
 

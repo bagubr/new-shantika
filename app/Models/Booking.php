@@ -10,7 +10,10 @@ class Booking extends Model
     use HasFactory;
 
     protected $fillable = [
-        'route_id', 'layout_chair_id', 'user_id', 'expired_at'
+        'route_id',
+        'layout_chair_id', 
+        'user_id', 
+        'expired_at'
     ];
 
     public function route()

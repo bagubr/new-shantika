@@ -10,6 +10,7 @@ Route::group([
         Route::post('login/phone', 'AuthController@loginPhone');
         Route::post('registration','AuthController@registerCustomer');
         Route::get('home', 'HomeController@home');
+        Route::get('payment_type', 'PaymentTypeController@getPaymentType');
     });
     Route::get('fleet_lists','FleetController@index');
     Route::get('fleet_detail/{id}','FleetController@show');

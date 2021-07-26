@@ -11,7 +11,7 @@ class Route extends Model
 
     protected $table = 'routes';
     protected $fillable = [
-        'name', 'fleet_id', 'departure_at', 'arrived_at', 'price'
+        'name', 'fleet_id', 'area_id','departure_at', 'arrived_at', 'price'
     ];
     protected $hidden = [
         'created_at', 'updated_at', 'deleted_at'
@@ -24,6 +24,11 @@ class Route extends Model
     public function fleet()
     {
         return $this->belongsTo(Fleet::class, 'fleet_id', 'id');
+    }
+
+    public function area()
+    {
+        return $this->belongsTo(Area::class, 'area_id');
     }
 
     public function checkpoints()
