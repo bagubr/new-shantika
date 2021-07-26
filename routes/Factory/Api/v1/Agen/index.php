@@ -18,8 +18,8 @@ Route::group([
 
         Route::get('kelas_armada', 'FleetClassController@index');
 
-        Route::get('home', 'HomeController@home');
         Route::group(['namespace'=>'Agent'], function() {
+            Route::post('home', 'HomeController@home');
             Route::get('profile', 'UserController@show');
             Route::post('update', 'UserController@update');
 
