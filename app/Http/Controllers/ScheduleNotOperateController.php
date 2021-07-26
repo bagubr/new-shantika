@@ -24,8 +24,6 @@ class ScheduleNotOperateController extends Controller
     {
         $search = ScheduleNotOperate::where('route_id', 'LIKE', '%' . $request->search . '%')->get();
         $routes = Route::whereHas('schedule_not_operates')->get();
-        // dd($search);
-        // $routes = Route::whereHas('schedule_not_operates')->get();
         return view('schedule_not_operate.index', compact('search', 'routes'));
     }
 
