@@ -31,6 +31,12 @@ class Fleet extends Model
     {
         return url('storage/' . $value);
     }
+
+    public function getImagesAttribute($value)
+    {
+        return json_decode($value);
+    }
+
     public function deleteImage()
     {
         Storage::disk('public')->delete($this->attributes['image']);

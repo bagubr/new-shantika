@@ -43,5 +43,14 @@ class UserService {
 
         return $user;
     }
+
+    public static function updateFcmToken(User $user, $token) {
+        $user->update([
+            'fcm_token' => $token
+        ]);
+        $user->refresh();
+
+        return $user;
+    }
 }
         

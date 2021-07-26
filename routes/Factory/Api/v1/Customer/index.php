@@ -9,8 +9,9 @@ Route::group([
         Route::post('login/email', 'AuthController@loginEmail');
         Route::post('login/phone', 'AuthController@loginPhone');
         Route::post('registration','AuthController@registerCustomer');
-        Route::get('home', 'HomeController@home');
+        Route::post('home', 'HomeController@home');
         Route::get('payment_type', 'PaymentTypeController@getPaymentType');
+        Route::get('routes/available', 'RouteController@getAvailableRoutes');
     });
     Route::get('fleet_lists','FleetController@index');
     Route::get('fleet_detail/{id}','FleetController@show');
@@ -25,7 +26,6 @@ Route::group([
             Route::post('order_tiket', 'OrderController@store');
             Route::get('riwayat', 'OrderController@index');
             Route::get('riwayat/{id}', 'OrderController@show');
-            Route::get('routes/available', 'RouteController@getAvailableRoutes');
             Route::get('profile', 'UserController@show');
             Route::post('update', 'UserController@update');
         });
