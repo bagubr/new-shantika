@@ -113,8 +113,11 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Order $order)
     {
-        //
+        $order->order_detail()->delete();
+        $order->delete();
+        session()->flash('success', 'Pemesanan Berhasil Dihapus');
+        return redirect(route('order.index'));
     }
 }
