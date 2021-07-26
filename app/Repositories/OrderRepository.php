@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Models\Booking;
 use App\Models\Order;
+use App\Models\OrderDetail;
+
 class OrderRepository {
 
     public static function getByUserId($user_id)
@@ -18,10 +20,6 @@ class OrderRepository {
     public static function findWithDetailWithPayment($id)
     {
         return Order::with(['order_detail', 'payment'])->find($id);
-    }
-
-    public static function findByCodeOrder($code_order) {
-        return Order::where('code_order', $code_order)->first();
     }
 
     public static function unionBookingByUserIdAndDate($user_id, $date) {
