@@ -33,8 +33,10 @@ class OrderController extends Controller
         if (!empty($status_search)) {
             $orders = $orders->where('status', $status_search);
         }
+        $test = $request->flash();
         $orders = $orders->get();
-        return view('order.index', compact('orders', 'routes', 'status'));
+        // return redirect(route('order.index', compact('orders', 'routes', 'status')))->withInput();
+        return view('order.index', compact('orders', 'routes', 'status', 'test'));
     }
 
     /**

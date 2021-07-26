@@ -33,28 +33,30 @@ Pemesanan
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <form action="{{route('order.search')}}" method="GET">
+                        <form action="{{route('order.search')}}" method="GET" class="mb-5">
                             <div class="form-group">
                                 <label>Cari Rute</label>
                                 <select name="route_id" id="" class="form-control select2">
-                                    <option value="">Cari Rute</option>
+                                    <option value="">--Semua Rute--</option>
                                     @foreach ($routes as $route)
+                                    @if (old('route_id') == $route->id)
+                                    <option value="{{$route->id}}" selected>{{$route->name}}</option>
+                                    @else
                                     <option value="{{$route->id}}">{{$route->name}}</option>
+                                    @endif
                                     @endforeach
                                 </select>
                                 <div class="form-group">
                                     <label for="">Cari Status</label>
                                     <select name="status" class="form-control" id="">
-                                        <option value="">Cari Status</option>
+                                        <option value="">--Semua Status--</option>
                                         @foreach ($status as $s)
-                                        <option value="{{$s}}" @isset($status) @if ($status==$s) selected @endif
-                                            @endisset>{{$s}}</option>
+                                        @if (old('status') == $s)
+                                        <option value="{{$s}}" selected>{{$s}}</option>
+                                        @else
+                                        <option value="{{$s}}">{{$s}}</option>
+                                        @endif
                                         @endforeach
-                                        {{-- <option value="PENDING">PENDING</option>
-                                        <option value="EXCHANGED">EXCHANGED</option>
-                                        <option value="PAID">PAID</option>
-                                        <option value="CANCELED">CANCELED</option>
-                                        <option value="EXPIRED">EXPIRED</option> --}}
                                     </select>
                                 </div>
                             </div>
