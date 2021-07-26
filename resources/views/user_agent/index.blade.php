@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Menu Pengguna
+User Agent
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->
@@ -8,12 +8,12 @@ Menu Pengguna
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Menu Pengguna</h1>
+                <h1 class="m-0">User Agent</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Menu Pengguna</li>
+                    <li class="breadcrumb-item active">User Agent</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -26,9 +26,9 @@ Menu Pengguna
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Menu Pengguna</h3>
+                        <h3 class="card-title">Table User Agent</h3>
                         <div class="text-right">
-                            <a href="{{route('customer_menu.create')}}" class="btn btn-primary btn-sm">Tambah</a>
+                            <a href="{{route('user_agent.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -37,20 +37,30 @@ Menu Pengguna
                             <thead>
                                 <tr>
                                     <th>Nama</th>
-                                    <th>Icon</th>
+                                    <th>Nomor HP</th>
+                                    <th>Email</th>
+                                    <th>Image</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($customer_menus as $customer_menu)
+                                @foreach ($users as $user_agent)
                                 <tr>
-                                    <td>{{$customer_menu->name}}</td>
-                                    <td><img src="{{$customer_menu->icon}}" height="100px" alt="">
+                                    <td>{{$user_agent->name}}</td>
+                                    <td>{{$user_agent->phone}}</td>
+                                    <td>{{$user_agent->email}}</td>
+                                    <td>
+                                        @if ($user_agent->avatar)
+                                        <img src="{{$user_agent->avatar_url}}" height="100px" alt="">
+                                        @elseif($user_agent->avatar === null || $user_agent->avatar === '')
+                                        Tidak Ada Gambar
+                                        @endif
                                     </td>
-                                    <td><a href="{{route('customer_menu.edit',$customer_menu->id)}}"
+                                    <td>
+                                        <a href="{{route('user_agent.edit',$user_agent->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
-                                        <form action="{{route('customer_menu.destroy',$customer_menu->id)}}"
-                                            class="d-inline" method="POST">
+                                        <form action="{{route('user_agent.destroy',$user_agent->id)}}" class="d-inline"
+                                            method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger btn-xs"
