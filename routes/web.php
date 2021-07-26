@@ -6,6 +6,7 @@ use App\Http\Controllers\AreaController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CheckpointController;
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\CustomerMenuController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FacilityController;
@@ -76,6 +77,7 @@ Route::group(['middleware' => ['auth']], function () {
         'payment_type' => PaymentTypeController::class,
         'schedule_not_operate' => ScheduleNotOperateController::class,
         'area' => AreaController::class,
-        'province' => ProvinceController::class
+        'province' => ProvinceController::class,
+        'city' => CityController::class
     ]);
 });

@@ -59,9 +59,8 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item {{Request::routeIs('area.*','province.*','layouts.*') ? 'menu-open' : ''}}">
-                    <a href="#"
-                        class="nav-link {{Request::routeIs('area.*','province.*','layouts.*') ? 'active' : ''}}">
+                <li class="nav-item {{Request::routeIs('area.*','province.*','city.*') ? 'menu-open' : ''}}">
+                    <a href="#" class="nav-link {{Request::routeIs('area.*','province.*','city.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-map-marker"></i>
                         <p>
                             Wilayah
@@ -84,8 +83,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('layouts.index')}}"
-                                class="nav-link {{Request::routeIs('layouts.*') ? 'active' : ''}}">
+                            <a href="{{route('city.index')}}"
+                                class="nav-link {{Request::routeIs('city.*') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Kota</p>
                             </a>
