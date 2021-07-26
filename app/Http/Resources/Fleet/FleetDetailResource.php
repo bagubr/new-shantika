@@ -19,7 +19,10 @@ class FleetDetailResource extends JsonResource
             'name'          => $this->name,
             'description'   => $this->description,
             'image'         => $this->image,
-            'images'        => json_decode($this->images),
+            'images'        => array_map(function ($item)
+            {
+                return url('storage/' . $item);
+            }, $this->images),
             'fleet_class'   => $this->fleetclass->name,
             'total_chair'   => $this->layout->total_indexes,
             'estimate_time' => date('G:i', strtotime($this->route->departure_at) - strtotime($this->route->arrived_at)),
