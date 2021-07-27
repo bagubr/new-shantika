@@ -11,11 +11,15 @@ class AgencyRepository
         return Agency::orderBy('id', 'desc')->get();
     }
 
+    public static function getOnlyIdName()
+    {
+        return Agency::get(['id', 'name']);
+    }
+
     public static function getWithCity($request)
     {
-        return Agency::where('name', 'ilike', '%'.$request->search.'%')->whereHas('city', function ($query) use ($request)
-        {
-            $query->orWhere('name', 'ilike', '%'.$request->search.'%');
+        return Agency::where('name', 'ilike', '%' . $request->search . '%')->whereHas('city', function ($query) use ($request) {
+            $query->orWhere('name', 'ilike', '%' . $request->search . '%');
         })->get();
     }
 }

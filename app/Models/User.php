@@ -53,4 +53,8 @@ class User extends Authenticatable
     {
         return $this->belongsTo(UserAgent::class, 'id', 'user_id');
     }
+    public function membership()
+    {
+        return $this->belongsTo(Membership::class, 'id', 'user_id');
+    }
 }

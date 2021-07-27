@@ -199,8 +199,7 @@
                     </ul>
                 </li>
                 <li class="nav-item {{ Request::is('schedule_*') ? 'menu-open' : '' }}">
-                    <a href="#"
-                        class="nav-link {{Request::is('schedule_*') ? 'active' : ''}}">
+                    <a href="#" class="nav-link {{Request::is('schedule_*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-calendar"></i>
                         <p>
                             Jadwal
@@ -209,13 +208,15 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('schedule_not_operate.index') }}" class="nav-link {{ Request::routeIs('schedule_not_operate.*') ? 'active' : '' }}">
+                            <a href="{{ route('schedule_not_operate.index') }}"
+                                class="nav-link {{ Request::routeIs('schedule_not_operate.*') ? 'active' : '' }}">
                                 <i class="nav-icon far fa-circle"></i>
                                 <p>Operasi</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('schedule_unavailable_booking.index') }}" class="nav-link {{ Request::routeIs('schedule_unavailable_booking.*') ? 'active' : '' }}">
+                            <a href="{{ route('schedule_unavailable_booking.index') }}"
+                                class="nav-link {{ Request::routeIs('schedule_unavailable_booking.*') ? 'active' : '' }}">
                                 <i class="nav-icon far fa-circle"></i>
                                 <p>Booking Tidak Tersedia</p>
                             </a>
@@ -223,13 +224,30 @@
                     </ul>
                 </li>
                 <li class="nav-header">USER</li>
-                <li class="nav-item">
-                    <a href="{{route('user.index')}}" class="nav-link {{Request::routeIs('user.*') ? 'active' : ''}}">
+                <li class="nav-item {{Request::routeIs('user.*','member.*') ? 'menu-open' : ''}}">
+                    <a href="#" class="nav-link {{Request::routeIs('user.*','member.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Users
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('user.index')}}"
+                                class="nav-link {{Request::routeIs('user.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>User</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('member.index')}}"
+                                class="nav-link {{Request::routeIs('member.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Member</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="{{route('customer_menu.index')}}"
