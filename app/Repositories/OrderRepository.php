@@ -30,6 +30,7 @@ class OrderRepository {
         $booking = Booking::select('id', 'route_id', 'user_id', 'created_at as reserve_at', 'status')
         ->addSelect(DB::raw("'BOOKING' as type"))
         ->where('expired_at', '>', date('Y-m-d H:i:s'))
+        ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
         ->whereUserId($user_id);
         $union =  Order::select('id', 'route_id', 'user_id', 'reserve_at', 'status')
             ->whereUserId($user_id)
