@@ -44,12 +44,13 @@ class UserService {
         return $user;
     }
 
-    public static function updateFcmToken(User $user, $token) {
-        $user->update([
-            'fcm_token' => $token
-        ]);
-        $user->refresh();
-
+    public static function updateFcmToken(User $user = null, $token = null) {
+        if($user){
+            $user->update([
+                'fcm_token' => $token
+            ]);
+            $user->refresh();
+        }
         return $user;
     }
 }
