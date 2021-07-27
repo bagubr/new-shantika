@@ -61,6 +61,10 @@ Route
                         <input type="number" name="price" class="form-control" placeholder="Masukkan Harga"
                             value="{{$route->price}}" disabled>
                     </div>
+                    <div class="form-group">
+                        <label>Area</label>
+                        <input type="text" class="form-control" value="{{$route->area->name}}" disabled>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

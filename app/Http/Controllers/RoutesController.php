@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Checkpoint\CreateCheckpointRequest;
 use App\Http\Requests\Routes\CreateRoutesRequest;
 use App\Http\Requests\Routes\UpdateRouteRequest;
+use App\Models\Area;
 use App\Models\Checkpoint;
 use App\Models\Route;
 use App\Repositories\AgencyRepository;
@@ -33,7 +34,8 @@ class RoutesController extends Controller
     public function create()
     {
         $fleets = FleetRepository::all();
-        return view('routes.create', compact('fleets'));
+        $areas = Area::all();
+        return view('routes.create', compact('fleets', 'areas'));
     }
 
     /**
@@ -72,7 +74,8 @@ class RoutesController extends Controller
     public function edit(Route $route)
     {
         $fleets = FleetRepository::all();
-        return view('routes.create', compact('route', 'fleets'));
+        $areas = Area::all();
+        return view('routes.create', compact('route', 'fleets', 'areas'));
     }
 
     /**
@@ -98,6 +101,7 @@ class RoutesController extends Controller
      */
     public function destroy(Route $route)
     {
+        $route->checkpoints()->delete();
         $route->delete();
         session()->flash('success', 'Route Berhasil Dihapus');
         return redirect(route('routes.index'));

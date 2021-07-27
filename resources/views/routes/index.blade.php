@@ -40,6 +40,7 @@ Route
                                     <th>Armada</th>
                                     <th>Harga</th>
                                     <th>Keberangkatan - Kedatangan</th>
+                                    <th>Area</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -50,7 +51,7 @@ Route
                                     <td><a href="{{route('fleets.edit', $route->fleet_id)}}">{{$route->fleet->name}}</a>
                                     <td>Rp {{number_format($route->price, 2)}}</td>
                                     <td>{{$route->departure_at}} - {{$route->arrived_at}}</td>
-                                    </td>
+                                    <td>{{$route->area->name}}</td>
                                     <td>
                                         <a href="{{route('routes.edit',$route->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>

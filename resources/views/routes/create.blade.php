@@ -58,6 +58,18 @@ Route
                             </select>
                             <span><a href="{{route('fleets.create')}}">Tambah Armada</a></span>
                         </div>
+                        <div class="form-group">
+                            <label>Area</label>
+                            <select name="area_id" class="form-control" id="">
+                                <option value="">Pilih Area</option>
+                                @foreach ($areas as $area)
+                                <option value="{{$area->id}}" @isset($route) @if ($area->id === $route->area_id)
+                                    selected
+                                    @endif
+                                    @endisset>{{$area->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="form-row">
                             <div class="col">
                                 <div class="form-group">
