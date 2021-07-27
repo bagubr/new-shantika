@@ -5,6 +5,8 @@ namespace App\Http\Controllers\v1;
 use App\Http\Controllers\Controller;
 use App\Models\Agency;
 use Illuminate\Http\Request;
+use App\Repositories\AgencyRepository;
+use App\Http\Resources\Agency\AgencyWithCityResource;
 
 class AgencyController extends Controller
 {
@@ -16,8 +18,9 @@ class AgencyController extends Controller
     
     public function getWithCity(Request $request)
     {
+        $agency_city = AgencyRepository::getWithCity($request);
         $this->sendSuccessResponse([
-            'agencies'=> AgencyRepositories::getWithCity($request)
+            'agencies_city'=> AgencyWithCityResource::collection($agency_city)
         ]);
     }
 }

@@ -14,6 +14,7 @@ Route::group([
         Route::get('routes/available', 'RouteController@getAvailableRoutes');
         Route::get('chats', 'ChatController@index');
         Route::post('order_tiket', 'OrderController@store');
+        Route::get('riwayat/{id}', 'OrderController@show');
     });
     Route::get('fleet_lists','FleetController@index');
     Route::get('fleet_detail/{id}','FleetController@show');
@@ -25,7 +26,6 @@ Route::group([
         
         Route::group(['namespace' => 'Customer'], function() {
             Route::get('riwayat', 'OrderController@index');
-            Route::get('riwayat/{id}', 'OrderController@show');
             Route::get('profile', 'UserController@show');
             Route::post('update', 'UserController@update');
         });

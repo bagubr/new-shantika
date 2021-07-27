@@ -21,6 +21,7 @@ class OrderController extends Controller
         $order = new Order([
             'user_id'=>UserRepository::findByToken($request->bearerToken())?->id,
             'route_id'=>$request->route_id,
+            'id_member'=>$request->id_member,
             'reserve_at'=>$request->reserve_at
         ]);
         $order = OrderService::create($order, $request);

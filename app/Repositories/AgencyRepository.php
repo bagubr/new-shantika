@@ -13,9 +13,9 @@ class AgencyRepository
 
     public static function getWithCity($request)
     {
-        return Agency::where('name', 'ilike', '%'.$request->search.'%')->whereHas('city', function ($query)
+        return Agency::where('name', 'ilike', '%'.$request->search.'%')->whereHas('city', function ($query) use ($request)
         {
-            $query->where('name', 'ilike', '%'.$request->search.'%');
+            $query->orWhere('name', 'ilike', '%'.$request->search.'%');
         })->get();
     }
 }

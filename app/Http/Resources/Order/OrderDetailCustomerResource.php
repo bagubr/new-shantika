@@ -35,6 +35,7 @@ class OrderDetailCustomerResource extends JsonResource
                 ]
             ],
             'created_at'=>date('Y-m-d H:i:s', strtotime($this->created_at)),
+            'reserve_at'=>date('Y-m-d H:i:s', strtotime($this->reserve_at)),
             'status'=>$this->status,
             'name_passenger'=>$this->order_detail[0]->name,
             'phone_passenger'=>$this->order_detail[0]->phone,
@@ -42,6 +43,7 @@ class OrderDetailCustomerResource extends JsonResource
             'price_member'=>$this->getPriceMember($this->order_detail->pluck('is_member')->toArray()),
             'price_travel'=>$this->getPriceTravel($this->order_detail->pluck('is_travel')->toArray()),
             'price_feed'=>$this->getPriceFeed($this->order_detail->pluck('is_feed')->toArray()),
+            'id_member'=>$this->id_member,
             'price'=>$this->price,
         ];
     }
