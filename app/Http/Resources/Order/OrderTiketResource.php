@@ -29,13 +29,16 @@ class OrderTiketResource extends JsonResource
                     'agency_name'=>$this->route->checkpoints[0]?->agency?->name ?? "",
                     'city_name'=>$this->route->checkpoints[0]?->agency?->city?->name ?? "",
                     'arrived_at'=>$this->route->checkpoints[0]?->arrived_at,
-                    'agency'=>$this->route->checkpoints[0]?->agency ?? "",
+                    'agency_address'=>$this->route->checkpoints[0]?->agency?->address ?? "",
+                    'agency_phone'=>$this->route->checkpoints[0]?->agency?->phone ?? "",
                 ],
                 'end'   => (object) [
                     'agency_id'=>$this->route->checkpoints[$checkpoint_max_index]?->agency?->id ?? "",
                     'agency_name'=>$this->route->checkpoints[$checkpoint_max_index]?->agency?->name ?? "",
                     'city_name'=>$this->route->checkpoints[$checkpoint_max_index]?->agency?->city?->name ?? "",
                     'arrived_at'=>$this->route->checkpoints[$checkpoint_max_index]?->arrived_at,
+                    'agency_address'=>$this->route->checkpoints[$checkpoint_max_index]?->agency?->address ?? "",
+                    'agency_phone'=>$this->route->checkpoints[$checkpoint_max_index]?->agency?->phone ?? "",
                 ]
             ],
         ];

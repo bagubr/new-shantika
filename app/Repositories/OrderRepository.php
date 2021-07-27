@@ -7,16 +7,24 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Support\Facades\DB;
 
+use App\Http\Resources\Order\OrderListCustomerResource;
+
 class OrderRepository {
 
     public static function getByUserId($user_id)
     {
-        return Order::whereUserId($user_id)->get();
+        if($user_id){
+            $order = Order::whereUserId($user_id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+            return OrderListCustomerResource::collection($order);
+        }else{
+            return [];
+        }
     }
-
-    public static function getByUserIdAndDate($user_id, $date) {
-        return Order::whereUserId($user_id)
-        ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
+    
+    public static function getByArrayId(array $order_id) {
+        return Order::whereIn('id', $order_id)
         ->orderBy('created_at', 'desc')
         ->get();
     }

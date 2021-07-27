@@ -16,7 +16,8 @@ class Agency extends Model
     ];
 
     protected $appends = [
-        'user_agencies'
+        'address',
+        'phone'
     ];
 
     public function city() {
@@ -25,17 +26,16 @@ class Agency extends Model
 
     public function userAgent()
     {
-        return $this->hasMany(UserAgent::class, 'agency_id', 'id');
+        return $this->belongsTo(UserAgent::class, 'id', 'agency_id');
     }
 
-    public function getUserAgenciesAttribute()
+    public function getAddressAttribute()
     {
-        $user = [];
-        return $this->userAgent();
-        foreach ($this->userAgent() as $value){
-            $user[] = User::find($value->user_id);
-        }
+        return $this->userAgent()->first()->user()->first()->address;
+    }
 
-        return $user;
+    public function getPhoneAttribute()
+    {
+        return $this->userAgent()->first()->user()->first()->phone;
     }
 }

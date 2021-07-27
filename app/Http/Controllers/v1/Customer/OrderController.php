@@ -8,7 +8,6 @@ use App\Http\Requests\Api\ApiOrderCreateRequest;
 use App\Models\Order;
 use App\Repositories\UserRepository;
 use App\Repositories\OrderRepository;
-use App\Http\Resources\Order\OrderListCustomerResource;
 use App\Http\Resources\Order\OrderDetailCustomerResource;
 use App\Http\Resources\Order\OrderTiketResource;
 use App\Services\OrderService;
@@ -20,11 +19,15 @@ class OrderController extends Controller
     
     public function index(Request $request)
     {
-        $user_id = UserRepository::findByToken($request->bearerToken())?->id;
-        $order = OrderRepository::getByUserIdAndDate($user_id, $request->date);
+        if($request->order_id){
+            $order = OrderRepository::getByArrayId($request->order_id);
+        }else{
+            $user_id = UserRepository::findByToken($request->bearerToken())?->id;
+            $order = OrderRepository::getByUserId($user_id);
+        }
         
         return $this->sendSuccessResponse([
-            'order'=> OrderListCustomerResource::collection($order),
+            'order'=> $order,
         ]);
     }
     
