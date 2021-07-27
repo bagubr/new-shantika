@@ -43,5 +43,10 @@ class OrderRepository {
             ->get();
         return $union;
     }
+
+    public static function findByCodeOrder($code_order)
+    {
+        return Order::where('code_order', $code_order)->first();
+    }
 }
         
