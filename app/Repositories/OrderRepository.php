@@ -43,7 +43,7 @@ class OrderRepository {
 
     public static function findByCodeOrder($code_order)
     {
-        return Order::where('code_order', $code_order)->first();
+        return Order::with('route.checkpoints')->where('code_order', $code_order)->first();
     }
 }
         
