@@ -43,7 +43,7 @@ Pemesanan
                             <tbody>
                                 @foreach ($orders as $order)
                                 <tr>
-                                    <td>{{$order->user->name}}</td>
+                                    <td>{{$order->user?->name}}</td>
                                     <td>
                                         <a href="{{route('order.show',$order->id)}}">
                                             {{$order->code_order}}
@@ -64,6 +64,7 @@ Pemesanan
                                 @endforeach
                             </tbody>
                         </table>
+                        {{$orders->links("pagination::bootstrap-4")}}
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -78,7 +79,7 @@ Pemesanan
                         <form action="{{route('order.search')}}" method="GET">
                             <div class="form-group">
                                 <label>Cari Rute</label>
-                                <select name="route_id" id="" class="form-control select2">
+                                <select name="route_id" class="form-control">
                                     <option value="">--Semua Rute--</option>
                                     @foreach ($routes as $route)
                                     @if (old('route_id') == $route->id)
@@ -92,7 +93,7 @@ Pemesanan
                             </div>
                             <div class="form-group">
                                 <label for="">Cari Status</label>
-                                <select name="status" class="form-control" id="">
+                                <select name="status" class="form-control">
                                     <option value="">--Semua Status--</option>
                                     @foreach ($status as $s)
                                     @if (old('status') == $s)
@@ -105,7 +106,7 @@ Pemesanan
                             </div>
                             <div class="form-group">
                                 <label for="">Agent</label>
-                                <select name="agent" id="" class="form-control">
+                                <select name="agent" class="form-control">
                                     <option value="">--Semua Pemesan--</option>
                                     @foreach ($agent as $a)
                                     @if (old('agent'))
@@ -131,7 +132,13 @@ Pemesanan
 <script>
     $(function () {
       $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
+        "responsive": true, 
+        "lengthChange": false, 
+        "autoWidth": false,        
+        "paging":   false,
+        "ordering": false,
+        "info":     false,
+        "searching" : false,
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
 </script>

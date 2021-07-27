@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\PaymentType;
+namespace App\Http\Requests\Member;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreatePaymentTypeRequest extends FormRequest
+class CreateMemberRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class CreatePaymentTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:payment_types,name',
-            'description' => 'required'
+            'user_id' => 'required|unique:memberships,user_id',
+            'agency_id' => 'required|exists:agencies,id'
         ];
     }
 }

@@ -18,7 +18,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::all();
+        $orders = Order::paginate(7);
         $routes = Route::all();
         $agent = ['AGENT', 'UMUM'];
         $status = ['PENDING', 'EXCHANGED', 'PAID', 'CANCELED', 'EXPIRED'];
@@ -51,7 +51,7 @@ class OrderController extends Controller
             }
         }
         $test = $request->flash();
-        $orders = $orders->get();
+        $orders = $orders->paginate(7);
         return view('order.index', compact('orders', 'routes', 'status', 'test', 'agent'));
     }
 

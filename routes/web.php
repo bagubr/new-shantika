@@ -16,8 +16,9 @@ use App\Http\Controllers\FleetController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\LayoutController;
+use App\Http\Controllers\MemberController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\PaymentType\PaymentTypeController;
+use App\Http\Controllers\PaymentTypeController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\RoutesController;
 use App\Http\Controllers\ScheduleNotOperateController;
@@ -83,6 +84,7 @@ Route::group(['middleware' => ['auth']], function () {
         'area' => AreaController::class,
         'province' => ProvinceController::class,
         'city' => CityController::class,
-        'order' => OrderController::class
+        'order' => OrderController::class,
+        'member' => MemberController::class
     ]);
 });
