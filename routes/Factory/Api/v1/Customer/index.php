@@ -15,9 +15,9 @@ Route::group([
         Route::get('chats', 'ChatController@index');
         Route::post('order_tiket', 'OrderController@store');
         Route::post('create_payment', 'OrderController@createPayment');
+        Route::post('riwayat', 'OrderController@index');
         Route::get('riwayat/{id}', 'OrderController@show');
         Route::get('tiket', 'OrderController@tiket');
-        Route::post('riwayat', 'OrderController@index');
     });
     Route::get('fleet_lists','FleetController@index');
     Route::get('fleet_detail/{id}','FleetController@show');
