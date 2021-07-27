@@ -8,6 +8,7 @@ Route::group([
     Route::group(['namespace'=>'Agent'], function() {
         Route::post('login/email', 'AuthController@loginEmail');
         Route::post('login/phone', 'AuthController@loginPhone');
+        Route::get('chats', 'ChatController@index');
     });
     
     Route::group([

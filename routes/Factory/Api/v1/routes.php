@@ -11,7 +11,6 @@ Route::group([
     Route::get('social_media', 'SocialMediaController@index');
     Route::get('term_and_condition', 'TermAndConditionController@index');
     Route::get('faq', 'FaqController@index');
-    Route::get('chat', 'ChatController@index');
     Route::get('time', 'TimeClassificationController@index');
     
     Route::get('facility', 'FacilityController@index');

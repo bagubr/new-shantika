@@ -10,4 +10,12 @@ class AgencyRepository
     {
         return Agency::orderBy('id', 'desc')->get();
     }
+
+    public static function getWithCity($request)
+    {
+        return Agency::where('name', 'ilike', '%'.$request->search.'%')->whereHas('city', function ($query)
+        {
+            $query->where('name', 'ilike', '%'.$request->search.'%');
+        })->get();
+    }
 }

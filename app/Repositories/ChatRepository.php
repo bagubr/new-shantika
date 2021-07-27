@@ -18,6 +18,6 @@ class ChatRepository
     
     public static function getAllCust()
     {
-        return Chat::whereType('CUST')->get();
+        return Chat::where('type', 'CUST')->get();
     }
 }

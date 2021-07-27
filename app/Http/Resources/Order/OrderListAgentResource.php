@@ -21,7 +21,7 @@ class OrderListAgentResource extends JsonResource
             'fleet_class'=>$this->route?->fleet?->fleetclass?->name,
             'reserve_at'=>$this->reserve_at,
             'status'=>$this->status,
-            'type'=>'PEMBELIAN',
+            'type'=>$this->type,
             'checkpoints'        => (object) [
                 'start' => (object) [
                     'agency_id'=>$this->route->checkpoints[0]?->agency?->id ?? "",

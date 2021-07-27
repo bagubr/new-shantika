@@ -13,4 +13,11 @@ class AgencyController extends Controller
             'agencies'=>Agency::where('city_id', $request->city_id)->get()
         ]);
     }
+    
+    public function getWithCity(Request $request)
+    {
+        $this->sendSuccessResponse([
+            'agencies'=> AgencyRepositories::getWithCity($request)
+        ]);
+    }
 }
