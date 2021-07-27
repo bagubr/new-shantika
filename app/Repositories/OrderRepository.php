@@ -24,9 +24,10 @@ class OrderRepository {
     }
     
     public static function getByArrayId(array $order_id) {
-        return Order::whereIn('id', $order_id)
+        $order = Order::whereIn('id', $order_id)
         ->orderBy('created_at', 'desc')
         ->get();
+        return OrderListCustomerResource::collection($order);
     }
     
     public static function findWithDetailWithPayment($id)
