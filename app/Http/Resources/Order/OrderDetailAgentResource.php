@@ -45,10 +45,11 @@ class OrderDetailAgentResource extends JsonResource
             'price_feed'=>$this->getPriceFeed($this->order_detail->pluck('is_feed')->toArray()),
             'id_member'=>$this->id_member,
             'price'=>$this->price,
+            'commision'=>$this->getCommision()
         ];
     }
 
-    public function getPriceFeed(array $is_feed)
+    private function getPriceFeed(array $is_feed)
     {
         $price = 0;
         foreach ($is_feed as $key => $value) {
@@ -59,7 +60,7 @@ class OrderDetailAgentResource extends JsonResource
         return $price;
     }
     
-    public function getPriceTravel(array $is_travel)
+    private function getPriceTravel(array $is_travel)
     {
         $price = 0;
         foreach ($is_travel as $key => $value) {
@@ -70,7 +71,7 @@ class OrderDetailAgentResource extends JsonResource
         return $price;
     }
 
-    public function getPriceMember(array $is_member)
+    private function getPriceMember(array $is_member)
     {
         $price = 0;
         foreach ($is_member as $key => $value) {
@@ -79,5 +80,9 @@ class OrderDetailAgentResource extends JsonResource
             }
         }
         return $price;
+    }
+
+    private function getCommision() {
+        return round(config('application.commision') * $this->price);
     }
 }
