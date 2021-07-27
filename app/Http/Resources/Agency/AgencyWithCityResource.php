@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Order;
+namespace App\Http\Resources\Agency;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class OrderDetailCustomerResource extends JsonResource
+class AgencyWithCityResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,6 +14,9 @@ class OrderDetailCustomerResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->name.'-'.$this->city->name,
+        ];
     }
 }

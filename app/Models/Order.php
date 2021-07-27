@@ -21,6 +21,7 @@ class Order extends Model
         'price',
         'expired_at',
         'reserve_at',
+        'id_member',
     ];
 
     public function user()

@@ -25,8 +25,8 @@ class RouteController extends Controller
             });
         })
         ->whereHas('checkpoints', function($query) use ($request) {
-            $query->when(($request->agency_departure_id && $request->agency_arrived_id), function ($q) use ($request) { 
-                    $q->whereIn('agency_id', [$request->agency_departure_id, $request->agency_arrived_id])->orderBy('order', 'desc');
+            $query->when(($request->agency_id), function ($q) use ($request) { 
+                    $q->where('agency_id', $request->agency_id)->orderBy('order', 'desc');
                 });
             })
             ->when(($request->time), function ($q) use ($request) { 
