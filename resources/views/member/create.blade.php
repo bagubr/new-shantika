@@ -41,20 +41,14 @@ Member
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label>Pengguna</label>
-                            <select name="user_id" id="" class="form-control select2">
-                                <option value="">Pilih Akun Pengguna</option>
-                                @foreach ($users as $user)
-                                <option value="{{$user->id}}">{{$user->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
                             <label>Agent</label>
                             <select name="agency_id" class="form-control select2" id="">
                                 <option value="">Pilih Agent</option>
                                 @foreach ($agencies as $agency)
-                                <option value="{{$agency->id}}">{{$agency->name}}</option>
+                                <option value="{{$agency->id}}" @isset($member) @if ($member->agency_id == $agency->id)
+                                    selected
+                                    @endif
+                                    @endisset>{{$agency->name}}</option>
                                 @endforeach
                             </select>
                         </div>

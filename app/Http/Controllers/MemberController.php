@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Member\CreateMemberRequest;
+use App\Http\Requests\Member\UpdateMemberRequest;
 use App\Models\Agency;
 use App\Models\Membership;
 use App\Models\User;
@@ -32,8 +33,6 @@ class MemberController extends Controller
     {
         $users = UserRepository::notAgent();
         $agencies = AgencyRepository::getOnlyIdName();
-        // $test = Membership::latest()->first();
-        // dd($test->code_member + 1);
         return view('member.create', compact('users', 'agencies'));
     }
 
@@ -71,9 +70,11 @@ class MemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Membership $member)
     {
-        //
+        $users = UserRepository::notAgent();
+        $agencies = AgencyRepository::getOnlyIdName();
+        return view('member.create', compact('member', 'users', 'agencies'));
     }
 
     /**
@@ -83,9 +84,13 @@ class MemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateMemberRequest $request, Membership $member)
     {
-        //
+        $data = $request->all();
+        $member->update($data);
+
+        session()->flash('success', 'Member Berhasil Diubah');
+        return redirect(route('member.index'));
     }
 
     /**
@@ -94,8 +99,10 @@ class MemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Membership $member)
     {
-        //
+        $member->delete();
+        session()->flash('success', 'Member Berhasil Dihapus');
+        return redirect(route('member.index'));
     }
 }
