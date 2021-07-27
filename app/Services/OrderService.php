@@ -36,7 +36,6 @@ class OrderService {
             OrderDetail::create([
                 'order_id'          => $order->id,
                 'layout_chair_id'   => $layout_chair_id,
-                'code_ticket'       => self::generateCodeOrder(),
                 'name'              => $detail->name,
                 'phone'             => $detail->phone,
                 'email'             => $detail->email ?? $data->user->email,
@@ -71,10 +70,6 @@ class OrderService {
         $order->refresh();
 
         return $order;
-    }
-
-    public static function generateCodeOrder() {
-        return 'STK-'.date('Ymdhis');
     }
 
     public static function getExpiredAt() {
