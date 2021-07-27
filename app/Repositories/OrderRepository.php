@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Booking;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use Illuminate\Support\Facades\DB;
 
 class OrderRepository {
 
@@ -25,19 +26,14 @@ class OrderRepository {
         return Order::with(['order_detail', 'payment'])->find($id);
     }
 
-    public static function findBookingById($id)
-    {
-        return Booking::with(['route', 'layout_chair'])->find($id);
-    }
-
     public static function unionBookingByUserIdAndDate($user_id, $date) {
         $booking = Booking::select('id', 'route_id', 'user_id', 'created_at as reserve_at', 'status')
-        ->addSelect(\DB::raw("'BOOKING' as type"))
+        ->addSelect(DB::raw("'BOOKING' as type"))
         ->where('expired_at', '>', date('Y-m-d H:i:s'))
         ->whereUserId($user_id);
         $union =  Order::select('id', 'route_id', 'user_id', 'reserve_at', 'status')
             ->whereUserId($user_id)
-            ->addSelect(\DB::raw("'PEMBELIAN' as type"))
+            ->addSelect(DB::raw("'PEMBELIAN' as type"))
             ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
             ->union($booking)
             ->get();

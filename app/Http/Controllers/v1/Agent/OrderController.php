@@ -7,6 +7,7 @@ use App\Http\Requests\Api\ApiOrderCreateRequest;
 use App\Http\Resources\Order\OrderDetailAgentResource;
 use App\Http\Resources\Order\OrderListAgentResource;
 use App\Models\Order;
+use App\Repositories\BookingRepository;
 use App\Repositories\OrderDetailRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\UserRepository;
@@ -42,7 +43,7 @@ class OrderController extends Controller
     public function show($id, Request $request) {
         $order = OrderRepository::findWithDetailWithPayment($id);
         if($request->status == 'BOOKING'){
-            $order = OrderRepository::findBookingById($id);
+            $order = BookingRepository::findWithRouteWithLayoutChair($id);
         }
 
         return $this->sendSuccessResponse([

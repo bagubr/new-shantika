@@ -72,6 +72,10 @@ class OrderService {
         return $order;
     }
 
+    public static function generateCodeOrder() {
+        return 'STK-'.date('Ymdhis');
+    }
+
     public static function getExpiredAt() {
         return date('Y-m-d H:i:s', strtotime("+1 day"));
     }
