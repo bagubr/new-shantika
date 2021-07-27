@@ -36,7 +36,6 @@ class OrderService {
             OrderDetail::create([
                 'order_id'          => $order->id,
                 'layout_chair_id'   => $layout_chair_id,
-                'code_ticket'       => self::generateCodeOrder(),
                 'name'              => $detail->name,
                 'phone'             => $detail->phone,
                 'email'             => $detail->email ?? $data->user->email,
@@ -44,10 +43,6 @@ class OrderService {
                 'is_travel'         => $detail->is_travel,
                 'is_member'         => $detail->is_member
             ]);
-        }
-        // Jika customer
-        if(!UserRepository::findUserIsAgent($order->user_id) && $order->user_id){
-            PaymentService::createOrderPayment($order, $payment_type_id);
         }
 
         $order = Order::find($order->id);

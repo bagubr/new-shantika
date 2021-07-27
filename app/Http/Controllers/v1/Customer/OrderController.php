@@ -10,6 +10,7 @@ use App\Repositories\UserRepository;
 use App\Repositories\OrderRepository;
 use App\Http\Resources\Order\OrderListCustomerResource;
 use App\Http\Resources\Order\OrderDetailCustomerResource;
+use App\Http\Resources\Order\OrderTiketResource;
 use App\Services\OrderService;
 use App\Services\PaymentService;
 use Illuminate\Support\Facades\DB;
@@ -51,6 +52,25 @@ class OrderController extends Controller
         DB::commit();
         return $this->sendSuccessResponse([
             'order'=>$order
+        ]);
+    }
+    
+    public function createPayment(Request $request)
+    {
+        $order = Order::find($request->order_id);
+        // Jika customer
+        $payment = PaymentService::createOrderPayment($order, $request->payment_type_id);
+        
+        return $this->sendSuccessResponse([
+            'order_payment'=>$payment
+        ]);
+    }
+    
+    public function tiket(Request $request)
+    {
+        $order = Order::find($request->order_id);
+        return $this->sendSuccessResponse([
+            'order_tiket'=> New OrderTiketResource($order)
         ]);
     }
 }

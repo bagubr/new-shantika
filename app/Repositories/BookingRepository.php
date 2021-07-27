@@ -11,5 +11,10 @@ class BookingRepository {
             ->where('created_at', 'ilike', '%'.$date.'%')
             ->exists();
     }
+
+    public static function findWithRouteWithLayoutChair($id)
+    {
+        return Booking::with(['route', 'layout_chair'])->find($id);
+    }
 }
         

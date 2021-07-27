@@ -37,6 +37,7 @@ class PaymentService {
                 'secret_key'=>$invoice['id'],
                 'expired_at'=>date('Y-m-d H:i:s', strtotime($invoice['expiry_date']))
             ]);
+            $invoice['xendit'] = self::getSecretAttribute($invoice);
         }
 
         return $invoice;

@@ -14,7 +14,9 @@ Route::group([
         Route::get('routes/available', 'RouteController@getAvailableRoutes');
         Route::get('chats', 'ChatController@index');
         Route::post('order_tiket', 'OrderController@store');
+        Route::post('create_payment', 'OrderController@createPayment');
         Route::get('riwayat/{id}', 'OrderController@show');
+        Route::get('tiket', 'OrderController@tiket');
     });
     Route::get('fleet_lists','FleetController@index');
     Route::get('fleet_detail/{id}','FleetController@show');
