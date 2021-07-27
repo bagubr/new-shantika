@@ -24,5 +24,5 @@ return [
     */
     'booking_expired_duration' => 15,
     
-    'commision' => 20000
+    'commision' => 0.08
 ];

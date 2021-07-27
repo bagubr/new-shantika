@@ -15,6 +15,9 @@ class OrderDetailAgentResource extends JsonResource
     public function toArray($request)
     {
         $checkpoint_max_index = count($this->route->checkpoints) - 1;
+        $price_member = $this->getPriceMember($this->order_detail->pluck('is_member')->toArray());
+        $price_travel = $this->getPriceTravel($this->order_detail->pluck('is_travel')->toArray());
+        $price_feed = $this->getPriceFeed($this->order_detail->pluck('is_feed')->toArray());
         return [
             'id'=>$this->id,
             'name_fleet'=>$this->route?->fleet?->name,
@@ -40,15 +43,17 @@ class OrderDetailAgentResource extends JsonResource
             'name_passenger'=>$this->order_detail[0]->name,
             'phone_passenger'=>$this->order_detail[0]->phone,
             'seat_passenger'=>$this->order_detail->pluck('chair.name'),
-            'price_member'=>$this->getPriceMember($this->order_detail->pluck('is_member')->toArray()),
-            'price_travel'=>$this->getPriceTravel($this->order_detail->pluck('is_travel')->toArray()),
-            'price_feed'=>$this->getPriceFeed($this->order_detail->pluck('is_feed')->toArray()),
+            'price_member'=>$price_member,
+            'price_travel'=>$price_travel,
+            'price_feed'=>$price_feed,
             'id_member'=>$this->id_member,
             'price'=>$this->price,
+            'total_price'=>$this->price + $price_travel + $price_feed - $price_member,
+            'commision'=>$this->getCommision()
         ];
     }
 
-    public function getPriceFeed(array $is_feed)
+    private function getPriceFeed(array $is_feed)
     {
         $price = 0;
         foreach ($is_feed as $key => $value) {
@@ -59,7 +64,7 @@ class OrderDetailAgentResource extends JsonResource
         return $price;
     }
     
-    public function getPriceTravel(array $is_travel)
+    private function getPriceTravel(array $is_travel)
     {
         $price = 0;
         foreach ($is_travel as $key => $value) {
@@ -70,7 +75,7 @@ class OrderDetailAgentResource extends JsonResource
         return $price;
     }
 
-    public function getPriceMember(array $is_member)
+    private function getPriceMember(array $is_member)
     {
         $price = 0;
         foreach ($is_member as $key => $value) {
@@ -79,5 +84,9 @@ class OrderDetailAgentResource extends JsonResource
             }
         }
         return $price;
+    }
+
+    private function getCommision() {
+        return round(config('application.commision') * $this->price);
     }
 }
