@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\Route;
 use App\Models\User;
+use App\Repositories\OrderDetailRepository;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -18,8 +20,9 @@ class OrderController extends Controller
     {
         $orders = Order::all();
         $routes = Route::all();
+        $agent = ['AGENT', 'UMUM'];
         $status = ['PENDING', 'EXCHANGED', 'PAID', 'CANCELED', 'EXPIRED'];
-        return view('order.index', compact('orders', 'routes', 'status'));
+        return view('order.index', compact('orders', 'routes', 'status', 'agent'));
     }
     public function search(Request $request)
     {
@@ -79,9 +82,10 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Order $order)
     {
-        //
+        $order_details = OrderDetailRepository::findById($order->id);
+        return view('order.show', compact('order', 'order_details'));
     }
 
     /**

@@ -14,12 +14,12 @@ class Order extends Model
     const STATUS5 = 'EXCHANGED';
     use HasFactory;
     protected $fillable = [
-        'user_id', 
-        'route_id', 
-        'code_order', 
-        'status', 
-        'price', 
-        'expired_at', 
+        'user_id',
+        'route_id',
+        'code_order',
+        'status',
+        'price',
+        'expired_at',
         'reserve_at',
     ];
 
@@ -38,7 +38,8 @@ class Order extends Model
         return $this->hasMany(OrderDetail::class, 'order_id', 'id');
     }
 
-    public function payment() {
-        return $this->hasMany(Payment::class, 'order_id', 'id');
+    public function payment()
+    {
+        return $this->hasOne(Payment::class, 'order_id', 'id');
     }
 }

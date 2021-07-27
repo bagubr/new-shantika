@@ -10,7 +10,7 @@ class Payment extends Model
     use HasFactory;
 
     public const STATUS1 = 'PENDING';
-    
+
     protected $fillable = [
         'payment_type_id',
         'order_id',
@@ -21,7 +21,7 @@ class Payment extends Model
 
     public function payment_type()
     {
-        return $this->belongsTo(PaymentType::class, 'payment_type_id');
+        return $this->belongsTo(PaymentType::class, 'payment_type_id', 'id');
     }
 
     public function order()

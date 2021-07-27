@@ -25,6 +25,7 @@ class UpdateRouteRequest extends FormRequest
     {
         return [
             'name' => 'required|unique:routes,name,' . $this->route->id,
+            'area_id' => 'required|exists:routes,id',
             'fleet_id' => 'required|exists:fleets,id',
             'departure_at' => 'required',
             'arrived_at' => 'required',

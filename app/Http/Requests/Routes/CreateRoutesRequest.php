@@ -26,6 +26,7 @@ class CreateRoutesRequest extends FormRequest
         return [
             'name' => 'required|unique:routes,name',
             'fleet_id' => 'required|exists:fleets,id',
+            'area_id' => 'required|exists:areas,id',
             'departure_at' => 'required',
             'arrived_at' => 'required',
             'price' => 'required|numeric'
