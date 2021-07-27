@@ -187,14 +187,29 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="{{route('schedule_not_operate.index')}}"
-                        class="nav-link {{Request::routeIs('schedule_not_operate.*') ? 'active' : ''}}">
+                <li class="nav-item {{ Request::is('schedule_*') ? 'menu-open' : '' }}">
+                    <a href="#"
+                        class="nav-link {{Request::is('schedule_*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-calendar"></i>
                         <p>
                             Jadwal
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('schedule_not_operate.index') }}" class="nav-link {{ Request::routeIs('schedule_not_operate.*') ? 'active' : '' }}">
+                                <i class="nav-icon far fa-circle"></i>
+                                <p>Operasi</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('schedule_unavailable_booking.index') }}" class="nav-link {{ Request::routeIs('schedule_unavailable_booking.*') ? 'active' : '' }}">
+                                <i class="nav-icon far fa-circle"></i>
+                                <p>Booking Tidak Tersedia</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-header">USER</li>
                 <li class="nav-item">
