@@ -45,10 +45,6 @@ class OrderService {
                 'is_member'         => $detail->is_member
             ]);
         }
-        // Jika customer
-        if(!UserRepository::findUserIsAgent($order->user_id) && $order->user_id){
-            PaymentService::createOrderPayment($order, $payment_type_id);
-        }
 
         $order = Order::find($order->id);
 

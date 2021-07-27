@@ -53,4 +53,15 @@ class OrderController extends Controller
             'order'=>$order
         ]);
     }
+    
+    public function createPayment(Request $request)
+    {
+        $order = Order::find($request->order_id);
+        // Jika customer
+        $payment = PaymentService::createOrderPayment($order, $request->payment_type_id);
+        
+        return $this->sendSuccessResponse([
+            'order_payment'=>$payment
+        ]);
+    }
 }
