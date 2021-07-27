@@ -21,6 +21,7 @@ use App\Http\Controllers\PaymentType\PaymentTypeController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\RoutesController;
 use App\Http\Controllers\ScheduleNotOperateController;
+use App\Http\Controllers\ScheduleUnavailableBookingController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\SocialMediaController;
 use App\Http\Controllers\TermsAndConditionController;
@@ -78,6 +79,7 @@ Route::group(['middleware' => ['auth']], function () {
         'terms_condition' => TermsAndConditionController::class,
         'payment_type' => PaymentTypeController::class,
         'schedule_not_operate' => ScheduleNotOperateController::class,
+        'schedule_unavailable_booking' => ScheduleUnavailableBookingController::class,
         'area' => AreaController::class,
         'province' => ProvinceController::class,
         'city' => CityController::class,
