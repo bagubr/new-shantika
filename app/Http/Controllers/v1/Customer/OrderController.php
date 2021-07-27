@@ -20,7 +20,7 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $user_id = UserRepository::findByToken($request->bearerToken())?->id;
-        $order = OrderRepository::getByUserId($user_id);
+        $order = OrderRepository::getByUserIdAndDate($user_id, $request->date);
         
         return $this->sendSuccessResponse([
             'order'=> OrderListCustomerResource::collection($order),

@@ -34,7 +34,11 @@ class Fleet extends Model
 
     public function getImagesAttribute($value)
     {
-        return json_decode($value);
+        $values = json_decode($value);
+        return array_map(function ($item)
+        {
+            return url('storage/' . $item);
+        }, $values);
     }
 
     public function deleteImage()

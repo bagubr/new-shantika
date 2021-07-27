@@ -40,10 +40,12 @@ class OrderController extends Controller
 
     public function show($id, Request $request) {
         $order = OrderRepository::findWithDetailWithPayment($id);
+        if($request->status == 'BOOKING'){
+            $order = OrderRepository::findBookingById($id);
+        }
 
         return $this->sendSuccessResponse([
-            'order' => new OrderDetailAgentResource($order),
-            'payment' => OrderService::getInvoice($order->payment()->first())
+            'order' => new OrderDetailAgentResource($order)
         ]);
     }
 
