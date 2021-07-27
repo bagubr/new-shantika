@@ -18,7 +18,7 @@ use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\PaymentType\PaymentTypeController;
+use App\Http\Controllers\PaymentTypeController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\RoutesController;
 use App\Http\Controllers\ScheduleNotOperateController;

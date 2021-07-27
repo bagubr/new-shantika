@@ -45,6 +45,11 @@ Tipe Pembayaran
                                 value="{{isset($payment_type) ? $payment_type->name : ''}}"
                                 placeholder="Masukkan Nama Pembayaran">
                         </div>
+                        <div class="form-group">
+                            <label>Deskripsi</label>
+                            <textarea name="description" class="form-control"
+                                rows="5">{{isset($payment_type) ? $payment_type->description : ''}}</textarea>
+                        </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
