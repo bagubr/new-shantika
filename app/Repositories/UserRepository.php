@@ -11,7 +11,10 @@ class UserRepository {
     }
 
     public static function findByToken($token) {
-        return User::whereToken($token)->first();
+        if($token){
+            return User::whereToken($token)->first();
+        }
+        return $token;
     }
 
     public static function findByEmail($email) {

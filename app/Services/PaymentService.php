@@ -11,7 +11,7 @@ class PaymentService {
     public static function createOrderPayment(Order $order, $payment_type_id = null) {
         if($payment_type_id == null) {
             $payment_type_id  = PaymentType::first()->id;
-        } 
+        }
         
         if(empty($payment_type_id)) {
             $invoice = Payment::create([

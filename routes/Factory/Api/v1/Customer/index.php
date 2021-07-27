@@ -13,6 +13,7 @@ Route::group([
         Route::get('payment_type', 'PaymentTypeController@getPaymentType');
         Route::get('routes/available', 'RouteController@getAvailableRoutes');
         Route::get('chats', 'ChatController@index');
+        Route::post('order_tiket', 'OrderController@store');
     });
     Route::get('fleet_lists','FleetController@index');
     Route::get('fleet_detail/{id}','FleetController@show');
@@ -23,7 +24,6 @@ Route::group([
         
         
         Route::group(['namespace' => 'Customer'], function() {
-            Route::post('order_tiket', 'OrderController@store');
             Route::get('riwayat', 'OrderController@index');
             Route::get('riwayat/{id}', 'OrderController@show');
             Route::get('profile', 'UserController@show');

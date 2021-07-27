@@ -40,7 +40,7 @@ class OrderRepository {
             ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
             ->union($booking)
             ->get();
-        return $union;  
+        return $union;
     }
 }
         

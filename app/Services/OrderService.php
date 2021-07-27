@@ -46,7 +46,7 @@ class OrderService {
             ]);
         }
         // Jika customer
-        if(!UserRepository::findUserIsAgent($order->user_id)){
+        if(!UserRepository::findUserIsAgent($order->user_id) && $order->user_id){
             PaymentService::createOrderPayment($order, $payment_type_id);
         }
 
