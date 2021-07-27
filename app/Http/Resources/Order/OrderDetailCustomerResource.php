@@ -53,7 +53,7 @@ class OrderDetailCustomerResource extends JsonResource
         $price = 0;
         foreach ($is_feed as $key => $value) {
             if($value == true){
-                $price += config('app.price_list.feed');
+                $price += config('application.price_list.feed');
             }
         }
         return $price;
@@ -64,7 +64,7 @@ class OrderDetailCustomerResource extends JsonResource
         $price = 0;
         foreach ($is_travel as $key => $value) {
             if($value == true){
-                $price += config('app.price_list.travel');
+                $price += config('application.price_list.travel');
             }
         }
         return $price;
@@ -75,7 +75,7 @@ class OrderDetailCustomerResource extends JsonResource
         $price = 0;
         foreach ($is_member as $key => $value) {
             if($value == true){
-                $price += config('app.price_list.member');
+                $price += config('application.price_list.member');
             }
         }
         return $price;
