@@ -30,9 +30,9 @@ class AuthService {
             $agent = request()->userAgent();
             UserToken::updateOrCreate([
                 'user_id'=>$user->id,
-                'token'=>$token,
                 'user_agent'=>$agent
             ],[
+                'token'=>$token
             ]);
             $user->update([
                 'fcm_token'=>$fcm_token,
