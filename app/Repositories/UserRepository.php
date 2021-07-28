@@ -45,6 +45,6 @@ class UserRepository {
 
     public static function findUserIsAgent($user_id)
     {
-        (UserAgent::whereUserId($user_id)->first())?true:false;
+        return UserAgent::whereUserId($user_id)->first() ? true : false;
     }
 }

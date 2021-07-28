@@ -17,6 +17,7 @@ class CreateUserTokens extends Migration
             $table->id();
             $table->bigInteger('user_id');
             $table->text('token');
+            $table->string('user_agent');
             $table->timestamps();
         });
     }

@@ -10,6 +10,6 @@ class UserToken extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'token'
+        'user_id', 'token', 'user_agent'
     ];
 }

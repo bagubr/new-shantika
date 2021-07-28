@@ -53,4 +53,8 @@ class User extends Authenticatable
     {
         return $this->belongsTo(UserAgent::class, 'id', 'user_id');
     }
+
+    public function token() {
+        return $this->hasMany(UserToken::class, 'user_id', 'id');
+    }
 }
