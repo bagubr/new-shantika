@@ -131,10 +131,10 @@ Route
                                 </option>
                                 @endforeach
                             </select>
-                            <div class="form-group">
-                                <label for="">Arrived At</label>
-                                <input type="time" class="form-control" name="arrived_at">
-                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Arrived At</label>
+                            <input type="time" class="form-control" name="arrived_at">
                         </div>
                         <div class="form-group">
                             <label for="">Order</label>
