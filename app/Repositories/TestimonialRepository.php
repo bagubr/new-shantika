@@ -6,7 +6,7 @@ class TestimonialRepository {
 
     public static function getAll()
     {
-        return Testimonial::orderBy('id', 'desc')->get();
+        return Testimonial::whereIsShow(true)->orderBy('id', 'desc')->get();
     }
 }
         

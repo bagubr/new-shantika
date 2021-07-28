@@ -19,13 +19,16 @@ class AuthController extends Controller
         }else{
             $user = UserRepository::findByEmail($request['email']);
         }
-        if(!empty($request['uuid']) && $user->uuid != $request['uuid']) {    
-            $this->sendFailedResponse([], $message = "Oops! Uuid doesn't match", $code = 401);
-        }else{
-            $this->sendSuccessResponse([
-                'user' => $user,
-                'token'=>$user->token,
-            ], $message = "Uuid Matched !!!", $code = 200);
+        if($user){
+            if(!empty($request['uuid']) && $user->uuid != $request['uuid']) {    
+                $this->sendFailedResponse([], $message = "Oops! Uuid doesn't match", $code = 401);
+            }else{
+                $this->sendSuccessResponse([
+                    'user' => $user,
+                    'token'=>$user->token,
+                ], $message = "Uuid Matched !!!", $code = 200);
+            }
         }
+        $this->sendFailedResponse([], $message = "Oops! User doesn't exist", $code = 404);
     }
 }

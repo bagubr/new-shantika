@@ -10,7 +10,7 @@ class Testimonial extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'user_id', 'title', 'review', 'rating', 'image'
+        'user_id', 'title', 'review', 'image'
     ];
 
     protected $appends = [

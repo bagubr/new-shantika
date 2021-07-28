@@ -28,6 +28,8 @@ Route::group([
         
         
         Route::group(['namespace' => 'Customer'], function() {
+            Route::get('test','TestimonialController@index');
+            Route::post('testimonial','TestimonialController@createTestimonial');
             Route::get('profile', 'UserController@show');
             Route::post('update', 'UserController@update');
         });

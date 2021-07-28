@@ -12,6 +12,6 @@ class Review extends Model
     protected $table = 'reviews';
 
     protected $fillable = [
-        'order_id', 'review'
+        'order_id', 'review', 'rating'
     ];
 }

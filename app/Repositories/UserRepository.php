@@ -9,7 +9,8 @@ class UserRepository
 {
     public static function findByPhone($phone)
     {
-        return User::wherePhone($phone)->first();
+        
+        return User::wherePhone($phone)->first()??false;
     }
 
     public static function findByToken($token)
@@ -22,7 +23,7 @@ class UserRepository
 
     public static function findByEmail($email)
     {
-        return User::where('email', $email)->first();
+        return User::where('email', $email)->first()??false;
     }
 
     public static function getAll()
