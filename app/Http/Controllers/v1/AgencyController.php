@@ -7,6 +7,7 @@ use App\Models\Agency;
 use Illuminate\Http\Request;
 use App\Repositories\AgencyRepository;
 use App\Http\Resources\Agency\AgencyWithCityResource;
+use App\Http\Resources\Agency\AgencyWithAddressTelpResource;
 
 class AgencyController extends Controller
 {
@@ -21,6 +22,14 @@ class AgencyController extends Controller
         $agency_city = AgencyRepository::getWithCity($request);
         $this->sendSuccessResponse([
             'agencies_city'=> AgencyWithCityResource::collection($agency_city)
+        ]);
+    }
+    
+    public function getAllAgen()
+    {
+        $agency = AgencyRepository::all();
+        $this->sendSuccessResponse([
+            'agencies'=> AgencyWithAddressTelpResource::collection($agency)
         ]);
     }
 }
