@@ -26,14 +26,20 @@ class ReviewController extends Controller
     
     public function index(Request $request)
     {
-        $user = UserRepository::findByToken($request->bearerToken());
-        $data = Review::whereHas('order', function ($query) use ($user)
-        {
-            $query->where('user_id', $user->user_id);
-        })->get();
+        if($request->order_id && !empty($request->order_id)){
+            $data = Review::whereHas('order', function ($query) use ($request)
+            {
+                $query->whereIn('id', $request->order_id);
+            })->get();
+        }else{
+            $user = UserRepository::findByToken($request->bearerToken());
+            $data = Review::whereHas('order', function ($query) use ($user)
+            {
+                $query->where('user_id', $user->user_id);
+            })->get();
+        }
         $this->sendSuccessResponse([
             'data_review'=>ReviewResource::collection($data)
         ]);
-
     }
 }

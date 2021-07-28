@@ -18,7 +18,7 @@ Route::group([
         Route::post('riwayat', 'OrderController@index');
         Route::get('riwayat/{id}', 'OrderController@show');
         Route::get('tiket', 'OrderController@tiket');
-        Route::get('review','ReviewController@index');
+        Route::post('review_list','ReviewController@index');
         Route::post('review','ReviewController@create');
     });
     Route::get('fleet_lists','FleetController@index');
