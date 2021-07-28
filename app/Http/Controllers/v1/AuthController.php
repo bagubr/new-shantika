@@ -38,6 +38,6 @@ class AuthController extends Controller
                 }
             }
         }
-        $this->sendSuccessResponse([], $message = "Oops! Sepertinya anda belum pernah registrasi pake nomor ini", $code = 401);
+        $this->sendSuccessResponse([], $message = "Sepertinya akun anda belum terdaftar", $code = 401);
     }
 }

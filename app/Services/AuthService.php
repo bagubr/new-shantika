@@ -12,14 +12,14 @@ class AuthService {
     use Response;
 
     public static function login($user, $fcm_token = '', $phone = '',$uuid = '') {
-        if($user == null) (new self)->sendFailedResponse([], "Sepertinya akun anda belum terdaftar");
+        if($user == null) (new self)->sendSuccessResponse([], $message = "Sepertinya akun anda belum terdaftar", $code = 401);
         $token = self::generateToken($user);
         $user = self::authenticate($user, $fcm_token, $uuid);
         return $user;
     }
     
     public static function loginByEmail($user, $fcm_token = '', $email = '',$uuid = '') {
-        if($user == null) (new self)->sendFailedResponse([], $message = "Oops! Sepertinya anda belum pernah registrasi pake email ini", $code = 401);
+        if($user == null) (new self)->sendSuccessResponse([], $message = "Sepertinya akun anda belum terdaftar", $code = 401);
         $user = self::authenticate($user, $fcm_token, $uuid);
         return $user;
     }
