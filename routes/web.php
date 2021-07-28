@@ -20,6 +20,7 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentTypeController;
 use App\Http\Controllers\ProvinceController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\RoutesController;
 use App\Http\Controllers\ScheduleNotOperateController;
 use App\Http\Controllers\ScheduleUnavailableBookingController;
@@ -85,6 +86,7 @@ Route::group(['middleware' => ['auth']], function () {
         'province' => ProvinceController::class,
         'city' => CityController::class,
         'order' => OrderController::class,
-        'member' => MemberController::class
+        'member' => MemberController::class,
+        'review' => ReviewController::class
     ]);
 });

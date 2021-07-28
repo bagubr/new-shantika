@@ -275,14 +275,30 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{route('testimoni.index')}}"
-                        class="nav-link {{Request::routeIs('testimoni.*') ? 'active' : ''}}">
+                <li class="nav-item {{Request::routeIs('testimoni.*','review.*') ? 'menu-open' : ''}}">
+                    <a href="#" class="nav-link {{Request::routeIs('testimoni.*','review.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-quote-left"></i>
                         <p>
-                            Testimoni
+                            Ulasan
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('review.index')}}"
+                                class="nav-link {{Request::routeIs('review.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Review</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('testimoni.index')}}"
+                                class="nav-link {{Request::routeIs('testimoni.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Testimoni</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-header">LAINNYA</li>
                 <li class="nav-item">

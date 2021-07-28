@@ -7,6 +7,7 @@ use App\Models\OrderDetail;
 use App\Models\Route;
 use App\Models\User;
 use App\Repositories\OrderDetailRepository;
+use App\Repositories\RoutesRepository;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -26,13 +27,17 @@ class OrderController extends Controller
     }
     public function search(Request $request)
     {
+        $name_search = $request->name;
         $routes_search = $request->route_id;
         $status_search = $request->status;
         $status_agent = $request->agent;
-        $routes = Route::all();
+        $code_order_search = $request->code_order;
+
+        $routes = RoutesRepository::getIdName();
         $orders = Order::query();
         $status = ['PENDING', 'EXCHANGED', 'PAID', 'CANCELED', 'EXPIRED'];
         $agent = ['AGENT', 'UMUM'];
+
         if (!empty($routes_search)) {
             $orders = $orders->where('route_id', $routes_search);
         }
@@ -50,8 +55,21 @@ class OrderController extends Controller
                 });
             }
         }
+        if (!empty($name_search)) {
+            $orders = $orders->whereHas('user', function ($q) use ($name_search) {
+                $q->where('name', 'like', '%' . $name_search . '%');
+            });
+        }
+        if (!empty($code_order_search)) {
+            $orders = $orders->where('code_order', 'like', '%' . $code_order_search . '%');
+        }
         $test = $request->flash();
         $orders = $orders->paginate(7);
+        if (!$orders->isEmpty()) {
+            session()->flash('success', 'Data Order Berhasil Ditemukan');
+        } else {
+            session()->flash('error', 'Tidak Ada Data Ditemukan');
+        }
         return view('order.index', compact('orders', 'routes', 'status', 'test', 'agent'));
     }
 

@@ -10,4 +10,8 @@ class RoutesRepository
     {
         return Route::all();
     }
+    public static function getIdName()
+    {
+        return Route::all(['id', 'name']);
+    }
 }

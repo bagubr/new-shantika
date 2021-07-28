@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Testimoni Pengguna
+Review Pengguna
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->
@@ -8,12 +8,12 @@ Testimoni Pengguna
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Testimoni Pengguna</h1>
+                <h1 class="m-0">Review Pengguna</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Testimoni Pengguna</li>
+                    <li class="breadcrumb-item active">Review Pengguna</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -26,36 +26,37 @@ Testimoni Pengguna
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Testimoni Pengguna</h3>
-                        <div class="text-right">
-                            <a href="{{route('testimoni.create')}}" class="btn btn-primary btn-sm">Tambah</a>
-                        </div>
+                        <h3 class="card-title">Table Review Pengguna</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Judul Testimoni</th>
+                                    <th>Kode Order</th>
                                     <th>Nama</th>
-                                    <th>Image</th>
+                                    <th>Rating</th>
                                     <th>Review</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($testimonials as $testimoni)
+                                @foreach ($reviews as $review)
                                 <tr>
-                                    <td>{{$testimoni->title}}</td>
-                                    <td>{{$testimoni->user->name}}</td>
-                                    <td><img src="{{$testimoni->image}}" height="100px"
-                                            alt="{{$testimoni->user->name}}">
-                                    </td>
-                                    <td>{!!$testimoni->review!!}</td>
                                     <td>
-                                        <a href="{{route('testimoni.edit',$testimoni->id)}}"
-                                            class="btn btn-warning btn-xs">Edit</a>
-                                        <form action="{{route('testimoni.destroy',$testimoni->id)}}" class="d-inline"
+                                        <a href="{{route('order.show',$review->order->id)}}">
+                                            {{$review->order->code_order}}
+                                        </a>
+                                    </td>
+                                    <td>{{$review->order->user->name}}</td>
+                                    <td>
+                                        @for ($i = 0; $i < $review->rating; $i++)
+                                            <i class="fas fa-star"></i>
+                                            @endfor
+                                    </td>
+                                    <td>{{$review->review}}</td>
+                                    <td>
+                                        <form action="{{route('review.destroy',$review->id)}}" class="d-inline"
                                             method="POST">
                                             @csrf
                                             @method('DELETE')
