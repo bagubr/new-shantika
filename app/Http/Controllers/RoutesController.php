@@ -49,16 +49,24 @@ class RoutesController extends Controller
     {
         $data = $request->all();
         $route = Route::create($data);
+
         $agencies = $request['agency_id'];
-        $i = 1;
-        foreach ($agencies as $agency) {
-            Checkpoint::create([
+        $arrived_at = $request['arrived_at1'];
+
+        $i = 0;
+        $checkpoints = '';
+        foreach ($agencies as $key => $agency) {
+            $checkpoint = Checkpoint::create([
                 'route_id' => $route->id,
-                'arrived_at' => '11:00',
+                'arrived_at' => $arrived_at[$key],
                 'agency_id' => $agency,
                 'order' => $i++
             ]);
+            $checkpoints .= '~' . $checkpoint->agency()->first()->name . '~';
         }
+        $route->update([
+            'name' => $checkpoints,
+        ]);
         session()->flash('success', 'Route Berhasil Ditambahkan');
         return redirect(route('routes.index'));
     }
