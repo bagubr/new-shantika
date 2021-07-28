@@ -19,11 +19,12 @@ class OrderController extends Controller
     
     public function index(Request $request)
     {
-        if($request->order_id){
-            $order = OrderRepository::getByArrayId($request->order_id);
-        }else{
-            $user_id = UserRepository::findByToken($request->bearerToken())?->id;
+        $user_id = UserRepository::findByToken($request->bearerToken())?->id;
+        if($user_id){
             $order = OrderRepository::getByUserId($user_id);
+        }else{
+            
+            $order = OrderRepository::getByArrayId($request->order_id);
         }
         
         return $this->sendSuccessResponse([
