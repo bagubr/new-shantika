@@ -20,6 +20,7 @@ class OrderDetailAgentResource extends JsonResource
         $price_feed = $this->getPriceFeed($this->order_detail->pluck('is_feed')->toArray());
         return [
             'id'=>$this->id,
+            'code_order'=>$this->code_order,
             'name_fleet'=>$this->route?->fleet?->name,
             'fleet_class'=>$this->route?->fleet?->fleetclass?->name,
             'total_passenger'=>count($this->order_detail),
