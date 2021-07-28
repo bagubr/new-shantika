@@ -24,7 +24,7 @@ class CreateRoutesRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:routes,name',
+            // 'name' => 'required|unique:routes,name',
             'fleet_id' => 'required|exists:fleets,id',
             'area_id' => 'required|exists:areas,id',
             'departure_at' => 'required',
