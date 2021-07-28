@@ -72,7 +72,7 @@ class MemberController extends Controller
      */
     public function edit(Membership $member)
     {
-        $users = UserRepository::notAgent();
+        $users = UserRepository::notAgentMember();
         $agencies = AgencyRepository::getOnlyIdName();
         return view('member.create', compact('member', 'users', 'agencies'));
     }

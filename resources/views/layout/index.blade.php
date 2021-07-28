@@ -37,6 +37,7 @@ Layout
                             <thead>
                                 <tr>
                                     <th>Nama</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
