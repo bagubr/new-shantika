@@ -37,7 +37,7 @@ class AuthController extends BaseAuthController
 
         return $this->sendSuccessResponse([
             'user'=>$user,
-            'token'=>$user->token
+            'token'=>$user->token??''
         ]);
     }
 

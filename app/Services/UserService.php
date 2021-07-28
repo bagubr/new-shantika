@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Requests\Api\ApiRegisterCustomerRequest;
 use App\Models\User;
+use App\Models\Order;
 use App\Repositories\UserRepository;
 use App\Utils\Image;
 use App\Utils\Response;
@@ -15,13 +16,13 @@ class UserService {
     public static function register(array $data, array $order_id = []) {
         Image::uploadFile($data['avatar'], 'avatar');
         $user = User::create($data);
+        // compile order sebelum login jadi riwayat
         if($order_id && !empty($order_id)){
-            Order::whereIn('id', $request->order_id)->update([
+            Order::whereIn('id', $order_id)->update([
                 'user_id'   => $user->id,
             ]);
         }
         $user = AuthService::login($user, null, null, $data['uuid']);
-        // compile order sebelum login jadi riwayat
         return $user;
     }
 
