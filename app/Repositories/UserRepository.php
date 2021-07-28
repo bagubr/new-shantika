@@ -5,9 +5,10 @@ namespace App\Repositories;
 use App\Models\User;
 use App\Models\UserAgent;
 use App\Models\UserToken;
-
+use App\Utils\Response;
 class UserRepository
 {
+    use Response;
     public static function findByPhone($phone)
     {
         
@@ -22,6 +23,8 @@ class UserRepository
             }
 
             return $user;
+        }else{
+            (new self)->sendFailedResponse([], "User doesn't exists");
         }
     }
 

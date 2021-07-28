@@ -18,6 +18,8 @@ Route::group([
         Route::post('riwayat', 'OrderController@index');
         Route::get('riwayat/{id}', 'OrderController@show');
         Route::get('tiket', 'OrderController@tiket');
+        Route::get('review','ReviewController@index');
+        Route::post('review','ReviewController@create');
     });
     Route::get('fleet_lists','FleetController@index');
     Route::get('fleet_detail/{id}','FleetController@show');
@@ -29,7 +31,6 @@ Route::group([
         
         Route::group(['namespace' => 'Customer'], function() {
             Route::get('test','TestimonialController@index');
-            Route::post('review','ReviewController@create');
             Route::get('profile', 'UserController@show');
             Route::post('update', 'UserController@update');
         });
