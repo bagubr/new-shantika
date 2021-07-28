@@ -10,14 +10,15 @@ class UserRepository
 {
     public static function findByPhone($phone)
     {
-        
-        return User::wherePhone($phone)->first()??false;
+
+        return User::wherePhone($phone)->first() ?? false;
     }
 
-    public static function findByToken($token) {
-        if($token){
+    public static function findByToken($token)
+    {
+        if ($token) {
             $user = User::whereToken($token)->first();
-            if(empty($user)) {
+            if (empty($user)) {
                 $user = UserToken::where('token', $token)->first();
             }
 
@@ -27,7 +28,7 @@ class UserRepository
 
     public static function findByEmail($email)
     {
-        return User::where('email', $email)->first()??false;
+        return User::where('email', $email)->first() ?? false;
     }
 
     public static function getAll()
@@ -38,6 +39,10 @@ class UserRepository
     public static function notAgent()
     {
         return User::doesntHave('agencies')->doesntHave('membership')->get(['id', 'name']);
+    }
+    public static function notAgentMember()
+    {
+        return User::doesntHave('agencies')->get(['id', 'name']);
     }
 
     public static function authenticate(User $user, $token, $fcm_token = '', $uuid = '')

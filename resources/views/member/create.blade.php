@@ -52,6 +52,18 @@ Member
                                 @endforeach
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label>Pengguna</label>
+                            <select name="user_id" class="form-control select2" id="">
+                                <option value="">Pilih Pengguna</option>
+                                @foreach ($users as $user)
+                                <option value="{{$user->id}}" @isset($member) @if ($member->user_id == $user->id)
+                                    selected
+                                    @endif
+                                    @endisset>{{$user->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
