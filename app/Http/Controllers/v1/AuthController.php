@@ -15,14 +15,10 @@ class AuthController extends Controller
 {
     public function checkUuid(Request $request)
     {
-        if($request['phone']){
-            $user = UserRepository::findByPhone($request['phone']);
-        }else{
-            $user = UserRepository::findByEmail($request['email']);
-        }
+        $user = UserRepository::findByPhone($request['phone']);
         if($user){
             if(!empty($request['uuid']) && $user->uuid != $request['uuid']) {    
-                $this->sendFailedResponse([], $message = "Oops! Uuid doesn't match", $code = 401);
+                $this->sendSuccessResponse([], $message = "Oops! Uuid doesn't match", $code = 401);
             }else{
                 if(UserRepository::findUserIsAgent($user->id)) {
                     $user_token = UserToken::where('user_id', $user->id)->where('user_agent', $request->userAgent())->first();
