@@ -19,6 +19,7 @@ Route::group([
     Route::get('agency_city', 'AgencyController@getWithCity');
     Route::get('layouts', 'LayoutController@index');
     Route::get('fleet_classes', 'FleetClassController@index');
+    Route::get('fleet_classes/available', 'FleetClassController@available');
 
     Route::get('slider_detail/{id}', 'SliderController@sliderDetail');
     Route::get('article_detail/{id}', 'ArticleController@articleDetail');
