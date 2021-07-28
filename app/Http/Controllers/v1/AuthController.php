@@ -38,6 +38,6 @@ class AuthController extends Controller
                 }
             }
         }
-        $this->sendFailedResponse([], $message = "Oops! User doesn't exist", $code = 404);
+        $this->sendSuccessResponse([], $message = "Oops! User doesn't exist", $code = 401);
     }
 }

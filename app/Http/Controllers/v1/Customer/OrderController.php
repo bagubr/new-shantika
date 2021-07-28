@@ -57,7 +57,8 @@ class OrderController extends Controller
         $this->createPayment($order->id, $request->payment_type_id);
         DB::commit();
         return $this->sendSuccessResponse([
-            'order'=>$order
+            'order' => new OrderDetailCustomerResource($order),
+            'payment' => OrderService::getInvoice($order->payment()->first())
         ]);
     }
     
