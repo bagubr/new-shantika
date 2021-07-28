@@ -40,7 +40,6 @@ Testimoni Pengguna
                                     <th>Nama</th>
                                     <th>Image</th>
                                     <th>Review</th>
-                                    <th>Rating</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -53,11 +52,6 @@ Testimoni Pengguna
                                             alt="{{$testimoni->user->name}}">
                                     </td>
                                     <td>{!!$testimoni->review!!}</td>
-                                    <td>
-                                        @for ($i = 0; $i < $testimoni->rating; $i++)
-                                            <i class="fas fa-star"></i>
-                                            @endfor
-                                    </td>
                                     <td>
                                         <a href="{{route('testimoni.edit',$testimoni->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>

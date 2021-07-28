@@ -28,7 +28,6 @@ class CreateTestimoniRequest extends FormRequest
             'user_id' => 'required|exists:users,id',
             'image' => 'nullable|max:2048|image',
             'review' => 'nullable',
-            'rating' => 'required|integer'
         ];
     }
 }

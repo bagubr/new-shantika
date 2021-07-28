@@ -70,19 +70,6 @@ Testimoni
                                 {{isset($testimoni) ? $testimoni->review : ''}}
                             </textarea>
                         </div>
-                        <div class="form-group">
-                            <label>Rating</label>
-                            <select name="rating" class="form-control" id="">
-                                <option value="">Pilih Rating</option>
-                                @for ($i = 5; $i > 0; $i--)
-                                <option value="{{$i}}" @isset($testimoni) @if ($i==$testimoni->rating)
-                                    selected
-                                    @endif
-                                    @endisset>{{$i}}</option>
-                                @endfor
-
-                            </select>
-                        </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
