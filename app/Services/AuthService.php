@@ -14,7 +14,7 @@ class AuthService {
     public static function login($user, $fcm_token = '', $phone = '',$uuid = '') {
         if($user == null) (new self)->sendFailedResponse([], "Sepertinya akun anda belum terdaftar");
         $token = self::generateToken($user);
-        $user = self::authenticate($user, $token, $fcm_token, $uuid);
+        $user = self::authenticate($user, $fcm_token, $uuid);
         return $user;
     }
     

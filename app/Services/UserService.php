@@ -22,7 +22,7 @@ class UserService {
                 'user_id'   => $user->id,
             ]);
         }
-        $user = AuthService::login($user, null, null, $data['uuid']);
+        $user->token = AuthService::login($user, null, null, $data['uuid']);
         return $user;
     }
 
