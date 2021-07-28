@@ -12,10 +12,16 @@ use Illuminate\Http\UploadedFile;
 class UserService {
     use Response;
 
-    public static function register(array $data) {
+    public static function register(array $data, array $order_id = []) {
         Image::uploadFile($data['avatar'], 'avatar');
         $user = User::create($data);
+        if($order_id && !empty($order_id)){
+            Order::whereIn('id', $request->order_id)->update([
+                'user_id'   => $user->id,
+            ]);
+        }
         $user = AuthService::login($user, null, null, $data['uuid']);
+        // compile order sebelum login jadi riwayat
         return $user;
     }
 
