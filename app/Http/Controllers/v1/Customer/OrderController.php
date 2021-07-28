@@ -53,21 +53,19 @@ class OrderController extends Controller
         $request['is_travel'] = false;
         $request['is_feed'] = true;
         $order = OrderService::create($order, $request, $request->payment_type_id);
+
+        $this->createPayment($order->id, $request->payment_type_id);
         DB::commit();
         return $this->sendSuccessResponse([
             'order'=>$order
         ]);
     }
     
-    public function createPayment(Request $request)
+    public function createPayment($order_id, $payment_type_id)
     {
-        $order = Order::find($request->order_id);
+        $order = Order::find($order_id);
         // Jika customer
-        $payment = PaymentService::createOrderPayment($order, $request->payment_type_id);
-        
-        return $this->sendSuccessResponse([
-            'order_payment'=>$payment
-        ]);
+        $payment = PaymentService::createOrderPayment($order, $payment_type_id);
     }
     
     public function tiket(Request $request)
