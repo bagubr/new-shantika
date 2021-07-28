@@ -16,10 +16,9 @@ class LayoutController extends Controller
         $route = Route::find($request->route_id);
         $layout = LayoutRepository::findByRoute($route);
         $layout = LayoutService::getAvailibilityChairs($layout, $route, $request->date);
-        return new LayoutResource($layout);
         
         $this->sendSuccessResponse([
-            'data'=> $layout
+            'data'=> new LayoutResource($layout)
         ]);
     }
 }
