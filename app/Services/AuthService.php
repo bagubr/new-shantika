@@ -27,11 +27,13 @@ class AuthService {
     public static function authenticate(User $user, $fcm_token = '', $uuid = '') {
         if(UserRepository::findUserIsAgent($user->id)) {
             $token = self::generateToken($user, false);
+            $agent = request()->userAgent();
             UserToken::updateOrCreate([
-                'token'=>$token
+                'token'=>$token,
+                'user_agent'=>$agent
             ],[
                 'user_id'=>$user->id,
-                'user_agent'=>request()->userAgent()
+                'user_agent'=>$agent
             ]);
         } else {
             $token = self::generateToken($user, true);
