@@ -26,12 +26,6 @@ class ApiAuthAgentMiddleware
         if(!str_contains($user->token, $token)) {
             $this->sendFailedResponse([], "Oops, anda sepertinya harus login ulang",401);
         }
-        //Check device
-        $user_agent = $request->userAgent();
-        $serialized = md5($user_agent.env('API_KEY', ''));
-        if(!str_contains($user->token, $serialized)) {
-            $this->sendFailedResponse([], "Oops, anda sepertinya harus login ulang",401);
-        }
         //Check if agent
         $agent = UserAgent::where('user_id', $user->id)->first();
         if(empty($agent)) $this->sendFailedResponse([], 'Oops, kamu pakai akun customer untuk mengakses aplikasi agen?!', 401);
