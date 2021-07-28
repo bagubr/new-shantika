@@ -6,24 +6,21 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
 use App\Http\Requests\Api\TestimonialRequest;
-use App\Models\Testimonial;
+use App\Models\Review;
 use App\Services\TestimonialService;
 
-class TestimonialController extends Controller
+class ReviewController extends Controller
 {
-    public function createTestimonial(TestimonialRequest $request)
+    public function create(Request $request)
     {
         $user = UserRepository::findByToken($request->bearerToken())
             ?? $this->sendFailedResponse([], 'Anda sepertinya perlu login ulang / anda perlu regis ulang');
-        $testimonial = new Testimonial([
-            'user_id'=>UserRepository::findByToken($request->bearerToken())?->id,
-            'title'=>$request->title,
+        $testimonial = new Review([
+            'order_id'=>$request->order_id,
             'review'=>$request->review,
             'rating'=>$request->rating,
-            'image'=>$request->image,
-            'is_show'=>false,
         ]);
-        $data = TestimonialService::create($testimonial);
+        $data = ReviewService::create($testimonial);
         $this->sendSuccessResponse([
             'data'=>$data
         ]);
