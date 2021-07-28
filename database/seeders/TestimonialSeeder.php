@@ -20,7 +20,6 @@ class TestimonialSeeder extends Seeder
             Testimonial::create([
                 'user_id'   => User::all()->random()->id,
                 'review'    => $faker->paragraph($nbSentences = 5, $variableNbSentences = true),
-                'rating'    => $faker->randomElement($array = array (1,2,3,4,5)),
                 'image'     => '',
             ]);
         }

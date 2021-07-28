@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Testimonial;
 use App\Repositories\ArticleRepository;
 use App\Repositories\NotificationRepository;
+use App\Repositories\TestimonialRepository;
 use App\Repositories\UserRepository;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -13,7 +14,7 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     public function home(Request $request) {
-        $testis = Testimonial::get();
+        $testis = TestimonialRepository::getAll();
         $unread_notifs = NotificationRepository::getUnreadNotificationByUserToken($request->bearerToken())->count();
         $articles = ArticleRepository::getAll();
 
