@@ -21,7 +21,7 @@ class OrderService {
         if(!$data->price) {
             $data->price = ($route->price * count($detail->layout_chair_id));
             if($detail->is_feed){
-                $data->price += (config('application.price_list.feed') * count($detail->layout_chair_id));
+                $data->price += ($data->route->fleet->fleetclass->price_food * count($detail->layout_chair_id));
             }
             if($detail->is_travel){
                 $data->price += (config('application.price_list.travel') * count($detail->layout_chair_id));
