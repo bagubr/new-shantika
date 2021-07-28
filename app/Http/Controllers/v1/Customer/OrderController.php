@@ -50,7 +50,7 @@ class OrderController extends Controller
             'id_member'=>$request->id_member,
             'reserve_at'=>$request->reserve_at
         ]);
-        $request['is_travel'] = true;
+        $request['is_travel'] = false;
         $request['is_feed'] = true;
         $order = OrderService::create($order, $request, $request->payment_type_id);
 
