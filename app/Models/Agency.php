@@ -17,7 +17,8 @@ class Agency extends Model
 
     protected $appends = [
         'address',
-        'phone'
+        'phone',
+        'avatar',
     ];
 
     public function city() {
@@ -32,6 +33,11 @@ class Agency extends Model
     public function getAddressAttribute()
     {
         return $this->userAgent()->first()->user()->first()->address;
+    }
+
+    public function getAvatarAttribute()
+    {
+        return $this->userAgent()->first()->user()->first()->avatar_url;
     }
 
     public function getPhoneAttribute()

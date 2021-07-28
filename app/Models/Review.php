@@ -18,4 +18,9 @@ class Review extends Model
     {
         return $this->belongsTo(Order::class, 'order_id', 'id');
     }
+    
+    public function getCreatedAtAttribute($value)
+    {
+        return date('Y-m-d H:i:s', strtotime($value));
+    }
 }

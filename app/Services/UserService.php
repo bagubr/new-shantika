@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Requests\Api\ApiRegisterCustomerRequest;
 use App\Models\User;
+use App\Models\Order;
 use App\Repositories\UserRepository;
 use App\Utils\Image;
 use App\Utils\Response;
@@ -12,10 +13,16 @@ use Illuminate\Http\UploadedFile;
 class UserService {
     use Response;
 
-    public static function register(array $data) {
+    public static function register(array $data, array $order_id = []) {
         Image::uploadFile($data['avatar'], 'avatar');
         $user = User::create($data);
-        $user = AuthService::login($user, null, null, $data['uuid']);
+        // compile order sebelum login jadi riwayat
+        if($order_id && !empty($order_id)){
+            Order::whereIn('id', $order_id)->update([
+                'user_id'   => $user->id,
+            ]);
+        }
+        $user->token = AuthService::login($user, null, null, $data['uuid']);
         return $user;
     }
 

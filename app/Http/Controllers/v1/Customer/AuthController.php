@@ -33,11 +33,10 @@ class AuthController extends BaseAuthController
     }
 
     public function registerCustomer(ApiRegisterCustomerRequest $request) {
-        $user = UserService::register($request->all());          
-
+        $user = UserService::register($request->all(), $request->order_id??[]);
         return $this->sendSuccessResponse([
             'user'=>$user,
-            'token'=>$user->token
+            'token'=>$user->token??''
         ]);
     }
 
