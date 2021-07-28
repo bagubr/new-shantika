@@ -47,7 +47,7 @@ class OrderController extends Controller
         }
 
         return $this->sendSuccessResponse([
-            'order' => new OrderDetailAgentResource($order)
+            'data_order' => new OrderDetailAgentResource($order)
         ]);
     }
 

@@ -35,7 +35,7 @@ class OrderController extends Controller
     {
         $order = OrderRepository::findWithDetailWithPayment($id);
         return $this->sendSuccessResponse([
-            'order' => new OrderDetailCustomerResource($order),
+            'data_order' => new OrderDetailCustomerResource($order),
             'payment' => OrderService::getInvoice($order->payment()->first())
         ]);
     }
