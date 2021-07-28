@@ -19,7 +19,7 @@ class AuthService {
     }
     
     public static function loginByEmail($user, $fcm_token = '', $email = '',$uuid = '') {
-        if($user == null) (new self)->sendFailedResponse([], "Sepertinya akun anda belum terdaftar");
+        if($user == null) (new self)->sendFailedResponse([], $message = "Oops! Sepertinya anda belum pernah registrasi pake email ini", $code = 401);
         $user = self::authenticate($user, $fcm_token, $uuid);
         return $user;
     }
