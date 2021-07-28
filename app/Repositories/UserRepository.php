@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use App\Models\UserAgent;
+use App\Models\UserToken;
 
 class UserRepository {
     public static function findByPhone($phone) {
@@ -12,9 +13,13 @@ class UserRepository {
 
     public static function findByToken($token) {
         if($token){
-            return User::whereToken($token)->first();
+            $user = User::whereToken($token)->first();
+            if(empty($user)) {
+                $user = UserToken::where('token', $token)->first();
+            }
+
+            return $user;
         }
-        return $token;
     }
 
     public static function findByEmail($email) {

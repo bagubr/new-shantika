@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\User;
+use App\Models\UserToken;
 use App\Repositories\UserRepository;
 use App\Utils\Response;
 use Illuminate\Support\Facades\Hash;
@@ -12,19 +14,40 @@ class AuthService {
     public static function login($user, $fcm_token = '', $phone = '',$uuid = '') {
         if($user == null) (new self)->sendFailedResponse([], "Sepertinya akun anda belum terdaftar");
         $token = self::generateToken($user);
-        $user = UserRepository::authenticate($user, $token, $fcm_token, $uuid);
+        $user = self::authenticate($user, $token, $fcm_token, $uuid);
         return $user;
     }
     
     public static function loginByEmail($user, $fcm_token = '', $email = '',$uuid = '') {
         if($user == null) (new self)->sendFailedResponse([], "Sepertinya akun anda belum terdaftar");
-        $token = self::generateToken($user);
-        $user = UserRepository::authenticate($user, $token, $fcm_token, $uuid);
+        $user = self::authenticate($user, $fcm_token, $uuid);
+        return $user;
+    }
+
+    public static function authenticate(User $user, $fcm_token = '', $uuid = '') { 
+        if(UserRepository::findUserIsAgent($user->id)) {
+            $token = self::generateToken($user, false);
+            UserToken::updateOrCreate([
+                'token'=>$token
+            ],[
+                'user_id'=>$user->id
+            ]);
+        } else {
+            $token = self::generateToken($user, true);
+            $user->update([
+                'uuid'=>$uuid,
+                'token'=>$token,
+                'fcm_token'=>$fcm_token
+            ]);
+        }
         return $user;
     }
     
-    private static function generateToken($user) {
-        $token = md5(request()->userAgent().env('API_KEY', ''));
+    private static function generateToken($user, $withUserAgent = true) {
+        $token = '';
+        if($withUserAgent) {
+            $token = md5(request()->userAgent().env('API_KEY', ''));
+        } 
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $token .= '.';
