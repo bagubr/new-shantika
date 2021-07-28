@@ -20,9 +20,9 @@ class UserRepository
             $user = User::whereToken($token)->first();
             if(empty($user)) {
                 $user_token = UserToken::where('token', $token)->first();
-                $user = User::find($user_token->id);
+                $user = User::find($user_token->user_id);
             }
-            if($user){
+            if(empty($user)){
                 (new self)->sendFailedResponse([], "User doesn't exists");
             }
             return $user;

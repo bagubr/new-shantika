@@ -26,8 +26,8 @@ class AuthController extends Controller
             }else{
                 if(UserRepository::findUserIsAgent($user->id)) {
                     $user_token = UserToken::where('user_id', $user->id)->where('user_agent', $request->userAgent())->first();
-                    if(!$user_token) {
-                        $this->sendFailedResponse([], 'Oops anda harus login ulang');
+                    if(empty($user_token?->token)) {
+                        $this->sendFailedResponse([], 'Oops anda harus login ulang', 401);
                     }
                     $this->sendSuccessResponse([
                         'user' => $user,
