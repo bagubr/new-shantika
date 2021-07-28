@@ -16,17 +16,19 @@ class AuthController extends BaseAuthController
     public function loginPhone(ApiLoginRequest $request) {
         $user = UserRepository::findByPhone($request['phone'])
             ?? $this->sendFailedResponse([], $message = "Oops! Sepertinya anda belum pernah registrasi pake nomor ini", $code = 401);
+        $token = AuthService::login($user, $request['fcm_token'], $request['phone'], $request['uuid']);
         return $this->sendSuccessResponse([
-            'user'=>AuthService::login($user, $request['fcm_token'], $request['phone'], $request['uuid']),
-            'token'=>$user->token
+            'user'=>$user,
+            'token'=>$token
         ]);
     }
 
     public function loginEmail(Request $request) {
-        $user = UserRepository::findByEmail($request['email']) ?? $this->sendFailedResponse([], $message = "Oops! Sepertinya anda belum pernah registrasi pake nomor ini", $code = 401);
+        $user = UserRepository::findByEmail($request['email']) ?? $this->sendFailedResponse([], $message = "Oops! Sepertinya anda belum pernah registrasi pake email ini", $code = 401);
+        $token = AuthService::loginByEmail($user, $request['fcm_token'], $request['email'], $request['uuid']);
         return $this->sendSuccessResponse([
-            'user'=>AuthService::loginByEmail($user, $request['fcm_token'], $request['email'], $request['uuid']),
-            'token'=>$user->token
+            'user'=>$user,
+            'token'=>$token
         ]);
     }
 
