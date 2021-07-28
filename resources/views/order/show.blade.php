@@ -68,8 +68,17 @@ Pesanan
                     <div class="border-bottom"></div>
                     @if ($order->payment)
                     <div class="form-group">
-                        <label>Tipe Pembayaran</label>
-                        <p>{{$order->payment->payment_type->name}}</p>
+                        <label>Status Pembayaran</label>
+                        <div class="row">
+                            <div class="col">
+                                <p>{{$order->payment->payment_type->name}}</p>
+                            </div>
+                            <div class="col">
+                                @if ($order->payment->status == 'PENDING')
+                                <p class="btn btn-warning">{{$order->payment->status}}</p>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                     @endif
                 </div>
