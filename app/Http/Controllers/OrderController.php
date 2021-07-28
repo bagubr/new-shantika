@@ -31,6 +31,7 @@ class OrderController extends Controller
         $routes_search = $request->route_id;
         $status_search = $request->status;
         $status_agent = $request->agent;
+        $code_order_search = $request->code_order;
 
         $routes = RoutesRepository::getIdName();
         $orders = Order::query();
@@ -59,8 +60,16 @@ class OrderController extends Controller
                 $q->where('name', 'like', '%' . $name_search . '%');
             });
         }
+        if (!empty($code_order_search)) {
+            $orders = $orders->where('code_order', 'like', '%' . $code_order_search . '%');
+        }
         $test = $request->flash();
         $orders = $orders->paginate(7);
+        if (!$orders->isEmpty()) {
+            session()->flash('success', 'Data Order Berhasil Ditemukan');
+        } else {
+            session()->flash('error', 'Tidak Ada Data Ditemukan');
+        }
         return view('order.index', compact('orders', 'routes', 'status', 'test', 'agent'));
     }
 

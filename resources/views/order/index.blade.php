@@ -27,12 +27,23 @@ Pemesanan
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Cari Pemesan</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="card-body">
                         <form action="{{route('order.search')}}" method="GET">
                             <div class="form-group">
                                 <label>Cari Nama</label>
-                                <input type="text" name="name" class="form-control" placeholder="Cari Nama Rute">
+                                <input type="text" name="name" class="form-control" value="{{old('name')}}"
+                                    placeholder="Cari Nama Rute">
+                            </div>
+                            <div class="form-group">
+                                <label>Cari Kode Order</label>
+                                <input type="text" name="code_order" class="form-control" value="{{old('code_order')}}"
+                                    placeholder="Cari Kode Order">
                             </div>
                             <div class="form-group">
                                 <label>Cari Rute</label>
