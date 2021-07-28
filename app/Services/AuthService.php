@@ -29,11 +29,15 @@ class AuthService {
             $token = self::generateToken($user, false);
             $agent = request()->userAgent();
             UserToken::updateOrCreate([
+                'user_id'=>$user->id,
                 'token'=>$token,
                 'user_agent'=>$agent
             ],[
-                'user_id'=>$user->id,
-                'user_agent'=>$agent
+            ]);
+            $user->update([
+                'fcm_token'=>$fcm_token,
+                'user_agent'=>$agent,
+                'uuid'=>$uuid
             ]);
         } else {
             $token = self::generateToken($user, true);
