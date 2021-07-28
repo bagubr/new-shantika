@@ -15,4 +15,8 @@ class FleetClass extends Model
     protected $hidden = [
         'created_at', 'updated_at', 'deleted_at'
     ];
+
+    public function fleets() {
+        return $this->hasMany(Fleet::class, 'fleet_class_id', 'id');
+    }
 }
