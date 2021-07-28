@@ -37,12 +37,12 @@ class AuthService {
             $user->update([
                 'fcm_token'=>$fcm_token,
                 'user_agent'=>$agent,
-                'uuid'=>$uuid
+                'uuid'=>empty($uuid) ? $user->uuid : $uuid 
             ]);
         } else {
             $token = self::generateToken($user, true);
             $user->update([
-                'uuid'=>$uuid,
+                'uuid'=>empty($uuid) ? $user->uuid : $uuid,
                 'token'=>$token,
                 'fcm_token'=>$fcm_token
             ]);
