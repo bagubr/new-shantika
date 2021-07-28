@@ -19,7 +19,8 @@ class UserRepository
         if($token){
             $user = User::whereToken($token)->first();
             if(empty($user)) {
-                $user = UserToken::where('token', $token)->first();
+                $user_token = UserToken::where('token', $token)->first();
+                $user = User::find($user_token->id);
             }
 
             return $user;
