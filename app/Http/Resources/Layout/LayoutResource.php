@@ -4,6 +4,8 @@ namespace App\Http\Resources\Layout;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\Booking;
+use App\Models\Order;
+
 class LayoutResource extends JsonResource
 {
     /**
@@ -24,12 +26,7 @@ class LayoutResource extends JsonResource
             'door_indexes'  => $this->door_indexes,
             'note'          => $this->note,
             'total_indexes' => $this->total_indexes,
-            'chairs'        => $this->chairs->map(function ($item, $key) use ($request)
-            {
-                $booking = Booking::where('route_id', $request->id)->where('layout_chair_id', $item->id)->where('expired_at', '>=', date('Y-m-d H:i:s'))->first();
-                $item->is_booking = ($booking)?true:false;
-                return $item;
-            }),
+            'chairs'        => $this->chairs
         ];
         return $data;
     }

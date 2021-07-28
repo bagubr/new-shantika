@@ -16,12 +16,12 @@ class LayoutChair extends Model
     ];
 
     protected $appends = [
-        'is_available',
+        'is_space',
         'is_door',
         'is_toilet',
     ];
 
-    public function getIsAvailableAttribute()
+    public function getIsSpaceAttribute()
     {
         $space  = $this->layout()->first()->space_indexes;
         return (in_array($this->index, $space))? false : true;
