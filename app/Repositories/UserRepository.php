@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use App\Models\UserAgent;
+use App\Models\UserToken;
 
 class UserRepository
 {
@@ -13,12 +14,15 @@ class UserRepository
         return User::wherePhone($phone)->first()??false;
     }
 
-    public static function findByToken($token)
-    {
-        if ($token) {
-            return User::whereToken($token)->first();
+    public static function findByToken($token) {
+        if($token){
+            $user = User::whereToken($token)->first();
+            if(empty($user)) {
+                $user = UserToken::where('token', $token)->first();
+            }
+
+            return $user;
         }
-        return $token;
     }
 
     public static function findByEmail($email)
@@ -53,6 +57,6 @@ class UserRepository
 
     public static function findUserIsAgent($user_id)
     {
-        (UserAgent::whereUserId($user_id)->first()) ? true : false;
+        return UserAgent::whereUserId($user_id)->first() ? true : false;
     }
 }

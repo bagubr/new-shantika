@@ -57,4 +57,8 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Membership::class, 'id', 'user_id');
     }
+
+    public function token() {
+        return $this->hasMany(UserToken::class, 'user_id', 'id');
+    }
 }
