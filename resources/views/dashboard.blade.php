@@ -83,7 +83,7 @@ Dashboard Jawa
                             class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <div class="col-lg-6 col-6">
+            <div class="col-lg-6 col-sm-12">
                 <!-- small box -->
                 <div class="small-box bg-success">
                     <div class="inner">
