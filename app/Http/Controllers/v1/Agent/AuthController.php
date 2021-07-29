@@ -25,7 +25,7 @@ class AuthController extends BaseAuthController
 
     public function loginEmail(Request $request) {
         $user = UserRepository::findByEmail($request['email']) ?? $this->sendFailedResponse([], $message = "Oops! Sepertinya anda belum pernah registrasi pake email ini", $code = 401);
-        $token = AuthService::loginByEmail($user, $request['fcm_token'], $request['email'], $request['uuid']);
+        $token = AuthService::loginByEmail($user, $request['fcm_token'], $request['email']);
         return $this->sendSuccessResponse([
             'user'=>$user,
             'token'=>$token

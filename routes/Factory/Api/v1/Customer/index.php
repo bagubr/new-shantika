@@ -21,6 +21,7 @@ Route::group([
         Route::post('review_list','ReviewController@index');
         Route::post('review','ReviewController@create');
     });
+    Route::get('agencies','AgencyController@getAllAgen');
     Route::get('fleet_lists','FleetController@index');
     Route::get('fleet_detail/{id}','FleetController@show');
     

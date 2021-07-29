@@ -19,7 +19,16 @@ class OrderService {
             ?? (new self)->sendFailedResponse([], 'Rute perjalanan tidak ditemukan');
 
         if(!$data->price) {
-            $data->price = $route->price;
+            $data->price = ($route->price * count($detail->layout_chair_id));
+            if($detail->is_feed){
+                $data->price += ($data->route->fleet->fleetclass->price_food * count($detail->layout_chair_id));
+            }
+            if($detail->is_travel){
+                $data->price += (config('application.price_list.travel') * count($detail->layout_chair_id));
+            }
+            if($detail->is_member){
+                $data->price -= (config('application.price_list.member') * count($detail->layout_chair_id));
+            }
         }
         if(!$data->code_order) {
             $data->code_order = self::generateCodeOrder();

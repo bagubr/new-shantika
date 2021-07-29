@@ -22,7 +22,7 @@ class ApiOrderCreateRequest extends ApiRequest
             'layout_chair_id.*'=>'numeric',
             'name'=>'required|string',
             'phone'=>'required|string',
-            'email'=>'nullable|email',
+            'email'=>'nullable|email:dns,rfc',
             'is_member'=>'sometimes|required|boolean',
             'id_member'=>'nullable|string',
             'is_travel'=>'sometimes|required|boolean',
