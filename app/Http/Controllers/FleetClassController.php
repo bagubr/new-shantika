@@ -94,7 +94,7 @@ class FleetClassController extends Controller
             $fleetclass->forceDelete();
             session()->flash('success', 'Fleet Class Berhasil Dihapus');
         } else {
-            $fleetclass->delete();
+            $fleetclass->forceDelete();
             session()->flash('success', 'Fleet Class Berhasil Diarsip');
         }
         return redirect(route('fleetclass.index'));

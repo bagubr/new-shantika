@@ -35,7 +35,8 @@ class RoutesController extends Controller
     {
         $fleets = FleetRepository::all();
         $areas = Area::all();
-        return view('routes.create', compact('fleets', 'areas'));
+        $agencies = AgencyRepository::getOnlyIdName();
+        return view('routes.create', compact('fleets', 'areas', 'agencies'));
     }
 
     /**
@@ -47,7 +48,25 @@ class RoutesController extends Controller
     public function store(CreateRoutesRequest $request)
     {
         $data = $request->all();
-        Route::create($data);
+        $route = Route::create($data);
+
+        $agencies = $request['agency_id'];
+        $arrived_at = $request['arrived_at1'];
+
+        $i = 0;
+        $checkpoints = '';
+        foreach ($agencies as $key => $agency) {
+            $checkpoint = Checkpoint::create([
+                'route_id' => $route->id,
+                'arrived_at' => $arrived_at[$key],
+                'agency_id' => $agency,
+                'order' => $i++
+            ]);
+            $checkpoints .= '~' . $checkpoint->agency()->first()->name . '~';
+        }
+        $route->update([
+            'name' => $checkpoints,
+        ]);
         session()->flash('success', 'Route Berhasil Ditambahkan');
         return redirect(route('routes.index'));
     }
@@ -61,6 +80,8 @@ class RoutesController extends Controller
     public function show(Route $route)
     {
         $checkpoints = Checkpoint::where('route_id', $route->id)->orderBy('order')->get();
+        $checkpoint_id = Checkpoint::where('route_id', $route->id)->get(['agency_id'])->toArray();
+        // dd($checkpoint_id);
         $agencies = AgencyRepository::all();
         return view('routes.show', compact('route', 'agencies', 'checkpoints'));
     }

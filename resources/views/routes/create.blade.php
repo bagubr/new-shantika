@@ -91,8 +91,35 @@ Route
                             <input type="number" name="price" class="form-control" placeholder="Masukkan Harga"
                                 value="{{isset($route) ? $route->price : ''}}">
                         </div>
-                        <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
-                        <input type="submit" value="Submit" class="btn btn-success float-right">
+                        <div id="dynamicAddRemove">
+                            <div class="t">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Agent</label>
+                                            <select name="agency_id[]" id="" class="form-control">
+                                                <option value="">Pilih Agent</option>
+                                                @foreach ($agencies as $agency)
+                                                <option value="{{$agency->id}}">{{$agency->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="">Kedatangan</label>
+                                            <input type="time" class="form-control" name="arrived_at1[]">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">Add
+                                Subject</button>
+                            <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
+                            <input type="submit" value="Submit" class="btn btn-success float-right">
+                        </div>
                     </form>
                 </div>
                 <!-- /.card-body -->
@@ -110,5 +137,16 @@ Route
     $('.select2bs4').select2({
       theme: 'bootstrap4'
     })
+</script>
+<script type="text/javascript">
+    var i = 0;
+    $("#dynamic-ar").click(function () {
+        ++i;
+        $("#dynamicAddRemove").append('<div class="t"><div class="form-row"><div class="col"><div class="form-group"><label>Agent</label><select name="agency_id[]" id="" class="form-control"><option value="">Pilih Agent</option>@foreach ($agencies as $agency)<option value="{{$agency->id}}">{{$agency->name}}</option>@endforeach</select></div></div><div class="col"><div class="form-group"><label for="">Kedatangan</label><input type="time" class="form-control" name="arrived_at1[]"></div></div></div><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></div>'
+            );
+    });
+    $(document).on('click', '.remove-input-field', function () {
+        $(this).parents('.t').remove();
+    });
 </script>
 @endpush
