@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Order;
+namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class OrderListAgentResource extends JsonResource
+class OrderListSetoranAgentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,12 +17,9 @@ class OrderListAgentResource extends JsonResource
         $checkpoint_max_index = count($this->route->checkpoints) - 1;
         return [
             'id'=>$this->id,
-            'code'=>$this->code,
-            'name_fleet'=>$this->route?->fleet?->name,
-            'fleet_class'=>$this->route?->fleet?->fleetclass?->name,
-            'reserve_at'=>$this->reserve_at,
-            'status'=>$this->status,
-            'type'=>$this->type,
+            'fleet_name'=>$this->route?->fleet?->name,
+            'chairs'=>$this->order_detail()->count(),
+            'deposit'=>abs($this->distribution()->sum('for_owner')),
             'checkpoints'        => (object) [
                 'start' => (object) [
                     'agency_id'=>$this->route->checkpoints[0]?->agency?->id ?? "",
