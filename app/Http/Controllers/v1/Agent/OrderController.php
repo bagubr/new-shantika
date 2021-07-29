@@ -42,13 +42,14 @@ class OrderController extends Controller
     }
 
     public function show($id, Request $request) {
-        $order = OrderRepository::findWithDetailWithPayment($id);
         if($request->status == 'BOOKING'){
-            $order = BookingRepository::findWithRouteWithLayoutChair($id);
+            $order = BookingRepository::findByCodeBookingWithRouteWithLayoutChair($id);
+        } else {
+            $order = OrderRepository::findWithDetailWithPayment($id);
         }
 
         return $this->sendSuccessResponse([
-            'order' => new OrderDetailAgentResource($order)
+            'order' => $order instanceof Order ? new OrderDetailAgentResource($order) : OrderDetailAgentResource::collection($order) 
         ]);
     }
 

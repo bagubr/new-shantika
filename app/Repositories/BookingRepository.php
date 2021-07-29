@@ -12,9 +12,9 @@ class BookingRepository {
             ->exists();
     }
 
-    public static function findWithRouteWithLayoutChair($id)
+    public static function findByCodeBookingWithRouteWithLayoutChair($code_booking)
     {
-        return Booking::with(['route', 'layout_chair'])->find($id);
+        return Booking::with(['route', 'layout_chair'])->where('code_booking', $code_booking)->get();
     }
 }
         
