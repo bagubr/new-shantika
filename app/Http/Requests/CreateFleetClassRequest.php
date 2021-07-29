@@ -24,7 +24,8 @@ class CreateFleetClassRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:fleet_classes,name'
+            'name' => 'required|unique:fleet_classes,name',
+            'price_food' => 'nullable|numeric',
         ];
     }
 }

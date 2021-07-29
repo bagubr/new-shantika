@@ -24,7 +24,8 @@ class UpdateFleetClassRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:fleet_classes,name,' . $this->fleetclass->id
+            'name' => 'required|unique:fleet_classes,name,' . $this->fleetclass->id,
+            'price_food' => 'nullable|numeric'
         ];
     }
 }
