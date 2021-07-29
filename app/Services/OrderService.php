@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\OrderPriceDistribution;
 use App\Models\Payment;
 use App\Models\Route;
 use App\Utils\Response;
@@ -41,23 +42,30 @@ class OrderService {
         }
         $order = Order::create($data->toArray());
 
-        foreach($detail->layout_chair_id as $layout_chair_id) {
-            OrderDetail::create([
+        self::createDetail($order, $detail->layout_chair_id, $detail);
+
+        $order = Order::find($order->id);
+
+        return $order;
+    } 
+
+    public static function createDetail($order, $layout_chairs, $detail) {
+        $order_details = [];
+        foreach($layout_chairs as $layout_chair_id) {
+            $order_details[] = OrderDetail::create([
                 'order_id'          => $order->id,
                 'layout_chair_id'   => $layout_chair_id,
                 'name'              => $detail->name,
                 'phone'             => $detail->phone,
-                'email'             => $detail->email ?? $data->user->email,
+                'email'             => $detail->email ?? $order->user->email,
                 'is_feed'           => $detail->is_feed,
                 'is_travel'         => $detail->is_travel,
                 'is_member'         => $detail->is_member
             ]);
         }
 
-        $order = Order::find($order->id);
-
-        return $order;
-    } 
+        OrderPriceDistributionService::createByOrderDetail($order, $order_details);
+    }
 
     public static function getInvoice(Payment|int|null $payment = null) {
         if($payment == null) {

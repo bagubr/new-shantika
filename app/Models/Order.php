@@ -44,4 +44,8 @@ class Order extends Model
     {
         return $this->hasOne(Payment::class, 'order_id', 'id');
     }
+
+    public function distribution() {
+        return $this->hasOne(OrderPriceDistribution::class, 'order_id', 'id');
+    }
 }
