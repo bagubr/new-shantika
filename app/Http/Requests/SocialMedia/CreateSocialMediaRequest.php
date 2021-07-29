@@ -25,8 +25,8 @@ class CreateSocialMediaRequest extends FormRequest
     {
         return [
             'name' => 'required|unique:social_medias,name',
-            'value' => 'required|url',
-            'icon' => 'required|image|max:2048'
+            'value' => 'required',
+            'icon' => 'nullable|image|max:2048'
         ];
     }
 }
