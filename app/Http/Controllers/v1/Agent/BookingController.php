@@ -18,8 +18,10 @@ class BookingController extends Controller
     public function booking(ApiBookingRequest $request) {
         $booking = [];
         DB::beginTransaction();
+        $code_booking = 'BO-'.date('Ymdhis').'-'.strtoupper(uniqid());
         foreach($request->layout_chair_id as $layout_chair_id) {
             $_booking = new Booking([
+                'code_booking'=>$code_booking,
                 'route_id'=>$request->route_id,
                 'layout_chair_id'=>$layout_chair_id,
                 'booking_at'=>$request->booking_at,

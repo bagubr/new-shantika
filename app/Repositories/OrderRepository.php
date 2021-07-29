@@ -40,12 +40,13 @@ class OrderRepository {
     }
 
     public static function unionBookingByUserIdAndDate($user_id, $date) {
-        $booking = Booking::select('id', 'route_id', 'user_id', 'created_at as reserve_at', 'status')
+        $booking = Booking::select('id', 'route_id', 'user_id', 'created_at as reserve_at', 'status', 'code_booking as code')
         ->addSelect(DB::raw("'BOOKING' as type"))
         ->where('expired_at', '>', date('Y-m-d H:i:s'))
         ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
-        ->whereUserId($user_id);
-        $union =  Order::select('id', 'route_id', 'user_id', 'reserve_at', 'status')
+        ->whereUserId($user_id)
+        ->distinct('code_booking');
+        $union =  Order::select('id', 'route_id', 'user_id', 'reserve_at', 'status', 'code_order as code')
             ->whereUserId($user_id)
             ->addSelect(DB::raw("'PEMBELIAN' as type"))
             ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))

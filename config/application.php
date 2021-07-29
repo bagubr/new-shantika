@@ -10,6 +10,7 @@ return [
     |
     */
     'price_list' => [
+        'food'      => 20000,
         'member'    => 10000,
         'travel'    => 20000,
     ],

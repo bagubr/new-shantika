@@ -20,6 +20,7 @@ class Order extends Model
         'status',
         'price',
         'expired_at',
+        'exchanged_at',
         'reserve_at',
         'id_member',
     ];
@@ -42,5 +43,9 @@ class Order extends Model
     public function payment()
     {
         return $this->hasOne(Payment::class, 'order_id', 'id');
+    }
+
+    public function distribution() {
+        return $this->hasOne(OrderPriceDistribution::class, 'order_id', 'id');
     }
 }
