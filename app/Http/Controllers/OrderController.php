@@ -32,6 +32,8 @@ class OrderController extends Controller
         $status_search = $request->status;
         $status_agent = $request->agent;
         $code_order_search = $request->code_order;
+        $date_from_search = $request->date_from;
+        $date_from_to = $request->date_to;
 
         $routes = RoutesRepository::getIdName();
         $orders = Order::query();
@@ -63,8 +65,14 @@ class OrderController extends Controller
         if (!empty($code_order_search)) {
             $orders = $orders->where('code_order', 'like', '%' . $code_order_search . '%');
         }
+        if (!empty($date_from_search)) {
+            if (!empty($date_from_to)) {
+                $orders = $orders->whereBetween('reserve_at', [$date_from_search, $date_from_to]);
+            }
+            $orders = $orders->where('reserve_at', $date_from_search);
+        }
         $test = $request->flash();
-        $orders = $orders->paginate(7);
+        $orders = $orders->orderBy('id', 'desc')->paginate(7);
         if (!$orders->isEmpty()) {
             session()->flash('success', 'Data Order Berhasil Ditemukan');
         } else {
