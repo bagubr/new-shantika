@@ -10,7 +10,7 @@ class OrderPriceDistribution extends Model
     use HasFactory;
 
     protected $fillable = [
-        'order_id', 'for_food', 'for_travel', 'for_member', 'for_agent'
+        'order_id', 'for_food', 'for_travel', 'for_member', 'for_agent', 'for_owner'
     ];
 
     public function order() {

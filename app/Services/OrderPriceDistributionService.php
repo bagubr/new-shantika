@@ -29,7 +29,9 @@ class OrderPriceDistributionService {
             }
         }
         
-        $total_price['for_agent'] = round(config('application.commision', 0.08) * $total_price['for_agent']);
+        $total_price['for_agent'] = -1 * round(config('application.commision', 0.08) * $total_price['for_agent']);
+
+        $total_price['for_owner'] = $order->price + array_sum($total_price);
         
         $price_distribution = OrderPriceDistribution::create(array_merge($total_price, [
             'order_id'=>$order->id

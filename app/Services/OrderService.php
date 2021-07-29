@@ -64,7 +64,9 @@ class OrderService {
             ]);
         }
 
-        OrderPriceDistributionService::createByOrderDetail($order, $order_details);
+        if(UserRepository::findUserIsAgent($order->user_id)) {
+            OrderPriceDistributionService::createByOrderDetail($order, $order_details);
+        }
     }
 
     public static function getInvoice(Payment|int|null $payment = null) {

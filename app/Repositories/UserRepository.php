@@ -21,11 +21,12 @@ class UserRepository
         if ($token) {
             $user = User::whereToken($token)->first();
             if (empty($user)) {
-                $user_token = UserToken::where('token', $token)->first();
-                $user = User::find($user_token->user_id);
+                $user_token = UserToken::where('token', $token)->first() 
+                    ?? (new self)->sendFailedResponse([], "Oops sepertinya anda harus login ulang");
+                $user = User::find($user_token?->user_id);
             }
             if (empty($user)) {
-                (new self)->sendFailedResponse([], "User doesn't exists");
+                (new self)->sendFailedResponse([], "Oops sepertinya anda harus login ulang");
             }
             return $user;
         }
