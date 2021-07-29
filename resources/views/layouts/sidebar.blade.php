@@ -36,15 +36,6 @@
                             </a>
                         </li>
                     </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('dashboard')}}"
-                                class="nav-link {{Request::routeIs('dashboard') ? 'active' : ''}}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Dashboard Jabodetabek</p>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
                 <li class="nav-item {{Request::routeIs('fleets.*','fleetclass.*','layouts.*') ? 'menu-open' : ''}}">
                     <a href="#"
