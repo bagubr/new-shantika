@@ -19,7 +19,7 @@ class OrderDetailSetoranAgentResource extends JsonResource
         $coll_table_chairs = collect($table_chairs);
         return [
             'fleet_name'=>$this->route?->fleet?->name,
-            'paid_at'=>$this->created_at,
+            'paid_at'=>date('Y-m-d H:i:s', strtotime($this->created_at)),
             'checkpoints'        => (object) [
                 'start' => (object) [
                     'agency_id'=>$this->route->checkpoints[0]?->agency?->id ?? "",
