@@ -38,7 +38,9 @@ class SocialMediaController extends Controller
     public function store(CreateSocialMediaRequest $request)
     {
         $data = $request->all();
-        $data['icon'] = $request->icon->store('social_media', 'public');
+        if ($request->hasFile('icon')) {
+            $data['icon'] = $request->icon->store('social_media', 'public');
+        }
         SocialMedia::create($data);
         session()->flash('success', 'Social Media Berhasil Ditambahkan');
         return redirect(route('social_media.index'));
