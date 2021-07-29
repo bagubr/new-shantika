@@ -41,12 +41,12 @@ User Agent
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label>Nama</label>
+                            <label>Nama</label><span class="text-danger">*</span>
                             <input type="text" class="form-control" name="name" placeholder="Masukkan Nama"
-                                value="{{isset($user_agent) ? $user_agent->name : ''}}">
+                                value="{{isset($user_agent) ? $user_agent->name : old('name')}}">
                         </div>
                         <div class="form-group">
-                            <label>Jenis Kelamin</label>
+                            <label>Jenis Kelamin</label><span class="text-danger">*</span>
                             <select name="gender" class="form-control">
                                 <option value="">Pilih Jenis Kelamin</option>
                                 @foreach ($genders as $gender)
@@ -57,7 +57,7 @@ User Agent
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Agent</label>
+                            <label>Agent</label><span class="text-danger">*</span>
                             <select name="agency_id" class="form-control select2" id="">
                                 <option value="">Pilih Agent</option>
                                 @foreach ($agencies as $agency)
@@ -72,33 +72,34 @@ User Agent
                         <div class="form-row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label>Kota Lahir</label>
+                                    <label>Kota Lahir</label><span class="text-danger">*</span>
                                     <input type="text" name="birth_place" class="form-control"
-                                        value="{{isset($user_agent) ? $user_agent->birth_place: '' }}"
+                                        value="{{isset($user_agent) ? $user_agent->birth_place: old('birth_place') }}"
                                         placeholder="Masukkan Kota Kelahiran">
                                 </div>
                             </div>
                             <div class="col">
-                                <label>Tanggal Lahir</label>
+                                <label>Tanggal Lahir</label><span class="text-danger">*</span>
                                 <input type="date" class="form-control" name="birth"
-                                    value="{{isset($user_agent) ? $user_agent->birth : ''}}">
+                                    value="{{isset($user_agent) ? $user_agent->birth : old('birth')}}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Phone</label>
+                            <label>Phone</label><span class="text-danger">*</span>
                             <input type="text" name="phone" class="form-control" id="" placeholder="Masukkan Nomor Hp"
-                                value="{{isset($user_agent) ? $user_agent->phone : ''}}">
+                                value="{{isset($user_agent) ? $user_agent->phone : old('phone')}}">
                             <span class="text-red">co. +62812345678</span>
                         </div>
                         <div class="form-group">
-                            <label for="">Email</label>
+                            <label for="">Email</label><span class="text-danger">*</span>
                             <input type="email" name="email" class="form-control" name="email" id=""
-                                placeholder="Masukkan Email" value="{{isset($user_agent) ? $user_agent->email : ''}}">
+                                placeholder="Masukkan Email"
+                                value="{{isset($user_agent) ? $user_agent->email : old('email')}}">
                         </div>
                         <div class="form-group">
-                            <label>Alamat</label>
+                            <label>Alamat</label><span class="text-danger">*</span>
                             <textarea name="address" class="form-control"
-                                id="">{{isset($user_agent) ? $user_agent->address : ''}}</textarea>
+                                id="">{{isset($user_agent) ? $user_agent->address : old('address')}}</textarea>
                         </div>
                         <div class="form-group">
                             <label>Avatar</label>
