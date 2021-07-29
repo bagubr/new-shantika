@@ -2,6 +2,9 @@
 @section('title')
 Kebijakan Privasi
 @endsection
+@push('css')
+<link rel="stylesheet" href="{{asset('plugins/summernote/summernote-bs4.min.css')}}">
+@endpush
 @section('content')
 <section class="content-header">
     <div class="container-fluid">
@@ -46,8 +49,8 @@ Kebijakan Privasi
                         </div>
                         <div class="form-group">
                             <label>Konten</label>
-                            <textarea class="form-control" rows="3" name="content"
-                                placeholder="Masukkan Konten">{{isset($privacy_policy) ? $privacy_policy->content : ''}}</textarea>
+                            <textarea name="content" id="summernote">{{isset($privacy_policy) ? $privacy_policy->content : ''}}
+                            </textarea>
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
@@ -60,13 +63,21 @@ Kebijakan Privasi
     </div>
 </section>
 @endsection
-@section('script')
+@push('script')
+<script src="{{asset('plugins/summernote/summernote-bs4.min.js')}}"></script>
 <script>
     $(function () {
-        $('.select2').select2()
-    })
-    $('.select2bs4').select2({
-      theme: 'bootstrap4'
+        $('#summernote').summernote({
+            placeholder: 'Masukkan Deskripsi',
+            height: 120,
+            toolbar: [
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link']],
+                ['view', ['fullscreen']]
+            ]
+        })
     })
 </script>
-@endsection
+@endpush
