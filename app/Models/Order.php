@@ -30,6 +30,10 @@ class Order extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function agency() {
+        return $this->belongsTo(Agency::class, 'user_id', 'user_id');
+    }
+
     public function route()
     {
         return $this->belongsTo(Route::class, 'route_id');

@@ -59,5 +59,31 @@ class OrderRepository {
     {
         return Order::with('route.checkpoints')->where('code_order', $code_order)->first();
     }
+
+    public static function countBoughtRouteByAgencyByDate($token, $date) {
+        $user = UserRepository::findByToken($token);
+
+        return Order::whereHas('user.agencies', function($subquery) use ($user, $date) {
+                $subquery->where('id', $user->agencies->id);
+            })
+            ->where('status', Order::STATUS3)
+            ->whereDate('created_at', $date)
+            ->count();
+    }
+
+    public static function getBoughtRouteByAgencyByDate($token, $date) {
+        $user = UserRepository::findByToken($token);
+
+        return Order::whereHas('user.agencies', function($subquery) use ($user, $date) {
+                $subquery->where('id', $user->agencies->id);
+            })
+            ->where('status', Order::STATUS3)
+            ->whereDate('created_at', $date)
+            ->get();
+    }
+
+    public static function findForPriceDistribution($id) {
+        return Order::with(['order_detail', 'route.fleet', 'route.checkpoints', 'payment', 'distribution'])->where('id', $id)->first();
+    }
 }
         
