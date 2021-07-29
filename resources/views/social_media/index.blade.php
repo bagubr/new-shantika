@@ -37,6 +37,7 @@ Social Media
                             <thead>
                                 <tr>
                                     <th>Nama</th>
+                                    <th>Link</th>
                                     <th>Icon</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -44,8 +45,8 @@ Social Media
                             <tbody>
                                 @foreach ($social_medias as $social_media)
                                 <tr>
-                                    <td><a href="{{$social_media->value}}" target="blank">{{$social_media->name}}</a>
-                                    </td>
+                                    <td>{{$social_media->name}}</td>
+                                    <td>{{$social_media->value}}</td>
                                     <td><img src="{{$social_media->icon}}" height="100px" alt=""></td>
                                     <td><a href="{{route('social_media.edit',$social_media->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
