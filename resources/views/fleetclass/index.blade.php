@@ -33,11 +33,11 @@ Kelas Armada
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        {{-- @include('partials.success') --}}
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>Nama</th>
+                                    <th>Harga Makanan</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -45,6 +45,7 @@ Kelas Armada
                                 @foreach ($fleetclasses as $fleetclass)
                                 <tr>
                                     <td>{{$fleetclass->name}}</td>
+                                    <td>Rp. {{number_format($fleetclass->price_food)}}</td>
                                     <td><a href="{{route('fleetclass.edit',$fleetclass->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('fleetclass.destroy',$fleetclass->id)}}" class="d-inline"

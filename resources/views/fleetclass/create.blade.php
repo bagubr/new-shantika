@@ -44,6 +44,11 @@ Fleet
                             <input type="text" id="inputName" class="form-control" name="name"
                                 value="{{isset($fleetclass) ? $fleetclass->name : ''}}">
                         </div>
+                        <div class="form-group">
+                            <label for="">Harga Makanan</label>
+                            <input type="number" name="price_food" class="form-control"
+                                value="{{isset($fleetclass) ? $fleetclass->price_food : ''}}">
+                        </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Tambah" class="btn btn-success float-right">
                     </form>
