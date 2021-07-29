@@ -45,7 +45,7 @@ Kebijakan Privasi
                                 @foreach ($privacy_policies as $privacy_policy)
                                 <tr>
                                     <td>{{$privacy_policy->name}}</td>
-                                    <td>{{$privacy_policy->content}}</td>
+                                    <td>{!!Str::limit($privacy_policy->content,500)!!}</td>
                                     <td><a href="{{route('privacy_policy.edit',$privacy_policy->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('privacy_policy.destroy',$privacy_policy->id)}}"
