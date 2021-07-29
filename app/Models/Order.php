@@ -20,6 +20,7 @@ class Order extends Model
         'status',
         'price',
         'expired_at',
+        'exchanged_at',
         'reserve_at',
         'id_member',
     ];

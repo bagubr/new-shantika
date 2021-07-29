@@ -73,7 +73,8 @@ class OrderService {
     public static function exchangeTicket(Order &$order) {
         DB::beginTransaction();
         $order->update([
-            'status'=>Order::STATUS5
+            'status'=>Order::STATUS5,
+            'exchanged_at'=>date('Y-m-d H:i:s')
         ]);
         DB::commit();
         $order->refresh();
