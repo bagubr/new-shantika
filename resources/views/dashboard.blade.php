@@ -10,12 +10,12 @@ Dashboard Jawa
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">{{ucfirst (Request::route()->getName())}}</h1>
+                <h1 class="m-0">Dashboard Jawa</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">{{ucfirst (Request::route()->getName())}}</li>
+                    <li class="breadcrumb-item active">Dashboard Jawa</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -29,7 +29,7 @@ Dashboard Jawa
         <div class="form-row">
             <div class="col">
                 <div class="form-group">
-                    <label>Test</label>
+                    <label>Tahun</label>
                     <select name="" class="form-control" id="">
                         <option value="">Tahun</option>
                     </select>
@@ -39,7 +39,7 @@ Dashboard Jawa
                 <div class="form-group">
                     <label>Test</label>
                     <select name="" class="form-control" id="">
-                        <option value="">Tahun</option>
+                        <option value="">Semua/Agent</option>
                     </select>
                 </div>
             </div>
@@ -47,16 +47,64 @@ Dashboard Jawa
                 <div class="form-group">
                     <label>Test</label>
                     <select name="" class="form-control" id="">
-                        <option value="">Tahun</option>
+                        <option value="">Rute</option>
                     </select>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3>{{$orders}}</h3>
+
+                        <p>Total Pesanan</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>
+                    <a href="{{route('order.index')}}" class="small-box-footer">Lebih Lanjut <i
+                            class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-warning">
+                    <div class="inner">
+                        <h3>{{$count_user}}</h3>
+
+                        <p>Pelanggan</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-person"></i>
+                    </div>
+                    <a href="{{route('user.index')}}" class="small-box-footer">Lebih Lanjut <i
+                            class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-6">
+                <!-- small box -->
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>Rp. {{number_format($orders_money)}}</h3>
+
+                        <p>Total Pemasukan</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-cash"></i>
+                    </div>
+                    <a href="{{route('user.index')}}" class="small-box-footer">Lebih Lanjut <i
+                            class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
                 <div class="card card-success">
                     <div class="card-header">
-                        <h3 class="card-title">Statistik</h3>
+                        <h3 class="card-title">Statistik Pesanan</h3>
 
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -75,68 +123,29 @@ Dashboard Jawa
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-info">
-                    <div class="inner">
-                        <h3>150</h3>
+            <div class="col-md-6">
+                <!-- DONUT CHART -->
+                <div class="card card-danger">
+                    <div class="card-header">
+                        <h3 class="card-title">Pemesan</h3>
 
-                        <p>New Orders</p>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="icon">
-                        <i class="ion ion-bag"></i>
+                    <div class="card-body">
+                        <canvas id="donutChart"
+                            style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <!-- /.card-body -->
                 </div>
+                <!-- /.card -->
             </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-success">
-                    <div class="inner">
-                        <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                        <p>Bounce Rate</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-warning">
-                    <div class="inner">
-                        <h3>44</h3>
-
-                        <p>User Registrations</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-person-add"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-danger">
-                    <div class="inner">
-                        <h3>65</h3>
-
-                        <p>Unique Visitors</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-pie-graph"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <!-- ./col -->
         </div>
 
     </div><!-- /.container-fluid -->
@@ -188,6 +197,34 @@ Dashboard Jawa
       data: barChartData,
       options: barChartOptions
     })
+    })
+      //-------------
+    //- DONUT CHART -
+    //-------------
+    // Get context with jQuery - using jQuery's .get() method.
+    var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+    var donutData        = {
+      labels: [
+          'Agen',
+          'Kustomer',
+      ],
+      datasets: [
+        {
+          data: [700,500],
+          backgroundColor : ['#f56954', '#00a65a'],
+        }
+      ]
+    }
+    var donutOptions     = {
+      maintainAspectRatio : false,
+      responsive : true,
+    }
+    //Create pie or douhnut chart
+    // You can switch between pie and douhnut using the method below.
+    new Chart(donutChartCanvas, {
+      type: 'doughnut',
+      data: donutData,
+      options: donutOptions
     })
 </script>
 @endpush
