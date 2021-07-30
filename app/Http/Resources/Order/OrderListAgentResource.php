@@ -18,6 +18,9 @@ class OrderListAgentResource extends JsonResource
         $checkpoint_max_index = count($this->route->checkpoints) - 1;
         return [
             'id'=>$this->id,
+            'layout_id'=>$this->route?->fleet?->layout?->id,
+            'route_id'=>$this->route?->id,
+            'reserve_at'=>$this->route?->reserve_at,
             'code'=>$this->code,
             'name_fleet'=>$this->route?->fleet?->name,
             'fleet_class'=>$this->route?->fleet?->fleetclass?->name,
