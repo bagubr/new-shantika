@@ -81,14 +81,7 @@ class OrderController extends Controller
 
     public function upload(Request $request) {
         $order = OrderRepository::findWithDetailWithPayment($request->order_id);
-
-        $image = $request->file;
-        Image::uploadFile($image, 'proof_order');
-
-        $order->payment()->update([
-            'proof'=>$image
-        ]);
-        $order->refresh();
+        $order = PaymentService::uploadProof($order, $request->file);
 
         return $this->sendSuccessResponse([
             'order'=>$order
