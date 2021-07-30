@@ -41,6 +41,9 @@ class OrderService {
             $data->expired_at = self::getExpiredAt();
         }
         $order = Order::create($data->toArray());
+        if($detail->code_booking) {
+            BookingService::deleteByCodeBooking($detail->code_booking);
+        }
 
         self::createDetail($order, $detail->layout_chair_id, $detail);
 

@@ -21,4 +21,8 @@ class BookingService {
 
         return $booking;
     }
+
+    public static function deleteByCodeBooking($code_booking) {
+        Booking::where('code_booking', $code_booking)->delete();
+    }
 }   
