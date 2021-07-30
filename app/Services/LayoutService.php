@@ -18,7 +18,7 @@ class LayoutService {
         $layout->chairs = $layout->chairs->map(function ($item) use ($route, $date) {
             $item->is_booking = BookingRepository::isTodayExistByLayoutChairByRoute($date, $item->id, $route->id);
             $item->is_unavailable = OrderRepository::isExistAtDateByLayoutChair($date, $item->id);
-            $item->is_mine = OrderRepository::isExistAtDateByLayoutChair($date,$item->id, UserRepository::findByToken(request()->bearerToken())->id);
+            $item->is_mine = OrderRepository::isExistAtDateByLayoutChair($date,$item->id, UserRepository::findByToken(request()->bearerToken())?->id);
             return $item;
         });
 
