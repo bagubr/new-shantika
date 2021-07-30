@@ -20,20 +20,7 @@ class OrderDetailSetoranAgentResource extends JsonResource
         return [
             'fleet_name'=>$this->route?->fleet?->name,
             'paid_at'=>date('Y-m-d H:i:s', strtotime($this->created_at)),
-            'checkpoints'        => (object) [
-                'start' => (object) [
-                    'agency_id'=>$this->route->checkpoints[0]?->agency?->id ?? "",
-                    'agency_name'=>$this->route->checkpoints[0]?->agency?->name ?? "",
-                    'city_name'=>$this->route->checkpoints[0]?->agency?->city?->name ?? "",
-                    'arrived_at'=>$this->route->checkpoints[0]?->arrived_at,
-                ],
-                'end'   => (object) [
-                    'agency_id'=>$this->route->checkpoints[$checkpoint_max_index]?->agency?->id ?? "",
-                    'agency_name'=>$this->route->checkpoints[$checkpoint_max_index]?->agency?->name ?? "",
-                    'city_name'=>$this->route->checkpoints[$checkpoint_max_index]?->agency?->city?->name ?? "",
-                    'arrived_at'=>$this->route->checkpoints[$checkpoint_max_index]?->arrived_at,
-                ]
-            ],
+            'checkpoints'        => new CheckpointStartEndResource($this->route),
             'chairs'=>$table_chairs,
             'chair_count'=>count($table_chairs),
             'price_sum'=>$coll_table_chairs->sum('price'),

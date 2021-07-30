@@ -28,7 +28,11 @@ class Payment extends Model
         'proof_decline_reason'
     ];
 
-    public function getProofAttribute() {
+    protected $appends = [
+        'proof_url'
+    ];
+
+    public function getProofUrlAttribute() {
         return env('STORAGE_URL').'/'.$this->attributes['proof'];
     }
 

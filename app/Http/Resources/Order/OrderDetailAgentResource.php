@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Order;
 
+use App\Http\Resources\CheckpointStartEndResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class OrderDetailAgentResource extends JsonResource
@@ -24,20 +25,7 @@ class OrderDetailAgentResource extends JsonResource
             'name_fleet'=>$this->route?->fleet?->name,
             'fleet_class'=>$this->route?->fleet?->fleetclass?->name,
             'total_passenger'=>count($this->order_detail ?? []),
-            'checkpoints'        => (object) [
-                'start' => (object) [
-                    'agency_id'=>$this->route->checkpoints[0]?->agency?->id ?? "",
-                    'agency_name'=>$this->route->checkpoints[0]?->agency?->name ?? "",
-                    'city_name'=>$this->route->checkpoints[0]?->agency?->city?->name ?? "",
-                    'arrived_at'=>$this->route->checkpoints[0]?->arrived_at,
-                ],
-                'end'   => (object) [
-                    'agency_id'=>$this->route->checkpoints[$checkpoint_max_index]?->agency?->id ?? "",
-                    'agency_name'=>$this->route->checkpoints[$checkpoint_max_index]?->agency?->name ?? "",
-                    'city_name'=>$this->route->checkpoints[$checkpoint_max_index]?->agency?->city?->name ?? "",
-                    'arrived_at'=>$this->route->checkpoints[$checkpoint_max_index]?->arrived_at,
-                ]
-            ],
+            'checkpoints'        => new CheckpointStartEndResource($this->route),
             'created_at'=>date('Y-m-d H:i:s', strtotime($this->created_at)),
             'reserve_at'=>date('Y-m-d H:i:s', strtotime($this->reserve_at)),
             'status'=>$this->status,
