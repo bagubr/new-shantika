@@ -57,6 +57,7 @@ class PaymentService {
         $order->payment()->update([
             'proof'=>$file
         ]);
+        OrderService::updateStatus($order,Order::STATUS6);
         $order->refresh();
 
         return $order;
