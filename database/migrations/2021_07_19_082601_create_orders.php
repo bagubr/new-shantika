@@ -18,7 +18,7 @@ class CreateOrders extends Migration
             $table->string('code_order');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('route_id');
-            $table->enum('status', ['PENDING','EXPIRED', 'PAID', 'CANCELED','EXCHANGED']);
+            $table->string('status');
             $table->integer('price');
             $table->datetime('expired_at');
             $table->datetime('reserve_at');
