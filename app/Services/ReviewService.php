@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Services;
+
+use App\Models\Order;
 use App\Models\Review;
 use App\Utils\Response;
 class ReviewService {
@@ -15,6 +17,7 @@ class ReviewService {
             (new self)->sendFailedResponse([], "Sepertinya anda sudah review");
         }else{
             $data->save();
+            OrderService::updateStatus($data->order_id, Order::STATUS8);
             return $data;
         }
             
