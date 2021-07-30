@@ -15,10 +15,18 @@ class LayoutService {
         if(empty($date)) {
             $date = date('Y-m-d');
         }
-        $layout->chairs = $layout->chairs->map(function ($item) use ($route, $date) {
-            $item->is_booking = BookingRepository::isTodayExistByLayoutChairByRoute($date, $item->id, $route->id);
-            $item->is_unavailable = OrderRepository::isExistAtDateByLayoutChair($date, $item->id);
-            $item->is_mine = OrderRepository::isExistAtDateByLayoutChair($date,$item->id, UserRepository::findByToken(request()->bearerToken())?->id);
+        $user_id = UserRepository::findByToken(request()->bearerToken())?->id;
+        $booking = BookingRepository::getTodayByRoute($route->id);
+        $unavailable = OrderRepository::getAtDate($date);
+
+        $layout->chairs = $layout->chairs->map(function ($item) use ($route, $date, $unavailable, $booking, $user_id) {
+            $item->is_booking = $booking->where('layout_chair_id', $item->id)->isNotEmpty();
+            $item->is_unavailable = $unavailable->filter(function($e) use ($item) {
+                return $e->order_detail->where('layout_chair_id', $item->id)->first();
+            })->isNotEmpty();
+            $item->is_mine = $unavailable->filter(function($e) use ($item, $user_id) {
+                return $e->order_detail->where('layout_chair_id', $item->id)->first() && $e->user_id == $user_id && $e->user_id != null;
+            })->isNotEmpty();
             return $item;
         });
 

@@ -86,20 +86,15 @@ class OrderRepository {
         return Order::with(['order_detail', 'route.fleet', 'route.checkpoints', 'payment', 'distribution'])->where('id', $id)->first();
     }
 
-    public static function isExistAtDateByLayoutChair($date, $layout_chair_id, $user_id = null) {
-        return Order::where(function($query) use ($date) {
+    public static function getAtDate($date, $user_id = null) {
+        return Order::with('order_detail')->where(function($query) use ($date) {
                 $query->where(function($subquery) {
                     $subquery->whereIn('status', Order::STATUS_BOUGHT);
                 })
                 ->whereDate('reserve_at', $date);
             })
-            ->when($user_id, function($query) use ($user_id) {
-                $query->where('user_id', $user_id);
-            })
-            ->whereHas('order_detail', function($query) use ($layout_chair_id) {
-                $query->where('layout_chair_id', $layout_chair_id);
-            })
-            ->exists();
+            ->where('user_id', $user_id)
+            ->get();
     }
 }
         
