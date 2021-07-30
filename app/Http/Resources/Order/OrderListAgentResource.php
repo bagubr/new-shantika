@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Order;
 
 use App\Http\Resources\CheckpointStartEndResource;
+use App\Models\Booking;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class OrderListAgentResource extends JsonResource
@@ -18,7 +19,7 @@ class OrderListAgentResource extends JsonResource
         $checkpoint_max_index = count($this->route->checkpoints) - 1;
         return [
             'id'=>$this->id,
-            'layout_chair_id'=> array($this->layout_chair_id) ?? $this->order_detail?->pluck('layout_chair_id'),
+            'layout_chair_id'=> Booking::where('code_booking', $this->code)->pluck('layout_chair_id') ?? $this->order_detail?->pluck('layout_chair_id'),
             'route_id'=>$this->route?->id,
             'code'=>$this->code,
             'name_fleet'=>$this->route?->fleet?->name,
