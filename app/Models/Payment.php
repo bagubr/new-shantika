@@ -16,6 +16,7 @@ class Payment extends Model
     const STATUS5 = 'EXCHANGED';
     const STATUS6 = 'WAITING_CONFIRMATION';
     const STATUS7 = 'DECLINED';
+    const STATUS8 = 'FINISHED';
 
     protected $fillable = [
         'payment_type_id',
