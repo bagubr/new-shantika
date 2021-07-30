@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::prefix('_callback')
+    ->namespace('App\Http\Controllers\v1')
+    ->group(function() {
+        Route::post('xendit', 'PaymentController@callbackXendit');
+    });
+
+
 Route::prefix('v1')
     ->namespace('App\Http\Controllers\v1')
     ->group(base_path('routes/Factory/Api/v1/routes.php'));
