@@ -92,6 +92,23 @@ class OrderService {
         return $order;
     }
 
+    public static function updateStatus(Order|int $order, $status) {
+        if(is_int($order)) {
+            $order = Order::find($order);
+        }
+
+        $order->update([
+            'status'=>$status,
+        ]);
+
+        $order->payment()->update([
+            'status'=>$status
+        ]);
+        $order->refresh();
+
+        return $order;
+    }
+
     public static function generateCodeOrder() {
         return 'STK-'.date('Ymdhis');
     }

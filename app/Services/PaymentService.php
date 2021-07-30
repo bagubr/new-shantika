@@ -61,5 +61,22 @@ class PaymentService {
 
         return $order;
     }
+
+    public static function updateStatus(Payment|int $payment, $status) {
+        if(is_int($payment)) {
+            $payment = Payment::find($payment);
+        }
+
+        $payment->update([
+            'status'=>$status
+        ]);
+
+        $payment->order()->update([
+            'status'=>$status
+        ]);
+        $payment->refresh();
+
+        return $payment;
+    }
 }
         
