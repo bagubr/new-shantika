@@ -14,6 +14,7 @@ class Order extends Model
     const STATUS5 = 'EXCHANGED';
     const STATUS6 = 'WAITING_CONFIRMATION';
     const STATUS7 = 'DECLINED';
+    const STATUS8 = 'FINISHED';
 
     use HasFactory;
     protected $fillable = [
