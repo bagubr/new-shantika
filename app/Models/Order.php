@@ -12,6 +12,9 @@ class Order extends Model
     const STATUS3 = 'PAID';
     const STATUS4 = 'CANCELED';
     const STATUS5 = 'EXCHANGED';
+    const STATUS6 = 'WAITING_CONFIRMATION';
+    const STATUS7 = 'DECLINED';
+
     use HasFactory;
     protected $fillable = [
         'user_id',
@@ -23,6 +26,7 @@ class Order extends Model
         'exchanged_at',
         'reserve_at',
         'id_member',
+        'proof'
     ];
 
     public function user()

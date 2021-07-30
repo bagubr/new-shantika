@@ -9,7 +9,13 @@ class Payment extends Model
 {
     use HasFactory;
 
-    public const STATUS1 = 'PENDING';
+    const STATUS1 = 'PENDING';
+    const STATUS2 = 'EXPIRED';
+    const STATUS3 = 'PAID';
+    const STATUS4 = 'CANCELED';
+    const STATUS5 = 'EXCHANGED';
+    const STATUS6 = 'WAITING_CONFIRMATION';
+    const STATUS7 = 'DECLINED';
 
     protected $fillable = [
         'payment_type_id',
@@ -17,7 +23,13 @@ class Payment extends Model
         'secret_key',
         'status',
         'expired_at',
+        'proof',
+        'proof_decline_reason'
     ];
+
+    public function getProofAttribute() {
+        return env('STORAGE_URL').'/'.$this->attributes['proof'];
+    }
 
     public function payment_type()
     {

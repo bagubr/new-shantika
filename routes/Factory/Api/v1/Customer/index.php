@@ -14,6 +14,7 @@ Route::group([
         Route::get('routes/available', 'RouteController@getAvailableRoutes');
         Route::get('chats', 'ChatController@index');
         Route::post('order_tiket', 'OrderController@store');
+        Route::post('order_tiket/upload', 'OrderController@upload');
         Route::post('create_payment', 'OrderController@createPayment');
         Route::post('riwayat', 'OrderController@index');
         Route::get('riwayat/{id}', 'OrderController@show');
