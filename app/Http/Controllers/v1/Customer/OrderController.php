@@ -12,7 +12,9 @@ use App\Http\Resources\Order\OrderDetailCustomerResource;
 use App\Http\Resources\Order\OrderTiketResource;
 use App\Services\OrderService;
 use App\Services\PaymentService;
+use App\Utils\Image;
 use Illuminate\Support\Facades\DB;
+use League\CommonMark\Node\Query\OrExpr;
 
 class OrderController extends Controller
 {
@@ -74,6 +76,22 @@ class OrderController extends Controller
         $order = Order::find($request->order_id);
         return $this->sendSuccessResponse([
             'order_tiket'=> New OrderTiketResource($order)
+        ]);
+    }
+
+    public function upload(Request $request) {
+        $order = OrderRepository::findWithDetailWithPayment($request->order_id);
+
+        $image = $request->file;
+        Image::uploadFile($image, 'proof_order');
+
+        $order->payment()->update([
+            'proof'=>$image
+        ]);
+        $order->refresh();
+
+        return $this->sendSuccessResponse([
+            'order'=>$order
         ]);
     }
 }
