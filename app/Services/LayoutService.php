@@ -25,7 +25,7 @@ class LayoutService {
                 return $e->order_detail->where('layout_chair_id', $item->id)->first();
             })->isNotEmpty();
             $item->is_mine = $unavailable->filter(function($e) use ($item, $user_id) {
-                return $e->order_detail->where('layout_chair_id', $item->id)->first() && $e->user_id == $user_id && $e->user_id != null;
+                return $e->order_detail->where('layout_chair_id', $item->id)->isNotEmpty() && $e->user_id == $user_id && $e->user_id != null;
             })->isNotEmpty();
             return $item;
         });

@@ -86,14 +86,11 @@ class OrderRepository {
         return Order::with(['order_detail', 'route.fleet', 'route.checkpoints', 'payment', 'distribution'])->where('id', $id)->first();
     }
 
-    public static function getAtDate($date, $user_id = null) {
+    public static function getAtDate($date) {
         return Order::with('order_detail')->where(function($query) use ($date) {
-                $query->where(function($subquery) {
-                    $subquery->whereIn('status', Order::STATUS_BOUGHT);
-                })
-                ->whereDate('reserve_at', $date);
+                $query->whereIn('status', Order::STATUS_BOUGHT)
+                    ->whereDate('reserve_at', $date);
             })
-            ->where('user_id', $user_id)
             ->get();
     }
 }
