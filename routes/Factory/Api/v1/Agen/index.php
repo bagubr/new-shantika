@@ -32,6 +32,9 @@ Route::group([
             Route::post('order_tiket', 'OrderController@order');
             Route::get('riwayat', 'OrderController@index');
             Route::get('riwayat/{id}', 'OrderController@show');
+            Route::get('setoran', 'OrderController@setoran');
+            Route::get('setoran/list', 'OrderController@showListSetoran');
+            Route::get('setoran/list/detail', 'OrderController@showSetoran');
 
             Route::post('exchange_ticket', 'OrderController@exchange');
             Route::post('exchange_ticket/confirm', 'OrderController@exchangeConfirm');

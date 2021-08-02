@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\PaymentType;
+use App\Utils\Image;
 use Xendit\Xendit;
 
 class PaymentService {
@@ -48,6 +49,35 @@ class PaymentService {
             Xendit::setApiKey(env('API_KEY_XENDIT'));
             return \Xendit\Invoice::retrieve($payment->secret_key)['invoice_url'];
         }
+    }
+
+    public static function uploadProof(Order $order, $file) {
+        Image::uploadFile($file, 'proof_order');
+
+        $order->payment()->update([
+            'proof'=>$file
+        ]);
+        OrderService::updateStatus($order,Order::STATUS6);
+        $order->refresh();
+
+        return $order;
+    }
+
+    public static function updateStatus(Payment|int $payment, $status) {
+        if(is_int($payment)) {
+            $payment = Payment::find($payment);
+        }
+
+        $payment->update([
+            'status'=>$status
+        ]);
+
+        $payment->order()->update([
+            'status'=>$status
+        ]);
+        $payment->refresh();
+
+        return $payment;
     }
 }
         

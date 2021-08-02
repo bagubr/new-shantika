@@ -12,11 +12,10 @@ class Agency extends Model
     protected $table = 'agencies';
 
     protected $fillable = [
-        'name', 'city_id'
+        'name', 'city_id','lat', 'lng', 'address'
     ];
 
     protected $appends = [
-        'address',
         'phone',
         'avatar',
     ];
@@ -28,11 +27,6 @@ class Agency extends Model
     public function userAgent()
     {
         return $this->belongsTo(UserAgent::class, 'id', 'agency_id');
-    }
-
-    public function getAddressAttribute()
-    {
-        return $this->userAgent()->first()->user()->first()->address;
     }
 
     public function getAvatarAttribute()

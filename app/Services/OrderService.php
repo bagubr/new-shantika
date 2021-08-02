@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\OrderPriceDistribution;
 use App\Models\Payment;
 use App\Models\Route;
 use App\Utils\Response;
@@ -40,24 +41,36 @@ class OrderService {
             $data->expired_at = self::getExpiredAt();
         }
         $order = Order::create($data->toArray());
+        if($detail->code_booking) {
+            BookingService::deleteByCodeBooking($detail->code_booking);
+        }
 
-        foreach($detail->layout_chair_id as $layout_chair_id) {
-            OrderDetail::create([
+        self::createDetail($order, $detail->layout_chair_id, $detail);
+
+        $order = Order::find($order->id);
+
+        return $order;
+    } 
+
+    public static function createDetail($order, $layout_chairs, $detail) {
+        $order_details = [];
+        foreach($layout_chairs as $layout_chair_id) {
+            $order_details[] = OrderDetail::create([
                 'order_id'          => $order->id,
                 'layout_chair_id'   => $layout_chair_id,
                 'name'              => $detail->name,
                 'phone'             => $detail->phone,
-                'email'             => $detail->email ?? $data->user->email,
+                'email'             => $detail->email ?? $order->user->email,
                 'is_feed'           => $detail->is_feed,
                 'is_travel'         => $detail->is_travel,
                 'is_member'         => $detail->is_member
             ]);
         }
 
-        $order = Order::find($order->id);
-
-        return $order;
-    } 
+        if(UserRepository::findUserIsAgent($order->user_id)) {
+            OrderPriceDistributionService::createByOrderDetail($order, $order_details);
+        }
+    }
 
     public static function getInvoice(Payment|int|null $payment = null) {
         if($payment == null) {
@@ -73,9 +86,27 @@ class OrderService {
     public static function exchangeTicket(Order &$order) {
         DB::beginTransaction();
         $order->update([
-            'status'=>Order::STATUS5
+            'status'=>Order::STATUS5,
+            'exchanged_at'=>date('Y-m-d H:i:s')
         ]);
         DB::commit();
+        $order->refresh();
+
+        return $order;
+    }
+
+    public static function updateStatus(Order|int $order, $status) {
+        if(is_int($order)) {
+            $order = Order::find($order);
+        }
+
+        $order->update([
+            'status'=>$status,
+        ]);
+
+        $order->payment()->update([
+            'status'=>$status
+        ]);
         $order->refresh();
 
         return $order;

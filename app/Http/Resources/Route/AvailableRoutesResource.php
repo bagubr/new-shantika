@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Route;
 
+use App\Http\Resources\CheckpointStartEndResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -15,7 +16,6 @@ class AvailableRoutesResource extends JsonResource
      */
     public function toArray($request)
     {
-        $checkpoint_max_index = count($this->checkpoints) - 1;
         return [
             'id'                 => $this->id,
             'layout_id'          => $this->fleet->layout->id,
@@ -26,20 +26,7 @@ class AvailableRoutesResource extends JsonResource
             'fleet_class'        => $this->fleet_class,
             'price'              => $this->price,
             'chairs_available'   => rand(1, 32),
-            'checkpoints'        => (object) [
-                'start' => (object) [
-                    'agency_id'=>$this->checkpoints[0]?->agency?->id ?? "",
-                    'agency_name'=>$this->checkpoints[0]?->agency?->name ?? "",
-                    'city_name'=>$this->checkpoints[0]?->agency?->city?->name ?? "",
-                    'arrived_at'=>$this->checkpoints[0]?->arrived_at,
-                ],
-                'end'   => (object) [
-                    'agency_id'=>$this->checkpoints[$checkpoint_max_index]?->agency?->id ?? "",
-                    'agency_name'=>$this->checkpoints[$checkpoint_max_index]?->agency?->name ?? "",
-                    'city_name'=>$this->checkpoints[$checkpoint_max_index]?->agency?->city?->name ?? "",
-                    'arrived_at'=>$this->checkpoints[$checkpoint_max_index]?->arrived_at,
-                ]
-            ],
+            'checkpoints'        => new CheckpointStartEndResource($this)
         ];
     }
 }

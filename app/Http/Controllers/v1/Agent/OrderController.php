@@ -6,9 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ApiOrderCreateRequest;
 use App\Http\Resources\Order\OrderDetailAgentResource;
 use App\Http\Resources\Order\OrderListAgentResource;
+use App\Http\Resources\OrderDetailSetoranAgentResource;
+use App\Http\Resources\OrderListSetoranAgentResource;
 use App\Models\Order;
+use App\Models\OrderPriceDistribution;
 use App\Repositories\BookingRepository;
+use App\Repositories\LayoutChairRepository;
 use App\Repositories\OrderDetailRepository;
+use App\Repositories\OrderPriceDistributionRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\UserRepository;
 use App\Services\OrderService;
@@ -36,19 +41,22 @@ class OrderController extends Controller
     public function index(Request $request) {
         $user_id = UserRepository::findByToken($request->bearerToken())?->id;
         $order = OrderRepository::unionBookingByUserIdAndDate($user_id, $request->date);
+        $deposit = OrderPriceDistributionRepository::getSumDepositOfAgencyByDate($request->bearerToken(), $request->date);
         return $this->sendSuccessResponse([
             'order'=> OrderListAgentResource::collection($order),
+            'deposit'=>$deposit
         ]);
     }
 
     public function show($id, Request $request) {
-        $order = OrderRepository::findWithDetailWithPayment($id);
         if($request->status == 'BOOKING'){
-            $order = BookingRepository::findWithRouteWithLayoutChair($id);
+            $order = BookingRepository::findByCodeBookingWithRouteWithLayoutChair($id);
+        } else {
+            $order = OrderRepository::findWithDetailWithPayment($id);
         }
 
         return $this->sendSuccessResponse([
-            'order' => new OrderDetailAgentResource($order)
+            'order' => $order instanceof Order ? new OrderDetailAgentResource($order) : OrderDetailAgentResource::collection($order) 
         ]);
     }
 
@@ -68,6 +76,30 @@ class OrderController extends Controller
 
         return $this->sendSuccessResponse([
             'order' => new OrderDetailAgentResource($order)
+        ]);
+    }
+
+    public function setoran(Request $request) {
+        return $this->sendSuccessResponse([
+            'deposit' => OrderPriceDistributionRepository::getSumDepositOfAgencyByDate($request->bearerToken(), $request->date),
+            'commision' => OrderPriceDistributionRepository::getSumCommisionOfAgencyByDate($request->bearerToken(), $request->date),
+            'chairs' => LayoutChairRepository::countBoughtByAgencyByDate($request->bearerToken(), $request->date),
+            'buses' => OrderRepository::countBoughtRouteByAgencyByDate($request->bearerToken(), $request->date)
+        ]);
+    }
+
+    public function showListSetoran(Request $request) {
+        $orders = OrderRepository::getBoughtRouteByAgencyByDate($request->bearerToken(), $request->date);
+        return $this->sendSuccessResponse([
+            'orders'=> OrderListSetoranAgentResource::collection($orders)
+        ]);
+    }
+
+    public function showSetoran(Request $request) {
+        $order = OrderRepository::findForPriceDistribution($request->id);        
+
+        return $this->sendSuccessResponse([
+            'order'=> new OrderDetailSetoranAgentResource($order) 
         ]);
     }
 }

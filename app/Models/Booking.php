@@ -15,6 +15,7 @@ class Booking extends Model
         'user_id', 
         'expired_at',
         'booking_at',
+        'code_booking'
     ];
 
     public function route()
