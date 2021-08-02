@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Member;
+namespace App\Http\Requests\Payment;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateMemberRequest extends FormRequest
+class UpdatePaymentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,11 @@ class UpdateMemberRequest extends FormRequest
     public function rules()
     {
         return [
-            'agency_id' => 'required|exists:agencies,id',
-            'name' => 'required',
-            'address' => 'required',
-            'phone' => 'required'
+            'payment_type_id' => 'required|exists:payment_types,id',
+            'status' => 'required',
+            'paid_at' => 'nullable',
+            'proof' => 'nullable|image|max:2048',
+            'proof_decline_reason' => 'nullable'
         ];
     }
 }

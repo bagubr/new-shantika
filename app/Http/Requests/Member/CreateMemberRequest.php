@@ -24,8 +24,10 @@ class CreateMemberRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required|unique:memberships,user_id',
-            'agency_id' => 'required|exists:agencies,id'
+            'agency_id' => 'required|exists:agencies,id',
+            'name' => 'required',
+            'address' => 'required',
+            'phone' => 'required'
         ];
     }
 }

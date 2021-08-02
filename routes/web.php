@@ -18,6 +18,7 @@ use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentTypeController;
 use App\Http\Controllers\ProvinceController;
 use App\Http\Controllers\ReviewController;
@@ -79,6 +80,7 @@ Route::group(['middleware' => ['auth']], function () {
         'time_classification' => TimeClassificationController::class,
         'social_media' => SocialMediaController::class,
         'terms_condition' => TermsAndConditionController::class,
+        'payment' => PaymentController::class,
         'payment_type' => PaymentTypeController::class,
         'schedule_not_operate' => ScheduleNotOperateController::class,
         'schedule_unavailable_booking' => ScheduleUnavailableBookingController::class,

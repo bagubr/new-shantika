@@ -31,9 +31,8 @@ class MemberController extends Controller
      */
     public function create()
     {
-        $users = UserRepository::notAgent();
         $agencies = AgencyRepository::getOnlyIdName();
-        return view('member.create', compact('users', 'agencies'));
+        return view('member.create', compact('agencies'));
     }
 
     /**
@@ -72,9 +71,8 @@ class MemberController extends Controller
      */
     public function edit(Membership $member)
     {
-        $users = UserRepository::notAgentMember();
         $agencies = AgencyRepository::getOnlyIdName();
-        return view('member.create', compact('member', 'users', 'agencies'));
+        return view('member.create', compact('member', 'agencies'));
     }
 
     /**

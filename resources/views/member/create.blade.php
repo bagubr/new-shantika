@@ -41,7 +41,7 @@ Member
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label>Agent</label>
+                            <label>Agent</label><span class="text-danger">*</span>
                             <select name="agency_id" class="form-control select2" id="">
                                 <option value="">Pilih Agent</option>
                                 @foreach ($agencies as $agency)
@@ -53,16 +53,20 @@ Member
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Pengguna</label>
-                            <select name="user_id" class="form-control select2" id="">
-                                <option value="">Pilih Pengguna</option>
-                                @foreach ($users as $user)
-                                <option value="{{$user->id}}" @isset($member) @if ($member->user_id == $user->id)
-                                    selected
-                                    @endif
-                                    @endisset>{{$user->name}}</option>
-                                @endforeach
-                            </select>
+                            <label>Nama</label><span class="text-danger">*</span>
+                            <input type="text" class="form-control" name="name"
+                                value="{{isset($member)? $member->name : ''}}" id="">
+                        </div>
+                        <div class="form-group">
+                            <label>Alamat</label><span class="text-danger">*</span>
+                            <input type="text" name="address" class="form-control" id=""
+                                value="{{isset($member) ? $member->address : ''}}">
+                        </div>
+                        <div class="form-group">
+                            <label>Nomor Telepon</label><span class="text-danger">*</span>
+                            <input type="text" name="phone" class="form-control" id=""
+                                value="{{isset($member) ? $member->phone : ''}}">
+                            <span class="text-red">co. +62812345678</span>
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">

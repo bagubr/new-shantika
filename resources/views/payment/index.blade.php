@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Member
+Riwayat Pembayaran
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->
@@ -8,12 +8,12 @@ Member
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Member</h1>
+                <h1 class="m-0">Riwayat Pembayaran</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Member</li>
+                    <li class="breadcrumb-item active">Riwayat Pembayaran</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -26,31 +26,42 @@ Member
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Member</h3>
-                        <div class="text-right">
-                            <a href="{{route('member.create')}}" class="btn btn-primary btn-sm">Tambah</a>
-                        </div>
+                        <h3 class="card-title">Table Riwayat Pembayaran</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Kode Member</th>
-                                    <th>Agent</th>
+                                    <th>Kode Order</th>
+                                    <th>Metode Pembayaran</th>
+                                    <th>Status</th>
+                                    <th>Bukti Pembayaran</th>
+                                    <th>Tanggal Pembayaran</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($members as $member)
+                                @foreach ($payments as $payment)
                                 <tr>
-                                    <td>{{$member->code_member}}</td>
-                                    <td>{{$member->name}}</td>
-                                    <td>{{$member->agency->name}}</td>
+                                    <td><a href="{{route('order.show',$payment->order->id)}}">
+                                            {{$payment->order->code_order}}
+                                        </a>
+                                    </td>
+                                    <td>{{$payment->payment_type->name}}</td>
+                                    <td>{{$payment->status}}</td>
+                                    <td><img src="{{$payment->proof_url}}" class="image-thumbnail" height="100px"
+                                            alt=""></td>
                                     <td>
-                                        <a href="{{route('member.edit',$member->id)}}"
+                                        @if ($payment->paid_at)
+                                        {{date('Y-m-d',strtotime($payment->paid_at))}}
+                                        @else
+                                        Tidak Ada Tanggal Pembayaran
+                                        @endif
+                                    </td>
+                                    <td><a href="{{route('payment.edit',$payment->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
-                                        <form action="{{route('member.destroy',$member->id)}}" class="d-inline"
+                                        <form action="{{route('payment.destroy',$payment->id)}}" class="d-inline"
                                             method="POST">
                                             @csrf
                                             @method('DELETE')

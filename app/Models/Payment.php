@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Payment extends Model
 {
@@ -25,15 +26,17 @@ class Payment extends Model
         'status',
         'expired_at',
         'proof',
-        'proof_decline_reason'
+        'proof_decline_reason',
+        'paid_at'
     ];
 
     protected $appends = [
         'proof_url'
     ];
 
-    public function getProofUrlAttribute() {
-        return env('STORAGE_URL').'/'.$this->attributes['proof'];
+    public function getProofUrlAttribute()
+    {
+        return env('STORAGE_URL') . '/' . $this->attributes['proof'];
     }
 
     public function payment_type()
@@ -44,5 +47,9 @@ class Payment extends Model
     public function order()
     {
         return $this->belongsTo(Order::class, 'order_id');
+    }
+    public function deleteProof()
+    {
+        Storage::disk('public')->delete($this->attributes['proof']);
     }
 }
