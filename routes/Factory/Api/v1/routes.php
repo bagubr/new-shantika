@@ -34,6 +34,8 @@ Route::group([
 
     Route::get('payment_types', 'PaymentTypeController@index');
 
+    Route::post('check_id_member', 'MembershipController@check');
+
     Route::group([],base_path('routes/Factory/Api/v1/Agen/index.php'));
     Route::group([],base_path('routes/Factory/Api/v1/Customer/index.php'));
 });
