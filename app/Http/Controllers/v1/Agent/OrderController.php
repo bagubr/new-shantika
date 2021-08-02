@@ -8,6 +8,7 @@ use App\Http\Resources\Order\OrderDetailAgentResource;
 use App\Http\Resources\Order\OrderListAgentResource;
 use App\Http\Resources\OrderDetailSetoranAgentResource;
 use App\Http\Resources\OrderListSetoranAgentResource;
+use App\Http\Resources\OrderSetoranDetailAgentResource;
 use App\Models\Order;
 use App\Models\OrderPriceDistribution;
 use App\Repositories\BookingRepository;
@@ -96,10 +97,11 @@ class OrderController extends Controller
     }
 
     public function showSetoran(Request $request) {
-        $order = OrderRepository::findForPriceDistribution($request->id);        
-
+        $chairs = OrderDetailRepository::findForPriceDistributionByDateAndFleet($request->date, $request->fleet_id);        
+        $order = OrderRepository::findForPriceDistributionByDateAndFleet($request->date, $request->fleet_id);
         return $this->sendSuccessResponse([
-            'order'=> new OrderDetailSetoranAgentResource($order) 
+            'chairs'=> OrderDetailSetoranAgentResource::collection($chairs),
+            'order'=>new OrderSetoranDetailAgentResource($order)
         ]);
     }
 }
