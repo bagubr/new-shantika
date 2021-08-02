@@ -37,7 +37,6 @@ Member
                             <thead>
                                 <tr>
                                     <th>Kode Member</th>
-                                    <th>Akun</th>
                                     <th>Agent</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -46,13 +45,7 @@ Member
                                 @foreach ($members as $member)
                                 <tr>
                                     <td>{{$member->code_member}}</td>
-                                    <td>
-                                        @if ($member->user)
-                                        <a href="{{route('user.edit',$member->user->id)}}">{{$member->name}}</a>
-                                        @else
-                                        {{$member->name}}
-                                        @endif
-                                    </td>
+                                    <td>{{$member->name}}</td>
                                     <td>{{$member->agency->name}}</td>
                                     <td>
                                         <a href="{{route('member.edit',$member->id)}}"
