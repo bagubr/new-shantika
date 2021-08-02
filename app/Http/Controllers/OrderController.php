@@ -7,6 +7,7 @@ use App\Models\OrderDetail;
 use App\Models\Route;
 use App\Models\User;
 use App\Repositories\OrderDetailRepository;
+use App\Repositories\OrderPriceDistributionRepository;
 use App\Repositories\RoutesRepository;
 use Illuminate\Http\Request;
 
@@ -111,7 +112,8 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         $order_details = OrderDetailRepository::findById($order->id);
-        return view('order.show', compact('order', 'order_details'));
+        $order_price_distributions = OrderPriceDistributionRepository::findById($order->id);
+        return view('order.show', compact('order', 'order_details', 'order_price_distributions'));
     }
 
     /**

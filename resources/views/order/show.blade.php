@@ -31,13 +31,19 @@ Pesanan
                     </div>
                 </div>
                 <div class="card-body" style="display: block;">
-                    <div class="form-group">
-                        <label>Kode Pesanan</label>
-                        <input type="text" class="form-control" value="{{$order->code_order}}" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label>Nama Pemesan</label>
-                        <input type="text" class="form-control" value="{{$order->user->name}}" disabled>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Kode Pesanan</label>
+                                <input type="text" class="form-control" value="{{$order->code_order}}" disabled>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Nama Pemesan</label>
+                                <input type="text" class="form-control" value="{{$order->user->name}}" disabled>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="">Rute</label>
@@ -73,11 +79,41 @@ Pesanan
                         <p>Status : {{$order->payment->status}}</p>
                         <p>Tanggal Pembayaran : {{date('Y-m-d',strtotime($order->payment->paid_at))}}</p>
                     </div>
+                    @else
+                    <h5>Belum Ada Transaksi</h5>
                     @endif
                 </div>
-                <!-- /.card-body -->
             </div>
-            <!-- /.card -->
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Pembagian Hasil</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" style="display: block;">
+                    <table class="table">
+                        <thead>
+                            <th>Makan</th>
+                            <th>Travel</th>
+                            <th>Member</th>
+                            <th>Agent</th>
+                            <th>Owner</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Rp. {{number_format($order_price_distributions->for_food,2)}}</td>
+                                <td>Rp. {{number_format($order_price_distributions->for_travel,2)}}</td>
+                                <td>Rp. {{number_format($order_price_distributions->for_member)}}</td>
+                                <td>Rp. {{number_format($order_price_distributions->for_agent)}}</td>
+                                <td>Rp. {{number_format($order_price_distributions->for_owner)}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         <div class="col-md-6">
             @foreach ($order_details as $order_detail)
