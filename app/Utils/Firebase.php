@@ -2,8 +2,6 @@
 
 namespace App\Utils;
 
-use stdClass;
-
 class NotificationBody {
     public function __construct(
         public string $title,
@@ -15,7 +13,7 @@ class Firebase {
     public static function sendNotification(NotificationBody $notification, $token) {
         $token = self::oAuthFirebase()['access_token'];
         $data = json_encode([
-            'message'=> [
+            'message'=> (object) [
                 "token"=> $token,
                 "notification"=> $notification
             ]
