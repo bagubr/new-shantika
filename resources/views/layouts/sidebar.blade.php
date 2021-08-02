@@ -180,8 +180,8 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item {{Request::routeIs('payment_type.*') ? 'menu-open' : ''}}">
-                    <a href="#" class="nav-link {{Request::routeIs('payment_type.*') ? 'active' : ''}}">
+                <li class="nav-item {{Request::routeIs('payment_type.*','payment.*') ? 'menu-open' : ''}}">
+                    <a href="#" class="nav-link {{Request::routeIs('payment_type.*','payment.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-credit-card"></i>
                         <p>
                             Pembayaran
@@ -189,6 +189,13 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('payment.index')}}"
+                                class="nav-link {{Request::routeIs('payment.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Riwayat Pembayaran</p>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="{{route('payment_type.index')}}"
                                 class="nav-link {{Request::routeIs('payment_type.*') ? 'active' : ''}}">

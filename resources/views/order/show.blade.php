@@ -69,16 +69,9 @@ Pesanan
                     @if ($order->payment)
                     <div class="form-group">
                         <label>Status Pembayaran</label>
-                        <div class="row">
-                            <div class="col">
-                                <p>{{$order->payment->payment_type->name}}</p>
-                            </div>
-                            <div class="col">
-                                @if ($order->payment->status == 'PENDING')
-                                <p class="btn btn-warning">{{$order->payment->status}}</p>
-                                @endif
-                            </div>
-                        </div>
+                        <p>{{$order->payment->payment_type->name}}</p>
+                        <p>Status : {{$order->payment->status}}</p>
+                        <p>Tanggal Pembayaran : {{date('Y-m-d',strtotime($order->payment->paid_at))}}</p>
                     </div>
                     @endif
                 </div>
