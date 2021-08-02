@@ -42,6 +42,7 @@ class OrderRepository {
     public static function unionBookingByUserIdAndDate($user_id, $date) {
         $booking = Booking::select('id', 'route_id', 'user_id', 'booking_at as reserve_at', 'status', 'code_booking as code', 'layout_chair_id')
         ->addSelect(DB::raw("'BOOKING' as type"))
+        ->addSelect(DB::raw("(select price from routes where routes.id = bookings.route_id) as price"))
         ->where('expired_at', '>', date('Y-m-d H:i:s'))
         ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
         ->whereUserId($user_id)
@@ -50,6 +51,7 @@ class OrderRepository {
             ->whereUserId($user_id)
             ->addSelect(DB::raw("NULL as layout_chair_id"))
             ->addSelect(DB::raw("'PEMBELIAN' as type"))
+            ->addSelect(DB::raw("price"))
             ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
             ->union($booking)
             ->get();
@@ -75,16 +77,19 @@ class OrderRepository {
     public static function getBoughtRouteByAgencyByDate($token, $date) {
         $user = UserRepository::findByToken($token);
 
-        return Order::whereHas('user.agencies', function($subquery) use ($user, $date) {
+        $order = Order::whereHas('user.agencies', function($subquery) use ($user, $date) {
                 $subquery->where('id', $user->agencies->id);
             })
+            ->with(['route.fleet'])
             ->where('status', Order::STATUS3)
             ->whereDate('created_at', $date)
-            ->get();
-    }
-
-    public static function findForPriceDistribution($id) {
-        return Order::with(['order_detail', 'route.fleet', 'route.checkpoints', 'payment', 'distribution'])->where('id', $id)->first();
+            ->get()
+            ->groupBy('route.fleet.id')
+            ->all();
+        
+        $order = array_values($order);
+        
+        return $order[0];
     }
 
     public static function getAtDate($date) {
@@ -93,6 +98,18 @@ class OrderRepository {
                     ->whereDate('reserve_at', $date);
             })
             ->get();
+    }
+
+    public static function findForPriceDistributionByDateAndFleet($date, $fleet_id) {
+        $order = Order::with(['order_detail', 'route.fleet', 'route.checkpoints', 'payment', 'distribution'])
+            ->whereDate('created_at', $date)
+            ->whereHas('route', function($query) use ($fleet_id) {
+                $query->where('fleet_id', $fleet_id);
+            })
+            ->where('status', Order::STATUS3)
+            ->first();
+
+        return $order;
     }
 }
         
