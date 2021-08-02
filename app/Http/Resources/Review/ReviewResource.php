@@ -17,6 +17,7 @@ class ReviewResource extends JsonResource
         return [
             'id'=> $this->id,
             'name_agent'=>$this->order?->route?->checkpoints[0]?->agency?->name,
+            'name_user'=>$this->order?->user?->name ?? "<Anonim></Anonim>",
             'avatar_agent'=> $this->order?->route?->checkpoints[0]?->agency?->avatar,
             'name_fleet'=> $this->order?->route?->fleet?->name,
             'class_fleet'=> $this->order?->route?->fleet_class,
