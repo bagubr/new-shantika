@@ -45,7 +45,7 @@ class Firebase {
         $token = self::oAuthFirebase()['access_token'];
         $data = json_encode([
             'message'=> (object) [
-                'condition'=>"'$topic' in topics",
+                'topic'=>$topic,
                 "notification"=> is_array($notification) ? (object) $notification : $notification
             ]
         ]);
