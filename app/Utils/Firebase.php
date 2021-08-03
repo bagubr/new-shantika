@@ -40,6 +40,37 @@ class Firebase {
 
         return json_decode($output);
     }
+    
+    public static function sendToTopic(NotificationBody|array $notification, $topic) {
+        $token = self::oAuthFirebase()['access_token'];
+        $data = json_encode([
+            'message'=> (object) [
+                'condition'=>"'$topic' in topics",
+                "notification"=> is_array($notification) ? (object) $notification : $notification
+            ]
+        ]);
+
+        $ch = curl_init();
+
+        $bearer = "Authorization:Bearer ".$token;
+        curl_setopt($ch, CURLOPT_URL,"https://fcm.googleapis.com/v1/projects/agen-santika/messages:send");
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            $bearer,
+            'Content-Type:application/json',
+            'Accept:application/json',
+            'Content-Length:'.strlen($data),
+        ]);
+                    
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $output = curl_exec($ch);
+
+        curl_close ($ch);
+
+        return json_decode($output);
+    }
 
     private static function oAuthFirebase() {
         putenv('GOOGLE_APPLICATION_CREDENTIALS='.base_path('agen-santika-firebase-adminsdk-30qo7-3c8d02dbf7.json'));
