@@ -149,7 +149,7 @@ Pemesanan
                                             {{$order->code_order}}
                                         </a>
                                     </td>
-                                    <td>{{$order->route->name}}</td>
+                                    <td>{{$order->route?->name}}</td>
                                     <td>{{$order->status}}</td>
                                     <td>{{$order->reserve_at}}</td>
                                     <td>

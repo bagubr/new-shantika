@@ -147,6 +147,7 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
+        $order->payment()->delete();
         $order->order_detail()->delete();
         $order->delete();
         session()->flash('success', 'Pemesanan Berhasil Dihapus');

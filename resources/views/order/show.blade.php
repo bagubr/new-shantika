@@ -41,7 +41,7 @@ Pesanan
                         <div class="col">
                             <div class="form-group">
                                 <label>Nama Pemesan</label>
-                                <input type="text" class="form-control" value="{{$order->user->name}}" disabled>
+                                <input type="text" class="form-control" value="{{$order->user->name ?? ''}}" disabled>
                             </div>
                         </div>
                     </div>
