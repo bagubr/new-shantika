@@ -2,8 +2,6 @@
 
 namespace App\Utils;
 
-use stdClass;
-
 class NotificationBody {
     public function __construct(
         public string $title,
@@ -12,18 +10,18 @@ class NotificationBody {
 }
 
 class Firebase {
-    public static function sendNotification(NotificationBody $notification, $token) {
+    public static function sendNotification(NotificationBody|array $notification, $fcm_token) {
         $token = self::oAuthFirebase()['access_token'];
         $data = json_encode([
-            'message'=> [
-                "token"=> $token,
-                "notification"=> $notification
+            'message'=> (object) [
+                "token"=> $fcm_token,
+                "notification"=> is_array($notification) ? (object) $notification : $notification
             ]
         ]);
 
         $ch = curl_init();
 
-        $bearer = "Authorization: Bearer ".$token;
+        $bearer = "Authorization:Bearer ".$token;
         curl_setopt($ch, CURLOPT_URL,"https://fcm.googleapis.com/v1/projects/agen-santika/messages:send");
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
