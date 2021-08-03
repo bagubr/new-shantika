@@ -99,6 +99,11 @@ class OrderController extends Controller
     public function showSetoran(Request $request) {
         $chairs = OrderDetailRepository::findForPriceDistributionByDateAndFleet($request->date, $request->fleet_id);        
         $order = OrderRepository::findForPriceDistributionByDateAndFleet($request->date, $request->fleet_id);
+        if($chairs->isEmpty() && $order->isEmpty()) {
+            $this->sendSuccessResponse([
+                'chairs'=>[],
+            ], 'Data riwayat tidak ditemukan');
+        }
         return $this->sendSuccessResponse([
             'chairs'=> OrderDetailSetoranAgentResource::collection($chairs),
             'order'=>new OrderSetoranDetailAgentResource($order)
