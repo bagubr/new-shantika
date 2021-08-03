@@ -91,6 +91,10 @@ class CityController extends Controller
      */
     public function destroy(City $city)
     {
+        if ($city->agent->count() > 0) {
+            session()->flash('error', 'Maaf Anda Tidak Bisa Menghapus Data Ini');
+            return redirect()->back();
+        }
         $city->delete();
         session()->flash('success', 'Kota Berhasil Dihapus');
         return redirect(route('city.index'));

@@ -25,6 +25,6 @@ class City extends Model
     }
     public function agent()
     {
-        return $this->belongsTo(Agency::class, 'agency_id');
+        return $this->hasMany(Agency::class, 'city_id');
     }
 }
