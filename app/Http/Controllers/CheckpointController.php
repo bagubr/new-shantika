@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Checkpoint\CreateCheckpointRequest;
 use App\Models\Checkpoint;
+use App\Models\Route;
 use Illuminate\Http\Request;
 
 class CheckpointController extends Controller
@@ -38,11 +39,16 @@ class CheckpointController extends Controller
     {
         $data = $request->all();
         $data['route_id'] = $request->route_id;
-        $checkpoint = Checkpoint::where('route_id', $request->route_id)->get();
-        foreach ($checkpoint as $c) {
-            dd($c->agency->name);
-        }
         Checkpoint::create($data);
+        $checkpoint = Checkpoint::where('route_id', $request->route_id)->get();
+        $route = Route::whereId($request->route_id)->first();
+        $checkpoints = '';
+        foreach ($checkpoint as $c) {
+            $checkpoints .= '~' . $c->agency()->first()->name . '~';
+        }
+        $route->update([
+            'name' => $checkpoints,
+        ]);
         session()->flash('success', 'Checkpoint Berhasil Ditambahkan');
         return redirect(route('routes.show', $request->route_id));
     }
