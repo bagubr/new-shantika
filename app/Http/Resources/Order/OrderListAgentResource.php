@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Order;
 
 use App\Http\Resources\CheckpointStartEndResource;
+use App\Http\Resources\OrderDetailChairResource;
 use App\Models\Booking;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -25,7 +26,7 @@ class OrderListAgentResource extends JsonResource
             'name_fleet'=>$this->route?->fleet?->name,
             'fleet_class'=>$this->route?->fleet?->fleetclass?->name,
             'departure_at'=>$this->route?->departure_at,
-            'is_feed'=>$this->order_detail()->where('is_feed', true)->exists(),
+            'chairs'=>@OrderDetailChairResource::collection($this->order_detail),
             'price'=>$this->price,
             'reserve_at'=>$this->reserve_at,
             'status'=>$this->status,

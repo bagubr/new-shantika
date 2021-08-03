@@ -28,6 +28,11 @@ class Booking extends Model
         return $this->belongsTo(LayoutChair::class, 'layout_chair_id');
     }
 
+    public function chair()
+    {
+        return $this->belongsTo(LayoutChair::class, 'layout_chair_id');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
