@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Checkpoint\CreateCheckpointRequest;
 use App\Http\Requests\Routes\CreateRoutesRequest;
 use App\Http\Requests\Routes\UpdateRouteRequest;
 use App\Models\Area;
@@ -11,7 +10,7 @@ use App\Models\Route;
 use App\Repositories\AgencyRepository;
 use App\Repositories\FleetRepository;
 use App\Repositories\RoutesRepository;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route as FacadesRoute;
 
 class RoutesController extends Controller
 {
@@ -35,8 +34,9 @@ class RoutesController extends Controller
     {
         $fleets = FleetRepository::all();
         $areas = Area::all();
+        $name = FacadesRoute::currentRouteName();
         $agencies = AgencyRepository::getOnlyIdName();
-        return view('routes.create', compact('fleets', 'areas', 'agencies'));
+        return view('routes.create', compact('fleets', 'areas', 'agencies', 'name'));
     }
 
     /**
@@ -95,7 +95,9 @@ class RoutesController extends Controller
     {
         $fleets = FleetRepository::all();
         $areas = Area::all();
-        return view('routes.create', compact('route', 'fleets', 'areas'));
+        $name = FacadesRoute::currentRouteName();
+        $agencies = AgencyRepository::getOnlyIdName();
+        return view('routes.create', compact('route', 'fleets', 'areas', 'name', 'agencies'));
     }
 
     /**

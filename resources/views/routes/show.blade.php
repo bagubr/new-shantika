@@ -63,7 +63,7 @@ Route
                     </div>
                     <div class="form-group">
                         <label>Area</label>
-                        <input type="text" class="form-control" value="{{$route->area->name}}" disabled>
+                        <input type="text" class="form-control" value="{{$route->area->name ?? ''}}" disabled>
                     </div>
                 </div>
                 <!-- /.card-body -->

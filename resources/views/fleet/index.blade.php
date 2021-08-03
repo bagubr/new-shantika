@@ -2,6 +2,9 @@
 @section('title')
 Armada
 @endsection
+@push('css')
+<link rel="stylesheet" href="{{asset('css/lightbox.min.css')}}">
+@endpush
 @section('content')
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -53,10 +56,13 @@ Armada
                                     </td>
                                     <td>
                                         @if ($fleet->image)
-                                        <img src="{{$fleet->image}}" height="100px" alt="">
-                                        @else
-                                        Tidak ada gambar
-                                        @endif
+                                        <a href="{{$fleet->image}}" data-lightbox="{{$fleet->image}}">
+                                            <img src="{{$fleet->image}}" data-lightbox="{{$fleet->image}}"
+                                                height="100px" alt="">
+                                            @else
+                                            Tidak Ada Gambar
+                                            @endif
+                                        </a>
                                     </td>
                                     <td>
                                         <a href="{{route('layouts.edit', $fleet->layout_id)}}"
@@ -70,7 +76,8 @@ Armada
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger btn-xs"
-                                                onclick="return confirm('Are you sure?')" type="submit">Delete</button>
+                                                onclick="return confirm('Apakah Anda yakin akan menghapus data armada??')"
+                                                type="submit">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -88,6 +95,7 @@ Armada
 </div>
 @endsection
 @push('script')
+<script src="{{asset('js/lightbox-plus-jquery.min.js')}}"></script>
 <script>
     $(function () {
       $("#example1").DataTable({

@@ -12,7 +12,7 @@ class Agency extends Model
     protected $table = 'agencies';
 
     protected $fillable = [
-        'name', 'city_id','lat', 'lng', 'address'
+        'name', 'city_id', 'lat', 'lng', 'address'
     ];
 
     protected $appends = [
@@ -20,13 +20,14 @@ class Agency extends Model
         'avatar',
     ];
 
-    public function city() {
+    public function city()
+    {
         return $this->belongsTo(City::class, 'city_id', 'id');
     }
 
     public function userAgent()
     {
-        return $this->belongsTo(UserAgent::class, 'id', 'agency_id');
+        return $this->hasMany(UserAgent::class, 'agency_id');
     }
 
     public function getAvatarAttribute()

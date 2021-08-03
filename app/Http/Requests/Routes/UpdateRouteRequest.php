@@ -24,8 +24,7 @@ class UpdateRouteRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:routes,name,' . $this->route->id,
-            'area_id' => 'required|exists:routes,id',
+            'area_id' => 'required',
             'fleet_id' => 'required|exists:fleets,id',
             'departure_at' => 'required',
             'arrived_at' => 'required',

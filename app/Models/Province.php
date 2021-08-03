@@ -14,4 +14,16 @@ class Province extends Model
     protected $fillable = [
         'name'
     ];
+    public function agencies()
+    {
+        return $this->hasManyThrough(Agency::class, City::class);
+    }
+    public function cities()
+    {
+        return $this->hasMany(City::class, 'province_id', 'id');
+    }
+    public function user_agencies()
+    {
+        return $this->hasManyThrough(UserAgent::class, Agency::class);
+    }
 }

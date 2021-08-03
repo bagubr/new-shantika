@@ -12,6 +12,7 @@ class Fleet extends Model
     use HasFactory, SoftDeletes;
     protected $table = 'fleets';
     protected $fillable = ['name', 'description', 'fleet_class_id', 'image', 'layout_id', 'images'];
+    protected $appends = ['image_url'];
 
     public function layout()
     {
@@ -27,7 +28,7 @@ class Fleet extends Model
     {
         return $this->belongsTo(FleetClass::class, 'fleet_class_id', 'id');
     }
-    public function getImageAttribute($value)
+    public function getImageUrlAttribute($value)
     {
         return url('storage/' . $value);
     }
@@ -35,8 +36,7 @@ class Fleet extends Model
     public function getImagesAttribute($value)
     {
         $values = json_decode($value);
-        return array_map(function ($item)
-        {
+        return array_map(function ($item) {
             return url('storage/' . $item);
         }, $values);
     }
