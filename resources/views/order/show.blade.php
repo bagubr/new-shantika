@@ -84,6 +84,7 @@ Pesanan
                     @endif
                 </div>
             </div>
+            @if ($order_price_distributions)
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Pembagian Hasil</h3>
@@ -101,6 +102,8 @@ Pesanan
                             <th>Member</th>
                             <th>Agent</th>
                             <th>Owner</th>
+                            <th>Deposit</th>
+                            <th>Aksi</th>
                         </thead>
                         <tbody>
                             <tr>
@@ -109,11 +112,41 @@ Pesanan
                                 <td>Rp. {{number_format($order_price_distributions->for_member)}}</td>
                                 <td>Rp. {{number_format($order_price_distributions->for_agent)}}</td>
                                 <td>Rp. {{number_format($order_price_distributions->for_owner)}}</td>
+                                <td>
+                                    @if ($order_price_distributions->deposited_at)
+                                    {{date('Y-m-d', strtotime($order_price_distributions->deposited_at))}}
+                                    @else
+                                    Belum Deposit
+
+                                    @endif
+                                </td>
+                                <td> @if (!$order_price_distributions->deposited_at)
+                                    <form
+                                        action="{{route('order_price_distribution.update', $order_price_distributions->id)}}"
+                                        class="d-inline" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <button class="btn btn-primary btn-xs" onclick="return confirm('Are you sure?')"
+                                            type="submit">Deposit
+                                            Sekarang</button>
+                                    </form>
+                                    @endif
+                                    <form
+                                        action="{{route('order_price_distribution.destroy',$order_price_distributions->id)}}"
+                                        class="d-inline" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger btn-xs" onclick="return confirm('Are you sure?')"
+                                            type="submit">Delete</button>
+                                    </form>
+                                </td>
+
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
+            @endif
         </div>
         <div class="col-md-6">
             @foreach ($order_details as $order_detail)
