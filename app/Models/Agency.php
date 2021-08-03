@@ -31,11 +31,11 @@ class Agency extends Model
 
     public function getAvatarAttribute()
     {
-        return $this->userAgent()->first()->user()->first()->avatar_url;
+        return $this->userAgent()?->first()?->user()?->first()?->avatar_url;
     }
 
     public function getPhoneAttribute()
     {
-        return $this->userAgent()->first()->user()->first()->phone;
+        return $this->userAgent()?->first()?->user()?->first()?->phone;
     }
 }
