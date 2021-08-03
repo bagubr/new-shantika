@@ -127,7 +127,9 @@ Agen
             tileSize: 512,
             zoomOffset: -1
         }).addTo(mymap);
-    
+        L.marker([document.getElementById("lat").value, document.getElementById("lng").value]).addTo(mymap)
+            .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+            .openPopup();
         var popup = L.popup();
         function onMapClick(e) {
             popup
@@ -136,12 +138,9 @@ Agen
             .openOn(mymap);
             document.getElementById("lat").value = e.latlng.lat;
             document.getElementById("lng").value = e.latlng.lng;
-        }
-
-
-        // console.log(lat,lng)
-    
+        }    
         mymap.on('click', onMapClick);
-    
+
+
 </script>
 @endpush
