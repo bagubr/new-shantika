@@ -101,13 +101,13 @@ class OrderRepository {
     }
 
     public static function findForPriceDistributionByDateAndFleet($date, $fleet_id) {
-        $order = Order::with(['order_detail', 'route.fleet', 'route.checkpoints', 'payment', 'distribution'])
+        $order = Order::with(['order_detail.chair', 'route.fleet', 'route.checkpoints', 'payment', 'distribution'])
             ->whereDate('created_at', $date)
             ->whereHas('route', function($query) use ($fleet_id) {
                 $query->where('fleet_id', $fleet_id);
             })
             ->where('status', Order::STATUS3)
-            ->first();
+            ->get();
 
         return $order;
     }

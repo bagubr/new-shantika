@@ -17,7 +17,7 @@ class OrderDetailSetoranAgentResource extends JsonResource
         return [
             'chair_name'=>$this->chair->name,
             'price'=>$this->getTruePrice($this->order, $this->order->distribution),
-            'food'=>$this->order->distribution->for_food,
+            'food'=>$this->is_feed ? $this->order->distribution->for_food / $this->order->order_detail->where('is_feed', true)->count() : 0,
             'is_member'=>$this->is_member ? "Member" : "Non Member",
             'is_travel'=>$this->is_travel ? "Travel" : "Non Travel"
         ];
