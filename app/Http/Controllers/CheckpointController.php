@@ -96,7 +96,16 @@ class CheckpointController extends Controller
     public function destroy(Checkpoint $checkpoint)
     {
         $checkpoint->delete();
+        $checkpointt = Checkpoint::where('route_id', $checkpoint->route_id)->get();
+        $route = Route::whereId($checkpoint->route_id)->first();
+        $checkpoints = '';
+        foreach ($checkpointt as $c) {
+            $checkpoints .= '~' . $c->agency()->first()->name . '~';
+        }
+        $route->update([
+            'name' => $checkpoints,
+        ]);
         session()->flash('success', 'Checkpoint Berhasil Dihapus');
-        return redirect()->back();
+        return back();
     }
 }
