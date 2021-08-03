@@ -10,7 +10,6 @@ return [
     |
     */
     'price_list' => [
-        'food'      => 20000,
         'member'    => 10000,
         'travel'    => 20000,
     ],
@@ -24,6 +23,5 @@ return [
     |
     */
     'booking_expired_duration' => 15,
-    
     'commision' => 0.08
 ];

@@ -237,6 +237,15 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a href="{{route('config_setting.index')}}"
+                        class="nav-link {{Request::routeIs('config_setting.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-bars"></i>
+                        <p>
+                            Pengaturan Global
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-header">USER</li>
                 <li class="nav-item {{Request::routeIs('user.*','member.*') ? 'menu-open' : ''}}">
                     <a href="#" class="nav-link {{Request::routeIs('user.*','member.*') ? 'active' : ''}}">
