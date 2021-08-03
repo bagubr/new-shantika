@@ -86,7 +86,7 @@ Route
                             <input type="number" name="price" class="form-control" placeholder="Masukkan Harga"
                                 value="{{isset($route) ? $route->price : ''}}">
                         </div>
-                        @if (route('routes.create'))
+                        @if ($name == "routes.create")
                         <div id="dynamicAddRemove">
                             <div class="t">
                                 <div class="form-row">
@@ -112,7 +112,7 @@ Route
                         </div>
                         @endif
                         <div class="mt-3">
-                            @if (route('routes.create'))
+                            @if ($name == "routes.create")
                             <button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">Tambah
                                 Rute
                             </button>
@@ -138,7 +138,7 @@ Route
       theme: 'bootstrap4'
     })
 </script>
-@if(route('routes.create'))
+@if($name == "routes.create")
 <script type="text/javascript">
     var i = 0;
     $("#dynamic-ar").click(function () {

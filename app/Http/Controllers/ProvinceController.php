@@ -89,6 +89,12 @@ class ProvinceController extends Controller
      */
     public function destroy(Province $province)
     {
+        if ($province->cities->count() > 0) {
+            session()->flash('error', 'Maaf Anda Tidak Bisa Menghapus Data Ini');
+            return redirect()->back();
+        }
+        $province->agencies()->delete();
+        $province->cities()->delete();
         $province->delete();
         session()->flash('success', 'Provinsi Berhasil Dihapus');
         return redirect(route('province.index'));

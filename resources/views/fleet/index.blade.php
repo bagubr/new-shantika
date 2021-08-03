@@ -2,6 +2,9 @@
 @section('title')
 Armada
 @endsection
+@push('css')
+<link rel="stylesheet" href="{{asset('css/lightbox.min.css')}}">
+@endpush
 @section('content')
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -52,7 +55,14 @@ Armada
                                             target="_blank">{{$fleet->fleetclass?->name ?? '-'}}</a>
                                     </td>
                                     <td>
-                                        <img src="{{$fleet->image}}" height="100px" alt="">
+                                        @if ($fleet->image)
+                                        <a href="{{$fleet->image}}" data-lightbox="{{$fleet->image}}">
+                                            <img src="{{$fleet->image}}" data-lightbox="{{$fleet->image}}"
+                                                height="100px" alt="">
+                                            @else
+                                            Tidak Ada Gambar
+                                            @endif
+                                        </a>
                                     </td>
                                     <td>
                                         <a href="{{route('layouts.edit', $fleet->layout_id)}}"
@@ -85,6 +95,7 @@ Armada
 </div>
 @endsection
 @push('script')
+<script src="{{asset('js/lightbox-plus-jquery.min.js')}}"></script>
 <script>
     $(function () {
       $("#example1").DataTable({
