@@ -45,7 +45,7 @@ Syarat Dan Ketentuan
                                 @foreach ($terms_conditions as $term_condition)
                                 <tr>
                                     <td>{{$term_condition->name}}</td>
-                                    <td>{{$term_condition->content}}</td>
+                                    <td>{!!$term_condition->content!!}</td>
                                     <td>
                                         <a href="{{route('terms_condition.edit',$term_condition->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
