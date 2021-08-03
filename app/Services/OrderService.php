@@ -32,7 +32,7 @@ class OrderService {
             }
         }
         if(!$data->code_order) {
-            $data->code_order = self::generateCodeOrder();
+            $data->code_order = '';
         }
         if(!$data->status) {
             $data->status = Order::STATUS1;
@@ -41,6 +41,10 @@ class OrderService {
             $data->expired_at = self::getExpiredAt();
         }
         $order = Order::create($data->toArray());
+        if(!$data->code_order && !$order->code_order) {
+            $order->code_order = self::generateCodeOrder($order->id);
+            $order->save();
+        }
         if($detail->code_booking) {
             BookingService::deleteByCodeBooking($detail->code_booking);
         }
@@ -112,14 +116,8 @@ class OrderService {
         return $order;
     }
 
-    public static function generateCodeOrder($length = 6) {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
-        $randomstring = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomstring .= $characters[rand(0, $charactersLength - 1)];
-        }
-        return 'STK-'.strtoupper($randomstring);
+    public static function generateCodeOrder($id) {
+        return 'NS'.str_pad($id, 8, '0', STR_PAD_LEFT);
     }
 
     public static function getExpiredAt() {
