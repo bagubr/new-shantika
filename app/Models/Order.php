@@ -37,7 +37,8 @@ class Order extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function agency() {
+    public function agency()
+    {
         return $this->belongsTo(Agency::class, 'user_id', 'user_id');
     }
 
@@ -56,7 +57,8 @@ class Order extends Model
         return $this->hasOne(Payment::class, 'order_id', 'id');
     }
 
-    public function distribution() {
+    public function distribution()
+    {
         return $this->hasOne(OrderPriceDistribution::class, 'order_id', 'id');
     }
 }

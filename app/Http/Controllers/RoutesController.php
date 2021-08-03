@@ -122,6 +122,11 @@ class RoutesController extends Controller
     public function destroy(Route $route)
     {
         $route->checkpoints()->delete();
+        $route->order_detail()->delete();
+        $route->reviews()->delete();
+        $route->payments()->delete();
+        $route->schedule_not_operates()->delete();
+        $route->order()->delete();
         $route->delete();
         session()->flash('success', 'Route Berhasil Dihapus');
         return redirect(route('routes.index'));

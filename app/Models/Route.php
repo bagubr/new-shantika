@@ -11,7 +11,7 @@ class Route extends Model
 
     protected $table = 'routes';
     protected $fillable = [
-        'name', 'fleet_id', 'area_id','departure_at', 'arrived_at', 'price'
+        'name', 'fleet_id', 'area_id', 'departure_at', 'arrived_at', 'price'
     ];
     protected $hidden = [
         'created_at', 'updated_at', 'deleted_at'
@@ -34,6 +34,26 @@ class Route extends Model
     public function checkpoints()
     {
         return $this->hasMany(Checkpoint::class, 'route_id', 'id');
+    }
+    public function order()
+    {
+        return $this->hasMany(Order::class, 'route_id', 'id');
+    }
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class, 'route_id', 'id');
+    }
+    public function reviews()
+    {
+        return $this->hasManyThrough(Review::class, Order::class);
+    }
+    public function payments()
+    {
+        return $this->hasManyThrough(Payment::class, Order::class);
+    }
+    public function order_detail()
+    {
+        return $this->hasManyThrough(OrderDetail::class, Order::class);
     }
     public  function schedule_not_operates()
     {
