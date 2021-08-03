@@ -18,9 +18,9 @@ class OrderDetailAgentResource extends JsonResource
     public function toArray($request)
     {
         $checkpoint_max_index = count($this->route->checkpoints) - 1;
-        $price_member = $this->getPriceMember($this->order_detail?->pluck('is_member')->toArray() ?? []);
-        $price_travel = $this->getPriceTravel($this->order_detail?->pluck('is_travel')->toArray() ?? []);
-        $price_feed = $this->getPriceFeed($this->order_detail?->pluck('is_feed')->toArray() ?? []);
+        $price_feed = $this->distribution->for_food;
+        $price_travel = $this->distribution->for_travel;
+        $price_member = $this->distribution->for_member;
         return [
             'id'=>$this->id,
             'code_order'=>$this->code_order,
@@ -42,44 +42,7 @@ class OrderDetailAgentResource extends JsonResource
             'id_member'=>$this->id_member,
             'price'=>$this->price,
             'total_price'=>$this->price + $price_travel + $price_feed - $price_member,
-            'commision'=>$this->getCommision()
+            'commision'=>$this->distribution->for_agent
         ];
-    }
-
-    private function getPriceFeed($is_feed = [])
-    {
-        $price = 0;
-        foreach ($is_feed as $key => $value) {
-            if($value == true){
-                $price += config('application.price_list.feed');
-            }
-        }
-        return $price;
-    }
-    
-    private function getPriceTravel($is_travel = [])
-    {
-        $price = 0;
-        foreach ($is_travel as $key => $value) {
-            if($value == true){
-                $price += config('application.price_list.travel');
-            }
-        }
-        return $price;
-    }
-
-    private function getPriceMember($is_member = [])
-    {
-        $price = 0;
-        foreach ($is_member as $key => $value) {
-            if($value == true){
-                $price += config('application.price_list.member');
-            }
-        }
-        return $price;
-    }
-
-    private function getCommision() {
-        return round(config('application.commision') * $this->price);
     }
 }

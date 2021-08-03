@@ -38,7 +38,7 @@ class OrderSeeder extends Seeder
                 'order_id'          => $order->id,
                 'layout_chair_id'   => $route->fleet->layout->chairs->whereNotIn('index', $space)
                 ->whereNotIn('index', $toilet)->whereNotIn('index', $door)->random()->id,
-                'code_ticket'       => 'STK-'.date('YmdHis'),
+                // 'code_ticket'       => 'STK-'.date('YmdHis'),
                 'name'              => User::find($order->user_id)->name??'',
                 'phone'             => User::find($order->user_id)->phone??'',
                 'email'             => User::find($order->user_id)->email??'',

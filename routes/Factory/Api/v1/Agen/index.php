@@ -38,6 +38,8 @@ Route::group([
             Route::get('setoran/list', 'OrderController@showListSetoran');
             Route::get('setoran/list/detail', 'OrderController@showSetoran');
 
+            Route::get('calculate_discount', 'OrderController@calculateDiscount');
+
             Route::post('exchange_ticket', 'OrderController@exchange');
             Route::post('exchange_ticket/confirm', 'OrderController@exchangeConfirm');
         });
