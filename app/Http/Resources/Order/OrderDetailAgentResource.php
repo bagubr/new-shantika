@@ -28,6 +28,7 @@ class OrderDetailAgentResource extends JsonResource
             'checkpoints'        => new CheckpointStartEndResource($this->route),
             'created_at'=>date('Y-m-d H:i:s', strtotime($this->created_at)),
             'reserve_at'=>date('Y-m-d H:i:s', strtotime($this->reserve_at)),
+            'departure_at'=>$this->route->departure_at,
             'status'=>$this->status,
             'name_passenger'=>@$this->order_detail[0]->name ?? "",
             'phone_passenger'=>@$this->order_detail[0]->phone ?? "",
