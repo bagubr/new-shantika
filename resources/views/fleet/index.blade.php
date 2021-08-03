@@ -52,11 +52,7 @@ Armada
                                             target="_blank">{{$fleet->fleetclass?->name ?? '-'}}</a>
                                     </td>
                                     <td>
-                                        @if ($fleet->image)
                                         <img src="{{$fleet->image}}" height="100px" alt="">
-                                        @else
-                                        Tidak ada gambar
-                                        @endif
                                     </td>
                                     <td>
                                         <a href="{{route('layouts.edit', $fleet->layout_id)}}"
@@ -70,7 +66,8 @@ Armada
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger btn-xs"
-                                                onclick="return confirm('Are you sure?')" type="submit">Delete</button>
+                                                onclick="return confirm('Apakah Anda yakin akan menghapus data armada??')"
+                                                type="submit">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
