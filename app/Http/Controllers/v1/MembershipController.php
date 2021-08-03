@@ -11,7 +11,7 @@ class MembershipController extends Controller
     public function check(Request $request) {
         $code_member = $request->code_member ?? $this->sendFailedResponse([], 'ID Member belum diisi');
 
-        $member = Membership::where('code_member', $code_member)->first()
+        $member = Membership::where('code_member', $code_member)->where('name', $request->name)->first()
             ?? $this->sendFailedResponse([], 'ID Membership tidak ditemukan');
 
         return $this->sendSuccessResponse([

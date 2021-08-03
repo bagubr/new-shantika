@@ -24,6 +24,7 @@ class OrderListAgentResource extends JsonResource
             'code'=>$this->code,
             'name_fleet'=>$this->route?->fleet?->name,
             'fleet_class'=>$this->route?->fleet?->fleetclass?->name,
+            'price'=>$this->price,
             'reserve_at'=>$this->reserve_at,
             'status'=>$this->status,
             'type'=>$this->type,
