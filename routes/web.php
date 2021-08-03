@@ -61,10 +61,9 @@ Route::get('test-firebase', function() {
         'body'=>'Test',
         'type'=>'ORDER',
         'is_seen'=>false,
-        'is_save'=>false
     ]);
 
-    SendingNotification::dispatch($notification);
+    SendingNotification::dispatch($notification, '', true);
 });
 
 Route::group(['middleware' => ['auth']], function () {
