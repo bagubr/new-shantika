@@ -6,9 +6,14 @@ use App\Models\Agency;
 
 class AgencyRepository
 {
-    public static function all()
+    public static function all($search = null)
     {
-        return Agency::orderBy('id', 'desc')->get();
+        return Agency::when($search, function($query) use ($search) {
+            $query->where('name', 'ilike', '%'.$search.'%')
+                ->orWhereHas('city', function($subquery) use ($search) {
+                    $subquery->where('name', 'ilike', '%'.$search.'%');
+                });
+        })->orderBy('id', 'desc')->get();
     }
 
     public static function getOnlyIdName()

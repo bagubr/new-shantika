@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v1\Agent;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\ApiCalculateDiscountRequest;
 use App\Http\Requests\Api\ApiOrderCreateRequest;
 use App\Http\Resources\Order\OrderDetailAgentResource;
 use App\Http\Resources\Order\OrderListAgentResource;
@@ -108,5 +109,18 @@ class OrderController extends Controller
             'chairs'=> OrderDetailSetoranAgentResource::collection($chairs),
             'order'=>new OrderSetoranDetailAgentResource($order)
         ]);
+    }
+
+    public function calculateDiscount(ApiCalculateDiscountRequest $request) {
+        $data = [
+            'total_food'=>$request->is_food ? 20000 * $request->seat_count : 0,
+            'total_travel'=>$request->is_travel ? 20000 * $request->seat_count : 0,
+            'total_member'=>$request->is_member ? 20000 * $request->seat_count : 0
+        ];
+        $data = array_merge($data, [
+            'price_ticket'=>(int) $request->price_ticket,
+            'total_price'=>($request->price_ticket + $data['total_food'] + $data['total_travel'] - $data['total_member']) * $request->seat_count
+        ]);
+        return $this->successResponse($data);
     }
 }

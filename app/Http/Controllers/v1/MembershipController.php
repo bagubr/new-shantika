@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Checkpoint;
 use App\Models\Membership;
+use App\Models\Route;
 use Illuminate\Http\Request;
 
 class MembershipController extends Controller
@@ -15,6 +17,13 @@ class MembershipController extends Controller
             ?? $this->sendFailedResponse([], 'Kode Membership tidak ditemukan');
         $member = Membership::where('code_member', $code_member)->where('name', 'ilike', '%'.$request->name.'%')->first()
             ?? $this->sendFailedResponse([], 'Nama dengaan kode member '.$code_member.' Membership tidak ditemukan');
+
+        $route = Checkpoint::where('order', 0)
+            ->where('agency_id', $request->agency_id)
+            ->first();
+        if($member->agency_id != $route->agency_id) {
+            return $this->sendFailedResponse([], 'Maaf, kode Membership bukan untuk agen ini');
+        }
 
         return $this->sendSuccessResponse([
             'membership'=>$member,
