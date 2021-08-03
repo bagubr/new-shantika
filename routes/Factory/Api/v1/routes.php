@@ -27,6 +27,9 @@ Route::group([
 
     Route::get('about_us', 'AboutController@index');
 
+    Route::get('notification_setting', 'NotificationSettingController@show');
+    Route::post('notification_setting/update', 'NotificationSettingController@update');
+
     Route::get('notification', 'NotificationController@index');
     Route::get('notification/unread', 'NotificationController@indexUnread');
     Route::post('notification/read', 'NotificationController@read');
