@@ -6,7 +6,7 @@ Login
 <div class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="#"><b>NEW SHANTIKA</a>
+            <img class="img-fluid" src="{{asset('img/new-shantika-transparan-nw-01.png')}}" alt="">
         </div>
         <!-- /.login-logo -->
         <div class="card">

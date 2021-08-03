@@ -8,6 +8,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CheckpointController;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\ConfigSettingController;
 use App\Http\Controllers\CustomerMenuController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FacilityController;
@@ -107,5 +108,6 @@ Route::group(['middleware' => ['auth']], function () {
         'member' => MemberController::class,
         'review' => ReviewController::class,
         'order_price_distribution' => OrderPriceDistributionController::class,
+        'config_setting' => ConfigSettingController::class,
     ]);
 });

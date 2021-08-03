@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Checkpoint\CreateCheckpointRequest;
-use App\Models\Checkpoint;
+use App\Http\Requests\ConfigSetting\CreateConfigSettingRequest;
+use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 
-class CheckpointController extends Controller
+class ConfigSettingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +16,9 @@ class CheckpointController extends Controller
      */
     public function index()
     {
-        //
+        $config_setting = Setting::whereId(1)->first();
+        $config_setting_commision = $config_setting->commision * 100;
+        return view('config_setting.index', compact('config_setting', 'config_setting_commision'));
     }
 
     /**
@@ -25,7 +28,7 @@ class CheckpointController extends Controller
      */
     public function create()
     {
-        return view('checkpoint.create');
+        //
     }
 
     /**
@@ -34,17 +37,14 @@ class CheckpointController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateCheckpointRequest $request)
+    public function store(CreateConfigSettingRequest $request)
     {
+        $config_setting = Setting::whereId(1)->first();
         $data = $request->all();
-        $data['route_id'] = $request->route_id;
-        $checkpoint = Checkpoint::where('route_id', $request->route_id)->get();
-        foreach ($checkpoint as $c) {
-            dd($c->agency->name);
-        }
-        Checkpoint::create($data);
-        session()->flash('success', 'Checkpoint Berhasil Ditambahkan');
-        return redirect(route('routes.show', $request->route_id));
+        $data['commision'] = $request->commision / 100;
+        $config_setting->update($data);
+        session()->flash('success', 'Data Berhasil Diubah');
+        return back();
     }
 
     /**
@@ -87,10 +87,8 @@ class CheckpointController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Checkpoint $checkpoint)
+    public function destroy($id)
     {
-        $checkpoint->delete();
-        session()->flash('success', 'Checkpoint Berhasil Dihapus');
-        return redirect()->back();
+        //
     }
 }
