@@ -19,6 +19,7 @@ use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderPriceDistributionController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentTypeController;
 use App\Http\Controllers\ProvinceController;
@@ -104,6 +105,7 @@ Route::group(['middleware' => ['auth']], function () {
         'city' => CityController::class,
         'order' => OrderController::class,
         'member' => MemberController::class,
-        'review' => ReviewController::class
+        'review' => ReviewController::class,
+        'order_price_distribution' => OrderPriceDistributionController::class,
     ]);
 });

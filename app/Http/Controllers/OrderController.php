@@ -20,7 +20,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::paginate(7);
+        $orders = Order::orderBy('id', 'desc')->paginate(7);
         $routes = Route::all();
         $agent = ['AGENT', 'UMUM'];
         $status = ['PENDING', 'EXCHANGED', 'PAID', 'CANCELED', 'EXPIRED'];

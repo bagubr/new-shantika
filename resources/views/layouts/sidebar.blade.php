@@ -197,6 +197,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{route('order_price_distribution.index')}}"
+                                class="nav-link {{Request::routeIs('order_price_distribution.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Setoran</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{route('payment_type.index')}}"
                                 class="nav-link {{Request::routeIs('payment_type.*') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
