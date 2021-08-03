@@ -1,7 +1,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{route('dashboard')}}" class="brand-link text-center">
-        <span class="brand-text font-weight-light">New Shantika</span>
+        <img src="{{asset('img/img_logo.png')}}" alt="">
     </a>
 
     <!-- Sidebar -->
