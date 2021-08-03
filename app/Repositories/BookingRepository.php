@@ -14,7 +14,7 @@ class BookingRepository {
 
     public static function findByCodeBookingWithRouteWithLayoutChair($code_booking)
     {
-        return Booking::with(['route', 'layout_chair'])->where('code_booking', $code_booking)->get();
+        return Booking::with(['route', 'chair'])->where('code_booking', $code_booking)->get();
     }
 
     public static function getTodayByRoute($route_id) {
