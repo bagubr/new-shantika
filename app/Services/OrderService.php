@@ -112,8 +112,14 @@ class OrderService {
         return $order;
     }
 
-    public static function generateCodeOrder() {
-        return 'STK-'.date('Ymdhis');
+    public static function generateCodeOrder($length = 6) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomstring = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomstring .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return 'STK-'.strtoupper($randomstring);
     }
 
     public static function getExpiredAt() {
