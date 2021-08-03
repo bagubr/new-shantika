@@ -37,6 +37,7 @@ Member
                             <thead>
                                 <tr>
                                     <th>Kode Member</th>
+                                    <th>Name</th>
                                     <th>Agent</th>
                                     <th>Aksi</th>
                                 </tr>
