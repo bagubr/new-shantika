@@ -37,6 +37,11 @@ class CheckpointController extends Controller
     public function store(CreateCheckpointRequest $request)
     {
         $data = $request->all();
+        $data['route_id'] = $request->route_id;
+        $checkpoint = Checkpoint::where('route_id', $request->route_id)->get();
+        foreach ($checkpoint as $c) {
+            dd($c->agency->name);
+        }
         Checkpoint::create($data);
         session()->flash('success', 'Checkpoint Berhasil Ditambahkan');
         return redirect(route('routes.show', $request->route_id));

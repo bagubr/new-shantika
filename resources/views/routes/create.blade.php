@@ -40,11 +40,6 @@ Route
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label>Nama Route</label>
-                            <input type="text" class="form-control" name="name" placeholder="Masukkan Nama Route"
-                                value="{{isset($route) ? $route->name : ''}}">
-                        </div>
-                        <div class="form-group">
                             <label>Armada</label>
                             <select class="form-control select2" name="fleet_id" style="width: 100%;">
                                 <option value="">Pilih Armada</option>
@@ -91,6 +86,7 @@ Route
                             <input type="number" name="price" class="form-control" placeholder="Masukkan Harga"
                                 value="{{isset($route) ? $route->price : ''}}">
                         </div>
+                        @if (route('routes.create'))
                         <div id="dynamicAddRemove">
                             <div class="t">
                                 <div class="form-row">
@@ -114,9 +110,13 @@ Route
                                 </div>
                             </div>
                         </div>
+                        @endif
                         <div class="mt-3">
-                            <button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">Add
-                                Subject</button>
+                            @if (route('routes.create'))
+                            <button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">Tambah
+                                Rute
+                            </button>
+                            @endif
                             <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                             <input type="submit" value="Submit" class="btn btn-success float-right">
                         </div>
@@ -138,6 +138,7 @@ Route
       theme: 'bootstrap4'
     })
 </script>
+@if(route('routes.create'))
 <script type="text/javascript">
     var i = 0;
     $("#dynamic-ar").click(function () {
@@ -149,4 +150,5 @@ Route
         $(this).parents('.t').remove();
     });
 </script>
+@endif
 @endpush
