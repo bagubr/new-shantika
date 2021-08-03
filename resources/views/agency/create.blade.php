@@ -67,12 +67,31 @@ Agen
                                 </option>
                                 @endforeach
                             </select>
-                            <input type="text" id="lat" name="lat">
-                            <input type="text" id="lng" name="lng">
 
                         </div>
                         <div class="form-group">
+                            <label>Alamat</label>
+                            <input type="text" name="address" class="form-control" placeholder="Masukkan Alamat" id=""
+                                value="{{isset($agency) ? $agency->address : ''}}">
+                        </div>
+                        <div class="form-group">
                             <div id="mapid"></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Koordinat Latitude</label>
+                                    <input class="form-control" type="text" id="lat" name="lat" readonly
+                                        value="{{isset($agency) ? $agency->lat : ''}}">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Koordinat Longtitude</label>
+                                    <input class="form-control" type="text" id="lng" name="lng" readonly
+                                        value="{{isset($agency) ? $agency->lng : ''}}">
+                                </div>
+                            </div>
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
@@ -113,13 +132,11 @@ Agen
     
         function onMapClick(e) {
             popup
-                .setLatLng(e.latlng)
-                .setContent("Pastikan Lokasi Anda Benar " + e.latlng.toString())
-                .openOn(mymap);
-                console.log(e.latlng.lat);
-                console.log(e.latlng.lng);
-                document.getElementById("lat").value = e.latlng.lat;
-                document.getElementById("lng").value = e.latlng.lng;
+            .setLatLng(e.latlng)
+            .setContent("Pastikan Lokasi Anda Benar " + e.latlng.toString())
+            .openOn(mymap);
+            document.getElementById("lat").value = e.latlng.lat;
+            document.getElementById("lng").value = e.latlng.lng;
         }
 
     

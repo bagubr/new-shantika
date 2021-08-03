@@ -38,6 +38,7 @@ Agen
                                 <tr>
                                     <th>Nama</th>
                                     <th>Kota</th>
+                                    <th>Alamat</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -46,6 +47,7 @@ Agen
                                 <tr>
                                     <td>{{$agency->name}}</td>
                                     <td>{{$agency->city->name}}</td>
+                                    <td>{{$agency->address}}</td>
                                     <td><a href="{{route('agency.edit',$agency->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('agency.destroy',$agency->id)}}" class="d-inline"
