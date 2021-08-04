@@ -38,7 +38,7 @@ Route
                     </div>
                     <div class="form-group">
                         <label>Armada</label>
-                        <input type="text" class="form-control" value="{{$route->fleet->name}}" disabled>
+                        <input type="text" class="form-control" value="{{$route->fleet?->name}}" disabled>
                     </div>
                     <div class="form-row">
                         <div class="col">

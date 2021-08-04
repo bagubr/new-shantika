@@ -41,7 +41,7 @@ Informasi
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label for="inputName">Informasi Nama</label>
+                            <label for="inputName">Judul Informasi</label>
                             <input type="text" id="inputName" class="form-control" name="name"
                                 placeholder="Masukkan Nama" value="{{isset($information) ? $information->name : ''}}">
                         </div>
