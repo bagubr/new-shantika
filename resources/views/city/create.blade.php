@@ -45,9 +45,9 @@ Kota
                                 value="{{isset($city) ? $city->name : ''}}">
                         </div>
                         <div class="form-group">
-                            <label>Kota</label>
+                            <label>Provinsi</label>
                             <select name="province_id" class="form-control select2" id="">
-                                <option value="">Pilih Kota</option>
+                                <option value="">Pilih Provinsi</option>
                                 @foreach ($provinces as $province)
                                 <option value="{{$province->id}}" @isset($city) @if ($province->id ===
                                     $city->province_id)

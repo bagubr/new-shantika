@@ -20,7 +20,7 @@ Pesanan
 </section>
 <section class="content">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Pesanan</h3>
@@ -126,7 +126,7 @@ Pesanan
                                         class="d-inline" method="POST">
                                         @csrf
                                         @method('PUT')
-                                        <button class="btn btn-primary btn-xs" onclick="return confirm('Are you sure?')"
+                                        <button class="badge badge-primary" onclick="return confirm('Are you sure?')"
                                             type="submit">Deposit
                                             Sekarang</button>
                                     </form>
@@ -136,7 +136,7 @@ Pesanan
                                         class="d-inline" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-danger btn-xs" onclick="return confirm('Are you sure?')"
+                                        <button class="badge badge-danger" onclick="return confirm('Are you sure?')"
                                             type="submit">Delete</button>
                                     </form>
                                 </td>
@@ -148,7 +148,7 @@ Pesanan
             </div>
             @endif
         </div>
-        <div class="col-md-6">
+        <div class="col-md-5">
             @foreach ($order_details as $order_detail)
             <div class="card card-primary">
                 <div class="card-header">

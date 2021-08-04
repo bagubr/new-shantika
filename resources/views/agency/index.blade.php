@@ -55,7 +55,8 @@ Agen
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger btn-xs"
-                                                onclick="return confirm('Are you sure?')" type="submit">Delete</button>
+                                                onclick="return confirm('Apakah Anda yakin akan menghapus data Agent?')"
+                                                type="submit">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
