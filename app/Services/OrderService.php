@@ -71,10 +71,7 @@ class OrderService {
                 'is_member'         => $detail->is_member
             ]);
         }
-
-        if(UserRepository::findUserIsAgent($order->user_id)) {
-            OrderPriceDistributionService::createByOrderDetail($order, $order_details);
-        }
+        OrderPriceDistributionService::createByOrderDetail($order, $order_details);
     }
 
     public static function getInvoice(Payment|int|null $payment = null) {
