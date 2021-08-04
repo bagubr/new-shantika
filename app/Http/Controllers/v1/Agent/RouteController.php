@@ -53,9 +53,7 @@ class RouteController extends BaseRouteController
             unset($route->checkpoints);
             $route->checkpoints = $checkpoints->values();
         }
-        response($routes[0])->send();
-        exit;
-
+        
         return $this->sendSuccessResponse([
             'routes'=>AvailableRoutesResource::collection($routes)
         ]);
