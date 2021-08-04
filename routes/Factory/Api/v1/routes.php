@@ -40,6 +40,8 @@ Route::group([
 
     Route::post('check_id_member', 'MembershipController@check');
 
+    Route::get('bank_account', 'BankAccountController@index');
+
     Route::group([],base_path('routes/Factory/Api/v1/Agen/index.php'));
     Route::group([],base_path('routes/Factory/Api/v1/Customer/index.php'));
 });

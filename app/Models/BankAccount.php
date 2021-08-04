@@ -9,4 +9,12 @@ class BankAccount extends Model
 {
     use HasFactory;
     protected $fillable = ['account_name', 'account_number', 'bank_name', 'image'];
+
+    protected $appends = [
+        'image_url'
+    ];
+
+    public function getImageUrlAttribute() {
+        return env('STORAGE_URL').'/'.$this->attributes['image'];
+    }
 }
