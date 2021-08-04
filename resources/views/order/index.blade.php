@@ -144,15 +144,17 @@ Pemesanan
                                 @foreach ($orders as $order)
                                 <tr>
                                     <td>{{$order->user?->name}}</td>
+                                    <td>{{$order->code_order}}</td>
                                     <td>
-                                        <a href="{{route('order.show',$order->id)}}">
-                                            {{$order->code_order}}
+                                        <a href="{{route('routes.show',$order->route?->id)}}" target="blank">
+                                            {{$order->route?->name}}
                                         </a>
                                     </td>
-                                    <td>{{$order->route?->name}}</td>
                                     <td>{{$order->status}}</td>
                                     <td>{{$order->reserve_at}}</td>
                                     <td>
+                                        <a class="badge badge-primary" href="{{route('order.show',$order->id)}}">Detail
+                                            Pemesanan</a>
                                         <form action="{{route('order.destroy',$order->id)}}" class="d-inline"
                                             method="POST">
                                             @csrf
