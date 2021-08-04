@@ -74,7 +74,7 @@ class OrderController extends Controller
 
     public function exchangeConfirm(Request $request) {
         $order = OrderRepository::findWithDetailWithPayment($request->id);
-        $order = OrderService::exchangeTicket($order);
+        $order = OrderService::exchangeTicket($order, $request->agency_id);
 
         return $this->sendSuccessResponse([
             'order' => new OrderDetailAgentResource($order)
