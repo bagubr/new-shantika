@@ -26,6 +26,6 @@ class OrderDetail extends Model
 
     public function chair()
     {
-        return $this->belongsTo(LayoutChair::class, 'layout_chair_id')->withTrashed();
+        return $this->belongsTo(LayoutChair::class, 'layout_chair_id');
     }
 }
