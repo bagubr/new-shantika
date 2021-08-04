@@ -6,26 +6,33 @@ use App\Models\User;
 use App\Models\UserToken;
 use App\Repositories\UserRepository;
 use App\Utils\Response;
+use Exception;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService {
     use Response;
 
-    public static function login($user, $fcm_token = '', $phone = '',$uuid = '') {
+    public static function login($user, string $type, $fcm_token = '', $phone = '',$uuid = '') {
+        if(!in_array($type, ['AGENT', 'CUSTOMER'])) {
+            throw new Exception('Unsupported role login');
+        }
         if($user == null) (new self)->sendSuccessResponse([], $message = "Sepertinya akun anda belum terdaftar", $code = 401);
-        $token = self::generateToken($user);
-        $user = self::authenticate($user, $fcm_token, $uuid);
+        $user = self::authenticate($user, $type, $fcm_token, $uuid);
         return $user;
     }
     
-    public static function loginByEmail($user, $fcm_token = '', $email = '',$uuid = '') {
+    public static function loginByEmail($user, string $type, $fcm_token = '', $email = '',$uuid = '') {
+        if(!in_array($type, ['AGENT', 'CUSTOMER'])) {
+            throw new Exception('Unsupported role login');
+        }
         if($user == null) (new self)->sendSuccessResponse([], $message = "Sepertinya akun anda belum terdaftar", $code = 401);
-        $user = self::authenticate($user, $fcm_token, $uuid);
+        $user = self::authenticate($user, $type, $fcm_token, $uuid);
         return $user;
     }
 
-    public static function authenticate(User $user, $fcm_token = '', $uuid = '') {
-        if(UserRepository::findUserIsAgent($user->id)) {
+    public static function authenticate(User $user, $type, $fcm_token = '', $uuid = '') {
+        $is_agent = UserRepository::findUserIsAgent($user->id);
+        if( $is_agent && $type == 'AGENT') {
             $token = self::generateToken($user, false);
             $agent = request()->userAgent();
             UserToken::updateOrCreate([
@@ -39,13 +46,15 @@ class AuthService {
                 'user_agent'=>$agent,
                 'uuid'=>empty($uuid) ? $user->uuid : $uuid 
             ]);
-        } else {
+        } elseif(!$is_agent && $type == 'CUSTOMER') {
             $token = self::generateToken($user, true);
             $user->update([
                 'uuid'=>empty($uuid) ? $user->uuid : $uuid,
                 'token'=>$token,
                 'fcm_token'=>$fcm_token
             ]);
+        } else {
+            (new self)->sendFailedResponse([], 'Nomor anda telah terdaftar di akun lain');
         }
         return $token;
     }
