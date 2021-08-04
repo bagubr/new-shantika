@@ -333,6 +333,14 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{route('faq.index')}}" class="nav-link {{Request::routeIs('faq.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-question"></i>
+                        <p>
+                            Data Bank
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{route('about.index')}}" class="nav-link {{Request::routeIs('about.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-info"></i>
                         <p>
