@@ -5,6 +5,7 @@ namespace App\Http;
 use App\Http\Middleware\ApiAuthAgentMiddleware;
 use App\Http\Middleware\ApiAuthMiddleware;
 use App\Http\Middleware\ApiAuthUserMiddleware;
+use App\Http\Middleware\ApiKeyMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -66,6 +67,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
 
+        'api.key'=>ApiKeyMiddleware::class,
         'api.auth'=>ApiAuthMiddleware::class,
         'api.auth.user'=>ApiAuthUserMiddleware::class,
         'api.auth.agent'=>ApiAuthAgentMiddleware::class
