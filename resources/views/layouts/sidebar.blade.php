@@ -333,7 +333,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('faq.index')}}" class="nav-link {{Request::routeIs('faq.*') ? 'active' : ''}}">
+                    <a href="{{route('bank_account.index')}}"
+                        class="nav-link {{Request::routeIs('bank_account.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-question"></i>
                         <p>
                             Data Bank

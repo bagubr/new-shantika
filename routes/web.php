@@ -5,6 +5,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CheckpointController;
 use App\Http\Controllers\CityController;
@@ -56,14 +57,14 @@ Auth::routes([
     'verify' => false,
 ]);
 
-Route::get('test-firebase', function() {
+Route::get('test-firebase', function () {
     $notification = new Notification([
-        'user_id'=>69,
-        'reference_id'=>1,
-        'title'=>'Test',
-        'body'=>'Test',
-        'type'=>'ORDER',
-        'is_seen'=>false,
+        'user_id' => 69,
+        'reference_id' => 1,
+        'title' => 'Test',
+        'body' => 'Test',
+        'type' => 'ORDER',
+        'is_seen' => false,
     ]);
 
     SendingNotification::dispatch($notification, '', true);
@@ -109,5 +110,6 @@ Route::group(['middleware' => ['auth']], function () {
         'review' => ReviewController::class,
         'order_price_distribution' => OrderPriceDistributionController::class,
         'config_setting' => ConfigSettingController::class,
+        'bank_account' => BankAccountController::class,
     ]);
 });
