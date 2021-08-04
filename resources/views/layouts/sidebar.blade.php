@@ -123,7 +123,7 @@
                     <a href="#" class="nav-link {{Request::routeIs('agency.*','user_agent.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-street-view"></i>
                         <p>
-                            Agent
+                            Agen
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -132,14 +132,14 @@
                             <a href="{{route('agency.index')}}"
                                 class="nav-link {{Request::routeIs('agency.*') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Agent</p>
+                                <p>Agen</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{route('user_agent.index')}}"
                                 class="nav-link {{Request::routeIs('user_agent.*') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Akun Agent</p>
+                                <p>Akun Agen</p>
                             </a>
                         </li>
                     </ul>
@@ -251,7 +251,7 @@
                     <a href="#" class="nav-link {{Request::routeIs('user.*','member.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
-                            Users
+                            Penumpang
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -260,7 +260,7 @@
                             <a href="{{route('user.index')}}"
                                 class="nav-link {{Request::routeIs('user.*') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>User</p>
+                                <p>Data Penumpang</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -285,7 +285,7 @@
                     <a href="{{route('chat.index')}}" class="nav-link {{Request::routeIs('chat.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-comment"></i>
                         <p>
-                            Chat
+                            Kontak Bantuan
                         </p>
                     </a>
                 </li>
@@ -354,7 +354,7 @@
                         class="nav-link {{Request::routeIs('social_media.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-hashtag"></i>
                         <p>
-                            Social Media
+                            Sosial Media
                         </p>
                     </a>
                 </li>

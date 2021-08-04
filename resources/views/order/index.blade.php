@@ -143,7 +143,7 @@ Pemesanan
                             <tbody>
                                 @foreach ($orders as $order)
                                 <tr>
-                                    <td>{{$order->user?->name}}</td>
+                                    <td>{{$order->user->name ?? 'Tanpa Login'}}</td>
                                     <td>{{$order->code_order}}</td>
                                     <td>
                                         <a href="{{route('routes.show',$order->route?->id)}}" target="blank">
