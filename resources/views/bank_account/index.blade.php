@@ -49,7 +49,7 @@ Bank
                                     <td>{{$bank_account->bank_name}}</td>
                                     <td>{{$bank_account->account_number}}</td>
                                     <td>{{$bank_account->account_name}}</td>
-                                    <td>{{$bank_account->image}}</td>
+                                    <td><img src="{{$bank_account->image_url}}" style="height: 100px" alt=""></td>
                                     <td>
                                         <a href="{{route('bank_account.edit',$bank_account->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>

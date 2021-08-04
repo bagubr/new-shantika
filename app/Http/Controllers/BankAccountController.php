@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BankAccount\CreateBankAccountRequest;
+use App\Http\Requests\BankAccount\UpdateBankAccountRequest;
 use App\Models\BankAccount;
 use Illuminate\Http\Request;
 
@@ -25,7 +27,7 @@ class BankAccountController extends Controller
      */
     public function create()
     {
-        //
+        return view('bank_account.create');
     }
 
     /**
@@ -34,9 +36,14 @@ class BankAccountController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateBankAccountRequest $request)
     {
-        //
+        $data = $request->all();
+        $data['image'] = $request->image->store('bank', 'public');
+        BankAccount::create($data);
+
+        session()->flash('success', 'Data Bank Berhasil Ditambahkan');
+        return redirect(route('bank_account.index'));
     }
 
     /**
@@ -56,9 +63,9 @@ class BankAccountController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(BankAccount $bank_account)
     {
-        //
+        return view('bank_account.create', compact('bank_account'));
     }
 
     /**
@@ -68,9 +75,17 @@ class BankAccountController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateBankAccountRequest $request, BankAccount $bank_account)
     {
-        //
+        $data = $request->all();
+        if ($request->hasFile('image')) {
+            $image = $request->image->store('bank', 'public');
+            $bank_account->deleteImage();
+            $data['image'] = $image;
+        }
+        $bank_account->update($data);
+        session()->flash('success', 'Data Bank Berhasil Dirubah');
+        return redirect(route('bank_account.index'));
     }
 
     /**
@@ -79,8 +94,11 @@ class BankAccountController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(BankAccount $bank_account)
     {
-        //
+        // $bank_account->deleteImage();
+        $bank_account->delete();
+        session()->flash('success', 'Data Bank Berhasil Dihapus');
+        return back();
     }
 }

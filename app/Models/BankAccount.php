@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class BankAccount extends Model
 {
@@ -14,7 +15,13 @@ class BankAccount extends Model
         'image_url'
     ];
 
-    public function getImageUrlAttribute() {
-        return env('STORAGE_URL').'/'.$this->attributes['image'];
+    public function deleteImage()
+    {
+        Storage::disk('public')->delete($this->attributes['image']);
+    }
+
+    public function getImageUrlAttribute()
+    {
+        return env('STORAGE_URL') . '/' . $this->attributes['image'];
     }
 }
