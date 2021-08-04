@@ -74,7 +74,7 @@ class OrderController extends Controller
 
     public function exchangeConfirm(Request $request) {
         $order = OrderRepository::findWithDetailWithPayment($request->id);
-        $order = OrderService::exchangeTicket($order);
+        $order = OrderService::exchangeTicket($order, $request->agency_id);
 
         return $this->sendSuccessResponse([
             'order' => new OrderDetailAgentResource($order)
@@ -119,7 +119,7 @@ class OrderController extends Controller
         ];
         $data = array_merge($data, [
             'price_ticket'=>(int) $request->price_ticket,
-            'total_price'=>($request->price_ticket + $data['total_food'] + $data['total_travel'] - $data['total_member']) * $request->seat_count
+            'total_price'=>($request->price_ticket * $request->seat_count + $data['total_food'] + $data['total_travel'] - $data['total_member'])
         ]);
         return $this->successResponse($data);
     }

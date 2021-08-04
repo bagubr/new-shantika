@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Agency;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\OrderPriceDistribution;
@@ -87,7 +88,11 @@ class OrderService {
         return PaymentService::getSecretAttribute($payment);
     }
 
-    public static function exchangeTicket(Order &$order) {
+    public static function exchangeTicket(Order &$order, $agency_id) {
+        if(@$order->route?->checkpoints[0]->agency_id != $agency_id) {
+            $agency = Agency::find($agency_id);
+            (new self)->sendFailedResponse([], 'Maaf, anda hanya dapat menukarkan tiket di agen '.$agency->name);
+        }
         DB::beginTransaction();
         $order->update([
             'status'=>Order::STATUS5,

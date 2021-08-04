@@ -18,13 +18,6 @@ class MembershipController extends Controller
         $member = Membership::where('code_member', $code_member)->where('name', 'ilike', '%'.$request->name.'%')->first()
             ?? $this->sendFailedResponse([], 'Nama dengaan kode member '.$code_member.' Membership tidak ditemukan');
 
-        $route = Checkpoint::where('order', 0)
-            ->where('agency_id', $request->agency_id)
-            ->first();
-        if($member->agency_id != $route->agency_id) {
-            return $this->sendFailedResponse([], 'Maaf, kode Membership bukan untuk agen ini');
-        }
-
         return $this->sendSuccessResponse([
             'membership'=>$member,
             'discount'=>config('application.price_list.member')
