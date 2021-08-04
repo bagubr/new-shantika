@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="{{asset('dist/css/adminlte.min.css')}}">
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="{{asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
+    <!-- Ekko Lightbox -->
+    <link rel="stylesheet" href="{{asset('plugins/ekko-lightbox/ekko-lightbox.css')}}">
     @stack('css')
 
     <script src="https://unpkg.com/alpinejs@3.2.1/dist/cdn.min.js" defer></script>
@@ -110,6 +112,7 @@
         toastr.error("{{session()->get('error')}}")
     </script>
     @endif
+    <script src="{{asset('plugins/ekko-lightbox/ekko-lightbox.min.js')}}"></script>
     @stack('script')
 </body>
 

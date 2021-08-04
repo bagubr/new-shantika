@@ -2,10 +2,6 @@
 @section('title')
 Bank
 @endsection
-@push('css')
-<!-- Ekko Lightbox -->
-<link rel="stylesheet" href="{{asset('plugins/ekko-lightbox/ekko-lightbox.css')}}">
-@endpush
 @section('content')
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -85,7 +81,6 @@ Bank
 </div>
 @endsection
 @push('script')
-<script src="{{asset('plugins/ekko-lightbox/ekko-lightbox.min.js')}}"></script>
 <script>
     $(function () {
     $(document).on('click', '[data-toggle="lightbox"]', function(event) {
