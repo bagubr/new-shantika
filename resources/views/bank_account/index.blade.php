@@ -2,6 +2,10 @@
 @section('title')
 Bank
 @endsection
+@push('css')
+<!-- Ekko Lightbox -->
+<link rel="stylesheet" href="{{asset('plugins/ekko-lightbox/ekko-lightbox.css')}}">
+@endpush
 @section('content')
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -49,7 +53,11 @@ Bank
                                     <td>{{$bank_account->bank_name}}</td>
                                     <td>{{$bank_account->account_number}}</td>
                                     <td>{{$bank_account->account_name}}</td>
-                                    <td><img src="{{$bank_account->image_url}}" style="height: 100px" alt=""></td>
+                                    <td>
+                                        <a href="{{$bank_account->image_url}}" data-toggle="lightbox">
+                                            <img src="{{$bank_account->image_url}}" style="height: 100px" alt="">
+                                        </a>
+                                    </td>
                                     <td>
                                         <a href="{{route('bank_account.edit',$bank_account->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
@@ -77,6 +85,15 @@ Bank
 </div>
 @endsection
 @push('script')
+<script src="{{asset('plugins/ekko-lightbox/ekko-lightbox.min.js')}}"></script>
+<script>
+    $(function () {
+    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox();
+    });
+  })
+</script>
 <script>
     $(function () {
       $("#example1").DataTable({
