@@ -109,7 +109,7 @@ Detail Pembayaran
             <div class="form-group">
                 @isset($payment)
                 <a href="{{$payment->proof_url}}" target="blank">
-                    <img src="{{$payment->proof_url}}" class="img-thumbnail" height="100px" alt="">
+                    <img src="{{$payment->proof_url}}" height="100px" alt="">
                 </a>
                 @endisset
             </div>
