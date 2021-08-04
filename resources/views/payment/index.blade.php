@@ -44,7 +44,7 @@ Riwayat Pembayaran
                             <tbody>
                                 @foreach ($payments as $payment)
                                 <tr>
-                                    <td><a href="{{route('order.show',$payment->order->id)}}">
+                                    <td><a href="{{route('order.show',$payment->order->id)}}" target="blank">
                                             {{$payment->order->code_order}}
                                         </a>
                                     </td>
