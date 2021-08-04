@@ -50,8 +50,8 @@ Riwayat Pembayaran
                                     </td>
                                     <td>{{$payment->payment_type->name}}</td>
                                     <td>{{$payment->status}}</td>
-                                    <td><img src="{{$payment->proof_url}}" class="image-thumbnail" height="100px"
-                                            alt=""></td>
+                                    <td><img src="{{$payment->proof_url}}" class="image-thumbnail" height="100px">
+                                    </td>
                                     <td>
                                         @if ($payment->paid_at)
                                         {{date('Y-m-d',strtotime($payment->paid_at))}}
