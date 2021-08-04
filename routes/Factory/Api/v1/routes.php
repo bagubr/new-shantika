@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
+    'middleware'=>'api.key'
 ], function() {
     Route::post('checkUuid', 'AuthController@checkUuid');
     Route::get('privacy_policy', 'PrivacyPolicyController@index');
