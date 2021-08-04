@@ -40,12 +40,20 @@ class RouteController extends Controller
 
 
         foreach($routes as $index => $route) {
-            $route->checkpoints = $route->checkpoints->each(function($item, $key) use ($request, &$route) {
-                if($item->agency_id == $request->agency_arrival_id) {
-                    $route->arrived_at = 0;
+            $found = false;
+            $checkpoints = $route->checkpoints->filter(function($item, $key) use ($request, &$route, &$found) {
+                if($found) {
                     return false;
                 }
+                if($item->agency_id == $request->agency_arrival_id) {
+                    $route->arrived_at = $item->arrived_at;
+                    $found = true;
+                }
+                return true;
             });
+
+            unset($route->checkpoints);
+            $route->checkpoints = $checkpoints->values();
         }
 
         return $this->sendSuccessResponse([
