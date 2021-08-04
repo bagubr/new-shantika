@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
+    'middleware'=>'api.key'
 ], function() {
     Route::post('checkUuid', 'AuthController@checkUuid');
     Route::get('privacy_policy', 'PrivacyPolicyController@index');
@@ -38,6 +39,8 @@ Route::group([
     Route::get('payment_types', 'PaymentTypeController@index');
 
     Route::post('check_id_member', 'MembershipController@check');
+
+    Route::get('bank_account', 'BankAccountController@index');
 
     Route::group([],base_path('routes/Factory/Api/v1/Agen/index.php'));
     Route::group([],base_path('routes/Factory/Api/v1/Customer/index.php'));
