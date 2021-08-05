@@ -56,9 +56,8 @@ Armada
                                     </td>
                                     <td>
                                         @if ($fleet->image)
-                                        <a href="{{$fleet->image}}" data-lightbox="{{$fleet->image}}">
-                                            <img src="{{$fleet->image}}" data-lightbox="{{$fleet->image}}"
-                                                height="100px" alt="">
+                                        <a href="{{$fleet->image}}" data-toggle="lightbox">
+                                            <img src="{{$fleet->image}}" height="100px" alt="">
                                             @else
                                             Tidak Ada Gambar
                                             @endif
@@ -95,7 +94,14 @@ Armada
 </div>
 @endsection
 @push('script')
-<script src="{{asset('js/lightbox-plus-jquery.min.js')}}"></script>
+<script>
+    $(function () {
+    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox();
+    });
+  })
+</script>
 <script>
     $(function () {
       $("#example1").DataTable({
