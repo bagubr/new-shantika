@@ -54,9 +54,9 @@ class FacilityController extends Controller
     public function destroy(Facility $facility)
     {
         
-        // $facility->deleteImage();
-        // $facility->delete();
-        // session()->flash('success', 'Fasilitas Berhasil Dihapus');
+        $facility->deleteImage();
+        $facility->delete();
+        session()->flash('success', 'Fasilitas Berhasil Dihapus');
         return redirect(route('facility.index'));
     }
 }
