@@ -33,6 +33,10 @@ class Layout extends Model
         return $this->hasMany(LayoutChair::class, 'layout_id', 'id');
     }
 
+    public function fleet() {
+        return $this->belongsTo(Fleet::class, 'id', 'layout_id');
+    }
+
     public function getTotalIndexesAttribute($value) {
         return $this->row * $this->col;
     }
