@@ -27,12 +27,11 @@ class OrderService {
             $data->price += ($data->route->fleet->fleetclass->price_food * count($detail->layout_chair_id));
         }
         if($detail->is_travel){
-            $data->price += ($setting->travel * count($detail->layout_chair_id));
+            $data->price += $setting->travel * count($detail->layout_chair_id);
         }
         if($detail->is_member){
-            $data->price -= ($setting->member * count($detail->layout_chair_id));
+            $data->price -= $setting->member * count($detail->layout_chair_id);
         }
-
         if(!$data->code_order) {
             $data->code_order = '';
         }
