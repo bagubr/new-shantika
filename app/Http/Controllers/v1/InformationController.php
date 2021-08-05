@@ -13,7 +13,7 @@ class InformationController extends Controller
     public function index(Request $request) {
         $agency = AgencyRepository::all($request->search);
         $this->sendSuccessResponse([
-            'agencies'=> AgencyWithAddressTelpResource::collection($agency)
+            'informations'=> AgencyWithAddressTelpResource::collection($agency)
         ]);
     }
 }
