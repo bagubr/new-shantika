@@ -10,7 +10,7 @@ class CityController extends Controller
 {
     public function index(Request $request) {
         $this->sendSuccessResponse([
-            'cities'=>City::all()
+            'cities'=>City::all()->sortBy('name')
         ]);
     }
 }
