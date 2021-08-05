@@ -73,11 +73,32 @@ Pesanan
                     </div>
                     <div class="border-bottom"></div>
                     @if ($order->payment)
-                    <div class="form-group">
-                        <label>Status Pembayaran</label>
-                        <p>{{$order->payment->payment_type->name}}</p>
-                        <p>Status : {{$order->payment->status}}</p>
-                        <p>Tanggal Pembayaran : {{date('Y-m-d',strtotime($order->payment->paid_at))}}</p>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Tipe Pembayaran</label>
+                                <input type="text" class="form-control"
+                                    value="{{$order->payment?->payment_type?->name}}" disabled>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Status Pembayaran</label>
+                                <select name="" id="" class="form-control">
+                                    @foreach ($statuses as $status)
+                                    <option value="{{$status}}" @if ($status==$order->payment?->status)
+                                        selected
+                                        @endif>{{$status}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+
+                            </div>
+                            @if ($order->payment?->proof)
+                            <img src="{{$order->payment?->proof}}" class="" alt="">
+                            @endif
+                        </div>
                     </div>
                     @else
                     <h5>Belum Ada Transaksi</h5>
