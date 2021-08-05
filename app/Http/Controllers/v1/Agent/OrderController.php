@@ -99,7 +99,7 @@ class OrderController extends Controller
 
     public function showSetoran(Request $request) {
         $user = UserRepository::findByToken($request->bearerToken());
-        $chairs = OrderDetailRepository::findForPriceDistributionByDateAndFleet($request->date, $request->fleet_id);        
+        $chairs = OrderDetailRepository::findForPriceDistributionByUserAndDateAndFleet($user->id,$request->date, $request->fleet_id);        
         $order = OrderRepository::findForPriceDistributionByDateAndFleet($user->id,$request->date, $request->fleet_id);
         if($chairs->isEmpty() && $order->isEmpty()) {
             $this->sendSuccessResponse([
