@@ -309,7 +309,7 @@
                     note: this.layout.note || ''
                 }
                 let formData = this.formData
-                fetch(`{{ env('APP_URL') }}/layouts/${this.layout.id}`, {
+                fetch(`{{ url('layouts') }}/${this.layout.id}`, {
                     body: JSON.stringify(formData),
                     method: 'PUT',
                     headers: {
@@ -357,7 +357,7 @@
                     note: this.layout.note || ''
                 }
                 let formData = this.formData
-                fetch(`{{ env('APP_URL') }}/layouts`, {
+                fetch(`{{ url('layouts') }}`, {
                     body: JSON.stringify(formData),
                     method: 'POST',
                     headers: {
