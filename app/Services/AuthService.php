@@ -54,7 +54,7 @@ class AuthService {
                 'fcm_token'=>$fcm_token
             ]);
         } else {
-            (new self)->sendSuccessResponse([], 'Nomor anda telah terdaftar di akun lain', $code = 401);
+            (new self)->sendFailedResponse([], 'Nomor anda telah terdaftar di akun lain', $code = 401);
         }
         return $token;
     }
