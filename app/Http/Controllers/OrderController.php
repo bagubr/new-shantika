@@ -111,9 +111,10 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
+        $statuses = Order::status();
         $order_details = OrderDetailRepository::findById($order->id);
         $order_price_distributions = OrderPriceDistributionRepository::findById($order->id);
-        return view('order.show', compact('order', 'order_details', 'order_price_distributions'));
+        return view('order.show', compact('order', 'order_details', 'order_price_distributions', 'statuses'));
     }
 
     /**

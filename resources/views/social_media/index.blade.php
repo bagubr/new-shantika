@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Social Media
+Sosial Media
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->
@@ -8,12 +8,12 @@ Social Media
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Social Media</h1>
+                <h1 class="m-0">Sosial Media</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Social Media</li>
+                    <li class="breadcrumb-item active">Sosial Media</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -26,7 +26,7 @@ Social Media
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Social Media</h3>
+                        <h3 class="card-title">Table Sosial Media</h3>
                         <div class="text-right">
                             <a href="{{route('social_media.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>

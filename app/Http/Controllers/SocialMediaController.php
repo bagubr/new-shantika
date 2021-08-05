@@ -42,7 +42,7 @@ class SocialMediaController extends Controller
             $data['icon'] = $request->icon->store('social_media', 'public');
         }
         SocialMedia::create($data);
-        session()->flash('success', 'Social Media Berhasil Ditambahkan');
+        session()->flash('success', 'Sosial Media Berhasil Ditambahkan');
         return redirect(route('social_media.index'));
     }
 

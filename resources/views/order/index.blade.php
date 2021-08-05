@@ -38,7 +38,7 @@ Pemesanan
                             <div class="form-row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label>Cari Nama</label>
+                                        <label>Cari Nama Pelanggan</label>
                                         <input type="text" name="name" class="form-control" value="{{old('name')}}"
                                             placeholder="Cari Nama Rute">
                                     </div>
@@ -135,6 +135,7 @@ Pemesanan
                                     <th>Customer</th>
                                     <th>Kode Order</th>
                                     <th>Rute</th>
+                                    <th>Total Harga</th>
                                     <th>Status</th>
                                     <th>Tanggal Pemesanan</th>
                                     <th>Aksi</th>
@@ -150,10 +151,14 @@ Pemesanan
                                             {{$order->route?->name}}
                                         </a>
                                     </td>
-                                    <td>{{$order->status}}</td>
-                                    <td>{{$order->reserve_at}}</td>
                                     <td>
-                                        <a class="badge badge-primary" href="{{route('order.show',$order->id)}}">Detail
+                                        Rp. {{number_format($order->price,2)}}
+                                    </td>
+                                    <td>{{$order->status}}</td>
+                                    <td>{{date('Y-m-d',strtotime($order->reserve_at))}}</td>
+                                    <td>
+                                        <a class="badge badge-primary" href="{{route('order.show',$order->id)}}"
+                                            target="_blank">Detail
                                             Pemesanan</a>
                                         <form action="{{route('order.destroy',$order->id)}}" class="d-inline"
                                             method="POST">

@@ -32,6 +32,11 @@ class Order extends Model
         'proof'
     ];
 
+    public static function status()
+    {
+        $status = ['PENDING', 'EXCHANGED', 'PAID', 'CANCELED', 'EXPIRED', 'WAITING_CONFIRMATION', 'DECLINED', 'FINISHED'];
+        return $status;
+    }
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
