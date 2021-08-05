@@ -39,6 +39,7 @@ User Agent
                                     <th>Nama</th>
                                     <th>Nomor HP</th>
                                     <th>Email</th>
+                                    <th>Agent</th>
                                     <th>Image</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -49,6 +50,7 @@ User Agent
                                     <td>{{$user_agent->name}}</td>
                                     <td>{{$user_agent->phone}}</td>
                                     <td>{{$user_agent->email}}</td>
+                                    <td>{{$user_agent->agencies->agent->name}}</td>
                                     <td>
                                         @if ($user_agent->avatar)
                                         <img src="{{$user_agent->avatar_url}}" height="100px" alt="">
