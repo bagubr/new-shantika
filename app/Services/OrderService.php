@@ -9,6 +9,7 @@ use App\Models\OrderPriceDistribution;
 use App\Models\Payment;
 use App\Models\Route;
 use App\Models\Setting;
+use App\Repositories\OrderRepository;
 use App\Utils\Response;
 use App\Repositories\UserRepository;
 use Exception;
@@ -20,6 +21,12 @@ class OrderService {
     public static function create(Order $data, $detail, $payment_type_id = null) {
         $route = Route::find($data->route_id)
             ?? (new self)->sendFailedResponse([], 'Rute perjalanan tidak ditemukan');
+
+        //validation
+        $order_exists = OrderRepository::isOrderUnavailable($data->route_id, $data->reserve_at, $detail->layout_chair_id);
+        if($order_exists) {
+            (new self)->sendFailedResponse([], 'Maaf, kursi sudah dibeli oleh orang lain, silahkan pilih kursi lain');
+        }
 
         $setting = Setting::first();
         $data->price = ($route->price * count($detail->layout_chair_id));

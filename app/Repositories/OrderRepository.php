@@ -111,5 +111,15 @@ class OrderRepository {
 
         return $order;
     }
+
+    public static function isOrderUnavailable($route_id,$date, $layout_chair_id) {
+        return Order::where('route_id', $route_id)
+        ->where('reserve_at', 'ilike', '%'.$date.'%')
+        ->whereHas('order_detail', function($query) use ($layout_chair_id) {
+            $query->whereIn('layout_chair_id', is_array($layout_chair_id) ? $layout_chair_id : [$layout_chair_id]);
+        })
+        ->whereIn('status', Order::STATUS_BOUGHT)
+        ->exists();
+    }
 }
         
