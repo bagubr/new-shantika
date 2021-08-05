@@ -12,8 +12,9 @@ use App\Http\Resources\Agency\AgencyWithAddressTelpResource;
 class AgencyController extends Controller
 {
     public function index(Request $request) {
+        $agency = AgencyRepository::all($request->search);
         $this->sendSuccessResponse([
-            'agencies'=>Agency::where('city_id', $request->city_id)->get()
+            'agencies'=> AgencyWithAddressTelpResource::collection($agency)
         ]);
     }
     

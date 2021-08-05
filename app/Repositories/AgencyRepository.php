@@ -23,8 +23,12 @@ class AgencyRepository
 
     public static function getWithCity($request)
     {
-        return Agency::with('users:users.id,users.phone')->where('name', 'ilike', '%' . $request->search . '%')->whereHas('city', function ($query) use ($request) {
-            $query->orWhere('name', 'ilike', '%' . $request->search . '%');
-        })->orderBy('name')->get();
+        return Agency::when(($request->city_id), function ($q) use ($request)
+        {
+            $q->whereHas('city', function ($query) use ($request) {
+            $query->where('id', $request->city_id);
+            });
+        })
+        ->orderBy('name')->get();
     }
 }
