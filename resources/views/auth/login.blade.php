@@ -37,14 +37,29 @@ Login
         background-image: url("{{asset('img/cover-web-new-shantika.png')}}");
         background-size: cover;
     }
+
+    @keyframes animatedBackground {
+        from {
+            background-position: 0 0;
+        }
+
+        to {
+            background-position: 100% 0;
+        }
+    }
+
+    #animate-area {
+        background-image: url("{{asset('img/cover-web-new-shantika.png')}}");
+        background-position: 0px 0px;
+        background-size: cover;
+        background-repeat: repeat-x;
+        animation: animatedBackground 100s linear infinite alternate;
+    }
 </style>
 @endpush
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        <div class="col-8 p-0 image">
-
-        </div>
         <div class="col-4 p-0 hold-transition login-page">
             <div class="login-logo">
                 <img class="img-fluid" src="{{asset('img/Logo-new-shantika-app (2).png')}}" alt="" style="height:100px">
@@ -52,7 +67,6 @@ Login
             <div class="login-box">
                 <div class="card">
                     <div class="card-header" style="background-color: #271D5F">
-
                     </div>
                     <div class="card-body login-card-body">
                         <p class="login-box-msg">Masukkan Username dan Password</p>
@@ -125,6 +139,19 @@ Login
                 </div>
             </div>
         </div>
+        <div class="col-8 p-0" id="animate-area">
+        </div>
     </div>
 </div>
 @endsection
+@push('js')
+<script>
+    // 1 detik = 1000
+  window.setTimeout("waktu()",1000);  
+  function waktu() {   
+  var tanggal = new Date();  
+  setTimeout("waktu()",1000);  
+  document.getElementById("jam").innerHTML = tanggal.getHours()+":"+tanggal.getMinutes()+":"+tanggal.getSeconds();
+  }
+</script>
+@endpush
