@@ -5,10 +5,13 @@ namespace App\Repositories;
 use App\Models\Booking;
 
 class BookingRepository {
-    public static function isBooked(int $layout_chair_id, string $date = null) {
+    public static function isBooked($route_id, $user_id, int $layout_chair_id, string $date = null) {
         if(empty($date)) $date = date('Y-m-d');
-        return Booking::where('layout_chair_id', $layout_chair_id)
-            ->where('created_at', 'ilike', '%'.$date.'%')
+        return Booking::where('route_id', $route_id)
+            ->where('layout_chair_id', $layout_chair_id)
+            ->where('booking_at', 'ilike', '%'.$date.'%')
+            ->where('expired_at', '<', date('Y-m-d H:i:s'))
+            ->where('user_id', '!=', $user_id)
             ->exists();
     }
 

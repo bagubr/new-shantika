@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ApiBookingRequest;
 use App\Interfaces\BookingInterface;
 use App\Models\Booking;
+use App\Models\Order;
 use App\Models\Route;
+use App\Models\ScheduleUnavailableBooking;
 use App\Repositories\UserRepository;
 use App\Services\BookingService;
 use App\Services\UserService;
@@ -17,12 +19,14 @@ class BookingController extends Controller
 {
     public function booking(ApiBookingRequest $request) {
         $booking = [];
-        DB::beginTransaction();
-        $code_booking = 'BO-'.date('Ymdhis').'-'.strtoupper(uniqid());
+        DB::beginTransaction();        
         $max_date = date('Y-m-d', strtotime("+30 days"));
         if($request->booking_at > $max_date) {
             $this->sendFailedResponse([], 'Kamu tidak bisa memesan untuk tanggal lebih dari '.$max_date);
         }
+        $user = UserRepository::findByToken($request->bearerToken());
+
+        $code_booking = 'BO-'.date('Ymdhis').'-'.strtoupper(uniqid());
         foreach($request->layout_chair_id as $layout_chair_id) {
             $_booking = new Booking([
                 'code_booking'=>$code_booking,
@@ -30,7 +34,7 @@ class BookingController extends Controller
                 'layout_chair_id'=>$layout_chair_id,
                 'booking_at'=>$request->booking_at,
                 'expired_at'=>BookingService::getCurrentExpiredAt(),
-                'user_id'=>UserRepository::findByToken($request->bearerToken())?->id
+                'user_id'=>$user->id
             ]);
             $booking[] = BookingService::create($_booking);
         }
