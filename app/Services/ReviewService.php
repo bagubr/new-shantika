@@ -8,7 +8,7 @@ use App\Utils\Response;
 class ReviewService {
     use Response;
     public static function sumByUserIdForAgent($user_id) : float {
-        return (float) rand(0, 100) / 10;
+        return Review::where('user_id', $user_id)->avg('review');
     }
 
     public static function create($data)

@@ -12,7 +12,7 @@ class CustomerMenu extends Model
     use HasFactory;
 
     protected $table = "customer_menus";
-    protected $fillable = ['name', 'icon'];
+    protected $fillable = ['name', 'icon', 'value', 'type'];
 
     public static function booted()
     {

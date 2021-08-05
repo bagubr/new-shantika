@@ -20,6 +20,8 @@ class AgencyWithAddressTelpResource extends JsonResource
             'city_name'=>$this->city?->name ?? "",
             'agency_address'=>$this->address ?? "",
             'agency_phone'=>$this->phone ?? "",
+            'phone'=>$this->users->pluck('phone') ?? "",
+            'agency_avatar'=>$this->avatar_url,
             'agency_lat'=> $this->lat,
             'agency_lng'=> $this->lng
         ];

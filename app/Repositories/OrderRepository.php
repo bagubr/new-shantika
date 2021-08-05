@@ -89,7 +89,7 @@ class OrderRepository {
         
         $order = array_values($order);
         
-        return $order[0];
+        return @$order[0];
     }
 
     public static function getAtDate($date) {

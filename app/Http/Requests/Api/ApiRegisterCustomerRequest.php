@@ -17,7 +17,7 @@ class ApiRegisterCustomerRequest extends ApiRequest
     {
         return [
             'name'          =>'required',
-            'address'       =>'required',
+            'address'       =>'nullable',
             'phone'         =>'required|unique:users,phone',
             'email'         =>'required|unique:users,email|email:rfc,dns',
             'avatar'        =>'nullable',
