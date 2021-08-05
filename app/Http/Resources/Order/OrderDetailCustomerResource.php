@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Order;
 
 use App\Http\Resources\CheckpointStartEndResource;
+use App\Models\Setting;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class OrderDetailCustomerResource extends JsonResource
@@ -16,6 +17,7 @@ class OrderDetailCustomerResource extends JsonResource
     public function toArray($request)
     {
         $checkpoint_max_index = count($this->route->checkpoints) - 1;
+        $seting = Setting::first();
         return [
             'id'=>$this->id,
             'code_order'=>$this->code_order,
@@ -30,43 +32,43 @@ class OrderDetailCustomerResource extends JsonResource
             'name_passenger'=>$this->order_detail[0]->name,
             'phone_passenger'=>$this->order_detail[0]->phone,
             'seat_passenger'=>$this->order_detail->pluck('chair.name'),
-            'price_member'=>$this->getPriceMember($this->order_detail->pluck('is_member')->toArray()),
-            'price_travel'=>$this->getPriceTravel($this->order_detail->pluck('is_travel')->toArray()),
-            'price_feed'=>$this->getPriceFeed($this->order_detail->pluck('is_feed')->toArray()),
+            'price_member'=>$this->getPriceMember($this->order_detail->pluck('is_member')->toArray(), $seting->member),
+            'price_travel'=>$this->getPriceTravel($this->order_detail->pluck('is_travel')->toArray(), $seting->travel),
+            'price_feed'=>$this->getPriceFeed($this->order_detail->pluck('is_feed')->toArray(), $this->route?->fleet?->fleetclass?->price_food),
             'id_member'=>$this->id_member,
             'payment_type'=>$this->payment?->payment_type?->name,
             'price'=>$this->price,
         ];
     }
 
-    public function getPriceFeed(array $is_feed)
+    public function getPriceFeed(array $is_feed, $price_food)
     {
         $price = 0;
         foreach ($is_feed as $key => $value) {
             if($value == true){
-                $price += config('application.price_list.feed');
+                $price += $price_food;
             }
         }
         return $price;
     }
     
-    public function getPriceTravel(array $is_travel)
+    public function getPriceTravel(array $is_travel, $price_travel)
     {
         $price = 0;
         foreach ($is_travel as $key => $value) {
             if($value == true){
-                $price += config('application.price_list.travel');
+                $price += $price_travel;
             }
         }
         return $price;
     }
 
-    public function getPriceMember(array $is_member)
+    public function getPriceMember(array $is_member, $price_member)
     {
         $price = 0;
         foreach ($is_member as $key => $value) {
             if($value == true){
-                $price += config('application.price_list.member');
+                $price += $price_member;
             }
         }
         return $price;
