@@ -35,8 +35,8 @@
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
+    @auth
     <div class="wrapper">
-        @auth
         <!-- Navbar -->
         @include('layouts.navbar')
         <!-- /.navbar -->
@@ -56,8 +56,8 @@
             <!-- Control sidebar content goes here -->
         </aside>
         <!-- /.control-sidebar -->
-        @endauth
     </div>
+    @endauth
     @guest
     @yield('content')
     @endguest
