@@ -19,6 +19,10 @@ class BookingController extends Controller
         $booking = [];
         DB::beginTransaction();
         $code_booking = 'BO-'.date('Ymdhis').'-'.strtoupper(uniqid());
+        $max_date = date('Y-m-d', strtotime("+30 days"));
+        if($request->booking_at > $max_date) {
+            $this->sendFailedResponse([], 'Kamu tidak bisa memesan untuk tanggal lebih dari '.$max_date);
+        }
         foreach($request->layout_chair_id as $layout_chair_id) {
             $_booking = new Booking([
                 'code_booking'=>$code_booking,

@@ -84,8 +84,7 @@ class OrderService {
 
     public static function exchangeTicket(Order &$order, $agency_id) {
         if(@$order->route?->checkpoints[0]->agency_id != $agency_id) {
-            $agency = Agency::find($agency_id);
-            (new self)->sendFailedResponse([], 'Maaf, anda hanya dapat menukarkan tiket di agen '.$agency->name);
+            (new self)->sendFailedResponse([], 'Maaf, anda hanya dapat menukarkan tiket di agen keberangkatan tiket ini');
         }
         DB::beginTransaction();
         $order->update([
