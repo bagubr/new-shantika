@@ -13,11 +13,21 @@ class ChatRepository
 
     public static function getAllAgent()
     {
-        return Chat::whereType('AGENT')->get();
+        return Chat::whereType('AGENT')->get()
+        ->map(function ($item)
+        {
+            $item->value = $item->link.$item->value;
+            return $item;
+        });
     }
     
     public static function getAllCust()
     {
-        return Chat::where('type', 'CUST')->get();
+        return Chat::whereType('CUST')->get()
+        ->map(function ($item)
+        {
+            $item->value = $item->link.$item->value;
+            return $item;
+        });
     }
 }
