@@ -10,7 +10,7 @@ class TimeClassificationController extends Controller
     public function index()
     {
         $this->sendSuccessResponse([
-            'time'=>TimeClassification::orderBy('id', 'desc')->get(),
+            'time'=>TimeClassification::orderBy('id')->get(),
             'd'=> implode(", ",TimeClassification::name()->toArray()),
         ]);
     }
