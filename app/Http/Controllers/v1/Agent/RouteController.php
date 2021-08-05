@@ -18,7 +18,7 @@ class RouteController extends BaseRouteController
             $this->sendFailedResponse([], 'Kamu tidak bisa memesan untuk tanggal lebih dari '.$max_date);
         }
         $user = UserRepository::findByToken($request->bearerToken());
-        $agency_id = $user->agencies->id;
+        $agency_id = $user->agencies->agency_id;
         $routes = Route::with(['fleet', 'checkpoints.agency.city', 'checkpoints'=>function($query) {
 
             }])
