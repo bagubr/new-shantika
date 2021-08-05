@@ -36,7 +36,7 @@ class OrderDetailAgentResource extends JsonResource
             'phone_passenger'=>@$this->order_detail[0]->phone ?? "",
             'seat_passenger'=>$this->order_detail?->pluck('chair.name'),
             'chairs'=>OrderDetailChairResource::collection($this->order_detail),
-            'price_member'=>$price_member,
+            'price_member'=>abs($price_member),
             'price_travel'=>$price_travel,
             'price_feed'=>$price_feed,
             'id_member'=>$this->id_member,
