@@ -159,7 +159,7 @@ Dashboard
             <!-- small box -->
             <div class="small-box bg-info">
                 <div class="inner">
-                    <h3>1</h3>
+                    <h3>{{count($orders)}}</h3>
 
                     <p>Total Pesanan</p>
                 </div>
