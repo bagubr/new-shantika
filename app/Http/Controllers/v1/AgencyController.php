@@ -27,9 +27,13 @@ class AgencyController extends Controller
     
     public function getAllAgen(Request $request)
     {
-        $agency = AgencyRepository::all($request->search);
+        $agency_city = AgencyRepository::getWithCity($request);
         $this->sendSuccessResponse([
-            'agencies'=> AgencyWithAddressTelpResource::collection($agency)
+            'agencies'=> AgencyWithCityResource::collection($agency_city)
         ]);
+        // $agency = AgencyRepository::all($request->search);
+        // $this->sendSuccessResponse([
+        //     'agencies'=> AgencyWithAddressTelpResource::collection($agency)
+        // ]);
     }
 }
