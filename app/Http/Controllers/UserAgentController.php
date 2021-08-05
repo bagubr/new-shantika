@@ -7,6 +7,7 @@ use App\Http\Requests\UserAgent\UpdateUserAgentRequest;
 use App\Models\Agency;
 use App\Models\User;
 use App\Models\UserAgent;
+use App\Repositories\AgencyRepository;
 use Illuminate\Http\Request;
 
 class UserAgentController extends Controller
@@ -30,7 +31,7 @@ class UserAgentController extends Controller
     public function create()
     {
         $genders = ['Male', 'Female'];
-        $agencies = Agency::all();
+        $agencies = AgencyRepository::all_order();
         return view('user_agent.create', compact('genders', 'agencies'));
     }
 
@@ -74,8 +75,8 @@ class UserAgentController extends Controller
      */
     public function edit(User $user_agent)
     {
+        $agencies = AgencyRepository::all_order();
         $genders = ['Male', 'Female'];
-        $agencies = Agency::all();
         return view('user_agent.create', compact('user_agent', 'genders', 'agencies'));
     }
 

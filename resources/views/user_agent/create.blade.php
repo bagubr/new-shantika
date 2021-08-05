@@ -65,7 +65,7 @@ User Agent
                                     $user_agent->agencies->agency_id)
                                     selected
                                     @endif
-                                    @endisset>{{$agency->name}}</option>
+                                    @endisset>{{$agency->city->name}}/{{$agency->name}}</option>
                                 @endforeach
                             </select>
                         </div>
