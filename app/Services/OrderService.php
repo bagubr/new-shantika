@@ -24,13 +24,16 @@ class OrderService {
         $setting = Setting::first();
         $data->price = ($route->price * count($detail->layout_chair_id));
         if($detail->is_feed){
-            $data->price += ($data->route->fleet->fleetclass->price_food * count($detail->layout_chair_id));
+            $price_food = $data->route->fleet->fleetclass->price_food * count($detail->layout_chair_id);
+            $data->price += $price_food;
         }
         if($detail->is_travel){
-            $data->price += $setting->travel * count($detail->layout_chair_id);
+            $price_travel = $setting->travel * count($detail->layout_chair_id);
+            $data->price += $price_travel;
         }
         if($detail->is_member){
-            $data->price -= $setting->member * count($detail->layout_chair_id);
+            $price_member = $setting->member * count($detail->layout_chair_id);
+            $data->price -= $price_member;
         }
         if(!$data->code_order) {
             $data->code_order = '';
