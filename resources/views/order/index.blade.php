@@ -135,6 +135,7 @@ Pemesanan
                                     <th>Customer</th>
                                     <th>Kode Order</th>
                                     <th>Rute</th>
+                                    <th>Armada</th>
                                     <th>Total Harga</th>
                                     <th>Status</th>
                                     <th>Tanggal Pemesanan</th>
@@ -150,6 +151,9 @@ Pemesanan
                                         <a href="{{route('routes.show',$order->route?->id)}}" target="blank">
                                             {{$order->route?->name}}
                                         </a>
+                                    </td>
+                                    <td>
+                                        {{$order->route?->fleet?->name}}/{{$order->route?->fleet?->fleetclass?->name}}
                                     </td>
                                     <td>
                                         Rp. {{number_format($order->price,2)}}
