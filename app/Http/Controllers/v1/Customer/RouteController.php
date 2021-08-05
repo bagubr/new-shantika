@@ -12,6 +12,10 @@ use App\Repositories\TimeClassificationRepository;
 class RouteController extends Controller
 {
     public function getAvailableRoutes(ApiGetAvailableRouteRequest $request) {
+        $max_date = date('Y-m-d', strtotime("+30 days"));
+        if($request->date > $max_date) {
+            $this->sendFailedResponse([], 'Kamu tidak bisa memesan untuk tanggal lebih dari '.$max_date);
+        }
         $routes = Route::with(['fleet', 'checkpoints.agency.city'])
         ->whereHas('fleet', function($query) use ($request) {
             $query->when(($request->fleet_class_id), function ($q) use ($request) { 

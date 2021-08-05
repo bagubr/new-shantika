@@ -13,6 +13,10 @@ use Illuminate\Http\Request;
 class RouteController extends BaseRouteController
 {
     public function getAvailableRoutes(ApiGetAvailableRouteRequest $request) {
+        $max_date = date('Y-m-d', strtotime("+30 days"));
+        if($request->date > $max_date) {
+            $this->sendFailedResponse([], 'Kamu tidak bisa memesan untuk tanggal lebih dari '.$max_date);
+        }
         $user = UserRepository::findByToken($request->bearerToken());
         $agency_id = $user->agencies->id;
         $routes = Route::with(['fleet', 'checkpoints.agency.city', 'checkpoints'=>function($query) {
