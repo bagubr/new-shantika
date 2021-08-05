@@ -58,6 +58,9 @@ Dashboard
                 <label for="">Agen</label>
                 <select name="" id="" class="form-control">
                     <option value="">-Semua Agen-</option>
+                    @foreach ($agencies as $agency)
+                    <option value="{{$agency->id}}">{{$agency->name}}</option>
+                    @endforeach
                 </select>
             </div>
         </div>
@@ -101,7 +104,13 @@ Dashboard
                 <tbody>
                     @foreach ($orders as $order)
                     <tr>
-                        <td>{{$order}}</td>
+                        <td>
+                            {{$order->agency?->name ?? 'Tidak Menggunakan Agen'}}
+                        </td>
+                        <td>{{$order->route->fleet->name}}</td>
+                        <td>{{$order->route->name}}</td>
+                        <td>{{count($order->order_detail)}}</td>
+                        <td>Rp. {{number_format($order->price,2)}}</td>
                     </tr>
                     @endforeach
                 </tbody>
