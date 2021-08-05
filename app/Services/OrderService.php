@@ -8,6 +8,7 @@ use App\Models\OrderDetail;
 use App\Models\OrderPriceDistribution;
 use App\Models\Payment;
 use App\Models\Route;
+use App\Models\Setting;
 use App\Utils\Response;
 use App\Repositories\UserRepository;
 use Exception;
@@ -21,15 +22,16 @@ class OrderService {
             ?? (new self)->sendFailedResponse([], 'Rute perjalanan tidak ditemukan');
 
         if(!$data->price) {
+            $setting = Setting::first();
             $data->price = ($route->price * count($detail->layout_chair_id));
             if($detail->is_feed){
                 $data->price += ($data->route->fleet->fleetclass->price_food * count($detail->layout_chair_id));
             }
             if($detail->is_travel){
-                $data->price += (config('application.price_list.travel') * count($detail->layout_chair_id));
+                $data->price += ($setting->travel * count($detail->layout_chair_id));
             }
             if($detail->is_member){
-                $data->price -= (config('application.price_list.member') * count($detail->layout_chair_id));
+                $data->price -= ($setting->member * count($detail->layout_chair_id));
             }
         }
         if(!$data->code_order) {
@@ -84,7 +86,7 @@ class OrderService {
 
     public static function exchangeTicket(Order &$order, $agency_id) {
         if(@$order->route?->checkpoints[0]->agency_id != $agency_id) {
-            (new self)->sendFailedResponse([], 'Maaf, anda hanya dapat menukarkan tiket di agen keberangkatan tiket ini');
+            (new self)->sendFailedResponse([], 'Maaf, anda hanya dapat menukarkan tiket di agen keberangkatan tiket');
         }
         DB::beginTransaction();
         $order->update([
