@@ -8,7 +8,7 @@ class AgencyRepository
 {
     public static function all($search = null)
     {
-        return Agency::when($search, function($query) use ($search) {
+        return Agency::with('users:users.id,users.phone')->when($search, function($query) use ($search) {
             $query->where('name', 'ilike', '%'.$search.'%')
                 ->orWhereHas('city', function($subquery) use ($search) {
                     $subquery->where('name', 'ilike', '%'.$search.'%');
@@ -23,7 +23,7 @@ class AgencyRepository
 
     public static function getWithCity($request)
     {
-        return Agency::where('name', 'ilike', '%' . $request->search . '%')->whereHas('city', function ($query) use ($request) {
+        return Agency::with('users:users.id,users.phone')->where('name', 'ilike', '%' . $request->search . '%')->whereHas('city', function ($query) use ($request) {
             $query->orWhere('name', 'ilike', '%' . $request->search . '%');
         })->get();
     }
