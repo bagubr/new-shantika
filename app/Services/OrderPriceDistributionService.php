@@ -15,10 +15,10 @@ class OrderPriceDistributionService {
         $is_agent = UserRepository::findUserIsAgent($order->user_id);
         if($is_agent) {
             $total_price['for_agent'] = -1 * round($setting->commision * $total_price['for_agent']);
-            $total_price['for_owner'] = $order->price + array_sum($total_price);
+            $total_price['for_owner'] = $order->route?->price + array_sum($total_price);
         } else {
             $total_price['for_agent'] = 0;
-            $total_price['for_owner'] = $order->price + array_sum($total_price);
+            $total_price['for_owner'] = $order->route?->price + array_sum($total_price);
         }
 
         
