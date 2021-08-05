@@ -36,6 +36,34 @@ class RouteController extends Controller
         })
         ->get();
 
+        foreach($routes as $index => $route) {
+            $found_destination = false;
+            $found_departure = false;
+            $checkpoints = $route->checkpoints->filter(function($item, $key) use ($request, &$route, &$found_destination, &$found_departure) {
+                //
+                if($item->agency_id == $request->agency_departure_id) {
+                    $route->departure_at = $item->arrived_at;
+                    $found_departure = true;
+                }
+                if(!$found_departure && !$found_destination) {
+                    return false;
+                }
+
+
+                //
+                if($found_destination) {
+                    return false;
+                }
+                if($item->agency_id == $request->agency_arrived_id) {
+                    $route->arrived_at = $item->arrived_at;
+                    $found_destination = true;
+                }
+                return true;
+            });
+            unset($route->checkpoints);
+            $route->checkpoints = $checkpoints->values();
+        }
+
         return $this->sendSuccessResponse([
             'routes'=>AvailableRoutesResource::collection($routes)
         ]);
