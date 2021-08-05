@@ -35,7 +35,7 @@ class OrderDetailCustomerResource extends JsonResource
             'price_feed'=>$this->getPriceFeed($this->order_detail->pluck('is_feed')->toArray()),
             'id_member'=>$this->id_member,
             'payment_type'=>$this->payment?->payment_type?->name,
-            'price'=>round($this->price / count($this->order_detail)),
+            'price'=>$this->price,
         ];
     }
 
