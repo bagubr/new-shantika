@@ -38,7 +38,8 @@ Route
                     </div>
                     <div class="form-group">
                         <label>Armada</label>
-                        <input type="text" class="form-control" value="{{$route->fleet?->name}}" disabled>
+                        <input type="text" class="form-control"
+                            value="{{$route->fleet?->name}}/{{$route->fleet?->fleetclass?->name}}" disabled>
                     </div>
                     <div class="form-row">
                         <div class="col">
@@ -63,7 +64,7 @@ Route
                     </div>
                     <div class="form-group">
                         <label>Area</label>
-                        <input type="text" class="form-control" value="{{$route->area->name ?? ''}}" disabled>
+                        <input type="text" class="form-control" value="{{$route->area?->name}}" disabled>
                     </div>
                 </div>
                 <!-- /.card-body -->
