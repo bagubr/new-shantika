@@ -39,9 +39,9 @@ class RouteController extends Controller
         foreach($routes as $index => $route) {
             $found_destination = false;
             $found_departure = false;
-            $checkpoints = $route->checkpoints->filter(function($item, $key) use ($request, &$route, &$found_destination, &$found_departure, $agency_id) {
+            $checkpoints = $route->checkpoints->filter(function($item, $key) use ($request, &$route, &$found_destination, &$found_departure) {
                 //
-                if($item->agency_id == $agency_id) {
+                if($item->agency_id == $request->agency_departure_id) {
                     $route->departure_at = $item->arrived_at;
                     $found_departure = true;
                 }
@@ -54,7 +54,7 @@ class RouteController extends Controller
                 if($found_destination) {
                     return false;
                 }
-                if($item->agency_id == $request->agency_id) {
+                if($item->agency_id == $request->agency_arrived_id) {
                     $route->arrived_at = $item->arrived_at;
                     $found_destination = true;
                 }
