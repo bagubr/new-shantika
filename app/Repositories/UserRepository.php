@@ -13,7 +13,7 @@ class UserRepository
     public static function findByPhone($phone)
     {
 
-        return User::wherePhone($phone)->first() ?? false;
+        return User::with('agencies')->wherePhone($phone)->first() ?? false;
     }
 
     public static function findByToken($token)
