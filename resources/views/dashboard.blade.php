@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Dashboard Jawa
+Dashboard
 @endsection
 {{-- @push('css')
 @endpush --}}
@@ -99,10 +99,11 @@ Dashboard Jawa
                     </tr>
                 </thead>
                 <tbody>
-                    <tr></tr>
-                    <tr></tr>
-                    <tr></tr>
-                    <tr></tr>
+                    @foreach ($orders as $order)
+                    <tr>
+                        <td>{{$order}}</td>
+                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
