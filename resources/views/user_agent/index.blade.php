@@ -38,6 +38,7 @@ User Agent
                                 <tr>
                                     <th>Nama</th>
                                     <th>Nomor HP</th>
+                                    <th>Agen</th>
                                     <th>Email</th>
                                     <th>Image</th>
                                     <th>Aksi</th>
@@ -48,6 +49,12 @@ User Agent
                                 <tr>
                                     <td>{{$user_agent->name}}</td>
                                     <td>{{$user_agent->phone}}</td>
+                                    <td>
+                                        <a href="{{route('agency.edit',$user_agent->agencies->agent->id)}}"
+                                            target="_blank">
+                                            {{$user_agent->agencies->agent->name}}/{{$user_agent->agencies->agent->city->name}}
+                                        </a>
+                                    </td>
                                     <td>{{$user_agent->email}}</td>
                                     <td>
                                         @if ($user_agent->avatar)
