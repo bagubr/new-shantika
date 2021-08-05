@@ -325,7 +325,7 @@
                 <li class="nav-item">
                     <a href="{{route('bank_account.index')}}"
                         class="nav-link {{Request::routeIs('bank_account.*') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-question"></i>
+                        <i class="nav-icon fas fa-credit-card"></i>
                         <p>
                             Data Bank
                         </p>

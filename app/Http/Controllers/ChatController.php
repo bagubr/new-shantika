@@ -39,7 +39,12 @@ class ChatController extends Controller
     public function store(CreateChatRequest $request)
     {
         $data = $request->all();
-        $data['icon'] = $request->icon->store('icon', 'public');
+        if ($request->icon) {
+            $data['icon'] = $request->icon->store('icon', 'public');
+        }
+        if ($request->value) {
+            $data['value'] = '?text=' . $request->value;
+        }
         Chat::create($data);
         session()->flash('success', 'Chat Berhasil Ditambahkan');
         return redirect(route('chat.index'));
@@ -76,11 +81,14 @@ class ChatController extends Controller
      */
     public function update(CreateChatRequest $request, Chat $chat)
     {
-        $data = $request->only(['name', 'value', 'type']);
+        $data = $request->only(['name', 'value', 'type', 'link']);
         if ($request->hasFile('icon')) {
             $icon = $request->icon->store('icon', 'public');
             $chat->deleteIcon();
             $data['icon'] = $icon;
+        }
+        if ($request->value) {
+            $data['value'] = '?text=' . $request->value;
         }
         $chat->update($data);
         session()->flash('success', 'Chat Update Successfully');

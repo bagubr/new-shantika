@@ -37,7 +37,7 @@ Chat
                             <thead>
                                 <tr>
                                     <th>Nama</th>
-                                    <th>Message</th>
+                                    <th>Link</th>
                                     <th>Tipe</th>
                                     <th>Icon</th>
                                     <th>Aksi</th>
@@ -47,7 +47,11 @@ Chat
                                 @foreach ($chats as $chat)
                                 <tr>
                                     <td>{{$chat->name}}</td>
-                                    <td>{{$chat->value}}</td>
+                                    <td>
+                                        <a href="{{$chat->link}}{{$chat->value}}" target="_blank">
+                                            {{$chat->link}}
+                                        </a>
+                                    </td>
                                     <td>{{$chat->type}}</td>
                                     <td><img src="{{$chat->icon}}" height="100px" alt=""></td>
                                     <td><a href="{{route('chat.edit',$chat->id)}}"

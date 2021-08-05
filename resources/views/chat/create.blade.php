@@ -41,17 +41,24 @@ Chat
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label>Chat Nama</label>
+                            <label>Chat Nama</label><span class="text-danger">*</span>
                             <input type="text" class="form-control" name="name" placeholder="Masukkan Nama"
                                 value="{{isset($chat) ? $chat->name : ''}}">
                         </div>
                         <div class="form-group">
+                            <label>Link</label><span class="text-danger">*</span>
+                            <input type="text" name="link" class="form-control" placeholder="Masukkan Link"
+                                value="{{isset($chat) ? $chat->link: ''}}">
+                        </div>
+                        <i class="text-danger">Contoh whatsapp https://wa.me/+6282xxxxxx</i>
+                        <div class="form-group">
                             <label for="">Pesan</label>
-                            <textarea name="value" id="" class="form-control"
+                            <textarea class="form-control" name="value" id="test1"
                                 placeholder="Masukkan Pesan">{{isset($chat) ? $chat->value : ''}}</textarea>
+                            <i class="text-danger">Masukkan pesan jika menggunakan link whatsapp</i>
                         </div>
                         <div class="form-group">
-                            <label>Tipe</label>
+                            <label>Tipe</label><span class="text-danger">*</span>
                             <select name="type" class="form-control" id="">
                                 <option value="">Pilih Tipe</option>
                                 <option value="CUST" @isset($chat) @if ($chat->type == 'CUST')
@@ -86,4 +93,11 @@ Chat
       theme: 'bootstrap4'
     })
 </script>
+{{-- <script>
+    $('#test1').keyup(function (){
+    str = $(this).val()
+    str = str.replace(/\s/g,'%20')
+    $('#test2').val(str);
+});
+</script> --}}
 @endpush
