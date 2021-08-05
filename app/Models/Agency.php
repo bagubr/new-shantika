@@ -12,12 +12,12 @@ class Agency extends Model
     protected $table = 'agencies';
 
     protected $fillable = [
-        'name', 'city_id', 'lat', 'lng', 'address'
+        'name', 'city_id', 'lat', 'lng', 'address', 'avatar'
     ];
 
     protected $appends = [
         'phone',
-        'avatar',
+        'avatar_url'
     ];
 
     public function city()
@@ -30,9 +30,13 @@ class Agency extends Model
         return $this->hasMany(UserAgent::class, 'agency_id');
     }
 
-    public function getAvatarAttribute()
+    public function users() {
+        return $this->hasManyThrough(UserAgent::class,  User::class, 'id', 'user_id', 'id', 'id');
+    }
+
+    public function getAvatarUrlAttribute()
     {
-        return $this->userAgent()?->first()?->user()?->first()?->avatar_url;
+        return $this->attributes['avatar'] ? env('STORAGE_URL').'/'.$this->attributes['avatar'] : "";
     }
 
     public function getPhoneAttribute()
