@@ -24,7 +24,7 @@ class FleetDetailResource extends JsonResource
             'total_chair'   => $this->layout?->total_indexes??'',
             'estimate_time' => date('G:i', strtotime($this->route?->departure_at) - strtotime($this->route?->arrived_at)),
             'facilities'    => Facility::orderBy('id', 'desc')->get(),
-            'route'         => $this->route?->checkpoints?->makeHidden(['order', 'updated_at', 'created_at']),
+            'route'         => $this->route?->checkpoints?->makeHidden(['order', 'updated_at', 'created_at'])??'',
         ];
     }
 }
