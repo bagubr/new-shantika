@@ -84,7 +84,7 @@ Pesanan
                         <div class="col">
                             <div class="form-group">
                                 <label>Status Pembayaran</label>
-                                <select name="" id="" class="form-control">
+                                <select name="" id="" class="form-control" disabled>
                                     @foreach ($statuses as $status)
                                     <option value="{{$status}}" @if ($status==$order->payment?->status)
                                         selected
@@ -92,11 +92,15 @@ Pesanan
                                     @endforeach
                                 </select>
                             </div>
-                            @if ($order->payment?->proof)
-                            <img src="{{$order->payment?->proof}}" class="" alt="">
-                            @endif
                         </div>
                     </div>
+                    <div class="text-right">
+                        <a href="{{route('payment.edit',$order->payment?->id)}}" target="_blank"
+                            class="btn btn-primary">Ubah Status</a>
+                    </div>
+                    @if ($order->payment?->proof)
+                    <img src="{{$order->payment?->proof}}" class="" alt="">
+                    @endif
                     @else
                     <h5>Belum Ada Transaksi</h5>
                     @endif

@@ -89,7 +89,7 @@ class PaymentController extends Controller
             'status' => $request->status
         ]);
         session()->flash('success', 'Pembayaran Berhasil Diperbarui');
-        return redirect(route('payment.index'));
+        return redirect()->back();
     }
 
     /**

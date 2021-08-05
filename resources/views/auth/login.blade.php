@@ -43,11 +43,12 @@ Login
 <div class="container-fluid">
     <div class="row">
         <div class="col-8 p-0 image">
-            <div class="login-logo">
-                <img class="img-fluid" src="{{asset('img/img_logo.png')}}" alt="">
-            </div>
+
         </div>
         <div class="col-4 p-0 hold-transition login-page">
+            <div class="login-logo">
+                <img class="img-fluid" src="{{asset('img/Logo-new-shantika-app (2).png')}}" alt="" style="height:100px">
+            </div>
             <div class="login-box">
                 <div class="card">
                     <div class="card-header" style="background-color: #271D5F">

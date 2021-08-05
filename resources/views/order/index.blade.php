@@ -148,7 +148,7 @@ Pemesanan
                                     <td>{{$order->user->name ?? $order->order_detail[0]->name}}</td>
                                     <td>{{$order->code_order}}</td>
                                     <td>
-                                        <a href="{{route('routes.show',$order->route?->id)}}" target="blank">
+                                        <a href="{{route('routes.show',$order->route?->id)}}" target="_blank">
                                             {{$order->route?->name}}
                                         </a>
                                     </td>
