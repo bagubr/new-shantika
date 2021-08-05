@@ -35,7 +35,7 @@ class OrderService {
         if(!$data->code_order) {
             $data->code_order = '';
         }
-        if(!$data->status) {
+        if(empty($data->status)) {
             $data->status = Order::STATUS1;
         }
         if(!$data->expired_at) {
