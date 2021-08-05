@@ -95,6 +95,9 @@ class OrderService {
             'status'=>Order::STATUS5,
             'exchanged_at'=>date('Y-m-d H:i:s')
         ]);
+        $order->distribution()->update([
+            'for_agent'=>OrderPriceDistributionService::calculateDistribution($order, $order->order_detail)['for_agent']
+        ]);
         DB::commit();
         $order->refresh();
 
