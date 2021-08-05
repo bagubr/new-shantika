@@ -13,7 +13,7 @@ class UserRepository
     public static function findByPhone($phone)
     {
 
-        return User::with('agencies')->wherePhone($phone)->first() ?? false;
+        return User::with('agencies.agency')->wherePhone($phone)->first() ?? false;
     }
 
     public static function findByToken($token)
@@ -23,7 +23,7 @@ class UserRepository
             if (empty($user)) {
                 $user_token = UserToken::where('token', $token)->first() 
                     ?? (new self)->sendFailedResponse([], "Oops sepertinya anda harus login ulang");
-                $user = User::with('agencies')->find($user_token?->user_id);
+                $user = User::with('agencies.agency')->find($user_token?->user_id);
             }
             if (empty($user)) {
                 (new self)->sendFailedResponse([], "Oops sepertinya anda harus login ulang");

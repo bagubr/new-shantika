@@ -19,4 +19,8 @@ class UserAgent extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function agency() {
+        return $this->belongsTo(Agency::class, 'user_id');
+    }
 }
