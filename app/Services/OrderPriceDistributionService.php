@@ -10,10 +10,11 @@ use App\Repositories\UserRepository;
 class OrderPriceDistributionService {
     public static function createByOrderDetail(Order $order, array $order_details) {
         $total_price = self::calculateDistribution($order, $order_details);
+        $setting = Setting::first();
         
         $is_agent = UserRepository::findUserIsAgent($order->user_id);
         if($is_agent) {
-            $total_price['for_agent'] = -1 * round(config('application.commision', 0.08) * $total_price['for_agent']);
+            $total_price['for_agent'] = -1 * round($setting->commision * $total_price['for_agent']);
             $total_price['for_owner'] = $order->price + array_sum($total_price);
         } else {
             $total_price['for_agent'] = 0;
