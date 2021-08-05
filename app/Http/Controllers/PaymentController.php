@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Payment\UpdatePaymentRequest;
+use App\Models\Order;
 use App\Models\Payment;
 use App\Repositories\PaymentTypeRepository;
 use Illuminate\Http\Request;
@@ -63,7 +64,7 @@ class PaymentController extends Controller
         $payment_types = PaymentTypeRepository::all();
         $test = strtotime($payment->paid_at);
         $time = date('Y-m-d', $test);
-        $statuses = ['PENDING', 'EXPIRED', 'PAID', 'CANCELED', 'EXCHANGED', 'WAITING_CONFIRMATION', 'DECLINED', 'FINISHED'];
+        $statuses = ['PAID', 'WAITING_CONFIRMATION', 'DECLINED'];
         return view('payment.create', compact('payment', 'payment_types', 'statuses', 'time'));
     }
 
@@ -77,12 +78,16 @@ class PaymentController extends Controller
     public function update(UpdatePaymentRequest $request, Payment $payment)
     {
         $data = $request->only('payment_type_id', 'status', 'proof_decline_reason', 'paid_at');
+        $order_id = Order::where('id', $payment->order_id);
         if ($request->hasFile('proof')) {
             $proof = $request->proof->store('proof', 'public');
             $payment->deleteProof();
             $data['proof'] = $proof;
         };
         $payment->update($data);
+        $order_id->update([
+            'status' => $request->status
+        ]);
         session()->flash('success', 'Pembayaran Berhasil Diperbarui');
         return redirect(route('payment.index'));
     }

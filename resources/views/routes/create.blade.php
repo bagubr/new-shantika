@@ -69,7 +69,7 @@ Route
                             <div class="col">
                                 <div class="form-group">
                                     <label>Keberangkatan</label>
-                                    <input type="time" name="departure_at" class="form-control"
+                                    <input type="time" name="departure_at" class="form-control" id="jam1"
                                         value="{{isset($route) ? $route->departure_at : ''}}">
                                 </div>
                             </div>
@@ -105,7 +105,7 @@ Route
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="">Kedatangan</label>
-                                            <input type="time" class="form-control" name="arrived_at1[]">
+                                            <input type="time" class="form-control" name="arrived_at1[]" id="jam2">
                                         </div>
                                     </div>
                                 </div>
@@ -136,12 +136,20 @@ Route
     var i = 0;
     $("#dynamic-ar").click(function () {
         ++i;
-        $("#dynamicAddRemove").append('<div class="t"><div class="form-row"><div class="col"><div class="form-group"><label>Agent</label><select name="agency_id[]" class="form-control select2"><option value="">Pilih Agent</option>@foreach ($agencies as $agency)<option value="{{$agency->id}}">{{$agency->city?->name}}/{{$agency->name}}</option>@endforeach</select></div></div><div class="col"><div class="form-group"><label for="">Kedatangan</label><input type="time" class="form-control" name="arrived_at1[]"></div></div></div><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></div>'
+        $("#dynamicAddRemove").append('<div class="t"><div class="form-row"><div class="col"><div class="form-group"><label>Agent</label><select name="agency_id[]" class="select2 form-control"><option value="">Pilih Agent</option>@foreach ($agencies as $agency)<option value="{{$agency->id}}">{{$agency->city?->name}}/{{$agency->name}}</option>@endforeach</select></div></div><div class="col"><div class="form-group"><label for="">Kedatangan</label><input type="time" class="form-control" name="arrived_at1[]"></div></div></div><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></div>'
             );
     });
     $(document).on('click', '.remove-input-field', function () {
         $(this).parents('.t').remove();
     });
+</script>
+<script>
+    $('#jam1').keyup(function (){
+    $('#jam2').val($(this).val()); // <-- reverse your selectors here
+});
+    $('#jam2').keyup(function (){
+    $('#jam1').val($(this).val()); // <-- and here
+});
 </script>
 <script>
     $(function () {
