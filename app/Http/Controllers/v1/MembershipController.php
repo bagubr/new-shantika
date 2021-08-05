@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Checkpoint;
 use App\Models\Membership;
 use App\Models\Route;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class MembershipController extends Controller
@@ -20,7 +21,7 @@ class MembershipController extends Controller
 
         return $this->sendSuccessResponse([
             'membership'=>$member,
-            'discount'=>config('application.price_list.member')
+            'discount'=>Setting::first()->member
         ]);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Routes\CreateRoutesRequest;
 use App\Http\Requests\Routes\UpdateRouteRequest;
+use App\Models\Agency;
 use App\Models\Area;
 use App\Models\Checkpoint;
 use App\Models\Route;
@@ -35,7 +36,7 @@ class RoutesController extends Controller
         $fleets = FleetRepository::all();
         $areas = Area::all();
         $name = FacadesRoute::currentRouteName();
-        $agencies = AgencyRepository::getOnlyIdName();
+        $agencies = Agency::orderBy('city_id', 'ASC')->get();
         return view('routes.create', compact('fleets', 'areas', 'agencies', 'name'));
     }
 
