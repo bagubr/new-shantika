@@ -40,7 +40,7 @@ Pemesanan
                                     <div class="form-group">
                                         <label>Cari Nama Pelanggan</label>
                                         <input type="text" name="name" class="form-control" value="{{old('name')}}"
-                                            placeholder="Cari Nama Rute">
+                                            placeholder="Cari Nama Pelanggan">
                                     </div>
                                 </div>
                                 <div class="col">
@@ -145,7 +145,7 @@ Pemesanan
                             <tbody>
                                 @foreach ($orders as $order)
                                 <tr>
-                                    <td>{{$order->user->name ?? 'Tanpa Login'}}</td>
+                                    <td>{{$order->user->name ?? $order->order_detail[0]->name}}</td>
                                     <td>{{$order->code_order}}</td>
                                     <td>
                                         <a href="{{route('routes.show',$order->route?->id)}}" target="blank">

@@ -47,7 +47,8 @@ Route
                             <tbody>
                                 @foreach ($routes as $route)
                                 <tr>
-                                    <td><a href="{{route('routes.show',$route->id)}}">{{$route->name}}</a></td>
+                                    <td><a href="{{route('routes.show',$route->id)}}"
+                                            target="_blank">{{$route->name}}</a></td>
                                     <td><a href="{{route('fleets.edit', $route->fleet_id)}}"
                                             target="_blank">{{$route->fleet?->name}}
                                             {{$route->fleet?->fleetclass->name}}</a>
