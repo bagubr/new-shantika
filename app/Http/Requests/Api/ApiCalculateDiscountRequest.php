@@ -16,10 +16,10 @@ class ApiCalculateDiscountRequest extends ApiRequest
     public function rules()
     {
         return [
-            'price_ticket'=>'required|numeric',
             'is_food'=>'required|boolean',
             'is_travel'=>'required|boolean',
             'is_member'=>'required|boolean',
+            'route_id'=>'required',
             'seat_count'=>'required|numeric'
         ];
     }
