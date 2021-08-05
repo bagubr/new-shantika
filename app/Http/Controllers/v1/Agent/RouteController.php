@@ -25,7 +25,8 @@ class RouteController extends BaseRouteController
                 $query->whereRaw('exists (select 1 from checkpoints inner join checkpoints c on c.route_id = checkpoints.route_id
                 where (checkpoints.agency_id = ? and c.agency_id = ?) 
                 and (c.route_id = routes.id and checkpoints.route_id = routes.id)
-                and (checkpoints.order > c.order))', [$request->agency_id, $agency_id]);
+                and (checkpoints.order > c.order))', [$request->agency_id, $agency_id])
+                ->orderBy('order', 'asc');
             })
             ->when(($request->time), function ($q) use ($request) { 
                 $time_start = TimeClassificationRepository::findByName($request->time)->time_start;

@@ -19,14 +19,12 @@ class RouteController extends Controller
             });
         })
         ->whereHas('checkpoints', function($query) use ($request) {
-            $query->when(($request->agency_departure_id && $request->agency_arrived_id), function ($q) use ($request) { 
-                    $q->where(function($subquery) use ($request) {
-                        $subquery->where('agency_id', $request->agency_arrival_id)
-                            ->orWhere('agency_id', $request->agency_departure_id);
-                    })
-                    ->orderBy('order', 'desc');
-                });
-            })
+            $query->whereRaw('exists (select 1 from checkpoints inner join checkpoints c on c.route_id = checkpoints.route_id
+                where (checkpoints.agency_id = ? and c.agency_id = ?) 
+                and (c.route_id = routes.id and checkpoints.route_id = routes.id)
+                and (checkpoints.order > c.order))', [$request->agency_arrived_id, $request->agency_departure_id])
+                ->orderBy('order', 'asc');
+        })
         ->when(($request->time), function ($q) use ($request) { 
             $time_start = TimeClassificationRepository::findByName($request->time)->time_start;
             $time_end = TimeClassificationRepository::findByName($request->time)->time_end;
