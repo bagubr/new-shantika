@@ -22,9 +22,9 @@ class About extends Model
         return date('Y-m-d H:i:s', strtotime($value));
     }
 
-    public function getImageAttribute()
+    public function getImageAttribute($value)
     {
-        return $this->appendPath($this->attributes['image']);
+        return url('storage/' . $value);
     }
     public function deleteImage()
     {
