@@ -57,6 +57,9 @@ Tentang Kita
                             <label>Gambar</label>
                             <input type="file" name="image" class="form-control" accept="image/*" id="">
                         </div>
+                        <a href="{{isset($about) ? $about->image : ''}}" data-toggle="lightbox">
+                            <img src="{{isset($about) ? $about->image : ''}}" style="height: 100px" alt="">
+                        </a>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>

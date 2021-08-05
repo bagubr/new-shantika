@@ -102,6 +102,14 @@
     <script src="{{asset('plugins/toastr/toastr.min.js')}}"></script>
     <!-- Select2 -->
     <script src="{{asset('plugins/select2/js/select2.full.min.js')}}"></script>
+    <script>
+        $(function () {
+        $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+            event.preventDefault();
+            $(this).ekkoLightbox();
+        });
+      })
+    </script>
     @if (session()->has('success'))
     <script>
         toastr.success("{{session()->get('success')}}")

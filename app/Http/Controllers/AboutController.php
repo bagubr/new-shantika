@@ -16,8 +16,8 @@ class AboutController extends Controller
      */
     public function index()
     {
-        $abouts = About::all();
-        return view('about.index', compact('abouts'));
+        $about = About::first();
+        return view('about.create', compact('about'));
     }
 
     /**
@@ -76,7 +76,7 @@ class AboutController extends Controller
      */
     public function update(UpdateAboutRequest $request, About $about)
     {
-        $data = $request->only(['address', 'image']);
+        $data = $request->only(['address', 'description']);
         if ($request->hasFile('image')) {
             $image = $request->image->store('about', 'public');
             $about->deleteImage();
