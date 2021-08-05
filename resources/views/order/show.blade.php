@@ -92,9 +92,6 @@ Pesanan
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group">
-
-                            </div>
                             @if ($order->payment?->proof)
                             <img src="{{$order->payment?->proof}}" class="" alt="">
                             @endif
