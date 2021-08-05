@@ -37,6 +37,7 @@ Route::group([
     Route::post('notification/read/all', 'NotificationController@readAll');
 
     Route::get('payment_types', 'PaymentTypeController@index');
+    Route::get('calculate_discount', 'OrderController@calculateDiscount');
 
     Route::post('check_id_member', 'MembershipController@check');
 
