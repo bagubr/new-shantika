@@ -8,7 +8,9 @@ use App\Utils\Response;
 class ReviewService {
     use Response;
     public static function sumByUserIdForAgent($user_id) : float {
-        return Review::where('user_id', $user_id)->avg('rating');
+        return Review::whereHas('order', function($query) use ($user_id) {
+            $query->where('user_id', $user_id);
+        })->avg('rating');
     }
 
     public static function create($data)
