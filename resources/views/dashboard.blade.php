@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Dashboard Jawa
+Dashboard
 @endsection
 {{-- @push('css')
 @endpush --}}
@@ -10,12 +10,12 @@ Dashboard Jawa
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Dashboard Jawa</h1>
+                <h1 class="m-0">Dashboard</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Dashboard Jawa</li>
+                    <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -26,142 +26,255 @@ Dashboard Jawa
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
-        <div class="form-row">
-            <div class="col">
-                <div class="form-group">
-                    <label>Tahun</label>
-                    <select name="" class="form-control" id="">
-                        <option value="">Tahun</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <label>Test</label>
-                    <select name="" class="form-control" id="">
-                        <option value="">Semua/Agent</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <label>Test</label>
-                    <select name="" class="form-control" id="">
-                        <option value="">Rute</option>
-                    </select>
-                </div>
+        <div class="form-group">
+            <label>Periode</label>
+            <select name="" class="form-control" id="">
+                <option value="">Harian</option>
+                <option value="">Mingguan</option>
+                <option value="">Bulanan</option>
+                <option value="">Tahun</option>
+            </select>
+        </div>
+    </div>
+    <div class="card card-success">
+        <div class="card-header">
+            <h3 class="card-title">Statistik Penjualan Tiket</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-info">
-                    <div class="inner">
-                        <h3>{{$orders}}</h3>
-
-                        <p>Total Pesanan</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-bag"></i>
-                    </div>
-                    <a href="{{route('order.index')}}" class="small-box-footer">Lebih Lanjut <i
-                            class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-warning">
-                    <div class="inner">
-                        <h3>{{$count_user}}</h3>
-
-                        <p>Pelanggan</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-person"></i>
-                    </div>
-                    <a href="{{route('user.index')}}" class="small-box-footer">Lebih Lanjut <i
-                            class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <div class="col-lg-6 col-sm-12">
-                <!-- small box -->
-                <div class="small-box bg-success">
-                    <div class="inner">
-                        <h3>Rp. {{number_format($orders_money)}}</h3>
-
-                        <p>Total Pemasukan</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-cash"></i>
-                    </div>
-                    <a href="{{route('user.index')}}" class="small-box-footer">Lebih Lanjut <i
-                            class="fas fa-arrow-circle-right"></i></a>
-                </div>
+        <div class="card-body">
+            <div class="chart">
+                <canvas id="barChart"
+                    style="min-height: 250px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
             </div>
         </div>
-
+    </div>
+    <div class="form-row">
+        <div class="col">
+            <div class="form-group">
+                <label for="">Agen</label>
+                <select name="" id="" class="form-control">
+                    <option value="">-Semua Agen-</option>
+                </select>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <label for="">Armada Bus</label>
+                <select name="" id="" class="form-control">
+                    <option value="">-Semua Armada-</option>
+                </select>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <label for="">Rute</label>
+                <select name="" id="" class="form-control">
+                    <option value="">-Semua Rute-</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Pemesan</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Agen</th>
+                        <th>Armada</th>
+                        <th>Rute</th>
+                        <th>Total Tiket</th>
+                        <th>Total Pendapatan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($orders as $order)
+                    <tr>
+                        <td>{{$order}}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div>
+        <div class="form-group">
+            <label>Periode</label>
+            <select name="" id="" class="form-control">
+                <option value="">Harian</option>
+                <option value="">Mingguan</option>
+                <option value="">Bulanan</option>
+                <option value="">Tahun</option>
+            </select>
+        </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-6">
                 <div class="card card-success">
                     <div class="card-header">
-                        <h3 class="card-title">Statistik Pesanan</h3>
-
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
+                        <h3 class="card-title">Pendapatan Penjualan Tiket Periode ini </h3>
                     </div>
                     <div class="card-body">
-                        <div class="chart">
-                            <canvas id="barChart"
-                                style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                        <div class="chart-container">
+                            <canvas id="myChart"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <!-- DONUT CHART -->
-                <div class="card card-danger">
+            <div class="col-6">
+                <div class="card card-success">
                     <div class="card-header">
-                        <h3 class="card-title">Pemesan</h3>
-
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
+                        <h3 class="card-title">Pendapatan Penjualan Tiket Periode Sebelumnya</h3>
                     </div>
                     <div class="card-body">
-                        <canvas id="donutChart"
-                            style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                        <div class="chart-container">
+                            <canvas id="myChart2"></canvas>
+                        </div>
                     </div>
-                    <!-- /.card-body -->
                 </div>
-                <!-- /.card -->
             </div>
         </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>{{$orders}}</h3>
 
-    </div><!-- /.container-fluid -->
+                    <p>Total Pesanan</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="{{route('order.index')}}" class="small-box-footer">Lebih Lanjut <i
+                        class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3>{{$count_user}}</h3>
+
+                    <p>Pelanggan</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person"></i>
+                </div>
+                <a href="{{route('user.index')}}" class="small-box-footer">Lebih Lanjut <i
+                        class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-12">
+            <!-- small box -->
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>Rp. {{number_format($orders_money)}}</h3>
+
+                    <p>Total Pemasukan</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-cash"></i>
+                </div>
+                <a href="{{route('user.index')}}" class="small-box-footer">Lebih Lanjut <i
+                        class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="form-group">
+            <label>Periode</label>
+            <select name="" id="" class="form-control">
+                <option value="">Harian</option>
+                <option value="">Mingguan</option>
+                <option value="">Bulanan</option>
+                <option value="">Tahun</option>
+            </select>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">Pendapatan Bersih Periode ini </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="myChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">Pendapatan Bersih Periode Sebelumnya</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="myChart2"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 <!-- /.content -->
 @endsection
 @push('script')
 <!-- ChartJS -->
 <script src="{{asset('plugins/chart.js/Chart.min.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const labels = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+    ];
+    const data = {
+    labels: labels,
+    datasets: [{
+        label: 'My First dataset',
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: [0, 10, 5, 2, 20, 30, 45],
+    }]
+    };
+    const config = {
+        type: 'line',
+        data,
+        options: {}
+    };
+    var myChart = new Chart(
+        document.getElementById("myChart"),
+        config
+    );
+    var myChart2 = new Chart(
+        document.getElementById("myChart2"),
+        config
+    );
+</script>
 <script>
     $(function(){
         var areaChartData = {
       labels  : ['January', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli','Agustus','September','Oktober','November','Desember'],
       datasets: [
         {
-          label               : 'Pemesanan',
+          label               : 'Jawa',
           backgroundColor     : '#17a2b8',
           borderColor         : '#17a2b8',
           pointRadius         : false,
@@ -169,11 +282,17 @@ Dashboard Jawa
           pointStrokeColor    : '#c1c7d1',
           pointHighlightFill  : '#fff',
           pointHighlightStroke: 'rgba(220,220,220,1)',
-        //   data : [
-        //       @foreach ($users as $user)
-        //           {'{{$user->id}}'}
-        //       @endforeach
-        //   ]
+          data                : [65, 59, 80, 81, 56, 55, 40]
+        },
+        {
+          label               : 'Jabodetabek',
+          backgroundColor     : '#c1c7d1',
+          borderColor         : '#c1c7d1',
+          pointRadius         : false,
+          pointColor          : '#c1c7d1',
+          pointStrokeColor    : '#c1c7d1',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(220,220,220,1)',
           data                : [65, 59, 80, 81, 56, 55, 40]
         },
       ]
@@ -198,33 +317,28 @@ Dashboard Jawa
       options: barChartOptions
     })
     })
-      //-------------
-    //- DONUT CHART -
-    //-------------
-    // Get context with jQuery - using jQuery's .get() method.
-    var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
-    var donutData        = {
-      labels: [
-          'Agen',
-          'Kustomer',
-      ],
-      datasets: [
-        {
-          data: [700,500],
-          backgroundColor : ['#f56954', '#00a65a'],
-        }
-      ]
-    }
-    var donutOptions     = {
-      maintainAspectRatio : false,
-      responsive : true,
-    }
-    //Create pie or douhnut chart
-    // You can switch between pie and douhnut using the method below.
-    new Chart(donutChartCanvas, {
-      type: 'doughnut',
-      data: donutData,
-      options: donutOptions
-    })
 </script>
+{{-- <script>
+    const DATA_COUNT = 7;
+    const NUMBER_CFG = {count: DATA_COUNT, min: -100, max: 100};
+    
+    const labels = Utils.months({count: 7});
+    const data = {
+        labels: labels,
+        datasets: [
+            {
+                label: 'Dataset 1',
+                data: Utils.numbers(NUMBER_CFG),
+                borderColor: Utils.CHART_COLORS.red,
+                backgroundColor: Utils.transparentize(Utils.CHART_COLORS.red, 0.5),
+            },
+            {
+                label: 'Dataset 2',
+                data: Utils.numbers(NUMBER_CFG),
+                borderColor: Utils.CHART_COLORS.blue,
+                backgroundColor: Utils.transparentize(Utils.CHART_COLORS.blue, 0.5),
+            }
+        ]
+        };
+</script> --}}
 @endpush

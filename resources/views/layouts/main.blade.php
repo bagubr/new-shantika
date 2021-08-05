@@ -35,8 +35,8 @@
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
+    @auth
     <div class="wrapper">
-        @auth
         <!-- Navbar -->
         @include('layouts.navbar')
         <!-- /.navbar -->
@@ -56,8 +56,8 @@
             <!-- Control sidebar content goes here -->
         </aside>
         <!-- /.control-sidebar -->
-        @endauth
     </div>
+    @endauth
     @guest
     @yield('content')
     @endguest
@@ -102,6 +102,14 @@
     <script src="{{asset('plugins/toastr/toastr.min.js')}}"></script>
     <!-- Select2 -->
     <script src="{{asset('plugins/select2/js/select2.full.min.js')}}"></script>
+    <script>
+        $(function () {
+        $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+            event.preventDefault();
+            $(this).ekkoLightbox();
+        });
+      })
+    </script>
     @if (session()->has('success'))
     <script>
         toastr.success("{{session()->get('success')}}")

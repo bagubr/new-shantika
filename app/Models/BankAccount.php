@@ -19,9 +19,13 @@ class BankAccount extends Model
     {
         Storage::disk('public')->delete($this->attributes['image']);
     }
+    public function getImageAttribute($value)
+    {
+        return url('storage/' . $value);
+    }
 
     public function getImageUrlAttribute()
     {
-        return env('STORAGE_URL') . '/' . $this->attributes['image'];
+        return url('storage/' . $this->attributes['image']);
     }
 }
