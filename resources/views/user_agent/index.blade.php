@@ -40,7 +40,6 @@ User Agent
                                     <th>Nomor HP</th>
                                     <th>Agen</th>
                                     <th>Email</th>
-                                    <th>Agent</th>
                                     <th>Image</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -57,15 +56,20 @@ User Agent
                                         </a>
                                     </td>
                                     <td>{{$user_agent->email}}</td>
-                                    <td>{{$user_agent->agencies?->agent->name}}</td>
                                     <td>
                                         @if ($user_agent->avatar)
-                                        <img src="{{$user_agent->avatar_url}}" height="100px" alt="">
+                                        <a href="{{$user_agent->avatar_url}}" data-toggle="lightbox">
+                                            <img src="{{$user_agent->avatar_url}}" height="100px" alt="">
+                                        </a>
                                         @elseif($user_agent->avatar === null || $user_agent->avatar === '')
                                         Tidak Ada Gambar
                                         @endif
                                     </td>
                                     <td>
+                                        {{-- <a href="{{route('user_agent.show',$user_agent->id)}}"
+                                        class="btn btn-primary btn-xs" target="_blank">
+                                        Detail
+                                        </a> --}}
                                         <a href="{{route('user_agent.edit',$user_agent->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('user_agent.destroy',$user_agent->id)}}" class="d-inline"
