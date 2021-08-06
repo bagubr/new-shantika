@@ -30,7 +30,8 @@ class Order extends Model
         'reserve_at',
         'id_member',
         'proof',
-        'destination_agency_id'
+        'destination_agency_id',
+        'departure_agency_id',
     ];
 
     public static function status()
