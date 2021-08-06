@@ -8,6 +8,7 @@ use App\Models\OrderDetail;
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Resources\Order\OrderListCustomerResource;
+use App\Models\User;
 
 class OrderRepository {
 
@@ -39,25 +40,33 @@ class OrderRepository {
         return Order::with(['order_detail', 'payment'])->find($id);
     }
 
-    public static function unionBookingByUserIdAndDate($user_id, $date) {
+    public static function unionBookingByUserIdAndDate(User $user, $date) {
         $booking = Booking::select('id', 'route_id', 'user_id', 'booking_at as reserve_at', 'status', 'code_booking as code', 'layout_chair_id')
-        ->addSelect(DB::raw("'BOOKING' as type"))
-        ->addSelect(DB::raw("(select price from routes where routes.id = bookings.route_id) as price"))
-        ->addSelect(DB::raw("(select agency_id as destination_agency_id from checkpoints where checkpoints.route_id = bookings.route_id and checkpoints.agency_id = bookings.user_id limit 1) as destination_agency_id"))
-        ->where('expired_at', '>', date('Y-m-d H:i:s'))
-        ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
-        ->whereUserId($user_id)
-        ->distinct('code_booking');
-        $union =  Order::select('id', 'route_id', 'user_id', 'reserve_at', 'status', 'code_order as code')
+            ->addSelect(DB::raw("'BOOKING' as type"))
+            ->addSelect(DB::raw("(select price from routes where routes.id = bookings.route_id) as price"))
+            ->addSelect(DB::raw("(select agency_id as destination_agency_id from checkpoints where checkpoints.route_id = bookings.route_id and checkpoints.agency_id = bookings.user_id limit 1) as destination_agency_id"))
+            ->where('expired_at', '>', date('Y-m-d H:i:s'))
+            ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
+            ->whereUserId($user->id)
+            ->distinct('code_booking');
+        $agen_order =  Order::select('id', 'route_id', 'user_id', 'reserve_at', 'status', 'code_order as code')
             ->addSelect(DB::raw("NULL as layout_chair_id"))
             ->addSelect(DB::raw("'PEMBELIAN' as type"))
             ->addSelect(DB::raw("price"))
             ->addSelect(DB::raw("(select agency_id as destination_agency_id from checkpoints where checkpoints.route_id = orders.route_id and checkpoints.agency_id = orders.destination_agency_id) as destination_agency_id"))
-            ->whereUserId($user_id)
+            ->whereUserId($user->id)
             ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
-            ->union($booking)
+            ->union($booking);
+        $user_order =  Order::select('id', 'route_id', 'user_id', 'reserve_at', 'status', 'code_order as code')
+            ->addSelect(DB::raw("NULL as layout_chair_id"))
+            ->addSelect(DB::raw("'EXCHANGE' as type"))
+            ->addSelect(DB::raw("price"))
+            ->addSelect(DB::raw("(select agency_id as destination_agency_id from checkpoints where checkpoints.route_id = orders.route_id and checkpoints.agency_id = orders.destination_agency_id) as destination_agency_id"))
+            ->where('departure_agency_id', $user->agencies->agent->id)
+            ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
+            ->union($agen_order)
             ->get();
-        return $union;
+        return $user_order;
     }
 
     public static function findByCodeOrder($code_order)

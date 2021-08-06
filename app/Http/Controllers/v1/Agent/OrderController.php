@@ -43,8 +43,8 @@ class OrderController extends Controller
     }
 
     public function index(Request $request) {
-        $user_id = UserRepository::findByToken($request->bearerToken())?->id;
-        $order = OrderRepository::unionBookingByUserIdAndDate($user_id, $request->date);
+        $user = UserRepository::findByToken($request->bearerToken());
+        $order = OrderRepository::unionBookingByUserIdAndDate($user, $request->date);
         $deposit = OrderPriceDistributionRepository::getSumDepositOfAgencyByDate($request->bearerToken(), $request->date);
         return $this->sendSuccessResponse([
             'order'=> OrderListAgentResource::collection($order),
