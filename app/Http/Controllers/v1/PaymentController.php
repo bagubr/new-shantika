@@ -13,7 +13,8 @@ class PaymentController extends Controller
         $payment = PaymentRepository::findBySecret($request->id);
 
         $payment->update([
-            'status'=>$request->status
+            'status'=>$request->status,
+            'paid_at'=> date('Y-m-d H:i:s'),
         ]);
         $payment->order()->update([
             'status'=>$request->status
