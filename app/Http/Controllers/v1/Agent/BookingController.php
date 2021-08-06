@@ -9,6 +9,7 @@ use App\Models\Booking;
 use App\Models\Order;
 use App\Models\Route;
 use App\Models\ScheduleUnavailableBooking;
+use App\Models\Setting;
 use App\Repositories\UserRepository;
 use App\Services\BookingService;
 use App\Services\UserService;
@@ -43,5 +44,12 @@ class BookingController extends Controller
         return $this->sendSuccessResponse([
             'booking'=>$booking
         ], 'Berhasil membuat booking');
+    }
+
+    public function bookingExpiredDuration() {
+        $duration = Setting::first()->booking_expired_duration;
+        return $this->sendSuccessResponse([
+            'booking_expired_duration'=>$duration.' menit'
+        ]);
     }
 }
