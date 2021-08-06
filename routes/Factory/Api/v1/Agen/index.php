@@ -28,6 +28,8 @@ Route::group([
 
             Route::get('home', 'HomeController@home');
         
+            Route::get('booking_expired_duration', 'BookingController@bookingExpiredDuration');
+
             Route::post('booking', 'BookingController@booking');
             Route::post('order_tiket', 'OrderController@order');
             Route::get('riwayat', 'OrderController@index');
