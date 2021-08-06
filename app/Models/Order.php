@@ -29,7 +29,8 @@ class Order extends Model
         'exchanged_at',
         'reserve_at',
         'id_member',
-        'proof'
+        'proof',
+        'destination_agency_id'
     ];
 
     public static function status()
