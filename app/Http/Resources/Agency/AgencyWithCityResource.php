@@ -16,7 +16,7 @@ class AgencyWithCityResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => ($request->city_id)?$this->name.'-'.$this->city->name:$this->name,
+            'name' => ($request->city_id)?$this->name:$this->name.'-'.$this->city->name,
         ];
     }
 }
