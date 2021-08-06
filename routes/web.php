@@ -112,5 +112,6 @@ Route::group(['middleware' => ['auth']], function () {
         'order_price_distribution' => OrderPriceDistributionController::class,
         'config_setting' => ConfigSettingController::class,
         'bank_account' => BankAccountController::class,
+        'outcome' => OutcomeController::class,
     ]);
 });
