@@ -35,7 +35,7 @@ class OrderController extends Controller
             'destination_agency_id'=>$request->destination_agency_id
         ]);
         $order = OrderService::create($order, $request);
-        // DB::commit();
+        DB::commit();
         return $this->sendSuccessResponse([
             'order'=>$order
         ]);
