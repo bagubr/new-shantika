@@ -42,6 +42,7 @@ class OrderDetailCustomerResource extends JsonResource
             'id_member'=>$this->id_member,
             'payment_type'=>$this->payment?->payment_type?->name,
             'price'=>$this->price,
+            'review'=>$this->review ?? (object) [],
         ];
     }
 
