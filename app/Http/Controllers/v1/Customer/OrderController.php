@@ -40,7 +40,7 @@ class OrderController extends Controller
         $order = OrderRepository::findWithDetailWithPayment($id);
         return $this->sendSuccessResponse([
             'data_order' => new OrderDetailCustomerResource($order),
-            'payment' => OrderService::getInvoice($order->payment->first())
+            'payment' => OrderService::getInvoice($order->payment)
         ]);
     }
 
@@ -64,7 +64,7 @@ class OrderController extends Controller
         DB::commit();
         return $this->sendSuccessResponse([
             'order' => new OrderDetailCustomerResource($order),
-            'payment' => OrderService::getInvoice($order->payment()->first())
+            'payment' => OrderService::getInvoice($order->payment)
         ]);
     }
     
