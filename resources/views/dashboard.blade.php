@@ -25,18 +25,8 @@ Dashboard
 
 <!-- Main content -->
 <section class="content">
-    <div class="container-fluid">
-        <div class="form-group">
-            <label>Periode</label>
-            <select name="" class="form-control" id="">
-                <option value="">Harian</option>
-                <option value="">Mingguan</option>
-                <option value="">Bulanan</option>
-                <option value="">Tahun</option>
-            </select>
-        </div>
-    </div>
     <div class="card card-success">
+
         <div class="card-header">
             <h3 class="card-title">Statistik Penjualan Tiket</h3>
             <div class="card-tools">
@@ -46,6 +36,15 @@ Dashboard
             </div>
         </div>
         <div class="card-body">
+            <div class="form-group">
+                <label>Periode</label>
+                <select name="" class="form-control" id="">
+                    <option value="">Harian</option>
+                    <option value="">Mingguan</option>
+                    <option value="">Bulanan</option>
+                    <option value="">Tahun</option>
+                </select>
+            </div>
             <div class="chart">
                 <canvas id="barChart"
                     style="min-height: 250px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
