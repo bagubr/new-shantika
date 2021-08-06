@@ -68,4 +68,8 @@ class Order extends Model
     {
         return $this->hasOne(OrderPriceDistribution::class, 'order_id', 'id');
     }
+
+    public function review() {
+        return $this->hasOne(Review::class, 'order_id', 'id');
+    }
 }
