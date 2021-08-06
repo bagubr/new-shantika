@@ -37,7 +37,8 @@ class User extends Authenticatable
     ];
 
     protected $appends = [
-        'avatar_url'
+        'avatar_url',
+        'name_agent',
     ];
 
     public function getAvatarUrlAttribute()
@@ -58,7 +59,13 @@ class User extends Authenticatable
         return $this->belongsTo(Membership::class, 'id', 'user_id');
     }
 
-    public function token() {
+    public function token()
+    {
         return $this->hasMany(UserToken::class, 'user_id', 'id');
+    }
+
+    public function getNameAgentAttribute()
+    {
+        return $this->name . ' (' . $this->agencies?->agent?->name . ')' ?? '';
     }
 }

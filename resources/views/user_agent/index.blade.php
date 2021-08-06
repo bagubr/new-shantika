@@ -40,14 +40,14 @@ User Agent
                                     <th>Nomor HP</th>
                                     <th>Agen</th>
                                     <th>Email</th>
-                                    <th>Image</th>
+                                    <th>Gambar</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($users as $user_agent)
                                 <tr>
-                                    <td>{{$user_agent->name}}</td>
+                                    <td>{{$user_agent->name_agent}}</td>
                                     <td>{{$user_agent->phone}}</td>
                                     <td>
                                         <a href="{{route('agency.edit',$user_agent->agencies?->agent->id)}}"

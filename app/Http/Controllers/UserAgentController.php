@@ -62,9 +62,9 @@ class UserAgentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user_agent)
     {
-        //
+        return view('user_agent.show', compact('user_agent'));
     }
 
     /**
