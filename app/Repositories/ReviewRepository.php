@@ -7,8 +7,8 @@ use App\Models\Review;
 
 class ReviewRepository {
     public static function getHistoryOfAgent($user_id) {
-        return Review::whereHas('order.route.checkpoints', function($query) use ($user_id) {
-            $query->where('agency_id', $user_id);
+        return Review::whereHas('order', function($query) use ($user_id) {
+            $query->where('departure_agency_id', $user_id);
         })->get();
     }
 
