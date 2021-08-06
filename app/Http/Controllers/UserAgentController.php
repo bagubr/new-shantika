@@ -19,8 +19,36 @@ class UserAgentController extends Controller
      */
     public function index()
     {
-        $users = User::whereHas('agencies')->get();
-        return view('user_agent.index', compact('users'));
+        $users = User::whereHas('agencies')->paginate(10);
+        $agencies = AgencyRepository::all_order();
+        return view('user_agent.index', compact('users', 'agencies'));
+    }
+    public function search(Request $request)
+    {
+        $name_search = $request->name;
+        $agent_search = $request->agent;
+        $users = User::query();
+        $agencies = AgencyRepository::all_order();
+
+        if (!empty($agent_search)) {
+            $users = $users->whereHas('agencies', function ($q) use ($agent_search) {
+                $q->where('agency_id', 'like', $agent_search);
+            });
+        }
+        if (!empty($name_search)) {
+            $users = $users->where('name', 'like', '%' . $name_search . '%')->whereHas('agencies');
+        }
+        if (empty($name_search && $agent_search)) {
+            $users = $users->whereHas('agencies');
+        }
+        $test = $request->flash();
+        $users = $users->get();
+        if (!$users->isEmpty()) {
+            session()->flash('success', 'Data Order Berhasil Ditemukan');
+        } else {
+            session()->flash('error', 'Tidak Ada Data Ditemukan');
+        }
+        return view('user_agent.index', compact('users', 'agencies', 'test'));
     }
 
     /**

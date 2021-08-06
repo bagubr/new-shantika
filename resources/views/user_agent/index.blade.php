@@ -26,6 +26,44 @@ User Agent
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
+                        <h3 class="card-title">Cari</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{route('user_agent.search')}}" method="GET">
+                            <div class="form-row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Nama</label>
+                                        <input type="text" class="form-control" name="name" value="{{old('name')}}">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Agen</label>
+                                        <select name="agent" id="" class="form-control select2">
+                                            <option value="">--Pilih Agen--</option>
+                                            @foreach ($agencies as $agency)
+                                            @if (old('agent' == $agency->id))
+                                            <option value="{{$agency->id}}" selected>
+                                                {{$agency->city?->name}}/{{$agency->name}}</option>
+                                            @else
+                                            <option value="{{$agency->id}}">
+                                                {{$agency->city?->name}}/{{$agency->name}}
+                                            </option>
+                                            @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-success">Cari</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
                         <h3 class="card-title">Table User Agent</h3>
                         <div class="text-right">
                             <a href="{{route('user_agent.create')}}" class="btn btn-primary btn-sm">Tambah</a>
@@ -33,7 +71,7 @@ User Agent
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>Nama</th>
@@ -95,6 +133,15 @@ User Agent
 </div>
 @endsection
 @push('script')
+<script>
+    $(function () {
+        $('.select2').select2()
+    })
+    $('.select2bs4').select2({
+        theme: 'bootstrap4'
+    })
+
+</script>
 <script>
     $(function () {
       $("#example1").DataTable({
