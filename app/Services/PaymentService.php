@@ -49,7 +49,7 @@ class PaymentService {
             Xendit::setApiKey(env('API_KEY_XENDIT'));
             return \Xendit\Invoice::retrieve($payment->secret_key)['invoice_url'];
         } else {
-            ""
+            return "";
         }
     }
 
