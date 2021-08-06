@@ -56,10 +56,10 @@ Dashboard
         <div class="col">
             <div class="form-group">
                 <label for="">Agen</label>
-                <select name="" id="" class="form-control">
+                <select name="" id="" class="form-control select2">
                     <option value="">-Semua Agen-</option>
                     @foreach ($agencies as $agency)
-                    <option value="{{$agency->id}}">{{$agency->name}}</option>
+                    <option value="{{$agency->id}}">{{$agency->city?->name}}/{{$agency->name}}</option>
                     @endforeach
                 </select>
             </div>
@@ -69,16 +69,25 @@ Dashboard
                 <label for="">Armada Bus</label>
                 <select name="" id="" class="form-control">
                     <option value="">-Semua Armada-</option>
+                    @foreach ($fleets as $fleet)
+                    <option value="{{$fleet->id}}">{{$fleet->name}}</option>
+                    @endforeach
                 </select>
             </div>
         </div>
         <div class="col">
             <div class="form-group">
                 <label for="">Rute</label>
-                <select name="" id="" class="form-control">
+                <select name="" id="" class="form-control select2">
                     <option value="">-Semua Rute-</option>
+                    @foreach ($routes as $route)
+                    <option value="{{$route->id}}">{{$route->name}}</option>
+                    @endforeach
                 </select>
             </div>
+        </div>
+        <div class="text-right">
+            <button class="btn btn-success">Cari</button>
         </div>
     </div>
     <div class="card card-primary">
@@ -245,6 +254,15 @@ Dashboard
 <!-- ChartJS -->
 <script src="{{asset('plugins/chart.js/Chart.min.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    $(function () {
+        $('.select2').select2()
+    })
+    $('.select2bs4').select2({
+        theme: 'bootstrap4'
+    })
+
+</script>
 <script>
     const labels = [
         'January',

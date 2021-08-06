@@ -119,6 +119,7 @@ Pesanan
                 <div class="card-body" style="display: block;">
                     <table class="table">
                         <thead>
+                            <th>Harga Tiket</th>
                             <th>Makan</th>
                             <th>Travel</th>
                             <th>Member</th>
@@ -129,8 +130,9 @@ Pesanan
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Rp. {{number_format($order_price_distributions->for_food,2)}}</td>
-                                <td>Rp. {{number_format($order_price_distributions->for_travel,2)}}</td>
+                                <td>Rp. {{number_format($order_price_distributions->ticket_only)}}</td>
+                                <td>Rp. {{number_format($order_price_distributions->for_food)}}</td>
+                                <td>Rp. {{number_format($order_price_distributions->for_travel)}}</td>
                                 <td>Rp. {{number_format($order_price_distributions->for_member)}}</td>
                                 <td>Rp. {{number_format($order_price_distributions->for_agent)}}</td>
                                 <td>Rp. {{number_format($order_price_distributions->for_owner)}}</td>
