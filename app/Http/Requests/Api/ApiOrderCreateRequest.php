@@ -17,6 +17,7 @@ class ApiOrderCreateRequest extends ApiRequest
     {
         return [
             'route_id'=>'required|numeric',
+            'departure_agency_id'=>'required|numeric',
             'destination_agency_id'=>'required|numeric',
             'reserve_at'=>'required|date',
             'layout_chair_id'=>'required|array',
