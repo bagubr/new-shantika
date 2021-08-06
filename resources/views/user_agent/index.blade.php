@@ -34,7 +34,8 @@ User Agent
                                 <div class="col">
                                     <div class="form-group">
                                         <label>Nama</label>
-                                        <input type="text" class="form-control" name="name" value="{{old('name')}}">
+                                        <input type="text" class="form-control" name="name" value="{{old('name')}}"
+                                            placeholder="Cari Nama Agen">
                                     </div>
                                 </div>
                                 <div class="col">

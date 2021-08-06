@@ -45,54 +45,13 @@ Dashboard
                     <option value="">Tahun</option>
                 </select>
             </div>
+            <button class="btn btn-submit">Cari</button>
             <div class="chart">
                 <canvas id="barChart"
                     style="min-height: 250px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
             </div>
         </div>
     </div>
-    <form action="">
-
-        <div class="form-row">
-            <div class="col">
-                <div class="form-group">
-                    <label for="">Agen</label>
-                    <select name="" id="" class="form-control select2">
-                        <option value="">-Semua Agen-</option>
-                        @foreach ($agencies as $agency)
-                        <option value="{{$agency->id}}">{{$agency->city?->name}}/{{$agency->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="">Armada Bus</label>
-                    <select name="" id="" class="form-control">
-                        <option value="">-Semua Armada-</option>
-                        @foreach ($fleets as $fleet)
-                        <option value="{{$fleet->id}}">{{$fleet->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="">Rute</label>
-                    <select name="" id="" class="form-control select2">
-                        <option value="">-Semua Rute-</option>
-                        @foreach ($routes as $route)
-                        <option value="{{$route->id}}">{{$route->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="text-right">
-            <button class="btn btn-success">Cari</button>
-        </div>
-    </form>
-
     <div class="card card-primary">
         <div class="card-header">
             <h3 class="card-title">Pemesan</h3>
@@ -103,7 +62,47 @@ Dashboard
             </div>
         </div>
         <div class="card-body">
-            <table id="example1" class="table table-bordered table-striped">
+            <form action="">
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="">Agen</label>
+                            <select name="" id="" class="form-control select2">
+                                <option value="">-Semua Agen-</option>
+                                @foreach ($agencies as $agency)
+                                <option value="{{$agency->id}}">{{$agency->city?->name}}/{{$agency->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="">Armada Bus</label>
+                            <select name="" id="" class="form-control">
+                                <option value="">-Semua Armada-</option>
+                                @foreach ($fleets as $fleet)
+                                <option value="{{$fleet->id}}">{{$fleet->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="">Rute</label>
+                            <select name="" id="" class="form-control select2">
+                                <option value="">-Semua Rute-</option>
+                                @foreach ($routes as $route)
+                                <option value="{{$route->id}}">{{$route->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <button class="btn btn-success">Cari</button>
+                </div>
+            </form>
+            <table id="example1" class="table table-bordered table-striped mt-3">
                 <thead>
                     <tr>
                         <th>Agen</th>
