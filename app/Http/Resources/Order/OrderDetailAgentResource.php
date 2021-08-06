@@ -46,7 +46,8 @@ class OrderDetailAgentResource extends JsonResource
             'id_member'=>$this->id_member,
             'price'=>$this->distribution->ticket_only * count($this->order_detail),
             'total_price'=>$this->price,
-            'commision'=>$this->distribution->for_agent
+            'commision'=>$this->distribution->for_agent,
+            'review'=>$this->review
         ];
     }
 }

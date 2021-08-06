@@ -66,7 +66,7 @@ class OrderController extends Controller
 
     public function exchange(Request $request) {
         $order = OrderRepository::findByCodeOrder($request->code_order)
-            ?? $this->sendFailedResponse([], "Kode ticket tidak ditemukan");
+            ?? $this->sendFailedResponse([], "Kode tiket tidak ditemukan, periksa ulang kode anda");
         $order = OrderRepository::findWithDetailWithPayment($order->id);
 
         return $this->sendSuccessResponse([
