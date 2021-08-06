@@ -14,7 +14,7 @@ class RatingController extends Controller
     public function index(Request $request) {
         $user = UserRepository::findByToken($request->bearerToken());
 
-        $rating = ReviewRepository::getHistoryOfAgent($user->agency->agent->id);
+        $rating = ReviewRepository::getHistoryOfAgent($user->agencies->agent->id);
 
         $this->sendSuccessResponse([
             'rating'=>ReviewResource::collection($rating)
