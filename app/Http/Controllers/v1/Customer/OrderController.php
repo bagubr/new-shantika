@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Repositories\UserRepository;
 use App\Repositories\OrderRepository;
 use App\Http\Resources\Order\OrderDetailCustomerResource;
+use App\Http\Resources\Order\OrderListCustomerResource;
 use App\Http\Resources\Order\OrderTiketResource;
 use App\Services\OrderService;
 use App\Services\PaymentService;
@@ -30,7 +31,7 @@ class OrderController extends Controller
         }
         
         return $this->sendSuccessResponse([
-            'order'=> $order,
+            'order'=> OrderListCustomerResource::collection($order),
         ]);
     }
     
@@ -39,7 +40,7 @@ class OrderController extends Controller
         $order = OrderRepository::findWithDetailWithPayment($id);
         return $this->sendSuccessResponse([
             'data_order' => new OrderDetailCustomerResource($order),
-            'payment' => OrderService::getInvoice($order->payment()->first())
+            'payment' => OrderService::getInvoice($order->payment->first())
         ]);
     }
 

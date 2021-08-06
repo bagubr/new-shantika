@@ -2,9 +2,11 @@
 
 namespace App\Http\Resources\Order;
 
+use App\Http\Resources\CheckpointResource;
 use App\Http\Resources\CheckpointStartEndResource;
 use App\Http\Resources\OrderDetailChairResource;
 use App\Models\Booking;
+use App\Repositories\CheckpointRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class OrderListAgentResource extends JsonResource
@@ -18,6 +20,7 @@ class OrderListAgentResource extends JsonResource
     public function toArray($request)
     {
         $checkpoint_max_index = count($this->route->checkpoints) - 1;
+        $checkpoint_destination = CheckpointRepository::findByRouteAndAgency($this->route_id, $this->destination_agency_id);
         return [
             'id'=>$this->id,
             'layout_chair_id'=> Booking::where('code_booking', $this->code)->pluck('layout_chair_id') ?? $this->order_detail?->pluck('layout_chair_id'),
@@ -32,6 +35,7 @@ class OrderListAgentResource extends JsonResource
             'status'=>$this->status,
             'type'=>$this->type,
             'checkpoints'        => new CheckpointStartEndResource($this->route),
+            'checkpoint_destination' => new CheckpointResource($checkpoint_destination)
         ];
     }
 }
