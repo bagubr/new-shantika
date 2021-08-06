@@ -29,7 +29,9 @@ class Order extends Model
         'exchanged_at',
         'reserve_at',
         'id_member',
-        'proof'
+        'proof',
+        'destination_agency_id',
+        'departure_agency_id',
     ];
 
     public static function status()
@@ -65,5 +67,9 @@ class Order extends Model
     public function distribution()
     {
         return $this->hasOne(OrderPriceDistribution::class, 'order_id', 'id');
+    }
+
+    public function review() {
+        return $this->hasOne(Review::class, 'order_id', 'id');
     }
 }

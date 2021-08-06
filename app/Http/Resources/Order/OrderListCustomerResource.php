@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources\Order;
 
+use App\Http\Resources\CheckpointResource;
 use App\Http\Resources\CheckpointStartEndResource;
+use App\Repositories\CheckpointRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class OrderListCustomerResource extends JsonResource
@@ -16,6 +18,7 @@ class OrderListCustomerResource extends JsonResource
     public function toArray($request)
     {
         $checkpoint_max_index = count($this->route->checkpoints) - 1;
+        $checkpoint_destination = CheckpointRepository::findByRouteAndAgency($this->route?->id, $this->destination_agency_id);
         return [
             'id'=>$this->id,
             'code_order'=>$this->code_order,
@@ -25,6 +28,7 @@ class OrderListCustomerResource extends JsonResource
             'price'=>$this->price,
             'status'=>$this->status,
             'checkpoints'        => new CheckpointStartEndResource($this->route),
+            'checkpoint_destination' => new CheckpointResource($checkpoint_destination),
         ];
     }
 }

@@ -31,7 +31,9 @@ class OrderController extends Controller
             'route_id'=>$request->route_id,
             'id_member'=>$request->id_member,
             'reserve_at'=>$request->reserve_at,
-            'status'=>Order::STATUS3
+            'status'=>Order::STATUS3,
+            'departure_agency_id'=>$request->departure_agency_id,
+            'destination_agency_id'=>$request->destination_agency_id
         ]);
         $order = OrderService::create($order, $request);
         DB::commit();
@@ -41,8 +43,8 @@ class OrderController extends Controller
     }
 
     public function index(Request $request) {
-        $user_id = UserRepository::findByToken($request->bearerToken())?->id;
-        $order = OrderRepository::unionBookingByUserIdAndDate($user_id, $request->date);
+        $user = UserRepository::findByToken($request->bearerToken());
+        $order = OrderRepository::unionBookingByUserIdAndDate($user, $request->date);
         $deposit = OrderPriceDistributionRepository::getSumDepositOfAgencyByDate($request->bearerToken(), $request->date);
         return $this->sendSuccessResponse([
             'order'=> OrderListAgentResource::collection($order),

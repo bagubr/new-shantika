@@ -2,8 +2,10 @@
 
 namespace App\Http\Resources\Order;
 
+use App\Http\Resources\CheckpointResource;
 use App\Http\Resources\CheckpointStartEndResource;
 use App\Models\Setting;
+use App\Repositories\CheckpointRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class OrderDetailCustomerResource extends JsonResource
@@ -18,6 +20,7 @@ class OrderDetailCustomerResource extends JsonResource
     {
         $checkpoint_max_index = count($this->route->checkpoints) - 1;
         $seting = Setting::first();
+        $checkpoint_destination = CheckpointRepository::findByRouteAndAgency($this->route?->id, $this->destination_agency_id);
         return [
             'id'=>$this->id,
             'code_order'=>$this->code_order,
@@ -25,6 +28,7 @@ class OrderDetailCustomerResource extends JsonResource
             'fleet_class'=>$this->route?->fleet?->fleetclass?->name,
             'total_passenger'=>count($this->order_detail),
             'checkpoints'        => new CheckpointStartEndResource($this->route),
+            'checkpoint_destination' => new CheckpointResource($checkpoint_destination),
             'created_at'=>date('Y-m-d H:i:s', strtotime($this->created_at)),
             'reserve_at'=>date('Y-m-d H:i:s', strtotime($this->reserve_at)),
             'departure_at'=>$this->route->departure_at,
@@ -38,6 +42,7 @@ class OrderDetailCustomerResource extends JsonResource
             'id_member'=>$this->id_member,
             'payment_type'=>$this->payment?->payment_type?->name,
             'price'=>$this->price,
+            'review'=>$this->review ?? (object) [],
         ];
     }
 

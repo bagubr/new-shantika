@@ -2,9 +2,11 @@
 
 namespace App\Http\Resources\Order;
 
+use App\Http\Resources\CheckpointResource;
 use App\Http\Resources\CheckpointStartEndResource;
 use App\Http\Resources\OrderDetailChairResource;
 use App\Http\Resources\OrderDetailSetoranAgentResource;
+use App\Repositories\CheckpointRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class OrderDetailAgentResource extends JsonResource
@@ -18,6 +20,7 @@ class OrderDetailAgentResource extends JsonResource
     public function toArray($request)
     {
         $checkpoint_max_index = count($this->route->checkpoints) - 1;
+        $checkpoint_destination = CheckpointRepository::findByRouteAndAgency($this->route?->id, $this->destination_agency_id);
         $price_feed = $this->distribution->for_food;
         $price_travel = $this->distribution->for_travel;
         $price_member = $this->distribution->for_member;
@@ -28,6 +31,7 @@ class OrderDetailAgentResource extends JsonResource
             'fleet_class'=>$this->route?->fleet?->fleetclass?->name,
             'total_passenger'=>count($this->order_detail ?? []),
             'checkpoints'        => new CheckpointStartEndResource($this->route),
+            'checkpoint_destination' => new CheckpointResource($checkpoint_destination),
             'created_at'=>date('Y-m-d H:i:s', strtotime($this->created_at)),
             'reserve_at'=>date('Y-m-d H:i:s', strtotime($this->reserve_at)),
             'departure_at'=>$this->route->departure_at,
