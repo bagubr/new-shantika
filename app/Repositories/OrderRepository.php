@@ -63,7 +63,7 @@ class OrderRepository {
             ->addSelect(DB::raw("price"))
             ->addSelect(DB::raw("(select agency_id as destination_agency_id from checkpoints where checkpoints.route_id = orders.route_id and checkpoints.agency_id = orders.destination_agency_id) as destination_agency_id"))
             ->where('departure_agency_id', $user->agencies->agent->id)
-            ->where('status', Order::STATUS5)
+            ->whereIn('status', [Order::STATUS5, Order::STATUS8])
             ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
             ->union($agen_order)
             ->get();
