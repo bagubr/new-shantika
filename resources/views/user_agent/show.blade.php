@@ -7,7 +7,7 @@ User Agen
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>User Agen Form</h1>
+                <h1>Detail User Agen</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -20,10 +20,10 @@ User Agen
 </section>
 <section class="content">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Form</h3>
+                    <h3 class="card-title">Detail</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -36,15 +36,27 @@ User Agen
                         <input type="text" class="form-control" name="name" placeholder="Masukkan Nama" disabled
                             value="{{isset($user_agent) ? $user_agent->name : old('name')}}">
                     </div>
-                    <div class="form-group">
-                        <label>Jenis Kelamin</label>
-                        <select name="gender" class="form-control" disabled>
-                            <option value="{{$user_agent->gender}}" selected>{{$user_agent->gender}}</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Agen</label>
-                        <p>{{$user_agent->agencies->agent->name}}</p>
+
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Agen</label>
+                                <p>
+                                    <a href="{{route('agency.edit',$user_agent->agencies?->agent?->id)}}"
+                                        target="_blank">
+                                        {{$user_agent->agencies?->agent?->name}}
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Jenis Kelamin</label>
+                                <select name="gender" class="form-control" disabled>
+                                    <option value="{{$user_agent->gender}}" selected>{{$user_agent->gender}}</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-row">
                         <div class="col">
@@ -80,8 +92,63 @@ User Agen
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-
+        <div class="col-md-12">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Riwayat Transaksi</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" style="display: block;">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Kode Order</th>
+                                <th>Rute</th>
+                                <th>Armada</th>
+                                <th>Total Harga</th>
+                                <th>Status</th>
+                                <th>Tanggal Pemesanan</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($orders as $order)
+                            <tr>
+                                <td>{{$order->code_order}}</td>
+                                <td>
+                                    <a href="{{route('routes.show',$order->route?->id)}}" target="_blank">
+                                        {{$order->route?->name}}
+                                    </a>
+                                </td>
+                                <td>
+                                    {{$order->route?->fleet?->name}}/{{$order->route?->fleet?->fleetclass?->name}}
+                                </td>
+                                <td>
+                                    Rp. {{number_format($order->price,2)}}
+                                </td>
+                                <td>{{$order->status}}</td>
+                                <td>{{date('Y-m-d',strtotime($order->reserve_at))}}</td>
+                                <td>
+                                    <a class="badge badge-primary" href="{{route('order.show',$order->id)}}"
+                                        target="_blank">Detail
+                                        Pemesanan</a>
+                                    <form action="{{route('order.destroy',$order->id)}}" class="d-inline" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger btn-xs" onclick="return confirm('Are you sure?')"
+                                            type="submit">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </section>

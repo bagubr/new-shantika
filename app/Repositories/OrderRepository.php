@@ -4,49 +4,50 @@ namespace App\Repositories;
 
 use App\Models\Booking;
 use App\Models\Order;
-use App\Models\OrderDetail;
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Resources\Order\OrderListCustomerResource;
 
-class OrderRepository {
-
+class OrderRepository
+{
     public static function getByUserId($user_id)
     {
-        if($user_id){
+        if ($user_id) {
             $order = Order::whereUserId($user_id)
-            ->orderBy('created_at', 'desc')
-            ->get();
+                ->orderBy('created_at', 'desc')
+                ->get();
             return OrderListCustomerResource::collection($order);
-        }else{
+        } else {
             return [];
         }
     }
-    
-    public static function getByArrayId($order_id) {
-        if($order_id){
-        $order = Order::whereIn('id', $order_id)
-        ->orderBy('created_at', 'desc')
-        ->get();
-        return OrderListCustomerResource::collection($order);
-        }else{
+
+    public static function getByArrayId($order_id)
+    {
+        if ($order_id) {
+            $order = Order::whereIn('id', $order_id)
+                ->orderBy('created_at', 'desc')
+                ->get();
+            return OrderListCustomerResource::collection($order);
+        } else {
             return [];
         }
     }
-    
+
     public static function findWithDetailWithPayment($id)
     {
         return Order::with(['order_detail', 'payment'])->find($id);
     }
 
-    public static function unionBookingByUserIdAndDate($user_id, $date) {
+    public static function unionBookingByUserIdAndDate($user_id, $date)
+    {
         $booking = Booking::select('id', 'route_id', 'user_id', 'booking_at as reserve_at', 'status', 'code_booking as code', 'layout_chair_id')
-        ->addSelect(DB::raw("'BOOKING' as type"))
-        ->addSelect(DB::raw("(select price from routes where routes.id = bookings.route_id) as price"))
-        ->where('expired_at', '>', date('Y-m-d H:i:s'))
-        ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
-        ->whereUserId($user_id)
-        ->distinct('code_booking');
+            ->addSelect(DB::raw("'BOOKING' as type"))
+            ->addSelect(DB::raw("(select price from routes where routes.id = bookings.route_id) as price"))
+            ->where('expired_at', '>', date('Y-m-d H:i:s'))
+            ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
+            ->whereUserId($user_id)
+            ->distinct('code_booking');
         $union =  Order::select('id', 'route_id', 'user_id', 'reserve_at', 'status', 'code_order as code')
             ->whereUserId($user_id)
             ->addSelect(DB::raw("NULL as layout_chair_id"))
@@ -63,47 +64,51 @@ class OrderRepository {
         return Order::with('route.checkpoints')->where('code_order', $code_order)->first();
     }
 
-    public static function countBoughtRouteByAgencyByDate($token, $date) {
+    public static function countBoughtRouteByAgencyByDate($token, $date)
+    {
         $user = UserRepository::findByToken($token);
 
-        return Order::whereHas('user.agencies', function($subquery) use ($user, $date) {
-                $subquery->where('id', $user->agencies->id);
-            })
+        return Order::whereHas('user.agencies', function ($subquery) use ($user, $date) {
+            $subquery->where('id', $user->agencies->id);
+        })
             ->where('status', Order::STATUS3)
             ->whereDate('created_at', $date)
             ->count();
     }
 
-    public static function getBoughtRouteByAgencyByDate($token, $date) {
+    public static function getBoughtRouteByAgencyByDate($token, $date)
+    {
         $user = UserRepository::findByToken($token);
 
-        $order = Order::whereHas('user.agencies', function($subquery) use ($user, $date) {
-                $subquery->where('id', $user->agencies->id);
-            })
+        $order = Order::whereHas('user.agencies', function ($subquery) use ($user, $date) {
+            $subquery->where('id', $user->agencies->id);
+        })
             ->with(['route.fleet'])
             ->where('status', Order::STATUS3)
             ->whereDate('created_at', $date)
             ->get()
             ->groupBy('route.fleet.id')
             ->all();
-        
+
         $order = array_values($order);
-        
+
         return @$order[0];
     }
 
-    public static function getAtDate($date) {
-        return Order::with('order_detail')->where(function($query) use ($date) {
-                $query->whereIn('status', Order::STATUS_BOUGHT)
-                    ->whereDate('reserve_at', $date);
-            })
+    public static function getAtDate($date)
+    {
+        return Order::with('order_detail')->where(function ($query) use ($date) {
+            $query->whereIn('status', Order::STATUS_BOUGHT)
+                ->whereDate('reserve_at', $date);
+        })
             ->get();
     }
 
-    public static function findForPriceDistributionByDateAndFleet($user_id, $date, $fleet_id) {
+    public static function findForPriceDistributionByDateAndFleet($user_id, $date, $fleet_id)
+    {
         $order = Order::with(['order_detail.chair', 'route.fleet', 'route.checkpoints', 'payment', 'distribution'])
             ->whereDate('created_at', $date)
-            ->whereHas('route', function($query) use ($fleet_id) {
+            ->whereHas('route', function ($query) use ($fleet_id) {
                 $query->where('fleet_id', $fleet_id);
             })
             ->where('user_id', $user_id)
@@ -113,14 +118,14 @@ class OrderRepository {
         return $order;
     }
 
-    public static function isOrderUnavailable($route_id,$date, $layout_chair_id) {
+    public static function isOrderUnavailable($route_id, $date, $layout_chair_id)
+    {
         return Order::where('route_id', $route_id)
-        ->where('reserve_at', 'ilike', '%'.$date.'%')
-        ->whereHas('order_detail', function($query) use ($layout_chair_id) {
-            $query->whereIn('layout_chair_id', is_array($layout_chair_id) ? $layout_chair_id : [$layout_chair_id]);
-        })
-        ->whereIn('status', Order::STATUS_BOUGHT)
-        ->exists();
+            ->where('reserve_at', 'ilike', '%' . $date . '%')
+            ->whereHas('order_detail', function ($query) use ($layout_chair_id) {
+                $query->whereIn('layout_chair_id', is_array($layout_chair_id) ? $layout_chair_id : [$layout_chair_id]);
+            })
+            ->whereIn('status', Order::STATUS_BOUGHT)
+            ->exists();
     }
 }
-        

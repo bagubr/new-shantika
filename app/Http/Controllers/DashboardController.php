@@ -19,7 +19,7 @@ class DashboardController extends Controller
         //routes
         $routes = Route::get(['id', 'name']);
         $users = User::all();
-        $orders = Order::all();
+        $orders = Order::paginate(7);
         $count_user = User::doesntHave('agencies')->count();
         $orders_money = Order::has('route')->sum('price');
         return view('dashboard', compact('users', 'orders', 'count_user', 'orders_money', 'agencies', 'fleets', 'routes'));

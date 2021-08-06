@@ -132,7 +132,7 @@ Pemesanan
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Customer</th>
+                                    <th>Pemesan</th>
                                     <th>Kode Order</th>
                                     <th>Rute</th>
                                     <th>Armada</th>
@@ -145,7 +145,16 @@ Pemesanan
                             <tbody>
                                 @foreach ($orders as $order)
                                 <tr>
-                                    <td>{{$order->user->name ?? $order->order_detail[0]->name}}</td>
+                                    <td>
+                                        @if ($order->agency)
+                                        <a href="{{route('user_agent.show',$order->user?->agencies->agency_id)}}"
+                                            target="_blank">
+                                            {{$order->user?->name_agent}}
+                                        </a>
+                                        @else
+                                        {{$order->order_detail[0]->name}}
+                                        @endif
+                                    </td>
                                     <td>{{$order->code_order}}</td>
                                     <td>
                                         <a href="{{route('routes.show',$order->route?->id)}}" target="_blank">

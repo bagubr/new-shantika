@@ -90,7 +90,7 @@ User Agent
                                     <td>
                                         <a href="{{route('agency.edit',$user_agent->agencies?->agent->id)}}"
                                             target="_blank">
-                                            {{$user_agent->agencies?->agent->name}}/{{$user_agent->agencies?->agent->city->name}}
+                                            {{$user_agent->agencies?->agent?->name}}/{{$user_agent->agencies?->agent?->city?->name}}
                                         </a>
                                     </td>
                                     <td>{{$user_agent->email}}</td>
@@ -104,10 +104,10 @@ User Agent
                                         @endif
                                     </td>
                                     <td>
-                                        {{-- <a href="{{route('user_agent.show',$user_agent->id)}}"
-                                        class="btn btn-primary btn-xs" target="_blank">
-                                        Detail
-                                        </a> --}}
+                                        <a href="{{route('user_agent.show',$user_agent->id)}}"
+                                            class="btn btn-primary btn-xs" target="_blank">
+                                            Detail
+                                        </a>
                                         <a href="{{route('user_agent.edit',$user_agent->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('user_agent.destroy',$user_agent->id)}}" class="d-inline"
@@ -122,6 +122,9 @@ User Agent
                                 @endforeach
                             </tbody>
                         </table>
+                        {{-- @if (route('user_agent.index'))
+                        {{$users->links("pagination::bootstrap-4")}}
+                        @endif --}}
                     </div>
                     <!-- /.card-body -->
                 </div>

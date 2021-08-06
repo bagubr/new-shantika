@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserAgent\CreateUserAgentRequest;
 use App\Http\Requests\UserAgent\UpdateUserAgentRequest;
-use App\Models\Agency;
+use App\Models\Order;
 use App\Models\User;
 use App\Models\UserAgent;
 use App\Repositories\AgencyRepository;
@@ -92,7 +92,8 @@ class UserAgentController extends Controller
      */
     public function show(User $user_agent)
     {
-        return view('user_agent.show', compact('user_agent'));
+        $orders = Order::where('user_id', $user_agent->id)->get();
+        return view('user_agent.show', compact('user_agent', 'orders'));
     }
 
     /**

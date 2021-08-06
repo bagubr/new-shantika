@@ -23,7 +23,7 @@ class OrderController extends Controller
         $orders = Order::orderBy('id', 'desc')->paginate(7);
         $routes = Route::all();
         $agent = ['AGENT', 'UMUM'];
-        $status = ['PENDING', 'EXCHANGED', 'PAID', 'CANCELED', 'EXPIRED'];
+        $status = ['PENDING', 'EXCHANGED', 'PAID', 'CANCELED', 'EXPIRED', 'WAITING_CONFIRMATION'];
         return view('order.index', compact('orders', 'routes', 'status', 'agent'));
     }
     public function search(Request $request)
@@ -38,7 +38,7 @@ class OrderController extends Controller
 
         $routes = RoutesRepository::getIdName();
         $orders = Order::query();
-        $status = ['PENDING', 'EXCHANGED', 'PAID', 'CANCELED', 'EXPIRED'];
+        $status = ['PENDING', 'EXCHANGED', 'PAID', 'CANCELED', 'EXPIRED', 'WAITING_CONFIRMATION'];
         $agent = ['AGENT', 'UMUM'];
 
         if (!empty($routes_search)) {
