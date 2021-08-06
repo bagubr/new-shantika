@@ -51,7 +51,8 @@ class OrderController extends Controller
             'route_id'=>$request->route_id,
             'id_member'=>$request->id_member,
             'reserve_at'=>$request->reserve_at,
-            'status'=>Order::STATUS1
+            'status'=>Order::STATUS1,
+            'destination_agency_id'=>$request->destination_agency_id
         ]);
         $request['is_travel'] = false;
         $request['is_feed'] = true;
