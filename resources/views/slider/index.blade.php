@@ -37,6 +37,7 @@ Slider
                             <thead>
                                 <tr>
                                     <th>Nama</th>
+                                    <th>Tipe</th>
                                     <th>Gambar</th>
                                     <th>Deskripsi</th>
                                     <th>Aksi</th>
@@ -46,6 +47,7 @@ Slider
                                 @foreach ($sliders as $slider)
                                 <tr>
                                     <td>{{$slider->name}}</td>
+                                    <td>{{$slider->type}}</td>
                                     <td>
                                         <a href="{{$slider->image}}" data-toggle="lightbox">
                                             <img src="{{$slider->image}}" height="100px" alt="">

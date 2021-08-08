@@ -4,7 +4,7 @@ namespace App\Http\Requests\CustomerMenu;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateCustomerMenuRequest extends FormRequest
+class UpdateCustomerMenuRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +26,7 @@ class CreateCustomerMenuRequest extends FormRequest
         return [
             'name' => 'required',
             'icon' => 'nullable|image|max:2048',
-            'order' => 'required|unique:customer_menus,order'
+            'order' => 'required|unique:customer_menus,order,' . $this->customer_menu->id
         ];
     }
 }

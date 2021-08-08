@@ -61,7 +61,7 @@ Detail Pembayaran
                 <div class="col">
                     <div class="form-group">
                         <label>Tipe Pembayaran</label>
-                        <select class="form-control" name="payment_type_id" style="width: 100%;">
+                        <select class="form-control" name="payment_type_id" style="width: 100%;" disabled>
                             <option value="">Pilih Tipe Pembayaran</option>
                             @foreach ($payment_types as $payment_type)
                             <option value="{{$payment_type->id}}" @isset($payment) @if ($payment_type->id

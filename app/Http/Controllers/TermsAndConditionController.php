@@ -15,8 +15,8 @@ class TermsAndConditionController extends Controller
      */
     public function index()
     {
-        $terms_conditions = TermAndCondition::all();
-        return view('terms_condition.index', compact('terms_conditions'));
+        $terms_condition = TermAndCondition::where('id', '1')->first();
+        return view('terms_condition.create', compact('terms_condition'));
     }
 
     /**

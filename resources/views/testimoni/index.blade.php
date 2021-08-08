@@ -47,9 +47,12 @@ Testimoni Pengguna
                                 @foreach ($testimonials as $testimoni)
                                 <tr>
                                     <td>{{$testimoni->title}}</td>
-                                    <td>{{$testimoni->user->name}}</td>
-                                    <td><img src="{{$testimoni->image}}" height="100px"
-                                            alt="{{$testimoni->user->name}}">
+                                    <td>{{$testimoni->user?->name}}</td>
+                                    <td>
+                                        <a href="{{$testimoni->image}}" data-toggle="lightbox">
+                                            <img src="{{$testimoni->image}}" height="100px"
+                                                alt="{{$testimoni->user?->name}}">
+                                        </a>
                                     </td>
                                     <td>{!!$testimoni->review!!}</td>
                                     <td>

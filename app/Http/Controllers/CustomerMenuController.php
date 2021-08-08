@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CustomerMenu\CreateCustomerMenuRequest;
+use App\Http\Requests\CustomerMenu\UpdateCustomerMenuRequest;
 use App\Models\CustomerMenu;
 use CreateCustomerMenus;
 use Illuminate\Http\Request;
@@ -75,9 +76,9 @@ class CustomerMenuController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CreateCustomerMenuRequest $request, CustomerMenu $customer_menu)
+    public function update(UpdateCustomerMenuRequest $request, CustomerMenu $customer_menu)
     {
-        $data = $request->only(['name']);
+        $data = $request->only(['name', 'order']);
         if ($request->hasFile('icon')) {
             $icon = $request->icon->store('icon', 'public');
             $customer_menu->deleteImage();

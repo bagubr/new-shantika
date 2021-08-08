@@ -38,6 +38,7 @@ Menu Pengguna
                                 <tr>
                                     <th>Nama</th>
                                     <th>Icon</th>
+                                    <th>Urutan</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -47,6 +48,7 @@ Menu Pengguna
                                     <td>{{$customer_menu->name}}</td>
                                     <td><img src="{{$customer_menu->icon}}" height="100px" alt="">
                                     </td>
+                                    <td>{{$customer_menu->order}}</td>
                                     <td><a href="{{route('customer_menu.edit',$customer_menu->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('customer_menu.destroy',$customer_menu->id)}}"

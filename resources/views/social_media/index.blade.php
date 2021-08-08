@@ -47,7 +47,11 @@ Sosial Media
                                 <tr>
                                     <td>{{$social_media->name}}</td>
                                     <td>{{$social_media->value}}</td>
-                                    <td><img src="{{$social_media->icon}}" height="100px" alt=""></td>
+                                    <td>
+                                        <a href="{{$social_media->icon}}" data-toggle="lightbox">
+                                            <img src="{{$social_media->icon}}" height="100px" alt="">
+                                        </a>
+                                    </td>
                                     <td><a href="{{route('social_media.edit',$social_media->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('social_media.destroy',$social_media->id)}}"

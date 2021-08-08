@@ -41,9 +41,14 @@ Menu Pengguna
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label>Menu Pengguna Nama</label>
+                            <label>Nama Menu</label>
                             <input type="text" class="form-control" name="name"
                                 value="{{isset($customer_menu) ? $customer_menu->name : ''}}">
+                        </div>
+                        <div class="form-group">
+                            <label>Urutan</label>
+                            <input type="number" class="form-control" name="order"
+                                value="{{isset($customer_menu) ? $customer_menu->order : ''}}">
                         </div>
                         <div class="form-group">
                             <label>Icon</label>

@@ -17,8 +17,8 @@ class PrivacyPolicyController extends Controller
      */
     public function index()
     {
-        $privacy_policies = PrivacyPolicyRepository::all();
-        return view('privacy_policy.index', compact('privacy_policies'));
+        $privacy_policy = PrivacyPolicy::where('id', '1')->first();
+        return view('privacy_policy.create', compact('privacy_policy'));
     }
 
     /**
