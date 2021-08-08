@@ -55,8 +55,9 @@ Riwayat Pembayaran
                                         <a href="{{$payment->proof_url}}" date-toggle="lightbox">
                                             <img src="{{$payment->proof_url}}" class="image-thumbnail" height="100px">
                                         </a>
-                                        @endif
+                                        @else
                                         Tidak Ada Bukti Pembayaran
+                                        @endif
                                     </td>
                                     <td>
                                         @if ($payment->paid_at)
