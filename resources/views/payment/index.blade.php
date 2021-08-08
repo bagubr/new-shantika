@@ -52,7 +52,7 @@ Riwayat Pembayaran
                                     <td>{{$payment->status}}</td>
                                     <td>
                                         @if ($payment->proof)
-                                        <a href="{{$payment->proof_url}}" date-toggle="lightbox">
+                                        <a href="{{$payment->proof_url}}" data-toggle="lightbox">
                                             <img src="{{$payment->proof_url}}" class="image-thumbnail" height="100px">
                                         </a>
                                         @else
