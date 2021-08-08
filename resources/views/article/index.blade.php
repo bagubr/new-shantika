@@ -42,7 +42,11 @@ Artikel
                                 @foreach ($articles as $article)
                                 <tr>
                                     <td>{{$article->name}}</td>
-                                    <td><img src="{{$article->image}}" height="100px" alt=""></td>
+                                    <td>
+                                        <a href="{{$article->image}}" data-toggle="lightbox">
+                                            <img src="{{$article->image}}" height="100px" alt="">
+                                        </a>
+                                    </td>
                                     <td><a href="{{route('article.edit',$article->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('article.destroy',$article->id)}}" class="d-inline"

@@ -21,7 +21,7 @@ class DashboardController extends Controller
         //routes
         $routes = Route::get(['id', 'name']);
         $now = Order::whereDate('created_at', date('Y-m-d'))->get();
-        dd($now);
+        // dd($now);
         $users = User::all();
         $orders = Order::paginate(7);
         $count_user = User::doesntHave('agencies')->count();

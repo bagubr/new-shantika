@@ -46,8 +46,10 @@ Fasilitas
                                 <tr>
                                     <td>{{ $facility->name }}</td>
                                     <td class="text-center">
-                                        <img src="{{$facility->image}}" class="img-thumbnail" style="max-height: 100px"
-                                            alt="">
+                                        <a href="{{$facility->image}}" data-toggle="lightbox">
+                                            <img src="{{$facility->image}}" class="img-thumbnail"
+                                                style="max-height: 100px" alt="">
+                                        </a>
                                     </td>
                                     <td>
                                         <a href="{{route('facility.edit',$facility->id)}}"

@@ -50,7 +50,13 @@ Riwayat Pembayaran
                                     </td>
                                     <td>{{$payment->payment_type->name}}</td>
                                     <td>{{$payment->status}}</td>
-                                    <td><img src="{{$payment->proof_url}}" class="image-thumbnail" height="100px">
+                                    <td>
+                                        @if ($payment->proof)
+                                        <a href="{{$payment->proof_url}}" date-toggle="lightbox">
+                                            <img src="{{$payment->proof_url}}" class="image-thumbnail" height="100px">
+                                        </a>
+                                        @endif
+                                        Tidak Ada Bukti Pembayaran
                                     </td>
                                     <td>
                                         @if ($payment->paid_at)

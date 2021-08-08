@@ -46,7 +46,11 @@ Slider
                                 @foreach ($sliders as $slider)
                                 <tr>
                                     <td>{{$slider->name}}</td>
-                                    <td><img src="{{$slider->image}}" height="100px" alt=""></td>
+                                    <td>
+                                        <a href="{{$slider->image}}" data-toggle="lightbox">
+                                            <img src="{{$slider->image}}" height="100px" alt="">
+                                        </a>
+                                    </td>
                                     {{-- <td>{!!$slider->description!!}</td> --}}
                                     <td>{{$slider->type}}</td>
                                     <td><a href="{{route('slider.edit',$slider->id)}}"

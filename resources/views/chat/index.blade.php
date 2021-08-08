@@ -53,7 +53,11 @@ Chat
                                         </a>
                                     </td>
                                     <td>{{$chat->type}}</td>
-                                    <td><img src="{{$chat->icon}}" height="100px" alt=""></td>
+                                    <td>
+                                        <a href="{{$chat->icon}}" data-toggle="lightbox">
+                                            <img src="{{$chat->icon}}" height="100px" alt="">
+                                        </a>
+                                    </td>
                                     <td><a href="{{route('chat.edit',$chat->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('chat.destroy',$chat->id)}}" class="d-inline"

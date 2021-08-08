@@ -43,14 +43,12 @@ Review Pengguna
                             <tbody>
                                 @foreach ($reviews as $review)
                                 <tr>
-                                    @if ($review->order)
                                     <td>
-                                        <a href="{{route('order.show',$review->order->id)}}">
-                                            {{$review->order->code_order}}
+                                        <a href="{{route('order.show',$review->order?->id)}}" target="_blank">
+                                            {{$review->order?->code_order}}
                                         </a>
                                     </td>
-                                    <td>{{$review->order->user->name}}</td>
-                                    @endif
+                                    <td>{{$review->order?->user?->name}}</td>
                                     <td>
                                         @for ($i = 0; $i < $review->rating; $i++)
                                             <i class="fas fa-star"></i>

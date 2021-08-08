@@ -51,7 +51,9 @@ User
                                     <td>{{$user->email}}</td>
                                     <td>
                                         @if ($user->avatar)
-                                        <img src="{{$user->avatar_url}}" height="100px" alt="">
+                                        <a href="{{$user->avatar_url}}" data-toggle="lightbox">
+                                            <img src="{{$user->avatar_url}}" height="100px" alt="">
+                                        </a>
                                         @elseif($user->avatar === null || $user->avatar === '')
                                         Tidak Ada Gambar
                                         @endif
