@@ -10,14 +10,14 @@ class NotificationBody {
 }
 
 class Firebase {
-    public static function sendNotification(NotificationBody|array $notification, $fcm_token, $data = null) {
+    public static function sendNotification(NotificationBody|array $notification, $fcm_token, $payload = null) {
         $token = self::oAuthFirebase()['access_token'];
         $data = json_encode([
             'message'=> (object) [
                 "token"=> $fcm_token,
-                "notification"=> is_array($notification) ? (object) $notification : $notification
+                "notification"=> is_array($notification) ? (object) $notification : $notification,
+                "data"=> empty($payload) ? (object) [] : $payload
             ],
-            'data'=> empty($data) ? (object) [] : $data
         ]);
 
         $ch = curl_init();
@@ -42,14 +42,14 @@ class Firebase {
         return json_decode($output);
     }
     
-    public static function sendToTopic(NotificationBody|array $notification, $topic, $data = null) {
+    public static function sendToTopic(NotificationBody|array $notification, $topic, $payload = null) {
         $token = self::oAuthFirebase()['access_token'];
         $data = json_encode([
             'message'=> (object) [
-                'topic'=>$topic,
-                "notification"=> is_array($notification) ? (object) $notification : $notification
+                "topic"=>$topic,
+                "notification"=> is_array($notification) ? (object) $notification : $notification,
+                "data"=>empty($payload) ? (object) [] : (object) $payload
             ],
-            'data'=>empty($data) ? (object) [] : $data
         ]);
 
         $ch = curl_init();
@@ -73,6 +73,7 @@ class Firebase {
 
         return json_decode($output);
     }
+
 
     private static function oAuthFirebase() {
         putenv('GOOGLE_APPLICATION_CREDENTIALS='.base_path('agen-santika-firebase-adminsdk-30qo7-3c8d02dbf7.json'));
