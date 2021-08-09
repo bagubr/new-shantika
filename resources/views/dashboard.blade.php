@@ -26,7 +26,6 @@ Dashboard
 <!-- Main content -->
 <section class="content">
     <div class="card card-success">
-
         <div class="card-header">
             <h3 class="card-title">Statistik Penjualan Tiket</h3>
             <div class="card-tools">
@@ -45,7 +44,9 @@ Dashboard
                     <option value="">Tahun</option>
                 </select>
             </div>
-            <button class="btn btn-submit">Cari</button>
+            <div class="text-right">
+                <button class="btn btn-success">Cari</button>
+            </div>
             <div class="chart">
                 <canvas id="barChart"
                     style="min-height: 250px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
@@ -300,7 +301,9 @@ Dashboard
 <script>
     $(function(){
         var areaChartData = {
-      labels  : ['January', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli','Agustus','September','Oktober','November','Desember'],
+      labels  : [@foreach ($data['params'] as $d)
+      "{{$d}}",
+      @endforeach],
       datasets: [
         {
           label               : 'Jawa',
@@ -311,7 +314,9 @@ Dashboard
           pointStrokeColor    : '#c1c7d1',
           pointHighlightFill  : '#fff',
           pointHighlightStroke: 'rgba(220,220,220,1)',
-          data                : [65, 59, 80, 81, 56, 55, 40]
+          data                : [@foreach ($data['weekly'][0] as $d)
+              {{$d}},
+          @endforeach]
         },
         {
           label               : 'Jabodetabek',
@@ -322,7 +327,9 @@ Dashboard
           pointStrokeColor    : '#c1c7d1',
           pointHighlightFill  : '#fff',
           pointHighlightStroke: 'rgba(220,220,220,1)',
-          data                : [65, 59, 80, 81, 56, 55, 40]
+          data                : [@foreach ($data['weekly2'][0] as $d)
+              {{$d}},
+          @endforeach]
         },
       ]
     }
