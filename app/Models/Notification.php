@@ -12,11 +12,11 @@ class Notification extends Model
     const TOPIC1 = 'FEATURE';
     const TOPIC2 = 'REMINDER';
 
-    public function __construct(
-        public string $title,
-        public string $body,
-        public string $type
-    ) {}
+    const TYPE1 = 'PAYMENT';
+    const TYPE2 = 'ACCOUNT';
+    const TYPE3 = 'SLIDER';
+    const TYPE4 = 'ARTICLE';
+    const TYPE5 = 'CHAIR_CHANGE';
 
     protected $fillable = [
         'user_id', 'reference_id', 'title', 'body', 'type', 'is_seen'

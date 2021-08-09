@@ -28,7 +28,9 @@ class SendNotification
     {
         $firebase = Firebase::sendNotification([
             'title'=>$event->notification->title,
-            'body'=>$event->notification->body
+            'body'=>$event->notification->body,
+            'type'=>$event->notification->type,
+            'reference_id'=>$event->notification->reference_id,
         ], $event->fcm_token);
 
 
