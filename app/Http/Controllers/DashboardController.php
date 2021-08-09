@@ -16,15 +16,15 @@ class DashboardController extends Controller
     {
         $data_statistic = ['weekly' => 'Mingguan', 'monthly' => 'Bulan', 'yearly' => 'Tahun'];
         if ($request->statistic) {
-            if ($request->statistic == 'weekly') {
-                $data = $this->weekly();
+            if ($request->statistic == 'yearly') {
+                $data = $this->yearly();
             } elseif ($request->statistic == 'monthly') {
                 $data = $this->monthly();
             } else {
-                $data = $this->yearly();
+                $data = $this->weekly();
             }
         } else {
-            $data = $this->yearly();
+            $data = $this->weekly();
         }
         $agencies = Agency::all();
         $fleets = Fleet::get(['id', 'name']);
