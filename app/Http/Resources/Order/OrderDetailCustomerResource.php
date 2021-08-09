@@ -4,6 +4,7 @@ namespace App\Http\Resources\Order;
 
 use App\Http\Resources\CheckpointResource;
 use App\Http\Resources\CheckpointStartEndResource;
+use App\Models\Order;
 use App\Models\Setting;
 use App\Repositories\CheckpointRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -36,9 +37,9 @@ class OrderDetailCustomerResource extends JsonResource
             'name_passenger'=>$this->order_detail[0]->name,
             'phone_passenger'=>$this->order_detail[0]->phone,
             'seat_passenger'=>$this->order_detail->pluck('chair.name'),
-            'price_member'=>$this->getPriceMember($this->order_detail->pluck('is_member')->toArray(), $seting->member),
-            'price_travel'=>$this->getPriceTravel($this->order_detail->pluck('is_travel')->toArray(), $seting->travel),
-            'price_feed'=>$this->getPriceFeed($this->order_detail->pluck('is_feed')->toArray(), $this->route?->fleet?->fleetclass?->price_food),
+            'price_member'=>$this->getPriceMember($this->order),
+            'price_travel'=>$this->getPriceTravel($this->order),
+            'price_feed'=>$this->getPriceFeed($this->order),
             'id_member'=>$this->id_member,
             'payment_type'=>$this->payment?->payment_type?->name,
             'price'=>$this->price,
@@ -46,36 +47,18 @@ class OrderDetailCustomerResource extends JsonResource
         ];
     }
 
-    public function getPriceFeed(array $is_feed, $price_food)
+    public function getPriceFeed(Order $order)
     {
-        $price = 0;
-        foreach ($is_feed as $key => $value) {
-            if($value == true){
-                $price += $price_food;
-            }
-        }
-        return $price;
+        return abs($order->distribution->for_food / count($order->order_detail));
     }
     
-    public function getPriceTravel(array $is_travel, $price_travel)
+    public function getPriceTravel(Order $order)
     {
-        $price = 0;
-        foreach ($is_travel as $key => $value) {
-            if($value == true){
-                $price += $price_travel;
-            }
-        }
-        return $price;
+        return abs($order->distribution->for_travel);
     }
 
-    public function getPriceMember(array $is_member, $price_member)
+    public function getPriceMember(Order $order)
     {
-        $price = 0;
-        foreach ($is_member as $key => $value) {
-            if($value == true){
-                $price += $price_member;
-            }
-        }
-        return $price;
+        return abs($order->distribution->for_member);
     }
 }
