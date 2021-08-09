@@ -25,6 +25,50 @@ Dashboard
 
 <!-- Main content -->
 <section class="content">
+    <div class="row">
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>{{count($orders)}}</h3>
+
+                    <p>Total Pesanan</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="{{route('order.index')}}" class="small-box-footer">Lebih Lanjut <i
+                        class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3>{{$count_user}}</h3>
+
+                    <p>Pelanggan</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person"></i>
+                </div>
+                <a href="{{route('user.index')}}" class="small-box-footer">Lebih Lanjut <i
+                        class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-12">
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>Rp. {{number_format($orders_money)}}</h3>
+
+                    <p>Total Pemasukan</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-cash"></i>
+                </div>
+                <a href="{{route('user.index')}}" class="small-box-footer">Lebih Lanjut <i
+                        class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+    </div>
     <div class="card card-success">
         <div class="card-header">
             <h3 class="card-title">Statistik Penjualan Tiket</h3>
@@ -185,50 +229,6 @@ Dashboard
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-3 col-6">
-            <div class="small-box bg-info">
-                <div class="inner">
-                    <h3>{{count($orders)}}</h3>
-
-                    <p>Total Pesanan</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-bag"></i>
-                </div>
-                <a href="{{route('order.index')}}" class="small-box-footer">Lebih Lanjut <i
-                        class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <div class="col-lg-3 col-6">
-            <div class="small-box bg-warning">
-                <div class="inner">
-                    <h3>{{$count_user}}</h3>
-
-                    <p>Pelanggan</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-person"></i>
-                </div>
-                <a href="{{route('user.index')}}" class="small-box-footer">Lebih Lanjut <i
-                        class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <div class="col-lg-6 col-sm-12">
-            <div class="small-box bg-success">
-                <div class="inner">
-                    <h3>Rp. {{number_format($orders_money)}}</h3>
-
-                    <p>Total Pemasukan</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-cash"></i>
-                </div>
-                <a href="{{route('user.index')}}" class="small-box-footer">Lebih Lanjut <i
-                        class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
     </div>
