@@ -35,18 +35,20 @@ Dashboard
             </div>
         </div>
         <div class="card-body">
-            <div class="form-group">
-                <label>Periode</label>
-                <select name="" class="form-control" id="">
-                    <option value="">Harian</option>
-                    <option value="">Mingguan</option>
-                    <option value="">Bulanan</option>
-                    <option value="">Tahun</option>
-                </select>
-            </div>
-            <div class="text-right">
-                <button class="btn btn-success">Cari</button>
-            </div>
+            <form action="{{route('dashboard')}}" method="GET">
+                <div class="form-group">
+                    <label>Periode</label>
+                    <select name="statistic" class="form-control" id="">
+                        <option value="">Harian</option>
+                        <option value="weekly">Mingguan</option>
+                        <option value="monthly">Bulanan</option>
+                        <option value="yearly">Tahun</option>
+                    </select>
+                </div>
+                <div class="text-right">
+                    <button class="btn btn-success" type="submit">Cari</button>
+                </div>
+            </form>
             <div class="chart">
                 <canvas id="barChart"
                     style="min-height: 250px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
