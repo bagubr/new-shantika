@@ -10,13 +10,14 @@ class NotificationBody {
 }
 
 class Firebase {
-    public static function sendNotification(NotificationBody|array $notification, $fcm_token) {
+    public static function sendNotification(NotificationBody|array $notification, $fcm_token, $data = null) {
         $token = self::oAuthFirebase()['access_token'];
         $data = json_encode([
             'message'=> (object) [
                 "token"=> $fcm_token,
                 "notification"=> is_array($notification) ? (object) $notification : $notification
-            ]
+            ],
+            'data'=> empty($data) ? (object) [] : $data
         ]);
 
         $ch = curl_init();
@@ -41,13 +42,14 @@ class Firebase {
         return json_decode($output);
     }
     
-    public static function sendToTopic(NotificationBody|array $notification, $topic) {
+    public static function sendToTopic(NotificationBody|array $notification, $topic, $data = null) {
         $token = self::oAuthFirebase()['access_token'];
         $data = json_encode([
             'message'=> (object) [
                 'topic'=>$topic,
                 "notification"=> is_array($notification) ? (object) $notification : $notification
-            ]
+            ],
+            'data'=>empty($data) ? (object) [] : $data
         ]);
 
         $ch = curl_init();

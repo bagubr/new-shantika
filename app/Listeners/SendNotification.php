@@ -29,7 +29,7 @@ class SendNotification
         $firebase = Firebase::sendNotification([
             'title'=>$event->notification->title,
             'body'=>$event->notification->body
-        ], $event->fcm_token);
+        ], $event->fcm_token, $event->data);
 
 
         if($event->is_saved) {

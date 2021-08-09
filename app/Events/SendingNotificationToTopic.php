@@ -19,16 +19,18 @@ class SendingNotificationToTopic
     public Notification $notification;
     public string|array $topic;
     public bool $is_saved;
+    public $data;
     
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Notification $notification, string $topic, bool $is_saved)
+    public function __construct(Notification $notification, string $topic, bool $is_saved, $data = null)
     {
         $this->notification = $notification;
         $this->topic = $topic;
         $this->is_saved = $is_saved;
+        $this->data = $data;
     }
 }
