@@ -6,6 +6,7 @@ use App\Http\Requests\Testimoni\CreateTestimoniRequest;
 use App\Http\Requests\Testimoni\UpdateTestimoniRequest;
 use App\Models\Testimonial;
 use App\Models\User;
+use App\Services\TestimonialService;
 use Illuminate\Http\Request;
 
 class TestimoniController extends Controller
@@ -41,13 +42,8 @@ class TestimoniController extends Controller
     public function store(CreateTestimoniRequest $request)
     {
         $data = $request->all();
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->image->store('testimonial', 'public');
-        }
-
-        Testimonial::create($data);
-        session()->flash('success', 'Testimoni Berhasil Ditambahkan');
-        return redirect(route('testimoni.index'));
+        TestimonialService::create($data);
+        return redirect(route('testimoni.index'))->with('success', 'Testimoni Berhasil Ditambahkan');
     }
 
     /**
