@@ -38,17 +38,16 @@ class DashboardController extends Controller
     public function weekly()
     {
         $params = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
-        $currentDate = Carbon::now()->startOfWeek();
+        // $currentDate = Carbon::now()->startOfWeek();
 
         for ($i = 0; $i < 7; $i++) {
-            $startOfLastWeek  = $currentDate->copy()->subDay($i);
-            $endOfLastWeek = $currentDate->copy()->subDay($i);
+            $startOfLastWeek  = Carbon::now()->startOfWeek()->addDay($i);
             $order_jawa[] = Order::whereHas('route', function ($q) {
                 $q->where('area_id', '1');
-            })->whereDate('reserve_at', '>=', $startOfLastWeek)->whereDate('reserve_at', '<=', $endOfLastWeek)->get()->count();
+            })->whereDate('reserve_at', '=', $startOfLastWeek)->get()->count();
             $order_jabodetabek[] = Order::whereHas('route', function ($q) {
                 $q->where('area_id', '2');
-            })->whereDate('reserve_at', '>=', $startOfLastWeek)->whereDate('reserve_at', '<=', $endOfLastWeek)->get()->count();
+            })->whereDate('reserve_at', '=', $startOfLastWeek)->get()->count();
         }
         $weekly[] = $order_jawa;
         $weekly2[] = $order_jabodetabek;

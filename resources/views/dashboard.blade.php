@@ -39,7 +39,7 @@ Dashboard
                 <div class="form-group">
                     <label>Periode</label>
                     <select name="statistic" class="form-control" id="">
-                        <option value="">Harian</option>
+                        {{-- <option value="">Harian</option> --}}
                         <option value="weekly">Mingguan</option>
                         <option value="monthly">Bulanan</option>
                         <option value="yearly">Tahun</option>
