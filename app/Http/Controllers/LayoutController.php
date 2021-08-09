@@ -91,23 +91,10 @@ class LayoutController extends Controller
     {
         DB::beginTransaction();
         $layout = Layout::find($id);
-        $layout->update($request->except(['chair_indexes']));
-        $layout->refresh();
-        $layout->chairs()->delete();
-
-        $chairs = [];
-        try {
-            foreach($request->chair_indexes as $i) {
-                $chairs[] = LayoutChair::create(array_merge($i, [
-                    'layout_id'=>$layout->id
-                ]));
-            }
-        } catch(\Exception $e) {
-            return $e;
-        }
+        $layout->update($request->only(['id', 'name', 'note']));
         DB::commit();
         return response([
-            $layout,  $chairs
+            $layout
         ]);
     }
 

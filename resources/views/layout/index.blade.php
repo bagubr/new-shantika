@@ -45,8 +45,8 @@ Layout
                                 <tr>
                                     <td>{{$layout->name}}</td>
                                     <td>
-                                        {{-- <a href="{{route('layouts.edit',$layout->id)}}"
-                                        class="btn btn-warning btn-xs">Edit</a> --}}
+                                        <a href="{{route('layouts.edit',$layout->id)}}"
+                                        class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('layouts.destroy',$layout->id)}}" class="d-inline"
                                             method="POST">
                                             @csrf
