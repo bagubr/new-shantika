@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SendingNotification;
+use App\Events\SendingNotificationToTopic;
 use App\Http\Requests\Article\CreateArticleRequest;
 use App\Http\Requests\Article\UpdateArticleRequest;
 use App\Models\Article;
+use App\Services\ArticleService;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -39,11 +42,9 @@ class ArticleController extends Controller
     public function store(CreateArticleRequest $request)
     {
         $data = $request->all();
-        $data['image'] = $request->image->store('article', 'public');
+        ArticleService::create($data);
 
-        Article::create($data);
-        session()->flash('success', 'Artikel Berhasil Ditambahkan');
-        return redirect(route('article.index'));
+        return redirect(route('article.index'))->with('success', 'Artikel Berhasil Ditambahkan');
     }
 
     /**
