@@ -16,12 +16,6 @@ class UpdateLayoutRequest extends FormRequest
     {
         return [
             'name'=>'required',
-            'col'=>'required|numeric',
-            'row'=>'required|numeric',
-            'space_indexes'=>'nullable|array',
-            'toilet_indexes'=>'nullable|array',
-            'door_indexes'=>'nullable|array',
-            'chair_indexes'=>'required|array',
             'note'=>'string|nullable',
         ];
     }

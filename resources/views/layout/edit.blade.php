@@ -114,6 +114,9 @@
                         <br>
                     </template>
                 </div>
+                <div class="container-fluid">
+                    <small><i class="fas fa-info-circle"></i> Untuk mengupdate kursi tidak bisa dilakukan</small>
+                </div>
             </div>
             <div class="col-12 col-md-2">
                 <template x-for="(f, focusIndex) in focuses">
@@ -283,14 +286,18 @@
                     note: this.layout.note || ''
                 }
                 let formData = this.formData
-                fetch(`{{ url('layouts') }}/${this.layout.id}`, {
+                let url = `{{ route('layouts.index') }}/${this.layout.id}`
+                fetch(url, {
                     body: JSON.stringify(formData),
                     method: 'PUT',
                     headers: {
                         'X-CSRF-TOKEN': csrf,
                         'Content-Type': 'application/json',
                     }
-                }).then(res => res.json()).finally(e => {
+                }).then(res => {
+                    console.log(res)
+                    return res.json()
+                }).finally(e => {
                     el.innerText = 'Lanjutkan'
                     // window.location.reload(true)
                     el.disable = false;
