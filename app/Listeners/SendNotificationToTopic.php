@@ -6,6 +6,7 @@ use App\Events\SendingNotificationToTopic;
 use App\Utils\Firebase;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 
 class SendNotificationToTopic
 {
@@ -32,6 +33,7 @@ class SendNotificationToTopic
             'body'=>$event->notification->body
         ], $event->topic);
 
+        Log::info($firebase);
 
         if($event->is_saved) {
             $event->notification->save();
