@@ -12,12 +12,6 @@ class Notification extends Model
     const TOPIC1 = 'FEATURE';
     const TOPIC2 = 'REMINDER';
 
-    public function __construct(
-        public string $title,
-        public string $body,
-        public string $type
-    ) {}
-
     protected $fillable = [
         'user_id', 'reference_id', 'title', 'body', 'type', 'is_seen'
     ];

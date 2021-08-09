@@ -12,7 +12,11 @@ class ArticleService {
 
         $article = Article::create($data);
 
-        $notification = new Notification($article->name, $article->description, 'ARTICLE');
+        $notification = new Notification([
+            'title'=>$article->name,
+            'body'=>$article->description,
+            'type'=>'ARTICLE'
+        ]);
         SendingNotificationToTopic::dispatch($notification, Notification::TOPIC1, false);
 
         return $article;
