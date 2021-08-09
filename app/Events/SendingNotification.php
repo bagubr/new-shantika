@@ -18,18 +18,16 @@ class SendingNotification
     public Notification $notification;
     public string|array $fcm_token;
     public bool $is_saved;
-    public $data;
     
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Notification $notification, string|array $fcm_token, bool $is_saved, $data = null)
+    public function __construct(Notification $notification, string|array $fcm_token, bool $is_saved)
     {
         $this->notification = $notification;
         $this->fcm_token = $fcm_token;
         $this->is_saved = $is_saved;
-        $this->data = $data;
     }
 }
