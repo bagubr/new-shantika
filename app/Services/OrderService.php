@@ -29,11 +29,13 @@ class OrderService {
         }
 
         $setting = Setting::first();
-        $data->price = ($route->price * count($detail->layout_chair_id));
-        if($detail->is_feed){
-            $price_food = $data->route->fleet->fleetclass->price_food * count($detail->layout_chair_id);
-            $data->price += $price_food;
-        }
+
+        $ticket_price = $route->price - $data->route->fleet->fleetclass->price_food;
+        $ticket_price_with_food = $detail->is_feed
+            ? $route->price * count($detail->layout_chair_id)
+            : $ticket_price * count($detail->layout_chair_id);
+
+        $data->price = $ticket_price_with_food;
         if($detail->is_travel){
             $price_travel = $setting->travel * count($detail->layout_chair_id);
             $data->price += $price_travel;
@@ -56,7 +58,6 @@ class OrderService {
         if($detail->code_booking) {
             BookingService::deleteByCodeBooking($detail->code_booking);
         }
-
         self::createDetail($order, $detail->layout_chair_id, $detail);
 
         $order = Order::find($order->id);
@@ -78,7 +79,7 @@ class OrderService {
                 'is_member'         => $detail->is_member
             ]);
         }
-        OrderPriceDistributionService::createByOrderDetail($order, $order_details);
+        $distrib = OrderPriceDistributionService::createByOrderDetail($order, $order_details);
     }
 
     public static function getInvoice(Payment|int|null $payment = null) {

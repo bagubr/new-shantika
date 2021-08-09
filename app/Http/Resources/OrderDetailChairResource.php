@@ -29,6 +29,6 @@ class OrderDetailChairResource extends JsonResource
         $member = $distribution->for_member / $order_detail_count;
         $travel = $distribution->for_travel / $order_detail_count;
 
-        return $distribution->ticket_only + $food + $member + $travel;
+        return ($distribution->ticket_only / $order_detail_count) + $food + $member + $travel;
     }
 }
