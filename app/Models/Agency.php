@@ -17,26 +17,32 @@ class Agency extends Model
 
     protected $appends = [
         'phone',
-        'avatar_url'
+        'avatar_url',
+        'city_name'
     ];
+
 
     public function city()
     {
         return $this->belongsTo(City::class, 'city_id', 'id');
     }
-
+    public function getCityNameAttribute()
+    {
+        return $this->city()?->first()?->name;
+    }
     public function userAgent()
     {
         return $this->hasMany(UserAgent::class, 'agency_id');
     }
 
-    public function users() {
+    public function users()
+    {
         return $this->hasManyThrough(UserAgent::class,  User::class, 'id', 'user_id', 'id', 'id');
     }
 
     public function getAvatarUrlAttribute()
     {
-        return $this->attributes['avatar'] ? env('STORAGE_URL').'/'.$this->attributes['avatar'] : "";
+        return $this->attributes['avatar'] ? env('STORAGE_URL') . '/' . $this->attributes['avatar'] : "";
     }
 
     public function getPhoneAttribute()

@@ -26,13 +26,28 @@ class DashboardController extends Controller
         } else {
             $data = $this->yearly();
         }
-        $test = $request->flash();
         $agencies = Agency::all();
-        $fleets = Fleet::all();
+        $fleets = Fleet::get(['id', 'name']);
         $routes = Route::get(['id', 'name']);
+        $orders = Order::query();
+        $fleet = $request->fleet;
+
+        if (!empty($request->agency)) {
+            $orders = $orders->where('user_id', $request->agency);
+        }
+        if (!empty($request->route)) {
+            $orders = $orders->where('route_id', $request->route);
+        }
+        if (!empty($request->fleet)) {
+            $orders = $orders->whereHas('route', function ($q) use ($fleet) {
+                $q->where('fleet_id', $fleet);
+            });
+        }
+        $orders = $orders->orderBy('id', 'desc')->paginate(7);
+
+        $test = $request->flash();
         $now = Order::whereDate('created_at', date('Y-m-d'))->get();
         $users = User::all();
-        $orders = Order::paginate(7);
         $count_user = User::doesntHave('agencies')->count();
         $orders_money = Order::has('route')->sum('price');
         session()->flash('Success', 'Berhasil Memuat Halaman');

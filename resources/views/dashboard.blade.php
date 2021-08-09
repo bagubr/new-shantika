@@ -68,15 +68,20 @@ Dashboard
             </div>
         </div>
         <div class="card-body">
-            <form action="">
+            <form action="{{route('dashboard')}}" method="GET">
                 <div class="form-row">
                     <div class="col">
                         <div class="form-group">
                             <label for="">Agen</label>
-                            <select name="" id="" class="form-control select2">
+                            <select name="agency" class="form-control select2">
                                 <option value="">-Semua Agen-</option>
                                 @foreach ($agencies as $agency)
-                                <option value="{{$agency->id}}">{{$agency->city?->name}}/{{$agency->name}}</option>
+                                @if (old('agency') == $agency->id)
+                                <option value="{{$agency->id}}" selected>{{$agency->city_name}}/{{$agency->name}}
+                                </option>
+                                @else
+                                <option value="{{$agency->id}}">{{$agency->city_name}}/{{$agency->name}}</option>
+                                @endif
                                 @endforeach
                             </select>
                         </div>
@@ -84,10 +89,14 @@ Dashboard
                     <div class="col">
                         <div class="form-group">
                             <label for="">Armada Bus</label>
-                            <select name="" id="" class="form-control">
+                            <select name="fleet" class="form-control">
                                 <option value="">-Semua Armada-</option>
                                 @foreach ($fleets as $fleet)
+                                @if (old('fleet') == $fleet->id)
+                                <option value="{{$fleet->id}}" selected>{{$fleet->name}}</option>
+                                @else
                                 <option value="{{$fleet->id}}">{{$fleet->name}}</option>
+                                @endif
                                 @endforeach
                             </select>
                         </div>
@@ -95,9 +104,12 @@ Dashboard
                     <div class="col">
                         <div class="form-group">
                             <label for="">Rute</label>
-                            <select name="" id="" class="form-control select2">
+                            <select name="route" class="form-control select2">
                                 <option value="">-Semua Rute-</option>
                                 @foreach ($routes as $route)
+                                @if (old('route') == $route->id)
+                                <option selected value="{{$route->id}}">{{$route->name}}</option>
+                                @endif
                                 <option value="{{$route->id}}">{{$route->name}}</option>
                                 @endforeach
                             </select>
@@ -105,7 +117,7 @@ Dashboard
                     </div>
                 </div>
                 <div class="text-right">
-                    <button class="btn btn-success">Cari</button>
+                    <button class="btn btn-success" type="submit">Cari</button>
                 </div>
             </form>
             <table class="table table-bordered table-striped mt-3">
@@ -142,7 +154,7 @@ Dashboard
     <div>
         <div class="form-group">
             <label>Periode</label>
-            <select name="" id="" class="form-control">
+            <select name="" class="form-control">
                 <option value="">Harian</option>
                 <option value="">Mingguan</option>
                 <option value="">Bulanan</option>
@@ -223,7 +235,7 @@ Dashboard
     <div>
         <div class="form-group">
             <label>Periode</label>
-            <select name="" id="" class="form-control">
+            <select name="" class="form-control">
                 <option value="">Harian</option>
                 <option value="">Mingguan</option>
                 <option value="">Bulanan</option>
