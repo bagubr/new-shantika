@@ -39,10 +39,13 @@ Dashboard
                 <div class="form-group">
                     <label>Periode</label>
                     <select name="statistic" class="form-control" id="">
-                        {{-- <option value="">Harian</option> --}}
-                        <option value="weekly">Mingguan</option>
-                        <option value="monthly">Bulanan</option>
-                        <option value="yearly">Tahun</option>
+                        @foreach ($data_statistic as $data1 => $value)
+                        @if (old('statistic') == $data1)
+                        <option value="{{$data1}}" selected>{{$value}}</option>
+                        @else
+                        <option value="{{$data1}}">{{$value}}</option>
+                        @endif
+                        @endforeach
                     </select>
                 </div>
                 <div class="text-right">
@@ -105,7 +108,7 @@ Dashboard
                     <button class="btn btn-success">Cari</button>
                 </div>
             </form>
-            <table id="example1" class="table table-bordered table-striped mt-3">
+            <table class="table table-bordered table-striped mt-3">
                 <thead>
                     <tr>
                         <th>Agen</th>
@@ -122,13 +125,18 @@ Dashboard
                             {{$order->agency?->name ?? 'Tidak Menggunakan Agen'}}
                         </td>
                         <td>{{$order->route->fleet->name}}</td>
-                        <td>{{$order->route->name}}</td>
+                        <td>
+                            <a href="{{route('routes.show',$order->route->id)}}" target="_blank">
+                                {{$order->route->name}}
+                            </a>
+                        </td>
                         <td>{{count($order->order_detail)}}</td>
                         <td>Rp. {{number_format($order->price,2)}}</td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
+            {{$orders->links("pagination::bootstrap-4")}}
         </div>
     </div>
     <div>
@@ -170,7 +178,6 @@ Dashboard
     </div>
     <div class="row">
         <div class="col-lg-3 col-6">
-            <!-- small box -->
             <div class="small-box bg-info">
                 <div class="inner">
                     <h3>{{count($orders)}}</h3>
@@ -185,7 +192,6 @@ Dashboard
             </div>
         </div>
         <div class="col-lg-3 col-6">
-            <!-- small box -->
             <div class="small-box bg-warning">
                 <div class="inner">
                     <h3>{{$count_user}}</h3>
@@ -200,7 +206,6 @@ Dashboard
             </div>
         </div>
         <div class="col-lg-6 col-sm-12">
-            <!-- small box -->
             <div class="small-box bg-success">
                 <div class="inner">
                     <h3>Rp. {{number_format($orders_money)}}</h3>

@@ -14,6 +14,7 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
+        $data_statistic = ['weekly' => 'Mingguan', 'monthly' => 'Bulan', 'yearly' => 'Tahun'];
         if ($request->statistic) {
             if ($request->statistic == 'weekly') {
                 $data = $this->weekly();
@@ -25,6 +26,7 @@ class DashboardController extends Controller
         } else {
             $data = $this->yearly();
         }
+        $test = $request->flash();
         $agencies = Agency::all();
         $fleets = Fleet::all();
         $routes = Route::get(['id', 'name']);
@@ -33,7 +35,8 @@ class DashboardController extends Controller
         $orders = Order::paginate(7);
         $count_user = User::doesntHave('agencies')->count();
         $orders_money = Order::has('route')->sum('price');
-        return view('dashboard', compact('users', 'orders', 'count_user', 'orders_money', 'agencies', 'fleets', 'routes', 'data'));
+        session()->flash('Success', 'Berhasil Memuat Halaman');
+        return view('dashboard', compact('users', 'orders', 'count_user', 'orders_money', 'agencies', 'fleets', 'routes', 'data', 'data_statistic'));
     }
     public function weekly()
     {
@@ -44,10 +47,10 @@ class DashboardController extends Controller
             $startOfLastWeek  = Carbon::now()->startOfWeek()->addDay($i);
             $order_jawa[] = Order::whereHas('route', function ($q) {
                 $q->where('area_id', '1');
-            })->whereDate('reserve_at', '=', $startOfLastWeek)->get()->count();
+            })->whereDate('reserve_at', '=', $startOfLastWeek)->where('status', 'PAID')->get()->count();
             $order_jabodetabek[] = Order::whereHas('route', function ($q) {
                 $q->where('area_id', '2');
-            })->whereDate('reserve_at', '=', $startOfLastWeek)->get()->count();
+            })->whereDate('reserve_at', '=', $startOfLastWeek)->where('status', 'PAID')->get()->count();
         }
         $weekly[] = $order_jawa;
         $weekly2[] = $order_jabodetabek;
@@ -68,10 +71,10 @@ class DashboardController extends Controller
             $end      =  Carbon::now()->startOfYear()->endOfMonth()->addMonth($i)->format('Y-m-d');
             $order_jawa[] = Order::whereHas('route', function ($q) {
                 $q->where('area_id', '1');
-            })->whereDate('reserve_at', '>=', $start)->whereDate('reserve_at', '<=', $end)->get()->count();
+            })->whereDate('reserve_at', '>=', $start)->whereDate('reserve_at', '<=', $end)->where('status', 'PAID')->get()->count();
             $order_jabodetabek[] = Order::whereHas('route', function ($q) {
                 $q->where('area_id', '2');
-            })->whereDate('reserve_at', '>=', $start)->whereDate('reserve_at', '<=', $end)->get()->count();
+            })->whereDate('reserve_at', '>=', $start)->whereDate('reserve_at', '<=', $end)->where('status', 'PAID')->get()->count();
         }
         $weekly[] = $order_jawa;
         $weekly2[] = $order_jabodetabek;
@@ -93,10 +96,10 @@ class DashboardController extends Controller
             $start          = Carbon::now()->startOfDecade()->addYear($i)->format('Y');
             $order_jawa[]   = Order::whereHas('route', function ($q) {
                 $q->where('area_id', '1');
-            })->whereYear('reserve_at', '=', $start)->get()->count();
+            })->whereYear('reserve_at', '=', $start)->where('status', 'PAID')->get()->count();
             $order_jabodetabek[]   = Order::whereHas('route', function ($q) {
                 $q->where('area_id', '2');
-            })->whereYear('reserve_at', '=', $start)->get()->count();
+            })->whereYear('reserve_at', '=', $start)->where('status', 'PAID')->get()->count();
         }
         $weekly[] = $order_jawa;
         $weekly2[] = $order_jabodetabek;
