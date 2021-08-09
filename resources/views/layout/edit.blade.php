@@ -277,35 +277,9 @@
                 el.innerText = 'Memproses...'
                 el.disable = true;
                 let csrf = '{!!csrf_token()!!}'
-                let arr = []
-                let total_indexes = (this.layout.row * this.layout.col) - 1
-                for(let i=0;i <= total_indexes;i++) {
-                    arr.push(i)
-                }
-                arr = arr.map((e, i) => {
-                    if(this.layout.space_indexes.includes(e) 
-                        && this.layout.toilet_indexes.includes(e)
-                        && this.layout.door_indexes.includes(e)) {
-                        return {
-                            name: ' ',
-                            index: e
-                        }
-                    } else {
-                        return {
-                            name: document.getElementById(e)?.innerText || ' ',
-                            index: e
-                        }
-                    }
-                })
                 this.formData = {
                     id: this.layout.id,
                     name: this.layout.name,
-                    row: this.layout.row,
-                    col: this.layout.col,
-                    space_indexes: this.layout.space_indexes.map(e => parseInt(e)),
-                    toilet_indexes: this.layout.toilet_indexes.map(e => parseInt(e)),
-                    door_indexes: this.layout.door_indexes.map(e => parseInt(e)),
-                    chair_indexes: arr,
                     note: this.layout.note || ''
                 }
                 let formData = this.formData
@@ -318,7 +292,7 @@
                     }
                 }).then(res => res.json()).finally(e => {
                     el.innerText = 'Lanjutkan'
-                    window.location.reload(true)
+                    // window.location.reload(true)
                     el.disable = false;
                 })
             },
