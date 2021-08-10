@@ -140,4 +140,14 @@ class OrderRepository
             ->whereIn('status', Order::STATUS_BOUGHT)
             ->exists();
     }
+
+    public static function getAtDateAndRoute($date, $route)
+    {
+        return Order::with('order_detail')->where(function ($query) use ($date, $route) {
+            $query->where('status', Order::STATUS3);
+            $query->whereDate('reserve_at', $date);
+            $query->whereRouteId($route);
+        })
+            ->get();
+    }
 }

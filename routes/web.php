@@ -76,6 +76,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('schedule_not_operate/search', [ScheduleNotOperateController::class, 'search'])->name('schedule_not_operate.search');
     Route::get('order/search', [OrderController::class, 'search'])->name('order.search');
+    Route::get('outcome/search', [OutcomeController::class, 'search'])->name('outcome.search');
     Route::get('user_agent/search', [UserAgentController::class, 'search'])->name('user_agent.search');
 
     Route::resources([

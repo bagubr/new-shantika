@@ -17,8 +17,8 @@ class CreateOutcomesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('route_id');
             $table->date('reported_at');
-            $table->date('created_by');
-            $table->date('updated_by');
+            $table->integer('created_by');
+            $table->integer('updated_by');
             $table->timestamps();
 
             $table->foreign('route_id')
