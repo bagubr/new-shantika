@@ -172,11 +172,13 @@ class OrderRepository
 
     public static function getAtDateAndRoute($date, $route)
     {
-        return Order::with('order_detail')->where(function ($query) use ($date, $route) {
+        if(!$route || $route == 'WITH_TYPE'){
+            return [];
+        }
+        return Order::where(function ($query) use ($date, $route) {
             $query->where('status', Order::STATUS3);
             $query->whereDate('reserve_at', $date);
             $query->whereRouteId($route);
-        })
-            ->get();
+        })->get();
     }
 }

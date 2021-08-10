@@ -146,8 +146,8 @@ Pemesanan
                                 @foreach ($orders as $order)
                                 <tr>
                                     <td>
-                                        @if ($order->agency)
-                                        <a href="{{route('user_agent.show',$order->user?->agencies->agency_id)}}"
+                                        @if ($order->user?->agencies)
+                                        <a href="{{route('user_agent.show',$order->user?->agencies?->agency_id)}}"
                                             target="_blank">
                                             {{$order->user?->name_agent}}
                                         </a>

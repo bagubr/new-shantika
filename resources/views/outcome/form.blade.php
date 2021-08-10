@@ -1,4 +1,4 @@
-@if(@$route_id)
+@if(@$route_id && @$route_id != 'WITH_TYPE')
 <div class="t">
     <div class="row">
         <div class="col-md-6">
@@ -11,7 +11,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label>Amount</label>
-                <input type="text" class="form-control" name="amount[]" placeholder="Masukkan Amount"
+                <input type="number" class="form-control" name="amount[]" placeholder="Masukkan Amount"
                 required>
             </div>
         </div>
@@ -29,7 +29,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label>Amount</label>
-                <input type="text" class="form-control" name="amount[]" placeholder="Masukkan Amount"
+                <input type="number" class="form-control" name="amount[]" placeholder="Masukkan Amount"
                 required>
             </div>
         </div>
@@ -47,7 +47,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label>Amount</label>
-                <input type="text" class="form-control" name="amount[]" placeholder="Masukkan Amount"
+                <input type="number" class="form-control" name="amount[]" placeholder="Masukkan Amount"
                 required>
             </div>
         </div>
@@ -65,7 +65,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label>Amount</label>
-                <input type="text" class="form-control" name="amount[]" placeholder="Masukkan Amount"
+                <input type="number" class="form-control" name="amount[]" placeholder="Masukkan Amount"
                 required>
             </div>
         </div>
@@ -83,7 +83,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label>Amount</label>
-                <input type="text" class="form-control" name="amount[]" placeholder="Masukkan Amount"
+                <input type="number" class="form-control" name="amount[]" placeholder="Masukkan Amount"
                 required>
             </div>
         </div>
@@ -102,7 +102,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label>Amount</label>
-                <input type="text" class="form-control" name="amount[]" placeholder="Masukkan Amount"
+                <input type="number" class="form-control" name="amount[]" placeholder="Masukkan Amount"
                 required>
             </div>
         </div>
@@ -110,6 +110,19 @@
 </div>
 </div>
 @else
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label>Pengeluaran</label>
+            <select name="outcome_type_id" class="form-control" required>
+                <option value="">--PILIH--</option>
+                @foreach(\App\Models\OutcomeType::get() as $outcome_type)
+                <option value="{{$outcome_type->id}}">{{$outcome_type->name}}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+</div>
 <div id="dynamicAddRemove">
     <div class="t">
         <div class="row">
@@ -123,7 +136,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Amount</label>
-                    <input type="text" class="form-control" name="amount[]" placeholder="Masukkan Amount"
+                    <input type="number" class="form-control" name="amount[]" placeholder="Masukkan Amount"
                     required>
                 </div>
             </div>

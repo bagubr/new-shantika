@@ -101,6 +101,14 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{route('outcome.index')}}" class="nav-link {{Request::routeIs('outcome*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-hand-holding-usd"></i>
+                        <p>
+                            Pengeluaran
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{route('routes.index')}}"
                         class="nav-link {{Request::routeIs('routes.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-route"></i>

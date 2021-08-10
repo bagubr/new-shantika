@@ -77,6 +77,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('schedule_not_operate/search', [ScheduleNotOperateController::class, 'search'])->name('schedule_not_operate.search');
     Route::get('order/search', [OrderController::class, 'search'])->name('order.search');
     Route::get('outcome/search', [OutcomeController::class, 'search'])->name('outcome.search');
+    Route::get('outcome_type/create', [OutcomeController::class, 'createType'])->name('outcome_type.create');
+    Route::post('outcome_type', [OutcomeController::class, 'storeType'])->name('outcome_type.store');
+    Route::delete('outcome_type/{id}', [OutcomeController::class, 'destroyType'])->name('outcome_type.destroy');
     Route::get('user_agent/search', [UserAgentController::class, 'search'])->name('user_agent.search');
 
     Route::resources([
