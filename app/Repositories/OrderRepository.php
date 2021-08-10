@@ -7,6 +7,7 @@ use App\Models\Order;
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Resources\Order\OrderListCustomerResource;
+use App\Models\OrderDetail;
 use App\Models\User;
 
 class OrderRepository
