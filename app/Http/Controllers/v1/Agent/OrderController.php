@@ -7,6 +7,7 @@ use App\Http\Requests\Api\ApiCalculateDiscountRequest;
 use App\Http\Requests\Api\ApiOrderCreateRequest;
 use App\Http\Resources\Order\OrderDetailAgentResource;
 use App\Http\Resources\Order\OrderListAgentResource;
+use App\Http\Resources\OrderDetail\TodayPossibleCustomerResource;
 use App\Http\Resources\OrderDetailSetoranAgentResource;
 use App\Http\Resources\OrderListSetoranAgentResource;
 use App\Http\Resources\OrderSetoranDetailAgentResource;

@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\User;
 
 class OrderDetailRepository
 {
@@ -35,5 +36,19 @@ class OrderDetailRepository
             ->get();
 
         return $order;
+    }
+
+    public static function paginateAllByAgencyId(User $user, $date) {
+        $user_order =  OrderDetail::whereHas('order', function($query) use ($user) {
+            $query->where('departure_agency_id', $user->agencies->agency_id);
+        })
+        ->paginate(20);
+        return $user_order;
+    }
+
+    public static function firstForPossibleCustomer($order_detail_id) {
+        $order_detail = OrderDetail::with(['order.distribution'])->where('id', $order_detail_id)->first();
+
+        return $order_detail;
     }
 }
