@@ -17,7 +17,7 @@ class OrderDetailRepository
             ->whereHas('order', function($query) use ($date) {
                 $query->whereDate('created_at', $date);
             })
-            ->where(function($query) use ($user_id) {
+            ->whereHas('order',function($query) use ($user_id) {
                 $query->where(function($subquery) use ($user_id) {
                     $subquery->where('departure_agency_id', $user_id)
                         ->whereHas('user.agencies')
