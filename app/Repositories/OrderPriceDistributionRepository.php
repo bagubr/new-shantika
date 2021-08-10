@@ -11,11 +11,17 @@ class OrderPriceDistributionRepository
     {
         $user = UserRepository::findByToken($token);
         return OrderPriceDistribution::whereHas('order', function ($query) use ($user, $date) {
-            $query->whereHas('user.agencies', function ($subquery) use ($user) {
-                $subquery->where('id', $user->agencies->id);
+            $query->where(function($subquery) use ($user) {
+                $subquery->where('departure_agency_id', $user->id)
+                    ->whereHas('user.agencies')
+                    ->whereIn('status', [Order::STATUS3]);
             })
-                ->where('status', Order::STATUS3)
-                ->whereDate('created_at', $date);
+            ->orWhere(function($subquery) use ($user) {
+                $subquery->where('departure_agency_id', $user->id)
+                ->whereDoesntHave('user.agencies')
+                ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
+            })
+            ->whereDate('created_at', $date);
         })->sum('for_owner');
     }
 
@@ -23,11 +29,17 @@ class OrderPriceDistributionRepository
     {
         $user = UserRepository::findByToken($token);
         $sum = OrderPriceDistribution::whereHas('order', function ($query) use ($user, $date) {
-            $query->whereHas('user.agencies', function ($subquery) use ($user) {
-                $subquery->where('id', $user->agencies->id);
+            $query->where(function($subquery) use ($user) {
+                $subquery->where('departure_agency_id', $user->id)
+                    ->whereHas('user.agencies')
+                    ->whereIn('status', [Order::STATUS3]);
             })
-                ->where('status', Order::STATUS3)
-                ->whereDate('created_at', $date);
+            ->orWhere(function($subquery) use ($user) {
+                $subquery->where('departure_agency_id', $user->id)
+                ->whereDoesntHave('user.agencies')
+                ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
+            })
+            ->whereDate('created_at', $date);
         })->sum('for_agent');
         return abs($sum);
     }

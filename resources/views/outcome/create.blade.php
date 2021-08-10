@@ -21,6 +21,32 @@ Pengeluran
 <section class="content">
     <div class="row">
         <div class="col-md-6">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Form Pengeluaran</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" style="display: block;">
+                    @include('partials.error')
+                    <form action="{{route('outcome.store')}}" method="POST">
+                        @csrf
+                        <input type="hidden" name="route_id" value="{{@$route_id}}">
+                        <input type="hidden" name="reported_at" value="{{((@$reported_at)?$reported_at:date('Y-m-d'))}}">
+                        @include('outcome.form')
+                        <br>
+                        <button type="button" name="add" id="dynamic-ar" class="btn btn-info">Tambah
+                            Pengeluaran
+                        </button>
+                        <input type="submit" value="Submit" class="btn btn-success float-right">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Cari Pemesan</h3>
@@ -37,8 +63,7 @@ Pengeluran
                                 <div class="form-group">
                                     <label>Cari Rute</label>
                                     <select name="route_id" class="form-control" required>
-                                        <option value="">--Semua Rute--</option>
-                                        <option value="">Pengeluaran Lain</option>
+                                        <option value="WITH_TYPE" {{(@$route_id == 'WITH_TYPE')?'selected':''}}>--Pengeluaran Lain--</option>
                                         @foreach ($routes as $route)
                                         @if (@$route_id == $route->id)
                                         <option value="{{$route->id}}" selected>{{$route->name}}</option>
@@ -60,34 +85,6 @@ Pengeluran
                         <div class="text-right">
                             <button class="btn btn-success" type="submit">Cari</button>
                         </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">Form Pengeluaran</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="card-body" style="display: block;">
-                    @include('partials.error')
-                    <form action="{{route('outcome.store')}}" method="POST">
-                        @csrf
-                        <input type="hidden" name="route_id" value="{{@$route_id}}">
-                        <input type="hidden" name="reported_at" value="{{((@$reported_at)?$reported_at:date('Y-m-d'))}}">
-                        @include('outcome.form')
-                        <br>
-                        <button type="button" name="add" id="dynamic-ar" class="btn btn-info">Tambah
-                            Pengeluaran
-                        </button>
-                        @if(isset($route_id) && isset($reported_at) && !empty($orders))
-                        <input type="submit" value="Submit" class="btn btn-success float-right">
-                        @endif
                     </form>
                 </div>
             </div>

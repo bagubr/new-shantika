@@ -28,6 +28,7 @@ Pengeluaran
                     <div class="card-header">
                         <h3 class="card-title">Table Pengeluaran</h3>
                         <div class="text-right">
+                            <a href="{{route('outcome_type.create')}}" class="btn btn-outline-warning btn-sm">Tambah Tipe Pengeluaran</a>
                             <a href="{{route('outcome.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
                     </div>
@@ -38,9 +39,11 @@ Pengeluaran
                                 <tr>
                                     <th>Tanggal Laporan</th>
                                     <th>Rute</th>
+                                    <th>Tipe Pengeluaran</th>
                                     <th>Armada</th>
                                     <th>Kelas Armada</th>
-                                    <th>Total Pendapata</th>
+                                    <th>Total Pendapatan</th>
+                                    <th>Total Pengeluaran</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -48,10 +51,12 @@ Pengeluaran
                                 @foreach ($outcomes as $outcome)
                                 <tr>
                                     <td>{{$outcome->reported_at}}</td>
-                                    <td>{{$outcome?->route?->name??''}}</td>
-                                    <td>{{$outcome?->route?->fleet?->name??''}}</td>
-                                    <td>{{$outcome?->route?->fleet?->fleetclass?->name??''}}</td>
+                                    <td>{{$outcome?->route?->name??"Non Rute"}}</td>
+                                    <td>{{$outcome->outcome_type?->name??'-'}}</td>
+                                    <td>{{$outcome?->route?->fleet?->name??'Non Rute'}}</td>
+                                    <td>{{$outcome?->route?->fleet?->fleetclass?->name??'Non Rute'}}</td>
                                     <td>Rp. {{number_format($outcome->sum_total_pendapatan,2)}}</td>
+                                    <td>Rp. {{number_format($outcome->sum_pengeluaran,2)}}</td>
                                     <td>
                                         <a href="{{route('outcome.show',$outcome->id)}}"
                                         class="btn btn-info btn-xs">Show</a>

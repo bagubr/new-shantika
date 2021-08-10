@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Outcome;
+use App\Models\OutcomeType;
 use App\Models\OutcomeDetail;
 use App\Repositories\OrderRepository;
 use App\Models\Order;
@@ -22,6 +23,20 @@ class OutcomeController extends Controller
         $routes = Route::all();
         return view('outcome.create', compact('routes', 'orders'));
     }
+
+    public function createType()
+    {
+        $outcome_types = OutcomeType::orderBy('id')->get();
+        return view('outcome.outcome_type', compact('outcome_types'));
+    }
+
+    public function storeType(Request $request)
+    {   
+        OutcomeType::create([
+            'name' => $request->name
+        ]);
+        return redirect()->back()->with('success', 'Data berhasil di tambahkan');
+    }
     
     public function search(Request $request)
     {
@@ -34,12 +49,23 @@ class OutcomeController extends Controller
 
     public function store(Request $request)
     {
-        $exist = Outcome::whereDate('reported_at', $request->reported_at)->whereRouteId($request->route_id)->first();
-        if($exist){
-            return redirect('outcome')->with('error', 'Data sudah di tambahkan');
+        if($request->route_id != 'WITH_TYPE' && $request->route_id){
+            $exist = Outcome::whereDate('reported_at', $request->reported_at)->whereRouteId($request->route_id)->first();
+            if($exist){
+                return redirect('outcome')->with('error', 'Data sudah di tambahkan');
+            }
+            $data = $this->validate($request, [
+                'route_id'      => 'required|integer|exists:routes,id',
+            ]);
+            $order_price_distribution = OrderRepository::getAtDateAndRoute($request->reported_at, $request->route_id);
+            $data['order_price_distribution_id'] = $order_price_distribution?->pluck('id')??[];
+        }else{
+            $this->validate($request, [
+                'outcome_type_id'      => 'required|integer|exists:outcome_types,id',
+            ]);
+            $data['outcome_type_id'] = $request->outcome_type_id;
         }
-        $data = $this->validate($request, [
-            'route_id'      => 'required|integer|exists:routes,id',
+        $data += $this->validate($request, [
             'reported_at'   => 'required|date',
             'name'          => 'required|array',
             'amount'        => 'required|array',
@@ -52,10 +78,8 @@ class OutcomeController extends Controller
                 'amount' => $request->amount[$key],
             ];
         }
-        $order_price_distribution = OrderRepository::getAtDateAndRoute($data['reported_at'], $data['route_id']);
         \DB::beginTransaction();
         try {
-            $data['order_price_distribution_id'] = $order_price_distribution->pluck('id');
             $outcome = Outcome::create($data);
             foreach ($data['outcome_details'] as $key => $value) {
                 unset($data['route_id'], $data['reported_at']);
@@ -83,5 +107,16 @@ class OutcomeController extends Controller
         $outcome = Outcome::with('outcome_detail')->find($id);
         $orders = Order::whereIn('id', json_decode($outcome->order_price_distribution_id))->get();
         return view('outcome.show', compact('outcome', 'orders'));
+    }
+
+    public function destroyType($id)
+    {
+        try {
+            $outcome_type = OutcomeType::find($id);
+            $outcome_type->delete();
+            return redirect()->back()->with('success', 'Berhasil Hapus Data');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('success', 'Gagal Hapus Data');
+        }
     }
 }

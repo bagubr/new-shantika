@@ -12,6 +12,7 @@ class Outcome extends Model
     protected $fillable = [
         'route_id',
         'order_price_distribution_id',
+        'outcome_type_id',
         'reported_at',
         'created_by',
         'updated_by',
@@ -19,6 +20,7 @@ class Outcome extends Model
 
     protected $appends = [
         'sum_total_pendapatan',
+        'sum_pengeluaran',
         'sum_food',
         'sum_travel',
         'sum_member',
@@ -27,6 +29,11 @@ class Outcome extends Model
     public function getSumTotalPendapatanAttribute()
     {
         return OrderPriceDistribution::whereIn('order_id', json_decode($this->order_price_distribution_id))->sum('for_owner');
+    }
+
+    public function getSumPengeluaranAttribute()
+    {
+        return $this->outcome_detail->sum('amount');
     }
 
     public function getSumFoodAttribute()
@@ -52,6 +59,11 @@ class Outcome extends Model
     public function route()
     {
         return $this->belongsTo(Route::class, 'route_id');
+    }
+
+    public function outcome_type()
+    {
+        return $this->belongsTo(OutcomeType::class, 'outcome_type_id');
     }
 
     public static function boot()
