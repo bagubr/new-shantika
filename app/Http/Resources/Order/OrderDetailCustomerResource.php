@@ -47,17 +47,17 @@ class OrderDetailCustomerResource extends JsonResource
         ];
     }
 
-    public function getPriceFeed(Order $order)
+    public function getPriceFeed($order)
     {
         return abs($order->distribution->for_food / count($order->order_detail));
     }
     
-    public function getPriceTravel(Order $order)
+    public function getPriceTravel($order)
     {
         return abs($order->distribution->for_travel);
     }
 
-    public function getPriceMember(Order $order)
+    public function getPriceMember($order)
     {
         return abs($order->distribution->for_member);
     }
