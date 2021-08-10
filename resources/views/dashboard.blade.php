@@ -212,6 +212,9 @@ Dashboard
                         <h3 class="card-title">Pendapatan Bersih Periode ini </h3>
                     </div>
                     <div class="card-body">
+                        <div class="text-center">
+                            <p>{{$data_week['this_week']}}</p>
+                        </div>
                         <div class="chart-container">
                             <canvas id="myChart"></canvas>
                         </div>
@@ -224,6 +227,9 @@ Dashboard
                         <h3 class="card-title">Pendapatan Bersih Periode Sebelumnya</h3>
                     </div>
                     <div class="card-body">
+                        <div class="text-center">
+                            <p>{{$data_week['last_week']}}</p>
+                        </div>
                         <div class="chart-container">
                             <canvas id="myChart2"></canvas>
                         </div>
@@ -292,25 +298,45 @@ Dashboard
 
     const data = {
         labels      : labels,
-        datasets    : [{
+        datasets    : [
+            {
             label           : 'Jawa',
             backgroundColor : 'rgb(255, 99, 132)',
             borderColor     : 'rgb(255, 99, 132)',
             data            : [@foreach ($data_week['weekly'][0] as $d)
                             {{$d}},
                             @endforeach],
-            }]
+            },
+            {
+            label           : 'Jabodetabek',
+            backgroundColor : 'rgb(253, 206, 18)',
+            borderColor     : 'rgb(253, 206, 18)',
+            data            : [@foreach ($data_week['weekly2'][0] as $d)
+                            {{$d}},
+                            @endforeach],
+            },
+        ]
         };
     const data2 = {
         labels      : labels,
-        datasets    : [{
+        datasets    : [
+            {
             label           : 'Jawa',
             backgroundColor : 'rgb(255, 99, 132)',
             borderColor     : 'rgb(255, 99, 132)',
             data            : [@foreach ($data_week['weekly_last'][0] as $d)
                             {{$d}},
                             @endforeach],
-            }]
+            },
+            {
+            label           : 'Jabodetabek',
+            backgroundColor : 'rgb(253, 206, 18)',
+            borderColor     : 'rgb(253, 206, 18)',
+            data            : [@foreach ($data_week['weekly_last2'][0] as $d)
+                            {{$d}},
+                            @endforeach],
+            },
+        ]
         };
     const config = {
         type: 'line',

@@ -41,7 +41,7 @@ Route
                         @endisset
                         <div class="form-group">
                             <label>Armada</label>
-                            <select class="form-control select2" name="fleet_id" style="width: 100%;">
+                            <select class="form-control select2" name="fleet_id" style="width: 100%;" required>
                                 <option value="">Pilih Armada</option>
                                 @foreach ($fleets as $fleet)
                                 <option value="{{$fleet->id}}" @isset($route) @if ($fleet->id ===
@@ -55,7 +55,7 @@ Route
                         </div>
                         <div class="form-group">
                             <label>Area</label>
-                            <select name="area_id" class="form-control select2">
+                            <select name="area_id" class="form-control select2" required>
                                 <option value="">Pilih Area</option>
                                 @foreach ($areas as $area)
                                 <option value="{{$area->id}}" @isset($route) @if ($area->id === $route->area_id)
@@ -69,21 +69,21 @@ Route
                             <div class="col">
                                 <div class="form-group">
                                     <label>Keberangkatan</label>
-                                    <input type="time" name="departure_at" class="form-control" id="jam1"
+                                    <input type="time" name="departure_at" class="form-control" id="jam1" required
                                         value="{{isset($route) ? $route->departure_at : ''}}">
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label>Kedatangan</label>
-                                    <input type="time" name="arrived_at" class="form-control"
+                                    <input type="time" name="arrived_at" class="form-control" required
                                         value="{{isset($route) ? $route->arrived_at : ''}}">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Harga</label>
-                            <input type="number" name="price" class="form-control" placeholder="Masukkan Harga"
+                            <input type="number" name="price" class="form-control" placeholder="Masukkan Harga" required
                                 value="{{isset($route) ? $route->price : ''}}">
                         </div>
                         @if ($name == "routes.create")
@@ -93,7 +93,7 @@ Route
                                     <div class="col">
                                         <div class="form-group">
                                             <label>Titik Pemberhentian</label>
-                                            <select name="agency_id[]" class="form-control select2">
+                                            <select name="agency_id[]" class="form-control select2" required>
                                                 <option value="">Pilih Titik Pemberhentian</option>
                                                 @foreach ($agencies as $agency)
                                                 <option value="{{$agency->id}}">

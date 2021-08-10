@@ -24,14 +24,30 @@ class DashboardController extends Controller
             $startOfWeek  = Carbon::now()->startOfWeek()->addDay($i);
             $startOfLastWeeks = Carbon::now()->subWeek()->startOfWeek()->addDay($i);
             $order_jawa[] = OrderPriceDistribution::whereHas('order', function ($q) use ($startOfWeek) {
-                $q->where('reserve_at', '=', $startOfWeek);
+                $q->where('reserve_at', '=', $startOfWeek)->whereHas('route', function ($y) {
+                    $y->where('area_id', 1);
+                });
             })->get()->pluck('for_owner')->sum();
             $order_jawa_last[] = OrderPriceDistribution::whereHas('order', function ($q) use ($startOfLastWeeks) {
-                $q->where('reserve_at', '=', $startOfLastWeeks);
+                $q->where('reserve_at', '=', $startOfLastWeeks)->whereHas('route', function ($y) {
+                    $y->where('area_id', 1);
+                });
+            })->get()->pluck('for_owner')->sum();
+            $order_jabodetabek[] = OrderPriceDistribution::whereHas('order', function ($q) use ($startOfWeek) {
+                $q->where('reserve_at', '=', $startOfWeek)->whereHas('route', function ($y) {
+                    $y->where('area_id', 2);
+                });
+            })->get()->pluck('for_owner')->sum();
+            $order_jabodetabek_last[] = OrderPriceDistribution::whereHas('order', function ($q) use ($startOfLastWeeks) {
+                $q->where('reserve_at', '=', $startOfLastWeeks)->whereHas('route', function ($y) {
+                    $y->where('area_id', 2);
+                });
             })->get()->pluck('for_owner')->sum();
         }
         $weekly[] = $order_jawa;
         $weekly_last[] = $order_jawa_last;
+        $weekly2[] = $order_jabodetabek;
+        $weekly_last2[] = $order_jabodetabek_last;
 
         $data_week = [
             'params' => $params,
@@ -39,6 +55,8 @@ class DashboardController extends Controller
             'this_week' => "$startOfThisWeek - $endOfThisWeek",
             'weekly' => $weekly,
             'weekly_last' => $weekly_last,
+            'weekly2' => $weekly2,
+            'weekly_last2' => $weekly_last2,
         ];
         // dd($data_week['weekly_last'][0]);
 
