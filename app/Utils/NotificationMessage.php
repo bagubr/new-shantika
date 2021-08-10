@@ -4,11 +4,11 @@ namespace App\Utils;
 
 class NotificationMessage {
     public static function successfullySendingTicket() {
-        return "Tiket berhasil dikirimkan";
+        return ["Pembelian berhasil", "Tiket berhasil dikirimkan"];
     }
 
-    public static function newSlider($title) {
-        return $title;
+    public static function newSlider($title,$message) {
+        return [$title,$message];
     }
 
     public static function newArticle($title) {

@@ -25,4 +25,14 @@ class Notification extends Model
     public function user() {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public static function build($title, $body, $type, $reference_id = null, $user_id = null) {
+        return new Notification([
+            'title'=>$title,
+            'body'=>$body,
+            'type'=>$type,
+            'reference_id'=>$reference_id,
+            'user_id'=>$user_id
+        ]);
+    }
 }

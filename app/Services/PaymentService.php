@@ -81,5 +81,18 @@ class PaymentService {
 
         return $payment;
     }
+
+    public static function receiveCallback(Payment $payment, $status) {
+        $payment->update([
+            'status'=>$status,
+            'paid_at'=> date('Y-m-d H:i:s'),
+        ]);
+        $payment->order()->update([
+            'status'=>$status
+        ]);
+        $payment->refresh();
+
+        return $payment;
+    }
 }
         
