@@ -68,9 +68,9 @@ class OrderController extends Controller
         }
         if (!empty($date_from_search)) {
             if (!empty($date_from_to)) {
-                $orders = $orders->whereBetween('reserve_at', [$date_from_search, $date_from_to]);
+                $orders = $orders->where('reserve_at', '>=', $date_from_search)->where('reserve_at', '<=', $date_from_to);
             }
-            $orders = $orders->where('reserve_at', $date_from_search);
+            $orders = $orders->where('reserve_at', '>=', $date_from_search);
         }
         $test = $request->flash();
         $orders = $orders->orderBy('id', 'desc')->paginate(7);

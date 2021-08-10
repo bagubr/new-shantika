@@ -26,12 +26,12 @@ class DashboardController extends Controller
         } else {
             $data = $this->weekly();
         }
+        // AGENCY
         $agencies = Agency::all();
         $fleets = Fleet::get(['id', 'name']);
         $routes = Route::get(['id', 'name']);
         $orders = Order::query();
         $fleet = $request->fleet;
-
         if (!empty($request->agency)) {
             $orders = $orders->where('user_id', $request->agency);
         }
@@ -45,8 +45,9 @@ class DashboardController extends Controller
         }
         $orders = $orders->orderBy('id', 'desc')->paginate(7);
 
+
+
         $test = $request->flash();
-        $now = Order::whereDate('created_at', date('Y-m-d'))->get();
         $users = User::all();
         $count_user = User::doesntHave('agencies')->count();
         $orders_money = Order::has('route')->sum('price');
