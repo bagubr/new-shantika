@@ -164,7 +164,7 @@ Dashboard
                     <button class="btn btn-success" type="submit">Cari</button>
                 </div>
             </form>
-            <table class="table table-bordered table-striped mt-3">
+            <table class="table table-bordered table-striped my-3">
                 <thead>
                     <tr>
                         <th>Agen</th>
@@ -196,15 +196,23 @@ Dashboard
         </div>
     </div>
     <div>
-        <div class="form-group">
-            <label>Periode</label>
-            <select name="" class="form-control">
-                <option value="">Harian</option>
-                <option value="">Mingguan</option>
-                <option value="">Bulanan</option>
-                <option value="">Tahun</option>
-            </select>
-        </div>
+        <form action="{{route('dashboard')}}" method="get">
+            <div class="form-group">
+                <label>Periode</label>
+                <select name="pendapatan" class="form-control" id="">
+                    @foreach ($data_statistic as $data1 => $value)
+                    @if (old('pendapatan') == $data1)
+                    <option value="{{$data1}}" selected>{{$value}}</option>
+                    @else
+                    <option value="{{$data1}}">{{$value}}</option>
+                    @endif
+                    @endforeach
+                </select>
+            </div>
+            <div class="text-right">
+                <button class="mb-3 btn btn-success" type="submit">Cari</button>
+            </div>
+        </form>
         <div class="row">
             <div class="col-6">
                 <div class="card card-success">
