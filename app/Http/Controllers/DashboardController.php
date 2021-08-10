@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Agency;
 use App\Models\Fleet;
 use App\Models\Order;
+use App\Models\OrderPriceDistribution;
 use App\Models\Route;
 use App\Models\User;
 use Carbon\Carbon;
@@ -14,6 +15,33 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
+        $params = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
+        $startOfThisWeek  = Carbon::now()->startOfWeek()->format('Y-m-d');
+        $endOfThisWeek = Carbon::now()->endOfWeek()->format('Y-m-d');
+        $startOfLastWeek = Carbon::now()->subWeek()->startOfWeek()->format('Y-m-d');
+        $endOfLastWeek = Carbon::now()->subWeek()->endOfWeek()->format('Y-m-d');
+        for ($i = 0; $i < 7; $i++) {
+            $startOfWeek  = Carbon::now()->startOfWeek()->addDay($i);
+            $startOfLastWeeks = Carbon::now()->subWeek()->startOfWeek()->addDay($i);
+            $order_jawa[] = OrderPriceDistribution::whereHas('order', function ($q) use ($startOfWeek) {
+                $q->where('reserve_at', '=', $startOfWeek);
+            })->get()->pluck('for_owner')->sum();
+            $order_jawa_last[] = OrderPriceDistribution::whereHas('order', function ($q) use ($startOfLastWeeks) {
+                $q->where('reserve_at', '=', $startOfLastWeeks);
+            })->get()->pluck('for_owner')->sum();
+        }
+        $weekly[] = $order_jawa;
+        $weekly_last[] = $order_jawa_last;
+
+        $data_week = [
+            'params' => $params,
+            'last_week' => "$startOfLastWeek - $endOfLastWeek",
+            'this_week' => "$startOfThisWeek - $endOfThisWeek",
+            'weekly' => $weekly,
+            'weekly_last' => $weekly_last,
+        ];
+        // dd($data_week['weekly_last'][0]);
+
         $data_statistic = ['weekly' => 'Mingguan', 'monthly' => 'Bulan', 'yearly' => 'Tahun'];
         if ($request->statistic) {
             if ($request->statistic == 'yearly') {
@@ -52,7 +80,7 @@ class DashboardController extends Controller
         $count_user = User::doesntHave('agencies')->count();
         $orders_money = Order::has('route')->sum('price');
         session()->flash('Success', 'Berhasil Memuat Halaman');
-        return view('dashboard', compact('users', 'orders', 'count_user', 'orders_money', 'agencies', 'fleets', 'routes', 'data', 'data_statistic'));
+        return view('dashboard', compact('users', 'orders', 'count_user', 'orders_money', 'agencies', 'fleets', 'routes', 'data', 'data_statistic', 'data_week'));
     }
     public function weekly()
     {

@@ -14,7 +14,9 @@ class OrderPriceDistributionController extends Controller
      */
     public function index()
     {
-        $order_price_distributions = OrderPriceDistribution::all();
+        $order_price_distributions = OrderPriceDistribution::wherehas('order', function ($q) {
+            $q->orderBy('reserve_at', 'DESC');
+        })->get();
         return view('order_price_distribution.index', compact('order_price_distributions'));
     }
 

@@ -209,7 +209,7 @@ Dashboard
             <div class="col-6">
                 <div class="card card-success">
                     <div class="card-header">
-                        <h3 class="card-title">Pendapatan Penjualan Tiket Periode ini </h3>
+                        <h3 class="card-title">Pendapatan Bersih Periode ini </h3>
                     </div>
                     <div class="card-body">
                         <div class="chart-container">
@@ -221,7 +221,7 @@ Dashboard
             <div class="col-6">
                 <div class="card card-success">
                     <div class="card-header">
-                        <h3 class="card-title">Pendapatan Penjualan Tiket Periode Sebelumnya</h3>
+                        <h3 class="card-title">Pendapatan Bersih Periode Sebelumnya</h3>
                     </div>
                     <div class="card-body">
                         <div class="chart-container">
@@ -246,7 +246,7 @@ Dashboard
             <div class="col-6">
                 <div class="card card-success">
                     <div class="card-header">
-                        <h3 class="card-title">Pendapatan Bersih Periode ini </h3>
+                        <h3 class="card-title">Pendapatan Penjualan Tiket Periode ini </h3>
                     </div>
                     <div class="card-body">
                         <div class="chart-container">
@@ -258,7 +258,7 @@ Dashboard
             <div class="col-6">
                 <div class="card card-success">
                     <div class="card-header">
-                        <h3 class="card-title">Pendapatan Bersih Periode Sebelumnya</h3>
+                        <h3 class="card-title">Pendapatan Penjualan Tiket Periode Sebelumnya</h3>
                     </div>
                     <div class="card-body">
                         <div class="chart-container">
@@ -286,27 +286,39 @@ Dashboard
 
 </script>
 <script>
-    const labels = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-    ];
+    const labels = [@foreach ($data_week['params'] as  $d)
+        "{{$d}}",
+    @endforeach];
+
     const data = {
-    labels: labels,
-    datasets: [{
-        label: 'My First dataset',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
-        data: [0, 10, 5, 2, 20, 30, 45],
-    }]
-    };
+        labels: labels,
+        datasets: [{
+            label: 'Jawa',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [@foreach ($data_week['weekly'][0] as $d)
+                {{$d}},
+            @endforeach],
+            }]
+        };
+    const data2 = {
+        labels: labels,
+        datasets: [{
+            label: 'Jawa',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [@foreach ($data_week['weekly'][0] as $d)
+                {{$d}},
+            @endforeach],
+            }]
+        };
     const config = {
         type: 'line',
         data,
-        options: {}
+    };
+    const config2 = {
+        type: 'line',
+        data2,
     };
     var myChart = new Chart(
         document.getElementById("myChart"),
@@ -314,7 +326,7 @@ Dashboard
     );
     var myChart2 = new Chart(
         document.getElementById("myChart2"),
-        config
+        config2
     );
 </script>
 <script>

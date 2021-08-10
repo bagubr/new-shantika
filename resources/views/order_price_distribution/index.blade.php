@@ -37,6 +37,7 @@ Setoran
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
+                                    <td>Tanggal Pemesanan</td>
                                     <th>Kode Order</th>
                                     <th>Makan</th>
                                     <th>Travel</th>
@@ -50,6 +51,7 @@ Setoran
                             <tbody>
                                 @foreach ($order_price_distributions as $order_price_distribution)
                                 <tr>
+                                    <td>{{date('Y-m-d',strtotime($order_price_distribution->order?->reserve_at))}}</td>
                                     <td><a href="{{route('order.show',$order_price_distribution->order->id)}}"
                                             target="blank">{{$order_price_distribution->order->code_order}}</a>
                                     </td>
