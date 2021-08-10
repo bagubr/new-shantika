@@ -232,7 +232,7 @@ Dashboard
             </div>
         </div>
     </div>
-    <div>
+    {{-- <div>
         <div class="form-group">
             <label>Periode</label>
             <select name="" class="form-control">
@@ -268,7 +268,7 @@ Dashboard
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </section>
 <!-- /.content -->
 @endsection
@@ -291,34 +291,34 @@ Dashboard
     @endforeach];
 
     const data = {
-        labels: labels,
-        datasets: [{
-            label: 'Jawa',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: [@foreach ($data_week['weekly'][0] as $d)
-                {{$d}},
-            @endforeach],
+        labels      : labels,
+        datasets    : [{
+            label           : 'Jawa',
+            backgroundColor : 'rgb(255, 99, 132)',
+            borderColor     : 'rgb(255, 99, 132)',
+            data            : [@foreach ($data_week['weekly'][0] as $d)
+                            {{$d}},
+                            @endforeach],
             }]
         };
     const data2 = {
-        labels: labels,
-        datasets: [{
-            label: 'Jawa',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: [@foreach ($data_week['weekly'][0] as $d)
-                {{$d}},
-            @endforeach],
+        labels      : labels,
+        datasets    : [{
+            label           : 'Jawa',
+            backgroundColor : 'rgb(255, 99, 132)',
+            borderColor     : 'rgb(255, 99, 132)',
+            data            : [@foreach ($data_week['weekly_last'][0] as $d)
+                            {{$d}},
+                            @endforeach],
             }]
         };
     const config = {
         type: 'line',
-        data,
+        data: data,
     };
     const config2 = {
         type: 'line',
-        data2,
+        data: data2,
     };
     var myChart = new Chart(
         document.getElementById("myChart"),
@@ -385,27 +385,4 @@ Dashboard
     })
     })
 </script>
-{{-- <script>
-    const DATA_COUNT = 7;
-    const NUMBER_CFG = {count: DATA_COUNT, min: -100, max: 100};
-    
-    const labels = Utils.months({count: 7});
-    const data = {
-        labels: labels,
-        datasets: [
-            {
-                label: 'Dataset 1',
-                data: Utils.numbers(NUMBER_CFG),
-                borderColor: Utils.CHART_COLORS.red,
-                backgroundColor: Utils.transparentize(Utils.CHART_COLORS.red, 0.5),
-            },
-            {
-                label: 'Dataset 2',
-                data: Utils.numbers(NUMBER_CFG),
-                borderColor: Utils.CHART_COLORS.blue,
-                backgroundColor: Utils.transparentize(Utils.CHART_COLORS.blue, 0.5),
-            }
-        ]
-        };
-</script> --}}
 @endpush
