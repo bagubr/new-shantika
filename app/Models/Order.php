@@ -46,7 +46,7 @@ class Order extends Model
 
     public function agency()
     {
-        return $this->belongsTo(Agency::class, 'user_id');
+        return $this->belongsTo(Agency::class, 'departure_agency_id')->withTrashed();
     }
 
     public function route()

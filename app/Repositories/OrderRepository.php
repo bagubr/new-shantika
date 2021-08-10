@@ -99,11 +99,20 @@ class OrderRepository
 
     public static function getBoughtRouteByAgencyByDate($token, $date)
     {
-        $user = UserRepository::findByToken($token);
+        $user_id = UserRepository::findByToken($token)?->id;
 
-        $order = Order::whereHas('user.agencies', function ($subquery) use ($user, $date) {
-            $subquery->where('id', $user->agencies->id);
-        })
+        $order = Order::where(function($query) use ($user_id) {
+            $query->where(function($subquery) use ($user_id) {
+                    $subquery->where('departure_agency_id', $user_id)
+                        ->whereHas('user.agencies')
+                        ->whereIn('status', [Order::STATUS3]);
+                })
+                ->orWhere(function($subquery) use ($user_id) {
+                    $subquery->where('departure_agency_id', $user_id)
+                    ->whereDoesntHave('user.agencies')
+                    ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
+                });
+            })
             ->with(['route.fleet'])
             ->where('status', Order::STATUS3)
             ->whereDate('created_at', $date)
