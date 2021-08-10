@@ -155,14 +155,14 @@ Pesanan
                                             Sekarang</button>
                                     </form>
                                     @endif
-                                    <form
+                                    {{-- <form
                                         action="{{route('order_price_distribution.destroy',$order_price_distributions->id)}}"
-                                        class="d-inline" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="badge badge-danger" onclick="return confirm('Are you sure?')"
-                                            type="submit">Delete</button>
-                                    </form>
+                                    class="d-inline" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="badge badge-danger" onclick="return confirm('Are you sure?')"
+                                        type="submit">Delete</button>
+                                    </form> --}}
                                 </td>
 
                             </tr>
