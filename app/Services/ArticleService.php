@@ -18,7 +18,10 @@ class ArticleService {
             'reference_id'=>$article->id,
             'type'=>Notification::TYPE4
         ]);
-        SendingNotificationToTopic::dispatch($notification, Notification::TOPIC1, false, $article);
+        SendingNotificationToTopic::dispatch($notification, Notification::TOPIC1, false, [
+            'reference_id'=>$article->id,
+            'type'=>Notification::TYPE4
+        ]);
 
         return $article;
     }
