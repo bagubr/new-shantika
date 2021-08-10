@@ -16,7 +16,7 @@ class Firebase {
             'message'=> (object) [
                 "token"=> $fcm_token,
                 "notification"=> is_array($notification) ? (object) $notification : $notification,
-                "data"=> empty($payload) ? (object) [] : $payload
+                "data"=> empty($payload) ? (object) [] : (object) $payload
             ],
         ]);
 
