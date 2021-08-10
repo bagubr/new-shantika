@@ -9,12 +9,31 @@ use App\Models\OrderPriceDistribution;
 use App\Models\Route;
 use App\Models\User;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     public function index(Request $request)
     {
+        $params = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
+        $period = CarbonPeriod::create(Carbon::now()->startOfMonth()->format('Y-m-d'), Carbon::now()->endOfMonth()->format('Y-m-d'));
+        $dates = $period->count();
+        for ($i = 0; $i < $dates; $i++) {
+            $startOfWeek  = Carbon::now()->startOfMonth()->addDay($i);
+            $order_jawa[] = OrderPriceDistribution::whereHas('order', function ($q) use ($startOfWeek) {
+                $q->where('reserve_at', '=', $startOfWeek)->whereHas('route', function ($y) {
+                    $y->where('area_id', 1);
+                });
+            })->get()->pluck('for_owner')->sum();
+        }
+        $weekly[] = $order_jawa;
+
+        $data_week = [
+            'params' => $params,
+            'weekly' => $weekly,
+        ];
+        dd($data_week);
         $data_statistic = ['weekly' => 'Harian', 'monthly' => 'Bulan', 'yearly' => 'Tahun'];
         if ($request->statistic) {
             if ($request->statistic == 'yearly') {
@@ -27,17 +46,17 @@ class DashboardController extends Controller
         } else {
             $data = $this->weekly();
         }
-        if ($request->pendapatan) {
-            if ($request->statistic == 'yearly') {
-                $data = $this->yearly();
-            } elseif ($request->statistic == 'monthly') {
-                $data = $this->monthly();
-            } else {
-                $data_week = $this->pendapatan_weekly();
-            }
-        } else {
-            $data_week = $this->pendapatan_weekly();
-        }
+        // if ($request->pendapatan) {
+        //     if ($request->statistic == 'yearly') {
+        //         $data = $this->yearly();
+        //     } elseif ($request->statistic == 'monthly') {
+        //         $data = $this->monthly();
+        //     } else {
+        //         $data_week = $this->pendapatan_weekly();
+        //     }
+        // } else {
+        //     $data_week = $this->pendapatan_weekly();
+        // }
         // AGENCY
         $agencies = Agency::all();
         $fleets = Fleet::get(['id', 'name']);
@@ -55,10 +74,8 @@ class DashboardController extends Controller
                 $q->where('fleet_id', $fleet);
             });
         }
+
         $orders = $orders->orderBy('id', 'desc')->paginate(7);
-
-
-
         $test = $request->flash();
         $users = User::all();
         $count_user = User::doesntHave('agencies')->count();
