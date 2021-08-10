@@ -39,17 +39,17 @@ Pengeluaran
                     <div class="form-group">
                         <label>Armada</label>
                         <input type="text" class="form-control"
-                            value="{{$outcome->route->fleet->name}}" disabled>
+                            value="{{$outcome->route?->fleet?->name}}" disabled>
                     </div>
                     <div class="form-group">
                         <label>Kelas Armada</label>
                         <input type="text" class="form-control"
-                            value="{{$outcome->route->fleet?->fleetclass?->name}}" disabled>
+                            value="{{$outcome->route?->fleet?->fleetclass?->name}}" disabled>
                     </div>
                     <div class="form-group">
                         <label>Rute</label>
                         <input type="text" class="form-control"
-                            value="{{$outcome->route?->name}} / {{$outcome->route->fleet->name}} ({{$outcome->route->fleet?->fleetclass?->name}})" disabled>
+                            value="{{$outcome->route?->name}}" disabled>
                     </div>
                 </div>
                 <!-- /.card-body -->
