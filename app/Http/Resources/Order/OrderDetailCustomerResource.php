@@ -37,9 +37,9 @@ class OrderDetailCustomerResource extends JsonResource
             'name_passenger'=>$this->order_detail[0]->name,
             'phone_passenger'=>$this->order_detail[0]->phone,
             'seat_passenger'=>$this->order_detail->pluck('chair.name'),
-            'price_member'=>$this->getPriceMember($this->order),
-            'price_travel'=>$this->getPriceTravel($this->order),
-            'price_feed'=>$this->getPriceFeed($this->order),
+            'price_travel'=>$this->getPriceTravel($this),
+            'price_member'=>$this->getPriceMember($this),
+            'price_feed'=>$this->getPriceFeed($this),
             'id_member'=>$this->id_member,
             'payment_type'=>$this->payment?->payment_type?->name,
             'price'=>$this->price,
@@ -47,17 +47,17 @@ class OrderDetailCustomerResource extends JsonResource
         ];
     }
 
-    public function getPriceFeed(Order $order)
+    public function getPriceFeed($order)
     {
         return abs($order->distribution->for_food / count($order->order_detail));
     }
     
-    public function getPriceTravel(Order $order)
+    public function getPriceTravel($order)
     {
         return abs($order->distribution->for_travel);
     }
 
-    public function getPriceMember(Order $order)
+    public function getPriceMember($order)
     {
         return abs($order->distribution->for_member);
     }
