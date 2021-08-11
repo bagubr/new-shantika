@@ -34,7 +34,6 @@ class BookingController extends Controller
                 'route_id'=>$request->route_id,
                 'layout_chair_id'=>$layout_chair_id,
                 'booking_at'=>$request->booking_at,
-                'expired_at'=>BookingService::getCurrentExpiredAt(),
                 'user_id'=>$user->id
             ]);
             $booking[] = BookingService::create($_booking);

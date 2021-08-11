@@ -18,7 +18,8 @@ class BookingService {
     use Response;
 
     public static function getCurrentExpiredAt() {
-        return date('Y-m-d H:i:s', strtotime("+15 minutes"));
+        $setting = Setting::first()->booking_expired_duration;
+        return date('Y-m-d H:i:s', $setting);
     }
 
     public static function create(Booking $booking) {
@@ -37,6 +38,7 @@ class BookingService {
             (new self)->sendFailedResponse([], 'Maaf, kursi sudah dipesan orang lain');
         }
 
+        $booking->expired_at = self::getCurrentExpiredAt();
         $booking = Booking::create($booking->toArray());
 
         self::sendNotificationAtExpiry($booking);
