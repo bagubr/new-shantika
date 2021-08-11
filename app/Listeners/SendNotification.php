@@ -37,5 +37,6 @@ class SendNotification
         if($event->is_saved) {
             $event->notification->save();
         }
+        Log::info('triggered');
     }
 }
