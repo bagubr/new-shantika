@@ -196,30 +196,35 @@ Dashboard
         </div>
     </div>
     <div>
-        <form action="{{route('dashboard')}}" method="get">
-            <div class="form-group">
-                <label>Periode</label>
-                <select name="pendapatan" class="form-control" id="">
-                    @foreach ($data_statistic as $data1 => $value)
-                    @if (old('pendapatan') == $data1)
-                    <option value="{{$data1}}" selected>{{$value}}</option>
-                    @else
-                    <option value="{{$data1}}">{{$value}}</option>
-                    @endif
-                    @endforeach
-                </select>
+        <div class="card card-success">
+            <div class="card-header">
+                <h3 class="card-title">Pendapatan Bersih</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
             </div>
-            <div class="text-right">
-                <button class="mb-3 btn btn-success" type="submit">Cari</button>
-            </div>
-        </form>
-        <div class="row">
-            <div class="col-6">
-                <div class="card card-success">
-                    <div class="card-header">
-                        <h3 class="card-title">Pendapatan Bersih Periode ini </h3>
+            <div class="card-body">
+                <form action="{{route('dashboard')}}" method="get">
+                    <div class="form-group">
+                        <label>Periode</label>
+                        <select name="pendapatan" class="form-control" id="">
+                            @foreach ($data_statistic as $data1 => $value)
+                            @if (old('pendapatan') == $data1)
+                            <option value="{{$data1}}" selected>{{$value}}</option>
+                            @else
+                            <option value="{{$data1}}">{{$value}}</option>
+                            @endif
+                            @endforeach
+                        </select>
                     </div>
-                    <div class="card-body">
+                    <div class="text-right">
+                        <button class="mb-3 btn btn-success" type="submit">Cari</button>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col">
                         <div class="text-center">
                             <p>{{$data_week['this_week']}}</p>
                         </div>
@@ -227,19 +232,14 @@ Dashboard
                             <canvas id="myChart"></canvas>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="card card-success">
-                    <div class="card-header">
-                        <h3 class="card-title">Pendapatan Bersih Periode Sebelumnya</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="text-center">
-                            <p>{{$data_week['last_week']}}</p>
-                        </div>
-                        <div class="chart-container">
-                            <canvas id="myChart2"></canvas>
+                    <div class="col">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <p>{{$data_week['last_week']}}</p>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="myChart2"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
