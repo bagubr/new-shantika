@@ -16,6 +16,58 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
+
+        $data_statistic = ['weekly' => 'Harian', 'monthly' => 'Bulan', 'yearly' => 'Tahun'];
+        if ($request->statistic) {
+            if ($request->statistic == 'yearly') {
+                $data = $this->yearly();
+            } elseif ($request->statistic == 'monthly') {
+                $data = $this->monthly();
+            } else {
+                $data = $this->weekly();
+            }
+        } else {
+            $data = $this->weekly();
+        }
+        if ($request->pendapatan) {
+            if ($request->statistic == 'yearly') {
+                $data = $this->yearly();
+            } elseif ($request->pendapatan == 'monthly') {
+                $data_week = $this->pendapatan_monthly();
+            } else {
+                $data_week = $this->pendapatan_weekly();
+            }
+        } else {
+            $data_week = $this->pendapatan_weekly();
+        }
+        // AGENCY
+        $agencies = Agency::all();
+        $fleets = Fleet::get(['id', 'name']);
+        $routes = Route::get(['id', 'name']);
+        $orders = Order::query();
+        $fleet = $request->fleet;
+        if (!empty($request->agency)) {
+            $orders = $orders->where('user_id', $request->agency);
+        }
+        if (!empty($request->route)) {
+            $orders = $orders->where('route_id', $request->route);
+        }
+        if (!empty($request->fleet)) {
+            $orders = $orders->whereHas('route', function ($q) use ($fleet) {
+                $q->where('fleet_id', $fleet);
+            });
+        }
+
+        $orders = $orders->orderBy('id', 'desc')->paginate(7);
+        $test = $request->flash();
+        $users = User::all();
+        $count_user = User::doesntHave('agencies')->count();
+        $orders_money = Order::has('route')->sum('price');
+        session()->flash('Success', 'Berhasil Memuat Halaman');
+        return view('dashboard', compact('users', 'orders', 'count_user', 'orders_money', 'agencies', 'fleets', 'routes', 'data', 'data_statistic', 'data_week'));
+    }
+    public function pendapatan_monthly()
+    {
         for ($i = 0; $i < 31; $i++) {
             $params[] = $i + 1;
         }
@@ -65,55 +117,7 @@ class DashboardController extends Controller
             'weekly_last' => $weekly_last,
             'weekly_last2' => $weekly_last2,
         ];
-        // dd($data_week);
-        $data_statistic = ['weekly' => 'Harian', 'monthly' => 'Bulan', 'yearly' => 'Tahun'];
-        if ($request->statistic) {
-            if ($request->statistic == 'yearly') {
-                $data = $this->yearly();
-            } elseif ($request->statistic == 'monthly') {
-                $data = $this->monthly();
-            } else {
-                $data = $this->weekly();
-            }
-        } else {
-            $data = $this->weekly();
-        }
-        // if ($request->pendapatan) {
-        //     if ($request->statistic == 'yearly') {
-        //         $data = $this->yearly();
-        //     } elseif ($request->statistic == 'monthly') {
-        //         $data = $this->monthly();
-        //     } else {
-        //         $data_week = $this->pendapatan_weekly();
-        //     }
-        // } else {
-        //     $data_week = $this->pendapatan_weekly();
-        // }
-        // AGENCY
-        $agencies = Agency::all();
-        $fleets = Fleet::get(['id', 'name']);
-        $routes = Route::get(['id', 'name']);
-        $orders = Order::query();
-        $fleet = $request->fleet;
-        if (!empty($request->agency)) {
-            $orders = $orders->where('user_id', $request->agency);
-        }
-        if (!empty($request->route)) {
-            $orders = $orders->where('route_id', $request->route);
-        }
-        if (!empty($request->fleet)) {
-            $orders = $orders->whereHas('route', function ($q) use ($fleet) {
-                $q->where('fleet_id', $fleet);
-            });
-        }
-
-        $orders = $orders->orderBy('id', 'desc')->paginate(7);
-        $test = $request->flash();
-        $users = User::all();
-        $count_user = User::doesntHave('agencies')->count();
-        $orders_money = Order::has('route')->sum('price');
-        session()->flash('Success', 'Berhasil Memuat Halaman');
-        return view('dashboard', compact('users', 'orders', 'count_user', 'orders_money', 'agencies', 'fleets', 'routes', 'data', 'data_statistic', 'data_week'));
+        return $data_week;
     }
     public function pendapatan_weekly()
     {
