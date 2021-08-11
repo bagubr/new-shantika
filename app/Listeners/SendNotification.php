@@ -31,7 +31,7 @@ class SendNotification
             'body'=>$event->notification->body,
             'type'=>$event->notification->type,
             'reference_id'=>$event->notification->reference_id,
-        ], $event->fcm_token);
+        ], $event->fcm_token, $event->data);
 
 
         if($event->is_saved) {

@@ -1,7 +1,5 @@
 <?php
 
-use App\Events\SendingNotification;
-use App\Events\SendingNotificationToTopic;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\AreaController;
@@ -38,9 +36,6 @@ use App\Http\Controllers\TimeClassificationController;
 use App\Http\Controllers\UserAgentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OutcomeController;
-use App\Jobs\BookingExpiryReminderJob;
-use App\Models\Notification;
-use App\Models\Setting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -60,13 +55,6 @@ Auth::routes([
     'reset' => false,
     'verify' => false,
 ]);
-
-Route::get('test', function () {
-    $notification = Notification::build("", "", "");
-
-    $foo = (new BookingExpiryReminderJob())->delay(now()->addSeconds(10));
-    dispatch($foo);
-});
 
 Route::group(['middleware' => ['auth']], function () {
 

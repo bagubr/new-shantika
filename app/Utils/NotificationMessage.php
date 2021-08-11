@@ -19,16 +19,17 @@ class NotificationMessage {
         return $title;
     }
 
-    public static function paymentWillExpired($min) {
-        return "Pembayaran anda akan berakhir dalam ".$min;
+    public static function paymentWillExpired() {
+        return ["Pembayaran anda akan segera berakhir", "Pembayaran anda akan berakhir dalam 30 menit lagi"];
     }
 
     public static function paymentExpired($datetime) {
-        return "Pembayaran anda untuk keberangkatan jam ".$datetime." sudah kadaluarsa";
+        return ["Pembayaran telah kadaluarsa", "Pembayaran anda untuk keberangkatan jam ".$datetime." sudah kadaluarsa"];
     }
 
-    public static function bookingExpired(string|array $chair) {
-        return "Booking kursi ".$chair." telah kadaluarsa";
+    public static function bookingExpired(array $chair) {
+        $chair = implode(", ", $chair);
+        return ["Booking Kursi Armada Kadaluarsa", "Booking kursi ".$chair." telah kadaluarsa"];
     }
 
     public static function paymentSuccess($datetime) {

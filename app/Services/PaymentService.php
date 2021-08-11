@@ -2,10 +2,14 @@
 
 namespace App\Services;
 
+use App\Jobs\PaymentLastThirtyMinuteReminderJob;
+use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\PaymentType;
 use App\Utils\Image;
+use App\Utils\NotificationMessage;
+use DateTime;
 use Xendit\Xendit;
 
 class PaymentService {
@@ -14,7 +18,7 @@ class PaymentService {
             $payment_type_id  = PaymentType::first()->id;
         }
         
-        if(empty($payment_type_id)) {
+        if(empty($payment_type_id) || $payment_type_id == 1) {
             $invoice = Payment::create([
                 'order_id'=>$order->id,
                 'payment_type_id'=>$payment_type_id,
@@ -41,7 +45,27 @@ class PaymentService {
             $invoice['xendit'] = self::getSecretAttribute($invoice);
         }
 
+        self::sendNotificationAlmostExpiry($invoice);
+
         return $invoice;
+    }
+
+    public static function sendNotificationAlmostExpiry($invoice) {
+        if($invoice->order->status != Order::STATUS1) {
+            return;
+        }
+
+        $send_at = now()->diffInMinutes(date_create(strtotime($invoice, "-30 minutes")));
+        $payload = NotificationMessage::paymentWillExpired();
+        $notification = Notification::build($payload[0], $payload[1], Notification::TYPE1, $invoice->order_id);
+        PaymentLastThirtyMinuteReminderJob::dispatch($notification, $invoice->order->user->fcm_token, false)
+            ->delay(now()->addMinutes($send_at));
+
+        $send_at = now()->diffInMinutes(date_create(strtotime($invoice)));
+        $payload = NotificationMessage::paymentExpired(date("d-M-Y", strtotime($invoice->order->reserve_at)));
+        $notification = Notification::build($payload[0], $payload[1], Notification::TYPE1, $invoice->order_id);
+        PaymentLastThirtyMinuteReminderJob::dispatch($notification, $invoice->order->user->fcm_token, false)
+            ->delay(now()->addMinutes($send_at));
     }
 
     public static function getSecretAttribute(Payment $payment) {

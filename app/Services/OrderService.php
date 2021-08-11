@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Events\SendingNotification;
+use App\Jobs\Notification\TicketExchangedJob;
 use App\Models\Agency;
 use App\Models\Notification;
 use App\Models\Order;
@@ -118,6 +119,8 @@ class OrderService {
         ]);
         DB::commit();
         $order->refresh();
+
+        TicketExchangedJob::dispatchAfterResponse($order);
 
         return $order;
     }

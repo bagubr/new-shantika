@@ -4,16 +4,14 @@ namespace App\Jobs;
 
 use App\Events\SendingNotification;
 use App\Models\Notification;
-use App\Utils\Firebase;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 
-class BookingExpiryReminderJob implements ShouldQueue
+class PaymentLastThirtyMinuteReminderJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
