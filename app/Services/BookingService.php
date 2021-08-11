@@ -2,11 +2,9 @@
 
 namespace App\Services;
 
-use App\Events\SendingNotification;
 use App\Jobs\BookingExpiryReminderJob;
 use App\Models\Booking;
 use App\Models\Notification;
-use App\Models\ScheduleUnavailableBooking;
 use App\Models\Setting;
 use App\Repositories\BookingRepository;
 use App\Repositories\OrderRepository;
@@ -52,7 +50,13 @@ class BookingService {
             return;
         }
         $payload = NotificationMessage::bookingExpired($chairs->pluck('layout_chair.name')->values()->toArray());
-        $notification = Notification::build($payload[0], $payload[1], Notification::TYPE1, $booking->id, $booking->user_id);
+        $notification = new Notification([
+            "title"=>$payload[0],
+            "body"=>$payload[1],
+            "type"=>Notification::TYPE1,
+            "reference_id"=>$booking->id,
+            "user_id"=>$booking->user_id
+        ]);
         $expired_time = Setting::first()->booking_expired_duration;
         BookingExpiryReminderJob::dispatch($notification, $booking->user->fcm_token, false)->delay(now()->addMinutes($expired_time));
     }
