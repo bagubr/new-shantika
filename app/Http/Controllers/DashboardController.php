@@ -16,24 +16,56 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        $params = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
+        for ($i = 0; $i < 31; $i++) {
+            $params[] = $i + 1;
+        }
         $period = CarbonPeriod::create(Carbon::now()->startOfMonth()->format('Y-m-d'), Carbon::now()->endOfMonth()->format('Y-m-d'));
+        $period_last = CarbonPeriod::create(Carbon::now()->subMonth()->startOfMonth()->format('Y-m-d'), Carbon::now()->subMonth()->endOfMonth()->format('Y-m-d'));
+        $thisMonth  = Carbon::now()->startOfMonth()->format('F Y');
+        $lastMonth  = Carbon::now()->subMonth()->startOfMonth()->format('F Y');
         $dates = $period->count();
+        $dates_last = $period_last->count();
         for ($i = 0; $i < $dates; $i++) {
-            $startOfWeek  = Carbon::now()->startOfMonth()->addDay($i);
-            $order_jawa[] = OrderPriceDistribution::whereHas('order', function ($q) use ($startOfWeek) {
+            $startOfWeek        = Carbon::now()->startOfMonth()->addDay($i);
+            $order_jawa[]       = OrderPriceDistribution::whereHas('order', function ($q) use ($startOfWeek) {
                 $q->where('reserve_at', '=', $startOfWeek)->whereHas('route', function ($y) {
                     $y->where('area_id', 1);
                 });
             })->get()->pluck('for_owner')->sum();
+            $order_jabodetabek[]       = OrderPriceDistribution::whereHas('order', function ($q) use ($startOfWeek) {
+                $q->where('reserve_at', '=', $startOfWeek)->whereHas('route', function ($y) {
+                    $y->where('area_id', 2);
+                });
+            })->get()->pluck('for_owner')->sum();
+        }
+        for ($i = 0; $i < $dates_last; $i++) {
+            $startOfLastWeek = Carbon::now()->subMonth()->startOfMonth()->addDay($i);
+            $order_jawa_last[] = OrderPriceDistribution::whereHas('order', function ($q) use ($startOfLastWeek) {
+                $q->where('reserve_at', '=', $startOfLastWeek)->whereHas('route', function ($y) {
+                    $y->where('area_id', 1);
+                });
+            })->get()->pluck('for_owner')->sum();
+            $order_jabodetabek_last[]       = OrderPriceDistribution::whereHas('order', function ($q) use ($startOfWeek) {
+                $q->where('reserve_at', '=', $startOfWeek)->whereHas('route', function ($y) {
+                    $y->where('area_id', 2);
+                });
+            })->get()->pluck('for_owner')->sum();
         }
         $weekly[] = $order_jawa;
+        $weekly2[] = $order_jabodetabek;
+        $weekly_last[] = $order_jawa_last;
+        $weekly_last2[] = $order_jabodetabek_last;
 
         $data_week = [
+            'last_week' => "$lastMonth",
+            'this_week' => "$thisMonth",
             'params' => $params,
             'weekly' => $weekly,
+            'weekly2' => $weekly2,
+            'weekly_last' => $weekly_last,
+            'weekly_last2' => $weekly_last2,
         ];
-        dd($data_week);
+        // dd($data_week);
         $data_statistic = ['weekly' => 'Harian', 'monthly' => 'Bulan', 'yearly' => 'Tahun'];
         if ($request->statistic) {
             if ($request->statistic == 'yearly') {

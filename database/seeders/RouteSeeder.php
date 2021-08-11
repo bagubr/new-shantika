@@ -25,20 +25,21 @@ class RouteSeeder extends Seeder
         foreach ($fleet as $key => $value) {
             $departure_at = $faker->time();
             $route = Route::create([
-                'fleet_id'      =>$value->id,
-                'departure_at'  =>$departure_at,
-                'arrived_at'    =>date('H:i:s', strtotime($departure_at) + 60 * (60 * $faker->randomDigit())),
-                'price'         =>$faker->numberBetween(50000, 500000)
+                'fleet_id'      => $value->id,
+                'departure_at'  => $departure_at,
+                'arrived_at'    => date('H:i:s', strtotime($departure_at) + 60 * (60 * $faker->randomDigit())),
+                'price'         => $faker->numberBetween(50000, 500000),
+                'area_id'       => 1
             ]);
             $checkpoints = '';
-            for($i = 0; $i <= $faker->randomDigit(); $i++) {
+            for ($i = 0; $i <= $faker->randomDigit(); $i++) {
                 $checkpoint = Checkpoint::create([
-                    'route_id'  =>$route->id,
-                    'arrived_at'=>$faker->time(),
-                    'agency_id' =>Agency::inRandomOrder()->first()->id,
-                    'order'     =>$i
+                    'route_id'  => $route->id,
+                    'arrived_at' => $faker->time(),
+                    'agency_id' => Agency::inRandomOrder()->first()->id,
+                    'order'     => $i
                 ]);
-                $checkpoints .= '~'.$checkpoint->agency()->first()->name.'~';
+                $checkpoints .= '~' . $checkpoint->agency()->first()->name . '~';
             }
             $route->update([
                 'name' => $checkpoints,
