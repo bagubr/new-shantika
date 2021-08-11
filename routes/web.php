@@ -1,6 +1,7 @@
 <?php
 
 use App\Events\SendingNotification;
+use App\Events\SendingNotificationToTopic;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\AreaController;
@@ -37,7 +38,9 @@ use App\Http\Controllers\TimeClassificationController;
 use App\Http\Controllers\UserAgentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OutcomeController;
+use App\Jobs\BookingExpiryReminderJob;
 use App\Models\Notification;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -58,17 +61,11 @@ Auth::routes([
     'verify' => false,
 ]);
 
-Route::get('test-firebase', function () {
-    $notification = new Notification([
-        'user_id' => 69,
-        'reference_id' => 1,
-        'title' => 'Test',
-        'body' => 'Test',
-        'type' => 'ORDER',
-        'is_seen' => false,
-    ]);
+Route::get('test', function () {
+    $notification = Notification::build("", "", "");
 
-    SendingNotification::dispatch($notification, '', true);
+    $foo = (new BookingExpiryReminderJob())->delay(now()->addSeconds(10));
+    dispatch($foo);
 });
 
 Route::group(['middleware' => ['auth']], function () {

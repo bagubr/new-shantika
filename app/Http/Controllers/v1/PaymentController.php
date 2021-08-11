@@ -5,6 +5,7 @@ namespace App\Http\Controllers\v1;
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use App\Repositories\PaymentRepository;
+use App\Services\PaymentService;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -12,15 +13,8 @@ class PaymentController extends Controller
     public function callbackXendit(Request $request) {
         $payment = PaymentRepository::findBySecret($request->id);
 
-        $payment->update([
-            'status'=>$request->status,
-            'paid_at'=> date('Y-m-d H:i:s'),
-        ]);
-        $payment->order()->update([
-            'status'=>$request->status
-        ]);
-        $payment->refresh();
-
+        $payment = PaymentService::receiveCallback($payment, $request->status);
+        
         return $this->sendSuccessResponse([
             'payment'=>$payment
         ]);

@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Events\SendingNotification;
 use App\Models\Agency;
+use App\Models\Notification;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\OrderPriceDistribution;
@@ -12,6 +14,7 @@ use App\Models\Setting;
 use App\Repositories\OrderRepository;
 use App\Utils\Response;
 use App\Repositories\UserRepository;
+use App\Utils\NotificationMessage;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
@@ -21,20 +24,15 @@ class OrderService {
     public static function create(Order $data, $detail, $payment_type_id = null) {
         $route = Route::find($data->route_id)
             ?? (new self)->sendFailedResponse([], 'Rute perjalanan tidak ditemukan');
-
-        //validation
         $order_exists = OrderRepository::isOrderUnavailable($data->route_id, $data->reserve_at, $detail->layout_chair_id);
         if($order_exists) {
             (new self)->sendFailedResponse([], 'Maaf, kursi sudah dibeli oleh orang lain, silahkan pilih kursi lain');
         }
-
         $setting = Setting::first();
-
         $ticket_price = $route->price - $data->route->fleet->fleetclass->price_food;
         $ticket_price_with_food = $detail->is_feed
             ? $route->price * count($detail->layout_chair_id)
             : $ticket_price * count($detail->layout_chair_id);
-
         $data->price = $ticket_price_with_food;
         if($detail->is_travel){
             $price_travel = $setting->travel * count($detail->layout_chair_id);
@@ -59,11 +57,21 @@ class OrderService {
             BookingService::deleteByCodeBooking($detail->code_booking);
         }
         self::createDetail($order, $detail->layout_chair_id, $detail);
-
         $order = Order::find($order->id);
-
+        self::sendNotification($order);
         return $order;
     } 
+
+    private static function sendNotification($order) {
+        $notification = Notification::build(
+            NotificationMessage::successfullySendingTicket()[0],
+            NotificationMessage::successfullySendingTicket()[1],
+            Notification::TYPE1,
+            $order->id,
+            $order->user_id
+        );
+        SendingNotification::dispatch($notification, $order->user?->fcm_token, true);
+    }
 
     public static function createDetail($order, $layout_chairs, $detail) {
         $order_details = [];

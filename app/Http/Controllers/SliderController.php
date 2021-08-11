@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateSliderRequest;
 use App\Models\Slider;
+use App\Services\SliderService;
 use Illuminate\Http\Request;
 
 class SliderController extends Controller
@@ -39,11 +40,8 @@ class SliderController extends Controller
     public function store(CreateSliderRequest $request)
     {
         $data = $request->all();
-        $data['image'] = $request->image->store('slider_image', 'public');
-
-        Slider::create($data);
-        session()->flash('success', 'Slider Berhasil Ditambahkan');
-        return redirect(route('slider.index'));
+        SliderService::create($data);
+        return redirect(route('slider.index'))->with('success', 'Slider Berhasil Ditambahkan');
     }
 
     /**

@@ -6,14 +6,6 @@ use App\Models\Notification;
 use App\Repositories\UserRepository;
 
 class NotificationService {
-    public static function sendNotification() {
-
-    }
-
-    public static function sendNotificationToTopic() {
-        
-    }
-
     public static function read(Notification $notification) {
         $notification->update(['is_seen'=>true]);
         $notification->refresh();
