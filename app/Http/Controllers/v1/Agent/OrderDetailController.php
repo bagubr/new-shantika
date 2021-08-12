@@ -16,7 +16,7 @@ class OrderDetailController extends Controller
     public function possibleCustomer(Request $request) {
         $user = UserRepository::findByToken($request->bearerToken());
         $date = $request->date ?? date('Y-m-d');
-        $order_details = OrderDetailRepository::paginateAllByAgencyId($user, $date);
+        $order_details = OrderDetailRepository::getAllByAgencyId($user, $date);
 
         return $this->sendSuccessResponse([
             'order_details'=>TodayPossibleCustomerResource::collection($order_details)
