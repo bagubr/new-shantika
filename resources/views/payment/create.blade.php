@@ -44,7 +44,7 @@ Detail Pembayaran
                             <div class="col">
                                 <div class="form-group">
                                     <label>Kode Order</label>
-                                    <input type="text" name="code_order" class="form-control" disabled
+                                    <input type="text" name="code_order" class="form-control" readonly
                                         value="{{isset($payment) ? $payment->order->code_order : ''}}"
                                         placeholder="Masukkan Nama Pembayaran">
                                 </div>
@@ -52,7 +52,7 @@ Detail Pembayaran
                             {{-- <div class="col">
                                 <div class="form-group">
                                     <label>Nama</label>
-                                    <input type="text" class="form-control" disabled
+                                    <input type="text" class="form-control" readonly
                                         value="{{isset($payment)? $payment->order->user->name : ''}}">
                         </div>
                 </div> --}}
@@ -61,7 +61,7 @@ Detail Pembayaran
                 <div class="col">
                     <div class="form-group">
                         <label>Tipe Pembayaran</label>
-                        <select class="form-control" name="payment_type_id" style="width: 100%;" disabled>
+                        <select class="form-control" name="payment_type_id" style="width: 100%;" readonly>
                             <option value="">Pilih Tipe Pembayaran</option>
                             @foreach ($payment_types as $payment_type)
                             <option value="{{$payment_type->id}}" @isset($payment) @if ($payment_type->id
