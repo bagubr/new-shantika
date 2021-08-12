@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Payment\UpdatePaymentRequest;
+use App\Jobs\PaymentAcceptedNotificationJob;
+use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Repositories\PaymentTypeRepository;
+use App\Utils\NotificationMessage;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -86,8 +89,31 @@ class PaymentController extends Controller
         };
         $payment->update($data);
         $order_id->update([
-            'status' => $request->status
+            'status' => $request->status,
         ]);
+        $order_id->payment()->update([
+            'status'=>$request->status
+        ]);
+        if($request->status == Order::STATUS3) {
+            $payload = NotificationMessage::paymentSuccess($order_id->code_order);
+            $notification = Notification::build(
+                $payload[0],
+                $payload[1],
+                Notification::TYPE1,
+                $order_id->id
+            );
+            PaymentAcceptedNotificationJob::dispatchAfterResponse($notification, $order_id->user?->fcm_token, true);
+        }
+        else if($request->status == Order::STATUS7) {
+            $payload = NotificationMessage::paymentDeclined($order_id->code_order, $order_id->payment->proof_decline_reason);
+            $notification = Notification::build(
+                $payload[0],
+                $payload[1],
+                Notification::TYPE1,
+                $order_id->id
+            );
+            PaymentAcceptedNotificationJob::dispatchAfterResponse($notification, $order_id->user?->fcm_token, true);
+        }
         session()->flash('success', 'Pembayaran Berhasil Diperbarui');
         return redirect()->back();
     }

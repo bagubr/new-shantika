@@ -26,6 +26,13 @@ class SendingNotification
         $this->notification = $notification;
         $this->fcm_token = $fcm_token ?? "";
         $this->is_saved = $is_saved;
-        $this->data = $data;
+        if($data != []) {
+            $this->data = $data;
+        } else {
+            $this->data = [
+                'reference_id'=>$notification->reference_id,
+                'type'=>$notification->type
+            ];
+        }
     }
 }
