@@ -198,6 +198,55 @@ Dashboard
             {{$orders->links("pagination::bootstrap-4")}}
         </div>
     </div>
+    <div class="card card-success">
+        <div class="card-header">
+            <h3 class="card-title">Statistik Pendapatan Penjualan Tiket</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <form action="{{route('dashboard')}}" method="GET">
+                <div class="form-group">
+                    <label>Periode</label>
+                    <select name="tiket" class="form-control">
+                        @foreach ($data_statistic as $data1 => $value)
+                        @if (old('tiket') == $data1)
+                        <option value="{{$data1}}" selected>{{$value}}</option>
+                        @else
+                        <option value="{{$data1}}">{{$value}}</option>
+                        @endif
+                        @endforeach
+                    </select>
+                </div>
+                <div class="text-right">
+                    <button class="btn btn-success" type="submit">Cari</button>
+                </div>
+            </form>
+            <div class="row">
+                <div class="col">
+                    <div class="text-center">
+                        <p>{{$data_tiket['this_week']}}</p>
+                    </div>
+                    <div class="chart">
+                        <canvas id="barChart2"
+                            style="min-height: 250px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="text-center">
+                        <p>{{$data_tiket['last_week']}}</p>
+                    </div>
+                    <div class="chart">
+                        <canvas id="barChart5"
+                            style="min-height: 250px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div>
         <div class="card card-success">
             <div class="card-header">
@@ -244,55 +293,6 @@ Dashboard
                                 <canvas id="myChart2"></canvas>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="card card-success">
-        <div class="card-header">
-            <h3 class="card-title">Statistik Pendapatan Penjualan Tiket</h3>
-            <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                </button>
-            </div>
-        </div>
-        <div class="card-body">
-            <form action="{{route('dashboard')}}" method="GET">
-                <div class="form-group">
-                    <label>Periode</label>
-                    <select name="tiket" class="form-control">
-                        @foreach ($data_statistic as $data1 => $value)
-                        @if (old('tiket') == $data1)
-                        <option value="{{$data1}}" selected>{{$value}}</option>
-                        @else
-                        <option value="{{$data1}}">{{$value}}</option>
-                        @endif
-                        @endforeach
-                    </select>
-                </div>
-                <div class="text-right">
-                    <button class="btn btn-success" type="submit">Cari</button>
-                </div>
-            </form>
-            <div class="row">
-                <div class="col">
-                    <div class="text-center">
-                        <p>{{$data_tiket['this_week']}}</p>
-                    </div>
-                    <div class="chart">
-                        <canvas id="barChart2"
-                            style="min-height: 250px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="text-center">
-                        <p>{{$data_tiket['last_week']}}</p>
-                    </div>
-                    <div class="chart">
-                        <canvas id="barChart5"
-                            style="min-height: 250px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
                     </div>
                 </div>
             </div>
