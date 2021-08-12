@@ -158,15 +158,15 @@
                     </p>
                 </a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a href="{{route('information.index')}}"
-                    class="nav-link {{Request::routeIs('information.*') ? 'active' : ''}}">
-                    <i class="nav-icon fas fa-info"></i>
-                    <p>
-                        Informasi
-                    </p>
-                </a>
-            </li>
+            class="nav-link {{Request::routeIs('information.*') ? 'active' : ''}}">
+            <i class="nav-icon fas fa-info"></i>
+            <p>
+                Informasi
+            </p>
+            </a>
+            </li> --}}
             <li class="nav-item">
                 <a href="{{route('facility.index')}}"
                     class="nav-link {{Request::routeIs('facility.*') ? 'active' : ''}}">
