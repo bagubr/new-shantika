@@ -11,7 +11,8 @@ class SketchController extends Controller
     {
         $date = $request->date??null;
         $area_id = $request->area_id??null;
-        $orders = Order::with('distribution')
+        $orders = Order::whereIn('status', Order::STATUS_BOUGHT)
+        ->with('distribution')
         ->when(($request->date), function ($query) use ($request)
         {
             $query->whereDate('reserve_at', $request->date);
