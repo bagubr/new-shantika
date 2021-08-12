@@ -36,6 +36,7 @@ use App\Http\Controllers\TimeClassificationController;
 use App\Http\Controllers\UserAgentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OutcomeController;
+use App\Http\Controllers\SketchController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -103,5 +104,6 @@ Route::group(['middleware' => ['auth']], function () {
         'config_setting' => ConfigSettingController::class,
         'bank_account' => BankAccountController::class,
         'outcome' => OutcomeController::class,
+        'sketch' => SketchController::class,
     ]);
 });

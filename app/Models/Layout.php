@@ -28,7 +28,8 @@ class Layout extends Model
     ];
 
     protected $appends = [
-        'total_indexes'
+        'total_indexes',
+        'total_chairs',
     ];
 
     public function chairs() {
@@ -41,5 +42,10 @@ class Layout extends Model
 
     public function getTotalIndexesAttribute($value) {
         return $this->row * $this->col;
+    }
+
+    public function getTotalChairsAttribute($value) {
+        $total_chairs = ($this->row * $this->col) - count($this->space_indexes) - count($this->toilet_indexes) - count($this->door_indexes);
+        return $total_chairs;
     }
 }
