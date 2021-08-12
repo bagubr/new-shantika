@@ -18,6 +18,7 @@ use App\Repositories\UserRepository;
 use App\Utils\NotificationMessage;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class OrderService {
     use Response;
@@ -64,6 +65,7 @@ class OrderService {
     } 
 
     private static function sendNotification($order) {
+        Log::info($order);
         $notification = Notification::build(
             NotificationMessage::successfullySendingTicket()[0],
             NotificationMessage::successfullySendingTicket()[1],
