@@ -77,6 +77,14 @@
                         </a>
                 </li> --}}
                 <li class="nav-item">
+                    <a href="{{route('sketch.index')}}" class="nav-link {{Request::routeIs('sketch.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-map"></i>
+                        <p>
+                            Sketch
+                        </p>
+                    </a>
+                <li class="nav-item">
+                </li>
                     <a href="{{route('province.index')}}"
                         class="nav-link {{Request::routeIs('province.*') ? 'active' : ''}}">
                         <i class="far fa-circle nav-icon"></i>

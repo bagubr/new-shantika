@@ -57,7 +57,7 @@ Sketch
         </div>
     </form>
         <div class="row">
-            @if(!empty($data['sketchs']))
+            @if($data['sketchs']->isEmpty())
             <div class="col-md-12">
                 <div class="card p-5">
                     <center>
