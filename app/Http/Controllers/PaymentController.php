@@ -91,10 +91,10 @@ class PaymentController extends Controller
         $order_id->update([
             'status' => $request->status,
         ]);
-        $order_id->payment()->update([
-            'status'=>$request->status
-        ]);
-        if($request->status == Order::STATUS3) {
+        // $order_id->payment()->update([
+        //     'status' => $request->status
+        // ]);
+        if ($request->status == Order::STATUS3) {
             $payload = NotificationMessage::paymentSuccess($order_id->code_order);
             $notification = Notification::build(
                 $payload[0],
@@ -103,8 +103,7 @@ class PaymentController extends Controller
                 $order_id->id
             );
             PaymentAcceptedNotificationJob::dispatchAfterResponse($notification, $order_id->user?->fcm_token, true);
-        }
-        else if($request->status == Order::STATUS7) {
+        } else if ($request->status == Order::STATUS7) {
             $payload = NotificationMessage::paymentDeclined($order_id->code_order, $order_id->payment->proof_decline_reason);
             $notification = Notification::build(
                 $payload[0],
