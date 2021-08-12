@@ -17,7 +17,7 @@ class BookingService {
 
     public static function getCurrentExpiredAt() {
         $setting = Setting::first()->booking_expired_duration;
-        return date('Y-m-d H:i:s', $setting);
+        return date('Y-m-d H:i:s', strtotime("+ ".$setting." min"));
     }
 
     public static function create(Booking $booking) {
