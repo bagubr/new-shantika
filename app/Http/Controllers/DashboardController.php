@@ -30,7 +30,7 @@ class DashboardController extends Controller
         }
         if ($request->tiket) {
             if ($request->tiket == 'yearly') {
-                $data_tiket = $this->pendapatan_yearly();
+                $data_tiket = $this->tiket_tahun();
             } elseif ($request->tiket == 'monthly') {
                 $data_tiket = $this->pendapatan_monthly();
             } else {
@@ -69,12 +69,51 @@ class DashboardController extends Controller
         }
 
         $orders = $orders->orderBy('id', 'desc')->paginate(7);
+        $order_count = Order::all()->count();
         $test = $request->flash();
         $users = User::all();
         $count_user = User::doesntHave('agencies')->count();
         $orders_money = Order::has('route')->sum('price');
         session()->flash('Success', 'Berhasil Memuat Halaman');
-        return view('dashboard', compact('users', 'orders', 'count_user', 'orders_money', 'agencies', 'fleets', 'routes', 'data', 'data_statistic', 'data_week', 'data_tiket'));
+        return view('dashboard', compact('users', 'orders', 'order_count', 'count_user', 'orders_money', 'agencies', 'fleets', 'routes', 'data', 'data_statistic', 'data_week', 'data_tiket'));
+    }
+    public function tiket_tahun()
+    {
+        $params = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "August", "September", "October", "November", "Desember"];
+        $thisYear  = Carbon::now()->startOfYear()->format('Y');
+        $lastYear  = Carbon::now()->subYear()->startOfYear()->format('Y');
+
+        for ($i = 0; $i < 12; $i++) {
+            $start    =  Carbon::now()->startOfYear()->addMonth($i);
+            $last    =  Carbon::now()->subYear()->startOfYear()->addMonth($i);
+            $order_jawa[] = Order::whereYear('reserve_at', '=', $start)->whereMonth('reserve_at', '=', $start)->where('status', 'PAID')->whereHas('route', function ($q) {
+                $q->where('area_id', 1);
+            })->get()->pluck('price')->sum();
+            $order_jawa_last[] = Order::whereYear('reserve_at', '=', $last)->whereMonth('reserve_at', '=', $last)->where('status', 'PAID')->whereHas('route', function ($q) {
+                $q->where('area_id', 1);
+            })->get()->pluck('price')->sum();
+            $order_jabodetabek[] = Order::whereYear('reserve_at', '=', $start)->whereMonth('reserve_at', '=', $start)->where('status', 'PAID')->whereHas('route', function ($q) {
+                $q->where('area_id', 2);
+            })->get()->pluck('price')->sum();
+            $order_jabodetabek_last[] = Order::whereYear('reserve_at', '=', $last)->whereMonth('reserve_at', '=', $last)->where('status', 'PAID')->whereHas('route', function ($q) {
+                $q->where('area_id', 2);
+            })->get()->pluck('price')->sum();
+        }
+        $weekly[] = $order_jawa;
+        $weekly2[] = $order_jabodetabek;
+        $weekly_last[] = $order_jawa_last;
+        $weekly_last2[] = $order_jabodetabek_last;
+
+        $data_tiket = [
+            'last_week' => "$lastYear",
+            'this_week' => "$thisYear",
+            'params' => $params,
+            'weekly' => $weekly,
+            'weekly2' => $weekly2,
+            'weekly_last' => $weekly_last,
+            'weekly_last2' => $weekly_last2,
+        ];
+        return $data_tiket;
     }
     public function tiket_weekly()
     {
