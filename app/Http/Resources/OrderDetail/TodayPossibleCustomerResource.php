@@ -15,6 +15,7 @@ class TodayPossibleCustomerResource extends JsonResource
     public function toArray($request)
     {
         $order = $this->order;
+        $distribution = $order->distribution;
         return [
             'id'=>$this->id,
             'order_id'=>$this->order_id,
@@ -22,6 +23,10 @@ class TodayPossibleCustomerResource extends JsonResource
             'phone'=>$this->phone,
             'email'=>$this->email,
             'status'=>$order->status,
+            'travel'=>$distribution->for_travel,
+            'food'=>$distribution->for_food,
+            'member'=>$distribution->for_member,
+            'id_member'=>$order->id_member,
             'where_ticket_bought'=>$this->getWhereTicketBought($order)
         ];
     }
