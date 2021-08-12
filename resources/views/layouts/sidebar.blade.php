@@ -77,19 +77,12 @@
                         </a>
                 </li> --}}
                 <li class="nav-item">
-                    <a href="{{route('sketch.index')}}" class="nav-link {{Request::routeIs('sketch.*') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-map"></i>
-                        <p>
-                            Sketch
-                        </p>
-                    </a>
-                <li class="nav-item">
                 </li>
-                    <a href="{{route('province.index')}}"
-                        class="nav-link {{Request::routeIs('province.*') ? 'active' : ''}}">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Provinsi</p>
-                    </a>
+                <a href="{{route('province.index')}}"
+                    class="nav-link {{Request::routeIs('province.*') ? 'active' : ''}}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Provinsi</p>
+                </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{route('city.index')}}" class="nav-link {{Request::routeIs('city.*') ? 'active' : ''}}">
@@ -98,6 +91,14 @@
                     </a>
                 </li>
             </ul>
+            </li>
+            <li class="nav-item">
+                <a href="{{route('sketch.index')}}" class="nav-link {{Request::routeIs('sketch.*') ? 'active' : ''}}">
+                    <i class="nav-icon fas fa-map"></i>
+                    <p>
+                        Sketch
+                    </p>
+                </a>
             </li>
             <li class="nav-item">
                 <a href="{{route('order.index')}}" class="nav-link {{Request::routeIs('order.*') ? 'active' : ''}}">
