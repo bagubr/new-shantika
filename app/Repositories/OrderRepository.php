@@ -137,7 +137,7 @@ class OrderRepository
 
     public static function findForPriceDistributionByDateAndFleet($user_id, $date, $fleet_id)
     {
-        $agency_id = UserRepository::findByToken($user_id)->agencies?->agent?->id;
+        $agency_id = User::with('agencies.agent')->find($user_id)->agencies?->agent?->id;
         $order = Order::with(['order_detail.chair', 'route.fleet', 'route.checkpoints', 'payment', 'distribution'])
             ->whereDate('created_at', $date)
             ->whereHas('route', function ($query) use ($fleet_id) {
