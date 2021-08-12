@@ -19,7 +19,7 @@ class OutcomeController extends Controller
 
     public function create()
     {
-        $orders = Order::whereDate('reserve_at', date('Y-m-d'))->whereStatus(Order::STATUS3)->get();
+        $orders = [];
         $routes = Route::all();
         return view('outcome.create', compact('routes', 'orders'));
     }
