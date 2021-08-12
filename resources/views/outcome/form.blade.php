@@ -1,4 +1,4 @@
-@if(@$route_id && @$route_id != 'WITH_TYPE')
+@if(@$fleet_id && @$fleet_id != 'WITH_TYPE')
 <div class="t">
     <div class="row">
         <div class="col-md-6">

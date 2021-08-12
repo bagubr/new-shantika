@@ -34,7 +34,7 @@ Pengeluran
                     @include('partials.error')
                     <form action="{{route('outcome.store')}}" method="POST">
                         @csrf
-                        <input type="hidden" name="route_id" value="{{@$route_id}}">
+                        <input type="hidden" name="fleet_id" value="{{@$fleet_id}}">
                         <input type="hidden" name="reported_at" value="{{((@$reported_at)?$reported_at:date('Y-m-d'))}}">
                         @include('outcome.form')
                         <br>
@@ -61,14 +61,14 @@ Pengeluran
                         <div class="form-row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label>Cari Rute</label>
-                                    <select name="route_id" id="select-rute" class="form-control" required>
-                                        <option value="WITH_TYPE" {{(@$route_id == 'WITH_TYPE')?'selected':''}}>--Pengeluaran Lain--</option>
-                                        @foreach ($routes as $route)
-                                        @if (@$route_id == $route->id)
-                                        <option value="{{$route->id}}" selected>{{$route->name}}</option>
+                                    <label>Cari Armada</label>
+                                    <select name="fleet_id" id="select-rute" class="form-control" required>
+                                        <option value="WITH_TYPE" {{(@$fleet_id == 'WITH_TYPE')?'selected':''}}>--Pengeluaran Lain--</option>
+                                        @foreach ($fleets as $fleet)
+                                        @if (@$fleet_id == $fleet->id)
+                                        <option value="{{$fleet->id}}" selected>{{$fleet->name}}</option>
                                         @else
-                                        <option value="{{$route->id}}">{{$route->name}}</option>
+                                        <option value="{{$fleet->id}}">{{$fleet->name}}</option>
                                         @endif
                                         @endforeach
                                     </select>
