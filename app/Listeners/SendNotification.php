@@ -32,9 +32,8 @@ class SendNotification
         ], $event->fcm_token, $event->data);
 
 
-        if($event->is_saved) {
+        if($event->is_saved && !empty($event->notification->user_id)) {
             $event->notification->save();
         }
-        Log::info(json_encode($firebase));
     }
 }
