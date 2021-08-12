@@ -156,7 +156,6 @@ class OrderRepository
                 });
             })
             ->get();
-
         return $order;
     }
 
