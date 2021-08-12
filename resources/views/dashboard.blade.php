@@ -82,7 +82,7 @@ Dashboard
             <form action="{{route('dashboard')}}" method="GET">
                 <div class="form-group">
                     <label>Periode</label>
-                    <select name="statistic" class="form-control" id="">
+                    <select name="statistic" class="form-control">
                         @foreach ($data_statistic as $data1 => $value)
                         @if (old('statistic') == $data1)
                         <option value="{{$data1}}" selected>{{$value}}</option>
@@ -209,7 +209,7 @@ Dashboard
                 <form action="{{route('dashboard')}}" method="get">
                     <div class="form-group">
                         <label>Periode</label>
-                        <select name="pendapatan" class="form-control" id="">
+                        <select name="pendapatan" class="form-control">
                             @foreach ($data_statistic as $data1 => $value)
                             @if (old('pendapatan') == $data1)
                             <option value="{{$data1}}" selected>{{$value}}</option>
@@ -246,43 +246,55 @@ Dashboard
             </div>
         </div>
     </div>
-    {{-- <div>
-        <div class="form-group">
-            <label>Periode</label>
-            <select name="" class="form-control">
-                <option value="">Harian</option>
-                <option value="">Mingguan</option>
-                <option value="">Bulanan</option>
-                <option value="">Tahun</option>
-            </select>
+    <div class="card card-success">
+        <div class="card-header">
+            <h3 class="card-title">Statistik Pendapatan Penjualan Tiket</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
         </div>
-        <div class="row">
-            <div class="col-6">
-                <div class="card card-success">
-                    <div class="card-header">
-                        <h3 class="card-title">Pendapatan Penjualan Tiket Periode ini </h3>
+        <div class="card-body">
+            <form action="{{route('dashboard')}}" method="GET">
+                <div class="form-group">
+                    <label>Periode</label>
+                    <select name="tiket" class="form-control">
+                        @foreach ($data_statistic as $data1 => $value)
+                        @if (old('tiket') == $data1)
+                        <option value="{{$data1}}" selected>{{$value}}</option>
+                        @else
+                        <option value="{{$data1}}">{{$value}}</option>
+                        @endif
+                        @endforeach
+                    </select>
+                </div>
+                <div class="text-right">
+                    <button class="btn btn-success" type="submit">Cari</button>
+                </div>
+            </form>
+            <div class="row">
+                <div class="col">
+                    <div class="text-center">
+                        <p>{{$data_tiket['this_week']}}</p>
                     </div>
-                    <div class="card-body">
-                        <div class="chart-container">
-                            <canvas id="myChart"></canvas>
-                        </div>
+                    <div class="chart">
+                        <canvas id="barChart2"
+                            style="min-height: 250px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="text-center">
+                        <p>{{$data_tiket['last_week']}}</p>
+                    </div>
+                    <div class="chart">
+                        <canvas id="barChart5"
+                            style="min-height: 250px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
                     </div>
                 </div>
             </div>
-            <div class="col-6">
-                <div class="card card-success">
-                    <div class="card-header">
-                        <h3 class="card-title">Pendapatan Penjualan Tiket Periode Sebelumnya</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="chart-container">
-                            <canvas id="myChart2"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
-    </div> --}}
+    </div>
 </section>
 <!-- /.content -->
 @endsection
@@ -418,5 +430,80 @@ Dashboard
       options: barChartOptions
     })
     })
+</script>
+<script>
+    const labels1 = [@foreach ($data_tiket['params'] as  $d)
+        "{{$d}}",
+    @endforeach];        
+    const data4 = {
+        labels: labels1,
+        datasets: [{
+            label: 'Jawa',
+            data            : [@foreach ($data_tiket['weekly'][0] as $d)
+                                    {{$d}},
+                                @endforeach],
+            backgroundColor : 'rgb(255, 99, 132)',
+            borderColor     : 'rgb(255, 99, 132)',
+        },
+        {
+            label           : 'Jabodetabek',
+            backgroundColor : 'rgb(253, 206, 18)',
+            borderColor     : 'rgb(253, 206, 18)',
+            data            : [@foreach ($data_tiket['weekly2'][0] as $d)
+                            {{$d}},
+                            @endforeach],
+        },
+        ]
+    };
+    const data5 = {
+        labels: labels1,
+        datasets: [{
+            label           : 'Jawa',
+            data            : [@foreach ($data_tiket['weekly_last'][0] as $d)
+                                    {{$d}},
+                                @endforeach],
+            backgroundColor : 'rgb(255, 99, 132)',
+            borderColor     : 'rgb(255, 99, 132)',
+        },
+        {
+            label           : 'Jabodetabek',
+            backgroundColor : 'rgb(253, 206, 18)',
+            borderColor     : 'rgb(253, 206, 18)',
+            data            : [@foreach ($data_tiket['weekly_last2'][0] as $d)
+                            {{$d}},
+                            @endforeach],
+        },
+        ]
+    };
+    const config4 = {
+        type: 'bar',
+        data: data4,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        },
+    };
+    const config5 = {
+        type: 'bar',
+        data: data5,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        },
+    };
+    var barChart2 = new Chart(
+        document.getElementById("barChart2"),
+        config4
+    );
+    var barChart5 = new Chart(
+        document.getElementById("barChart5"),
+        config5
+    );
 </script>
 @endpush

@@ -14,11 +14,12 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class TicketExchangedJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable;
 
     /**
      * Create a new job instance.
@@ -74,12 +75,16 @@ class TicketExchangedJob implements ShouldQueue
                 "id_member"=>$this->order->id_member ? $this->order->id_member : "-"
             ],
             "distribution"=>$this->order->distribution,
-            "seats"=>implode(", ", $this->order_detail->pluck('chair.name')),
-            "seats_count"=>$this->order_detail->count(),
+            "seats"=>implode(", ", $this->order->order_detail->pluck('chair.name')->toArray()),
+            "seats_count"=>$this->order->order_detail->count(),
             "total_price"=>$this->order->price
         ];
-        Mail::send('_emails.exchange', $data, function($message) use ($payload) {
-            $message->to($this->order->email, $this->order->name)->subject('Konfirmasi Pembelian');
+
+        Log::info($this->order->order_detail->pluck('chair.name')->toArray());
+        
+        $order_detail = $this->order->order_detail[0];
+        Mail::send('_emails.exchange', $data, function($message) use ($order_detail,$payload) {
+            $message->to($order_detail->email, $order_detail->name)->subject('Konfirmasi Pembelian');
             $message->from(env('MAIL_USERNAME'), $payload[0]);
         });    
     }

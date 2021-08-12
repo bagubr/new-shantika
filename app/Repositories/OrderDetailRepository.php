@@ -38,11 +38,12 @@ class OrderDetailRepository
         return $order;
     }
 
-    public static function paginateAllByAgencyId(User $user, $date) {
-        $user_order =  OrderDetail::whereHas('order', function($query) use ($user) {
-            $query->where('departure_agency_id', $user->agencies->agency_id);
+    public static function getAllByAgencyId(User $user, $date) {
+        $user_order =  OrderDetail::with(['order.distribution'])->whereHas('order', function($query) use ($user, $date) {
+            $query->where('departure_agency_id', $user->agencies->agency_id)
+            ->whereDate('created_at', $date);
         })
-        ->paginate(20);
+        ->get();
         return $user_order;
     }
 

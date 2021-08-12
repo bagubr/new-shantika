@@ -16,15 +16,23 @@ class DetailTodayPossibleCustomerResource extends JsonResource
      */
     public function toArray($request)
     {
+        $order = $this->order;
+        $distribution = $order->distribution;
         return [
             'customer_name'=>$this->name,
             'customer_phone'=>$this->phone,
-            'where_bought_ticket'=>$this->getWhereTicketBought($this->order),
-            'checkpoints'=>new CustomerTakenRouteResource($this->order),
-            'price'=>$this->order->distribution->ticket_only,
-            'id_member'=>$this->order->id_member,
-            'for_member'=>abs($this->order->distribution->for_member),
-            'total_price'=>$this->order->price
+            'customer_email'=>$this->email,
+            'reserve_at'=>$order->reserve_at,
+            'chairs'=>$order->order_detail()->with('chair')->get()->pluck('chair.name')->values(),
+            'where_bought_ticket'=>$this->getWhereTicketBought($order),
+            'checkpoints'=>new CustomerTakenRouteResource($order),
+            'price'=>$distribution->ticket_only,
+            'id_member'=>$order->id_member,
+            'travel'=>$distribution->for_travel,
+            'food'=>$distribution->for_food,
+            'member'=>$distribution->for_member,
+            'id_member'=>$order->id_member,
+            'total_price'=>$order->price
         ];
     }
 

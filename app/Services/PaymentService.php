@@ -19,7 +19,7 @@ class PaymentService {
             $payment_type_id  = PaymentType::first()->id;
         }
         
-        if(empty($payment_type_id) || $payment_type_id == 1) {
+        if(empty($payment_type_id) || $payment_type_id == 2) {
             $invoice = Payment::create([
                 'order_id'=>$order->id,
                 'payment_type_id'=>$payment_type_id,

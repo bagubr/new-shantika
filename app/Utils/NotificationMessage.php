@@ -32,12 +32,12 @@ class NotificationMessage {
         return ["Booking Kursi Armada Kadaluarsa", "Booking kursi ".$chair." telah kadaluarsa"];
     }
 
-    public static function paymentSuccess($datetime) {
-        return "Pembayaran untuk kode ".$datetime." telah sukses";
+    public static function paymentSuccess($str) {
+        return ["Pembayaran diterima", "Pembayaran untuk kode ".$str." telah sukses"];
     }
 
-    public static function paymentDeclined($datetime, $reason) {
-        return "Pembayaran untuk kode ".$datetime." telah ditolak dengan alasan ".$reason;
+    public static function paymentDeclined($str, $reason) {
+        return ["Pembayaran anda ditolak", "Pembayaran untuk kode ".$str." telah ditolak dengan alasan ".$reason];
     }
 
     public static function changeChair($fleet, $chair) {

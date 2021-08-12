@@ -79,16 +79,16 @@ class OrderRepository
 
     public static function countBoughtRouteByAgencyByDate($token, $date)
     {
-        $user_id = UserRepository::findByToken($token)?->id;
+        $agency_id = UserRepository::findByToken($token)?->agencies?->agent?->id;
 
-        return Order::where(function($query) use ($user_id) {
-                $query->where(function($subquery) use ($user_id) {
-                    $subquery->where('departure_agency_id', $user_id)
+        return Order::where(function($query) use ($agency_id) {
+                $query->where(function($subquery) use ($agency_id) {
+                    $subquery->where('departure_agency_id', $agency_id)
                         ->whereHas('user.agencies')
                         ->whereIn('status', [Order::STATUS3]);
                 })
-                ->orWhere(function($subquery) use ($user_id) {
-                    $subquery->where('departure_agency_id', $user_id)
+                ->orWhere(function($subquery) use ($agency_id) {
+                    $subquery->where('departure_agency_id', $agency_id)
                     ->whereDoesntHave('user.agencies')
                     ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
                 });
@@ -100,16 +100,16 @@ class OrderRepository
 
     public static function getBoughtRouteByAgencyByDate($token, $date)
     {
-        $user_id = UserRepository::findByToken($token)?->id;
+        $user = UserRepository::findByToken($token);
 
-        $order = Order::where(function($query) use ($user_id) {
-            $query->where(function($subquery) use ($user_id) {
-                    $subquery->where('departure_agency_id', $user_id)
+        $order = Order::where(function($query) use ($user) {
+            $query->where(function($subquery) use ($user) {
+                    $subquery->where('departure_agency_id', $user->agencies?->agent?->id)
                         ->whereHas('user.agencies')
                         ->whereIn('status', [Order::STATUS3]);
                 })
-                ->orWhere(function($subquery) use ($user_id) {
-                    $subquery->where('departure_agency_id', $user_id)
+                ->orWhere(function($subquery) use ($user) {
+                    $subquery->where('departure_agency_id', $user->agencies?->agent?->id)
                     ->whereDoesntHave('user.agencies')
                     ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
                 });
@@ -137,19 +137,20 @@ class OrderRepository
 
     public static function findForPriceDistributionByDateAndFleet($user_id, $date, $fleet_id)
     {
+        $agency_id = User::with('agencies.agent')->find($user_id)->agencies?->agent?->id;
         $order = Order::with(['order_detail.chair', 'route.fleet', 'route.checkpoints', 'payment', 'distribution'])
             ->whereDate('created_at', $date)
             ->whereHas('route', function ($query) use ($fleet_id) {
                 $query->where('fleet_id', $fleet_id);
             })
-            ->where(function($query) use ($user_id) {
-                $query->where(function($subquery) use ($user_id) {
-                    $subquery->where('departure_agency_id', $user_id)
+            ->where(function($query) use ($agency_id) {
+                $query->where(function($subquery) use ($agency_id) {
+                    $subquery->where('departure_agency_id', $agency_id)
                         ->whereHas('user.agencies')
                         ->whereIn('status', [Order::STATUS3]);
                 })
-                ->orWhere(function($subquery) use ($user_id) {
-                    $subquery->where('departure_agency_id', $user_id)
+                ->orWhere(function($subquery) use ($agency_id) {
+                    $subquery->where('departure_agency_id', $agency_id)
                     ->whereDoesntHave('user.agencies')
                     ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
                 });
