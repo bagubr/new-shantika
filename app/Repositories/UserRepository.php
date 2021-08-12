@@ -16,6 +16,14 @@ class UserRepository
         return User::with('agencies.agent')->wherePhone($phone)->first() ?? false;
     }
 
+    public static function findCostumerByPhone($phone) {
+        return User::whereDoesntHave('agencies')->where('phone', $phone)->first();
+    }
+
+    public static function findCostumerByEmail($email) {
+        return User::whereDoesntHave('agencies')->where('email', $email)->first();
+    }
+
     public static function findByToken($token)
     {
         if ($token) {
