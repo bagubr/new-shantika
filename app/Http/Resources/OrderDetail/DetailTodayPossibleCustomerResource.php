@@ -21,6 +21,7 @@ class DetailTodayPossibleCustomerResource extends JsonResource
         return [
             'customer_name'=>$this->name,
             'customer_phone'=>$this->phone,
+            'customer_email'=>$this->email,
             'where_bought_ticket'=>$this->getWhereTicketBought($order),
             'checkpoints'=>new CustomerTakenRouteResource($order),
             'price'=>$distribution->ticket_only,

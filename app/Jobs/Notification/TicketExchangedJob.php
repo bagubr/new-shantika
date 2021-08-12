@@ -14,6 +14,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class TicketExchangedJob implements ShouldQueue
@@ -74,10 +75,12 @@ class TicketExchangedJob implements ShouldQueue
                 "id_member"=>$this->order->id_member ? $this->order->id_member : "-"
             ],
             "distribution"=>$this->order->distribution,
-            "seats"=>implode(", ", $this->order->order_detail->pluck('chair.name')),
+            "seats"=>implode(", ", $this->order->order_detail->pluck('chair.name')->toArray()),
             "seats_count"=>$this->order->order_detail->count(),
             "total_price"=>$this->order->price
         ];
+
+        Log::info($this->order->order_detail->pluck('chair.name')->toArray());
         
         $order_detail = $this->order->order_detail[0];
         Mail::send('_emails.exchange', $data, function($message) use ($order_detail,$payload) {
