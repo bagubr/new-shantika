@@ -114,7 +114,7 @@ Pengeluran
                             <tr>
                                 <td>
                                     @if ($order->agency)
-                                    <a href="{{route('user_agent.show',$order->user?->agencies->agency_id)}}"
+                                    <a href="{{route('user_agent.show',$order->user?->agencies?->agency_id)}}"
                                         target="_blank">
                                         {{$order->user?->name_agent}}
                                     </a>
@@ -182,6 +182,11 @@ Pengeluran
     });
     $(document).on('click', '.remove-input-field', function () {
         $(this).parents('.t').remove();
+    });
+</script>
+<script>
+    $('select').on('change', function() {
+        alert( this.value );
     });
 </script>
 @endpush
