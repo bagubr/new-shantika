@@ -101,7 +101,7 @@ class OrderService {
             $payment = Payment::find($payment);
         }
         
-        return PaymentService::getSecretAttribute($payment);
+        return @PaymentService::getSecretAttribute($payment) ?? "";
     }
 
     public static function exchangeTicket(Order &$order, $agency_id) {
