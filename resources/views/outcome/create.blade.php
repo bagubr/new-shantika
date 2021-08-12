@@ -62,7 +62,7 @@ Pengeluran
                             <div class="col">
                                 <div class="form-group">
                                     <label>Cari Rute</label>
-                                    <select name="route_id" class="form-control" required>
+                                    <select name="route_id" id="select-rute" class="form-control" required>
                                         <option value="WITH_TYPE" {{(@$route_id == 'WITH_TYPE')?'selected':''}}>--Pengeluaran Lain--</option>
                                         @foreach ($routes as $route)
                                         @if (@$route_id == $route->id)
@@ -83,7 +83,7 @@ Pengeluran
                             </div>
                         </div>
                         <div class="text-right">
-                            <button class="btn btn-success" type="submit">Cari</button>
+                            <button class="btn btn-success d-none" id="button-cari" type="submit">Cari</button>
                         </div>
                     </form>
                 </div>
@@ -113,14 +113,7 @@ Pengeluran
                             @foreach ($orders as $order)
                             <tr>
                                 <td>
-                                    @if ($order->agency)
-                                    <a href="{{route('user_agent.show',$order->user?->agencies?->agency_id)}}"
-                                        target="_blank">
-                                        {{$order->user?->name_agent}}
-                                    </a>
-                                    @else
                                     {{$order->order_detail[0]->name}}
-                                    @endif
                                 </td>
                                 <td>{{$order->code_order}}</td>
                                 <td>
@@ -185,8 +178,14 @@ Pengeluran
     });
 </script>
 <script>
-    $('select').on('change', function() {
-        alert( this.value );
+    $('#select-rute').on('change', function() {
+        var rute = this.value;
+        if(rute == 'WITH_TYPE'){
+            console.log(rute);
+            $('#button-cari').addClass('d-none');
+        }else{
+            $('#button-cari').removeClass('d-none');
+        }
     });
 </script>
 @endpush
