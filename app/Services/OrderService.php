@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Events\SendingNotification;
+use App\Jobs\Notification\TicketExchangedJob;
 use App\Models\Agency;
 use App\Models\Notification;
 use App\Models\Order;
@@ -17,6 +18,7 @@ use App\Repositories\UserRepository;
 use App\Utils\NotificationMessage;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class OrderService {
     use Response;
@@ -63,6 +65,7 @@ class OrderService {
     } 
 
     private static function sendNotification($order) {
+        Log::info($order);
         $notification = Notification::build(
             NotificationMessage::successfullySendingTicket()[0],
             NotificationMessage::successfullySendingTicket()[1],
@@ -98,7 +101,7 @@ class OrderService {
             $payment = Payment::find($payment);
         }
         
-        return PaymentService::getSecretAttribute($payment);
+        return @PaymentService::getSecretAttribute($payment) ?? "";
     }
 
     public static function exchangeTicket(Order &$order, $agency_id) {
@@ -118,6 +121,8 @@ class OrderService {
         ]);
         DB::commit();
         $order->refresh();
+
+        TicketExchangedJob::dispatchAfterResponse($order);
 
         return $order;
     }

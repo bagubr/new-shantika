@@ -2,22 +2,22 @@
 
 namespace App\Services;
 
-use App\Events\SendingNotification;
 use App\Jobs\BookingExpiryReminderJob;
 use App\Models\Booking;
 use App\Models\Notification;
-use App\Models\ScheduleUnavailableBooking;
 use App\Models\Setting;
 use App\Repositories\BookingRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\ScheduleUnavailableBookingRepository;
+use App\Utils\NotificationMessage;
 use App\Utils\Response;
 
 class BookingService {
     use Response;
 
     public static function getCurrentExpiredAt() {
-        return date('Y-m-d H:i:s', strtotime("+15 minutes"));
+        $setting = Setting::first()->booking_expired_duration;
+        return date('Y-m-d H:i:s', $setting);
     }
 
     public static function create(Booking $booking) {
@@ -36,14 +36,29 @@ class BookingService {
             (new self)->sendFailedResponse([], 'Maaf, kursi sudah dipesan orang lain');
         }
 
+        $booking->expired_at = self::getCurrentExpiredAt();
         $booking = Booking::create($booking->toArray());
 
-        $notification = Notification::build("", "", "");
-
-        $expired_time = Setting::first()->booking_expired_duration;
-        BookingExpiryReminderJob::dispatch($notification)->delay(now()->addSeconds(10));
+        self::sendNotificationAtExpiry($booking);
 
         return $booking;
+    }
+
+    private static function sendNotificationAtExpiry($booking) {
+        $chairs = Booking::with('layout_chair:id,name')->where('code_booking', $booking->code_booking)->get();
+        if($chairs[0]->id != $booking->id) {
+            return;
+        }
+        $payload = NotificationMessage::bookingExpired($chairs->pluck('layout_chair.name')->values()->toArray());
+        $notification = new Notification([
+            "title"=>$payload[0],
+            "body"=>$payload[1],
+            "type"=>Notification::TYPE1,
+            "reference_id"=>$booking->id,
+            "user_id"=>$booking->user_id
+        ]);
+        $expired_time = Setting::first()->booking_expired_duration;
+        BookingExpiryReminderJob::dispatch($notification, $booking->user->fcm_token, false)->delay(now()->addMinutes($expired_time));
     }
 
     public static function deleteByCodeBooking($code_booking) {

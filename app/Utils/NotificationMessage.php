@@ -19,24 +19,25 @@ class NotificationMessage {
         return $title;
     }
 
-    public static function paymentWillExpired($min) {
-        return "Pembayaran anda akan berakhir dalam ".$min;
+    public static function paymentWillExpired() {
+        return ["Pembayaran anda akan segera berakhir", "Pembayaran anda akan berakhir dalam 30 menit lagi"];
     }
 
     public static function paymentExpired($datetime) {
-        return "Pembayaran anda untuk keberangkatan jam ".$datetime." sudah kadaluarsa";
+        return ["Pembayaran telah kadaluarsa", "Pembayaran anda untuk keberangkatan jam ".$datetime." sudah kadaluarsa"];
     }
 
-    public static function bookingExpired(string|array $chair) {
-        return "Booking kursi ".$chair." telah kadaluarsa";
+    public static function bookingExpired(array $chair) {
+        $chair = implode(", ", $chair);
+        return ["Booking Kursi Armada Kadaluarsa", "Booking kursi ".$chair." telah kadaluarsa"];
     }
 
-    public static function paymentSuccess($datetime) {
-        return "Pembayaran untuk kode ".$datetime." telah sukses";
+    public static function paymentSuccess($str) {
+        return ["Pembayaran diterima", "Pembayaran untuk kode ".$str." telah sukses"];
     }
 
-    public static function paymentDeclined($datetime, $reason) {
-        return "Pembayaran untuk kode ".$datetime." telah ditolak dengan alasan ".$reason;
+    public static function paymentDeclined($str, $reason) {
+        return ["Pembayaran anda ditolak", "Pembayaran untuk kode ".$str." telah ditolak dengan alasan ".$reason];
     }
 
     public static function changeChair($fleet, $chair) {

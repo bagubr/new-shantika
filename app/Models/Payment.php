@@ -36,7 +36,7 @@ class Payment extends Model
 
     public function getProofUrlAttribute()
     {
-        return url('storage/' . $this->attributes['proof']);
+        return url('storage/' . @$this->attributes['proof']);
     }
 
     public function payment_type()

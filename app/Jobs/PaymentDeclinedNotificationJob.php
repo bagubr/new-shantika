@@ -5,11 +5,13 @@ namespace App\Jobs;
 use App\Events\SendingNotification;
 use App\Models\Notification;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
-class BookingExpiryReminderJob implements ShouldQueue
+class PaymentDeclinedNotificationJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable;
 
@@ -20,9 +22,9 @@ class BookingExpiryReminderJob implements ShouldQueue
      */
     public function __construct(
         public Notification $notification,
-        public string|array $fcm_token,
+        public string|array|null $fcm_token,
         public bool $is_saved
-    ) {}
+    ){}
 
     /**
      * Execute the job.
