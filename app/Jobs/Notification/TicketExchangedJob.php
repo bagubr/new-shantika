@@ -79,7 +79,7 @@ class TicketExchangedJob implements ShouldQueue
             "total_price"=>$this->order->price
         ];
         Mail::send('_emails.exchange', $data, function($message) use ($payload) {
-            $message->to($this->order->email, $this->order->name)->subject('Konfirmasi Pembelian');
+            $message->to($this->order_detail[0]->email, $this->order_detail[0]->name)->subject('Konfirmasi Pembelian');
             $message->from(env('MAIL_USERNAME'), $payload[0]);
         });    
     }
