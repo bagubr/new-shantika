@@ -172,6 +172,7 @@ Dashboard
                         <th>Rute</th>
                         <th>Total Tiket</th>
                         <th>Total Pendapatan</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -188,6 +189,8 @@ Dashboard
                         </td>
                         <td>{{count($order->order_detail)}}</td>
                         <td>Rp. {{number_format($order->price,2)}}</td>
+                        <td><a href="{{route('order.show',$order->id)}}" class="badge badge-primary"
+                                target="_blank">Detail</a></td>
                     </tr>
                     @endforeach
                 </tbody>
