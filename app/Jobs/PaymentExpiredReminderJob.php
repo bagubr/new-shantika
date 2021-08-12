@@ -22,7 +22,7 @@ class PaymentExpiredReminderJob implements ShouldQueue
      */
     public function __construct(
         public Notification $notification,
-        public string|array $fcm_token,
+        public string|array|null $fcm_token,
         public bool $is_saved
     ) {}
 
