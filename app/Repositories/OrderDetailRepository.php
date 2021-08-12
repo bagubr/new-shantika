@@ -42,6 +42,7 @@ class OrderDetailRepository
         $user_order =  OrderDetail::whereHas('order', function($query) use ($user) {
             $query->where('departure_agency_id', $user->agencies->agency_id);
         })
+        ->whereDate($date)
         ->paginate(20);
         return $user_order;
     }
