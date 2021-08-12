@@ -39,10 +39,10 @@ class OrderDetailRepository
     }
 
     public static function paginateAllByAgencyId(User $user, $date) {
-        $user_order =  OrderDetail::whereHas('order', function($query) use ($user) {
-            $query->where('departure_agency_id', $user->agencies->agency_id);
+        $user_order =  OrderDetail::whereHas('order', function($query) use ($user, $date) {
+            $query->where('departure_agency_id', $user->agencies->agency_id)
+            ->whereDate('created_at', $date);
         })
-        ->whereDate($date)
         ->paginate(20);
         return $user_order;
     }
