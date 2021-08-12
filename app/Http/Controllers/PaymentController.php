@@ -81,7 +81,7 @@ class PaymentController extends Controller
     public function update(UpdatePaymentRequest $request, Payment $payment)
     {
         $data = $request->only('payment_type_id', 'status', 'proof_decline_reason', 'paid_at');
-        $order_id = Order::where('id', $payment->order_id);
+        $order_id = Order::where('id', $payment->order_id)->first();
         if ($request->hasFile('proof')) {
             $proof = $request->proof->store('proof', 'public');
             $payment->deleteProof();
@@ -91,9 +91,6 @@ class PaymentController extends Controller
         $order_id->update([
             'status' => $request->status,
         ]);
-        // $order_id->payment()->update([
-        //     'status' => $request->status
-        // ]);
         if ($request->status == Order::STATUS3) {
             $payload = NotificationMessage::paymentSuccess($order_id->code_order);
             $notification = Notification::build(
