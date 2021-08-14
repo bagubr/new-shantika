@@ -77,12 +77,12 @@
                         </a>
                 </li> --}}
                 <li class="nav-item">
+                    <a href="{{route('province.index')}}"
+                        class="nav-link {{Request::routeIs('province.*') ? 'active' : ''}}">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Provinsi</p>
+                    </a>
                 </li>
-                <a href="{{route('province.index')}}"
-                    class="nav-link {{Request::routeIs('province.*') ? 'active' : ''}}">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Provinsi</p>
-                </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{route('city.index')}}" class="nav-link {{Request::routeIs('city.*') ? 'active' : ''}}">
