@@ -113,7 +113,7 @@ Sketch
                                 $chair += count($order->order_detail);
                                 @endphp
                                 @endforeach
-                                <td>{{$chair}} / {{\App\Models\Route::find($route_id)->fleet->layout->total_chairs}}
+                                <td>{{$chair}} / {{\App\Models\Route::find($route_id)->fleet?->layout?->total_chairs}}
                                 </td>
                             </div>
                         </div>
