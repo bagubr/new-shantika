@@ -181,10 +181,10 @@ Dashboard
                         <td>
                             {{$order->agency?->name ?? 'Tidak Menggunakan Agen'}}
                         </td>
-                        <td>{{$order->route->fleet->name}}</td>
+                        <td>{{$order->route?->fleet?->name}}</td>
                         <td>
-                            <a href="{{route('routes.show',$order->route->id)}}" target="_blank">
-                                {{$order->route->name}}
+                            <a href="{{route('routes.show',$order->route?->id)}}" target="_blank">
+                                {{$order->route?->name}}
                             </a>
                         </td>
                         <td>{{count($order->order_detail)}}</td>
