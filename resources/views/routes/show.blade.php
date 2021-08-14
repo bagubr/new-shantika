@@ -110,7 +110,7 @@ Route
         <div class="col-md-6">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Checkpoint Form</h3>
+                    <h3 class="card-title">Titik Pemberhentian Form</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -134,11 +134,11 @@ Route
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="">Arrived At</label>
+                            <label for="">Kedatangan</label>
                             <input type="time" class="form-control" name="arrived_at">
                         </div>
                         <div class="form-group">
-                            <label for="">Order</label>
+                            <label for="">Urutan</label>
                             <input type="number" class="form-control" name="order">
                         </div>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
@@ -150,7 +150,7 @@ Route
         <div class="col-md-6">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Checkpoint</h3>
+                    <h3 class="card-title">Titik Pemberhentian</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -161,9 +161,9 @@ Route
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>Order</th>
+                                <th>Urutan</th>
                                 <th>Agen</th>
-                                <th>Arrived At</th>
+                                <th>Kedatangan</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
