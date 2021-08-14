@@ -30,32 +30,33 @@ Sketch
 <!-- /.content-header -->
 <div class="content">
     <div class="container-fluid">
-    <form action="{{route('sketch.index')}}" method="GET">
-        <div class="card">
-            <div class="row p-2">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Pilih Area</label>
-                        <select name="area_id" class="form-control" id="">
-                            <option value="">--PILIH--</option>
-                            @foreach(\App\Models\Area::get() as $area)
-                            <option value="{{$area->id}}">{{$area->name}}</option>
-                            @endforeach
-                        </select>
+        <form action="{{route('sketch.index')}}" method="GET">
+            <div class="card">
+                <div class="row p-2">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Pilih Area</label>
+                            <select name="area_id" class="form-control" id="">
+                                <option value="">--PILIH--</option>
+                                @foreach(\App\Models\Area::get() as $area)
+                                <option value="{{$area->id}}">{{$area->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="">Tanggal</label>
+                            <input type="date" name="date" id="" class="form-control"
+                                value="{{(@$date)?$date:date('Y-m-d')}}">
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="">Tanggal</label>
-                            <input type="date" name="date" id="" class="form-control" value="{{(@$date)?$date:date('Y-m-d')}}">
-                    </div>
+                <div class="text-right m-2">
+                    <button class="btn btn-success" type="submit">Cari</button>
                 </div>
             </div>
-            <div class="text-right m-2">
-                <button class="btn btn-success" type="submit">Cari</button>
-            </div>
-        </div>
-    </form>
+        </form>
         <div class="row">
             @if($data['sketchs']->isEmpty())
             <div class="col-md-12">
@@ -63,7 +64,7 @@ Sketch
                     <center>
                         <h3>
                             Data tidak di temukan
-                        </h3> 
+                        </h3>
                     </center>
                 </div>
             </div>
@@ -77,8 +78,9 @@ Sketch
                                 <i class="fas fa-bus" style="font-size: 3em; color: Mediumslateblue;"></i>
                             </div>
                             <div class="col-md-9">
-                                <b>{{\App\Models\Route::find($route_id)->fleet->name}}</b>
-                                <small class="float-right text-blue">Rp. {{number_format(\App\Models\Route::find($route_id)->price,2)}}</small>
+                                <b>{{\App\Models\Route::find($route_id)->fleet?->name}}</b>
+                                <small class="float-right text-blue">Rp.
+                                    {{number_format(\App\Models\Route::find($route_id)->price,2)}}</small>
                                 <br>
                                 <small style="font-size: 15px;">{{\App\Models\Route::find($route_id)->name}}</small>
                             </div>
@@ -89,12 +91,12 @@ Sketch
                             </div>
                             <div class="col-md-9">
                                 @php
-                                    $for_owner = 0;
+                                $for_owner = 0;
                                 @endphp
                                 @foreach($sketch as $order)
-                                    @php
-                                    $for_owner += $order->distribution->for_owner;
-                                    @endphp
+                                @php
+                                $for_owner += $order->distribution->for_owner;
+                                @endphp
                                 @endforeach
                                 <td>
                                     <b>
@@ -104,14 +106,15 @@ Sketch
                             </div>
                             <div class="col-md-5 float-right">
                                 @php
-                                    $chair = 0;
+                                $chair = 0;
                                 @endphp
                                 @foreach($sketch as $order)
-                                    @php
-                                    $chair += count($order->order_detail);
-                                    @endphp
+                                @php
+                                $chair += count($order->order_detail);
+                                @endphp
                                 @endforeach
-                                <td>{{$chair}} / {{\App\Models\Route::find($route_id)->fleet->layout->total_chairs}}</td>
+                                <td>{{$chair}} / {{\App\Models\Route::find($route_id)->fleet->layout->total_chairs}}
+                                </td>
                             </div>
                         </div>
                     </div>
@@ -132,18 +135,18 @@ Sketch
 <div class="modal fade" id="modal-default">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-        <div class="modal-header">
-            <h4 class="modal-title">Default Modal</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <p>One fine body&hellip;</p>
-        </div>
-        <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
+            <div class="modal-header">
+                <h4 class="modal-title">Default Modal</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
         </div>
         <!-- /.modal-content -->
     </div>
