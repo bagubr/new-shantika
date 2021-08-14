@@ -158,6 +158,8 @@ Route
                     </div>
                 </div>
                 <div class="card-body" style="display: block;">
+                    <small class="text-danger"><i class="fas fa-info-circle"></i> Pastikan Urutan Titik Pemberhentian
+                        Sudah Benar</small>
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                             <tr>
