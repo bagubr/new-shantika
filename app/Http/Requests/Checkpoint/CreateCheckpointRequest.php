@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Checkpoint;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class CreateCheckpointRequest extends FormRequest
 {
@@ -21,13 +23,15 @@ class CreateCheckpointRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(Request $request)
     {
         return [
             'route_id' => 'required|exists:routes,id',
             'arrived_at' => 'required',
             'agency_id' => 'required|exists:agencies,id',
-            'order' => 'required|numeric'
+            'order' => ['required', 'numeric', Rule::unique('checkpoints')->where(function ($q) use ($request) {
+                return $q->where('route_id', $request->route_id);
+            })],
         ];
     }
 }

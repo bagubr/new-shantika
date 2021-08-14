@@ -6,6 +6,8 @@ use App\Http\Requests\Checkpoint\CreateCheckpointRequest;
 use App\Models\Checkpoint;
 use App\Models\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class CheckpointController extends Controller
 {
