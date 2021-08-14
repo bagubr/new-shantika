@@ -24,7 +24,7 @@ class CreateFleetRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:fleets,name',
+            'name' => 'required',
             'description' => 'required',
             'layout_id' => 'required|exists:layouts,id',
             'fleet_class_id' => 'required|exists:fleet_classes,id',
