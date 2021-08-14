@@ -124,7 +124,7 @@ Route
                         <input type="hidden" value="{{$route->id}}" name="route_id">
                         <div class="form-group">
                             <label>Agen</label>
-                            <select class="form-control select2" name="agency_id" style="width: 100%;">
+                            <select required class="form-control select2" name="agency_id" style="width: 100%;">
                                 <option value="">Pilih Agen</option>
                                 @foreach ($agencies as $agency)
                                 <option value="{{$agency->id}}">
@@ -135,11 +135,11 @@ Route
                         </div>
                         <div class="form-group">
                             <label for="">Kedatangan</label>
-                            <input type="time" class="form-control" name="arrived_at">
+                            <input required type="time" class="form-control" name="arrived_at">
                         </div>
                         <div class="form-group">
                             <label for="">Urutan</label>
-                            <input type="number" class="form-control" name="order">
+                            <input required type="number" class="form-control" name="order">
                         </div>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
