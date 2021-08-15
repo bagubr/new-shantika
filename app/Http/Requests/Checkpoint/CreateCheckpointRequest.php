@@ -29,7 +29,7 @@ class CreateCheckpointRequest extends FormRequest
             'route_id' => 'required|exists:routes,id',
             'arrived_at' => 'required',
             'agency_id' => 'required|exists:agencies,id',
-            'order' => ['required', 'numeric', Rule::unique('checkpoints')->where(function ($q) use ($request) {
+            'order' => ['required', 'numeric', 'gt:0', Rule::unique('checkpoints')->where(function ($q) use ($request) {
                 return $q->where('route_id', $request->route_id);
             })],
         ];

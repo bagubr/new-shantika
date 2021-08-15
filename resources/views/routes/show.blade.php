@@ -139,7 +139,7 @@ Route
                         </div>
                         <div class="form-group">
                             <label for="">Urutan</label>
-                            <input required type="number" class="form-control" name="order">
+                            <input required type="number" min="1" class="form-control" name="order">
                         </div>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
