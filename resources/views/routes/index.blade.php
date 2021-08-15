@@ -47,8 +47,7 @@ Route
                             <tbody>
                                 @foreach ($routes as $route)
                                 <tr>
-                                    <td><a href="{{route('routes.show',$route->id)}}"
-                                            target="_blank">{{$route->name}}</a></td>
+                                    <td>{{$route->name}}</td>
                                     <td><a href="{{route('fleets.edit', $route->fleet_id)}}"
                                             target="_blank">{{$route->fleet?->name}}
                                             {{$route->fleet?->fleetclass->name}}</a>
@@ -56,6 +55,8 @@ Route
                                     <td>{{$route->departure_at}} - {{$route->arrived_at}}</td>
                                     <td>{{$route->area->name ?? 'Belum Ada Area Terdaftar'}}</td>
                                     <td>
+                                        <a class="btn btn-primary btn-xs" href="{{route('routes.show',$route->id)}}"
+                                            target="_blank">Detail</a>
                                         <a href="{{route('routes.edit',$route->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('routes.destroy',$route->id)}}" class="d-inline"
