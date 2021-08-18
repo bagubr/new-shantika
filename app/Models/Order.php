@@ -21,7 +21,7 @@ class Order extends Model
     use HasFactory;
     protected $fillable = [
         'user_id',
-        'route_id',
+        'fleet_route_id',
         'code_order',
         'status',
         'price',
@@ -49,9 +49,8 @@ class Order extends Model
         return $this->belongsTo(Agency::class, 'departure_agency_id');
     }
 
-    public function route()
-    {
-        return $this->belongsTo(Route::class, 'route_id');
+    public function fleet_route() {
+        return $this->belongsTo(FleetRoute::class, 'fleet_route_id', 'id');
     }
 
     public function order_detail()

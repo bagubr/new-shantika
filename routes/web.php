@@ -57,6 +57,12 @@ Auth::routes([
     'verify' => false,
 ]);
 
+Route::get('/test', function() {
+    $order = \App\Models\Order::with(['route'])->orderBy('id', 'desc')->first();
+
+    return response($order);
+});
+
 Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');

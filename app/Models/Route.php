@@ -11,20 +11,11 @@ class Route extends Model
 
     protected $table = 'routes';
     protected $fillable = [
-        'name', 'fleet_id', 'area_id', 'departure_at', 'arrived_at', 'price'
+        'name', 'area_id', 'departure_at', 'arrived_at', 'price'
     ];
     protected $hidden = [
         'created_at', 'updated_at', 'deleted_at'
     ];
-
-    protected $appends = [
-        'fleet_class'
-    ];
-
-    public function fleet()
-    {
-        return $this->belongsTo(Fleet::class, 'fleet_id', 'id');
-    }
 
     public function area()
     {
@@ -58,10 +49,5 @@ class Route extends Model
     public  function schedule_not_operates()
     {
         return $this->hasMany(ScheduleNotOperate::class, 'route_id', 'id');
-    }
-
-    public function getFleetClassAttribute()
-    {
-        return $this->fleet()->first()->fleetclass()->first()->name;
     }
 }
