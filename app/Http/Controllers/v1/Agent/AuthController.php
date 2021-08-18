@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 class AuthController extends BaseAuthController
 {
     public function loginPhone(ApiLoginRequest $request) {
-        $user = UserRepository::findByPhone($request['phone'])
+        $user = UserRepository::findAgentByPhone($request['phone'])
             ?? $this->sendFailedResponse([], $message = "Oops! Sepertinya anda belum pernah registrasi pake nomor ini", $code = 401);
         $token = AuthService::login($user, 'AGENT', $request['fcm_token'], $request['phone'], $request['uuid']);
         return $this->sendSuccessResponse([

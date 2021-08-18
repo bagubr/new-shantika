@@ -15,29 +15,37 @@ class AuthController extends Controller
 {
     public function checkUuid(Request $request)
     {
-        $user = UserRepository::findByPhone($request['phone']);
-        if($user){
-            if(!empty($request['uuid']) && $user->uuid != $request['uuid']) {    
-                $this->sendSuccessResponse([], $message = "Oops! Uuid doesn't match", $code = 401);
-            }else{
-                if(UserRepository::findUserIsAgent($user->id)) {
-                    $user_token = UserToken::where('user_id', $user->id)->where('user_agent', $request->userAgent())->first();
-                    if(empty($user_token?->token)) {
-                        $this->sendFailedResponse([], 'Oops anda harus login ulang', 401);
-                    }
-                    $this->sendSuccessResponse([
-                        'user' => $user,
-                        'token'=>$user_token->token,
-                    ], $message = "Uuid Matched !!!", $code = 200);
-                }
-                else {
-                    $this->sendSuccessResponse([
-                        'user' => $user,
-                        'token'=>$user->token,
-                    ], $message = "Uuid Matched !!!", $code = 200);
-                }
-            }
+        $user = $this->getUser($request->type, $request->phone);
+
+        if(empty($user)){
+            $this->sendSuccessResponse([], $message = "Sepertinya akun anda belum terdaftar", $code = 401);
         }
-        $this->sendSuccessResponse([], $message = "Sepertinya akun anda belum terdaftar", $code = 401);
+        if(!empty($request['uuid']) && $user->uuid != $request['uuid']) {    
+            $this->sendSuccessResponse([], $message = "Oops! Uuid doesn't match", $code = 401);
+        }
+        if(UserRepository::findUserIsAgent($user->id) && $request->type == 'AGENT') {
+            $this->sendSuccessResponse([
+                'user' => $user,
+                'token'=>$user->token,
+            ], $message = "Uuid Matched !!!", $code = 200);
+        }
+        $user_token = UserToken::where('user_id', $user->id)->where('user_agent', $request->userAgent())->first();
+        if(empty($user_token?->token)) {
+            $this->sendFailedResponse([], 'Oops anda harus login ulang', 401);
+        }
+        $this->sendSuccessResponse([
+            'user' => $user,
+            'token'=>$user_token->token,
+        ], $message = "Uuid Matched !!!", $code = 200);
+    }
+
+    private function getUser($type, $phone) {
+        if($type == 'AGENT') {
+            $user = UserRepository::findAgentByPhone($phone);
+        } else {
+            $user = UserRepository::findCostumerByPhone($phone);
+        }
+
+        return $user;
     }
 }

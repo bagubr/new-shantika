@@ -12,8 +12,16 @@ class UserRepository
     use Response;
     public static function findByPhone($phone)
     {
+        return User::with('agencies.agent')->wherePhone($phone)->first();
+    }
 
-        return User::with('agencies.agent')->wherePhone($phone)->first() ?? false;
+    public static function findAgentByPhone($phone)
+    {
+        return User::has('agencies')->with('agencies.agent')->wherePhone($phone)->first();
+    }
+
+    public static function findAgentByEmail($email) {
+        return User::has('agencies')->where('email', $email)->first();
     }
 
     public static function findCostumerByPhone($phone) {
