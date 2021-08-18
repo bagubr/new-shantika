@@ -51,13 +51,13 @@ Agen
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label for="inputName">Agen Nama</label>
+                            <label for="inputName">Nama Agen</label>
                             <input type="text" id="inputName" class="form-control" name="name"
-                                placeholder="Masukkan Nama" value="{{isset($agency) ? $agency->name : ''}}">
+                                placeholder="Masukkan Nama" required value="{{isset($agency) ? $agency->name : ''}}">
                         </div>
                         <div class="form-group">
                             <label>Kota</label>
-                            <select class="form-control select2" name="city_id" style="width: 100%;">
+                            <select class="form-control select2" name="city_id" style="width: 100%;" required>
                                 <option value="">Pilih Kota</option>
                                 @foreach ($cities as $city)
                                 <option value="{{$city->id}}" @isset($agency) @if ($city->id ===
@@ -67,12 +67,11 @@ Agen
                                 </option>
                                 @endforeach
                             </select>
-
                         </div>
                         <div class="form-group">
                             <label>Alamat</label>
                             <input type="text" name="address" class="form-control" placeholder="Masukkan Alamat" id=""
-                                value="{{isset($agency) ? $agency->address : ''}}">
+                                value="{{isset($agency) ? $agency->address : ''}}" required>
                         </div>
                         <div class="form-group">
                             <div id="mapid"></div>
@@ -92,6 +91,10 @@ Agen
                                         value="{{isset($agency) ? $agency->lng : ''}}">
                                 </div>
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Avatar</label>
+                            <input type="file" class="form-control" name="avatar" accept="image/*">
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">

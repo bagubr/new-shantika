@@ -39,6 +39,7 @@ Agen
                                     <th>Nama</th>
                                     <th>Kota</th>
                                     <th>Alamat</th>
+                                    <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -48,6 +49,14 @@ Agen
                                     <td>{{$agency->name}}</td>
                                     <td>{{$agency->city->name}}</td>
                                     <td>{{$agency->address}}</td>
+                                    <td>
+                                        @if ($agency->is_active == 1)
+                                        Aktif
+                                        @else
+                                        TIdak Aktif
+                                        @endif
+                                        {{-- {{$agency->is_active}} --}}
+                                    </td>
                                     <td><a href="{{route('agency.edit',$agency->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('agency.destroy',$agency->id)}}" class="d-inline"

@@ -42,6 +42,10 @@ class AgencyController extends Controller
     public function store(CreateAgencyRequest $request)
     {
         $data = $request->all();
+        $data['is_active'] = 1;
+        if ($request->hasFile('avatar')) {
+            $data['avatar'] = $request->avatar->store('avatar', 'public');
+        }
         Agency::create($data);
         session()->flash('success', 'Agency Berhasil Ditambahkan');
         return redirect(route('agency.index'));

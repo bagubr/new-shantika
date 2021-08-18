@@ -27,6 +27,7 @@ class CreateAgencyRequest extends FormRequest
             'name' => 'required|unique:agencies,name',
             'city_id' => 'required|exists:cities,id',
             'address' => 'required',
+            'avatar' => 'nullable|image|max:2048',
             'lat' => 'required',
             'lng' => 'required',
         ];
