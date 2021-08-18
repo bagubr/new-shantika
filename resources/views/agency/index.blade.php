@@ -49,14 +49,17 @@ Agen
                                     <td>{{$agency->name}}</td>
                                     <td>{{$agency->city?->name}}</td>
                                     <td>{{$agency->address}}</td>
+                                    @if ($agency->is_active == 1)
                                     <td data-toggle="modal" data-target="#exampleModal{{$agency->id}}"
-                                        data-name="{{$agency->name}}" data-status="{{$agency->is_active}}">
-                                        @if ($agency->is_active == 1)
+                                        class="text-success">
                                         Aktif
-                                        @else
-                                        Tidak Aktif
-                                        @endif
                                     </td>
+                                    @else
+                                    <td data-toggle="modal" data-target="#exampleModal{{$agency->id}}"
+                                        class="text-danger">
+                                        Non Aktif
+                                    </td>
+                                    @endif
                                     <td><a href="{{route('agency.edit',$agency->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('agency.destroy',$agency->id)}}" class="d-inline"
