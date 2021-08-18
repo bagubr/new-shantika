@@ -57,7 +57,7 @@ Auth::routes([
     'verify' => false,
 ]);
 
-Route::get('/test', function() {
+Route::get('/test', function () {
     $order = \App\Models\Order::with(['route'])->orderBy('id', 'desc')->first();
 
     return response($order);
@@ -73,6 +73,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('outcome_type', [OutcomeController::class, 'storeType'])->name('outcome_type.store');
     Route::delete('outcome_type/{id}', [OutcomeController::class, 'destroyType'])->name('outcome_type.destroy');
     Route::get('user_agent/search', [UserAgentController::class, 'search'])->name('user_agent.search');
+
+    Route::put('agency/update_status/{agency}', [AgencyController::class, 'update_status'])->name('agency.update_status');
 
     Route::resources([
         'fleets' => FleetController::class,

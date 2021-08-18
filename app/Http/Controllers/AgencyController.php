@@ -19,7 +19,8 @@ class AgencyController extends Controller
     public function index()
     {
         $agencies = AgencyRepository::all();
-        return view('agency.index', compact('agencies'));
+        $statuses = Agency::status();
+        return view('agency.index', compact('agencies', 'statuses'));
     }
 
     /**
@@ -86,6 +87,14 @@ class AgencyController extends Controller
         $data = $request->all();
         $agency->update($data);
         session()->flash('success', 'Agency Berhasil Diperbarui');
+        return redirect(route('agency.index'));
+    }
+    public function update_status(Request $request, Agency $agency)
+    {
+        $agency->update([
+            'is_active' => $request->is_active,
+        ]);
+        session()->flash('success', 'Agency Status Berhasil Diubah');
         return redirect(route('agency.index'));
     }
 

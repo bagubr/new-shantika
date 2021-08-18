@@ -21,6 +21,14 @@ class Agency extends Model
         'city_name'
     ];
 
+    public static function status()
+    {
+        $status = [
+            0 => 'Non Aktif',
+            1 => 'Aktif',
+        ];
+        return $status;
+    }
 
     public function city()
     {
