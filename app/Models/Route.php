@@ -11,7 +11,7 @@ class Route extends Model
 
     protected $table = 'routes';
     protected $fillable = [
-        'name', 'area_id', 'departure_at', 'arrived_at', 'price'
+        'name', 'area_id', 'departure_at', 'arrived_at', 'price', 'departure_city_id', 'destination_city_id'
     ];
     protected $hidden = [
         'created_at', 'updated_at', 'deleted_at'
@@ -22,6 +22,10 @@ class Route extends Model
         return $this->belongsTo(Area::class, 'area_id');
     }
 
+    public function fleet() {
+        return $this->hasManyThrough(Fleet::class, FleetRoute::class, 'fleet_id', 'id');
+    }
+    
     public function checkpoints()
     {
         return $this->hasMany(Checkpoint::class, 'route_id', 'id');

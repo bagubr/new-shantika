@@ -5,7 +5,9 @@ namespace App\Http\Controllers\v1\Agent;
 use App\Http\Controllers\v1\RouteController as BaseRouteController;
 use App\Http\Requests\Api\ApiGetAvailableRouteRequest;
 use App\Http\Resources\Route\AvailableRoutesResource;
+use App\Models\Agency;
 use App\Models\Route;
+use App\Repositories\AgencyRepository;
 use App\Repositories\TimeClassificationRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
@@ -17,21 +19,12 @@ class RouteController extends BaseRouteController
         if($request->date > $max_date) {
             $this->sendFailedResponse([], 'Kamu tidak bisa memesan untuk tanggal lebih dari '.$max_date);
         }
-        $user = UserRepository::findByToken($request->bearerToken());
-        $agency_id = $user->agencies->agency_id;
-        $routes = Route::with(['fleet', 'checkpoints.agency.city', 'checkpoints'=>function($query) {
-
-            }])
+        $destination_agency = AgencyRepository::findWithCity($request->agency_id);
+        $routes = Route::with(['fleet', 'checkpoints.agency.city', 'checkpoints'])
             ->whereHas('fleet.fleetclass', function($query) use ($request) { 
                 $query->where('fleet_class_id', $request->fleet_class_id);
             })
-            ->whereHas('checkpoints', function($query) use ($request, $agency_id) {
-                $query->whereRaw('exists (select 1 from checkpoints inner join checkpoints c on c.route_id = checkpoints.route_id
-                where (checkpoints.agency_id = ? and c.agency_id = ?) 
-                and (c.route_id = routes.id and checkpoints.route_id = routes.id)
-                and (checkpoints.order > c.order))', [$request->agency_id, $agency_id])
-                ->orderBy('order', 'asc');
-            })
+            ->where('destination_city_id', $destination_agency->city_id)
             ->when(($request->time), function ($q) use ($request) { 
                 $time_start = TimeClassificationRepository::findByName($request->time)->time_start;
                 $time_end = TimeClassificationRepository::findByName($request->time)->time_end;
@@ -42,34 +35,6 @@ class RouteController extends BaseRouteController
                 });
             })
             ->get();
-        
-        foreach($routes as $index => $route) {
-            $found_destination = false;
-            $found_departure = false;
-            $checkpoints = $route->checkpoints->filter(function($item, $key) use ($request, &$route, &$found_destination, &$found_departure, $agency_id) {
-                //
-                if($item->agency_id == $agency_id) {
-                    $route->departure_at = $item->arrived_at;
-                    $found_departure = true;
-                }
-                if(!$found_departure && !$found_destination) {
-                    return false;
-                }
-
-
-                //
-                if($found_destination) {
-                    return false;
-                }
-                if($item->agency_id == $request->agency_id) {
-                    $route->arrived_at = $item->arrived_at;
-                    $found_destination = true;
-                }
-                return true;
-            });
-            unset($route->checkpoints);
-            $route->checkpoints = $checkpoints->values();
-        }
 
         return $this->sendSuccessResponse([
             'routes'=>AvailableRoutesResource::collection($routes)

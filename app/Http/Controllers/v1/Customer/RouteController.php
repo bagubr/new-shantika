@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Api\ApiGetAvailableRouteRequest;
 use App\Http\Resources\Route\AvailableRoutesResource;
 use App\Models\Route;
+use App\Repositories\AgencyRepository;
 use App\Repositories\TimeClassificationRepository;
 
 class RouteController extends Controller
@@ -16,19 +17,17 @@ class RouteController extends Controller
         if($request->date > $max_date) {
             $this->sendFailedResponse([], 'Kamu tidak bisa memesan untuk tanggal lebih dari '.$max_date);
         }
+        $destination_agency = AgencyRepository::findWithCity($request->agency_arrived_id);
+        $departure_agency = AgencyRepository::findWithCity($request->agency_departure_id);
+        
         $routes = Route::with(['fleet', 'checkpoints.agency.city'])
         ->whereHas('fleet', function($query) use ($request) {
             $query->when(($request->fleet_class_id), function ($q) use ($request) { 
                 $q->where('fleet_class_id', $request->fleet_class_id);
             });
         })
-        ->whereHas('checkpoints', function($query) use ($request) {
-            $query->whereRaw('exists (select 1 from checkpoints inner join checkpoints c on c.route_id = checkpoints.route_id
-                where (checkpoints.agency_id = ? and c.agency_id = ?) 
-                and (c.route_id = routes.id and checkpoints.route_id = routes.id)
-                and (checkpoints.order > c.order))', [$request->agency_arrived_id, $request->agency_departure_id])
-                ->orderBy('order', 'asc');
-        })
+        ->where('destination_city_id', $destination_agency->city_id)
+        ->where('departure_city_id', $departure_agency->city_id)
         ->when(($request->time), function ($q) use ($request) { 
             $time_start = TimeClassificationRepository::findByName($request->time)->time_start;
             $time_end = TimeClassificationRepository::findByName($request->time)->time_end;
@@ -39,34 +38,6 @@ class RouteController extends Controller
             });
         })
         ->get();
-
-        foreach($routes as $index => $route) {
-            $found_destination = false;
-            $found_departure = false;
-            $checkpoints = $route->checkpoints->filter(function($item, $key) use ($request, &$route, &$found_destination, &$found_departure) {
-                //
-                if($item->agency_id == $request->agency_departure_id) {
-                    $route->departure_at = $item->arrived_at;
-                    $found_departure = true;
-                }
-                if(!$found_departure && !$found_destination) {
-                    return false;
-                }
-
-
-                //
-                if($found_destination) {
-                    return false;
-                }
-                if($item->agency_id == $request->agency_arrived_id) {
-                    $route->arrived_at = $item->arrived_at;
-                    $found_destination = true;
-                }
-                return true;
-            });
-            unset($route->checkpoints);
-            $route->checkpoints = $checkpoints->values();
-        }
 
         return $this->sendSuccessResponse([
             'routes'=>AvailableRoutesResource::collection($routes)

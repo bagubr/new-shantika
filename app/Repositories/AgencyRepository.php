@@ -16,6 +16,10 @@ class AgencyRepository
         })->orderBy('id', 'desc')->get();
     }
 
+    public static function findWithCity($id) {
+        return Agency::with('city')->find($id);
+    }
+
     public static function getOnlyIdName()
     {
         return Agency::get(['id', 'name']);
