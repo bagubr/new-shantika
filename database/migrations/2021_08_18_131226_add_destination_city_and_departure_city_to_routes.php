@@ -29,9 +29,9 @@ class AddDestinationCityAndDepartureCityToRoutes extends Migration
     public function down()
     {
         Schema::table('routes', function (Blueprint $table) {
+            $table->dropForeign(['departure_city_id', 'destination_city_id']);
             $table->dropColumn('departure_city_id');
             $table->dropColumn('destination_city_id');
-            $table->dropForeign(['departure_city_id', 'destination_city_id']);
         });
     }
 }

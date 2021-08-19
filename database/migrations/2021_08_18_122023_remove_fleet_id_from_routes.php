@@ -26,7 +26,7 @@ class RemoveFleetIdFromRoutes extends Migration
     public function down()
     {
         Schema::table('routes', function (Blueprint $table) {
-            $table->unsignedBigInteger('fleet_id');
+            $table->unsignedBigInteger('fleet_id')->nullable();
             $table->foreign('fleet_id')->references('id')->on('fleets');
         });
     }

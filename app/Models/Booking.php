@@ -10,7 +10,7 @@ class Booking extends Model
     use HasFactory;
 
     protected $fillable = [
-        'route_id',
+        'fleet_route_id',
         'layout_chair_id', 
         'user_id', 
         'expired_at',
@@ -18,9 +18,9 @@ class Booking extends Model
         'code_booking'
     ];
 
-    public function route()
+    public function fleet_route()
     {
-        return $this->belongsTo(Route::class, 'route_id');
+        return $this->belongsTo(FleetRoute::class, 'route_id');
     }
 
     public function layout_chair()
