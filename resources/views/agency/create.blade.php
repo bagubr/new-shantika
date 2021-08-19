@@ -95,6 +95,11 @@ Agen
                         <div class="form-group">
                             <label>Avatar</label>
                             <input type="file" class="form-control" name="avatar" accept="image/*">
+                            @isset($agency)
+                            <a href="{{$agency->avatar_url}}" data-toggle="lightbox">
+                                <img src="{{$agency->avatar_url}}" style="height: 100px">
+                            </a>
+                            @endisset
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
@@ -121,7 +126,6 @@ Agen
     crossorigin=""></script>
 <script>
     var mymap = L.map('mapid').locate({setView: true});
-    
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
             maxZoom: 20,
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
@@ -143,7 +147,5 @@ Agen
             document.getElementById("lng").value = e.latlng.lng;
         }    
         mymap.on('click', onMapClick);
-
-
 </script>
 @endpush

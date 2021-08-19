@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Agency extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'agencies';
 
@@ -56,5 +58,10 @@ class Agency extends Model
     public function getPhoneAttribute()
     {
         return $this->userAgent()?->first()?->user()?->first()?->phone;
+    }
+
+    public function deleteAvatar()
+    {
+        Storage::disk('public')->delete($this->attributes['avatar']);
     }
 }

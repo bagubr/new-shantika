@@ -29,6 +29,7 @@ class UpdateAgencyRequest extends FormRequest
             'address' => 'required',
             'lat' => 'required',
             'lng' => 'required',
+            'img' => 'nullable|image|max:2048',
         ];
     }
 }

@@ -40,6 +40,7 @@ Agen
                                     <th>Kota</th>
                                     <th>Alamat</th>
                                     <th>Status</th>
+                                    <th>Avatar</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -60,6 +61,11 @@ Agen
                                         Non Aktif
                                     </td>
                                     @endif
+                                    <td>
+                                        <a href="{{$agency->avatar_url}}" data-toggle="lightbox">
+                                            <img src="{{$agency->avatar_url}}" style="height: 100px">
+                                        </a>
+                                    </td>
                                     <td><a href="{{route('agency.edit',$agency->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('agency.destroy',$agency->id)}}" class="d-inline"
