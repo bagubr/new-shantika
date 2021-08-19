@@ -19,7 +19,7 @@ class FleetClassController extends Controller
     public function available(ApiAvailableFleetClassRequest $request) {
         return $this->sendSuccessResponse([
             'fleet_classes'=>FleetClass::orderBy('name')
-                ->whereHas('fleets.route', function($query) use ($request) {
+                ->whereHas('fleets.fleet_routes.route', function($query) use ($request) {
                     $time_start = TimeClassificationRepository::findByName($request->time)->time_start;
                     $time_end = TimeClassificationRepository::findByName($request->time)->time_end;
 
