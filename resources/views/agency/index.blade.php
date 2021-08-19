@@ -52,12 +52,12 @@ Agen
                                     <td>{{$agency->address}}</td>
                                     @if ($agency->is_active == 1)
                                     <td data-toggle="modal" data-target="#exampleModal{{$agency->id}}"
-                                        class="text-success">
+                                        class="text-success text-bold">
                                         Aktif
                                     </td>
                                     @else
                                     <td data-toggle="modal" data-target="#exampleModal{{$agency->id}}"
-                                        class="text-danger">
+                                        class="text-danger text-bold">
                                         Non Aktif
                                     </td>
                                     @endif

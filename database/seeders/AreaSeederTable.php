@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
+
 class AreaSeederTable extends Seeder
 {
     /**
@@ -18,9 +19,9 @@ class AreaSeederTable extends Seeder
         ]);
 
         \App\Models\Area::create([
-            'name' => 'jabodetabek',
+            'name' => 'JABODETABEK',
         ]);
-        
+
 
         $route = \App\Models\Route::get();
         foreach ($route as $key => $value) {
@@ -35,7 +36,5 @@ class AreaSeederTable extends Seeder
                 'description' => $faker->paragraph($nbSentences = 5, $variableNbSentences = true),
             ]);
         }
-
-
     }
 }

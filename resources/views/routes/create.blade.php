@@ -39,20 +39,14 @@ Route
                         @isset($route)
                         @method('PUT')
                         @endisset
+                        @isset($route)
                         <div class="form-group">
-                            <label>Armada</label>
-                            <select class="form-control select2" name="fleet_id" style="width: 100%;" required>
-                                <option value="">Pilih Armada</option>
-                                @foreach ($fleets as $fleet)
-                                <option value="{{$fleet->id}}" @isset($route) @if ($fleet->id ===
-                                    $route->fleet_id)
-                                    selected
-                                    @endif @endisset>{{$fleet->name}}
-                                </option>
-                                @endforeach
-                            </select>
-                            <span><a href="{{route('fleets.create')}}">Tambah Armada</a></span>
+                            <label>Nama Rute</label>
+                            <input type="text" class="form-control" disabled
+                                value="{{isset($route)? $route->name : ""}}">
                         </div>
+                        @endisset
+
                         <div class="form-group">
                             <label>Area</label>
                             <select name="area_id" class="form-control select2" required>
@@ -68,25 +62,33 @@ Route
                         <div class="form-row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label>Keberangkatan</label>
-                                    <input type="time" name="departure_at" class="form-control" id="jam1" required
-                                        value="{{isset($route) ? $route->departure_at : ''}}">
+                                    <label>Kota Keberangkatan</label>
+                                    <select name="departure_city_id" class="form-control select2" required>
+                                        <option value="">Pilih Kota Keberangkatan</option>
+                                        @foreach ($cities as $city)
+                                        <option value="{{$city->id}}" @isset($route) @if ($city->id ==
+                                            $route->departure_city_id)
+                                            selected
+                                            @endif @endisset>{{$city->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <label>Kedatangan</label>
-                                    <input type="time" name="arrived_at" class="form-control" required
-                                        value="{{isset($route) ? $route->arrived_at : ''}}">
+                                    <label>Kota Kedatangan</label>
+                                    <select name="destination_city_id" class="form-control select2" required>
+                                        <option value="">Pilih Kota Tujuan</option>
+                                        @foreach ($cities as $city)
+                                        <option @isset($route) @if ($city->id == $route->destination_city_id)
+                                            selected
+                                            @endif @endisset value="{{$city->id}}">{{$city->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label>Harga</label>
-                            <input type="number" name="price" class="form-control" placeholder="Masukkan Harga" required
-                                value="{{isset($route) ? $route->price : ''}}">
-                        </div>
-                        @if ($name == "routes.create")
+                        {{-- @if ($name == "routes.create")
                         <div id="dynamicAddRemove">
                             <div class="t">
                                 <div class="form-row">
@@ -97,53 +99,60 @@ Route
                                                 <option value="">Pilih Titik Pemberhentian</option>
                                                 @foreach ($agencies as $agency)
                                                 <option value="{{$agency->id}}">
-                                                    {{$agency->city->name}}/{{$agency->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label for="">Kedatangan Titik Pemberhentian</label>
-                                            <input type="time" class="form-control" name="arrived_at1[]" id="jam2">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @endif
-                        @if ($name == "routes.create")
-                        <div class="mt-3">
-                            <button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">Tambah
-                                Titik Pemberhentian
-                            </button>
-                        </div>
-                        @endif
-                        <div class="mt-3">
-                            <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
-                            <input type="submit" value="Submit" class="btn btn-success float-right">
-                        </div>
-                    </form>
+                        {{$agency->city->name}}/{{$agency->name}}</option>
+                        @endforeach
+                        </select>
                 </div>
-                <!-- /.card-body -->
             </div>
-            <!-- /.card -->
+            <div class="col">
+                <div class="form-group">
+                    <label for="">Kedatangan Titik Pemberhentian</label>
+                    <input type="time" class="form-control" name="arrived_at1[]" id="jam2">
+                </div>
+            </div>
         </div>
+    </div>
+    </div>
+    @endif
+    @if ($name == "routes.create")
+    <div class="mt-3">
+        <button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">Tambah
+            Titik Pemberhentian
+        </button>
+    </div>
+    @endif --}}
+    <div class="mt-3">
+        <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
+        <input type="submit" value="Submit" class="btn btn-success float-right">
+    </div>
+    </form>
+    </div>
+    <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+    </div>
     </div>
 </section>
 @endsection
 @push('script')
-@if($name == "routes.create")
+{{-- @if($name == "routes.create")
 <script type="text/javascript">
     var i = 0;
     $("#dynamic-ar").click(function () {
         ++i;
-        $("#dynamicAddRemove").append('<div class="t"><div class="form-row"><div class="col"><div class="form-group"><label>Titik Pemberhentian</label><select name="agency_id[]" class="select2 form-control"><option value="">Pilih Titik Pemberhentian</option>@foreach ($agencies as $agency)<option value="{{$agency->id}}">{{$agency->city?->name}}/{{$agency->name}}</option>@endforeach</select></div></div><div class="col"><div class="form-group"><label for="">Kedatangan Titik Pemberhentian</label><input type="time" class="form-control" name="arrived_at1[]"></div></div></div><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></div>'
-            );
-    });
-    $(document).on('click', '.remove-input-field', function () {
-        $(this).parents('.t').remove();
-    });
+        $("#dynamicAddRemove").append('<div class="t"><div class="form-row"><div class="col"><div class="form-group"><label>Titik Pemberhentian</label><select name="agency_id[]" class="select2 form-control"><option value="">Pilih Titik Pemberhentian</option>@foreach ($agencies as $agency)<option value="{{$agency->id}}">{{$agency->city?->name}}/{{$agency->name}}
+</option>@endforeach</select></div>
+</div>
+<div class="col">
+    <div class="form-group"><label for="">Kedatangan Titik Pemberhentian</label><input type="time" class="form-control"
+            name="arrived_at1[]"></div>
+</div>
+</div><button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></div>'
+);
+});
+$(document).on('click', '.remove-input-field', function () {
+$(this).parents('.t').remove();
+});
 </script>
 <script>
     $('#jam1').keyup(function (){
@@ -152,7 +161,8 @@ Route
     $('#jam2').keyup(function (){
     $('#jam1').val($(this).val()); // <-- and here
 });
-</script>
+</script> --}}
+{{-- @endif --}}
 <script>
     $(function () {
         $('.select2').select2()
@@ -161,5 +171,4 @@ Route
       theme: 'bootstrap4'
     })
 </script>
-@endif
 @endpush

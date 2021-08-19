@@ -24,11 +24,9 @@ class UpdateRouteRequest extends FormRequest
     public function rules()
     {
         return [
-            'area_id' => 'required',
-            'fleet_id' => 'required|exists:fleets,id',
-            'departure_at' => 'required',
-            'arrived_at' => 'required',
-            'price' => 'required|numeric'
+            'area_id' => 'required|exists:areas,id',
+            'departure_city_id' => 'required|exists:cities,id',
+            'destination_city_id' => 'required|exists:cities,id',
         ];
     }
 }

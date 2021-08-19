@@ -7,6 +7,7 @@ use App\Http\Requests\Routes\UpdateRouteRequest;
 use App\Models\Agency;
 use App\Models\Area;
 use App\Models\Checkpoint;
+use App\Models\City;
 use App\Models\Route;
 use App\Repositories\AgencyRepository;
 use App\Repositories\FleetRepository;
@@ -33,11 +34,9 @@ class RoutesController extends Controller
      */
     public function create()
     {
-        $fleets = FleetRepository::all();
         $areas = Area::all();
-        $name = FacadesRoute::currentRouteName();
-        $agencies = Agency::orderBy('city_id', 'ASC')->get();
-        return view('routes.create', compact('fleets', 'areas', 'agencies', 'name'));
+        $cities = City::all();
+        return view('routes.create', compact('cities', 'areas'));
     }
 
     /**
@@ -51,25 +50,35 @@ class RoutesController extends Controller
         $data = $request->all();
         $route = Route::create($data);
 
-        $agencies = $request['agency_id'];
-        $arrived_at = $request['arrived_at1'];
-
-        $i = 0;
-        $checkpoints = '';
-        foreach ($agencies as $key => $agency) {
-            $checkpoint = Checkpoint::create([
-                'route_id' => $route->id,
-                'arrived_at' => $arrived_at[$key],
-                'agency_id' => $agency,
-                'order' => $i++
-            ]);
-            $checkpoints .= '~' . $checkpoint->agency()->first()->name . '~';
-        }
+        $name = '~' . $route->city_form()->first()->name . '~' . $route->city_to()->first()->name . '~';
         $route->update([
-            'name' => $checkpoints,
+            'name' => $name,
         ]);
         session()->flash('success', 'Route Berhasil Ditambahkan');
         return redirect(route('routes.index'));
+
+        // $data = $request->all();
+        // $route = Route::create($data);
+
+        // $agencies = $request['agency_id'];
+        // $arrived_at = $request['arrived_at1'];
+
+        // $i = 0;
+        // $checkpoints = '';
+        // foreach ($agencies as $key => $agency) {
+        //     $checkpoint = Checkpoint::create([
+        //         'route_id' => $route->id,
+        //         'arrived_at' => $arrived_at[$key],
+        //         'agency_id' => $agency,
+        //         'order' => $i++
+        //     ]);
+        //     $checkpoints .= '~' . $checkpoint->agency()->first()->name . '~';
+        // }
+        // $route->update([
+        //     'name' => $checkpoints,
+        // ]);
+        // session()->flash('success', 'Route Berhasil Ditambahkan');
+        // return redirect(route('routes.index'));
     }
 
     /**
@@ -94,11 +103,9 @@ class RoutesController extends Controller
      */
     public function edit(Route $route)
     {
-        $fleets = FleetRepository::all();
         $areas = Area::all();
-        $name = FacadesRoute::currentRouteName();
-        $agencies = AgencyRepository::getOnlyIdName();
-        return view('routes.create', compact('route', 'fleets', 'areas', 'name', 'agencies'));
+        $cities = City::all();
+        return view('routes.create', compact('areas', 'cities', 'route'));
     }
 
     /**
@@ -112,6 +119,10 @@ class RoutesController extends Controller
     {
         $data = $request->all();
         $route->update($data);
+        $name = '~' . $route->city_form()->first()->name . '~' . $route->city_to()->first()->name . '~';
+        $route->update([
+            'name' => $name,
+        ]);
         session()->flash('success', 'Route Berhasil Diperbarui');
         return redirect(route('routes.index'));
     }
@@ -125,11 +136,6 @@ class RoutesController extends Controller
     public function destroy(Route $route)
     {
         $route->checkpoints()->delete();
-        $route->order_detail()->delete();
-        $route->reviews()->delete();
-        $route->payments()->delete();
-        $route->schedule_not_operates()->delete();
-        $route->order()->delete();
         $route->delete();
         session()->flash('success', 'Route Berhasil Dihapus');
         return redirect(route('routes.index'));

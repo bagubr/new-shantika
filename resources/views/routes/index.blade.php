@@ -37,9 +37,6 @@ Route
                             <thead>
                                 <tr>
                                     <th>Nama</th>
-                                    <th>Armada</th>
-                                    <th>Harga</th>
-                                    <th>Keberangkatan - Kedatangan</th>
                                     <th>Area</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -48,11 +45,6 @@ Route
                                 @foreach ($routes as $route)
                                 <tr>
                                     <td>{{$route->name}}</td>
-                                    <td><a href="{{route('fleets.edit', $route->fleet_id)}}"
-                                            target="_blank">{{$route->fleet?->name}}
-                                            {{$route->fleet?->fleetclass->name}}</a>
-                                    <td>Rp {{number_format($route->price, 2)}}</td>
-                                    <td>{{$route->departure_at}} - {{$route->arrived_at}}</td>
                                     <td>{{$route->area->name ?? 'Belum Ada Area Terdaftar'}}</td>
                                     <td>
                                         <a class="btn btn-primary btn-xs" href="{{route('routes.show',$route->id)}}"

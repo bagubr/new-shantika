@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Route extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'routes';
     protected $fillable = [
@@ -22,10 +24,20 @@ class Route extends Model
         return $this->belongsTo(Area::class, 'area_id');
     }
 
-    public function fleet() {
+    public function fleet()
+    {
         return $this->hasManyThrough(Fleet::class, FleetRoute::class, 'fleet_id', 'id');
     }
-    
+
+    public function city_form()
+    {
+        return $this->belongsTo(City::class, 'departure_city_id', 'id');
+    }
+    public function city_to()
+    {
+        return $this->belongsTo(City::class, 'destination_city_id', 'id');
+    }
+
     public function checkpoints()
     {
         return $this->hasMany(Checkpoint::class, 'route_id', 'id');
