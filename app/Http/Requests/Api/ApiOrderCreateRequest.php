@@ -16,7 +16,7 @@ class ApiOrderCreateRequest extends ApiRequest
     public function rules()
     {
         return [
-            'route_id'=>'required|numeric',
+            'fleet_route_id'=>'required|numeric',
             'departure_agency_id'=>'required|numeric',
             'destination_agency_id'=>'required|numeric',
             'reserve_at'=>'required|date',

@@ -16,7 +16,7 @@ class ApiBookingRequest extends ApiRequest
     public function rules()
     {
         return [
-            'route_id'=>'required',
+            'fleet_route_id'=>'required',
             'booking_at'=>'required|date',
             'layout_chair_id'=>'required|array',
             'layout_chair_id.*'=>'required|numeric'

@@ -43,27 +43,24 @@ class OrderRepository
 
     public static function unionBookingByUserIdAndDate(User $user, $date)
     {
-        $booking = Booking::select('id', 'route_id', 'user_id', 'booking_at as reserve_at', 'status', 'code_booking as code', 'layout_chair_id')
+        $booking = Booking::select('id', 'fleet_route_id', 'user_id', 'booking_at as reserve_at', 'status', 'code_booking as code', 'layout_chair_id')
             ->addSelect(DB::raw("'BOOKING' as type"))
-            ->addSelect(DB::raw("(select price from routes where routes.id = bookings.route_id) as price"))
-            ->addSelect(DB::raw("(select agency_id as destination_agency_id from checkpoints where checkpoints.route_id = bookings.route_id and checkpoints.agency_id = bookings.user_id limit 1) as destination_agency_id"))
+            ->addSelect(DB::raw("(select price from fleet_routes where fleet_routes.id = bookings.fleet_route_id) as price"))
             ->where('expired_at', '>', date('Y-m-d H:i:s'))
             ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
             ->whereUserId($user->id)
             ->distinct('code_booking');
-        $agen_order =  Order::select('id', 'route_id', 'user_id', 'reserve_at', 'status', 'code_order as code')
+        $agen_order =  Order::select('id', 'fleet_route_id', 'user_id', 'reserve_at', 'status', 'code_order as code')
             ->addSelect(DB::raw("NULL as layout_chair_id"))
             ->addSelect(DB::raw("'PEMBELIAN' as type"))
             ->addSelect(DB::raw("price"))
-            ->addSelect(DB::raw("(select agency_id as destination_agency_id from checkpoints where checkpoints.route_id = orders.route_id and checkpoints.agency_id = orders.destination_agency_id) as destination_agency_id"))
             ->whereUserId($user->id)
             ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
             ->union($booking);
-        $user_order =  Order::select('id', 'route_id', 'user_id', 'reserve_at', 'status', 'code_order as code')
+        $user_order =  Order::select('id', 'fleet_route_id', 'user_id', 'reserve_at', 'status', 'code_order as code')
             ->addSelect(DB::raw("NULL as layout_chair_id"))
             ->addSelect(DB::raw("'EXCHANGE' as type"))
             ->addSelect(DB::raw("price"))
-            ->addSelect(DB::raw("(select agency_id as destination_agency_id from checkpoints where checkpoints.route_id = orders.route_id and checkpoints.agency_id = orders.destination_agency_id) as destination_agency_id"))
             ->where('departure_agency_id', $user->agencies->agent->id)
             ->whereIn('status', [Order::STATUS5, Order::STATUS8])
             ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
@@ -74,7 +71,7 @@ class OrderRepository
 
     public static function findByCodeOrder($code_order)
     {
-        return Order::with('route.checkpoints')->where('code_order', $code_order)->first();
+        return Order::with('fleet_route.route.checkpoints')->where('code_order', $code_order)->first();
     }
 
     public static function countBoughtRouteByAgencyByDate($token, $date)
@@ -159,9 +156,9 @@ class OrderRepository
         return $order;
     }
 
-    public static function isOrderUnavailable($route_id, $date, $layout_chair_id)
+    public static function isOrderUnavailable($fleet_route_id, $date, $layout_chair_id)
     {
-        return Order::where('route_id', $route_id)
+        return Order::where('fleet_route_id', $fleet_route_id)
             ->where('reserve_at', 'ilike', '%' . $date . '%')
             ->whereHas('order_detail', function ($query) use ($layout_chair_id) {
                 $query->whereIn('layout_chair_id', is_array($layout_chair_id) ? $layout_chair_id : [$layout_chair_id]);

@@ -31,7 +31,7 @@ class BookingController extends Controller
         foreach($request->layout_chair_id as $layout_chair_id) {
             $_booking = new Booking([
                 'code_booking'=>$code_booking,
-                'route_id'=>$request->route_id,
+                'fleet_route_id'=>$request->fleet_route_id,
                 'layout_chair_id'=>$layout_chair_id,
                 'booking_at'=>$request->booking_at,
                 'user_id'=>$user->id

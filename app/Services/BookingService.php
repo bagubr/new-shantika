@@ -21,7 +21,7 @@ class BookingService {
     }
 
     public static function create(Booking $booking) {
-        $booking_exists = BookingRepository::isBooked($booking->route_id, $booking->user_id, $booking->layout_chair_id, $booking->booking_at);
+        $booking_exists = BookingRepository::isBooked($booking->fleet_route_id, $booking->user_id, $booking->layout_chair_id, $booking->booking_at);
         if($booking_exists) {
             (new self)->sendFailedResponse([], 'Maaf, kursi sudah dibooking');
         }
@@ -31,7 +31,7 @@ class BookingService {
             (new self)->sendFailedResponse([], 'Kamu tidak bisa membooking untuk tanggal ini, tapi masih bisa untuk melakukan pemesanan');
         }
 
-        $order_exists = OrderRepository::isOrderUnavailable($booking->route_id, $booking->booking_at, $booking->layout_chair_id);
+        $order_exists = OrderRepository::isOrderUnavailable($booking->fleet_route_id, $booking->booking_at, $booking->layout_chair_id);
         if($order_exists) {
             (new self)->sendFailedResponse([], 'Maaf, kursi sudah dipesan orang lain');
         }

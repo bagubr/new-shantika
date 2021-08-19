@@ -49,7 +49,7 @@ class OrderController extends Controller
         DB::beginTransaction();
         $order = new Order([
             'user_id'=>UserRepository::findByToken($request->bearerToken())?->id,
-            'route_id'=>$request->route_id,
+            'fleet_route_id'=>$request->fleet_route_id,
             'id_member'=>$request->id_member,
             'reserve_at'=>$request->reserve_at,
             'status'=>Order::STATUS1,

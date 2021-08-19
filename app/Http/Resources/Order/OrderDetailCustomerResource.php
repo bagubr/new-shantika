@@ -19,20 +19,23 @@ class OrderDetailCustomerResource extends JsonResource
      */
     public function toArray($request)
     {
-        $checkpoint_max_index = count($this->route->checkpoints) - 1;
+        $fleet_route = $this->fleet_route;
+        $route = $fleet_route->route;
+
+        $checkpoint_max_index = count($route->checkpoints) - 1;
         $seting = Setting::first();
-        $checkpoint_destination = CheckpointRepository::findByRouteAndAgency($this->route?->id, $this->destination_agency_id);
+        $checkpoint_destination = CheckpointRepository::findByRouteAndAgency($route?->id, $this->destination_agency_id);
         return [
             'id'=>$this->id,
             'code_order'=>$this->code_order,
-            'name_fleet'=>$this->route?->fleet?->name,
-            'fleet_class'=>$this->route?->fleet?->fleetclass?->name,
+            'name_fleet'=>$fleet_route->fleet?->name,
+            'fleet_class'=>$fleet_route->fleet?->fleetclass?->name,
             'total_passenger'=>count($this->order_detail),
-            'checkpoints'        => new CheckpointStartEndResource($this->route),
+            'checkpoints'        => new CheckpointStartEndResource($route),
             'checkpoint_destination' => new CheckpointResource($checkpoint_destination),
             'created_at'=>date('Y-m-d H:i:s', strtotime($this->created_at)),
             'reserve_at'=>date('Y-m-d H:i:s', strtotime($this->reserve_at)),
-            'departure_at'=>$this->route->departure_at,
+            'departure_at'=>$route->departure_at,
             'status'=>$this->status,
             'name_passenger'=>$this->order_detail[0]->name,
             'phone_passenger'=>$this->order_detail[0]->phone,

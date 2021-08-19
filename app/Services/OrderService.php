@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Events\SendingNotification;
 use App\Jobs\Notification\TicketExchangedJob;
 use App\Models\Agency;
+use App\Models\FleetRoute;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\OrderDetail;
@@ -24,14 +25,14 @@ class OrderService {
     use Response;
 
     public static function create(Order $data, $detail, $payment_type_id = null) {
-        $route = Route::find($data->route_id)
+        $route = FleetRoute::find($data->fleet_route_id)
             ?? (new self)->sendFailedResponse([], 'Rute perjalanan tidak ditemukan');
-        $order_exists = OrderRepository::isOrderUnavailable($data->route_id, $data->reserve_at, $detail->layout_chair_id);
+        $order_exists = OrderRepository::isOrderUnavailable($data->fleet_route_id, $data->reserve_at, $detail->layout_chair_id);
         if($order_exists) {
             (new self)->sendFailedResponse([], 'Maaf, kursi sudah dibeli oleh orang lain, silahkan pilih kursi lain');
         }
         $setting = Setting::first();
-        $ticket_price = $route->price - $data->route->fleet->fleetclass->price_food;
+        $ticket_price = $route->price - $data->fleet_route->fleet->fleetclass->price_food;
         $ticket_price_with_food = $detail->is_feed
             ? $route->price * count($detail->layout_chair_id)
             : $ticket_price * count($detail->layout_chair_id);
