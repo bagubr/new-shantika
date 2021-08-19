@@ -21,28 +21,29 @@ class AvailableRoutesResource extends JsonResource
      */
     public function toArray($request)
     {
+        $route = $this->route;
         return [
             'id'                 => $this->id,
             'layout_id'          => $this->fleet->layout->id,
-            'route_name'         => $this->name,
+            'route_name'         => $route->name,
             'fleet_name'         => $this->fleet?->name ?? "",
+            'fleet_class'        => $this->fleet?->fleetclass->name,
             'departure_at'       => $this->departure_at,
             'arrived_at'         => $this->arrived_at,
-            'fleet_class'        => $this->fleet_class,
             'price'              => $this->price,
-            'chairs_available'   => $this->getChairsAvailable($request, $this->fleet->id, $this->id, $this->fleet->layout->id),
-            'checkpoints'        => new CheckpointStartEndResource($this)
+            'chairs_available'   => $this->getChairsAvailable($request, $this->fleet_id, $this->id, $this->fleet->layout->id),
+            'checkpoints'        => new CheckpointStartEndResource($route)
         ];
     }
 
-    private function getChairsAvailable($request, $fleet_id, $route_id, $layout_id) {
-        $used_count = OrderDetail::whereHas('order', function($query) use ($request, $fleet_id, $route_id) {
+    private function getChairsAvailable($request, $fleet_id, $fleet_route_id, $layout_id) {
+        $used_count = OrderDetail::whereHas('order', function($query) use ($request, $fleet_id, $fleet_route_id) {
                 $query->whereIn('status', Order::STATUS_BOUGHT);
                 $query->whereDate('reserve_at', $request->date);
-                // $query->where('route_id', $route_id);
-                // $query->whereHas('route', function($subquery) use ($fleet_id) {
-                //         $subquery->where('fleet_id', $fleet_id);
-                //     });
+                $query->where('fleet_route_id', $fleet_route_id);
+                $query->whereHas('fleet_route', function($subquery) use ($fleet_id) {
+                        $subquery->where('fleet_id', $fleet_id);
+                });
             })
             ->count();
         $layout = Layout::find($layout_id);

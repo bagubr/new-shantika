@@ -32,13 +32,13 @@ class RouteSeeder extends Seeder
             $route = Route::create([
                 'area_id'              => 1,
                 'departure_city_id'    => $departure_city_id,
-                'destination_city_id'  => $destination_city_id 
+                'destination_city_id'  => $destination_city_id,
+                'departure_at'  => $departure_at,
+                'arrived_at'    => date('H:i:s', strtotime($departure_at) + 60 * (60 * $faker->randomDigit())),
             ]);
             FleetRoute::create([
                 'route_id'=>$route->id,
                 'fleet_id'=>$value->id,
-                'departure_at'  => $departure_at,
-                'arrived_at'    => date('H:i:s', strtotime($departure_at) + 60 * (60 * $faker->randomDigit())),
                 'price'         => $faker->numberBetween(50000, 500000),
             ]);
             $checkpoints = '';

@@ -25,6 +25,10 @@ class Route extends Model
     public function fleet() {
         return $this->hasManyThrough(Fleet::class, FleetRoute::class, 'fleet_id', 'id');
     }
+
+    public function fleet_routes() {
+        return $this->hasMany(FleetRoute::class);
+    }
     
     public function checkpoints()
     {
