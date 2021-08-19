@@ -50,7 +50,7 @@ class RoutesController extends Controller
         $data = $request->all();
         $route = Route::create($data);
 
-        $name = '~' . $route->city_form()->first()->name . '~' . $route->city_to()->first()->name . '~';
+        $name = '~' . $route->departure_city()->first()->name . '~' . $route->destination_city()->first()->name . '~';
         $route->update([
             'name' => $name,
         ]);
@@ -119,7 +119,7 @@ class RoutesController extends Controller
     {
         $data = $request->all();
         $route->update($data);
-        $name = '~' . $route->city_form()->first()->name . '~' . $route->city_to()->first()->name . '~';
+        $name = '~' . $route->departure_city()->first()->name . '~' . $route->destination_city()->first()->name . '~';
         $route->update([
             'name' => $name,
         ]);
