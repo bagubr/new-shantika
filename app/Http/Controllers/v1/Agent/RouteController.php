@@ -21,21 +21,6 @@ class RouteController extends BaseRouteController
             $this->sendFailedResponse([], 'Kamu tidak bisa memesan untuk tanggal lebih dari '.$max_date);
         }
         $destination_agency = AgencyRepository::findWithCity($request->agency_id);
-        // $routes = Route::with(['fleet', 'checkpoints.agency.city', 'checkpoints'])
-        //     ->whereHas('fleet', function($query) use ($request) { 
-        //         $query->where('fleet_class_id', $request->fleet_class_id);
-        //     })
-        //     ->where('destination_city_id', $destination_agency->city_id)
-        //     ->when(($request->time), function ($q) use ($request) { 
-        //         $time_start = TimeClassificationRepository::findByName($request->time)->time_start;
-        //         $time_end = TimeClassificationRepository::findByName($request->time)->time_end;
-        //         $q->whereHas('fleet_routes', function ($que) use ($time_start, $time_end)
-        //         {
-        //             $que->where('departure_at', '>', $time_start);
-        //             $que->orWhere('arrived_at', '<', $time_end);
-        //         });
-        //     })
-        //     ->get();
         $routes = $routes = FleetRoute::with(['route.fleet', 'route.checkpoints.agency.city'])
             ->whereHas('fleet', function($query) use ($request) { 
                 $query->where('fleet_class_id', $request->fleet_class_id);
@@ -55,7 +40,6 @@ class RouteController extends BaseRouteController
             ->get();
 
         return $this->sendSuccessResponse([
-            // 'routes'=>$routes
             'routes'=>AvailableRoutesResource::collection($routes)
         ]);
     }
