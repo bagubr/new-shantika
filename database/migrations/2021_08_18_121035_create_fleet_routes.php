@@ -19,7 +19,7 @@ class CreateFleetRoutes extends Migration
             $table->unsignedBigInteger('route_id');
             $table->foreign('fleet_id')->references('id')->on('fleets');
             $table->foreign('route_id')->references('id')->on('routes');
-            $table->boolean('is_active')->default(false);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

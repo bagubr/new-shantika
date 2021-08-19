@@ -12,7 +12,7 @@ class FleetRoute extends Model
     protected $table = 'fleet_routes';
 
     protected $fillable = [
-        'fleet_id', 'route_id', 'is_active'
+        'fleet_id', 'route_id', 'departure_at', 'arrived_at', 'price', 'is_active'
     ];
 
     protected $hidden = [
