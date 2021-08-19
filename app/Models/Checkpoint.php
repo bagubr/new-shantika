@@ -12,7 +12,7 @@ class Checkpoint extends Model
     protected $table = 'checkpoints';
 
     protected $fillable = [
-        'route_id', 'arrived_at', 'agency_id', 'order'
+        'route_id', 'agency_id', 'order'
     ];
 
     protected $appends = [

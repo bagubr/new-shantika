@@ -29,6 +29,7 @@ class Route extends Model
         return $this->hasManyThrough(Fleet::class, FleetRoute::class, 'fleet_id', 'id');
     }
 
+<<<<<<< HEAD
     public function city_form()
     {
         return $this->belongsTo(City::class, 'departure_city_id', 'id');
@@ -38,6 +39,12 @@ class Route extends Model
         return $this->belongsTo(City::class, 'destination_city_id', 'id');
     }
 
+=======
+    public function fleet_routes() {
+        return $this->hasMany(FleetRoute::class);
+    }
+    
+>>>>>>> 717a67d917d84f245fc118b9ac982934c8ace2c8
     public function checkpoints()
     {
         return $this->hasMany(Checkpoint::class, 'route_id', 'id');
