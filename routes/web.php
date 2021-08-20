@@ -76,6 +76,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::put('agency/update_status/{agency}', [AgencyController::class, 'update_status'])->name('agency.update_status');
 
+    Route::get('sketch/orders', [SketchController::class, 'getDeparturingOrders']);
+
     Route::resources([
         'fleets' => FleetController::class,
         'fleetclass' => FleetClassController::class,
