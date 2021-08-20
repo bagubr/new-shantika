@@ -36,6 +36,7 @@ class OrderListAgentResource extends JsonResource
             'name_fleet'                => $fleet->name,
             'fleet_class'               => $fleet->fleetclass?->name,
             'departure_at'              => $route->departure_at,
+            'arrived_at'                => $route->arrived_at,
             'chairs'                    => @OrderDetailChairResource::collection($this->order_detail),
             'price'                     => $this->price,
             'reserve_at'                => $this->reserve_at,

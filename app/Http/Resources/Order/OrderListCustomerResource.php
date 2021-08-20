@@ -29,6 +29,8 @@ class OrderListCustomerResource extends JsonResource
             'name_fleet'=>$fleet->name,
             'fleet_class'=>$fleet->fleetclass?->name,
             'created_at'=>date('Y-m-d H:i:s', strtotime($this->created_at)),
+            'departure_at'=>$route->departure_at,
+            'arrived_at'=>$route->arrived_at,
             'price'=>$this->price,
             'status'=>$this->status,
             'checkpoints'        => new CheckpointStartEndResource($route),
