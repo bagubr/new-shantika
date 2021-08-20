@@ -28,8 +28,8 @@ class AvailableRoutesResource extends JsonResource
             'route_name'         => $route->name,
             'fleet_name'         => $this->fleet?->name ?? "",
             'fleet_class'        => $this->fleet?->fleetclass->name,
-            'departure_at'       => $this->departure_at,
-            'arrived_at'         => $this->arrived_at,
+            'departure_at'       => $this->route->departure_at,
+            'arrived_at'         => $this->route->arrived_at,
             'price'              => $this->price,
             'chairs_available'   => $this->getChairsAvailable($request, $this->fleet_id, $this->id, $this->fleet->layout->id),
             'checkpoints'        => new CheckpointStartEndResource($route)
