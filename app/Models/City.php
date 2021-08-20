@@ -12,7 +12,7 @@ class City extends Model
     protected $table = 'cities';
 
     protected $fillable = [
-        'name', 'province_id'
+        'name', 'province_id', 'area_id'
     ];
 
     protected $hidden = [
