@@ -29,9 +29,9 @@ class OrderPriceDistributionService {
     }
 
     public static function calculateDistribution($order, $order_details) {
-        $ticket_only = $order->route?->price - $order?->route?->fleet?->fleetclass?->price_food;
+        $ticket_only = $order->fleet_route?->price - $order?->fleet_route?->fleet?->fleetclass?->price_food;
         $total_price = [
-            'for_food'=>$order?->route?->fleet?->fleetclass?->price_food * count($order_details),
+            'for_food'=>$order?->fleet_route?->fleet?->fleetclass?->price_food * count($order_details),
             'for_travel'=>0,
             'for_member'=>0,
             'for_agent'=>$ticket_only * count($order_details),
@@ -40,7 +40,7 @@ class OrderPriceDistributionService {
         $setting = Setting::first();
         foreach($order_details as $order_detail) {
             if(!$order_detail->is_feed) {
-                $total_price['for_food'] -=  $order->route?->fleet?->fleetclass?->price_food;
+                $total_price['for_food'] -=  $order->fleet_route?->fleet?->fleetclass?->price_food;
             }
             if($order_detail->is_travel) {
                 $total_price['for_travel'] += $setting->travel;
