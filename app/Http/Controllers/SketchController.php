@@ -9,18 +9,34 @@ class SketchController extends Controller
 {
     public function index(Request $request)
     {
-        $date = $request->date??null;
-        $area_id = $request->area_id??null;
+        return view('sketch.index_1');
+    }
+
+    public function getDeparturingOrders(Request $request)
+    {
+        $date = $request->date ?? date('Y-m-d');
+        $area_id = $request->area_id;
         $orders = Order::whereIn('status', Order::STATUS_BOUGHT)
-        ->with('distribution')
-        ->when(($request->date), function ($query) use ($request)
-        {
-            $query->whereDate('reserve_at', $request->date);
-        })->get()->groupBy('route_id');
+            ->with('fleet_route.fleet.fleetclass', 'fleet_route.route')
+            ->with('fleet_route.fleet.layout')
+            ->withCount(['order_detail'=>function($query) {
+                $query->whereHas('order', function($subquery) {
+                    $subquery->whereRaw('fleet_route_id = orders.fleet_route_id');
+                });
+            }])
+            ->when($date, function ($query) use ($date) {
+                $query->whereDate('reserve_at', $date);
+            })
+            ->when($area_id, function($query) use ($area_id) {
+                $query->whereHas('fleet_route.route.departure_city', function($subquery) use ($area_id) {
+                    $subquery->where('area_id', $area_id);
+                });
+            })
+            ->distinct('fleet_route_id')
+            ->get();
         
-        $data = [
-            'sketchs' => $orders
-        ];
-        return view('sketch.index', compact('data', 'date', 'area_id'));
+        return response([
+            'orders'=>$orders
+        ]);
     }
 }
