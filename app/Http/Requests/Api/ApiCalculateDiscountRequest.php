@@ -19,7 +19,6 @@ class ApiCalculateDiscountRequest extends ApiRequest
             'is_food'=>'required|boolean',
             'is_travel'=>'required|boolean',
             'is_member'=>'required|boolean',
-            'route_id'=>'required',
             'seat_count'=>'required|numeric'
         ];
     }
