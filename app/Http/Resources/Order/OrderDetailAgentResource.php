@@ -42,6 +42,7 @@ class OrderDetailAgentResource extends JsonResource
             'created_at'                =>date('Y-m-d H:i:s', strtotime($this->created_at)),
             'reserve_at'                =>date('Y-m-d H:i:s', strtotime($this->reserve_at)),
             'departure_at'              =>$route->departure_at,
+            'arrived_at'                =>$route->arrived_at,
             'status'                    =>$this->status,
             'name_passenger'            =>$order_detail[0]->name ?? "",
             'phone_passenger'           =>$order_detail[0]->phone ?? "",
