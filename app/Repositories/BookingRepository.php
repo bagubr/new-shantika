@@ -20,8 +20,8 @@ class BookingRepository {
         return Booking::with(['route', 'chair'])->where('code_booking', $code_booking)->get();
     }
 
-    public static function getTodayByRoute($route_id) {
-        return Booking::where('route_id', $route_id)
+    public static function getTodayByRoute($fleet_route_id) {
+        return Booking::where('fleet_route_id', $fleet_route_id)
             ->where('expired_at', '>=', date('Y-m-d H:i:s'))
             ->get();
     }

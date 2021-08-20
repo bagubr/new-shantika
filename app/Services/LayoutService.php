@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Booking;
+use App\Models\FleetRoute;
 use App\Models\Layout;
 use App\Models\Order;
 use App\Models\Route;
@@ -11,15 +12,15 @@ use App\Repositories\OrderRepository;
 use App\Repositories\UserRepository;
 
 class LayoutService {
-    public static function getAvailibilityChairs(Layout $layout, Route $route, $date = null) {
+    public static function getAvailibilityChairs(Layout $layout, FleetRoute $fleet_route, $date = null) {
         if(empty($date)) {
             $date = date('Y-m-d');
         }
         $user_id = UserRepository::findByToken(request()->bearerToken())?->id;
-        $booking = BookingRepository::getTodayByRoute($route->id);
+        $booking = BookingRepository::getTodayByRoute($fleet_route->id);
         $unavailable = OrderRepository::getAtDate($date);
 
-        $layout->chairs = $layout->chairs->map(function ($item) use ($route, $date, $unavailable, $booking, $user_id) {
+        $layout->chairs = $layout->chairs->map(function ($item) use ($fleet_route, $date, $unavailable, $booking, $user_id) {
             $item->is_booking = $booking->where('layout_chair_id', $item->id)->isNotEmpty();
             $item->is_unavailable = $unavailable->filter(function($e) use ($item) {
                 return $e->order_detail->where('layout_chair_id', $item->id)->first();
