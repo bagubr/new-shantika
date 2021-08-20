@@ -20,13 +20,16 @@ class RouteController extends BaseRouteController
         if($request->date > $max_date) {
             $this->sendFailedResponse([], 'Kamu tidak bisa memesan untuk tanggal lebih dari '.$max_date);
         }
+        $user = UserRepository::findByToken($request->bearerToken());
+        $departure_agency = AgencyRepository::findWithCity($user->agencies->agency_id);
         $destination_agency = AgencyRepository::findWithCity($request->agency_id);
         $routes = $routes = FleetRoute::with(['route.fleet', 'route.checkpoints.agency.city'])
             ->whereHas('fleet', function($query) use ($request) { 
                 $query->where('fleet_class_id', $request->fleet_class_id);
             })
-            ->whereHas('route', function($query) use ($destination_agency) {
-                $query->where('destination_city_id', $destination_agency->city_id);
+            ->whereHas('route', function($query) use ($destination_agency, $departure_agency) {
+                $query->where('destination_city_id', $destination_agency->city_id)
+                    ->where('departure_agency_id', $departure_agency->city_id);
             })
             ->when(($request->time), function ($que) use ($request) {
                 $que->whereHas('route', function($query) use ($request){
