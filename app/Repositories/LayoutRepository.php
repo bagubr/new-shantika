@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Http\Resources\Layout\LayoutResource;
+use App\Models\FleetRoute;
 use App\Models\Layout;
 use App\Models\Route;
 use App\Services\LayoutService;
@@ -20,9 +21,9 @@ class LayoutRepository
         return Layout::with('chairs')->find($id);
     }
     
-    public static function findByRoute(Route $route)
+    public static function findByFleetRoute(FleetRoute $fleet_route)
     {
-        $layout = Layout::with('chairs')->find($route->fleet->layout_id);
+        $layout = Layout::with('chairs')->find($fleet_route->fleet->layout_id);
 
         return $layout;
     }
