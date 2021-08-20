@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Route;
 
+use App\Http\Resources\CheckpointResource;
 use App\Http\Resources\CheckpointStartEndResource;
 use App\Models\Fleet;
 use App\Models\LayoutChair;
@@ -23,16 +24,17 @@ class AvailableRoutesResource extends JsonResource
     {
         $route = $this->route;
         return [
-            'id'                 => $this->id,
-            'layout_id'          => $this->fleet->layout->id,
-            'route_name'         => $route->name,
-            'fleet_name'         => $this->fleet?->name ?? "",
-            'fleet_class'        => $this->fleet?->fleetclass->name,
-            'departure_at'       => $this->route->departure_at,
-            'arrived_at'         => $this->route->arrived_at,
-            'price'              => $this->price,
-            'chairs_available'   => $this->getChairsAvailable($request, $this->fleet_id, $this->id, $this->fleet->layout->id),
-            'checkpoints'        => new CheckpointStartEndResource($route)
+            'id'                        => $this->id,
+            'layout_id'                 => $this->fleet->layout->id,
+            'route_name'                => $route->name,
+            'fleet_name'                => $this->fleet?->name ?? "",
+            'fleet_class'               => $this->fleet?->fleetclass->name,
+            'departure_at'              => $this->route->departure_at,
+            'arrived_at'                => $this->route->arrived_at,
+            'price'                     => $this->price,
+            'chairs_available'          => $this->getChairsAvailable($request, $this->fleet_id, $this->id, $this->fleet->layout->id),
+            'checkpoints'               => new CheckpointStartEndResource($route),
+            'checkpoint_destination'    => new CheckpointResource($this->fleet_route?->route->checkpoints()->where('agency_id', $request->agency_arrived_id ?? $request->agency_id)->first())
         ];
     }
 
