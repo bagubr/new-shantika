@@ -26,6 +26,10 @@ class Notification extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function getCreatedAtAttribute($value) {
+        return date('Y-m-d H:i:s', strtotime($value));
+    }
+
     public static function build($title, $body, $type, $reference_id = null, $user_id = null) {
         return new Notification([
             'title'=>$title,
