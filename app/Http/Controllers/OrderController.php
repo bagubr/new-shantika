@@ -42,7 +42,9 @@ class OrderController extends Controller
         $agent = ['AGENT', 'UMUM'];
 
         if (!empty($routes_search)) {
-            $orders = $orders->where('route_id', $routes_search);
+            $orders = $orders->whereHas('fleet_route', function ($q) use ($routes_search) {
+                $q->where('route_id', '=', $routes_search);
+            });
         }
         if (!empty($status_search)) {
             $orders = $orders->where('status', $status_search);

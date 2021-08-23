@@ -60,6 +60,31 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item {{Request::routeIs('routes.*','fleet_route.*') ? 'menu-open' : ''}}">
+                    <a href="#" class="nav-link {{Request::routeIs('routes.*','fleet_route.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-route"></i>
+                        <p>
+                            Rute
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('routes.index')}}"
+                                class="nav-link {{Request::routeIs('routes.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Rute</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('fleet_route.index')}}"
+                                class="nav-link {{Request::routeIs('fleet_route.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Rute Armada</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="nav-item {{Request::routeIs('area.*','province.*','city.*') ? 'menu-open' : ''}}">
                     <a href="#" class="nav-link {{Request::routeIs('area.*','province.*','city.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-map-marker"></i>
@@ -116,14 +141,7 @@
                     </p>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="{{route('routes.index')}}" class="nav-link {{Request::routeIs('routes.*') ? 'active' : ''}}">
-                    <i class="nav-icon fas fa-route"></i>
-                    <p>
-                        Rute
-                    </p>
-                </a>
-            </li>
+
             <li class="nav-item {{Request::routeIs('agency.*','user_agent.*') ? 'menu-open' : ''}}">
                 <a href="#" class="nav-link {{Request::routeIs('agency.*','user_agent.*') ? 'active' : ''}}">
                     <i class="nav-icon fas fa-street-view"></i>

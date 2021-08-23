@@ -137,7 +137,8 @@ Route
                             @foreach ($route_fleets as $route_fleet)
                             <tr>
                                 <td>{{$route_fleet->fleet?->name}}</td>
-                                <td>Rp. {{number_format($route_fleet->price,2)}}</td>@if ($route_fleet->is_active == 1)
+                                <td>Rp. {{number_format($route_fleet->price,2)}}</td>
+                                @if ($route_fleet->is_active == 1)
                                 <td data-toggle="modal" data-target="#exampleModal{{$route_fleet->id}}"
                                     class="text-success text-bold">
                                     Aktif
@@ -149,6 +150,8 @@ Route
                                 </td>
                                 @endif
                                 <td>
+                                    <a href="{{route('fleet_route.edit',$route_fleet->id)}}"
+                                        class="btn btn-warning btn-xs">Edit</a>
                                     <form action="{{route('fleet_route.destroy',$route_fleet->id)}}" class="d-inline"
                                         method="POST">
                                         @csrf
@@ -169,7 +172,8 @@ Route
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form action="{{route('agency.update_status',$route_fleet->id)}}" method="POST">
+                                        <form action="{{route('fleet_route.update_status',$route_fleet->id)}}"
+                                            method="POST">
                                             @csrf
                                             @method('PUT')
                                             <div class="modal-body">
