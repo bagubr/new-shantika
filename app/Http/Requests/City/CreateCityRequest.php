@@ -25,7 +25,8 @@ class CreateCityRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'province_id' => 'required|exists:provinces,id'
+            'province_id' => 'required|exists:provinces,id',
+            'area_id' => 'required|exists:areas,id'
         ];
     }
 }
