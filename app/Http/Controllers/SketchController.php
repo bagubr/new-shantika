@@ -54,7 +54,13 @@ class SketchController extends Controller
         $layout = LayoutService::getAvailibilityChairs($layout, $fleet_route, $request->date);
         
         $this->sendSuccessResponse([
-            'data'=> new LayoutResource($layout)
+            'data'=> new LayoutResource($layout),
+            'fleet'=>$fleet_route->fleet?->load('fleetclass')
         ]);
     }
+
+    public function store(Request $request) {
+        $form = $request->form;
+    }
+    
 }
