@@ -115,18 +115,4 @@ class OrderController extends Controller
             'order'=>new OrderSetoranDetailAgentResource($order)
         ]);
     }
-
-    public function calculateDiscount(ApiCalculateDiscountRequest $request) {
-        $setting =  Setting::first();
-        $data = [
-            'total_food'=>$request->is_food ? 0 : -20000 * $request->seat_count,
-            'total_travel'=>$request->is_travel ? $setting->travel * $request->seat_count : 0,
-            'total_member'=>$request->is_member ? $setting->member * $request->seat_count : 0
-        ];
-        $data = array_merge($data, [
-            'price_ticket'=>(int) $request->price_ticket,
-            'total_price'=>($request->price_ticket * $request->seat_count + $data['total_food'] + $data['total_travel'] - $data['total_member'])
-        ]);
-        return $this->successResponse($data);
-    }
 }
