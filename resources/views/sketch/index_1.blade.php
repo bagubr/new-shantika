@@ -103,13 +103,13 @@
             <div class="modal-dialog modal-xl modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">C3 -> D3</h4>
+                        <h4 class="modal-title">@{{this.firstLayout.fleet.name}} -> @{{this.secondLayout.fleet.name}}</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Memindahkan penumpang dari bis <b>C3</b> ke <b>D3</b></p>
+                        <p>Memindahkan penumpang dari bis <b>@{{this.firstLayout.fleet.name}}</b> ke <b>@{{this.secondLayout.fleet.name}}</b></p>
                         <div class="row">
                             <div class="col-6 border-right">
                                 <div class="form-group position-sticky bg-white pb-1 pt-1" style="top: -17px">
@@ -117,7 +117,7 @@
                                     <div class="row">
                                         <div class="col">
                                             <select name="" class="form-control" id="">
-                                                <option value="">A3 (Executive | 09:04:20 - 11:20:21) </option>
+                                                <option :value="order.id" v-for="order in result.orders" :key="order.id" v-text="setSelectOptionLayoutText(order)"></option>
                                             </select>
                                         </div>
                                         <div class="col-auto">
@@ -137,12 +137,59 @@
                                     <div v-if="firstLayout.isShowInGrid">
                                         <div v-for="i in firstLayout.data.row" class="d-flex">
                                             <div v-for="j in firstLayout.data.col" class="m-1">
-                                                <button v-html="loadText(i,j,0)" :class="loadClass(i,j,0)" data-toggle="popover" data-content="Aaaaa" title="aa" style="min-width: 100px"></button>
+                                                <button 
+                                                    v-html="loadText(i,j,0)"
+                                                    :class="loadClass(i,j,0)" 
+                                                    style="min-width: 100px"
+                                                    ref="btn-first-layout"
+                                                    @click="selectSeat(i,j,0)"></button>
                                             </div>
                                         </div>
                                     </div>
                                     <div v-else>
                                         <div v-for="i in firstLayout.data.chairs" class="w-100">
+                                            <p>Ayy</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 border-right">
+                                <div class="form-group position-sticky bg-white pb-1 pt-1" style="top: -17px">
+                                    <label for="">Armada</label>
+                                    <div class="row">
+                                        <div class="col">
+                                            <select name="" class="form-control" id="" @change="handleChangeFocusSecondLayout($event)">
+                                                <option :value="order.id" v-for="order in result.orders" :key="order.id" v-text="setSelectOptionLayoutText(order)"></option>
+                                            </select>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button class="btn btn-secondary">
+                                                <i class="fas fa-list"></i>
+                                            </button>
+                                            <button class="btn btn-secondary">
+                                                <i class="fas fa-th"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-if="secondLayout.isLoading" class="w-100 row justify-content-center">
+                                    <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_Stt1R6.json"  background="transparent"  speed="1"  style="width: 100px; height: 100px;"  loop autoplay></lottie-player>
+                                </div>
+                                <div v-else>
+                                    <div v-if="secondLayout.isShowInGrid">
+                                        <div v-for="i in secondLayout.data.row" class="d-flex">
+                                            <div v-for="j in secondLayout.data.col" class="m-1">
+                                                <button 
+                                                    v-html="loadText(i,j,0)"
+                                                    :class="loadClass(i,j,0)" 
+                                                    style="min-width: 100px"
+                                                    ref="btn-second-layout"
+                                                    @click="selectSeat(i,j,0)"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div v-else>
+                                        <div v-for="i in secondLayout.data.chairs" class="w-100">
                                             <p>Ayy</p>
                                         </div>
                                     </div>
@@ -192,17 +239,25 @@
                 secondLayout: {
                     fleetRouteId: null,
                     isLoading: false,
+                    isShowInGrid: true,
                     fleet: {},
                     data: {}
-                }
+                },
+                form: []
             },
             methods: {
                 searchOrders() {
                     let params = new URLSearchParams(this.filter)
                     fetch('/sketch/orders?'+params).then(res => res.json()).then(res => {
                         this.result.orders = res.orders
-                        console.log(this.result.orders)
                     })
+                },
+                setSelectOptionLayoutText(order) {
+                    let fleetName = order.fleet_route.fleet.name
+                    let fleetClass = order.fleet_route.fleet.fleetclass.name
+                    let at = `${order.fleet_route.route.departure_at} - ${order.fleet_route.route.arrived_at}`
+
+                    return `${fleetName} (${fleetClass}) [ ${at} ]`
                 },
                 handleChangeFocusFirstLayout(fleetRouteId) {
                     this.firstLayout.fleetRouteId = fleetRouteId
@@ -221,21 +276,24 @@
                     fetch('/sketch/orders/detail?'+params).then(res => res.json()).then(res => {
                         console.log(res)
                         this.firstLayout.data = res.data
+                        this.firstLayout.fleet = res.fleet
                     }).finally(() => {
                         this.firstLayout.isLoading = false
+                        this.handleChangeFocusSecondLayout(this.firstLayout.fleetRouteId)
                     })
                 },
                 getSecondLayout() {
-                    this.firstLayout.isLoading = true
+                    this.secondLayout.isLoading = true
                     let params = new URLSearchParams({
-                        fleet_route_id: this.firstLayout.fleetRouteId,
+                        fleet_route_id: this.secondLayout.fleetRouteId,
                         date: this.filter.date
                     })
                     fetch('/sketch/orders/detail?'+params).then(res => res.json()).then(res => {
                         console.log(res.data)
                         this.secondLayout.data = res.data
+                        this.secondLayout.fleet = res.fleet
                     }).finally(() => {
-                        this.firstLayout.isLoading = false
+                        this.secondLayout.isLoading = false
                     }) 
                 },
                 getCurrentIndexByRowCol(row, col) {
@@ -259,7 +317,7 @@
                     } else if (chair.is_toilet) {
                         return `<i class="fas fa-toilet"></i>`
                     } else if (chair.is_unavailable) {
-                        return `<i class="fas fa-user-slash"></i>`
+                        return `<i class="fas fa-user"></i>`
                     } else {
                         return `<i class="fas fa-chair"></i>`
                     }
@@ -281,6 +339,8 @@
                         return "btn btn-secondary"
                     } else if (chair.is_toilet) {
                         return "btn btn-warning"
+                    } else if (chair.is_unavailable) {
+                        return "btn btn-danger"
                     } else {
                         return "btn btn-primary"
                     }
@@ -297,7 +357,12 @@
                             throw new Error('Unsupported layout');
                             break;
                     }
-                }
+                },
+                selectSeat(row,col,which) {
+                    this.whichLayout(which)
+                    this.$refs['btn-first-layout'][this.getCurrentIndexByRowCol(row,col)].classList.value = "btn bg-teal"
+                    this.$refs['btn-first-layout'][this.getCurrentIndexByRowCol(row,col)].innerHTML = `<i class="fas fa-user-check"></i>`
+                },
             },
             mounted() {
                 this.searchOrders()
