@@ -13,6 +13,7 @@ use App\Models\FleetRoute;
 use App\Models\Route;
 use App\Repositories\AgencyRepository;
 use App\Repositories\RoutesRepository;
+use Illuminate\Support\Facades\Route as FacadesRoute;
 
 class RoutesController extends Controller
 {
@@ -34,10 +35,11 @@ class RoutesController extends Controller
      */
     public function create()
     {
+        $name = FacadesRoute::currentRouteName();
         $areas = Area::all();
         $cities = City::all();
         $fleets = Fleet::all();
-        return view('routes.create', compact('cities', 'areas', 'fleets'));
+        return view('routes.create', compact('cities', 'areas', 'fleets', 'name'));
     }
 
     /**
@@ -115,7 +117,8 @@ class RoutesController extends Controller
     {
         $areas = Area::all();
         $cities = City::all();
-        return view('routes.create', compact('areas', 'cities', 'route'));
+        $fleets = Fleet::all();
+        return view('routes.create', compact('areas', 'cities', 'route', 'fleets'));
     }
 
     /**

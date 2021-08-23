@@ -40,7 +40,7 @@ Armada
                             <thead>
                                 <tr>
                                     <th>Nama</th>
-                                    <th>Kelas Armada</th>
+                                    <th>Rute</th>
                                     <th>Gambar</th>
                                     <th>Layout</th>
                                     <th>Aksi</th>
@@ -50,6 +50,11 @@ Armada
                                 @foreach ($fleets as $fleet)
                                 <tr>
                                     <td>{{$fleet->name}}</td>
+                                    <td>
+                                        @foreach ($fleet->fleet_routes as $route)
+                                        {{$route->route?->name}},
+                                        @endforeach
+                                    </td>
                                     <td>
                                         <a href="{{route('fleetclass.edit', $fleet->fleet_class_id)}}"
                                             target="_blank">{{$fleet->fleetclass?->name ?? '-'}}</a>

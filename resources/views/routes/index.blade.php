@@ -37,7 +37,6 @@ Route
                             <thead>
                                 <tr>
                                     <th>Nama</th>
-                                    <th>Area</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -45,7 +44,6 @@ Route
                                 @foreach ($routes as $route)
                                 <tr>
                                     <td>{{$route->name}}</td>
-                                    <td>{{$route->area->name ?? 'Belum Ada Area Terdaftar'}}</td>
                                     <td>
                                         <a class="btn btn-primary btn-xs" href="{{route('routes.show',$route->id)}}"
                                             target="_blank">Detail</a>
