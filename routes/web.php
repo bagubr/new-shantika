@@ -79,6 +79,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('fleet_route/update_status/{fleet_route}', [FleetRouteController::class, 'update_status'])->name('fleet_route.update_status');
 
     Route::get('sketch/orders', [SketchController::class, 'getDeparturingOrders']);
+    Route::get('sketch/orders/detail', [SketchController::class, 'getAvailibilityChairs']);
+    
     Route::post('routes/fleet/store/', [RoutesController::class, 'store_fleet'])->name('route.fleet.store');
 
     Route::resources([
