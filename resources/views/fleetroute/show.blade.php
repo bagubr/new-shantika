@@ -94,7 +94,36 @@ Rute Armada
                     </div>
                 </div>
                 <div class="card-body">
-                    <table></table>
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Kode Order</th>
+                                <th>Pemesan</th>
+                                <th>Jumlah Pesanan</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($orders as $order)
+                            <tr>
+                                <td>{{$order->code_order}}</td>
+                                <td>{{$order->user->name}}</td>
+                                <td>{{$order->order_detail->count()}}</td>
+                                <td>
+                                    <a href="{{route('order.edit',$order->id)}}" class="btn btn-warning btn-xs">Edit</a>
+                                    <form action="{{route('order.destroy',$order->id)}}" class="d-inline" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger btn-xs"
+                                            onclick="return confirm('Apakah Anda yakin akan menghapus data order?')"
+                                            type="submit">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -111,5 +140,12 @@ Rute Armada
         theme: 'bootstrap4'
     })
 
+</script>
+<script>
+    $(function () {
+      $("#example1").DataTable({
+        "responsive": true, "lengthChange": false, "autoWidth": false,
+      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
 </script>
 @endpush

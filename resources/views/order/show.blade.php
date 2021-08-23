@@ -46,10 +46,10 @@ Pesanan
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="">Rute</label>
-                        <a href="{{route('routes.show',$order->route_id)}}">
+                        <label>Rute</label>
+                        <a href="{{route('routes.show',$order->fleet_route_id)}}">
                             <p>
-                                {{$order->route->name}}
+                                {{$order->fleet_route?->route?->name}}
                             </p>
                         </a>
                     </div>
