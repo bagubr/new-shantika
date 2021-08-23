@@ -30,11 +30,7 @@ Armada Rute
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Table Armada Rute</h3>
-                        <div class="text-right">
-                            <a href="{{route('fleet_route.create')}}" class="btn btn-primary btn-sm">Tambah</a>
-                        </div>
                     </div>
-                    <!-- /.card-header -->
                     <div class="card-body">
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
