@@ -172,7 +172,8 @@ Route
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form action="{{route('agency.update_status',$route_fleet->id)}}" method="POST">
+                                        <form action="{{route('fleet_route.update_status',$route_fleet->id)}}"
+                                            method="POST">
                                             @csrf
                                             @method('PUT')
                                             <div class="modal-body">
