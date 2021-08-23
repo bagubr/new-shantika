@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call([FleetClassSeeder::class]);
         $this->call([LayoutSeeder::class]);
         $this->call([FleetSeeder::class]);
-        $this->call([RouteSeeder::class]);
+        // $this->call([RouteSeeder::class]);
         $this->call([CustomerMenuSeeder::class]);
         $this->call([SliderSeeder::class]);
         $this->call([ArticleSeeder::class]);

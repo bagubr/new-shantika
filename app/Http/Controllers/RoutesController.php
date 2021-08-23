@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FleetRoute\CreateFleetRouteRequest;
 use App\Http\Requests\Routes\CreateRoutesRequest;
 use App\Http\Requests\Routes\UpdateRouteRequest;
-use App\Models\Agency;
 use App\Models\Area;
 use App\Models\Checkpoint;
 use App\Models\City;
@@ -13,9 +12,7 @@ use App\Models\Fleet;
 use App\Models\FleetRoute;
 use App\Models\Route;
 use App\Repositories\AgencyRepository;
-use App\Repositories\FleetRepository;
 use App\Repositories\RoutesRepository;
-use Illuminate\Support\Facades\Route as FacadesRoute;
 
 class RoutesController extends Controller
 {
@@ -39,7 +36,8 @@ class RoutesController extends Controller
     {
         $areas = Area::all();
         $cities = City::all();
-        return view('routes.create', compact('cities', 'areas'));
+        $fleets = Fleet::all();
+        return view('routes.create', compact('cities', 'areas', 'fleets'));
     }
 
     /**
@@ -52,11 +50,18 @@ class RoutesController extends Controller
     {
         $data = $request->all();
         $route = Route::create($data);
-
+        foreach ($request->fleet_id as $key => $value) {
+            FleetRoute::create([
+                'route_id' => $route->id,
+                'fleet_id' => $value,
+                'price' => $request->price[$key]
+            ]);
+        }
         $name = '~' . $route->departure_city()->first()->name . '~' . $route->destination_city()->first()->name . '~';
         $route->update([
             'name' => $name,
         ]);
+
         session()->flash('success', 'Route Berhasil Ditambahkan');
         return redirect(route('routes.index'));
 
