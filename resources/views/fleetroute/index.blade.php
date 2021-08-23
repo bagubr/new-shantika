@@ -62,6 +62,8 @@ Armada Rute
                                     </td>
                                     @endif
                                     <td>
+                                        <a href="{{route('fleet_route.show',$fleet_route->id)}}"
+                                            class="btn btn-primary btn-xs">Detail</a>
                                         <a href="{{route('fleet_route.edit',$fleet_route->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('fleet_route.destroy',$fleet_route->id)}}"
