@@ -19,7 +19,9 @@ class ApiCalculateDiscountRequest extends ApiRequest
             'is_food'=>'required|boolean',
             'is_travel'=>'required|boolean',
             'is_member'=>'required|boolean',
-            'seat_count'=>'required|numeric'
+            'seat_count'=>'required|numeric',
+            'price_ticket'=>'required|numeric',
+            'fleet_route_id'=>'sometimes|required|numeric'
         ];
     }
 }

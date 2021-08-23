@@ -22,7 +22,7 @@ class OrderController extends Controller
                 ? $fleet_route->fleet?->fleetclass?->price_food * $request->seat_count 
                 : 0,
             'total_travel'=>$request->is_travel ? $setting->travel * $request->seat_count : 0,
-            'total_member'=>$request->is_member ? $setting->member * $request->seat_count : 0
+            'total_member'=>$request->is_member ? -($setting->member) * $request->seat_count : 0
         ];
 
         $price_with_food = $request->is_food 
