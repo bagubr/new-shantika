@@ -128,7 +128,7 @@ Route
                         <thead>
                             <tr>
                                 <th>Armada</th>
-                                <th>Kedatangan</th>
+                                <th>Harga</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -158,6 +158,40 @@ Route
                                     </form>
                                 </td>
                             </tr>
+                            <div class="modal fade" id="exampleModal{{$route_fleet->id}}" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Ubah Status
+                                                {{$route_fleet->name}}</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form action="{{route('agency.update_status',$route_fleet->id)}}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <select class="form-control input" name="is_active">
+                                                        @foreach ($statuses as $s => $key)
+                                                        <option value="{{$s}}" @if ($s==$route_fleet->is_active)
+                                                            selected
+                                                            @endif>{{$key}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Batal</button>
+                                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                             @endforeach
                         </tbody>
                     </table>

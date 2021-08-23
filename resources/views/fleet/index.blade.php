@@ -40,9 +40,9 @@ Armada
                             <thead>
                                 <tr>
                                     <th>Nama</th>
-                                    <th>Rute</th>
-                                    <th>Gambar</th>
+                                    <th>Kelas Armada</th>
                                     <th>Layout</th>
+                                    <th>Gambar</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -51,13 +51,12 @@ Armada
                                 <tr>
                                     <td>{{$fleet->name}}</td>
                                     <td>
-                                        @foreach ($fleet->fleet_routes as $route)
-                                        {{$route->route?->name}},
-                                        @endforeach
-                                    </td>
-                                    <td>
                                         <a href="{{route('fleetclass.edit', $fleet->fleet_class_id)}}"
                                             target="_blank">{{$fleet->fleetclass?->name ?? '-'}}</a>
+                                    </td>
+                                    <td>
+                                        <a href="{{route('layouts.edit', $fleet->layout_id)}}"
+                                            target="_blank">{{$fleet->layout?->name ?? '-'}}</a>
                                     </td>
                                     <td>
                                         @if ($fleet->image)
@@ -67,10 +66,6 @@ Armada
                                             Tidak Ada Gambar
                                             @endif
                                         </a>
-                                    </td>
-                                    <td>
-                                        <a href="{{route('layouts.edit', $fleet->layout_id)}}"
-                                            target="_blank">{{$fleet->layout?->name ?? '-'}}</a>
                                     </td>
                                     <td>
                                         <a href="{{route('fleets.edit',$fleet->id)}}"

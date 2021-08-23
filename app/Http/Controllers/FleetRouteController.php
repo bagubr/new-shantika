@@ -72,6 +72,14 @@ class FleetRouteController extends Controller
     {
         //
     }
+    public function update_status(Request $request, FleetRoute $fleet_route)
+    {
+        $fleet_route->update([
+            'is_active' => $request->is_active,
+        ]);
+        session()->flash('success', 'Status Rute Armada Berhasil Diubah');
+        return redirect()->back();
+    }
 
     /**
      * Remove the specified resource from storage.

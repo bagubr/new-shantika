@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FleetRoute\CreateFleetRouteRequest;
 use App\Http\Requests\Routes\CreateRoutesRequest;
 use App\Http\Requests\Routes\UpdateRouteRequest;
+use App\Models\Agency;
 use App\Models\Area;
 use App\Models\Checkpoint;
 use App\Models\City;
@@ -104,7 +105,8 @@ class RoutesController extends Controller
         $agencies = AgencyRepository::all();
         $fleets = Fleet::all();
         $route_fleets = FleetRoute::where('route_id', $route->id)->get();
-        return view('routes.show', compact('route', 'agencies', 'checkpoints', 'fleets', 'route_fleets'));
+        $statuses = Agency::status();
+        return view('routes.show', compact('route', 'agencies', 'checkpoints', 'fleets', 'route_fleets', 'statuses'));
     }
 
     /**
