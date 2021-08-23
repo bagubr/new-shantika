@@ -58,6 +58,13 @@
                                 <p>Layout Armada</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{route('fleet_route.index')}}"
+                                class="nav-link {{Request::routeIs('fleet_route.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Route Armada</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item {{Request::routeIs('area.*','province.*','city.*') ? 'menu-open' : ''}}">

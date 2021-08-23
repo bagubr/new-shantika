@@ -137,7 +137,8 @@ Route
                             @foreach ($route_fleets as $route_fleet)
                             <tr>
                                 <td>{{$route_fleet->fleet?->name}}</td>
-                                <td>Rp. {{number_format($route_fleet->price,2)}}</td>@if ($route_fleet->is_active == 1)
+                                <td>Rp. {{number_format($route_fleet->price,2)}}</td>
+                                @if ($route_fleet->is_active == 1)
                                 <td data-toggle="modal" data-target="#exampleModal{{$route_fleet->id}}"
                                     class="text-success text-bold">
                                     Aktif

@@ -17,7 +17,8 @@ class FleetRouteController extends Controller
      */
     public function index()
     {
-        return view('fleetroute.index');
+        $fleet_routes = FleetRoute::all();
+        return view('fleetroute.index', compact('fleet_routes'));
     }
 
     /**
