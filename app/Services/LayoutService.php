@@ -20,7 +20,7 @@ class LayoutService {
         $booking = BookingRepository::getTodayByRoute($fleet_route->id);
         $unavailable = OrderRepository::getAtDate($date);
 
-        $layout->chairs = $layout->chairs->map(function ($item) use ($fleet_route, $date, $unavailable, $booking, $user_id) {
+        $layout->chairs = $layout->chairs->map(function ($item) use ($fleet_route, $date, $layout, $unavailable, $booking, $user_id) {
             $item->is_booking = $booking->where('layout_chair_id', $item->id)->isNotEmpty();
             $item->is_unavailable = $unavailable->filter(function($e) use ($item) {
                 return $e->order_detail->where('layout_chair_id', $item->id)->first();

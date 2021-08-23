@@ -2,14 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Layout\LayoutResource;
+use App\Models\Area;
+use App\Models\FleetRoute;
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Repositories\LayoutRepository;
+use App\Services\LayoutService;
 
 class SketchController extends Controller
 {
     public function index(Request $request)
     {
-        return view('sketch.index_1');
+        $areas = Area::get();
+        return view('sketch.index_1', [
+            'areas'=>$areas
+        ]);
     }
 
     public function getDeparturingOrders(Request $request)
@@ -37,6 +45,16 @@ class SketchController extends Controller
         
         return response([
             'orders'=>$orders
+        ]);
+    }
+
+    public function getAvailibilityChairs(Request $request) {
+        $fleet_route = FleetRoute::find($request->fleet_route_id);
+        $layout = LayoutRepository::findByFleetRoute($fleet_route);
+        $layout = LayoutService::getAvailibilityChairs($layout, $fleet_route, $request->date);
+        
+        $this->sendSuccessResponse([
+            'data'=> new LayoutResource($layout)
         ]);
     }
 }

@@ -25,19 +25,19 @@ class LayoutChair extends Model
     public function getIsSpaceAttribute()
     {
         $space  = $this->layout()->first()->space_indexes;
-        return (in_array($this->index, $space))? false : true;
+        return in_array($this->index, $space);
     }
     
     public function getIsDoorAttribute()
     {
         $door   = $this->layout()->first()->door_indexes;
-        return (in_array($this->index, $door))? true : false;
+        return in_array($this->index, $door);
     }
     
     public function getIsToiletAttribute()
     {
         $toilet = $this->layout()->first()->toilet_indexes;
-        return (in_array($this->index, $toilet))? true : false;
+        return in_array($this->index, $toilet);
     }
 
     public function layout()

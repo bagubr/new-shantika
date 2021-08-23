@@ -27,8 +27,8 @@ class FleetClassController extends Controller
                         $subquery->where('departure_at', '>', $time_start);
                         $subquery->orWhere('arrived_at', '<', $time_end);
                     });
-                    $query->whereHas('checkpoints', function($subquery) use ($request) {
-                        $subquery->where('agency_id', $request->agency_id);
+                    $query->whereHas('destination_city.agent', function($subquery) use ($request) {
+                        $subquery->where('id', $request->agency_id);
                     });
                 })
                 ->get()

@@ -36,9 +36,9 @@
                             <label>Pilih Area</label>
                             <select v-model="filter.area_id" name="area_id" class="form-control" id="">
                                 <option value="">--PILIH--</option>
-                                @foreach (\App\Models\Area::get() as $area)
-                                    <option value="{{ $area->id }}" selected>{{ $area->name }}</option>
-                                @endforeach
+                                <option v-for="area in data.areas" :key="area.id" :value="area.id">
+                                    @{{area.name}}
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                     </div>
                 </div>
                 <div v-for="order in result.orders" class="col-12 col-sm-6 col-lg-4 col-xl-3">
-                    <div class="card h-100 p-2 shadow" data-toggle="modal" data-target="#modal-default">
+                    <div class="card h-100 p-2 shadow" data-toggle="modal" data-target="#modal-default" @click="handleChangeFocusFirstLayout(order.fleet_route_id)">
                         <div class="card-body">
                             <div class="row m-1">
                                 <div class="col-md-3 text-center">
@@ -99,25 +99,101 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="modal-default">
+            <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">C3 -> D3</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Memindahkan penumpang dari bis <b>C3</b> ke <b>D3</b></p>
+                        <div class="row">
+                            <div class="col-6 border-right">
+                                <div class="form-group position-sticky bg-white pb-1 pt-1" style="top: -17px">
+                                    <label for="">Armada</label>
+                                    <div class="row">
+                                        <div class="col">
+                                            <select name="" class="form-control" id="">
+                                                <option value="">A3 (Executive | 09:04:20 - 11:20:21) </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button class="btn btn-secondary">
+                                                <i class="fas fa-list"></i>
+                                            </button>
+                                            <button class="btn btn-secondary">
+                                                <i class="fas fa-th"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-if="firstLayout.isLoading" class="w-100 row justify-content-center">
+                                    <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_Stt1R6.json"  background="transparent"  speed="1"  style="width: 100px; height: 100px;"  loop autoplay></lottie-player>
+                                </div>
+                                <div v-else>
+                                    <div v-if="firstLayout.isShowInGrid">
+                                        <div v-for="i in firstLayout.data.row" class="d-flex">
+                                            <div v-for="j in firstLayout.data.col" class="m-1">
+                                                <button v-html="loadText(i,j,0)" :class="loadClass(i,j,0)" data-toggle="popover" data-content="Aaaaa" title="aa" style="min-width: 100px"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div v-else>
+                                        <div v-for="i in firstLayout.data.chairs" class="w-100">
+                                            <p>Ayy</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 @push('script')
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     {{-- <script src="https://cdn.jsdelivr.net/npm/vue@2"></script> --}}
+    <script>
+        $('[data-toggle="popover"]').popover();
+    </script>
     <script>
         var app = new Vue({
             el: '#app-sketch',
             data: {
                 csrf_token: '{{ csrf_token() }}',
                 data: {
-                    areas: []
+                    areas: {!! $areas !!}
                 },
                 filter: {
-                    date: "",
-                    area_id: ""
+                    date: new Date().toISOString().slice(0,10),
+                    area_id: {!! $areas->first()->id !!}
                 },
                 result: {
                     orders: []
+                },
+                
+                firstLayout: {
+                    fleetRouteId: null,
+                    isLoading: false,
+                    isShowInGrid: true,
+                    fleet: {},
+                    data: {},
+                },
+                secondLayout: {
+                    fleetRouteId: null,
+                    isLoading: false,
+                    fleet: {},
+                    data: {}
                 }
             },
             methods: {
@@ -125,7 +201,102 @@
                     let params = new URLSearchParams(this.filter)
                     fetch('/sketch/orders?'+params).then(res => res.json()).then(res => {
                         this.result.orders = res.orders
+                        console.log(this.result.orders)
                     })
+                },
+                handleChangeFocusFirstLayout(fleetRouteId) {
+                    this.firstLayout.fleetRouteId = fleetRouteId
+                    this.getFirstLayout()
+                },
+                handleChangeFocusSecondLayout(fleetRouteId) {
+                    this.secondLayout.fleetRouteId = fleetRouteId
+                    this.getSecondLayout()
+                },
+                getFirstLayout() {
+                    this.firstLayout.isLoading = true
+                    let params = new URLSearchParams({
+                        fleet_route_id: this.firstLayout.fleetRouteId,
+                        date: this.filter.date
+                    })
+                    fetch('/sketch/orders/detail?'+params).then(res => res.json()).then(res => {
+                        console.log(res)
+                        this.firstLayout.data = res.data
+                    }).finally(() => {
+                        this.firstLayout.isLoading = false
+                    })
+                },
+                getSecondLayout() {
+                    this.firstLayout.isLoading = true
+                    let params = new URLSearchParams({
+                        fleet_route_id: this.firstLayout.fleetRouteId,
+                        date: this.filter.date
+                    })
+                    fetch('/sketch/orders/detail?'+params).then(res => res.json()).then(res => {
+                        console.log(res.data)
+                        this.secondLayout.data = res.data
+                    }).finally(() => {
+                        this.firstLayout.isLoading = false
+                    }) 
+                },
+                getCurrentIndexByRowCol(row, col) {
+                    return (((row - 1) * this.firstLayout.data.col) + col) - 1
+                },
+                loadText(row, col, which) {
+                    this.whichLayout(which);
+                    let index = this.getCurrentIndexByRowCol(row, col)
+                    
+                    let chair;
+                    if(which == 0) {
+                        chair = this.firstLayout.data.chairs.filter((e, i) =>  e.index == index)[0]
+                    } else {
+                        chair = this.secondLayout.data.chairs.filter((e, i) =>  e.index == index)[0]
+                    }
+
+                    if(chair.is_door) {
+                        return `<i class="fas fa-door-closed"></i>`
+                    } else if (chair.is_space) {
+                        return `<i class="fas fa-people-arrows"></i>`
+                    } else if (chair.is_toilet) {
+                        return `<i class="fas fa-toilet"></i>`
+                    } else if (chair.is_unavailable) {
+                        return `<i class="fas fa-user-slash"></i>`
+                    } else {
+                        return `<i class="fas fa-chair"></i>`
+                    }
+                },
+                loadClass(row, col, which) {
+                    this.whichLayout(which);
+                    let index = this.getCurrentIndexByRowCol(row, col)
+
+                    let chair;
+                    if(which == 0) {
+                        chair = this.firstLayout.data.chairs.filter((e, i) =>  i == index)[0]
+                    } else {
+                        chair = this.secondLayout.data.chairs.filter((e, i) =>  i == index)[0]
+                    }
+
+                    if(chair.is_door) {
+                        return "btn btn-info"
+                    } else if (chair.is_space) {
+                        return "btn btn-secondary"
+                    } else if (chair.is_toilet) {
+                        return "btn btn-warning"
+                    } else {
+                        return "btn btn-primary"
+                    }
+                },
+                whichLayout(which) {
+                    switch (which) {
+                        case 0:
+                            return 0
+                            break;
+                        case 1:
+                            return 1
+                            break;
+                        default:
+                            throw new Error('Unsupported layout');
+                            break;
+                    }
                 }
             },
             mounted() {
@@ -134,21 +305,3 @@
         });
     </script>
 @endpush
-<div class="modal fade" id="modal-default">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Default Modal</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>One fine body&hellip;</p>
-            </div>
-            <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
