@@ -45,13 +45,27 @@ Pesanan
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label>Rute</label>
-                        <a href="{{route('routes.show',$order->fleet_route_id)}}">
-                            <p>
-                                {{$order->fleet_route?->route?->name}}
-                            </p>
-                        </a>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Rute</label>
+                                <a href="{{route('routes.show',$order->fleet_route?->id)}}" target="_blank">
+                                    <p>
+                                        {{$order->fleet_route?->route?->name}}
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Armada</label>
+                                <a href="{{route('fleet_route.show',$order->fleet_route?->id)}}" target="_blank">
+                                    <p>
+                                        {{$order->fleet_route?->fleet?->name}}
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-row">
                         <div class="col">

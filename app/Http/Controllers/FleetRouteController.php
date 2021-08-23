@@ -57,6 +57,13 @@ class FleetRouteController extends Controller
         $statuses = Agency::status();
         return view('fleetroute.show', compact('fleet_route', 'statuses', 'orders'));
     }
+    // public function search(Request $request)
+    // {
+    //     $date_from = $request->date_from;
+    //     $date_to = $request->date_to;
+
+    //     return view('fleetroute.show', compact('fleet_route', 'statuses', 'orders'));
+    // }
 
     /**
      * Show the form for editing the specified resource.

@@ -20,7 +20,7 @@ Rute Armada
 </section>
 <section class="content">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Edit</h3>
@@ -73,20 +73,15 @@ Rute Armada
                                 @endforeach
                             </select>
                         </div>
-                        <input type="submit" value="Tambahkan" class="btn btn-success float-right">
+                        <input type="submit" value="Ubah" class="btn btn-success float-right">
                     </form>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus repellat officiis alias nobis praesentium
-            expedita amet voluptates iste iure veritatis, similique tenetur odio assumenda, voluptatum nulla sequi nisi,
-            ipsum quaerat.
-        </div>
-        <div class="col-md-12">
+        {{-- <div class="col-md-6">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Pesanan</h3>
+                    <h3 class="card-title">Cari</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -94,39 +89,77 @@ Rute Armada
                     </div>
                 </div>
                 <div class="card-body">
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>Kode Order</th>
-                                <th>Pemesan</th>
-                                <th>Jumlah Pesanan</th>
-                                <th>Status</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($orders as $order)
-                            <tr>
-                                <td>{{$order->code_order}}</td>
-                                <td>{{$order->user->name}}</td>
-                                <td>{{$order->order_detail->count()}}</td>
-                                <td>
-                                    <a href="{{route('order.edit',$order->id)}}" class="btn btn-warning btn-xs">Edit</a>
-                                    <form action="{{route('order.destroy',$order->id)}}" class="d-inline" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-danger btn-xs"
-                                            onclick="return confirm('Apakah Anda yakin akan menghapus data order?')"
-                                            type="submit">Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    <form action="" method="get">
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Dari Tanggal</label>
+                                    <input type="date" name="date_form" class="form-control"
+                                        value="{{Carbon\Carbon::now()->format('Y-m-d')}}">
+    </div>
+    </div>
+    <div class="col">
+        <div class="form-group">
+            <label>Sampai Tanggal</label>
+            <input type="date" name="date_to" class="form-control">
+        </div>
+    </div>
+    </div>
+    <button type="submit" class="btn btn-success float-right">
+        Cari
+    </button>
+    </form>
+    </div>
+    </div>
+    </div> --}}
+    <div class="col-md-8">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Pesanan</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
                 </div>
             </div>
+            <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Kode Order</th>
+                            <th>Pemesan</th>
+                            <th>Jumlah Pesanan</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($orders as $order)
+                        <tr>
+                            <td>{{$order->reserve_at}}</td>
+                            <td>{{$order->code_order}}</td>
+                            <td>{{$order->user->name}}</td>
+                            <td>{{$order->order_detail->count()}}</td>
+                            <td>{{$order->status}}</td>
+                            <td>
+                                <a href="{{route('order.show',$order->id)}}" target="_blank"
+                                    class="btn btn-primary btn-xs">Detail</a>
+                                <form action="{{route('order.destroy',$order->id)}}" class="d-inline" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger btn-xs"
+                                        onclick="return confirm('Apakah Anda yakin akan menghapus data order?')"
+                                        type="submit">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
+    </div>
     </div>
 </section>
 @endsection

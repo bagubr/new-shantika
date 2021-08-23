@@ -75,7 +75,7 @@ class OrderController extends Controller
             $orders = $orders->where('reserve_at', '>=', $date_from_search);
         }
         $test = $request->flash();
-        $orders = $orders->orderBy('id', 'desc')->paginate(7);
+        $orders = $orders->orderBy('id', 'desc')->get();
         if (!$orders->isEmpty()) {
             session()->flash('success', 'Data Order Berhasil Ditemukan');
         } else {
