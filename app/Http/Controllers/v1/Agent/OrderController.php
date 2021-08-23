@@ -13,6 +13,7 @@ use App\Http\Resources\OrderListSetoranAgentResource;
 use App\Http\Resources\OrderSetoranDetailAgentResource;
 use App\Models\Order;
 use App\Models\OrderPriceDistribution;
+use App\Models\Setting;
 use App\Repositories\BookingRepository;
 use App\Repositories\LayoutChairRepository;
 use App\Repositories\OrderDetailRepository;
@@ -116,10 +117,11 @@ class OrderController extends Controller
     }
 
     public function calculateDiscount(ApiCalculateDiscountRequest $request) {
+        $setting =  Setting::first();
         $data = [
-            'total_food'=>$request->is_food ? 20000 * $request->seat_count : 0,
-            'total_travel'=>$request->is_travel ? 20000 * $request->seat_count : 0,
-            'total_member'=>$request->is_member ? 20000 * $request->seat_count : 0
+            'total_food'=>$request->is_food ? 0 : -20000 * $request->seat_count,
+            'total_travel'=>$request->is_travel ? $setting->travel * $request->seat_count : 0,
+            'total_member'=>$request->is_member ? $setting->member * $request->seat_count : 0
         ];
         $data = array_merge($data, [
             'price_ticket'=>(int) $request->price_ticket,
