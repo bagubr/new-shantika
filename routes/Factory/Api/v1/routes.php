@@ -4,8 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
-    'middleware'=>'api.key'
-], function() {
+    'middleware' => 'api.key'
+], function () {
     Route::post('checkUuid', 'AuthController@checkUuid');
     Route::get('privacy_policy', 'PrivacyPolicyController@index');
     Route::get('informations', 'InformationController@index');
@@ -13,7 +13,7 @@ Route::group([
     Route::get('term_and_condition', 'TermAndConditionController@index');
     Route::get('faq', 'FaqController@index');
     Route::get('time', 'TimeClassificationController@index');
-    
+
     Route::get('facility', 'FacilityController@index');
     Route::get('cities', 'CityController@index');
     Route::get('agencies', 'AgencyController@index');
@@ -43,6 +43,6 @@ Route::group([
 
     Route::get('bank_account', 'BankAccountController@index');
 
-    Route::group([],base_path('routes/Factory/Api/v1/Agen/index.php'));
-    Route::group([],base_path('routes/Factory/Api/v1/Customer/index.php'));
+    Route::group([], base_path('routes/Factory/Api/v1/Agen/index.php'));
+    Route::group([], base_path('routes/Factory/Api/v1/Customer/index.php'));
 });

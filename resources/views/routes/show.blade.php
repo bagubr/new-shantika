@@ -149,6 +149,8 @@ Route
                                 </td>
                                 @endif
                                 <td>
+                                    <a href="{{route('fleet_route.edit',$route_fleet->id)}}"
+                                        class="btn btn-warning btn-xs">Edit</a>
                                     <form action="{{route('fleet_route.destroy',$route_fleet->id)}}" class="d-inline"
                                         method="POST">
                                         @csrf

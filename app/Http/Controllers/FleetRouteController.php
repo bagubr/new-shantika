@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FleetRoute\CreateFleetRouteRequest;
+use App\Http\Requests\FleetRoute\UpdateFleetRouteRequest;
+use App\Models\Agency;
 use App\Models\FleetRoute;
 use Illuminate\Http\Request;
 
@@ -56,9 +58,10 @@ class FleetRouteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(FleetRoute $fleet_route)
     {
-        //
+        $statuses = Agency::status();
+        return view('fleetroute.edit', compact('fleet_route', 'statuses'));
     }
 
     /**
@@ -68,9 +71,13 @@ class FleetRouteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateFleetRouteRequest $request, FleetRoute $fleet_route)
     {
-        //
+        $data = $request->all();
+        $fleet_route->update($data);
+
+        session()->flash('success', 'Rute Armada Berhasil Di Ubah');
+        return redirect(route('routes.show', $request->route_id));
     }
     public function update_status(Request $request, FleetRoute $fleet_route)
     {
