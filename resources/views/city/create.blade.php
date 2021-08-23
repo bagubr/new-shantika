@@ -42,11 +42,11 @@ Kota
                         <div class="form-group">
                             <label>Nama</label>
                             <input type="text" class="form-control" name="name" placeholder="Masukkan Nama"
-                                value="{{isset($city) ? $city->name : ''}}">
+                                value="{{isset($city) ? $city->name : ''}}" required>
                         </div>
                         <div class="form-group">
                             <label>Provinsi</label>
-                            <select name="province_id" class="form-control select2" id="">
+                            <select name="province_id" class="form-control select2" required>
                                 <option value="">Pilih Provinsi</option>
                                 @foreach ($provinces as $province)
                                 <option value="{{$province->id}}" @isset($city) @if ($province->id ===
@@ -54,6 +54,17 @@ Kota
                                     selected
                                     @endif
                                     @endisset>{{$province->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Area</label>
+                            <select name="area_id" class="form-control" required>
+                                <option value="">Pilih Area</option>
+                                @foreach ($areas as $area)
+                                <option @isset($city) @if ($area->id == $city->area_id)
+                                    selected
+                                    @endif @endisset value="{{$area->id}}">{{$area->name}}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Checkpoint;
+namespace App\Http\Requests\FleetRoute;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-class CreateCheckpointRequest extends FormRequest
+class CreateFleetRouteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,11 +26,17 @@ class CreateCheckpointRequest extends FormRequest
     public function rules(Request $request)
     {
         return [
-            'route_id' => 'required|exists:routes,id',
-            'agency_id' => 'required|exists:agencies,id',
-            'order' => ['required', 'numeric', 'gt:0', Rule::unique('checkpoints')->where(function ($q) use ($request) {
+            'fleet_id' => ['required', Rule::unique('fleet_routes')->where(function ($q) use ($request) {
                 return $q->where('route_id', $request->route_id);
             })],
+            'route_id' => 'required|exists:routes,id',
+            'price' => 'required',
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'fleet_id.unique' => 'Armada Sudah Digunakan',
         ];
     }
 }

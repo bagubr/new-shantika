@@ -41,8 +41,8 @@ Armada
                                 <tr>
                                     <th>Nama</th>
                                     <th>Kelas Armada</th>
-                                    <th>Gambar</th>
                                     <th>Layout</th>
+                                    <th>Gambar</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -55,6 +55,10 @@ Armada
                                             target="_blank">{{$fleet->fleetclass?->name ?? '-'}}</a>
                                     </td>
                                     <td>
+                                        <a href="{{route('layouts.edit', $fleet->layout_id)}}"
+                                            target="_blank">{{$fleet->layout?->name ?? '-'}}</a>
+                                    </td>
+                                    <td>
                                         @if ($fleet->image)
                                         <a href="{{$fleet->image}}" data-toggle="lightbox">
                                             <img src="{{$fleet->image}}" height="100px" alt="">
@@ -62,10 +66,6 @@ Armada
                                             Tidak Ada Gambar
                                             @endif
                                         </a>
-                                    </td>
-                                    <td>
-                                        <a href="{{route('layouts.edit', $fleet->layout_id)}}"
-                                            target="_blank">{{$fleet->layout?->name ?? '-'}}</a>
                                     </td>
                                     <td>
                                         <a href="{{route('fleets.edit',$fleet->id)}}"

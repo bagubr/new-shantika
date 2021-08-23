@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\City\CreateCityRequest;
+use App\Models\Area;
 use App\Models\City;
 use App\Models\Province;
 use Illuminate\Http\Request;
@@ -27,8 +28,9 @@ class CityController extends Controller
      */
     public function create()
     {
+        $areas = Area::all();
         $provinces = Province::all();
-        return view('city.create', compact('provinces'));
+        return view('city.create', compact('provinces', 'areas'));
     }
 
     /**
@@ -65,7 +67,8 @@ class CityController extends Controller
     public function edit(City $city)
     {
         $provinces = Province::all();
-        return view('city.create', compact('city', 'provinces'));
+        $areas = Area::all();
+        return view('city.create', compact('city', 'provinces', 'areas'));
     }
 
     /**
@@ -91,10 +94,11 @@ class CityController extends Controller
      */
     public function destroy(City $city)
     {
-        if ($city->agent->count() > 0) {
-            session()->flash('error', 'Maaf Anda Tidak Bisa Menghapus Data Ini');
-            return redirect()->back();
-        }
+        // if ($city->agent->count() > 0) {
+        //     session()->flash('error', 'Maaf Anda Tidak Bisa Menghapus Data Ini');
+        //     return redirect()->back();
+        // }
+        $city->agent()->delete();
         $city->delete();
         session()->flash('success', 'Kota Berhasil Dihapus');
         return redirect(route('city.index'));

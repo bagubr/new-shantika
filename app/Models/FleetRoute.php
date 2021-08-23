@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class FleetRoute extends Model
 {
@@ -19,11 +20,13 @@ class FleetRoute extends Model
         'created_at', 'updated_at'
     ];
 
-    public function fleet() {
+    public function fleet()
+    {
         return $this->belongsTo(Fleet::class, 'fleet_id', 'id');
     }
 
-    public function route() {
+    public function route()
+    {
         return $this->belongsTo(Route::class, 'route_id', 'id');
     }
 }

@@ -13,16 +13,11 @@ class Route extends Model
 
     protected $table = 'routes';
     protected $fillable = [
-        'name', 'area_id', 'departure_city_id', 'destination_city_id'
+        'name', 'departure_city_id', 'destination_city_id', 'departure_at', 'arrived_at'
     ];
     protected $hidden = [
         'created_at', 'updated_at', 'deleted_at'
     ];
-
-    public function area()
-    {
-        return $this->belongsTo(Area::class, 'area_id');
-    }
 
     public function fleet()
     {

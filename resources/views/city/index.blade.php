@@ -38,6 +38,7 @@ Kota
                                 <tr>
                                     <th>Nama</th>
                                     <th>Provinsi</th>
+                                    <th>Area</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -45,7 +46,8 @@ Kota
                                 @foreach ($cities as $city)
                                 <tr>
                                     <td>{{$city->name}}</td>
-                                    <td>{{$city->province->name}}</td>
+                                    <td>{{$city->province?->name}}</td>
+                                    <td>{{$city->area?->name}}</td>
                                     <td>
                                         <a href="{{route('city.edit',$city->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>

@@ -15,6 +15,7 @@ use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FleetClassController;
 use App\Http\Controllers\FleetController;
+use App\Http\Controllers\FleetRouteController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\LayoutController;
@@ -75,10 +76,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('user_agent/search', [UserAgentController::class, 'search'])->name('user_agent.search');
 
     Route::put('agency/update_status/{agency}', [AgencyController::class, 'update_status'])->name('agency.update_status');
+    Route::put('fleet_route/update_status/{fleet_route}', [FleetRouteController::class, 'update_status'])->name('agency.update_status');
 
     Route::get('sketch/orders', [SketchController::class, 'getDeparturingOrders']);
     Route::get('sketch/orders/detail', [SketchController::class, 'getAvailibilityChairs']);
     
+    Route::post('routes/fleet/store/', [RoutesController::class, 'store_fleet'])->name('route.fleet.store');
+
     Route::resources([
         'fleets' => FleetController::class,
         'fleetclass' => FleetClassController::class,
@@ -116,5 +120,6 @@ Route::group(['middleware' => ['auth']], function () {
         'bank_account' => BankAccountController::class,
         'outcome' => OutcomeController::class,
         'sketch' => SketchController::class,
+        'fleet_route' => FleetRouteController::class
     ]);
 });
