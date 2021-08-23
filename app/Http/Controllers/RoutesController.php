@@ -143,7 +143,6 @@ class RoutesController extends Controller
     {
         $data = $request->all();
         FleetRoute::create($data);
-
         session()->flash('success', 'Route Armada Berhasil Ditambahkan');
         return redirect()->back();
     }

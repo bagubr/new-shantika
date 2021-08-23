@@ -3,6 +3,8 @@
 namespace App\Http\Requests\FleetRoute;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class CreateFleetRouteRequest extends FormRequest
 {
@@ -21,14 +23,20 @@ class CreateFleetRouteRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(Request $request)
     {
         return [
-            'fleet_id' => 'required|exists:fleets,id',
+            'fleet_id' => ['required', Rule::unique('fleet_routes')->where(function ($q) use ($request) {
+                return $q->where('route_id', $request->route_id);
+            })],
             'route_id' => 'required|exists:routes,id',
-            'departure_at' => 'required',
-            'arrived_at' => 'required',
             'price' => 'required',
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'fleet_id.unique' => 'Armada Sudah Digunakan',
         ];
     }
 }

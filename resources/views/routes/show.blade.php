@@ -41,20 +41,21 @@ Route
                             <div class="form-group">
                                 <label>Keberangkatan</label>
                                 <input type="text" name="departure_at" class="form-control"
-                                    value="{{$route->departure_city->name}}" disabled>
+                                    value="{{$route->departure_city?->name}}" disabled>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label>Kedatangan</label>
                                 <input type="text" name="arrived_at" class="form-control" disabled
-                                    value="{{$route->destination_city->name}}">
+                                    value="{{$route->destination_city?->name}}">
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Area</label>
-                        <input type="text" class="form-control" value="{{$route->area?->name}}" disabled>
+                        <input type="text" class="form-control" value="{{$route->departure_city?->area?->name}}"
+                            disabled>
                     </div>
                 </div>
                 <!-- /.card-body -->
@@ -86,7 +87,7 @@ Route
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-row">
+                        {{-- <div class="form-row">
                             <div class="col">
                                 <div class="form-group">
                                     <label>Waktu Keberangkatan</label>
@@ -99,7 +100,7 @@ Route
                                     <input type="time" required class="form-control" name="arrived_at">
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="form-group">
                             <label>Harga</label>
                             <input type="number" name="price" required class="form-control">
@@ -127,18 +128,35 @@ Route
                         <thead>
                             <tr>
                                 <th>Armada</th>
-                                <th>Keberangkatan - Kedatangan</th>
                                 <th>Kedatangan</th>
                                 <th>Status</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($route_fleets as $route_fleet)
                             <tr>
                                 <td>{{$route_fleet->fleet?->name}}</td>
-                                <td>{{$route_fleet->departure_at}} - {{$route_fleet->arrived_at}}</td>
-                                <td>{{$route_fleet->price}}</td>
-                                <td>{{$route_fleet->is_active}}</td>
+                                <td>Rp. {{number_format($route_fleet->price,2)}}</td>@if ($route_fleet->is_active == 1)
+                                <td data-toggle="modal" data-target="#exampleModal{{$route_fleet->id}}"
+                                    class="text-success text-bold">
+                                    Aktif
+                                </td>
+                                @else
+                                <td data-toggle="modal" data-target="#exampleModal{{$route_fleet->id}}"
+                                    class="text-danger text-bold">
+                                    Non Aktif
+                                </td>
+                                @endif
+                                <td>
+                                    <form action="{{route('fleet_route.destroy',$route_fleet->id)}}" class="d-inline"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger btn-xs" onclick="return confirm('Are you sure?')"
+                                            type="submit">Delete</button>
+                                    </form>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -146,7 +164,7 @@ Route
                 </div>
             </div>
         </div>
-        {{-- <div class="col-md-6">
+        <div class="col-md-6">
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Titik Pemberhentian Form</h3>
@@ -159,80 +177,74 @@ Route
                 <div class="card-body" style="display: block;">
                     @include('partials.error')
                     <form action="{{route('checkpoint.store')}}" method="POST">
-        @csrf
-        <input type="hidden" value="{{$route->id}}" name="route_id">
-        <div class="form-group">
-            <label>Agen</label>
-            <select required class="form-control select2" name="agency_id" style="width: 100%;">
-                <option value="">Pilih Agen</option>
-                @foreach ($agencies as $agency)
-                <option value="{{$agency->id}}">
-                    {{$agency->name}}
-                </option>
-                @endforeach
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="">Kedatangan</label>
-            <input required type="time" class="form-control" name="arrived_at">
-        </div>
-        <div class="form-group">
-            <label for="">Urutan</label>
-            <input required type="number" min="1" class="form-control" name="order">
-        </div>
-        <input type="submit" value="Submit" class="btn btn-success float-right">
-        </form>
-    </div>
-    <!-- /.card-body -->
-    </div>
-    </div>
-    <div class="col-md-6">
-        <div class="card card-primary">
-            <div class="card-header">
-                <h3 class="card-title">Titik Pemberhentian</h3>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
+                        @csrf
+                        <input type="hidden" value="{{$route->id}}" name="route_id">
+                        <div class="form-group">
+                            <label>Agen</label>
+                            <select required class="form-control select2" name="agency_id" style="width: 100%;">
+                                <option value="">Pilih Agen</option>
+                                @foreach ($agencies as $agency)
+                                <option value="{{$agency->id}}">
+                                    {{$agency->name}}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Urutan</label>
+                            <input required type="number" min="1" class="form-control" name="order">
+                        </div>
+                        <input type="submit" value="Submit" class="btn btn-success float-right">
+                    </form>
                 </div>
+                <!-- /.card-body -->
             </div>
-            <div class="card-body" style="display: block;">
-                <small class="text-danger"><i class="fas fa-info-circle"></i> Pastikan Urutan Titik Pemberhentian
-                    Sudah Benar</small>
-                <table id="example1" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>Urutan</th>
-                            <th>Agen</th>
-                            <th>Kedatangan</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($checkpoints as $checkpoint)
-                        <tr>
-                            <td>{{$checkpoint->order}}</td>
-                            <td><a
-                                    href="{{route('agency.edit',$checkpoint->agency_id)}}">{{$checkpoint->agency->name}}/{{$checkpoint->agency->city->name}}</a>
-                            </td>
-                            <td>{{$checkpoint->arrived_at}}</td>
-                            <td>
-                                <form action="{{route('checkpoint.destroy',$checkpoint->id)}}" class="d-inline"
-                                    method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-danger btn-xs" onclick="return confirm('Are you sure?')"
-                                        type="submit">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.card-body -->
         </div>
-    </div> --}}
+        <div class="col-md-6">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Titik Pemberhentian</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" style="display: block;">
+                    <small class="text-danger"><i class="fas fa-info-circle"></i> Pastikan Urutan Titik Pemberhentian
+                        Sudah Benar</small>
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Urutan</th>
+                                <th>Agen</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($checkpoints as $checkpoint)
+                            <tr>
+                                <td>{{$checkpoint->order}}</td>
+                                <td><a
+                                        href="{{route('agency.edit',$checkpoint->agency_id)}}">{{$checkpoint->agency->name}}/{{$checkpoint->agency->city->name}}</a>
+                                </td>
+                                <td>
+                                    <form action="{{route('checkpoint.destroy',$checkpoint->id)}}" class="d-inline"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger btn-xs" onclick="return confirm('Are you sure?')"
+                                            type="submit">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
     </div>
 
 </section>

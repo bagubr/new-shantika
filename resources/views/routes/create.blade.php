@@ -79,13 +79,15 @@ Route
                             <div class="col">
                                 <div class="form-group">
                                     <label>Waktu Berangkat</label>
-                                    <input type="time" class="form-control" name="departure_at" required>
+                                    <input type="time" class="form-control" name="departure_at" @isset($route)
+                                        value="{{$route->departure_at}}" @endisset required>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label>Waktu Kedatangan</label>
-                                    <input type="time" class="form-control" name="arrived_at" required>
+                                    <input type="time" class="form-control" name="arrived_at" @isset($route)
+                                        value="{{$route->arrived_at}}" @endisset required>
                                 </div>
                             </div>
                         </div>

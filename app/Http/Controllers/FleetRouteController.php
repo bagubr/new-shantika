@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FleetRoute\CreateFleetRouteRequest;
+use App\Models\FleetRoute;
 use Illuminate\Http\Request;
 
 class FleetRouteController extends Controller
@@ -78,8 +79,10 @@ class FleetRouteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(FleetRoute $fleetRoute)
     {
-        //
+        $fleetRoute->delete();
+        session()->flash('success', 'Armada Rute berhasil dihapus');
+        return redirect()->back();
     }
 }
