@@ -49,7 +49,7 @@ Pesanan
                         <div class="col">
                             <div class="form-group">
                                 <label>Rute</label>
-                                <a href="{{route('routes.show',$order->fleet_route?->id)}}" target="_blank">
+                                <a href="{{route('routes.show',$order->fleet_route?->route_id)}}">
                                     <p>
                                         {{$order->fleet_route?->route?->name}}
                                     </p>
@@ -59,7 +59,7 @@ Pesanan
                         <div class="col">
                             <div class="form-group">
                                 <label>Armada</label>
-                                <a href="{{route('fleet_route.show',$order->fleet_route?->id)}}" target="_blank">
+                                <a href="{{route('fleet_route.show',$order->fleet_route?->id)}}">
                                     <p>
                                         {{$order->fleet_route?->fleet?->name}}
                                     </p>
