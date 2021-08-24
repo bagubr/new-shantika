@@ -34,6 +34,8 @@ class OrderListCustomerResource extends JsonResource
             'price'=>$this->price,
             'status'=>$this->status,
             'checkpoints'        => new CheckpointStartEndResource($route),
+            'city_start'                => $route->departure_city?->name,
+            'city_end'                  => $route->destination_city?->name,
             'checkpoint_destination' => new CheckpointResource($checkpoint_destination),
         ];
     }

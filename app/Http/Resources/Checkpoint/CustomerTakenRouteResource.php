@@ -20,6 +20,8 @@ class CustomerTakenRouteResource extends JsonResource
             'fleet_name'=>$this->fleet_route?->route?->fleet?->name,
             'fleet_class'=>$this->fleet_route?->route?->fleet?->fleetclass?->name,
             'checkpoints'=>new CheckpointStartEndResource($this->fleet_route?->route),
+            'city_start'                => $this->fleet_route?->route?->departure_city?->name,
+            'city_end'                  => $this->fleet_route?->route?->destination_city?->name,
             'checkpoint_destination'=>new CheckpointResource($this->fleet_route?->route->checkpoints()->where('agency_id', $this->destination_agency_id)->first()),
             'status'=>$this->status
         ];

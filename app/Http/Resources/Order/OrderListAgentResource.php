@@ -43,6 +43,8 @@ class OrderListAgentResource extends JsonResource
             'status'                    => $this->status,
             'type'                      => $this->type,
             'checkpoints'               => new CheckpointStartEndResource($route),
+            'city_start'                => $route->departure_city?->name,
+            'city_end'                  => $route->destination_city?->name,
             'checkpoint_destination'    => new CheckpointResource($checkpoint_destination)
         ];
     }

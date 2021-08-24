@@ -25,6 +25,8 @@ class OrderTiketResource extends JsonResource
             'created_at'=>date('Y-m-d H:i:s', strtotime($this->created_at)),
             'reserve_at'=>date('Y-m-d H:i:s', strtotime($this->reserve_at)),
             'checkpoints'        => new CheckpointStartEndResource($this->route),
+            'city_start'                => $this->route?->departure_city?->name,
+            'city_end'                  => $this->route?->destination_city?->name,
         ];
     }
 }
