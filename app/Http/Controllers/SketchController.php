@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SendingNotification;
 use App\Http\Resources\Layout\LayoutResource;
 use App\Models\Area;
 use App\Models\FleetRoute;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Repositories\LayoutRepository;
 use App\Services\LayoutService;
+use App\Utils\NotificationMessage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -67,14 +70,27 @@ class SketchController extends Controller
         $tos = $request->data['to_layout_chair_id'];
 
         DB::beginTransaction();
-        Order::where('fleet_route_id', $request->first_fleet_route_id)->update([
+        $order = Order::where('id', $request->order_id)->first();
+        $order->update([
             'fleet_route_id'=>$request->second_fleet_route_id
         ]);
+        $order->refresh();
 
+        $order_details = [];
         foreach($froms as $key => $value) {
             OrderDetail::where('order_id', $request->order_id)->where('layout_chair_id', $value['id'])->update([
                 'layout_chair_id'=>$tos[$key]['id']
             ]);
+            $detail = OrderDetail::where('order_id', $request->order_id)->where('layout_chair_id', $value['id'])->first();
+            Log::info([$detail, $request->order_id, $value['id']]);
+            $notification = Notification::build(
+                "Perhatian! Kursi anda telah dipindah oleh sistem",
+                NotificationMessage::changeChair($detail->order->fleet_route->fleet->name, $detail->chair->name),
+                Notification::TYPE5,
+                $order->id,
+                $order->user_id
+            );
+            SendingNotification::dispatch($notification, $detail->order?->user?->fcm_token,true);
         }
         DB::commit();
         
