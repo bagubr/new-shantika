@@ -75,7 +75,7 @@ class OrderService {
             $order->user_id
         );
         SendingNotification::dispatch($notification, $order->user?->fcm_token, true);
-        SendingNotification::dispatch($notification, Admin::pluck('fcm_token'), false);
+        SendingNotification::dispatch($notification, Admin::whereNotNull('fcm_token')->pluck('fcm_token'), false);
     }
 
     public static function createDetail($order, $layout_chairs, $detail) {
