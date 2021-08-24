@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Status Pemesanan
+Status Penumpang
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->
@@ -8,12 +8,12 @@ Status Pemesanan
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Status Pemesanan</h1>
+                <h1 class="m-0">Status Penumpang</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Status Pemesanan</li>
+                    <li class="breadcrumb-item active">Status Penumpang</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -51,9 +51,9 @@ Status Pemesanan
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Status Pemesanan</h3>
+                        <h3 class="card-title">Table Status Penumpang</h3>
                         <div class="text-right">
-                            <a href="{{route('user.create')}}" class="btn btn-primary btn-sm">Tambah</a>
+                            <a href="{{route('status_penumpang.export')}}" class="btn btn-success btn-sm">Export</a>
                         </div>
                     </div>
                     <!-- /.card-header -->

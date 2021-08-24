@@ -8,10 +8,10 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 class OrdersExport implements FromCollection
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
-        return Order::all();
+        return Order::with('fleet_route')->get();
     }
 }

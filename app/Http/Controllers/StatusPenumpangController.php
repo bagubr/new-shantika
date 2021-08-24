@@ -23,7 +23,7 @@ class StatusPenumpangController extends Controller
     }
     public function export()
     {
-        return Excel::download(new OrdersExport, 'orders.xslx');
+        return Excel::download(new OrdersExport, 'orders.xlsx');
     }
     public function search(Request $request)
     {
