@@ -10,6 +10,7 @@ use App\Repositories\OrderRepository;
 use App\Models\Order;
 use App\Models\Route;
 use App\Models\Fleet;
+use App\Models\FleetRoute;
 class OutcomeController extends Controller
 {
     public function index(Request $request)
@@ -21,8 +22,8 @@ class OutcomeController extends Controller
     public function create()
     {
         $orders = [];
-        $fleets = Fleet::orderBy('name')->get();
-        return view('outcome.create', compact('fleets', 'orders'));
+        $fleet_routes = FleetRoute::orderBy('id', 'desc')->get();
+        return view('outcome.create', compact('fleet_routes', 'orders'));
     }
 
     public function createType()
@@ -41,24 +42,32 @@ class OutcomeController extends Controller
     
     public function search(Request $request)
     {
-        $orders = OrderRepository::getAtDateAndFleet($request->reported_at, $request->fleet_id);
-        $fleets = Fleet::orderBy('name')->get();
-        $fleet_id = $request->fleet_id??'';
+        $orders = OrderRepository::getAtDateAndFleetRoute($request->reported_at, $request->fleet_route_id);
+        $fleet_routes = FleetRoute::orderBy('id', 'desc')->get();
+        $fleet_route_id = $request->fleet_route_id??'';
         $reported_at = $request->reported_at??'';
-        return view('outcome.create', compact('fleets', 'orders', 'fleet_id', 'reported_at'));
+        return view('outcome.create', compact('fleet_routes', 'orders', 'fleet_route_id', 'reported_at'));
     }
     
     public function store(Request $request)
     {
-        if($request->fleet_id != 'WITH_TYPE' && $request->fleet_id){
-            $exist = Outcome::whereDate('reported_at', $request->reported_at)->whereRouteId($request->fleet_id)->first();
+        if($request->fleet_route_id != 'WITH_TYPE' && $request->fleet_route_id){
+            $exist = Outcome::whereDate('reported_at', $request->reported_at)->whereFleetRouteId($request->fleet_route_id)->first();
+            $order_price_distribution = OrderRepository::getAtDateAndFleetRoute($request->reported_at, $request->fleet_route_id);
             if($exist){
+                $after = count($order_price_distribution?->pluck('id'));
+                $before = count(json_decode($exist->order_price_distribution_id));
+                if($before < $after){
+                    $exist->update([
+                        'order_price_distribution_id' => $order_price_distribution?->pluck('id')??[],
+                    ]);
+                return redirect('outcome')->with('success', 'Data sudah di update');
+                }
                 return redirect('outcome')->with('error', 'Data sudah di tambahkan');
             }
             $data = $this->validate($request, [
-                'fleet_id'      => 'required|integer|exists:fleets,id',
+                'fleet_route_id'      => 'required|integer|exists:fleet_routes,id',
             ]);
-            $order_price_distribution = OrderRepository::getAtDateAndFleet($request->reported_at, $request->fleet_id);
             $data['order_price_distribution_id'] = $order_price_distribution?->pluck('id')??[];
         }else{
             $this->validate($request, [
@@ -83,7 +92,7 @@ class OutcomeController extends Controller
         try {
             $outcome = Outcome::create($data);
             foreach ($data['outcome_details'] as $key => $value) {
-                unset($data['fleet_id'], $data['reported_at']);
+                unset($data['fleet_route_id'], $data['reported_at']);
                 $value['outcome_id'] = $outcome->id;
                 OutcomeDetail::create($value);
             }
@@ -115,6 +124,17 @@ class OutcomeController extends Controller
         try {
             $outcome_type = OutcomeType::find($id);
             $outcome_type->delete();
+            return redirect()->back()->with('success', 'Berhasil Hapus Data');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('success', 'Gagal Hapus Data');
+        }
+    }
+    
+    public function destroy($id)
+    {
+        $outcome = Outcome::find($id);
+        $outcome->delete();
+        try {
             return redirect()->back()->with('success', 'Berhasil Hapus Data');
         } catch (\Throwable $th) {
             return redirect()->back()->with('success', 'Gagal Hapus Data');

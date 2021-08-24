@@ -10,7 +10,7 @@ class Outcome extends Model
     use HasFactory;
 
     protected $fillable = [
-        'route_id',
+        'fleet_route_id',
         'order_price_distribution_id',
         'outcome_type_id',
         'reported_at',
@@ -26,6 +26,7 @@ class Outcome extends Model
         'sum_member',
         'sum_commition',
     ];
+
     public function getSumTotalPendapatanAttribute()
     {
         return OrderPriceDistribution::whereIn('order_id', json_decode($this->order_price_distribution_id))->sum('for_owner');
@@ -56,9 +57,9 @@ class Outcome extends Model
         return OrderPriceDistribution::whereIn('order_id', json_decode($this->order_price_distribution_id))->sum('for_member');
     }
 
-    public function route()
+    public function fleet_route()
     {
-        return $this->belongsTo(Route::class, 'route_id');
+        return $this->belongsTo(FleetRoute::class, 'fleet_route_id');
     }
 
     public function outcome_type()
@@ -78,6 +79,9 @@ class Outcome extends Model
         {
             $model->updated_by = \Auth::user()?->id??'';
         });
+        static::deleting(function($model) {
+            $model->outcome_detail()->delete();
+       });
     }
 
     public function getCreatedByAttribute($value)
