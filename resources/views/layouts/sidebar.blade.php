@@ -94,20 +94,13 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        {{-- <li class="nav-item">
-                            <a href="{{route('area.index')}}"
-                        class="nav-link {{Request::routeIs('area.*') ? 'active' : ''}}">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Area</p>
-                        </a>
-                </li> --}}
-                <li class="nav-item">
-                    <a href="{{route('province.index')}}"
-                        class="nav-link {{Request::routeIs('province.*') ? 'active' : ''}}">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Provinsi</p>
-                    </a>
-                </li>
+                        <li class="nav-item">
+                            <a href="{{route('province.index')}}"
+                                class="nav-link {{Request::routeIs('province.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Provinsi</p>
+                            </a>
+                        </li>
                 </li>
                 <li class="nav-item">
                     <a href="{{route('city.index')}}" class="nav-link {{Request::routeIs('city.*') ? 'active' : ''}}">
@@ -124,6 +117,41 @@
                         Sketch
                     </p>
                 </a>
+            </li>
+            <li
+                class="nav-item {{Request::routeIs('payment_type.*','payment.*','order_price_distribution.*') ? 'menu-open' : ''}}">
+                <a href="#"
+                    class="nav-link {{Request::routeIs('payment_type.*','payment.*','order_price_distribution.*') ? 'active' : ''}}">
+                    <i class="nav-icon fas fa-credit-card"></i>
+                    <p>
+                        Pendapatan
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{route('order_price_distribution.index')}}"
+                            class="nav-link {{Request::routeIs('order_price_distribution.*') ? 'active' : ''}}">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Rekap Setoran</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('payment.index')}}"
+                            class="nav-link {{Request::routeIs('payment.*') ? 'active' : ''}}">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Riwayat Pembayaran</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{route('payment_type.index')}}"
+                            class="nav-link {{Request::routeIs('payment_type.*') ? 'active' : ''}}">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Tipe Pembayaran</p>
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li class="nav-item">
                 <a href="{{route('order.index')}}" class="nav-link {{Request::routeIs('order.*') ? 'active' : ''}}">
@@ -202,38 +230,7 @@
                     </p>
                 </a>
             </li>
-            <li class="nav-item {{Request::routeIs('payment_type.*','payment.*') ? 'menu-open' : ''}}">
-                <a href="#" class="nav-link {{Request::routeIs('payment_type.*','payment.*') ? 'active' : ''}}">
-                    <i class="nav-icon fas fa-credit-card"></i>
-                    <p>
-                        Pembayaran
-                        <i class="right fas fa-angle-left"></i>
-                    </p>
-                </a>
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="{{route('payment.index')}}"
-                            class="nav-link {{Request::routeIs('payment.*') ? 'active' : ''}}">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Riwayat Pembayaran</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{route('order_price_distribution.index')}}"
-                            class="nav-link {{Request::routeIs('order_price_distribution.*') ? 'active' : ''}}">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Setoran</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{route('payment_type.index')}}"
-                            class="nav-link {{Request::routeIs('payment_type.*') ? 'active' : ''}}">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Tipe Pembayaran</p>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+
             <li class="nav-item {{ Request::is('schedule_*') ? 'menu-open' : '' }}">
                 <a href="#" class="nav-link {{Request::is('schedule_*') ? 'active' : ''}}">
                     <i class="nav-icon fas fa-calendar"></i>

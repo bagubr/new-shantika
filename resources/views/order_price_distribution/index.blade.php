@@ -37,8 +37,12 @@ Setoran
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <td>Tanggal Pemesanan</td>
-                                    <th>Kode Order</th>
+                                    <th>Tanggal Pemesanan</th>
+                                    <th>Agen</th>
+                                    <th>Jumlah Seat</th>
+                                    <th>Rute</th>
+                                    <th>Harga Tiket</th>
+                                    <th>Dana Agen</th>
                                     <th>Makan</th>
                                     <th>Travel</th>
                                     <th>Member</th>
@@ -52,8 +56,13 @@ Setoran
                                 @foreach ($order_price_distributions as $order_price_distribution)
                                 <tr>
                                     <td>{{date('Y-m-d',strtotime($order_price_distribution->order?->reserve_at))}}</td>
-                                    <td><a href="{{route('order.show',$order_price_distribution->order->id)}}"
-                                            target="blank">{{$order_price_distribution->order->code_order}}</a>
+                                    <td>{{$order_price_distribution->order?->agency?->name}}</td>
+                                    <td>{{$order_price_distribution->order?->order_detail?->count()}}</td>
+                                    <td>{{$order_price_distribution->order?->fleet_route?->route?->name}}</td>
+                                    <td>Rp. {{number_format($order_price_distribution->order?->fleet_route?->price)}}
+                                    </td>
+                                    <td>Rp.
+                                        {{number_format($order_price_distribution->order?->fleet_route?->price * $order_price_distribution->order?->order_detail?->count())}}
                                     </td>
                                     <td>Rp. {{number_format($order_price_distribution->for_food,2)}}</td>
                                     <td>Rp. {{number_format($order_price_distribution->for_travel,2)}}</td>

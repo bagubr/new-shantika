@@ -15,3 +15,4 @@ yarn-error.log
 /.vscode
 santika.code-workspace
 .env copy
+.env1
