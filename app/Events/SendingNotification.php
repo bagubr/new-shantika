@@ -30,7 +30,7 @@ class SendingNotification
             $this->data = $data;
         } else {
             $this->data = [
-                'reference_id'=>$notification->reference_id,
+                'reference_id'=>(string )$notification->reference_id,
                 'type'=>$notification->type
             ];
         }

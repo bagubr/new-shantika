@@ -146,6 +146,9 @@
 
         messaging.onMessage((payload) => {
             console.log(payload)
+            new Notification('{{env("APP_NAME")}}', {
+                body: payload.notification.body
+            })
         })
     </script>
 

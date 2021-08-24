@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\SendingNotification;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\AreaController;
@@ -39,7 +40,11 @@ use App\Http\Controllers\UserAgentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OutcomeController;
 use App\Http\Controllers\SketchController;
+use App\Models\Admin;
+use App\Models\Notification;
+use App\Utils\NotificationMessage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -60,7 +65,16 @@ Auth::routes([
 ]);
 
 Route::get('/test', function () {
-    $order = \App\Models\Order::with(['route'])->orderBy('id', 'desc')->first();
+    $order = \App\Models\Order::with(['fleet_route.route'])->orderBy('id', 'desc')->first();
+    $notification = Notification::build(
+        NotificationMessage::successfullySendingTicket()[0],
+        NotificationMessage::successfullySendingTicket()[1],
+        Notification::TYPE1,
+        $order->id,
+        $order->user_id
+    );
+    SendingNotification::dispatch($notification, $order->user?->fcm_token, true);
+    SendingNotification::dispatch($notification, Admin::whereNotNull('fcm_token')->pluck('fcm_token'), false);
 
     return response($order);
 });

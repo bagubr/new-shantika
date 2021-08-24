@@ -2,6 +2,8 @@
 
 namespace App\Utils;
 
+use Illuminate\Support\Facades\Log;
+
 class NotificationBody {
     public function __construct(
         public string $title,
