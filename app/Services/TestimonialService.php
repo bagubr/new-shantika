@@ -16,7 +16,7 @@ class TestimonialService {
 
         $notification = new Notification([
             'title'=>$testimonial->title,
-            'body'=>str_pad($testimonial->review, 40),
+            'body'=>str_pad($testimonial->title, 40),
             'reference_id'=>$testimonial->id,
             'type'=>'TESTIMONIAL',
         ]);

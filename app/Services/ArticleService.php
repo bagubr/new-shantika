@@ -14,7 +14,7 @@ class ArticleService {
 
         $notification = new Notification([
             'title'=>$article->name,
-            'body'=>$article->description,
+            'body'=>$article->name,
             'reference_id'=>$article->id,
             'type'=>Notification::TYPE4
         ]);
