@@ -73,7 +73,7 @@ Jadwal
                                                     @csrf
                                                     @method('DELETE')
                                                     <button class="btn btn-danger btn-xs"
-                                                        onclick="return confirm('Are you sure?')"
+                                                        onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
                                                         type="submit">Delete</button>
                                                 </form>
                                             </td>

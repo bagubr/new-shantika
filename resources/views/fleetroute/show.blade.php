@@ -58,6 +58,13 @@ Rute Armada
                                     </select>
                                 </div>
                             </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Area</label>
+                                    <input type="text" readonly class="form-control"
+                                        value="{{$fleet_route->route?->departure_city?->area?->name}}">
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Harga</label>
@@ -128,6 +135,7 @@ Rute Armada
                         <tr>
                             <th>Tanggal</th>
                             <th>Kode Order</th>
+                            <th>Akun</th>
                             <th>Pemesan</th>
                             <th>Jumlah Pesanan</th>
                             <th>Status</th>
@@ -137,9 +145,26 @@ Rute Armada
                     <tbody>
                         @foreach ($orders as $order)
                         <tr>
-                            <td>{{$order->reserve_at}}</td>
-                            <td>{{$order->code_order}}</td>
-                            <td>{{$order->user->name}}</td>
+                            <td>{{date('Y-m-d',strtotime($order->reserve_at))}}</td>
+                            <td>
+                                <a href="{{route('order.show',$order->id)}}">
+                                    {{$order->code_order}}
+                                </a>
+                            </td>
+                            <td>
+                                @if ($order->user?->agencies)
+                                <a href="{{route('user_agent.show',$order->user_id)}}" target="_blank">
+                                    {{$order->user?->name_agent}}
+                                </a>
+                                @elseif ($order->user)
+                                <a href="{{route('user.edit', $order->user_id)}}">
+                                    {{$order->user?->name}}
+                                </a>
+                                @else
+                                Tanpa Akun
+                                @endif
+                            </td>
+                            <td>{{$order->order_detail[0]->name}}</td>
                             <td>{{$order->order_detail->count()}}</td>
                             <td>{{$order->status}}</td>
                             <td>
