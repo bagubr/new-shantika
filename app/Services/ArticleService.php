@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Events\SendingNotificationToTopic;
 use App\Models\Article;
 use App\Models\Notification;
+use App\Utils\NotificationMessage;
 
 class ArticleService {
     public static function create($data) {
@@ -13,8 +14,8 @@ class ArticleService {
         $article = Article::create($data);
 
         $notification = new Notification([
-            'title'=>$article->name,
-            'body'=>$article->description,
+            'title'=>NotificationMessage::newArticle($article->name, $article->description)[0],
+            'body'=>NotificationMessage::newArticle($article->name, $article->description)[1],
             'reference_id'=>$article->id,
             'type'=>Notification::TYPE4
         ]);

@@ -19,7 +19,7 @@ class InformationFleetResource extends JsonResource
             'name'          => $this->name,
             'fleet_class'   => $this->fleetclass->name,
             'route'         => $this->route->name??'',
-            'total_chair'   => $this->layout->total_indexes,
+            'total_chair'   => $this->layout->total_chairs,
         ];
     }
 }

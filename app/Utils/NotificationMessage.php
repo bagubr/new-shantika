@@ -11,12 +11,12 @@ class NotificationMessage {
         return [$title,$message];
     }
 
-    public static function newArticle($title) {
-        return $title;
+    public static function newArticle($title, $body) {
+        return [$title,  preg_replace( "/\n\s+/", "\n", rtrim(html_entity_decode(strip_tags($body))))];
     }
 
-    public static function newTestimonial($title) {
-        return $title;
+    public static function newTestimonial($title, $body) {
+        return [$title, preg_replace( "/\n\s+/", "\n", rtrim(html_entity_decode(strip_tags($body))))];
     }
 
     public static function paymentWillExpired() {

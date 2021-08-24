@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Events\SendingNotificationToTopic;
 use App\Models\Notification;
 use App\Models\Testimonial;
+use App\Utils\NotificationMessage;
 
 class TestimonialService {
     public static function create($data) {
@@ -14,9 +15,10 @@ class TestimonialService {
 
         $testimonial = Testimonial::create($data);
 
+        $payload = NotificationMessage::newTestimonial($testimonial->title, $testimonial->review);
         $notification = new Notification([
-            'title'=>$testimonial->title,
-            'body'=>str_pad($testimonial->review, 40),
+            'title'=>$payload[0],
+            'body'=>$payload[1],
             'reference_id'=>$testimonial->id,
             'type'=>'TESTIMONIAL',
         ]);
