@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FleetRoute\CreateFleetRouteRequest;
 use App\Http\Requests\FleetRoute\UpdateFleetRouteRequest;
 use App\Models\Agency;
+use App\Models\Area;
+use App\Models\Fleet;
 use App\Models\FleetRoute;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -21,7 +23,27 @@ class FleetRouteController extends Controller
     {
         $fleet_routes = FleetRoute::all();
         $statuses = Agency::status();
-        return view('fleetroute.index', compact('fleet_routes', 'statuses'));
+        $areas = Area::get();
+        return view('fleetroute.index', compact('fleet_routes', 'statuses', 'areas'));
+    }
+
+    public function search(Request $request)
+    {
+        $area_id = $request->area_id;
+        $areas = Area::get();
+        $fleet_routes = FleetRoute::with('route.destination_city')->when($area_id, function ($q) use ($area_id) {
+            $q->whereHas('route.departure_city', function ($sq) use ($area_id) {
+                $sq->where('area_id', $area_id);
+            });
+        })->get();
+        $test = $request->flash();
+        $statuses = Agency::status();
+        if (!$fleet_routes->isEmpty()) {
+            session()->flash('success', 'Data Order Berhasil Ditemukan');
+        } else {
+            session()->flash('error', 'Tidak Ada Data Ditemukan');
+        }
+        return view('fleetroute.index', compact('fleet_routes', 'statuses', 'areas'));
     }
 
     /**

@@ -23,9 +23,34 @@ Armada Rute
     </div><!-- /.container-fluid -->
 </div>
 <!-- /.content-header -->
-<div class="content">
+<div class="content" id="app">
     <div class="container-fluid">
         <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <form action="{{route('fleet_route.search')}}" method="get">
+                        @csrf
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>Pilih Area</label>
+                                <select name="area_id" class="form-control">
+                                    <option value="">--PILIH AREA--</option>
+                                    @foreach ($areas as $area)
+                                    @if (old('area_id'))
+                                    <option value="{{$area->id}}" selected>{{$area->name}}</option>
+                                    @else
+                                    <option value="{{$area->id}}">{{$area->name}}</option>
+                                    @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="text-right m-2">
+                            <button class="btn btn-success" type="submit">Cari</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
@@ -36,6 +61,7 @@ Armada Rute
                             <thead>
                                 <tr>
                                     <th>Armada</th>
+                                    <th>Area</th>
                                     <th>Rute</th>
                                     <th>Harga</th>
                                     <th>Kelas Armada</th>
@@ -47,17 +73,18 @@ Armada Rute
                                 @foreach ($fleet_routes as $fleet_route)
                                 <tr>
                                     <td>{{$fleet_route->fleet?->name}}</td>
+                                    <td>{{$fleet_route->route?->departure_city?->area?->name}}</td>
                                     <td>{{$fleet_route->route?->name}}</td>
                                     <td>Rp. {{number_format($fleet_route->price,2)}}</td>
                                     <td>{{$fleet_route->fleet?->fleetclass?->name}}</td>
                                     @if ($fleet_route->is_active == 1)
                                     <td data-toggle="modal" data-target="#exampleModal{{$fleet_route->id}}"
-                                        class="text-success text-bold">
+                                        class="text-success text-bold pointer">
                                         Aktif
                                     </td>
                                     @else
                                     <td data-toggle="modal" data-target="#exampleModal{{$fleet_route->id}}"
-                                        class="text-danger text-bold">
+                                        class="text-danger text-bold pointer">
                                         Non Aktif
                                     </td>
                                     @endif

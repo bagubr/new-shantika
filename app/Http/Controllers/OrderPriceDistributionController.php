@@ -84,8 +84,10 @@ class OrderPriceDistributionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(OrderPriceDistribution $order_price_distribution)
     {
-        //
+        $order_price_distribution->delete();
+        session()->flash('success', 'Setoran Berhasil Dihapus');
+        return back();
     }
 }
