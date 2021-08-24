@@ -223,7 +223,7 @@ Route
                                 <option value="">Pilih Agen</option>
                                 @foreach ($agencies as $agency)
                                 <option value="{{$agency->id}}">
-                                    {{$agency->name}}
+                                    {{$agency->city->name}}/{{$agency->name}}
                                 </option>
                                 @endforeach
                             </select>

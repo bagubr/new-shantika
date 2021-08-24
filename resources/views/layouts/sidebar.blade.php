@@ -72,19 +72,19 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('order.index')}}" class="nav-link {{Request::routeIs('order.*') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-shopping-cart"></i>
-                        <p>
-                            Pembayaran
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a href="{{route('outcome.index')}}"
                         class="nav-link {{Request::routeIs('outcome*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-hand-holding-usd"></i>
                         <p>
                             Pengeluaran
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('order.index')}}" class="nav-link {{Request::routeIs('order.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-shopping-cart"></i>
+                        <p>
+                            Pembayaran
                         </p>
                     </a>
                 </li>
@@ -206,6 +206,13 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('user.index')}}"
+                                class="nav-link {{Request::routeIs('user.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Status Pembayaran</p>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="{{route('user.index')}}"
                                 class="nav-link {{Request::routeIs('user.*') ? 'active' : ''}}">
