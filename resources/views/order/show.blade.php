@@ -117,10 +117,11 @@ Pesanan
                     </div>
                     <div class="text-right">
                         @if ($order->payment?->status == 'WAITING_CONFIRMATION')
-                        <a href="{{route('payment.edit',$order->payment?->id)}}" target="_blank"
-                            class="btn btn-primary">Ubah Status</a>
+                        <a href="{{route('payment.edit',$order->payment?->id)}}" class="btn btn-primary">Ubah Status</a>
                         @endif
                     </div>
+                    @elseif ($order->payment?->payment_type->id == 1 )
+                    <h5>Pembayaran Otomatis</h5>
                     @else
                     <h5>Belum Ada Transaksi</h5>
                     @endif

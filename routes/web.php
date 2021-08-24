@@ -40,6 +40,7 @@ use App\Http\Controllers\UserAgentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OutcomeController;
 use App\Http\Controllers\SketchController;
+use App\Http\Controllers\StatusPenumpangController;
 use App\Models\Admin;
 use App\Models\Notification;
 use App\Utils\NotificationMessage;
@@ -140,6 +141,7 @@ Route::group(['middleware' => ['auth']], function () {
         'bank_account' => BankAccountController::class,
         'outcome' => OutcomeController::class,
         'sketch' => SketchController::class,
-        'fleet_route' => FleetRouteController::class
+        'fleet_route' => FleetRouteController::class,
+        'status_penumpang' => StatusPenumpangController::class
     ]);
 });
