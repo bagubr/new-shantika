@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Events\SendingNotification;
 use App\Jobs\Notification\TicketExchangedJob;
+use App\Models\Admin;
 use App\Models\Agency;
 use App\Models\FleetRoute;
 use App\Models\Notification;
@@ -66,7 +67,6 @@ class OrderService {
     } 
 
     private static function sendNotification($order) {
-        Log::info($order);
         $notification = Notification::build(
             NotificationMessage::successfullySendingTicket()[0],
             NotificationMessage::successfullySendingTicket()[1],
@@ -75,6 +75,7 @@ class OrderService {
             $order->user_id
         );
         SendingNotification::dispatch($notification, $order->user?->fcm_token, true);
+        SendingNotification::dispatch($notification, Admin::whereNotNull('fcm_token')->pluck('fcm_token'), false);
     }
 
     public static function createDetail($order, $layout_chairs, $detail) {

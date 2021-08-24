@@ -33,6 +33,9 @@ class SendNotificationToTopic
             'body'=>$event->notification->body,
         ], $event->topic, $event->data);
         
+        Log::info(json_encode($firebase));
+        Log::info($event->data);
+        
         if($event->is_saved) {
             $event->notification->save();
         }
