@@ -20,8 +20,16 @@ class RouteController extends Controller
         }
         $destination_agency = AgencyRepository::findWithCity($request->agency_arrived_id);
         $departure_agency = AgencyRepository::findWithCity($request->agency_departure_id);
+
+        if(empty($destination_agency->is_active)) {
+            return $this->sendFailedResponse([], 'Agen tujuan tidak aktif, mohon coba agen yang lain');
+        }
+        if(empty($departure_agency->is_active)) {
+            return $this->sendFailedResponse([], 'Akun agen keberangkatan anda dinonaktifkan, mohon coba agen yang lain');
+        }
         
         $routes = FleetRoute::with(['route.fleet', 'route.checkpoints.agency.city'])
+            ->where('is_active', true)
             ->whereHas('fleet', function($query) use ($request) { 
                 $query->where('fleet_class_id', $request->fleet_class_id);
             })

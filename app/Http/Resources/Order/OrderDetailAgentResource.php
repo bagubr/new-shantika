@@ -38,6 +38,8 @@ class OrderDetailAgentResource extends JsonResource
             'fleet_class'               =>$fleet->fleetclass?->name,
             'total_passenger'           =>count($order_detail ?? []),
             'checkpoints'               => new CheckpointStartEndResource($route),
+            'city_start'                => $route->departure_city?->name,
+            'city_end'                  => $route->destination_city?->name,
             'checkpoint_destination'    => new CheckpointResource($checkpoint_destination),
             'created_at'                =>date('Y-m-d H:i:s', strtotime($this->created_at)),
             'reserve_at'                =>date('Y-m-d H:i:s', strtotime($this->reserve_at)),

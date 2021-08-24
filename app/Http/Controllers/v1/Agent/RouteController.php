@@ -23,6 +23,14 @@ class RouteController extends BaseRouteController
         $user = UserRepository::findByToken($request->bearerToken());
         $departure_agency = AgencyRepository::findWithCity($user->agencies->agency_id);
         $destination_agency = AgencyRepository::findWithCity($request->agency_id);
+        
+        if(empty($destination_agency->is_active)) {
+            return $this->sendFailedResponse([], 'Agen tujuan tidak aktif, mohon coba agen yang lain');
+        }
+        if(empty($departure_agency->is_active)) {
+            return $this->sendFailedResponse([], 'Akun agen anda dinonaktifkan, segera lakukan setoran atau kontak admin');
+        }
+
         $routes = $routes = FleetRoute::with(['route.fleet', 'route.checkpoints.agency.city'])
             ->whereHas('fleet', function($query) use ($request) { 
                 $query->where('fleet_class_id', $request->fleet_class_id);
@@ -31,6 +39,7 @@ class RouteController extends BaseRouteController
                 $query->where('destination_city_id', $destination_agency->city_id)
                     ->where('departure_city_id', $departure_agency->city_id);
             })
+            ->where('is_active', true)
             ->when(($request->time), function ($que) use ($request) {
                 $que->whereHas('route', function($query) use ($request){
                     $time_start = TimeClassificationRepository::findByName($request->time)->time_start;
