@@ -41,6 +41,7 @@
                             <label for="">Nama Layout</label>
                             <input type="text" class="form-control" x-model="layout.name">
                         </div>
+                        @if(request()->is('layouts/create'))
                         <div class="form-group">
                             <label for="">Jumlah Baris</label>
                             <div class="row">
@@ -69,6 +70,7 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                     </div>
                     <div class="col-6">
                         <div class="form-group">
@@ -107,16 +109,23 @@
                     <template x-for="r in layout.row">
                         <div class="d-flex">
                             <template x-for="c in layout.col">
+                                @if(request()->is('layouts/create'))
                                 <div :class="setClass(r,c, $el)" :id="getIndex(r,c)" x-on:dblclick="addData($el)" contenteditable="true" x-text="getText($el)"> 
                                 </div>
+                                @else
+                                <div :class="setClass(r,c, $el)" :id="getIndex(r,c)" x-text="getText($el)"> 
+                                </div>
+                                @endif
                             </template>
                         </div>
                         <br>
                     </template>
                 </div>
+                @if(!request()->is('layouts/create'))
                 <div class="container-fluid">
-                    <small><i class="fas fa-info-circle"></i> Untuk mengupdate kursi tidak bisa dilakukan</small>
+                    <small class="text-danger"><i class="fas fa-info-circle"></i> Untuk mengupdate kursi tidak bisa dilakukan</small>
                 </div>
+                @endif
             </div>
             <div class="col-12 col-md-2">
                 <template x-for="(f, focusIndex) in focuses">
@@ -130,11 +139,11 @@
                 <div class="row justify-content-center">
                     @if(!request()->is('layouts/create'))
                     <button class="btn btn-primary w-75" x-on:click="submitEdit($el)">
-                        Lanjutkan
+                        Simpan
                     </button>
                     @else
                     <button class="btn btn-primary w-75" x-on:click="submitCreate($el)">
-                        Lanjutkan
+                        Simpan
                     </button>
                     @endif
                 </div>
