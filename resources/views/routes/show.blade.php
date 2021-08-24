@@ -59,6 +59,9 @@ Route
                         <input type="text" class="form-control" value="{{$route->departure_city?->area?->name}}"
                             disabled>
                     </div>
+                    <div class="text-right">
+                        <a href="{{route('routes.edit',$route->id)}}" class="btn btn-warning mr-auto">Edit</a>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>
