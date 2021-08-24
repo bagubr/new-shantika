@@ -67,17 +67,22 @@ Riwayat Pembayaran
                                         @endif
                                     </td>
                                     <td>
+                                        <a href="{{route('order.show', $payment->order->id)}}"
+                                            class="btn btn-primary btn-xs">
+                                            Detail
+                                        </a>
                                         @if ($payment->status == 'WAITING_CONFIRMATION')
                                         <a href="{{route('payment.edit',$payment->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         @endif
-                                        <form action="{{route('payment.destroy',$payment->id)}}" class="d-inline"
-                                            method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger btn-xs"
-                                                onclick="return confirm('Are you sure?')" type="submit">Delete</button>
-                                        </form>
+                                        {{-- <form action="{{route('payment.destroy',$payment->id)}}" class="d-inline"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger btn-xs"
+                                            onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                            type="submit">Delete</button>
+                                        </form> --}}
                                     </td>
                                 </tr>
                                 @endforeach

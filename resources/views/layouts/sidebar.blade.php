@@ -218,7 +218,7 @@
                             <a href="{{route('user.index')}}"
                                 class="nav-link {{Request::routeIs('user.*') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Data Penumpang</p>
+                                <p>Akun Penumpang</p>
                             </a>
                         </li>
                         <li class="nav-item">

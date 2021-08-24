@@ -171,7 +171,8 @@ Pesanan
                                         class="d-inline" method="POST">
                                         @csrf
                                         @method('PUT')
-                                        <button class="badge badge-primary" onclick="return confirm('Are you sure?')"
+                                        <button class="badge badge-primary"
+                                            onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
                                             type="submit">Deposit
                                             Sekarang</button>
                                     </form>
@@ -181,7 +182,8 @@ Pesanan
                                     class="d-inline" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="badge badge-danger" onclick="return confirm('Are you sure?')"
+                                    <button class="badge badge-danger"
+                                        onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
                                         type="submit">Delete</button>
                                     </form> --}}
                                 </td>

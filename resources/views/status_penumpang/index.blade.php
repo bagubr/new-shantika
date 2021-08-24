@@ -38,6 +38,7 @@ Status Pemesanan
                                 <tr>
                                     <th>Tanggal</th>
                                     <th>Kode Order</th>
+                                    <th>Area</th>
                                     <th>Rute Armada</th>
                                     <th>Akun</th>
                                     <th>Nama</th>
@@ -56,7 +57,12 @@ Status Pemesanan
                                             {{$order->code_order}}
                                         </a>
                                     </td>
-                                    <td>{{$order->fleet_route?->route->name}}/{{$order->fleet_route?->fleet->name}}</td>
+                                    <td>{{$order->fleet_route?->route?->departure_city?->area?->name}}</td>
+                                    <td>
+                                        <a href="{{route('fleet_route.show',$order->fleet_route->id)}}">
+                                            {{$order->fleet_route?->route->name}}/{{$order->fleet_route?->fleet->name}}
+                                        </a>
+                                    </td>
                                     <td>
                                         @if ($order->user?->agencies)
                                         <a href="{{route('user_agent.show',$order->user_id)}}" target="_blank">
@@ -75,15 +81,21 @@ Status Pemesanan
                                     <td>{{$order->status}}</td>
                                     <td>Rp. {{number_format($order->price)}}</td>
                                     <td>
-                                        <a href="{{route('user.edit',$order->id)}}"
+                                        <a href="{{route('order.show', $order->id)}}" class="btn btn-primary btn-xs">
+                                            Detail
+                                        </a>
+                                        @if ($order->payment?->status == 'WAITING_CONFIRMATION')
+                                        <a href="{{route('payment.edit',$order->payment?->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
-                                        <form action="{{route('user.destroy',$order->id)}}" class="d-inline"
-                                            method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger btn-xs"
-                                                onclick="return confirm('Are you sure?')" type="submit">Delete</button>
-                                        </form>
+                                        @endif
+                                        {{-- <form action="{{route('user.destroy',$order->id)}}" class="d-inline"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger btn-xs"
+                                            onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                            type="submit">Delete</button>
+                                        </form> --}}
                                     </td>
                                 </tr>
                                 @endforeach

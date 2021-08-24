@@ -46,13 +46,14 @@ Layout
                                     <td>{{$layout->name}}</td>
                                     <td>
                                         <a href="{{route('layouts.edit',$layout->id)}}"
-                                        class="btn btn-warning btn-xs">Edit</a>
+                                            class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('layouts.destroy',$layout->id)}}" class="d-inline"
                                             method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger btn-xs"
-                                                onclick="return confirm('Are you sure?')" type="submit">Delete</button>
+                                                onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                                type="submit">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
