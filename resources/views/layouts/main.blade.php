@@ -120,7 +120,33 @@
             measurementId: "G-1KR74VKTEC"
         };
         firebase.initializeApp(firebaseConfig);
-        firebase.messaging();
+        var messaging = firebase.messaging();
+
+        messaging.getToken({ vapidKey: 'BLf8O7M-57Gd5bEtEwCk-u3whqHG4NVAWEZwDf3zOxJZiSiZbSZmA-OhAdePUsvwInNWZor34WbylfJe-5lrFTA' }).then((currentToken) => {
+            if (currentToken) {
+                let formData = {
+                    id: {{Auth::user()->id}},
+                    fcm_token: currentToken
+                }
+                formData = JSON.stringify(formData)
+                fetch('/admin/store/fcm_token', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{csrf_token()}}',
+                        'Content-Type': 'application/json'
+                    }
+                })
+            } else {
+                alert('Tidak bisa menerima notifikasi, coba lagi nanti')
+            }
+        }).catch((err) => {
+            console.log('An error occurred while retrieving token. ', err);
+        });
+
+        messaging.onMessage((payload) => {
+            console.log(payload)
+        })
     </script>
 
     <script>

@@ -4,6 +4,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CheckpointController;
@@ -63,6 +64,8 @@ Route::get('/test', function () {
 
     return response($order);
 });
+
+Route::post('admin/store/fcm_token', [LoginController::class, 'storeFcmToken']);
 
 Route::group(['middleware' => ['auth']], function () {
 
