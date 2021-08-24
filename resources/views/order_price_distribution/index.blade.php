@@ -27,88 +27,88 @@ Setoran
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Table Setoran</h3>
-                        <div class="text-right">
+                        {{-- <div class="text-right">
                             <a href="{{route('order_price_distribution.create')}}"
-                                class="btn btn-primary btn-sm">Tambah</a>
-                        </div>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Tanggal Pemesanan</th>
-                                    <th>Agen</th>
-                                    <th>Jumlah Seat</th>
-                                    <th>Rute</th>
-                                    <th>Harga Tiket</th>
-                                    <th>Dana Agen</th>
-                                    <th>Makan</th>
-                                    <th>Travel</th>
-                                    <th>Member</th>
-                                    <th>Agent</th>
-                                    <th>Total Owner</th>
-                                    <th>Deposit</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($order_price_distributions as $order_price_distribution)
-                                <tr>
-                                    <td>{{date('Y-m-d',strtotime($order_price_distribution->order?->reserve_at))}}</td>
-                                    <td>{{$order_price_distribution->order?->agency?->name}}</td>
-                                    <td>{{$order_price_distribution->order?->order_detail?->count()}}</td>
-                                    <td>{{$order_price_distribution->order?->fleet_route?->route?->name}}</td>
-                                    <td>Rp. {{number_format($order_price_distribution->order?->fleet_route?->price)}}
-                                    </td>
-                                    <td>Rp.
-                                        {{number_format($order_price_distribution->order?->fleet_route?->price * $order_price_distribution->order?->order_detail?->count())}}
-                                    </td>
-                                    <td>Rp. {{number_format($order_price_distribution->for_food,2)}}</td>
-                                    <td>Rp. {{number_format($order_price_distribution->for_travel,2)}}</td>
-                                    <td>Rp. {{number_format($order_price_distribution->for_member,2)}}</td>
-                                    <td>Rp. {{number_format($order_price_distribution->for_agent,2)}}</td>
-                                    <td>Rp. {{number_format($order_price_distribution->for_owner,2)}}</td>
-                                    <td>
-                                        @if ($order_price_distribution->deposited_at)
-                                        {{date('Y-m-d', strtotime($order_price_distribution->deposited_at))}}
-                                        @else
-                                        Belum Deposit
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if (!$order_price_distribution->deposited_at)
-                                        <form
-                                            action="{{route('order_price_distribution.update', $order_price_distribution->id)}}"
-                                            class="d-inline" method="POST">
-                                            @csrf
-                                            @method('PUT')
-                                            <button class="btn btn-primary btn-xs"
-                                                onclick="return confirm('Are you sure?')" type="submit">Deposit
-                                                Sekarang</button>
-                                        </form>
-                                        @endif
-                                        <form
-                                            action="{{route('order_price_distribution.destroy',$order_price_distribution->id)}}"
-                                            class="d-inline" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger btn-xs"
-                                                onclick="return confirm('Are you sure?')" type="submit">Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.card-body -->
+                        class="btn btn-primary btn-sm">Tambah</a>
+                    </div> --}}
                 </div>
-                <!-- /.card -->
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Tanggal Pemesanan</th>
+                                <th>Agen</th>
+                                <th>Jumlah Seat</th>
+                                <th>Rute</th>
+                                <th>Harga Tiket</th>
+                                <th>Dana Agen</th>
+                                <th>Makan</th>
+                                <th>Travel</th>
+                                <th>Member</th>
+                                <th>Agent</th>
+                                <th>Total Owner</th>
+                                <th>Deposit</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($order_price_distributions as $order_price_distribution)
+                            <tr>
+                                <td>{{date('Y-m-d',strtotime($order_price_distribution->order?->reserve_at))}}</td>
+                                <td>{{$order_price_distribution->order?->agency?->name}}</td>
+                                <td>{{$order_price_distribution->order?->order_detail?->count()}}</td>
+                                <td>{{$order_price_distribution->order?->fleet_route?->route?->name}}</td>
+                                <td>Rp. {{number_format($order_price_distribution->order?->fleet_route?->price)}}
+                                </td>
+                                <td>Rp.
+                                    {{number_format($order_price_distribution->order?->fleet_route?->price * $order_price_distribution->order?->order_detail?->count())}}
+                                </td>
+                                <td>Rp. {{number_format($order_price_distribution->for_food,2)}}</td>
+                                <td>Rp. {{number_format($order_price_distribution->for_travel,2)}}</td>
+                                <td>Rp. {{number_format($order_price_distribution->for_member,2)}}</td>
+                                <td>Rp. {{number_format($order_price_distribution->for_agent,2)}}</td>
+                                <td>Rp. {{number_format($order_price_distribution->for_owner,2)}}</td>
+                                <td>
+                                    @if ($order_price_distribution->deposited_at)
+                                    {{date('Y-m-d', strtotime($order_price_distribution->deposited_at))}}
+                                    @else
+                                    Belum Deposit
+                                    @endif
+                                </td>
+                                <td>
+                                    @if (!$order_price_distribution->deposited_at)
+                                    <form
+                                        action="{{route('order_price_distribution.update', $order_price_distribution->id)}}"
+                                        class="d-inline" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <button class="btn btn-primary btn-xs" onclick="return confirm('Are you sure?')"
+                                            type="submit">Deposit
+                                            Sekarang</button>
+                                    </form>
+                                    @endif
+                                    <form
+                                        action="{{route('order_price_distribution.destroy',$order_price_distribution->id)}}"
+                                        class="d-inline" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger btn-xs" onclick="return confirm('Are you sure?')"
+                                            type="submit">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
             </div>
-            <!-- /.col -->
+            <!-- /.card -->
         </div>
+        <!-- /.col -->
     </div>
+</div>
 </div>
 @endsection
 @push('script')
