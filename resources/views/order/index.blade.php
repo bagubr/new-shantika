@@ -184,7 +184,9 @@ Pemesanan
                                 @endforeach
                             </tbody>
                         </table>
+                        @if (Request::routeIs('order.index'))
                         {{$orders->links("pagination::bootstrap-4")}}
+                        @endif
                     </div>
                     <!-- /.card-body -->
                 </div>

@@ -6,7 +6,9 @@ use App\Http\Requests\FleetRoute\CreateFleetRouteRequest;
 use App\Http\Requests\FleetRoute\UpdateFleetRouteRequest;
 use App\Models\Agency;
 use App\Models\FleetRoute;
+use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class FleetRouteController extends Controller
 {
@@ -49,10 +51,19 @@ class FleetRouteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(FleetRoute $fleet_route)
     {
-        //
+        $orders = Order::where('fleet_route_id', $fleet_route->id)->get();
+        $statuses = Agency::status();
+        return view('fleetroute.show', compact('fleet_route', 'statuses', 'orders'));
     }
+    // public function search(Request $request)
+    // {
+    //     $date_from = $request->date_from;
+    //     $date_to = $request->date_to;
+
+    //     return view('fleetroute.show', compact('fleet_route', 'statuses', 'orders'));
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -77,9 +88,8 @@ class FleetRouteController extends Controller
     {
         $data = $request->all();
         $fleet_route->update($data);
-
         session()->flash('success', 'Rute Armada Berhasil Di Ubah');
-        return redirect(route('routes.show', $request->route_id));
+        return redirect()->back();
     }
     public function update_status(Request $request, FleetRoute $fleet_route)
     {

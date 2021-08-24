@@ -14,69 +14,73 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $data_statistic = ['weekly' => 'Harian', 'monthly' => 'Bulan', 'yearly' => 'Tahun'];
-        if ($request->statistic) {
-            if ($request->statistic == 'yearly') {
-                $data = $this->yearly();
-            } elseif ($request->statistic == 'monthly') {
-                $data = $this->monthly();
-            } else {
-                $data = $this->weekly();
-            }
-        } else {
-            $data = $this->weekly();
-        }
-        if ($request->tiket) {
-            if ($request->tiket == 'yearly') {
-                $data_tiket = $this->tiket_tahun();
-            } elseif ($request->tiket == 'monthly') {
-                $data_tiket = $this->pendapatan_monthly();
-            } else {
-                $data_tiket = $this->tiket_weekly();
-            }
-        } else {
-            $data_tiket = $this->tiket_weekly();
-        }
-        if ($request->pendapatan) {
-            if ($request->pendapatan == 'yearly') {
-                $data_week = $this->pendapatan_yearly();
-            } elseif ($request->pendapatan == 'monthly') {
-                $data_week = $this->pendapatan_monthly();
-            } else {
-                $data_week = $this->pendapatan_weekly();
-            }
-        } else {
-            $data_week = $this->pendapatan_weekly();
-        }
-        // AGENCY
-        $agencies = Agency::all();
-        $fleets = Fleet::get(['id', 'name']);
-        $routes = Route::get(['id', 'name']);
-        $orders = Order::query();
-        $fleet = $request->fleet;
-        if (!empty($request->agency)) {
-            $orders = $orders->where('user_id', $request->agency);
-        }
-        if (!empty($request->route)) {
-            $orders = $orders->where('route_id', $request->route);
-        }
-        if (!empty($request->fleet)) {
-            $orders = $orders->whereHas('route', function ($q) use ($fleet) {
-                $q->where('fleet_id', $fleet);
-            });
-        }
-
-        $orders = $orders->orderBy('id', 'desc')->paginate(7);
-        $order_count = Order::all()->count();
-        $test = $request->flash();
-        $users = User::all();
-        $count_user = User::doesntHave('agencies')->count();
-        $orders_money = Order::has('route')->sum('price');
-        session()->flash('Success', 'Berhasil Memuat Halaman');
-        return view('dashboard', compact('users', 'orders', 'order_count', 'count_user', 'orders_money', 'agencies', 'fleets', 'routes', 'data', 'data_statistic', 'data_week', 'data_tiket'));
+        return view('dashboard2');
     }
+    // public function index(Request $request)
+    // {
+    //     $data_statistic = ['weekly' => 'Harian', 'monthly' => 'Bulan', 'yearly' => 'Tahun'];
+    //     if ($request->statistic) {
+    //         if ($request->statistic == 'yearly') {
+    //             $data = $this->yearly();
+    //         } elseif ($request->statistic == 'monthly') {
+    //             $data = $this->monthly();
+    //         } else {
+    //             $data = $this->weekly();
+    //         }
+    //     } else {
+    //         $data = $this->weekly();
+    //     }
+    //     if ($request->tiket) {
+    //         if ($request->tiket == 'yearly') {
+    //             $data_tiket = $this->tiket_tahun();
+    //         } elseif ($request->tiket == 'monthly') {
+    //             $data_tiket = $this->pendapatan_monthly();
+    //         } else {
+    //             $data_tiket = $this->tiket_weekly();
+    //         }
+    //     } else {
+    //         $data_tiket = $this->tiket_weekly();
+    //     }
+    //     if ($request->pendapatan) {
+    //         if ($request->pendapatan == 'yearly') {
+    //             $data_week = $this->pendapatan_yearly();
+    //         } elseif ($request->pendapatan == 'monthly') {
+    //             $data_week = $this->pendapatan_monthly();
+    //         } else {
+    //             $data_week = $this->pendapatan_weekly();
+    //         }
+    //     } else {
+    //         $data_week = $this->pendapatan_weekly();
+    //     }
+    //     // AGENCY
+    //     $agencies = Agency::all();
+    //     $fleets = Fleet::get(['id', 'name']);
+    //     $routes = Route::get(['id', 'name']);
+    //     $orders = Order::query();
+    //     $fleet = $request->fleet;
+    //     if (!empty($request->agency)) {
+    //         $orders = $orders->where('user_id', $request->agency);
+    //     }
+    //     if (!empty($request->route)) {
+    //         $orders = $orders->where('route_id', $request->route);
+    //     }
+    //     if (!empty($request->fleet)) {
+    //         $orders = $orders->whereHas('route', function ($q) use ($fleet) {
+    //             $q->where('fleet_id', $fleet);
+    //         });
+    //     }
+
+    //     $orders = $orders->orderBy('id', 'desc')->paginate(7);
+    //     $order_count = Order::all()->count();
+    //     $test = $request->flash();
+    //     $users = User::all();
+    //     $count_user = User::doesntHave('agencies')->count();
+    //     $orders_money = Order::has('route')->sum('price');
+    //     session()->flash('Success', 'Berhasil Memuat Halaman');
+    //     return view('dashboard2', compact('users', 'orders', 'order_count', 'count_user', 'orders_money', 'agencies', 'fleets', 'routes', 'data', 'data_statistic', 'data_week', 'data_tiket'));
+    // }
     public function tiket_tahun()
     {
         $params = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "August", "September", "October", "November", "Desember"];
