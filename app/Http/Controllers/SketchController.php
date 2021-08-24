@@ -7,8 +7,11 @@ use App\Models\Area;
 use App\Models\FleetRoute;
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Repositories\LayoutRepository;
 use App\Services\LayoutService;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SketchController extends Controller
 {
@@ -60,7 +63,22 @@ class SketchController extends Controller
     }
 
     public function store(Request $request) {
-        $form = $request->form;
+        $froms = $request->data['from_layout_chair_id'];
+        $tos = $request->data['to_layout_chair_id'];
+
+        DB::beginTransaction();
+        Order::where('fleet_route_id', $request->first_fleet_route_id)->update([
+            'fleet_route_id'=>$request->second_fleet_route_id
+        ]);
+
+        foreach($froms as $key => $value) {
+            OrderDetail::where('order_id', $request->order_id)->where('layout_chair_id', $value['id'])->update([
+                'layout_chair_id'=>$tos[$key]['id']
+            ]);
+        }
+        DB::commit();
+        
+        return response([$froms, $tos], 200);
     }
     
 }

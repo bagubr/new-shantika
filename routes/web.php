@@ -80,7 +80,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('sketch/orders', [SketchController::class, 'getDeparturingOrders']);
     Route::get('sketch/orders/detail', [SketchController::class, 'getAvailibilityChairs']);
-    
+    Route::post('sketch/store', [SketchController::class, 'store']);
+
     Route::post('routes/fleet/store/', [RoutesController::class, 'store_fleet'])->name('route.fleet.store');
 
     Route::resources([
