@@ -36,6 +36,12 @@
         .pointer {
             cursor: pointer;
         }
+
+        .callout.callout-danger {
+            color: white;
+            border-left-color: #bd2130;
+            background-color: #bd2130;
+        }
     </style>
     <script src="https://unpkg.com/alpinejs@3.2.1/dist/cdn.min.js" defer></script>
 </head>

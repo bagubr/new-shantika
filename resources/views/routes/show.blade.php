@@ -19,6 +19,8 @@ Route
     </div><!-- /.container-fluid -->
 </section>
 <section class="content">
+    @include('partials.error')
+
     <div class="row">
         <div class="col-md-6">
             <div class="card card-primary">
@@ -73,8 +75,6 @@ Route
                     </div>
                 </div>
                 <div class="card-body" style="display: block;">
-                    @include('partials.error')
-
                     <form action="{{route('route.fleet.store')}}" method="POST">
                         @csrf
                         <input type="text" value="{{$route->id}}" hidden name="route_id">
@@ -213,7 +213,6 @@ Route
                     </div>
                 </div>
                 <div class="card-body" style="display: block;">
-                    @include('partials.error')
                     <form action="{{route('checkpoint.store')}}" method="POST">
                         @csrf
                         <input type="hidden" value="{{$route->id}}" name="route_id">

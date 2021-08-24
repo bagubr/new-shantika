@@ -73,8 +73,14 @@ Armada Rute
                                 @foreach ($fleet_routes as $fleet_route)
                                 <tr>
                                     <td>{{$fleet_route->fleet?->name}}</td>
-                                    <td>{{$fleet_route->route?->departure_city?->area?->name}}</td>
-                                    <td>{{$fleet_route->route?->name}}</td>
+                                    <td>
+                                        {{$fleet_route->route?->departure_city?->area?->name}}
+                                    </td>
+                                    <td>
+                                        <a href="{{route('routes.show',$fleet_route->route_id)}}">
+                                            {{$fleet_route->route?->name}}
+                                        </a>
+                                    </td>
                                     <td>Rp. {{number_format($fleet_route->price,2)}}</td>
                                     <td>{{$fleet_route->fleet?->fleetclass?->name}}</td>
                                     @if ($fleet_route->is_active == 1)
@@ -91,8 +97,6 @@ Armada Rute
                                     <td>
                                         <a href="{{route('fleet_route.show',$fleet_route->id)}}"
                                             class="btn btn-primary btn-xs">Detail</a>
-                                        <a href="{{route('fleet_route.edit',$fleet_route->id)}}"
-                                            class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('fleet_route.destroy',$fleet_route->id)}}"
                                             class="d-inline" method="POST">
                                             @csrf

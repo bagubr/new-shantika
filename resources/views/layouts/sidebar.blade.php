@@ -364,7 +364,7 @@
                     <a href="{{route('about.index')}}" class="nav-link {{Request::routeIs('about.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-info"></i>
                         <p>
-                            Tentang Kita
+                            Tentang Kami
                         </p>
                     </a>
                 </li>
