@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\OrdersExport;
 use App\Models\Area;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StatusPenumpangController extends Controller
 {
@@ -18,6 +20,10 @@ class StatusPenumpangController extends Controller
         $areas = Area::get();
         $orders = Order::all();
         return view('status_penumpang.index', compact('orders', 'areas'));
+    }
+    public function export()
+    {
+        return Excel::download(new OrdersExport, 'orders.xslx');
     }
     public function search(Request $request)
     {
