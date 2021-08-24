@@ -72,7 +72,7 @@ User Agent
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped" id="example1">
                             <thead>
                                 <tr>
                                     <th>Nama</th>

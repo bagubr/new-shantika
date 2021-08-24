@@ -30,7 +30,7 @@ class CreateUserAgentRequest extends FormRequest
             'avatar' => 'nullable|image|max:2048',
             'birth_place' => 'required',
             'birth' => 'required|date',
-            'address' => 'required',
+            'address' => 'nullable',
             'gender' => 'required|in:Male,Female',
             'agency_id' => 'required',
         ];
