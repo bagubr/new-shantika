@@ -52,7 +52,7 @@ Agen
                                     <td>{{$agency->address}}</td>
                                     @if ($agency->is_active == 1)
                                     <td data-toggle="modal" data-target="#exampleModal{{$agency->id}}"
-                                        class="text-success text-bold">
+                                        class="text-success text-bold pointer">
                                         Aktif
                                     </td>
                                     @else

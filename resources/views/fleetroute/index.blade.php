@@ -79,12 +79,12 @@ Armada Rute
                                     <td>{{$fleet_route->fleet?->fleetclass?->name}}</td>
                                     @if ($fleet_route->is_active == 1)
                                     <td data-toggle="modal" data-target="#exampleModal{{$fleet_route->id}}"
-                                        class="text-success text-bold">
+                                        class="text-success text-bold pointer">
                                         Aktif
                                     </td>
                                     @else
                                     <td data-toggle="modal" data-target="#exampleModal{{$fleet_route->id}}"
-                                        class="text-danger text-bold">
+                                        class="text-danger text-bold pointer">
                                         Non Aktif
                                     </td>
                                     @endif

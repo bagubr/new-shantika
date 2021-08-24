@@ -197,6 +197,31 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item {{Request::routeIs('user.*','member.*') ? 'menu-open' : ''}}">
+                    <a href="#" class="nav-link {{Request::routeIs('user.*','member.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Penumpang
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('user.index')}}"
+                                class="nav-link {{Request::routeIs('user.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Data Penumpang</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('member.index')}}"
+                                class="nav-link {{Request::routeIs('member.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Member</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="nav-item">
                     <a href="{{route('time_classification.index')}}"
                         class="nav-link {{Request::routeIs('time_classification.*') ? 'active' : ''}}">
@@ -259,31 +284,6 @@
                     </a>
                 </li>
                 <li class="nav-header">USER</li>
-                <li class="nav-item {{Request::routeIs('user.*','member.*') ? 'menu-open' : ''}}">
-                    <a href="#" class="nav-link {{Request::routeIs('user.*','member.*') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p>
-                            Penumpang
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('user.index')}}"
-                                class="nav-link {{Request::routeIs('user.*') ? 'active' : ''}}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Data Penumpang</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('member.index')}}"
-                                class="nav-link {{Request::routeIs('member.*') ? 'active' : ''}}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Member</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
                 <li class="nav-item">
                     <a href="{{route('customer_menu.index')}}"
                         class="nav-link {{Request::routeIs('customer_menu.*') ? 'active' : ''}}">
