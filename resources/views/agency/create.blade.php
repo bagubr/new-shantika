@@ -124,18 +124,20 @@ Agen
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
     integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
     crossorigin=""></script>
+@if (Request::routeIs('agency.create'))
 <script>
     var mymap = L.map('mapid').locate({setView: true});
-        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
             maxZoom: 20,
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
                 'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
             id: 'mapbox/streets-v11',
             tileSize: 512,
-            zoomOffset: -1
+            zoomOffset: -1,
+            accessToken: 'pk.eyJ1Ijoic2F0cmlvdG9sIiwiYSI6ImNrc3E1YTh0NzAzdWMyb3BicTUxbnMxY3YifQ.XfiYl1qOEFzjRsPs3TDijw'
         }).addTo(mymap);
         L.marker([document.getElementById("lat").value, document.getElementById("lng").value]).addTo(mymap)
-            .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+            .bindPopup('Lokasi Agen Anda.')
             .openPopup();
         var popup = L.popup();
         function onMapClick(e) {
@@ -148,4 +150,34 @@ Agen
         }    
         mymap.on('click', onMapClick);
 </script>
+@else
+<script>
+    var lat = {{$agency->lat}};
+    var lng = {{$agency->lng}}
+    console.log(lat,lng);
+    var mymap = L.map('mapid').setView([lat, lng], 13);
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: 'pk.eyJ1Ijoic2F0cmlvdG9sIiwiYSI6ImNrc3E1YTh0NzAzdWMyb3BicTUxbnMxY3YifQ.XfiYl1qOEFzjRsPs3TDijw'
+    }).addTo(mymap);
+    L.marker([document.getElementById("lat").value, document.getElementById("lng").value]).addTo(mymap)
+            .bindPopup('Lokasi Agen Anda.')
+            .openPopup();
+        var popup = L.popup();
+        function onMapClick(e) {
+            popup
+            .setLatLng(e.latlng)
+            .setContent("Pastikan Lokasi Anda Benar " + e.latlng.toString())
+            .openOn(mymap);
+            document.getElementById("lat").value = e.latlng.lat;
+            document.getElementById("lng").value = e.latlng.lng;
+        }    
+        mymap.on('click', onMapClick);
+</script>
+@endif
+
 @endpush
