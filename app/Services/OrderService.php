@@ -67,7 +67,6 @@ class OrderService {
     } 
 
     private static function sendNotification($order) {
-        Log::info($order);
         $notification = Notification::build(
             NotificationMessage::successfullySendingTicket()[0],
             NotificationMessage::successfullySendingTicket()[1],

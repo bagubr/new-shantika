@@ -31,6 +31,7 @@ class SendNotification
             'body'=>$event->notification->body,
         ], $event->fcm_token, $event->data);
 
+        Log::info(json_encode($firebase));
 
         if($event->is_saved && !empty($event->notification->user_id)) {
             $event->notification->save();
