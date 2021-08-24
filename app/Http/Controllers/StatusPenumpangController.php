@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Area;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
@@ -14,8 +15,27 @@ class StatusPenumpangController extends Controller
      */
     public function index()
     {
+        $areas = Area::get();
         $orders = Order::all();
-        return view('status_penumpang.index', compact('orders'));
+        return view('status_penumpang.index', compact('orders', 'areas'));
+    }
+    public function search(Request $request)
+    {
+        $area_id = $request->area_id;
+        $areas = Area::get();
+        $orders = Order::with('fleet_route.route')->when($area_id, function ($q) use ($area_id) {
+            $q->whereHas('fleet_route.route', function ($z) use ($area_id) {
+                $z->whereHas('departure_city.area', function ($y) use ($area_id) {
+                    $y->where('id', $area_id);
+                });
+            });
+        })->get();
+        if (!$orders->isEmpty()) {
+            session()->flash('success', 'Data Order Berhasil Ditemukan');
+        } else {
+            session()->flash('error', 'Tidak Ada Data Ditemukan');
+        }
+        return view('status_penumpang.index', compact('orders', 'areas'));
     }
 
     /**
