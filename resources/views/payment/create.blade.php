@@ -18,7 +18,7 @@ Detail Pembayaran
         </div>
     </div><!-- /.container-fluid -->
 </section>
-<section class="content">
+<section class="content" id="app_payment">
     <div class="row">
         <div class="col-md-12">
             <div class="card card-primary">
@@ -49,88 +49,79 @@ Detail Pembayaran
                                         placeholder="Masukkan Nama Pembayaran">
                                 </div>
                             </div>
-                            {{-- <div class="col">
-                                <div class="form-group">
-                                    <label>Nama</label>
-                                    <input type="text" class="form-control" readonly
-                                        value="{{isset($payment)? $payment->order->user->name : ''}}">
                         </div>
-                </div> --}}
-            </div>
-            <div class="form-row">
-                <div class="col">
-                    <div class="form-group">
-                        <label>Tipe Pembayaran</label>
-                        <select class="form-control" name="payment_type_id" style="width: 100%;" readonly>
-                            <option value="">Pilih Tipe Pembayaran</option>
-                            @foreach ($payment_types as $payment_type)
-                            <option value="{{$payment_type->id}}" @isset($payment) @if ($payment_type->id
-                                ===
-                                $payment->payment_type_id)
-                                selected
-                                @endif @endisset>{{$payment_type->name}}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Tipe Pembayaran</label>
+                                    <select class="form-control" name="payment_type_id" style="width: 100%;" readonly>
+                                        <option value="">Pilih Tipe Pembayaran</option>
+                                        @foreach ($payment_types as $payment_type)
+                                        <option value="{{$payment_type->id}}" @isset($payment) @if ($payment_type->id
+                                            ===
+                                            $payment->payment_type_id)
+                                            selected
+                                            @endif @endisset>{{$payment_type->name}}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+
+                                    <label>Status</label>
+                                    <select name="status" class="form-control" v-model="status">
+                                        <option value="">Select Status</option>
+                                        @foreach ($statuses as $status)
+                                        <option value="{{$status}}" @isset($payment) @if ($status==$payment->status)
+                                            selected
+                                            @endif
+                                            @endisset>{{$status}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Dibayar Pada Tanggal</label>
+                                    <input type="date" class="form-control" name="paid_at" value="{{ date('Y-m-d') }}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group" v-if="status == 'DECLINED'">
+                            <label>Alasan Penolakan</label>
+                            <textarea name="proof_decline_reason" class="form-control"
+                                rows="5">{{isset($payment) ? $payment->proof_decline_reason : ''}}</textarea>
+                        </div>
+                        <div class="form-group">
+                            @isset($payment)
+                            <a href="{{$payment->proof_url}}" target="blank">
+                                <img src="{{$payment->proof_url}}" height="100px" alt="">
+                            </a>
+                            @endisset
+                        </div>
+                        <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
+                        <input type="submit" value="Submit" class="btn btn-success float-right">
+                    </form>
                 </div>
-                <div class="col">
-                    <label>Status</label>
-                    <select name="status" class="form-control" id="">
-                        <option value="">Select Status</option>
-                        @foreach ($statuses as $status)
-                        <option value="{{$status}}" @isset($payment) @if ($status==$payment->status)
-                            selected
-                            @endif
-                            @endisset>{{$status}}</option>
-                        @endforeach
-                    </select>
-                </div>
+                <!-- /.card-body -->
             </div>
-            <div class="form-row">
-                <div class="col">
-                    <div class="form-group">
-                        <label>Paid At</label>
-                        <input type="date" class="form-control" name="paid_at" value="{{isset($payment) ? $time : ''}}">
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label>Bukti Pembayaran</label>
-                        <input type="file" name="proof" accept="image/*" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>Alasan Penolakan</label>
-                <textarea name="proof_decline_reason" class="form-control"
-                    rows="5">{{isset($payment) ? $payment->proof_decline_reason : ''}}</textarea>
-            </div>
-            <div class="form-group">
-                @isset($payment)
-                <a href="{{$payment->proof_url}}" target="blank">
-                    <img src="{{$payment->proof_url}}" height="100px" alt="">
-                </a>
-                @endisset
-            </div>
-            <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
-            <input type="submit" value="Submit" class="btn btn-success float-right">
-            </form>
+            <!-- /.card -->
         </div>
-        <!-- /.card-body -->
-    </div>
-    <!-- /.card -->
-    </div>
     </div>
 </section>
 @endsection
-@section('script')
+@push('script')
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 <script>
-    $(function () {
-        $('.select2').select2()
-    })
-    $('.select2bs4').select2({
-      theme: 'bootstrap4'
-    })
+    var app = new Vue({
+        el: '#app_payment',
+        data: {
+            message: 'Hello Vue!',
+            status: '{{$payment->status}}',
+        }
+    });
 </script>
-@endsection
+@endpush

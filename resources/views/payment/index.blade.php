@@ -66,8 +66,11 @@ Riwayat Pembayaran
                                         Tidak Ada Tanggal Pembayaran
                                         @endif
                                     </td>
-                                    <td><a href="{{route('payment.edit',$payment->id)}}"
+                                    <td>
+                                        @if ($payment->status == 'WAITING_CONFIRMATION')
+                                        <a href="{{route('payment.edit',$payment->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
+                                        @endif
                                         <form action="{{route('payment.destroy',$payment->id)}}" class="d-inline"
                                             method="POST">
                                             @csrf

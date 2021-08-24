@@ -111,7 +111,7 @@ class PaymentController extends Controller
             PaymentAcceptedNotificationJob::dispatchAfterResponse($notification, $order_id->user?->fcm_token, true);
         }
         session()->flash('success', 'Pembayaran Berhasil Diperbarui');
-        return redirect()->back();
+        return redirect(route('payment.index'));
     }
 
     /**

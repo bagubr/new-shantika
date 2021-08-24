@@ -107,13 +107,21 @@ Pesanan
                                 </select>
                             </div>
                         </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Dibayar Pada</label>
+                                <input type="date" value="{{$order->payment?->paid_at}}" disabled class="form-control">
+                            </div>
+                        </div>
                     </div>
+                    @if ($order->payment?->status == 'WAITING_CONFIRMATION')
                     <div class="text-right">
                         <a href="{{route('payment.edit',$order->payment?->id)}}" target="_blank"
                             class="btn btn-primary">Ubah Status</a>
+                        @endif
                     </div>
-                    @if ($order->payment?->proof)
-                    <img src="{{$order->payment?->proof}}" class="" alt="">
+                    @if ($order->payment?->proof_url)
+                    <img src="{{$order->payment?->proof_url}}" style="height:100px" alt="">
                     @endif
                     @else
                     <h5>Belum Ada Transaksi</h5>
