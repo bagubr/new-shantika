@@ -103,6 +103,26 @@
     <script src="{{asset('plugins/toastr/toastr.min.js')}}"></script>
     <!-- Select2 -->
     <script src="{{asset('plugins/select2/js/select2.full.min.js')}}"></script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-messaging.js"></script>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyCkXZd29pEyQ4RtkliscrSCwqN2m1QqTuM",
+            authDomain: "agen-santika.firebaseapp.com",
+            databaseURL: "https://agen-santika-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "agen-santika",
+            storageBucket: "agen-santika.appspot.com",
+            messagingSenderId: "348893299264",
+            appId: "1:348893299264:web:2a519915d231980d3515a5",
+            measurementId: "G-1KR74VKTEC"
+        };
+        firebase.initializeApp(firebaseConfig);
+        firebase.messaging();
+    </script>
+
     <script>
         $(function () {
         $(document).on('click', '[data-toggle="lightbox"]', function(event) {
