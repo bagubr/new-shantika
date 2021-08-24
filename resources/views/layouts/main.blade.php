@@ -112,7 +112,7 @@
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-messaging.js"></script>
-
+    @auth
     <script>
         var firebaseConfig = {
             apiKey: "AIzaSyCkXZd29pEyQ4RtkliscrSCwqN2m1QqTuM",
@@ -156,7 +156,7 @@
             })
         })
     </script>
-
+    @endauth
     <script>
         $(function () {
         $(document).on('click', '[data-toggle="lightbox"]', function(event) {
