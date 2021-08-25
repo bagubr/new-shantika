@@ -124,7 +124,7 @@ class OrderService {
         DB::commit();
         $order->refresh();
 
-        TicketExchangedJob::dispatchAfterResponse($order);
+        TicketExchangedJob::dispatch($order);
 
         return $order;
     }
