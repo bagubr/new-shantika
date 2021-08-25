@@ -20,10 +20,16 @@ use Maatwebsite\Excel\Concerns\FromView;
 // }
 class OutcomeExport implements FromView
 {
+    public function __construct(int $id)
+    {
+        $this->id  = $id;
+    }
     public function view(): View
     {
+        $outcomes = OutcomeDetail::where('outcome_id', $this->id)->get();
+
         return view('excel_export.outcome', [
-            'outcomes' => OutcomeDetail::all()
+            'outcomes' => $outcomes
         ]);
     }
 }

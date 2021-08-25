@@ -34,9 +34,9 @@ class OutcomeController extends Controller
         $outcome_types = OutcomeType::orderBy('id')->get();
         return view('outcome.outcome_type', compact('outcome_types'));
     }
-    public function export()
+    public function export($id)
     {
-        return Excel::download(new OutcomeExport, 'outcome.xlsx');
+        return Excel::download(new OutcomeExport($id), 'outcome.xlsx');
     }
 
     public function storeType(Request $request)
@@ -123,7 +123,7 @@ class OutcomeController extends Controller
     {
         $outcome = Outcome::with('outcome_detail')->find($id);
         $orders = Order::whereIn('id', json_decode($outcome->order_price_distribution_id))->get();
-        return view('outcome.show', compact('outcome', 'orders'));
+        return view('outcome.show', compact('outcome', 'orders', 'id'));
     }
 
     public function destroyType($id)

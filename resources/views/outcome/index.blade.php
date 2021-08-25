@@ -28,7 +28,6 @@ Pengeluaran
                     <div class="card-header">
                         <h3 class="card-title">Table Pengeluaran</h3>
                         <div class="text-right">
-                            <a class="btn btn-success btn-sm" href="{{route('outcome.export')}}">Export Excel</a>
                             <a href="{{route('outcome_type.create')}}" class="btn btn-outline-warning btn-sm">Tambah
                                 Tipe Pengeluaran</a>
                             <a href="{{route('outcome.create')}}" class="btn btn-primary btn-sm">Tambah</a>
