@@ -14,6 +14,7 @@ use App\Models\OrderPriceDistribution;
 use App\Models\Payment;
 use App\Models\Route;
 use App\Models\Setting;
+use App\Repositories\BookingRepository;
 use App\Repositories\OrderRepository;
 use App\Utils\Response;
 use App\Repositories\UserRepository;
@@ -29,8 +30,12 @@ class OrderService {
         $route = FleetRoute::find($data->fleet_route_id)
             ?? (new self)->sendFailedResponse([], 'Rute perjalanan tidak ditemukan');
         $order_exists = OrderRepository::isOrderUnavailable($data->fleet_route_id, $data->reserve_at, $detail->layout_chair_id);
+        $booking_exists = BookingRepository::isBooked($data->fleet_route_id, $data->user_id, $detail->layout_chair_id, $data->reserve_at);
         if($order_exists) {
             (new self)->sendFailedResponse([], 'Maaf, kursi sudah dibeli oleh orang lain, silahkan pilih kursi lain');
+        }
+        if($booking_exists) {
+            (new self)->sendFailedResponse([], "Maaf, kursi anda telah dibooking terlebih dahulu oleh orang lain");
         }
         $setting = Setting::first();
         $ticket_price = $route->price - $data->fleet_route->fleet->fleetclass->price_food;

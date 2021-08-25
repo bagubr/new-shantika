@@ -54,7 +54,7 @@ class OrderRepository
             ->addSelect(DB::raw("NULL as layout_chair_id"))
             ->addSelect(DB::raw("'PEMBELIAN' as type"))
             ->addSelect(DB::raw("price"))
-            ->whereUserId($user->id)
+            ->where('departure_agency_id', $user->agencies->agent->id)
             ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
             ->union($booking);
         $user_order =  Order::select('id', 'fleet_route_id', 'user_id', 'reserve_at', 'status', 'code_order as code')

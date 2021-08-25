@@ -147,4 +147,9 @@ class OutcomeController extends Controller
             return redirect()->back()->with('success', 'Gagal Hapus Data');
         }
     }
+
+    public function export($id)
+    {
+        return Excel::download(new OutcomeFromViewExport($id), 'pengeluran.xlsx');
+    }
 }
