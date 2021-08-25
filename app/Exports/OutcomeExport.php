@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\Models\Outcome;
 use App\Models\OutcomeDetail;
+use App\Models\Order;
 // use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
@@ -26,10 +27,11 @@ class OutcomeExport implements FromView
     }
     public function view(): View
     {
-        $outcomes = OutcomeDetail::where('outcome_id', $this->id)->get();
-
+        $outcome =  Outcome::with('outcome_detail')->find($this->id);
+        $orders = Order::whereIn('id', json_decode($outcome->order_price_distribution_id))->get();
         return view('excel_export.outcome', [
-            'outcomes' => $outcomes
+            'outcome' => $outcome,
+            'orders' => $orders,
         ]);
     }
 }

@@ -148,8 +148,8 @@ class OutcomeController extends Controller
         }
     }
 
-    public function export($id)
-    {
-        return Excel::download(new OutcomeFromViewExport($id), 'pengeluran.xlsx');
-    }
+    // public function export($id)
+    // {
+    //     return Excel::download(new OutcomeFromViewExport($id), 'pengeluran.xlsx');
+    // }
 }

@@ -47,7 +47,7 @@ Pengeluaran
                     </div>
                     <div class="form-group">
                         <label>Rute</label>
-                        <input type="text" class="form-control" value="{{$outcome->fleet_route?->route->name}}"
+                        <input type="text" class="form-control" value="{{$outcome->fleet_route?->route?->name}}"
                             disabled>
                     </div>
                     <a class="btn btn-success btn-sm" href="{{route('outcome.export',$id)}}">Export Excel</a>

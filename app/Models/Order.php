@@ -51,6 +51,11 @@ class Order extends Model
         return $this->belongsTo(Agency::class, 'departure_agency_id');
     }
 
+    public function agency_destiny()
+    {
+        return $this->belongsTo(Agency::class, 'destination_agency_id');
+    }
+
     public function fleet_route()
     {
         return $this->belongsTo(FleetRoute::class, 'fleet_route_id', 'id');
