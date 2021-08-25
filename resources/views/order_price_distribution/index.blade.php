@@ -163,7 +163,7 @@ Setoran
                                             @csrf
                                             @method('PUT')
                                             <button class="btn btn-primary btn-xs"
-                                                onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                                onclick="return confirm('Apakah Anda Yakin Ingin Deposit?')"
                                                 type="submit">Deposit
                                                 Sekarang</button>
                                         </form>
