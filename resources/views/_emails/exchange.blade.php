@@ -53,9 +53,9 @@
                 <td>{{ $fleet_name }}</td>
                 <td>{{ $fleet_class }}</td>
                 <td>{{ $checkpoint_start->city_name }} (Agen {{$checkpoint_start->agency_name}})</td>
-                <td>{{ $checkpoint_start->arrived_at }}</td>
+                <td>{{ $departure_at }}</td>
                 <td>{{ $checkpoint_destination->city_name }} (Agen {{$checkpoint_destination->agency_name}})</td>
-                <td>{{ $checkpoint_destination->arrived_at }}</td>
+                <td>{{ $arrived_at }}</td>
             </tr>
         </tbody>
     </table>

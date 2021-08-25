@@ -42,11 +42,13 @@ class TicketExchangedJob implements ShouldQueue
             'type'=>Notification::TYPE1
         ]);
 
-        $checkpoint_start = $this->order->route->checkpoints()->where('agency_id', $this->order->departure_agency_id)->first();
-        $checkpoint_end = $this->order->route->checkpoints()->where('agency_id', $this->order->destination_agency_id)->first();
+        $checkpoint_start = $this->order->fleet_route->route->checkpoints()->where('agency_id', $this->order->departure_agency_id)->first();
+        $checkpoint_end = $this->order->fleet_route->route->checkpoints()->where('agency_id', $this->order->destination_agency_id)->first();
         $data = [
-            "fleet_name"=>$this->order->route?->fleet?->name,
-            "fleet_class"=>$this->order->route?->fleet?->fleetclass?->name,
+            "fleet_name"=>$this->order->fleet_route?->fleet?->name,
+            "fleet_class"=>$this->order->fleet_route?->fleet?->fleetclass?->name,
+            "departure_at"=>$this->order->fleet_route?->route?->departure_at,
+            "arrived_at"=>$this->order->fleet_route?->route?->arrived_at,
             "checkpoint_start"=>(object) [
                 "agency_id"=>$checkpoint_start->agency?->id ?? "",
                 "agency_name"=>$checkpoint_start->agency?->name ?? "",
@@ -84,7 +86,7 @@ class TicketExchangedJob implements ShouldQueue
         
         $order_detail = $this->order->order_detail[0];
         Mail::send('_emails.exchange', $data, function($message) use ($order_detail,$payload) {
-            $message->to($order_detail->email, $order_detail->name)->subject('Konfirmasi Pembelian');
+            $message->to($order_detail->email, $order_detail->name)->subject('Berhasil Menukarkan Tiket');
             $message->from(env('MAIL_USERNAME'), $payload[0]);
         });    
     }
