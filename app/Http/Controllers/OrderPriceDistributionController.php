@@ -21,7 +21,11 @@ class OrderPriceDistributionController extends Controller
             $q->orderBy('reserve_at', 'DESC');
         })->get();
         $outcome_details = OutcomeDetail::all();
-        return view('order_price_distribution.index', compact('order_price_distributions', 'outcome_details', 'fleet_routes'));
+
+        $count_income = OrderPriceDistribution::pluck('for_owner')->sum();
+        $count_outcome = OutcomeDetail::pluck('amount')->sum();
+        $count_pendapatan_bersih = $count_income - $count_outcome;
+        return view('order_price_distribution.index', compact('order_price_distributions', 'outcome_details', 'fleet_routes', 'count_income', 'count_outcome', 'count_pendapatan_bersih'));
     }
     public function search(Request $request)
     {
@@ -51,7 +55,10 @@ class OrderPriceDistributionController extends Controller
         $test = $request->flash();
         $outcome_details = $outcome_details->get();
         $order_price_distributions = $order_price_distributions->get();
-        return view('order_price_distribution.index', compact('order_price_distributions', 'test', 'outcome_details', 'fleet_routes'));
+        $count_income = $order_price_distributions->pluck('for_owner')->sum();
+        $count_outcome = $outcome_details->pluck('amount')->sum();
+        $count_pendapatan_bersih = $count_income - $count_outcome;
+        return view('order_price_distribution.index', compact('order_price_distributions', 'test', 'outcome_details', 'fleet_routes', 'count_income', 'count_outcome', 'count_pendapatan_bersih'));
     }
 
     /**

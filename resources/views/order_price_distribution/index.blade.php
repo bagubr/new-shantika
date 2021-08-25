@@ -23,7 +23,7 @@ Setoran
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12">
+            <div class="col-4">
                 <div class="card">
                     <form action="{{route('order_price_distribution.search')}}" method="get">
                         @csrf
@@ -55,6 +55,44 @@ Setoran
                             <button class="btn btn-success" type="submit">Cari</button>
                         </div>
                     </form>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3><sup style="font-size: 20px">Rp</sup> {{number_format($count_income)}}</h3>
+                                <p>Total Pemasukkan</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-stats-bars"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h3><sup style="font-size: 20px">Rp</sup> {{number_format($count_outcome)}}</h3>
+                                <p>Total Pengeluaran</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-stats-bars"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h3><sup style="font-size: 20px">Rp</sup> {{number_format($count_pendapatan_bersih)}}
+                                </h3>
+                                <p>Total Pendapatan Bersih</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-stats-bars"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-12">
