@@ -37,6 +37,7 @@ Agen
                             <thead>
                                 <tr>
                                     <th>Nama</th>
+                                    <th>Kode</th>
                                     <th>Kota</th>
                                     <th>Area</th>
                                     <th>Alamat</th>
@@ -49,6 +50,7 @@ Agen
                                 @foreach ($agencies as $agency)
                                 <tr>
                                     <td>{{$agency->name}}</td>
+                                    <td>{{$agency->code}}</td>
                                     <td>{{$agency->city?->name}}</td>
                                     <td>{{$agency->city?->area?->name}}</td>
                                     <td>{{$agency->address}}</td>

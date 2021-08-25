@@ -56,6 +56,11 @@ Agen
                                 placeholder="Masukkan Nama" required value="{{isset($agency) ? $agency->name : ''}}">
                         </div>
                         <div class="form-group">
+                            <label for="inputName">Kode Agen</label>
+                            <input type="text" id="inputName" class="form-control" name="code"
+                                placeholder="Masukkan Kode" required value="{{isset($agency) ? $agency->code : ''}}">
+                        </div>
+                        <div class="form-group">
                             <label>Kota</label>
                             <select class="form-control select2" name="city_id" style="width: 100%;" required>
                                 <option value="">Pilih Kota</option>

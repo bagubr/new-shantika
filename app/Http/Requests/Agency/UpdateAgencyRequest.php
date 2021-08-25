@@ -26,6 +26,7 @@ class UpdateAgencyRequest extends FormRequest
         return [
             'name' => 'required|unique:agencies,name,' . $this->agency->id,
             'city_id' => 'required|exists:cities,id',
+            'code' => 'required',
             'address' => 'required',
             'lat' => 'required',
             'lng' => 'required',
