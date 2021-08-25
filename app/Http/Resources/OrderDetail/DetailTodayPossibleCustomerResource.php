@@ -19,9 +19,9 @@ class DetailTodayPossibleCustomerResource extends JsonResource
         $order = $this->order;
         $distribution = $order->distribution;
         return [
-            'customer_name'=>$this->name,
-            'customer_phone'=>$this->phone,
-            'customer_email'=>$this->email,
+            'customer_name'=>$order->order_detail[0]->name,
+            'customer_phone'=>$order->order_detail[0]->phone,
+            'customer_email'=>$order->order_detail[0]->email,
             'reserve_at'=>$order->reserve_at,
             'chairs'=>$order->order_detail()->with('chair')->get()->pluck('chair.name')->values(),
             'where_bought_ticket'=>$this->getWhereTicketBought($order),
