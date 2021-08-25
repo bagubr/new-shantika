@@ -30,6 +30,9 @@ class RouteController extends Controller
         
         $routes = FleetRoute::with(['route.fleet', 'route.checkpoints.agency.city'])
             ->where('is_active', true)
+            ->whereHas('destination_city', function($query) use ($departure_agency) {
+                $query->where('area_id', '!=', $departure_agency->city->area_id);
+            })
             ->whereHas('fleet', function($query) use ($request) { 
                 $query->where('fleet_class_id', $request->fleet_class_id);
             })
