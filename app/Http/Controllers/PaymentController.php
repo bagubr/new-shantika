@@ -10,6 +10,7 @@ use App\Models\Payment;
 use App\Repositories\PaymentTypeRepository;
 use App\Utils\NotificationMessage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class PaymentController extends Controller
 {
@@ -111,7 +112,7 @@ class PaymentController extends Controller
             PaymentAcceptedNotificationJob::dispatchAfterResponse($notification, $order_id->user?->fcm_token, true);
         }
         session()->flash('success', 'Pembayaran Berhasil Diperbarui');
-        return redirect()->back();
+        return redirect(route('payment.index'));
     }
 
     /**

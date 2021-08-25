@@ -139,7 +139,7 @@ class RoutesController extends Controller
             'name' => $name,
         ]);
         session()->flash('success', 'Route Berhasil Diperbarui');
-        return redirect(route('routes.index'));
+        return redirect(route('routes.show', $route->id));
     }
     public function store_fleet(CreateFleetRouteRequest $request)
     {

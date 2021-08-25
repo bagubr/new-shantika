@@ -19,6 +19,8 @@ Route
     </div><!-- /.container-fluid -->
 </section>
 <section class="content">
+    @include('partials.error')
+
     <div class="row">
         <div class="col-md-6">
             <div class="card card-primary">
@@ -57,6 +59,9 @@ Route
                         <input type="text" class="form-control" value="{{$route->departure_city?->area?->name}}"
                             disabled>
                     </div>
+                    <div class="text-right">
+                        <a href="{{route('routes.edit',$route->id)}}" class="btn btn-warning mr-auto">Edit</a>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -73,8 +78,6 @@ Route
                     </div>
                 </div>
                 <div class="card-body" style="display: block;">
-                    @include('partials.error')
-
                     <form action="{{route('route.fleet.store')}}" method="POST">
                         @csrf
                         <input type="text" value="{{$route->id}}" hidden name="route_id">
@@ -156,7 +159,8 @@ Route
                                         method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-danger btn-xs" onclick="return confirm('Are you sure?')"
+                                        <button class="btn btn-danger btn-xs"
+                                            onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
                                             type="submit">Delete</button>
                                     </form>
                                 </td>
@@ -213,7 +217,6 @@ Route
                     </div>
                 </div>
                 <div class="card-body" style="display: block;">
-                    @include('partials.error')
                     <form action="{{route('checkpoint.store')}}" method="POST">
                         @csrf
                         <input type="hidden" value="{{$route->id}}" name="route_id">
@@ -271,7 +274,8 @@ Route
                                         method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-danger btn-xs" onclick="return confirm('Are you sure?')"
+                                        <button class="btn btn-danger btn-xs"
+                                            onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
                                             type="submit">Delete</button>
                                     </form>
                                 </td>

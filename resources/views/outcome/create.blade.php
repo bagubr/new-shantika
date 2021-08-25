@@ -34,7 +34,7 @@ Pengeluran
                     @include('partials.error')
                     <form action="{{route('outcome.store')}}" method="POST">
                         @csrf
-                        <input type="hidden" name="fleet_id" value="{{@$fleet_id}}">
+                        <input type="hidden" name="fleet_route_id" value="{{@$fleet_route_id}}">
                         <input type="hidden" name="reported_at" value="{{((@$reported_at)?$reported_at:date('Y-m-d'))}}">
                         @include('outcome.form')
                         <br>
@@ -61,14 +61,14 @@ Pengeluran
                         <div class="form-row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label>Cari Armada</label>
-                                    <select name="fleet_id" id="select-rute" class="form-control" required>
-                                        <option value="WITH_TYPE" {{(@$fleet_id == 'WITH_TYPE')?'selected':''}}>--Pengeluaran Lain--</option>
-                                        @foreach ($fleets as $fleet)
-                                        @if (@$fleet_id == $fleet->id)
-                                        <option value="{{$fleet->id}}" selected>{{$fleet->name}}</option>
+                                    <label>Cari Route Armada</label>
+                                    <select name="fleet_route_id" id="select-rute" class="form-control" required>
+                                        <option value="WITH_TYPE" {{(@$fleet_route_id == 'WITH_TYPE')?'selected':''}}>--Pengeluaran Lain--</option>
+                                        @foreach ($fleet_routes as $fleet_route)
+                                        @if (@$fleet_route_id == $fleet_route->id)
+                                        <option value="{{$fleet_route->id}}" selected>{{$fleet_route->route->name}} | {{$fleet_route->fleet->name}}</option>
                                         @else
-                                        <option value="{{$fleet->id}}">{{$fleet->name}}</option>
+                                        <option value="{{$fleet_route->id}}">{{$fleet_route->route->name}} | {{$fleet_route->fleet->name}}</option>
                                         @endif
                                         @endforeach
                                     </select>
@@ -106,38 +106,54 @@ Pengeluran
                                 <th>Total Harga</th>
                                 <th>Status</th>
                                 <th>Tanggal Pemesanan</th>
-                                <th>Aksi</th>
+                                <!-- <th>Aksi</th> -->
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($orders as $order)
                             <tr>
                                 <td>
+                                    @if ($order->user?->agencies)
+                                    <a href="{{route('user_agent.show',$order->user?->agencies?->agency_id)}}"
+                                        target="_blank">
+                                        {{$order->user?->name_agent}}
+                                    </a>
+                                    @else
                                     {{$order->order_detail[0]->name}}
+                                    @endif
                                 </td>
                                 <td>{{$order->code_order}}</td>
                                 <td>
-                                    <a href="{{route('routes.show',$order->route?->id)}}" target="_blank">
-                                        {{$order->route?->name}}
+                                    <a href="{{route('routes.show',$order->fleet_route?->route_id)}}">
+                                        {{$order->fleet_route?->route->name}}
                                     </a>
                                 </td>
                                 <td>
-                                    {{$order->route?->fleet?->name}}/{{$order->route?->fleet?->fleetclass?->name}}
+                                    {{$order->fleet_route?->fleet?->name}}/{{$order->fleet_route?->fleet?->fleetclass?->name}}
                                 </td>
                                 <td>
                                     Rp. {{number_format($order->price,2)}}
                                 </td>
                                 <td>{{$order->status}}</td>
                                 <td>{{date('Y-m-d',strtotime($order->reserve_at))}}</td>
-                                <td>
-                                    <a class="badge badge-primary" href="{{route('order.show',$order->id)}}"
-                                        target="_blank">Detail
-                                        Pemesanan</a>
-                                </td>
+                                <!-- <td>
+                                    <a class="btn btn-primary btn-xs" href="{{route('order.show',$order->id)}}"
+                                        target="_blank">Detail</a>
+                                    <form action="{{route('order.destroy',$order->id)}}" class="d-inline"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger btn-xs"
+                                            onclick="return confirm('Are you sure?')" type="submit">Delete</button>
+                                    </form>
+                                </td> -->
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
+                    @if (Request::routeIs('order.index'))
+                    {{$orders->links("pagination::bootstrap-4")}}
+                    @endif
                 </div>
                 <!-- /.card-body -->
             </div>

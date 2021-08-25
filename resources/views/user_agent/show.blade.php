@@ -107,8 +107,7 @@ User Agen
                         <thead>
                             <tr>
                                 <th>Kode Order</th>
-                                <th>Rute</th>
-                                <th>Armada</th>
+                                <th>Rute Armada</th>
                                 <th>Total Harga</th>
                                 <th>Status</th>
                                 <th>Tanggal Pemesanan</th>
@@ -118,14 +117,15 @@ User Agen
                         <tbody>
                             @foreach ($orders as $order)
                             <tr>
-                                <td>{{$order->code_order}}</td>
                                 <td>
-                                    <a href="{{route('routes.show',$order->route?->id)}}" target="_blank">
-                                        {{$order->route?->name}}
+                                    <a href="{{route('order.show',$order->id)}}">
+                                        {{$order->code_order}}
                                     </a>
                                 </td>
                                 <td>
-                                    {{$order->route?->fleet?->name}}/{{$order->route?->fleet?->fleetclass?->name}}
+                                    <a href="{{route('fleet_route.show',$order->fleet_route?->id)}}">
+                                        {{$order->fleet_route?->route?->name}}/{{$order->fleet_route?->fleet?->name}}
+                                    </a>
                                 </td>
                                 <td>
                                     Rp. {{number_format($order->price,2)}}
@@ -133,13 +133,13 @@ User Agen
                                 <td>{{$order->status}}</td>
                                 <td>{{date('Y-m-d',strtotime($order->reserve_at))}}</td>
                                 <td>
-                                    <a class="badge badge-primary" href="{{route('order.show',$order->id)}}"
-                                        target="_blank">Detail
+                                    <a class="btn btn-primary btn-xs" href="{{route('order.show',$order->id)}}">Detail
                                         Pemesanan</a>
                                     <form action="{{route('order.destroy',$order->id)}}" class="d-inline" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-danger btn-xs" onclick="return confirm('Are you sure?')"
+                                        <button class="btn btn-danger btn-xs"
+                                            onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
                                             type="submit">Delete</button>
                                     </form>
                                 </td>

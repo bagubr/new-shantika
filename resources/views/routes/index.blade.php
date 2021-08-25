@@ -38,6 +38,7 @@ Route
                                 <tr>
                                     <th>Nama</th>
                                     <th>Jam Operasional</th>
+                                    <th>Area</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -46,6 +47,7 @@ Route
                                 <tr>
                                     <td>{{$route->name}}</td>
                                     <td>{{$route->departure_at}} - {{$route->arrived_at}}</td>
+                                    <td>{{$route->departure_city?->area?->name}}</td>
                                     <td>
                                         <a class="btn btn-primary btn-xs" href="{{route('routes.show',$route->id)}}"
                                             target="_blank">Detail</a>
@@ -56,7 +58,8 @@ Route
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger btn-xs"
-                                                onclick="return confirm('Are you sure?')" type="submit">Delete</button>
+                                                onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                                type="submit">Delete</button>
                                         </form>
                                     </td>
                                 </tr>

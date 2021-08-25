@@ -197,8 +197,9 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item {{Request::routeIs('user.*','member.*') ? 'menu-open' : ''}}">
-                    <a href="#" class="nav-link {{Request::routeIs('user.*','member.*') ? 'active' : ''}}">
+                <li class="nav-item {{Request::routeIs('user.*','status_penumpang.*','member.*') ? 'menu-open' : ''}}">
+                    <a href="#"
+                        class="nav-link {{Request::routeIs('user.*','status_penumpang.*','member.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Penumpang
@@ -207,8 +208,8 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('user.index')}}"
-                                class="nav-link {{Request::routeIs('user.*') ? 'active' : ''}}">
+                            <a href="{{route('status_penumpang.index')}}"
+                                class="nav-link {{Request::routeIs('status_penumpang.*') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Status Pembayaran</p>
                             </a>
@@ -217,7 +218,7 @@
                             <a href="{{route('user.index')}}"
                                 class="nav-link {{Request::routeIs('user.*') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Data Penumpang</p>
+                                <p>Akun Penumpang</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -364,7 +365,7 @@
                     <a href="{{route('about.index')}}" class="nav-link {{Request::routeIs('about.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-info"></i>
                         <p>
-                            Tentang Kita
+                            Tentang Kami
                         </p>
                     </a>
                 </li>

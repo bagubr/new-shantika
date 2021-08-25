@@ -51,15 +51,23 @@ Pengeluaran
                                 @foreach ($outcomes as $outcome)
                                 <tr>
                                     <td>{{$outcome->reported_at}}</td>
-                                    <td>{{$outcome?->route?->name??"Non Rute"}}</td>
+                                    <td>{{$outcome?->fleet_route?->route->name??"Non Rute"}}</td>
                                     <td>{{$outcome->outcome_type?->name??'-'}}</td>
-                                    <td>{{$outcome?->route?->fleet?->name??'Non Rute'}}</td>
-                                    <td>{{$outcome?->route?->fleet?->fleetclass?->name??'Non Rute'}}</td>
+                                    <td>{{$outcome?->fleet_route?->fleet?->name??'Non Rute'}}</td>
+                                    <td>{{$outcome?->fleet_route?->fleet?->fleetclass?->name??'Non Rute'}}</td>
                                     <td>Rp. {{number_format($outcome->sum_total_pendapatan,2)}}</td>
                                     <td>Rp. {{number_format($outcome->sum_pengeluaran,2)}}</td>
                                     <td>
                                         <a href="{{route('outcome.show',$outcome->id)}}"
                                         class="btn btn-info btn-xs">Show</a>
+                                        <form action="{{route('outcome.destroy',$outcome->id)}}" class="d-inline"
+                                        method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger btn-xs"
+                                                onclick="return confirm('Apakah Anda yakin akan menghapus data tipe pengeluaran?')"
+                                                type="submit">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                                 @endforeach

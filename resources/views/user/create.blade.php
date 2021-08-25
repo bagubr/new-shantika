@@ -42,12 +42,12 @@ User
                         @endisset
                         <div class="form-group">
                             <label>Nama</label>
-                            <input type="text" class="form-control" name="name" placeholder="Masukkan Nama"
+                            <input type="text" class="form-control" required name="name" placeholder="Masukkan Nama"
                                 value="{{isset($user) ? $user->name : ''}}">
                         </div>
                         <div class="form-group">
                             <label>Jenis Kelamin</label>
-                            <select name="gender" class="form-control">
+                            <select name="gender" class="form-control" required>
                                 <option value="">Pilih Jenis Kelamin</option>
                                 @foreach ($genders as $gender)
                                 <option value="{{$gender}}" @isset($user)@if ($gender==$user->gender) selected @endif
@@ -59,26 +59,26 @@ User
                             <div class="col">
                                 <div class="form-group">
                                     <label>Kota Lahir</label>
-                                    <input type="text" name="birth_place" class="form-control"
+                                    <input type="text" name="birth_place" class="form-control" required
                                         value="{{isset($user) ? $user->birth_place: '' }}"
                                         placeholder="Masukkan Kota Kelahiran">
                                 </div>
                             </div>
                             <div class="col">
                                 <label>Tanggal Lahir</label>
-                                <input type="date" class="form-control" name="birth"
+                                <input type="date" class="form-control" name="birth" required
                                     value="{{isset($user) ? $user->birth : ''}}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Phone</label>
-                            <input type="text" name="phone" class="form-control" id="" placeholder="Masukkan Nomor Hp"
-                                value="{{isset($user) ? $user->phone : ''}}">
+                            <input required type="text" name="phone" class="form-control" id=""
+                                placeholder="Masukkan Nomor Hp" value="{{isset($user) ? $user->phone : ''}}">
                             <span class="text-red">co. +62812345678</span>
                         </div>
                         <div class="form-group">
                             <label for="">Email</label>
-                            <input type="email" name="email" class="form-control" name="email" id=""
+                            <input required type="email" name="email" class="form-control" name="email" id=""
                                 placeholder="Masukkan Email" value="{{isset($user) ? $user->email : ''}}">
                         </div>
                         <div class="form-group">

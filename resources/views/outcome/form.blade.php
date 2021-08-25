@@ -1,4 +1,4 @@
-@if(@$fleet_id && @$fleet_id != 'WITH_TYPE')
+@if(@$fleet_route_id && @$fleet_route_id != 'WITH_TYPE')
 <div class="t">
     <div class="row">
         <div class="col-md-6">
@@ -12,7 +12,7 @@
             <div class="form-group">
                 <label>Amount</label>
                 <input type="number" class="form-control" name="amount[]" placeholder="Masukkan Amount"
-                required>
+                required value="{{old('amount.0')}}">
             </div>
         </div>
     </div>
@@ -30,7 +30,7 @@
             <div class="form-group">
                 <label>Amount</label>
                 <input type="number" class="form-control" name="amount[]" placeholder="Masukkan Amount"
-                required>
+                required value="{{old('amount.1')}}">
             </div>
         </div>
     </div>
@@ -48,7 +48,7 @@
             <div class="form-group">
                 <label>Amount</label>
                 <input type="number" class="form-control" name="amount[]" placeholder="Masukkan Amount"
-                required>
+                required value="{{old('amount.2')}}">
             </div>
         </div>
     </div>
@@ -66,7 +66,7 @@
             <div class="form-group">
                 <label>Amount</label>
                 <input type="number" class="form-control" name="amount[]" placeholder="Masukkan Amount"
-                required>
+                required value="{{old('amount.3')}}">
             </div>
         </div>
     </div>
@@ -84,7 +84,7 @@
             <div class="form-group">
                 <label>Amount</label>
                 <input type="number" class="form-control" name="amount[]" placeholder="Masukkan Amount"
-                required>
+                required value="{{old('amount.4')}}">
             </div>
         </div>
     </div>
@@ -103,7 +103,7 @@
             <div class="form-group">
                 <label>Amount</label>
                 <input type="number" class="form-control" name="amount[]" placeholder="Masukkan Amount"
-                required>
+                required value="{{old('amount.5')}}">
             </div>
         </div>
     </div>
@@ -137,8 +137,8 @@
                 <div class="form-group">
                     <label>Amount</label>
                     <input type="number" class="form-control" name="amount[]" placeholder="Masukkan Amount"
-                    required>
-                </div>
+                    required value="{{old('amount.0')}}">
+                 </div>
             </div>
         </div>
     </div>

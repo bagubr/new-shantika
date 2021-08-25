@@ -43,6 +43,15 @@ class UserController extends Controller
     public function store(CreateUserRequest $request)
     {
         $data = $request->except(['agency_id']);
+        $number = $request->phone;
+        $country_code = '62';
+        $isZero = substr($number, 0, 1);
+        if ($isZero == '0') {
+            $new_number = substr_replace($number, '+' . $country_code, 0, ($number[0] == '0'));
+            $data['phone'] = $new_number;
+        } else {
+            $data['phone'] = $number;
+        }
         if ($request->hasFile('avatar')) {
             $data['avatar'] = $request->avatar->store('avatar', 'public');
         }
@@ -84,6 +93,15 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $data = $request->only(['name', 'phone', 'email', 'birth_place', 'birth', 'address', 'gender']);
+        $number = $request->phone;
+        $country_code = '62';
+        $isZero = substr($number, 0, 1);
+        if ($isZero == '0') {
+            $new_number = substr_replace($number, '+' . $country_code, 0, ($number[0] == '0'));
+            $data['phone'] = $new_number;
+        } else {
+            $data['phone'] = $number;
+        }
         if ($request->hasFile('avatar')) {
             $avatar = $request->avatar->store('avatar', 'public');
             $user->deleteAvatar();

@@ -33,7 +33,9 @@ class Order extends Model
         'destination_agency_id',
         'departure_agency_id',
     ];
-
+    protected $appends = [
+        'area_name',
+    ];
     public static function status()
     {
         $status = ['PENDING', 'EXCHANGED', 'PAID', 'CANCELED', 'EXPIRED', 'WAITING_CONFIRMATION', 'DECLINED', 'FINISHED'];
@@ -49,7 +51,8 @@ class Order extends Model
         return $this->belongsTo(Agency::class, 'departure_agency_id');
     }
 
-    public function fleet_route() {
+    public function fleet_route()
+    {
         return $this->belongsTo(FleetRoute::class, 'fleet_route_id', 'id');
     }
 
@@ -68,7 +71,12 @@ class Order extends Model
         return $this->hasOne(OrderPriceDistribution::class, 'order_id', 'id');
     }
 
-    public function review() {
+    public function review()
+    {
         return $this->hasOne(Review::class, 'order_id', 'id');
+    }
+    public function getAreaNameAttribute()
+    {
+        return $this->fleet_route?->route?->departure_city?->area?->id;
     }
 }

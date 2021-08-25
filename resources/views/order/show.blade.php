@@ -49,7 +49,7 @@ Pesanan
                         <div class="col">
                             <div class="form-group">
                                 <label>Rute</label>
-                                <a href="{{route('routes.show',$order->fleet_route?->id)}}" target="_blank">
+                                <a href="{{route('routes.show',$order->fleet_route?->route_id)}}">
                                     <p>
                                         {{$order->fleet_route?->route?->name}}
                                     </p>
@@ -59,7 +59,7 @@ Pesanan
                         <div class="col">
                             <div class="form-group">
                                 <label>Armada</label>
-                                <a href="{{route('fleet_route.show',$order->fleet_route?->id)}}" target="_blank">
+                                <a href="{{route('fleet_route.show',$order->fleet_route?->id)}}">
                                     <p>
                                         {{$order->fleet_route?->fleet?->name}}
                                     </p>
@@ -107,14 +107,21 @@ Pesanan
                                 </select>
                             </div>
                         </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Dibayar Pada</label>
+                                <input type="date" value="{{$order->payment?->paid_at}}" disabled class="form-control">
+                            </div>
+                        </div>
+                        <img src="{{$order->payment?->proof_url}}" class="" style="height:100px" alt="">
                     </div>
                     <div class="text-right">
-                        <a href="{{route('payment.edit',$order->payment?->id)}}" target="_blank"
-                            class="btn btn-primary">Ubah Status</a>
+                        @if ($order->payment?->status == 'WAITING_CONFIRMATION')
+                        <a href="{{route('payment.edit',$order->payment?->id)}}" class="btn btn-primary">Ubah Status</a>
+                        @endif
                     </div>
-                    @if ($order->payment?->proof)
-                    <img src="{{$order->payment?->proof}}" class="" alt="">
-                    @endif
+                    @elseif ($order->payment?->payment_type->id == 1 )
+                    <h5>Pembayaran Otomatis</h5>
                     @else
                     <h5>Belum Ada Transaksi</h5>
                     @endif
@@ -164,7 +171,8 @@ Pesanan
                                         class="d-inline" method="POST">
                                         @csrf
                                         @method('PUT')
-                                        <button class="badge badge-primary" onclick="return confirm('Are you sure?')"
+                                        <button class="badge badge-primary"
+                                            onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
                                             type="submit">Deposit
                                             Sekarang</button>
                                     </form>
@@ -174,7 +182,8 @@ Pesanan
                                     class="d-inline" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="badge badge-danger" onclick="return confirm('Are you sure?')"
+                                    <button class="badge badge-danger"
+                                        onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
                                         type="submit">Delete</button>
                                     </form> --}}
                                 </td>

@@ -38,6 +38,7 @@ Agen
                                 <tr>
                                     <th>Nama</th>
                                     <th>Kota</th>
+                                    <th>Area</th>
                                     <th>Alamat</th>
                                     <th>Status</th>
                                     <th>Avatar</th>
@@ -49,6 +50,7 @@ Agen
                                 <tr>
                                     <td>{{$agency->name}}</td>
                                     <td>{{$agency->city?->name}}</td>
+                                    <td>{{$agency->city?->area?->name}}</td>
                                     <td>{{$agency->address}}</td>
                                     @if ($agency->is_active == 1)
                                     <td data-toggle="modal" data-target="#exampleModal{{$agency->id}}"

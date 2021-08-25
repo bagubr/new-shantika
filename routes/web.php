@@ -40,6 +40,7 @@ use App\Http\Controllers\UserAgentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OutcomeController;
 use App\Http\Controllers\SketchController;
+use App\Http\Controllers\StatusPenumpangController;
 use App\Models\Admin;
 use App\Models\Notification;
 use App\Utils\NotificationMessage;
@@ -94,6 +95,9 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::put('agency/update_status/{agency}', [AgencyController::class, 'update_status'])->name('agency.update_status');
 
+    Route::get('status_penumpang/search', [StatusPenumpangController::class, 'search'])->name('status_penumpang.search');
+    Route::get('status_penumpang/export/', [StatusPenumpangController::class, 'export'])->name('status_penumpang.export');
+
     Route::get('fleet_route/search', [FleetRouteController::class, 'search'])->name('fleet_route.search');
     Route::put('fleet_route/update_status/{fleet_route}', [FleetRouteController::class, 'update_status'])->name('fleet_route.update_status');
 
@@ -140,6 +144,7 @@ Route::group(['middleware' => ['auth']], function () {
         'bank_account' => BankAccountController::class,
         'outcome' => OutcomeController::class,
         'sketch' => SketchController::class,
-        'fleet_route' => FleetRouteController::class
+        'fleet_route' => FleetRouteController::class,
+        'status_penumpang' => StatusPenumpangController::class
     ]);
 });

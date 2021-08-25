@@ -99,15 +99,15 @@ Pengeluaran
                                 <th>Total Harga</th>
                                 <th>Status</th>
                                 <th>Tanggal Pemesanan</th>
-                                <th>Aksi</th>
+                                <!-- <th>Aksi</th> -->
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($orders as $order)
                             <tr>
                                 <td>
-                                    @if ($order->agency)
-                                    <a href="{{route('user_agent.show',$order->user?->agencies->agency_id)}}"
+                                    @if ($order->user?->agencies)
+                                    <a href="{{route('user_agent.show',$order->user?->agencies?->agency_id)}}"
                                         target="_blank">
                                         {{$order->user?->name_agent}}
                                     </a>
@@ -117,27 +117,36 @@ Pengeluaran
                                 </td>
                                 <td>{{$order->code_order}}</td>
                                 <td>
-                                    <a href="{{route('routes.show',$order->route?->id)}}" target="_blank">
-                                        {{$order->route?->name}}
+                                    <a href="{{route('routes.show',$order->fleet_route?->route_id)}}">
+                                        {{$order->fleet_route?->route->name}}
                                     </a>
                                 </td>
                                 <td>
-                                    {{$order->route?->fleet?->name}}/{{$order->route?->fleet?->fleetclass?->name}}
+                                    {{$order->fleet_route?->fleet?->name}}/{{$order->fleet_route?->fleet?->fleetclass?->name}}
                                 </td>
                                 <td>
                                     Rp. {{number_format($order->price,2)}}
                                 </td>
                                 <td>{{$order->status}}</td>
                                 <td>{{date('Y-m-d',strtotime($order->reserve_at))}}</td>
-                                <td>
-                                    <a class="badge badge-primary" href="{{route('order.show',$order->id)}}"
-                                        target="_blank">Detail
-                                        Pemesanan</a>
-                                </td>
+                                <!-- <td>
+                                    <a class="btn btn-primary btn-xs" href="{{route('order.show',$order->id)}}"
+                                        target="_blank">Detail</a>
+                                    <form action="{{route('order.destroy',$order->id)}}" class="d-inline"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger btn-xs"
+                                            onclick="return confirm('Are you sure?')" type="submit">Delete</button>
+                                    </form>
+                                </td> -->
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
+                    @if (Request::routeIs('order.index'))
+                    {{$orders->links("pagination::bootstrap-4")}}
+                    @endif
                 </div>
                 <!-- /.card-body -->
             </div>
