@@ -96,7 +96,7 @@ class OrderService {
     }
 
     public static function getInvoice(Payment|int|null $payment = null) {
-        if($payment == null) {
+        if(empty($payment)) {
             return '';
         }
         if($payment instanceof int) {
