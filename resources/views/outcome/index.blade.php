@@ -60,6 +60,8 @@ Pengeluaran
                                     <td>
                                         <a href="{{route('outcome.show',$outcome->id)}}"
                                         class="btn btn-info btn-xs">Show</a>
+                                        <a href="{{route('outcome.export',$outcome->id)}}"
+                                        class="btn btn-success btn-xs"> <i class="fas fa-print"></i> Print</a>
                                         <form action="{{route('outcome.destroy',$outcome->id)}}" class="d-inline"
                                         method="POST">
                                             @csrf

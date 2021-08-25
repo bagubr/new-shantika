@@ -11,6 +11,9 @@ use App\Models\Order;
 use App\Models\Route;
 use App\Models\Fleet;
 use App\Models\FleetRoute;
+use App\Exports\OutcomeFromViewExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class OutcomeController extends Controller
 {
     public function index(Request $request)
@@ -139,5 +142,10 @@ class OutcomeController extends Controller
         } catch (\Throwable $th) {
             return redirect()->back()->with('success', 'Gagal Hapus Data');
         }
+    }
+
+    public function export($id)
+    {
+        return Excel::download(new OutcomeFromViewExport($id), 'pengeluran.xlsx');
     }
 }

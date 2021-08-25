@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pengeluaran
+ - New Shantika</title>
+    <link rel="icon" href="http://localhost/santika/public/img/new-shantika-transparan-nw-01.png">
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="http://localhost/santika/public/plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <!-- DataTables -->
+    <link rel="stylesheet" href="http://localhost/santika/public/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="http://localhost/santika/public/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="http://localhost/santika/public/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="http://localhost/santika/public/plugins/toastr/toastr.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="http://localhost/santika/public/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="http://localhost/santika/public/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <link rel="stylesheet" href="http://localhost/santika/public/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="http://localhost/santika/public/dist/css/adminlte.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="http://localhost/santika/public/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Ekko Lightbox -->
+    <link rel="stylesheet" href="http://localhost/santika/public/plugins/ekko-lightbox/ekko-lightbox.css">
+    
+    <style>
+        .pointer {
+            cursor: pointer;
+        }
+
+        .callout.callout-danger {
+            color: white;
+            border-left-color: #bd2130;
+            background-color: #bd2130;
+        }
+    </style>
+    <script src="https://unpkg.com/alpinejs@3.2.1/dist/cdn.min.js" defer></script>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+        <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="http://localhost/santika/public" class="nav-link">Home</a>
+        </li>
+    </ul>
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+        <!-- Notifications Dropdown Menu -->
+        <li class="nav-item">
+            <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                <i class="fas fa-expand-arrows-alt"></i>
+            </a>
+        </li>
+    </ul>
+</nav>        <!-- /.navbar -->
+
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="http://localhost/santika/public" class="brand-link text-center">
+        <img src="http://localhost/santika/public/img/img_logo.png" alt="">
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="http://localhost/santika/public/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">admin_bagu</a>
+            </div>
+        </div>
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column " data-widget="treeview" role="menu"
+                data-accordion="false">
+                <li class="nav-item">
+                    <a href="http://localhost/santika/public" class="nav-link ">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Dashboard
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="http://localhost/santika/public/sketch"
+                        class="nav-link ">
+                        <i class="nav-icon fas fa-map"></i>
+                        <p>
+                            Sketch
+                        </p>
+                    </a>
+                </li>
+                <li
+                    class="nav-item ">
+                    <a href="#"
+                        class="nav-link ">
+                        <i class="nav-icon fas fa-credit-card"></i>
+                        <p>
+                            Pendapatan
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="http://localhost/santika/public/order_price_distribution"
+                                class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Rekap Setoran</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="http://localhost/santika/public/payment"
+                                class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Riwayat Pembayaran</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="http://localhost/santika/public/payment_type"
+                                class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Tipe Pembayaran</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="http://localhost/santika/public/outcome"
+                        class="nav-link active">
+                        <i class="nav-icon fas fa-hand-holding-usd"></i>
+                        <p>
+                            Pengeluaran
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="http://localhost/santika/public/order" class="nav-link ">
+                        <i class="nav-icon fas fa-shopping-cart"></i>
+                        <p>
+                            Pembayaran
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-header">OPERASIONAL TIKETING</li>
+                <li class="nav-item ">
+                    <a href="#" class="nav-link ">
+                        <i class="nav-icon fas fa-map-marker"></i>
+                        <p>
+                            Wilayah
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="http://localhost/santika/public/province"
+                                class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Provinsi</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="http://localhost/santika/public/city"
+                                class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Kota</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item ">
+                    <a href="#"
+                        class="nav-link ">
+                        <i class="nav-icon fas fa-bus"></i>
+                        <p>
+                            Armada
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="http://localhost/santika/public/fleets"
+                                class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Armada</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="http://localhost/santika/public/fleetclass"
+                                class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Kelas Armada</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="http://localhost/santika/public/layouts"
+                                class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Layout Armada</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item ">
+                    <a href="#" class="nav-link ">
+                        <i class="nav-icon fas fa-route"></i>
+                        <p>
+                            Rute
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="http://localhost/santika/public/routes"
+                                class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Rute</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="http://localhost/santika/public/fleet_route"
+                                class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Rute Armada</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item ">
+                    <a href="#" class="nav-link ">
+                        <i class="nav-icon fas fa-street-view"></i>
+                        <p>
+                            Agen
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="http://localhost/santika/public/agency"
+                                class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Agen</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="http://localhost/santika/public/user_agent"
+                                class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Akun Agen</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item ">
+                    <a href="#"
+                        class="nav-link ">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Penumpang
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="http://localhost/santika/public/status_penumpang"
+                                class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Status Pembayaran</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="http://localhost/santika/public/user"
+                                class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Akun Penumpang</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="http://localhost/santika/public/member"
+                                class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Member</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="http://localhost/santika/public/time_classification"
+                        class="nav-link ">
+                        <i class="nav-icon fas fa-clock"></i>
+                        <p>
+                            Waktu
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="http://localhost/santika/public/facility"
+                        class="nav-link ">
+                        <i class="nav-icon fas fa-sign"></i>
+                        <p>
+                            Fasilitas
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="http://localhost/santika/public/article"
+                        class="nav-link ">
+                        <i class="nav-icon fas fa-newspaper"></i>
+                        <p>
+                            Artikel
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a href="#" class="nav-link ">
+                        <i class="nav-icon fas fa-calendar"></i>
+                        <p>
+                            Jadwal
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="http://localhost/santika/public/schedule_not_operate"
+                                class="nav-link ">
+                                <i class="nav-icon far fa-circle"></i>
+                                <p>Operasi</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="http://localhost/santika/public/schedule_unavailable_booking"
+                                class="nav-link ">
+                                <i class="nav-icon far fa-circle"></i>
+                                <p>Booking Tidak Tersedia</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="http://localhost/santika/public/config_setting"
+                        class="nav-link ">
+                        <i class="nav-icon fas fa-bars"></i>
+                        <p>
+                            Pengaturan Global
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-header">USER</li>
+                <li class="nav-item">
+                    <a href="http://localhost/santika/public/customer_menu"
+                        class="nav-link ">
+                        <i class="nav-icon fas fa-bars"></i>
+                        <p>
+                            Menu Customer
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="http://localhost/santika/public/chat" class="nav-link ">
+                        <i class="nav-icon fas fa-comment"></i>
+                        <p>
+                            Kontak Bantuan
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="http://localhost/santika/public/slider"
+                        class="nav-link ">
+                        <i class="nav-icon fas fa-sliders-h"></i>
+                        <p>
+                            Slider
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a href="#" class="nav-link ">
+                        <i class="nav-icon fas fa-quote-left"></i>
+                        <p>
+                            Ulasan
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="http://localhost/santika/public/review"
+                                class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Review</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="http://localhost/santika/public/testimoni"
+                                class="nav-link ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Testimoni</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-header">LAINNYA</li>
+                <li class="nav-item">
+                    <a href="http://localhost/santika/public/faq" class="nav-link ">
+                        <i class="nav-icon fas fa-question"></i>
+                        <p>
+                            FAQ
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="http://localhost/santika/public/bank_account"
+                        class="nav-link ">
+                        <i class="nav-icon fas fa-credit-card"></i>
+                        <p>
+                            Data Bank
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="http://localhost/santika/public/about" class="nav-link ">
+                        <i class="nav-icon fas fa-info"></i>
+                        <p>
+                            Tentang Kami
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="http://localhost/santika/public/terms_condition"
+                        class="nav-link ">
+                        <i class="nav-icon fas fa-balance-scale"></i>
+                        <p>
+                            Syarat dan Ketentuan
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="http://localhost/santika/public/social_media"
+                        class="nav-link ">
+                        <i class="nav-icon fas fa-hashtag"></i>
+                        <p>
+                            Sosial Media
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="http://localhost/santika/public/privacy_policy"
+                        class="nav-link ">
+                        <i class="nav-icon fas fa-handshake"></i>
+                        <p>
+                            Kebijakan Privasi
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="http://localhost/santika/public/logout" onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();" class="nav-link">
+                        <i class="nav-icon fas fa-door-open"></i>
+                        <p>
+                            Keluar
+                        </p>
+                        <form id="logout-form" action="http://localhost/santika/public/logout" method="POST" class="d-none">
+                            <input type="hidden" name="_token" value="OOqDmvTD7wH3CFvqTM8CxoevblxOlvQLsJgPB4KV">                        </form>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Pengeluaran</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="http://localhost/santika/public">Home</a></li>
+                    <li class="breadcrumb-item active">Pengeluaran</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Detail Rute</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" style="display: block;">
+                    <div class="form-group">
+                        <label>Tanggal Pembuatan Laporan</label>
+                        <input type="date" class="form-control" name="name"
+                            value="2021-08-25" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Armada</label>
+                        <input type="text" class="form-control"
+                            value="" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Kelas Armada</label>
+                        <input type="text" class="form-control"
+                            value="" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Rute</label>
+                        <input type="text" class="form-control"
+                            value="" disabled>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <div class="col-md-6">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">List Pengeluaran</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" style="display: block;">
+                    <div class="timeline">
+                                                <div>
+                            <div class="timeline-item">
+                                <h3 class="timeline-header">
+                                    Solar | 100000
+                                </h3>
+                            </div>
+                        </div>
+                                                <div>
+                            <div class="timeline-item">
+                                <h3 class="timeline-header">
+                                    E-Toll | 100000
+                                </h3>
+                            </div>
+                        </div>
+                                                <div>
+                            <div class="timeline-item">
+                                <h3 class="timeline-header">
+                                    Snack dan Air Mineral | 100000
+                                </h3>
+                            </div>
+                        </div>
+                                                <div>
+                            <div class="timeline-item">
+                                <h3 class="timeline-header">
+                                    Travel | 100000
+                                </h3>
+                            </div>
+                        </div>
+                                                <div>
+                            <div class="timeline-item">
+                                <h3 class="timeline-header">
+                                    Nota Pembelian | 100000
+                                </h3>
+                            </div>
+                        </div>
+                                                <div>
+                            <div class="timeline-item">
+                                <h3 class="timeline-header">
+                                    Maintenance Armada Bus | 100000
+                                </h3>
+                            </div>
+                        </div>
+                                            </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Table Pemesanan</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Pemesan</th>
+                                <th>Kode Order</th>
+                                <th>Rute</th>
+                                <th>Armada</th>
+                                <th>Total Harga</th>
+                                <th>Status</th>
+                                <th>Tanggal Pemesanan</th>
+                                <!-- <th>Aksi</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                                                        <tr>
+                                <td>
+                                                                        satrio jati
+                                                                    </td>
+                                <td>NS00000187</td>
+                                <td>
+                                    <a href="http://localhost/santika/public/routes/103">
+                                        ~DEMAK~BANDUNG~
+                                    </a>
+                                </td>
+                                <td>
+                                    4A/Executive
+                                </td>
+                                <td>
+                                    Rp. 50,000.00
+                                </td>
+                                <td>PAID</td>
+                                <td>2021-08-25</td>
+                                <!-- <td>
+                                    <a class="btn btn-primary btn-xs" href="http://localhost/santika/public/order/187"
+                                        target="_blank">Detail</a>
+                                    <form action="http://localhost/santika/public/order/187" class="d-inline"
+                                        method="POST">
+                                        <input type="hidden" name="_token" value="OOqDmvTD7wH3CFvqTM8CxoevblxOlvQLsJgPB4KV">                                        <input type="hidden" name="_method" value="DELETE">                                        <button class="btn btn-danger btn-xs"
+                                            onclick="return confirm('Are you sure?')" type="submit">Delete</button>
+                                    </form>
+                                </td> -->
+                            </tr>
+                                                        <tr>
+                                <td>
+                                                                        Rinny
+                                                                    </td>
+                                <td>NS00000188</td>
+                                <td>
+                                    <a href="http://localhost/santika/public/routes/103">
+                                        ~DEMAK~BANDUNG~
+                                    </a>
+                                </td>
+                                <td>
+                                    4A/Executive
+                                </td>
+                                <td>
+                                    Rp. 100,000.00
+                                </td>
+                                <td>PAID</td>
+                                <td>2021-08-25</td>
+                                <!-- <td>
+                                    <a class="btn btn-primary btn-xs" href="http://localhost/santika/public/order/188"
+                                        target="_blank">Detail</a>
+                                    <form action="http://localhost/santika/public/order/188" class="d-inline"
+                                        method="POST">
+                                        <input type="hidden" name="_token" value="OOqDmvTD7wH3CFvqTM8CxoevblxOlvQLsJgPB4KV">                                        <input type="hidden" name="_method" value="DELETE">                                        <button class="btn btn-danger btn-xs"
+                                            onclick="return confirm('Are you sure?')" type="submit">Delete</button>
+                                    </form>
+                                </td> -->
+                            </tr>
+                                                        <tr>
+                                <td>
+                                                                        <a href="http://localhost/santika/public/user_agent/6"
+                                        target="_blank">
+                                        Azalea Maryati (WONOKERTO)
+                                    </a>
+                                                                    </td>
+                                <td>NS00000184</td>
+                                <td>
+                                    <a href="http://localhost/santika/public/routes/103">
+                                        ~DEMAK~BANDUNG~
+                                    </a>
+                                </td>
+                                <td>
+                                    4A/Executive
+                                </td>
+                                <td>
+                                    Rp. 70,000.00
+                                </td>
+                                <td>PAID</td>
+                                <td>2021-08-25</td>
+                                <!-- <td>
+                                    <a class="btn btn-primary btn-xs" href="http://localhost/santika/public/order/184"
+                                        target="_blank">Detail</a>
+                                    <form action="http://localhost/santika/public/order/184" class="d-inline"
+                                        method="POST">
+                                        <input type="hidden" name="_token" value="OOqDmvTD7wH3CFvqTM8CxoevblxOlvQLsJgPB4KV">                                        <input type="hidden" name="_method" value="DELETE">                                        <button class="btn btn-danger btn-xs"
+                                            onclick="return confirm('Are you sure?')" type="submit">Delete</button>
+                                    </form>
+                                </td> -->
+                            </tr>
+                                                    </tbody>
+                    </table>
+                                    </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+
+</section>
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer mt-5 mt-md-2">
+    <strong>Copyright &copy; 2021 <a href="https://can.co.id/" target="blank">Can Creative</a>.</strong>
+    All rights reserved.
+</footer>
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+    </div>
+        
+
+    <!-- ./wrapper -->
+
+    <!-- jQuery -->
+    <script src="http://localhost/santika/public/plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="http://localhost/santika/public/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <!-- Bootstrap 4 -->
+    <script src="http://localhost/santika/public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="http://localhost/santika/public/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="http://localhost/santika/public/dist/js/adminlte.js"></script>
+
+
+    <!-- DataTables  & Plugins -->
+    <script src="http://localhost/santika/public/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="http://localhost/santika/public/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="http://localhost/santika/public/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="http://localhost/santika/public/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="http://localhost/santika/public/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="http://localhost/santika/public/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="http://localhost/santika/public/plugins/jszip/jszip.min.js"></script>
+    <script src="http://localhost/santika/public/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="http://localhost/santika/public/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="http://localhost/santika/public/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="http://localhost/santika/public/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="http://localhost/santika/public/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="http://localhost/santika/public/dist/js/demo.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    
+    <!-- Toastr -->
+    <script src="http://localhost/santika/public/plugins/toastr/toastr.min.js"></script>
+    <!-- Select2 -->
+    <script src="http://localhost/santika/public/plugins/select2/js/select2.full.min.js"></script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-messaging.js"></script>
+        <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyCkXZd29pEyQ4RtkliscrSCwqN2m1QqTuM",
+            authDomain: "agen-santika.firebaseapp.com",
+            databaseURL: "https://agen-santika-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "agen-santika",
+            storageBucket: "agen-santika.appspot.com",
+            messagingSenderId: "348893299264",
+            appId: "1:348893299264:web:2a519915d231980d3515a5",
+            measurementId: "G-1KR74VKTEC"
+        };
+        firebase.initializeApp(firebaseConfig);
+        var messaging = firebase.messaging();
+
+        messaging.getToken({ vapidKey: 'BLf8O7M-57Gd5bEtEwCk-u3whqHG4NVAWEZwDf3zOxJZiSiZbSZmA-OhAdePUsvwInNWZor34WbylfJe-5lrFTA' }).then((currentToken) => {
+            if (currentToken) {
+                let formData = {
+                    id: 4,
+                    fcm_token: currentToken
+                }
+                formData = JSON.stringify(formData)
+                fetch('/admin/store/fcm_token', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': 'OOqDmvTD7wH3CFvqTM8CxoevblxOlvQLsJgPB4KV',
+                        'Content-Type': 'application/json'
+                    }
+                })
+            } else {
+                alert('Tidak bisa menerima notifikasi, coba lagi nanti')
+            }
+        }).catch((err) => {
+            console.log('An error occurred while retrieving token. ', err);
+        });
+
+        messaging.onMessage((payload) => {
+            console.log(payload)
+            new Notification('Laravel', {
+                body: payload.notification.body
+            })
+        })
+    </script>
+        <script>
+        $(function () {
+        $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+            event.preventDefault();
+            $(this).ekkoLightbox();
+        });
+      })
+    </script>
+            <script src="http://localhost/santika/public/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
+    </body>
+
+</html>

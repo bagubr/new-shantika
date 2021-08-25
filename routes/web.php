@@ -88,10 +88,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('schedule_not_operate/search', [ScheduleNotOperateController::class, 'search'])->name('schedule_not_operate.search');
     Route::get('order/search', [OrderController::class, 'search'])->name('order.search');
+
     Route::get('outcome/search', [OutcomeController::class, 'search'])->name('outcome.search');
+    Route::get('outcome/export/{id}', [OutcomeController::class, 'export'])->name('outcome.export');
     Route::get('outcome_type/create', [OutcomeController::class, 'createType'])->name('outcome_type.create');
     Route::post('outcome_type', [OutcomeController::class, 'storeType'])->name('outcome_type.store');
     Route::delete('outcome_type/{id}', [OutcomeController::class, 'destroyType'])->name('outcome_type.destroy');
+
     Route::get('user_agent/search', [UserAgentController::class, 'search'])->name('user_agent.search');
 
     Route::put('agency/update_status/{agency}', [AgencyController::class, 'update_status'])->name('agency.update_status');
