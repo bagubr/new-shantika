@@ -43,6 +43,7 @@ use App\Http\Controllers\SketchController;
 use App\Http\Controllers\StatusPenumpangController;
 use App\Models\Admin;
 use App\Models\Notification;
+use App\Models\OrderPriceDistribution;
 use App\Utils\NotificationMessage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -94,6 +95,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('user_agent/search', [UserAgentController::class, 'search'])->name('user_agent.search');
 
     Route::put('agency/update_status/{agency}', [AgencyController::class, 'update_status'])->name('agency.update_status');
+
+    Route::get('order_price_distribution/search', [OrderPriceDistributionController::class, 'search'])->name('order_price_distribution.search');
 
     Route::get('status_penumpang/search', [StatusPenumpangController::class, 'search'])->name('status_penumpang.search');
     Route::get('status_penumpang/export/', [StatusPenumpangController::class, 'export'])->name('status_penumpang.export');

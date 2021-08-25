@@ -70,18 +70,16 @@ class Outcome extends Model
     public static function boot()
     {
         parent::boot();
-        static::creating(function ($model)
-        {
-            $model->created_by = \Auth::user()?->id??'';
-            $model->updated_by = \Auth::user()?->id??'';
+        static::creating(function ($model) {
+            $model->created_by = \Auth::user()?->id ?? '';
+            $model->updated_by = \Auth::user()?->id ?? '';
         });
-        static::updating(function ($model)
-        {
-            $model->updated_by = \Auth::user()?->id??'';
+        static::updating(function ($model) {
+            $model->updated_by = \Auth::user()?->id ?? '';
         });
-        static::deleting(function($model) {
+        static::deleting(function ($model) {
             $model->outcome_detail()->delete();
-       });
+        });
     }
 
     public function getCreatedByAttribute($value)
@@ -103,7 +101,7 @@ class Outcome extends Model
     {
         $this->belongsTo(Admin::class, 'updated_by');
     }
-   
+
     public function outcome_detail()
     {
         return $this->hasMany(OutcomeDetail::class, 'outcome_id');

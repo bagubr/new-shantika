@@ -36,7 +36,7 @@ Armada Rute
                                 <select name="area_id" class="form-control">
                                     <option value="">--PILIH AREA--</option>
                                     @foreach ($areas as $area)
-                                    @if (old('area_id'))
+                                    @if (old('area_id') == $area->id)
                                     <option value="{{$area->id}}" selected>{{$area->name}}</option>
                                     @else
                                     <option value="{{$area->id}}">{{$area->name}}</option>

@@ -31,19 +31,22 @@ class FleetRouteController extends Controller
     {
         $area_id = $request->area_id;
         $areas = Area::get();
-        $fleet_routes = FleetRoute::with('route.destination_city')->when($area_id, function ($q) use ($area_id) {
-            $q->whereHas('route.departure_city', function ($sq) use ($area_id) {
-                $sq->where('area_id', $area_id);
+        $fleet_routes = FleetRoute::query();
+
+        if (!empty($area_id)) {
+            $fleet_routes = $fleet_routes->whereHas('route.departure_city', function ($q) use ($area_id) {
+                $q->where('area_id', $area_id);
             });
-        })->get();
+        }
         $test = $request->flash();
+        $fleet_routes = $fleet_routes->get();
         $statuses = Agency::status();
         if (!$fleet_routes->isEmpty()) {
             session()->flash('success', 'Data Order Berhasil Ditemukan');
         } else {
             session()->flash('error', 'Tidak Ada Data Ditemukan');
         }
-        return view('fleetroute.index', compact('fleet_routes', 'statuses', 'areas'));
+        return view('fleetroute.index', compact('fleet_routes', 'statuses', 'areas', 'test'));
     }
 
     /**
