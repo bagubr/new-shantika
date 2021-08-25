@@ -10,6 +10,8 @@ use App\Models\Order;
 use App\Models\Route;
 use App\Models\ScheduleUnavailableBooking;
 use App\Models\Setting;
+use App\Repositories\BookingRepository;
+use App\Repositories\OrderRepository;
 use App\Repositories\UserRepository;
 use App\Services\BookingService;
 use App\Services\UserService;
@@ -26,6 +28,14 @@ class BookingController extends Controller
             $this->sendFailedResponse([], 'Kamu tidak bisa memesan untuk tanggal lebih dari '.$max_date);
         }
         $user = UserRepository::findByToken($request->bearerToken());
+        $is_exist = BookingRepository::isBooked($request->fleet_route_id, $user->id, $request->layout_chair_id, $request->booking_at);
+        if($is_exist) {
+            return $this->sendFailedResponse([], 'Maaf kursi ini sudah dibooking');
+        }
+        $is_exist = OrderRepository::isOrderUnavailable($request->fleet_route_id, $request->booking_at, $request->layout_chair_id);
+        if($is_exist) {
+            return $this->sendFailedResponse([], "Maaf kursi ini sudah dipesan");
+        }
 
         $code_booking = 'BO-'.date('Ymdhis').'-'.strtoupper(uniqid());
         foreach($request->layout_chair_id as $layout_chair_id) {
