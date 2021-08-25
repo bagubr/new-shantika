@@ -41,6 +41,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\OutcomeController;
 use App\Http\Controllers\SketchController;
 use App\Http\Controllers\StatusPenumpangController;
+use App\Jobs\Notification\TicketExchangedJob;
 use App\Models\Admin;
 use App\Models\Notification;
 use App\Models\OrderPriceDistribution;
@@ -68,16 +69,7 @@ Auth::routes([
 
 Route::get('/test', function () {
     $order = \App\Models\Order::with(['fleet_route.route'])->orderBy('id', 'desc')->first();
-    $notification = Notification::build(
-        NotificationMessage::successfullySendingTicket()[0],
-        NotificationMessage::successfullySendingTicket()[1],
-        Notification::TYPE1,
-        $order->id,
-        $order->user_id
-    );
-    SendingNotification::dispatch($notification, $order->user?->fcm_token, true);
-    SendingNotification::dispatch($notification, Admin::whereNotNull('fcm_token')->pluck('fcm_token'), false);
-
+    TicketExchangedJob::dispatch($order);
     return response($order);
 });
 
@@ -92,6 +84,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('outcome/search', [OutcomeController::class, 'search'])->name('outcome.search');
     Route::get('outcome/export/{id}', [OutcomeController::class, 'export'])->name('outcome.export');
     Route::get('outcome_type/create', [OutcomeController::class, 'createType'])->name('outcome_type.create');
+    Route::get('outcome/export/{id}', [OutcomeController::class, 'export'])->name('outcome.export');
     Route::post('outcome_type', [OutcomeController::class, 'storeType'])->name('outcome_type.store');
     Route::delete('outcome_type/{id}', [OutcomeController::class, 'destroyType'])->name('outcome_type.destroy');
 

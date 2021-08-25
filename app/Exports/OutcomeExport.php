@@ -3,15 +3,33 @@
 namespace App\Exports;
 
 use App\Models\Outcome;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use App\Models\OutcomeDetail;
+// use Maatwebsite\Excel\Concerns\FromCollection;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
 
-class OutcomeExport implements FromCollection
+// class OutcomeExport implements FromCollection
+// {
+//     /**
+//      * @return \Illuminate\Support\Collection
+//      */
+//     public function collection()
+//     {
+//         return Outcome::with('outcome_detail')->get();
+//     }
+// }
+class OutcomeExport implements FromView
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
+    public function __construct(int $id)
     {
-        return Outcome::all();
+        $this->id  = $id;
+    }
+    public function view(): View
+    {
+        $outcomes = OutcomeDetail::where('outcome_id', $this->id)->get();
+
+        return view('excel_export.outcome', [
+            'outcomes' => $outcomes
+        ]);
     }
 }

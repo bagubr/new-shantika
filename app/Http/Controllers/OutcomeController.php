@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\OutcomeExport;
 use Illuminate\Http\Request;
 use App\Models\Outcome;
 use App\Models\OutcomeType;
@@ -11,7 +12,6 @@ use App\Models\Order;
 use App\Models\Route;
 use App\Models\Fleet;
 use App\Models\FleetRoute;
-use App\Exports\OutcomeFromViewExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class OutcomeController extends Controller
@@ -34,45 +34,49 @@ class OutcomeController extends Controller
         $outcome_types = OutcomeType::orderBy('id')->get();
         return view('outcome.outcome_type', compact('outcome_types'));
     }
+    public function export($id)
+    {
+        return Excel::download(new OutcomeExport($id), 'outcome.xlsx');
+    }
 
     public function storeType(Request $request)
-    {   
+    {
         OutcomeType::create([
             'name' => $request->name
         ]);
         return redirect()->back()->with('success', 'Data berhasil di tambahkan');
     }
-    
+
     public function search(Request $request)
     {
         $orders = OrderRepository::getAtDateAndFleetRoute($request->reported_at, $request->fleet_route_id);
         $fleet_routes = FleetRoute::orderBy('id', 'desc')->get();
-        $fleet_route_id = $request->fleet_route_id??'';
-        $reported_at = $request->reported_at??'';
+        $fleet_route_id = $request->fleet_route_id ?? '';
+        $reported_at = $request->reported_at ?? '';
         return view('outcome.create', compact('fleet_routes', 'orders', 'fleet_route_id', 'reported_at'));
     }
-    
+
     public function store(Request $request)
     {
-        if($request->fleet_route_id != 'WITH_TYPE' && $request->fleet_route_id){
+        if ($request->fleet_route_id != 'WITH_TYPE' && $request->fleet_route_id) {
             $exist = Outcome::whereDate('reported_at', $request->reported_at)->whereFleetRouteId($request->fleet_route_id)->first();
             $order_price_distribution = OrderRepository::getAtDateAndFleetRoute($request->reported_at, $request->fleet_route_id);
-            if($exist){
+            if ($exist) {
                 $after = count($order_price_distribution?->pluck('id'));
                 $before = count(json_decode($exist->order_price_distribution_id));
-                if($before < $after){
+                if ($before < $after) {
                     $exist->update([
-                        'order_price_distribution_id' => $order_price_distribution?->pluck('id')??[],
+                        'order_price_distribution_id' => $order_price_distribution?->pluck('id') ?? [],
                     ]);
-                return redirect('outcome')->with('success', 'Data sudah di update');
+                    return redirect('outcome')->with('success', 'Data sudah di update');
                 }
                 return redirect('outcome')->with('error', 'Data sudah di tambahkan');
             }
             $data = $this->validate($request, [
                 'fleet_route_id'      => 'required|integer|exists:fleet_routes,id',
             ]);
-            $data['order_price_distribution_id'] = $order_price_distribution?->pluck('id')??[];
-        }else{
+            $data['order_price_distribution_id'] = $order_price_distribution?->pluck('id') ?? [];
+        } else {
             $this->validate($request, [
                 'outcome_type_id'      => 'required|integer|exists:outcome_types,id',
             ]);
@@ -114,12 +118,12 @@ class OutcomeController extends Controller
         $outcome = Outcome::with('outcome_detail')->find($id);
         return view('outcome.edit', compact('outcome'));
     }
-    
+
     public function show($id)
     {
         $outcome = Outcome::with('outcome_detail')->find($id);
         $orders = Order::whereIn('id', json_decode($outcome->order_price_distribution_id))->get();
-        return view('outcome.show', compact('outcome', 'orders'));
+        return view('outcome.show', compact('outcome', 'orders', 'id'));
     }
 
     public function destroyType($id)
@@ -132,7 +136,7 @@ class OutcomeController extends Controller
             return redirect()->back()->with('success', 'Gagal Hapus Data');
         }
     }
-    
+
     public function destroy($id)
     {
         $outcome = Outcome::find($id);
