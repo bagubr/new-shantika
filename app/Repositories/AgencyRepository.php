@@ -31,15 +31,11 @@ class AgencyRepository
 
     public static function getWithCity($request)
     {
-        $agency = AgencyRepository::findWithCity($request->agency_id);
-        return Agency::whereHas('city', function ($query) use ($request, $agency) {
-                $query->when($request->search, function($subquery) use ($request) {
-                    $subquery->where('name', "%".$request->search."%");
-                });
-                $query->when($agency, function($subquery) use ($agency) {
-                    $subquery->where('area_id',"!=", $agency->city->area_id);
-                });
-            })
+        return Agency::when(($request->city_id), function ($q) use ($request) {
+            $q->whereHas('city', function ($query) use ($request) {
+                $query->where('id', $request->city_id);
+            });
+        })
             ->orderBy('name')->get();
     }
 }
