@@ -125,7 +125,7 @@ class OrderRepository
 
     public static function getAtDate($date)
     {
-        return Order::with('order_detail')->where(function ($query) use ($date) {
+        return Order::with(['order_detail', 'user.agencies.agent'])->where(function ($query) use ($date) {
             $query->whereIn('status', Order::STATUS_BOUGHT)
                 ->whereDate('reserve_at', $date);
         })

@@ -63,7 +63,7 @@
                     </div>
                 </div>
                 <div v-for="order in result.orders" class="col-12 col-sm-6 col-lg-4 col-xl-3">
-                    <div class="card h-100 p-2 shadow" data-toggle="modal" data-target="#modal-default" @click="handleChangeFocusFirstLayout(order.fleet_route_id, order.id)">
+                    <div class="card h-100 p-2 shadow" data-toggle="modal" data-target="#modal-default" @click="handleChangeFocusFirstLayout(order.fleet_route_id, order.fleet_route.fleet_id)">
                         <div class="card-body">
                             <div class="row m-1">
                                 <div class="col-md-3 text-center">
@@ -116,15 +116,15 @@
                                     <label for="">Armada</label>
                                     <div class="row">
                                         <div class="col">
-                                            <select name="" class="form-control" id="">
-                                                <option :value="order.id" v-for="order in result.orders" :key="order.id" v-text="setSelectOptionLayoutText(order)"></option>
+                                            <select @change="selectOptionFirstLayout($event)" class="form-control" id="">
+                                                <option :value="order.fleet_route_id" v-for="order in result.orders" :key="order.id" v-text="setSelectOptionLayoutText(order)"></option>
                                             </select>
                                         </div>
                                         <div class="col-auto">
-                                            <button class="btn btn-secondary">
+                                            <button class="btn btn-secondary" @click="firstLayout.isShowInGrid = false">
                                                 <i class="fas fa-list"></i>
                                             </button>
-                                            <button class="btn btn-secondary">
+                                            <button class="btn btn-secondary" @click="firstLayout.isShowInGrid = true">
                                                 <i class="fas fa-th"></i>
                                             </button>
                                         </div>
@@ -147,8 +147,19 @@
                                         </div>
                                     </div>
                                     <div v-else>
-                                        <div v-for="i in firstLayout.data.chairs" class="w-100">
-                                            <p>Ayy</p>
+                                        <div v-for="chair in firstLayout.data.chairs" class="w-100">
+                                            <div v-if="chair.order_detail != undefined" class="border-top border-bottom">
+                                                <p class="font-weight-bold">@{{chair.name}} - @{{chair.order_detail.order_detail[0].name}} (@{{chair.order_detail?.user?.agencies?.agent?.name || 'Customer'}})</p>
+                                                <a :href="'https://wa.me/'+chair.order_detail.order_detail[0].phone" target="_blank">@{{chair.order_detail.order_detail[0].phone}}</a>
+                                                <p>Status Pembelian Tiket: @{{chair.order_detail.status}}</p>
+                                                <p>@{{chair.order_detail.code_order}}</p>
+                                            </div>
+                                            <div v-if="chair.booking_detail != undefined" class="border-top border-bottom">
+                                                <p class="font-weight-bold text-warning">@{{chair.name}} - @{{chair.booking_detail.name}} (@{{chair.order_detail?.user?.agencies?.agent?.name || 'Customer'}})</p>
+                                                <a :href="'https://wa.me/'+chair.booking_detail.phone" target="_blank">@{{chair.booking_detail.phone}}</a>
+                                                <p>Jam Kadaluarsa Booking: @{{chair.booking_detail.expired_at}}</p>
+                                                <p>@{{chair.booking_detail.code_booking}}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -158,15 +169,15 @@
                                     <label for="">Armada</label>
                                     <div class="row">
                                         <div class="col">
-                                            <select name="" class="form-control" id="" @change="handleChangeFocusSecondLayout($event)">
-                                                <option :value="order.id" v-for="order in result.orders" :key="order.id" v-text="setSelectOptionLayoutText(order)"></option>
+                                            <select @change="selectOptionSecondLayout($event)" name="" class="form-control" id="">
+                                                <option :value="order.fleet_route_id" v-for="order in result.orders" :key="order.id" v-text="setSelectOptionLayoutText(order)"></option>
                                             </select>
                                         </div>
                                         <div class="col-auto">
-                                            <button class="btn btn-secondary">
+                                            <button class="btn btn-secondary" @click="secondLayout.isShowInGrid = false">
                                                 <i class="fas fa-list"></i>
                                             </button>
-                                            <button class="btn btn-secondary">
+                                            <button class="btn btn-secondary" @click="secondLayout.isShowInGrid = true">
                                                 <i class="fas fa-th"></i>
                                             </button>
                                         </div>
@@ -189,8 +200,19 @@
                                         </div>
                                     </div>
                                     <div v-else>
-                                        <div v-for="i in secondLayout.data.chairs" class="w-100">
-                                            <p>Ayy</p>
+                                        <div v-for="chair in secondLayout.data.chairs" class="w-100">
+                                            <div v-if="chair.order_detail != undefined" class="border-top border-bottom">
+                                                <p class="font-weight-bold">@{{chair.name}} - @{{chair.order_detail.order_detail[0].name}} (@{{chair.order_detail?.user?.agencies?.agent?.name || 'Customer'}})</p>
+                                                <a :href="'https://wa.me/'+chair.order_detail.order_detail[0].phone" target="_blank">@{{chair.order_detail.order_detail[0].phone}}</a>
+                                                <p>Status Pembelian Tiket: @{{chair.order_detail.status}}</p>
+                                                <p>@{{chair.order_detail.code_order}}</p>
+                                            </div>
+                                            <div v-if="chair.booking_detail != undefined" class="border-top border-bottom">
+                                                <p class="font-weight-bold text-warning">@{{chair.name}} - @{{chair.booking_detail.name}} (@{{chair.order_detail?.user?.agencies?.agent?.name || 'Customer'}})</p>
+                                                <a :href="'https://wa.me/'+chair.booking_detail.phone" target="_blank">@{{chair.booking_detail.phone}}</a>
+                                                <p>Jam Kadaluarsa Booking: @{{chair.booking_detail.expired_at}}</p>
+                                                <p>@{{chair.booking_detail.code_booking}}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -198,7 +220,7 @@
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" @click="reset()">Reset</button>
                         <button type="button" class="btn btn-primary" @click="submit()">Save</button>
                     </div>
                 </div>
@@ -230,7 +252,7 @@
                 },
                 
                 firstLayout: {
-                    orderId: null,
+                    fleetId: null,
                     fleetRouteId: null,
                     isLoading: false,
                     isShowInGrid: true,
@@ -238,20 +260,12 @@
                     data: {},
                 },
                 secondLayout: {
-                    orderId: null,
+                    fleetId: null,
                     fleetRouteId: null,
                     isLoading: false,
                     isShowInGrid: true,
                     fleet: {},
                     data: {}
-                },
-                form: {
-                    firstLayout: {
-                        layoutChairId: null
-                    },
-                    secondLayout: {
-                        layoutChairId: null
-                    }
                 }
             },
             methods: {
@@ -265,22 +279,31 @@
                     let fleetName = order.fleet_route.fleet.name
                     let fleetClass = order.fleet_route.fleet.fleetclass.name
                     let at = `${order.fleet_route.route.departure_at} - ${order.fleet_route.route.arrived_at}`
+                    let routeName = order.fleet_route.route.name
 
-                    return `${fleetName} (${fleetClass}) [${at}]`
+                    return `${fleetName} (${fleetClass} | ${routeName}) [${at}]`
                 },
-                handleChangeFocusFirstLayout(fleetRouteId, orderId) {
+                selectOptionFirstLayout(event) {
+                    this.getFirstLayout(event.currentTarget.value)
+                },
+                selectOptionSecondLayout(event) {
+                    this.getSecondLayout(event.currentTarget.value)
+                },
+                handleChangeFocusFirstLayout(fleetRouteId, fleetId) {
                     this.firstLayout.fleetRouteId = fleetRouteId
-                    this.firstLayout.orderId = orderId
+                    this.firstLayout.fleetId = fleetId
                     this.getFirstLayout()
+                    this.handleChangeFocusSecondLayout(fleetRouteId, fleetId)
                 },
-                handleChangeFocusSecondLayout(fleetRouteId) {
+                handleChangeFocusSecondLayout(fleetRouteId, fleetId) {
                     this.secondLayout.fleetRouteId = fleetRouteId
+                    this.secondLayout.fleetId = fleetId
                     this.getSecondLayout()
                 },
-                getFirstLayout() {
+                getFirstLayout(fleetRouteId = null) {
                     this.firstLayout.isLoading = true
                     let params = new URLSearchParams({
-                        fleet_route_id: this.firstLayout.fleetRouteId,
+                        fleet_route_id: fleetRouteId || this.firstLayout.fleetRouteId,
                         date: this.filter.date
                     })
                     fetch('/sketch/orders/detail?'+params).then(res => res.json()).then(res => {
@@ -289,12 +312,11 @@
                     }).finally(() => {
                         this.firstLayout.isLoading = false
                     })
-                    this.handleChangeFocusSecondLayout(this.firstLayout.fleetRouteId)
                 },
-                getSecondLayout() {
+                getSecondLayout(fleetRouteId = null) {
                     this.secondLayout.isLoading = true
                     let params = new URLSearchParams({
-                        fleet_route_id: this.secondLayout.fleetRouteId,
+                        fleet_route_id: fleetRouteId || this.secondLayout.fleetRouteId,
                         date: this.filter.date
                     })
                     fetch('/sketch/orders/detail?'+params).then(res => res.json()).then(res => {
@@ -318,21 +340,23 @@
                         chair = this.secondLayout.data.chairs.filter((e, i) =>  i == index)[0]
                     }
 
-                    if(chair.is_door) {
+                    if (chair.is_unavailable) {
+                        if(chair.is_selected) {
+                            return `${chair.name} <i class="fas fa-user-check"></i>`
+                        } else if (chair.is_switched) {
+                            return `${chair.name} <i class="fas fa-user-tag"></i>`
+                        }
+                        return `${chair.name} <i class="fas fa-user"></i>`
+                    } else if (chair.is_booking) {
+                        return `${chair.name} <i class="fas fa-user-tag"></i>`
+                    } else if(chair.is_door) {
                         return `<i class="fas fa-door-closed"></i>`
                     } else if (chair.is_space) {
                         return `<i class="fas fa-people-arrows"></i>`
                     } else if (chair.is_toilet) {
                         return `<i class="fas fa-toilet"></i>`
-                    } else if (chair.is_unavailable) {
-                        if(chair.is_selected) {
-                            return `<i class="fas fa-user-check"></i>`
-                        } else if (chair.is_switched) {
-                            return `<i class="fas fa-user-tag"></i>`
-                        }
-                        return `<i class="fas fa-user"></i>`
                     } else {
-                        return `<i class="fas fa-chair"></i>`
+                        return `${chair.name} <i class="fas fa-chair"></i>`
                     }
                 },
                 loadClass(row, col, which) {
@@ -346,19 +370,21 @@
                         chair = this.secondLayout.data.chairs.filter((e, i) =>  i == index)[0]
                     }
 
-                    if(chair.is_door) {
-                        return "btn btn-info"
-                    } else if (chair.is_space) {
-                        return "btn btn-secondary"
-                    } else if (chair.is_toilet) {
-                        return "btn btn-warning"
-                    } else if (chair.is_unavailable) {
+                    if (chair.is_unavailable) {
                         if(chair.is_selected) {
                             return "btn bg-teal"
                         } else if (chair.is_switched) {
                             return "btn bg-green"
                         }
                         return "btn btn-danger"
+                    } else if (chair.is_booking) {
+                        return "btn bg-orange"
+                    } else if(chair.is_door) {
+                        return "btn btn-info"
+                    } else if (chair.is_space) {
+                        return "btn btn-secondary"
+                    } else if (chair.is_toilet) {
+                        return "btn btn-warning"
                     } else {
                         return "btn btn-primary"
                     }
@@ -379,6 +405,9 @@
                 selectSeat(row,col,which) {
                     this.whichLayout(which)
                     let index = this.getCurrentIndexByRowCol(row, col)
+                    if(!this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable) {
+                        return alert("Pilih kursi yang sudah dibeli!");
+                    }
                     if(this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected != true) {
                         this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = true
                     } else {
@@ -389,20 +418,24 @@
                 dropSelectedSeat(row,col,which) {
                     this.whichLayout(which)
                     let index = this.getCurrentIndexByRowCol(row, col)
+                    if(this.secondLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable) {
+                        return alert("Pilih kursi yang belum dibeli!");
+                    }
                     let value = this.firstLayout.data.chairs.filter(e => e.is_selected == true)[0]
                     this.firstLayout.data.chairs.filter(e => e.is_selected  == true)[0].is_switched = true
                     this.firstLayout.data.chairs.filter(e => e.is_selected == true)[0].is_selected = false
 
                     this.secondLayout.data.chairs.filter((e, i) => i == index)[0].is_unavailable = true
                     this.secondLayout.data.chairs.filter((e, i) => i == index)[0].is_selected = true
-                    console.log(this.secondLayout.data.chairs.filter((e, i) => i == index)[0])
                     this.$forceUpdate()
                 },
                 submit() {
                     let form = {
-                        order_id: this.firstLayout.orderId,
                         first_fleet_route_id: this.firstLayout.fleetRouteId,
                         second_fleet_route_id: this.secondLayout.fleetRouteId,
+                        first_fleet_id: this.firstLayout.fleetId,
+                        second_fleet_id: this.secondLayout.fleetId,
+                        date: this.filter.date,
                         data: {
                             from_layout_chair_id: this.firstLayout.data.chairs.filter(e => e.is_switched == true),
                             to_layout_chair_id: this.secondLayout.data.chairs.filter(e => e.is_selected == true),
@@ -417,9 +450,23 @@
                             'Content-Type': 'application/json'
                         }
                     }).then(res => res.json()).then(res => {
-                        console.log(res)
+                        window.location.reload()
                     })
-                }
+                },
+                reset() {
+                    this.firstLayout.data.chairs = this.firstLayout.data.chairs.map(e => {
+                        e.is_selected = false
+                        e.is_switched = false
+                        return e
+                    })
+                    this.secondLayout.data.chairs = this.secondLayout.data.chairs.map(e => {
+                        if(e.is_selected) {
+                            e.is_selected = false
+                            e.is_unavailable = false
+                        }
+                        return e
+                    })
+                },
             },
             mounted() {
                 this.searchOrders()

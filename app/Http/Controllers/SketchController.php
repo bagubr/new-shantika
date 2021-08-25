@@ -57,8 +57,7 @@ class SketchController extends Controller
     public function getAvailibilityChairs(Request $request) {
         $fleet_route = FleetRoute::find($request->fleet_route_id);
         $layout = LayoutRepository::findByFleetRoute($fleet_route);
-        $layout = LayoutService::getAvailibilityChairs($layout, $fleet_route, $request->date);
-        
+        $layout = LayoutService::getAvailibilityChairsDetail($layout, $fleet_route, $request->date);
         $this->sendSuccessResponse([
             'data'=> new LayoutResource($layout),
             'fleet'=>$fleet_route->fleet?->load('fleetclass')
@@ -70,30 +69,31 @@ class SketchController extends Controller
         $tos = $request->data['to_layout_chair_id'];
 
         DB::beginTransaction();
-        $order = Order::where('id', $request->order_id)->first();
-        $order->update([
-            'fleet_route_id'=>$request->second_fleet_route_id
-        ]);
-        $order->refresh();
-
         $order_details = [];
         foreach($froms as $key => $value) {
-            OrderDetail::where('order_id', $request->order_id)->where('layout_chair_id', $value['id'])->update([
+            $detail = OrderDetail::whereHas('order', function($query) use ($request) {
+                $query->whereDate('reserve_at', $request['date'])->whereHas('fleet_route', function($subquery) use ($request) {
+                    $subquery->where('fleet_id', $request['first_fleet_id']);
+                });
+            })->where('layout_chair_id', $value['id'])->first();
+            $detail->update([
                 'layout_chair_id'=>$tos[$key]['id']
             ]);
-            $detail = OrderDetail::where('order_id', $request->order_id)->where('layout_chair_id', $value['id'])->first();
-            Log::info([$detail, $request->order_id, $value['id']]);
+            $detail->order()->update([
+                'fleet_route_id'=>$request['second_fleet_route_id']
+            ]);
+            $detail->refresh();
             $notification = Notification::build(
-                "Perhatian! Kursi anda telah dipindah oleh sistem",
-                NotificationMessage::changeChair($detail->order->fleet_route->fleet->name, $detail->chair->name),
+                NotificationMessage::changeChair($detail->order->fleet_route->fleet->name, $detail->chair->name)[0],
+                NotificationMessage::changeChair($detail->order->fleet_route->fleet->name, $detail->chair->name)[1],
                 Notification::TYPE5,
-                $order->id,
-                $order->user_id
+                $detail->order->id,
+                $detail->order->user_id
             );
             SendingNotification::dispatch($notification, $detail->order?->user?->fcm_token,true);
         }
         DB::commit();
-        
+        session()->flash('success', 'Kursi penumpang berhasil diubah');
         return response([$froms, $tos], 200);
     }
     

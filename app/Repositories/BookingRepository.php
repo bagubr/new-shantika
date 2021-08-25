@@ -22,6 +22,7 @@ class BookingRepository {
 
     public static function getTodayByRoute($fleet_route_id) {
         return Booking::where('fleet_route_id', $fleet_route_id)
+            ->with('user.agencies.agent')
             ->where('expired_at', '>=', date('Y-m-d H:i:s'))
             ->get();
     }
