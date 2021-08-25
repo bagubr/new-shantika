@@ -37,6 +37,7 @@ class RouteController extends BaseRouteController
             })
             ->whereHas('route', function($query) use ($destination_agency, $departure_agency) {
                 $query->where('destination_city_id', $destination_agency->city_id)
+                    ->where('departure_city_id', $departure_agency->city_id)
                     ->whereHas('destination_city', function($query) use ($departure_agency) {
                         $query->where('area_id', '!=', $departure_agency->city->area_id);
                     });
