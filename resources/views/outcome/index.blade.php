@@ -28,7 +28,8 @@ Pengeluaran
                     <div class="card-header">
                         <h3 class="card-title">Table Pengeluaran</h3>
                         <div class="text-right">
-                            <a href="{{route('outcome_type.create')}}" class="btn btn-outline-warning btn-sm">Tambah Tipe Pengeluaran</a>
+                            <a href="{{route('outcome_type.create')}}" class="btn btn-outline-warning btn-sm">Tambah
+                                Tipe Pengeluaran</a>
                             <a href="{{route('outcome.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
                     </div>
@@ -59,9 +60,9 @@ Pengeluaran
                                     <td>Rp. {{number_format($outcome->sum_pengeluaran,2)}}</td>
                                     <td>
                                         <a href="{{route('outcome.show',$outcome->id)}}"
-                                        class="btn btn-info btn-xs">Show</a>
+                                            class="btn btn-info btn-xs">Show</a>
                                         <form action="{{route('outcome.destroy',$outcome->id)}}" class="d-inline"
-                                        method="POST">
+                                            method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger btn-xs"

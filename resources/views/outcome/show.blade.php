@@ -33,24 +33,24 @@ Pengeluaran
                 <div class="card-body" style="display: block;">
                     <div class="form-group">
                         <label>Tanggal Pembuatan Laporan</label>
-                        <input type="date" class="form-control" name="name"
-                            value="{{$outcome->reported_at}}" disabled>
+                        <input type="date" class="form-control" name="name" value="{{$outcome->reported_at}}" disabled>
                     </div>
                     <div class="form-group">
                         <label>Armada</label>
-                        <input type="text" class="form-control"
-                            value="{{$outcome->route?->fleet?->name}}" disabled>
+                        <input type="text" class="form-control" value="{{$outcome->fleet_route?->fleet?->name}}"
+                            disabled>
                     </div>
                     <div class="form-group">
                         <label>Kelas Armada</label>
                         <input type="text" class="form-control"
-                            value="{{$outcome->route?->fleet?->fleetclass?->name}}" disabled>
+                            value="{{$outcome->fleet_route?->fleet?->fleetclass?->name}}" disabled>
                     </div>
                     <div class="form-group">
                         <label>Rute</label>
-                        <input type="text" class="form-control"
-                            value="{{$outcome->route?->name}}" disabled>
+                        <input type="text" class="form-control" value="{{$outcome->fleet_route?->route->name}}"
+                            disabled>
                     </div>
+                    <a class="btn btn-success btn-sm" href="{{route('outcome.export',$id)}}">Export Excel</a>
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -86,6 +86,7 @@ Pengeluaran
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Table Pemesanan</h3>
+
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">

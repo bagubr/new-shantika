@@ -51,7 +51,7 @@
                             <a href="{{route('order_price_distribution.index')}}"
                                 class="nav-link {{Request::routeIs('order_price_distribution.*') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Rekap Setoran</p>
+                                <p>Rekap Setoran & Tiket</p>
                             </a>
                         </li>
                         <li class="nav-item">
