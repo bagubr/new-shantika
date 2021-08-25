@@ -18,7 +18,7 @@ class OrderPriceDistributionController extends Controller
     {
         $fleet_routes = FleetRoute::get();
         $order_price_distributions = OrderPriceDistribution::wherehas('order', function ($q) {
-            $q->orderBy('reserve_at', 'DESC');
+            $q->where('status', 'PAID')->orderBy('reserve_at', 'DESC');
         })->get();
         $outcome_details = OutcomeDetail::all();
 
@@ -37,7 +37,7 @@ class OrderPriceDistributionController extends Controller
         $outcome_details = OutcomeDetail::query();
         if (!empty($date_search)) {
             $order_price_distributions = $order_price_distributions->whereHas('order', function ($q) use ($date_search) {
-                $q->where('reserve_at', $date_search);
+                $q->where('reserve_at', $date_search)->where('status', 'PAID');
             });
             $outcome_details = $outcome_details->whereHas('outcome', function ($q) use ($date_search) {
                 $q->where('reported_at', $date_search);
@@ -45,7 +45,7 @@ class OrderPriceDistributionController extends Controller
         }
         if (!empty($fleet_route_search)) {
             $order_price_distributions = $order_price_distributions->whereHas('order', function ($q) use ($fleet_route_search) {
-                $q->where('fleet_route_id', $fleet_route_search);
+                $q->where('fleet_route_id', $fleet_route_search)->where('status', 'PAID');
             });
 
             $outcome_details = $outcome_details->whereHas('outcome', function ($q) use ($fleet_route_search) {
