@@ -11,6 +11,7 @@ use App\Models\Agency;
 use App\Models\UserAgent;
 use App\Models\City;
 use App\Models\Province;
+
 class AgenciesSeeder extends Seeder
 {
     /**
@@ -54,7 +55,7 @@ class AgenciesSeeder extends Seeder
             'SIRAHAN',
             'TANGGULASI',
             'TERMINAL JEPARA',
-            'TPK', 
+            'TPK',
             'TUNGGUL',
             'WELAHAN',
         ];
@@ -92,19 +93,23 @@ class AgenciesSeeder extends Seeder
             'GENUK',
             'KALIBANTENG',
         ];
-        
+
         $province = Province::create([
             'name' => 'JAWA TENGAH',
         ]);
+        $vowels = array("a", "e", "i", "o", "u", "A", "E", "I", "O", "U", " ");
         foreach ($data as $key => $value) {
             $city = City::create([
                 'name' => $key,
                 'province_id' => $province->id,
+                'area_id' => 1
             ]);
             foreach ($value as $k => $v) {
                 $agent = Agency::create([
                     'name'      => $v,
+                    'code'      => str_replace($vowels, "", $v),
                     'city_id'   => $city->id,
+                    'address'   => $faker->address,
                 ]);
                 $user = User::create([
                     'name'  => $faker->name,
@@ -114,7 +119,7 @@ class AgenciesSeeder extends Seeder
                     'token' => $faker->regexify('[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}'),
                     'fcm_token' => $faker->sha256,
                     'birth' => $faker->date($format = 'Y-m-d', $max = 'now'),
-                    'gender' => $faker->randomElement($array = array ('Male', 'Female')),
+                    'gender' => $faker->randomElement($array = array('Male', 'Female')),
                     'address' => $faker->address,
                 ]);
                 UserAgent::create([
