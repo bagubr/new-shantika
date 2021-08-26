@@ -39,7 +39,7 @@ Armada
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Nama</th>
+                                    <th>Kode Armada</th>
                                     <th>Kelas Armada</th>
                                     <th>Layout</th>
                                     <th>Gambar</th>
