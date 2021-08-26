@@ -139,7 +139,7 @@ Route
                         <tbody>
                             @foreach ($route_fleets as $route_fleet)
                             <tr>
-                                <td>{{$route_fleet->fleet?->name}}</td>
+                                <td>{{$route_fleet->fleet_detail?->fleet?->name}}</td>
                                 <td>Rp. {{number_format($route_fleet->price,2)}}</td>
                                 @if ($route_fleet->is_active == 1)
                                 <td data-toggle="modal" data-target="#exampleModal{{$route_fleet->id}}"
@@ -209,7 +209,7 @@ Route
         <div class="col-md-6">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Titik Pemberhentian Form</h3>
+                    <h3 class="card-title">Line Form</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -244,7 +244,7 @@ Route
         <div class="col-md-6">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Titik Pemberhentian</h3>
+                    <h3 class="card-title">Line</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -252,7 +252,7 @@ Route
                     </div>
                 </div>
                 <div class="card-body" style="display: block;">
-                    <small class="text-danger"><i class="fas fa-info-circle"></i> Pastikan Urutan Titik Pemberhentian
+                    <small class="text-danger"><i class="fas fa-info-circle"></i> Pastikan Urutan Line
                         Sudah Benar</small>
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>

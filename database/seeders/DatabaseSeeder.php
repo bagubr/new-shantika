@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call([LayoutSeeder::class]);
         $this->call([FleetSeeder::class]);
         $this->call([FleetDetailSeeder::class]);
-        // $this->call([RouteSeeder::class]);
+        $this->call([RouteSeeder::class]);
         $this->call([CustomerMenuSeeder::class]);
         $this->call([SliderSeeder::class]);
         $this->call([ArticleSeeder::class]);
