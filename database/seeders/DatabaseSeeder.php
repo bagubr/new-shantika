@@ -21,14 +21,15 @@ class DatabaseSeeder extends Seeder
         $this->call([FleetClassSeeder::class]);
         $this->call([LayoutSeeder::class]);
         $this->call([FleetSeeder::class]);
-        $this->call([RouteSeeder::class]);
+        $this->call([FleetDetailSeeder::class]);
+        // $this->call([RouteSeeder::class]);
         $this->call([CustomerMenuSeeder::class]);
         $this->call([SliderSeeder::class]);
         $this->call([ArticleSeeder::class]);
         $this->call([TestimonialSeeder::class]);
         $this->call([ChatSeeder::class]);
         $this->call([TimeClassificationSeeder::class]);
-        $this->call([OrderSeeder::class]);
+        // $this->call([OrderSeeder::class]);
         $this->call([PaymentTypeSeeder::class]);
         $this->call([PaymentSeeder::class]);
         $this->call([SettingSeeder::class]);
