@@ -12,9 +12,13 @@ class Route extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'routes';
+    // protected $fillable = [
+    //     'name', 'departure_city_id', 'destination_city_id', 'departure_at', 'arrived_at'
+    // ];
     protected $fillable = [
-        'name', 'departure_city_id', 'destination_city_id', 'departure_at', 'arrived_at'
+        'name', 'destination_city_id'
     ];
+    
     protected $hidden = [
         'created_at', 'updated_at', 'deleted_at'
     ];

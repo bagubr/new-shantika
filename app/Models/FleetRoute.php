@@ -13,16 +13,16 @@ class FleetRoute extends Model
     protected $table = 'fleet_routes';
 
     protected $fillable = [
-        'fleet_id', 'route_id', 'price', 'is_active'
+        'fleet_detail_id', 'route_id', 'price', 'is_active'
     ];
 
     protected $hidden = [
         'created_at', 'updated_at'
     ];
 
-    public function fleet()
+    public function fleet_detail()
     {
-        return $this->belongsTo(Fleet::class, 'fleet_id', 'id');
+        return $this->belongsTo(FleetDetail::class, 'fleet_detail_id', 'id');
     }
 
     public function route()
