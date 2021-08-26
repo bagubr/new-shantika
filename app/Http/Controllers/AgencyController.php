@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Agency\CreateAgencyRequest;
 use App\Http\Requests\Agency\UpdateAgencyRequest;
 use App\Models\Agency;
+use App\Models\AgencyDepartureTime;
 use App\Repositories\AgencyRepository;
 use App\Repositories\CityRepository;
 use Illuminate\Http\Request;
@@ -61,7 +62,13 @@ class AgencyController extends Controller
         if ($request->hasFile('avatar')) {
             $data['avatar'] = $request->avatar->store('avatar', 'public');
         }
-        Agency::create($data);
+        $agency = Agency::create($data);
+        foreach ($request->departure_at as $key => $value) {
+            AgencyDepartureTime::create([
+                'agency_id'     => $agency->id,
+                'departure_at'  => $value,
+            ]);
+        }
         session()->flash('success', 'Agency Berhasil Ditambahkan');
         return redirect(route('agency.index'));
     }
@@ -86,7 +93,8 @@ class AgencyController extends Controller
     public function edit(Agency $agency)
     {
         $cities = CityRepository::all();
-        return view('agency.create', compact('agency', 'cities'));
+        $agency_departure = AgencyDepartureTime::where('agency_id', $agency->id)->get();
+        return view('agency.create', compact('agency', 'cities', 'agency_departure'));
     }
 
     /**
@@ -104,7 +112,17 @@ class AgencyController extends Controller
             $agency->deleteAvatar();
             $data['avatar'] = $avatar;
         };
+        $agency_departure = AgencyDepartureTime::where('agency_id', $agency->id)->first();
+        $agency_departure1 = AgencyDepartureTime::where('agency_id', $agency->id)->orderBy('id', 'desc')->first();
         $agency->update($data);
+        $agency_departure->update([
+            'agency_id'     => $agency->id,
+            'departure_at'  => $request->departure_at[0],
+        ]);
+        $agency_departure1->update([
+            'agency_id'     => $agency->id,
+            'departure_at'  => $request->departure_at[1],
+        ]);
         session()->flash('success', 'Agency Berhasil Diperbarui');
         return redirect(route('agency.index'));
     }
