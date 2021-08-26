@@ -127,7 +127,7 @@ Route
     var i = 0;
     $("#dynamic-ar").click(function () {
         ++i;
-        $("#dynamicAddRemove").append(' <div class="t"> <div class="form-row"> <div class="col"> <div class="form-group"> <label>Armada</label> <select class="form-control select2" name="fleet_detail_id[]"> @foreach ($fleets ?? '' as $fleet) <option value="{{$fleet->id}}">{{$fleet->name}}</option> @endforeach </select> </div> </div> <div class="col"> <div class="form-group"> <label>Harga</label> <div class="input-group mb-3"> <input type="number" class="form-control" name="price[]" id="jam2" placeholder="Masukkan Harga"> <div class="input-group-append"> <button type="button" class="btn btn-outline-danger remove-input-field">Delete</button> </div> </div> </div> </div> </div> </div>');
+        $("#dynamicAddRemove").append(' <div class="t"> <div class="form-row"> <div class="col"> <div class="form-group"> <label>Armada</label> <select class="form-control select2" name="fleet_detail_id[]"> @foreach ($fleets as $fleet) <option value="{{$fleet->id}}"> {{$fleet->fleet?->name}}/{{$fleet->fleet?->fleetclass?->name}}/{{$fleet->nickname}} </option> @endforeach </select> </div> </div> <div class="col"> <div class="form-group"> <label>Harga</label> <div class="input-group mb-3"> <input type="number" class="form-control" name="price[]" id="jam2" placeholder="Masukkan Harga"><div class="input-group-append"> <button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></div> </div> </div> </div> </div> </div>');
     });
     $(document).on('click', '.remove-input-field', function () {
         $(this).parents('.t').remove();

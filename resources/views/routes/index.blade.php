@@ -37,7 +37,6 @@ Route
                             <thead>
                                 <tr>
                                     <th>Nama</th>
-                                    <th>Jam Operasional</th>
                                     <th>Area</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -46,8 +45,7 @@ Route
                                 @foreach ($routes as $route)
                                 <tr>
                                     <td>{{$route->name}}</td>
-                                    <td>{{$route->departure_at}} - {{$route->arrived_at}}</td>
-                                    <td>{{$route->departure_city?->area?->name}}</td>
+                                    <td>{{$route->checkpoints[0]->agency?->city?->area?->name}}</td>
                                     <td>
                                         <a class="btn btn-primary btn-xs" href="{{route('routes.show',$route->id)}}"
                                             target="_blank">Detail</a>
