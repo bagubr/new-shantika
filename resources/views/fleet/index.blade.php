@@ -70,6 +70,8 @@ Armada
                                     <td>
                                         <a href="{{route('fleets.edit',$fleet->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
+                                        <a href="{{route('fleets.show',$fleet->id)}}"
+                                            class="btn btn-info btn-xs">Show</a>
                                         <form action="{{route('fleets.destroy',$fleet->id)}}" class="d-inline"
                                             method="POST">
                                             @csrf

@@ -41,9 +41,9 @@ Armada
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-                            <label for="inputName">Nama Armada</label>
+                            <label for="inputName">Kode Armada</label>
                             <input type="text" id="inputName" class="form-control" name="name"
-                                placeholder="Masukkan Nama" value="{{isset($fleet) ? $fleet->name : ''}}">
+                                placeholder="Masukkan Kode" value="{{isset($fleet) ? $fleet->name : ''}}">
                         </div>
                         <div class="form-group">
                             <label>Deskripsi</label>
