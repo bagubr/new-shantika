@@ -98,7 +98,7 @@ class RoutesController extends Controller
                 $q->where('area_id', $route->checkpoints[0]?->agency?->city?->area?->id);
             })->get();
         }
-        $fleets = Fleet::all();
+        $fleets = FleetDetail::orderBy('fleet_id', 'ASC')->get();
         $route_fleets = FleetRoute::where('route_id', $route->id)->get();
         $statuses = Agency::status();
         return view('routes.show', compact('route', 'agencies', 'checkpoints', 'fleets', 'route_fleets', 'statuses'));

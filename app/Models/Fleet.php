@@ -18,7 +18,8 @@ class Fleet extends Model
         return $this->hasOne(Layout::class, 'id', 'layout_id');
     }
 
-    public function fleet_routes() {
+    public function fleet_routes()
+    {
         return $this->hasMany(FleetRoute::class, 'fleet_id', 'id');
     }
 
