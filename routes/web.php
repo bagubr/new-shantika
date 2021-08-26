@@ -41,6 +41,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\OutcomeController;
 use App\Http\Controllers\SketchController;
 use App\Http\Controllers\StatusPenumpangController;
+use App\Http\Controllers\FleetDetailController;
 use App\Jobs\Notification\TicketExchangedJob;
 use App\Models\Admin;
 use App\Models\Notification;
@@ -108,7 +109,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('routes/fleet/store/', [RoutesController::class, 'store_fleet'])->name('route.fleet.store');
 
     Route::resources([
-        'bus' => FleetDetailController::class,
+        'fleet_detail' => FleetDetailController::class,
         'fleets' => FleetController::class,
         'fleetclass' => FleetClassController::class,
         'information' => InformationController::class,

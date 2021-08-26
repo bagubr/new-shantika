@@ -9,12 +9,12 @@ class ScheduleNotOperate extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'route_id', 'note', 'schedule_at'
+        'fleet_route_id', 'note', 'schedule_at'
     ];
 
-    public function route()
+    public function fleet_route()
     {
-        return $this->belongsTo(Route::class, 'route_id');
+        return $this->belongsTo(FleetRoute::class, 'fleet_route_id');
     }
     
 }
