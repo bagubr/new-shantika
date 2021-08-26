@@ -57,7 +57,7 @@ Route
                             <label>Pilih Line</label>
                             <div class="form-group" v-for="(a, index) in agency" :key="index">
                                 <div class="input-group">
-                                    <select class="form-control" v-model="agency[index].id" name="agency_id[]">
+                                    <select class="form-control" v-model="agency[index].id" name="agency_id[]" required>
                                         <option value="">Pilih Line</option>
                                         <option :value="t.id" v-for="(t,index) in test" :key="index">
                                             (@{{t.city_name}}) @{{t.name}}
