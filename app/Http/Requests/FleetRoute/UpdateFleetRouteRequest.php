@@ -24,7 +24,7 @@ class UpdateFleetRouteRequest extends FormRequest
     public function rules()
     {
         return [
-            'fleet_id' => 'required',
+            'fleet_detail_id' => 'required',
             'route_id' => 'required',
             'price' => 'required',
             'is_active' => 'required'

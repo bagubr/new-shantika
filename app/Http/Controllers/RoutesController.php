@@ -59,13 +59,13 @@ class RoutesController extends Controller
 
         $i = 1;
         $checkpoints = '';
-        foreach ($request->fleet_detail_id as $key => $value) {
-            FleetRoute::create([
-                'route_id' => $route->id,
-                'fleet_detail_id' => $value,
-                'price' => $request->price[$key]
-            ]);
-        }
+        // foreach ($request->fleet_detail_id as $key => $value) {
+        //     FleetRoute::create([
+        //         'route_id' => $route->id,
+        //         'fleet_detail_id' => $value,
+        //         'price' => $request->price[$key]
+        //     ]);
+        // }
         foreach ($agencies as $key => $agency) {
             $checkpoint = Checkpoint::create([
                 'route_id' => $route->id,
@@ -78,7 +78,7 @@ class RoutesController extends Controller
             'name' => $checkpoints,
         ]);
         session()->flash('success', 'Route Berhasil Ditambahkan');
-        return redirect(route('routes.index'));
+        return redirect(route('routes.show', $route->id));
     }
 
     /**

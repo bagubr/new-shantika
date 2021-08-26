@@ -43,7 +43,10 @@ class FleetController extends Controller
     public function store(CreateFleetRequest $request)
     {
         $data = $request->all();
-        $data['image'] = $request->image->store('image', 'public');
+        if ($request->hasFile('image')) {
+            $image = $request->image->store('image', 'public');
+            $data['image'] = $image;
+        };
 
         Fleet::create($data);
         session()->flash('success', 'Armada Berhasil Ditambahkan');

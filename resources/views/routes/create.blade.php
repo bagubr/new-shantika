@@ -60,7 +60,7 @@ Route
                                     <select class="form-control" v-model="agency[index].id" name="agency_id[]">
                                         <option value="">Pilih Line</option>
                                         <option :value="t.id" v-for="(t,index) in test" :key="index">
-                                            @{{t.name}}
+                                            (@{{t.city_name}}) @{{t.name}}
                                         </option>
                                     </select>
                                     <button v-if="index != 0" type="button" class="btn btn-outline-danger"
@@ -72,7 +72,7 @@ Route
                                 Tambah Rute
                             </button>
                         </div>
-                        @isset($name)
+                        {{-- @isset($name)
                         @if ($name == 'routes.create')
                         <div id="dynamicAddRemove">
                             <div class="t">
@@ -83,39 +83,38 @@ Route
                                             <select class="form-control select2" name="fleet_detail_id[]">
                                                 @foreach ($fleets as $fleet)
                                                 <option value="{{$fleet->id}}">
-                                                    {{$fleet->fleet?->name}}/{{$fleet->fleet?->fleetclass?->name}}/{{$fleet->nickname}}
-                                                </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label>Harga</label>
-                                            <div class="input-group mb-3">
-                                                <input type="number" class="form-control" name="price[]" id="jam2"
-                                                    placeholder="Masukkan Harga">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">
-                            Tambah Armada
-                        </button>
-                        @endif
-                        @endisset
-                        <div class="mt-3">
-                            <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
-                            <input type="submit" value="Submit" class="btn btn-success float-right">
-                        </div>
-                    </form>
+                        {{$fleet->fleet?->name}}/{{$fleet->fleet?->fleetclass?->name}}/{{$fleet->nickname}}
+                        </option>
+                        @endforeach
+                        </select>
                 </div>
-                <!-- /.card-body -->
             </div>
-            <!-- /.card -->
+            <div class="col">
+                <div class="form-group">
+                    <label>Harga</label>
+                    <div class="input-group mb-3">
+                        <input type="number" class="form-control" name="price[]" id="jam2" placeholder="Masukkan Harga">
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+    </div>
+    <button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">
+        Tambah Armada
+    </button>
+    @endif
+    @endisset --}}
+    <div class="mt-3">
+        <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
+        <input type="submit" value="Submit" class="btn btn-success float-right">
+    </div>
+    </form>
+    </div>
+    <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+    </div>
     </div>
 </section>
 @endsection
