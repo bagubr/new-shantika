@@ -2,11 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Models\Fleet;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use App\Models\FleetClass;
+use App\Models\FleetDetail;
 use App\Models\Layout;
 use Faker\Factory as Faker;
+
 class FleetSeeder extends Seeder
 {
     /**

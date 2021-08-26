@@ -64,7 +64,6 @@ Armada Rute
                                     <th>Area</th>
                                     <th>Rute</th>
                                     <th>Harga</th>
-                                    <th>Kelas Armada</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -72,9 +71,11 @@ Armada Rute
                             <tbody>
                                 @foreach ($fleet_routes as $fleet_route)
                                 <tr>
-                                    <td>{{$fleet_route->fleet?->name}}</td>
+                                    <td>{{$fleet_route->fleet_detail?->fleet?->name}}/{{$fleet_route->fleet_detail?->fleet?->fleetclass?->name}}
+                                        ({{$fleet_route->fleet_detail?->nickname}})
+                                    </td>
                                     <td>
-                                        {{$fleet_route->route?->departure_city?->area?->name}}
+                                        {{$fleet_route->route?->checkpoints[0]?->agency?->city?->area?->name}}
                                     </td>
                                     <td>
                                         <a href="{{route('routes.show',$fleet_route->route_id)}}">
@@ -82,7 +83,6 @@ Armada Rute
                                         </a>
                                     </td>
                                     <td>Rp. {{number_format($fleet_route->price,2)}}</td>
-                                    <td>{{$fleet_route->fleet?->fleetclass?->name}}</td>
                                     @if ($fleet_route->is_active == 1)
                                     <td data-toggle="modal" data-target="#exampleModal{{$fleet_route->id}}"
                                         class="text-success text-bold pointer">

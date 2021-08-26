@@ -39,32 +39,26 @@ Rute Armada
                         @isset($fleet_route)
                         @method('PUT')
                         @endisset
-                        <div class="form-row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label>Route</label>
-                                    <select name="route_id" class="form-control" readonly>
-                                        <option value="{{$fleet_route->route_id}}">{{$fleet_route->route?->name}}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <label>Armada</label>
-                                    <select name="fleet_id" class="form-control" readonly>
-                                        <option value="{{$fleet_route->fleet_id}}">{{$fleet_route->fleet?->name}}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <label>Area</label>
-                                    <input type="text" readonly class="form-control"
-                                        value="{{$fleet_route->route?->departure_city?->area?->name}}">
-                                </div>
-                            </div>
+                        <div class="form-group">
+                            <label>Route</label>
+                            <select name="route_id" class="form-control" readonly>
+                                <option value="{{$fleet_route->route_id}}">{{$fleet_route->route?->name}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Armada</label>
+                            <select name="fleet_id" class="form-control" readonly>
+                                <option value="{{$fleet_route->fleet_detail_id}}">
+                                    {{$fleet_route->fleet_detail?->fleet?->name}}/{{$fleet_route->fleet_detail?->fleet?->fleetclass?->name}}
+                                    ({{$fleet_route->fleet_detail?->nickname}})
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Area</label>
+                            <input type="text" readonly class="form-control"
+                                value="{{$fleet_route->route?->checkpoints[0]?->agency?->city?->area?->name}}">
                         </div>
                         <div class="form-group">
                             <label>Harga</label>
@@ -85,10 +79,10 @@ Rute Armada
                 </div>
             </div>
         </div>
-        {{-- <div class="col-md-6">
+        <div class="col-md-8">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Cari</h3>
+                    <h3 class="card-title">Pesanan</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -96,95 +90,61 @@ Rute Armada
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="" method="get">
-                        <div class="form-row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label>Dari Tanggal</label>
-                                    <input type="date" name="date_form" class="form-control"
-                                        value="{{Carbon\Carbon::now()->format('Y-m-d')}}">
-    </div>
-    </div>
-    <div class="col">
-        <div class="form-group">
-            <label>Sampai Tanggal</label>
-            <input type="date" name="date_to" class="form-control">
-        </div>
-    </div>
-    </div>
-    <button type="submit" class="btn btn-success float-right">
-        Cari
-    </button>
-    </form>
-    </div>
-    </div>
-    </div> --}}
-    <div class="col-md-8">
-        <div class="card card-primary">
-            <div class="card-header">
-                <h3 class="card-title">Pesanan</h3>
-                <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                        <i class="fas fa-minus"></i>
-                    </button>
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Kode Order</th>
+                                <th>Akun</th>
+                                <th>Pemesan</th>
+                                <th>Jumlah Pesanan</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($orders as $order)
+                            <tr>
+                                <td>{{date('Y-m-d',strtotime($order->reserve_at))}}</td>
+                                <td>
+                                    <a href="{{route('order.show',$order->id)}}">
+                                        {{$order->code_order}}
+                                    </a>
+                                </td>
+                                <td>
+                                    @if ($order->user?->agencies)
+                                    <a href="{{route('user_agent.show',$order->user_id)}}" target="_blank">
+                                        {{$order->user?->name_agent}}
+                                    </a>
+                                    @elseif ($order->user)
+                                    <a href="{{route('user.edit', $order->user_id)}}">
+                                        {{$order->user?->name}}
+                                    </a>
+                                    @else
+                                    Tanpa Akun
+                                    @endif
+                                </td>
+                                <td>{{$order->order_detail[0]->name}}</td>
+                                <td>{{$order->order_detail->count()}}</td>
+                                <td>{{$order->status}}</td>
+                                <td>
+                                    <a href="{{route('order.show',$order->id)}}" target="_blank"
+                                        class="btn btn-primary btn-xs">Detail</a>
+                                    <form action="{{route('order.destroy',$order->id)}}" class="d-inline" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger btn-xs"
+                                            onclick="return confirm('Apakah Anda yakin akan menghapus data order?')"
+                                            type="submit">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>Tanggal</th>
-                            <th>Kode Order</th>
-                            <th>Akun</th>
-                            <th>Pemesan</th>
-                            <th>Jumlah Pesanan</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($orders as $order)
-                        <tr>
-                            <td>{{date('Y-m-d',strtotime($order->reserve_at))}}</td>
-                            <td>
-                                <a href="{{route('order.show',$order->id)}}">
-                                    {{$order->code_order}}
-                                </a>
-                            </td>
-                            <td>
-                                @if ($order->user?->agencies)
-                                <a href="{{route('user_agent.show',$order->user_id)}}" target="_blank">
-                                    {{$order->user?->name_agent}}
-                                </a>
-                                @elseif ($order->user)
-                                <a href="{{route('user.edit', $order->user_id)}}">
-                                    {{$order->user?->name}}
-                                </a>
-                                @else
-                                Tanpa Akun
-                                @endif
-                            </td>
-                            <td>{{$order->order_detail[0]->name}}</td>
-                            <td>{{$order->order_detail->count()}}</td>
-                            <td>{{$order->status}}</td>
-                            <td>
-                                <a href="{{route('order.show',$order->id)}}" target="_blank"
-                                    class="btn btn-primary btn-xs">Detail</a>
-                                <form action="{{route('order.destroy',$order->id)}}" class="d-inline" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-danger btn-xs"
-                                        onclick="return confirm('Apakah Anda yakin akan menghapus data order?')"
-                                        type="submit">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
         </div>
-    </div>
     </div>
 </section>
 @endsection

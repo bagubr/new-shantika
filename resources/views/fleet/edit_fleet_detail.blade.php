@@ -35,7 +35,8 @@ Edit Detail Armada
                     <form action="{{route('fleet_detail.update', $fleet_detail->id)}}" method="POST">
                         @csrf
                         @method('PUT')
-                        <input type="hidden" id="inputName" class="form-control" name="fleet_id" value="{{$fleet_detail->fleet_id}}">
+                        <input type="hidden" id="inputName" class="form-control" name="fleet_id"
+                            value="{{$fleet_detail->fleet_id}}">
                         <div class="form-group">
                             <label for="inputName">Nama Julukan</label>
                             <input type="text" id="inputName" class="form-control" name="nickname"
@@ -54,7 +55,7 @@ Edit Detail Armada
                                 <option value="{{$fleet_now->id}}" @isset($fleet) @if ($fleet_now->id ===
                                     $fleet->id)
                                     selected
-                                    @endif @endisset>{{$fleet_now->name}}
+                                    @endif @endisset>{{$fleet_now->fleet?->name}}
                                 </option>
                                 @endforeach
                             </select>
