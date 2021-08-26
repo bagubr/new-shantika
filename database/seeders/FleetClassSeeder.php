@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+
 class FleetClassSeeder extends Seeder
 {
     /**
@@ -14,13 +15,14 @@ class FleetClassSeeder extends Seeder
     public function run()
     {
         $data = [
-            'Super Executive',
-            'Executive',
-            'Suite Class',
+            'Super Executive' => 15000,
+            'Executive' => 15000,
+            'Suite Class' => 15000,
         ];
         foreach ($data as $key => $value) {
             DB::table('fleet_classes')->insert([
-                'name' => $value
+                'name' => $key,
+                'price_food' => $value
             ]);
         }
     }

@@ -72,49 +72,16 @@ Route
                                 Tambah Rute
                             </button>
                         </div>
-                        {{-- @isset($name)
-                        @if ($name == 'routes.create')
-                        <div id="dynamicAddRemove">
-                            <div class="t">
-                                <div class="form-row">
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label>Armada</label>
-                                            <select class="form-control select2" name="fleet_detail_id[]">
-                                                @foreach ($fleets as $fleet)
-                                                <option value="{{$fleet->id}}">
-                        {{$fleet->fleet?->name}}/{{$fleet->fleet?->fleetclass?->name}}/{{$fleet->nickname}}
-                        </option>
-                        @endforeach
-                        </select>
+                        <div class="mt-3">
+                            <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
+                            <input type="submit" value="Submit" class="btn btn-success float-right">
+                        </div>
+                    </form>
                 </div>
+                <!-- /.card-body -->
             </div>
-            <div class="col">
-                <div class="form-group">
-                    <label>Harga</label>
-                    <div class="input-group mb-3">
-                        <input type="number" class="form-control" name="price[]" id="jam2" placeholder="Masukkan Harga">
-                    </div>
-                </div>
-            </div>
+            <!-- /.card -->
         </div>
-    </div>
-    </div>
-    <button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">
-        Tambah Armada
-    </button>
-    @endif
-    @endisset --}}
-    <div class="mt-3">
-        <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
-        <input type="submit" value="Submit" class="btn btn-success float-right">
-    </div>
-    </form>
-    </div>
-    <!-- /.card-body -->
-    </div>
-    <!-- /.card -->
-    </div>
     </div>
 </section>
 @endsection

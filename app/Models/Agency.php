@@ -36,6 +36,10 @@ class Agency extends Model
     {
         return $this->belongsTo(City::class, 'city_id', 'id');
     }
+    public function agency_departure_times()
+    {
+        return $this->hasMany(AgencyDepartureTime::class, 'agency_id', 'id');
+    }
     public function getCityNameAttribute()
     {
         return $this->city()?->first()?->name;

@@ -93,14 +93,14 @@ class AgenciesSeeder extends Seeder
             'GENUK',
             'KALIBANTENG',
         ];
-        $data['BEKASI'] = [
+        $data2['BEKASI'] = [
             'JATI ASIH',
             'CIKARANG',
             'BEKASI',
             'CIBITUNG',
             'SUMMARECON'
         ];
-        $data['BOGOR'] = [
+        $data2['BOGOR'] = [
             'TERMINAL BOGOR',
             'PARUNG',
             'CIBINONG',
@@ -118,36 +118,36 @@ class AgenciesSeeder extends Seeder
             'SIMPANG CIBINONG',
             'CENTRAL BOGOR'
         ];
-        $data['CILEGON'] = [
+        $data2['CILEGON'] = [
             'PELABUHAN MERAK',
             'TERMINAL SERUNI',
             'TERMINAL SRUNI CILEGON',
             'TOL CIPERNA',
             'TOL PLUMBON / KANCI'
         ];
-        $data['DEPOK'] = [
+        $data2['DEPOK'] = [
             'DEPOK',
-            'WARUNG JAMBU', 
+            'WARUNG JAMBU',
             'TERMINAL JATI JAJAR'
         ];
-        $data['JAKARTA BARAT'] = [
+        $data2['JAKARTA BARAT'] = [
             'KALIDERES'
         ];
-        $data['JAKARTA SELATAN'] = [
+        $data2['JAKARTA SELATAN'] = [
             'LEBAK BULUS',
             'PASAR JUMAT'
         ];
-        $data['JAKARTA TIMUR'] = [
+        $data2['JAKARTA TIMUR'] = [
             'PULOGEBANG',
             'TERMINAL KP. RAMBUTAN',
             'RAWA MANGUN',
             'PASAR INDUK'
         ];
-        $data['KARAWANG'] = [
+        $data2['KARAWANG'] = [
             'KLARI',
             'KARAWANG BARAT'
         ];
-        $data['SERANG'] = [
+        $data2['SERANG'] = [
             'SERANG',
             'TAMAN KOPASUS',
             'SERANG PAKUPATAN',
@@ -155,7 +155,7 @@ class AgenciesSeeder extends Seeder
             'CIUJUNG',
             'GORDA CIKANDE'
         ];
-        $data['TANGERANG'] = [
+        $data2['TANGERANG'] = [
             'CILEDUG (MERUYA)',
             'BSD',
             'BITUNG',
@@ -167,13 +167,13 @@ class AgenciesSeeder extends Seeder
             'BALA RAJA BARAT',
             'BALA RAJA TIMUR'
         ];
-        $data['JAKARTA UTARA'] = [
+        $data2['JAKARTA UTARA'] = [
             'TANJUNG PRIOK'
         ];
-        $data['SUBANG'] = [
+        $data2['SUBANG'] = [
             'KALIJATI'
         ];
-        $data['BANDUNG'] = [
+        $data2['BANDUNG'] = [
             'BANDUNG,',
             'CIMAHI',
             'CICAHEUM',
@@ -188,12 +188,38 @@ class AgenciesSeeder extends Seeder
             'ALAM SARI SUMEDANG',
             'KERTA JATI'
         ];
-        
-        
+
+
         $province = Province::create([
             'name' => 'JAWA TENGAH',
         ]);
         $vowels = array("a", "e", "i", "o", "u", "A", "E", "I", "O", "U", " ");
+        foreach ($data2 as $key => $value) {
+            $city = City::create([
+                'name' => $key,
+                'province_id' => $province->id,
+                'area_id' => 2
+            ]);
+            foreach ($value as $k => $v) {
+                $agent = Agency::create([
+                    'name'      => $v,
+                    'code'      => str_replace($vowels, "", $v),
+                    'city_id'   => $city->id,
+                    'lat'       => $faker->latitude,
+                    'lng'       => $faker->longitude,
+                    'address'   => $faker->address,
+                    'code'      => str_replace(['a', 'i', 'u', 'e', 'o', 'A', 'I', 'U', 'E', 'O'], "", $v)
+                ]);
+                AgencyDepartureTime::create([
+                    'agency_id' => $agent->id,
+                    'departure_at' => $faker->numberBetween(10, 17) . ":00:00"
+                ]);
+                AgencyDepartureTime::create([
+                    'agency_id' => $agent->id,
+                    'departure_at' => $faker->numberBetween(14, 17) . ":00:00"
+                ]);
+            }
+        }
         foreach ($data as $key => $value) {
             $city = City::create([
                 'name' => $key,
@@ -208,15 +234,15 @@ class AgenciesSeeder extends Seeder
                     'lat'       => $faker->latitude,
                     'lng'       => $faker->longitude,
                     'address'   => $faker->address,
-                    'code'      => str_replace(['a','i','u','e','o','A','I','U','E','O'], "", $v)
+                    'code'      => str_replace(['a', 'i', 'u', 'e', 'o', 'A', 'I', 'U', 'E', 'O'], "", $v)
                 ]);
                 AgencyDepartureTime::create([
                     'agency_id' => $agent->id,
-                    'departure_at' => $faker->numberBetween(10, 17).":00:00"
+                    'departure_at' => $faker->numberBetween(10, 17) . ":00:00"
                 ]);
                 AgencyDepartureTime::create([
                     'agency_id' => $agent->id,
-                    'departure_at' => $faker->numberBetween(14,17).":00:00"
+                    'departure_at' => $faker->numberBetween(14, 17) . ":00:00"
                 ]);
             }
         }

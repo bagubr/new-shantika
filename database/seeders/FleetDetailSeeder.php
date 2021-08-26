@@ -18,12 +18,16 @@ class FleetDetailSeeder extends Seeder
     {
         $data = Fleet::all();
         $faker = Faker::create('id_ID');
-        for ($i = 0; $i < 20; $i++) {
-            FleetDetail::create([
-                'fleet_id' => Fleet::all()->random()->id,
-                'nickname' => $faker->word,
-                'plate_number' => 'H' . rand(1000, 9999) . 'AB',
-            ]);
+        foreach ($data as $key => $value) {
+            FleetDetail::firstOrCreate(
+                [
+                    'fleet_id' => $data->random()->id
+                ],
+                [
+                    'nickname' => $faker->word,
+                    'plate_number' => 'H' . rand(1000, 9999) . 'AB',
+                ]
+            );
         }
     }
 }
