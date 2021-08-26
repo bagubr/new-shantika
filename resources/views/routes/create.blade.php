@@ -18,7 +18,7 @@ Route
         </div>
     </div><!-- /.container-fluid -->
 </section>
-<section class="content">
+<section class="content" id="app">
     <div class="row">
         <div class="col-md-12">
             <div class="card card-primary">
@@ -46,6 +46,25 @@ Route
                                 value="{{isset($route)? $route->name : ""}}">
                         </div>
                         @endisset
+                        <div class="form-group">
+                            <select v-model="area_id" @input="getData()" class="form-control">
+                                <option value="1">JAWA</option>
+                                <option value="2">JABODETABEK</option>
+                            </select>
+                        </div>
+                        <div id="dynamicAddRemove2">
+                            <div class="t2">
+                                <select class="form-control" v-model="agency" name="agency[]">
+                                    <option value="">Pilih Area</option>
+                                    <option :value="t.id" v-for="(t,index) in test" :key="index">
+                                        @{{t.name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="button" name="add2" id="dynamic-ar2" class="btn btn-outline-primary">Tambah
+                            Armada
+                        </button>
                         <div class="form-row">
                             <div class="col">
                                 <div class="form-group">
@@ -118,7 +137,7 @@ Route
                                 </div>
                             </div>
                         </div>
-                        <button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">Tambah
+                        <button type="button" name="add" id="dynamic-ar" class="btn btn-outline-primary">
                             Tambah Armada
                         </button>
                         @endif
@@ -137,6 +156,9 @@ Route
 </section>
 @endsection
 @push('script')
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="{{asset('js/route/index.js')}}"></script>
 <script>
     var i = 0;
     $("#dynamic-ar").click(function () {
@@ -147,6 +169,16 @@ Route
         $(this).parents('.t').remove();
     });
 
+</script>
+<script>
+    var i = 0;
+    $("#dynamic-ar2").click(function () {
+        ++i;
+        $("#dynamicAddRemove2").append('  <div class="t2"> <select class="form-control" v-model="agency"> <option value="">Pilih Area</option> <option :value="t.id" v-for="(t,index) in test" :key="index"> @{{t.name}} </option> </select> </div>');
+    });
+    $(document).on('click', '.remove-input-field', function () {
+        $(this).parents('.t2').remove();
+    });
 </script>
 <script>
     $(function () {

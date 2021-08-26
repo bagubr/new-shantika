@@ -24,10 +24,7 @@ class CreateRoutesRequest extends FormRequest
     public function rules()
     {
         return [
-            'departure_city_id' => 'required|exists:cities,id',
-            'destination_city_id' => 'required|exists:cities,id',
-            'departure_at' => 'required',
-            'arrived_at' => 'required',
+            'name' => 'nullable',
         ];
     }
 }

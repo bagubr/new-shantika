@@ -12,6 +12,7 @@ use App\Models\AgencyDepartureTime;
 use App\Models\UserAgent;
 use App\Models\City;
 use App\Models\Province;
+
 class AgenciesSeeder extends Seeder
 {
     /**
@@ -55,7 +56,7 @@ class AgenciesSeeder extends Seeder
             'SIRAHAN',
             'TANGGULASI',
             'TERMINAL JEPARA',
-            'TPK', 
+            'TPK',
             'TUNGGUL',
             'WELAHAN',
         ];
@@ -192,14 +193,17 @@ class AgenciesSeeder extends Seeder
         $province = Province::create([
             'name' => 'JAWA TENGAH',
         ]);
+        $vowels = array("a", "e", "i", "o", "u", "A", "E", "I", "O", "U", " ");
         foreach ($data as $key => $value) {
             $city = City::create([
                 'name' => $key,
                 'province_id' => $province->id,
+                'area_id' => 1
             ]);
             foreach ($value as $k => $v) {
                 $agent = Agency::create([
                     'name'      => $v,
+                    'code'      => str_replace($vowels, "", $v),
                     'city_id'   => $city->id,
                     'lat'       => $faker->latitude,
                     'lng'       => $faker->longitude,

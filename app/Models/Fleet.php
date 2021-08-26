@@ -26,6 +26,12 @@ class Fleet extends Model
     {
         return $this->belongsTo(FleetClass::class, 'fleet_class_id', 'id');
     }
+
+    public function fleet_detail()
+    {
+        return $this->hasMany(FleetDetail::class, 'fleet_id', 'id');
+    }
+
     public function getImageAttribute($value)
     {
         return url('storage/' . $value);

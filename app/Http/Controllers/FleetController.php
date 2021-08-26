@@ -58,7 +58,11 @@ class FleetController extends Controller
      */
     public function show($id)
     {
-        //
+        $fleet = Fleet::with('fleet_detail')->find($id);
+        $fleets = Fleet::get();
+        $fleetclasses = FleetClassRepository::all();
+        $layouts = LayoutRepository::all();
+        return view('fleet.show', compact('fleets', 'fleetclasses', 'layouts', 'fleet'));
     }
 
     /**

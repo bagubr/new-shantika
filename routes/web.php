@@ -41,6 +41,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\OutcomeController;
 use App\Http\Controllers\SketchController;
 use App\Http\Controllers\StatusPenumpangController;
+use App\Http\Controllers\FleetDetailController;
 use App\Jobs\Notification\TicketExchangedJob;
 use App\Models\Admin;
 use App\Models\Notification;
@@ -90,6 +91,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('user_agent/search', [UserAgentController::class, 'search'])->name('user_agent.search');
 
+    Route::get('agency/all', [AgencyController::class, 'get_agency'])->name('agency.get_agency');
     Route::put('agency/update_status/{agency}', [AgencyController::class, 'update_status'])->name('agency.update_status');
 
     Route::get('order_price_distribution/search', [OrderPriceDistributionController::class, 'search'])->name('order_price_distribution.search');
@@ -107,7 +109,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('routes/fleet/store/', [RoutesController::class, 'store_fleet'])->name('route.fleet.store');
 
     Route::resources([
-        'bus' => FleetDetailController::class,
+        'fleet_detail' => FleetDetailController::class,
         'fleets' => FleetController::class,
         'fleetclass' => FleetClassController::class,
         'information' => InformationController::class,

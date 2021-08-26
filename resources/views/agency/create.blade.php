@@ -129,7 +129,7 @@ Agen
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
     integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
     crossorigin=""></script>
-@if (Request::routeIs('agency.create'))
+@if (Request::routeIs('agency.create') || $agency->lat == null || $agency->lng == null)
 <script>
     var mymap = L.map('mapid').locate({setView: true});
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
