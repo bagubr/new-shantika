@@ -107,6 +107,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('routes/fleet/store/', [RoutesController::class, 'store_fleet'])->name('route.fleet.store');
 
     Route::resources([
+        'bus' => FleetDetailController::class,
         'fleets' => FleetController::class,
         'fleetclass' => FleetClassController::class,
         'information' => InformationController::class,

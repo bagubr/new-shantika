@@ -125,10 +125,17 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
+                            <a href="{{route('bus.index')}}"
+                                class="nav-link {{Request::routeIs('bus.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Armada</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{route('fleets.index')}}"
                                 class="nav-link {{Request::routeIs('fleets.*') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Armada</p>
+                                <p>Kode Armada</p>
                             </a>
                         </li>
                         <li class="nav-item">
