@@ -48,7 +48,7 @@ Route
             </div>
             <!-- /.card -->
         </div>
-        <div class="col-md-6">
+        <div class="col-md-5">
             <div class="card card-success">
                 <div class="card-header">
                     <h3 class="card-title">Armada Rute Form {{$route->name}}</h3>
@@ -78,14 +78,14 @@ Route
                             <input type="number" name="price" required class="form-control">
                         </div>
                         <div class="text-right">
-                            <button class="btn btn-primary" type="submit">Tambah Data</button>
+                            <button class="btn btn-success" type="submit">Tambah Data</button>
                         </div>
                     </form>
                 </div>
                 <!-- /.card-body -->
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-7">
             <div class="card card-success">
                 <div class="card-header">
                     <h3 class="card-title">Daftar Armada</h3>
@@ -108,7 +108,9 @@ Route
                         <tbody>
                             @foreach ($route_fleets as $route_fleet)
                             <tr>
-                                <td>{{$route_fleet->fleet_detail?->fleet?->name}}</td>
+                                <td>{{$route_fleet->fleet_detail?->fleet?->name}}/{{$route_fleet->fleet_detail?->fleet?->fleetclass?->name}}
+                                    ({{$route_fleet->fleet_detail?->nickname}})
+                                </td>
                                 <td>Rp. {{number_format($route_fleet->price,2)}}</td>
                                 @if ($route_fleet->is_active == 1)
                                 <td data-toggle="modal" data-target="#exampleModal{{$route_fleet->id}}"
@@ -122,7 +124,7 @@ Route
                                 </td>
                                 @endif
                                 <td>
-                                    <a href="{{route('fleet_route.edit',$route_fleet->id)}}"
+                                    <a data-toggle="modal" data-target="#exampleModal{{$route_fleet->id}}"
                                         class="btn btn-warning btn-xs">Edit</a>
                                     <form action="{{route('fleet_route.destroy',$route_fleet->id)}}" class="d-inline"
                                         method="POST">
@@ -139,7 +141,7 @@ Route
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Ubah Status
+                                            <h5 class="modal-title" id="exampleModalLabel">Ubah Data
                                                 {{$route_fleet->name}}</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
@@ -151,6 +153,12 @@ Route
                                             @method('PUT')
                                             <div class="modal-body">
                                                 <div class="form-group">
+                                                    <label>Harga</label>
+                                                    <input type="number" class="form-control" name="price"
+                                                        value="{{$route_fleet->price}}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Status</label>
                                                     <select class="form-control input" name="is_active">
                                                         @foreach ($statuses as $s => $key)
                                                         <option value="{{$s}}" @if ($s==$route_fleet->is_active)
@@ -175,7 +183,7 @@ Route
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-5">
             <div class="card card-warning">
                 <div class="card-header">
                     <h3 class="card-title">Line Form</h3>
@@ -210,7 +218,7 @@ Route
                 <!-- /.card-body -->
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-7">
             <div class="card card-warning">
                 <div class="card-header">
                     <h3 class="card-title">Line</h3>

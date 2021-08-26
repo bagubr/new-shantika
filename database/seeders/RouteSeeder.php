@@ -27,22 +27,21 @@ class RouteSeeder extends Seeder
         $faker = Faker::create('id_ID');
         $fleet = FleetDetail::get();
         foreach ($fleet as $key => $value) {
-            $departure_at = $faker->time();
-            $departure_city_id = City::inRandomOrder()->first()->id;
-            $destination_city_id = City::where('id', '!=', $departure_city_id)->inRandomOrder()->first()->id;
             $route = Route::create([
                 'name'  => 'test'
             ]);
             FleetRoute::create([
-                'route_id' => $route->id,
-                'fleet_detail_id' => $value->id,
-                'price'         => $faker->numberBetween(50000, 500000),
+                'route_id'          => $route->id,
+                'fleet_detail_id'   => $value->id,
+                'price'             => $faker->numberBetween(50000, 500000),
             ]);
             $checkpoints = '';
             for ($i = 1; $i <= random_int(1, 5); $i++) {
                 $checkpoint = Checkpoint::create([
                     'route_id'  => $route->id,
-                    'agency_id' => Agency::inRandomOrder()->first()->id,
+                    'agency_id' => Agency::whereHas('city', function ($q) {
+                        $q->where('area_id', 1);
+                    })->inRandomOrder()->first()->id,
                     'order'     => $i
                 ]);
                 $checkpoints .= '~' . $checkpoint->agency()->first()->name . '~';
