@@ -90,6 +90,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('user_agent/search', [UserAgentController::class, 'search'])->name('user_agent.search');
 
+    Route::get('agency/all', [AgencyController::class, 'get_agency'])->name('agency.get_agency');
     Route::put('agency/update_status/{agency}', [AgencyController::class, 'update_status'])->name('agency.update_status');
 
     Route::get('order_price_distribution/search', [OrderPriceDistributionController::class, 'search'])->name('order_price_distribution.search');

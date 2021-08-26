@@ -20,7 +20,7 @@ class Agency extends Model
     protected $appends = [
         'phone',
         'avatar_url',
-        'city_name'
+        'city_name',
     ];
 
     public static function status()
@@ -59,7 +59,6 @@ class Agency extends Model
     {
         return $this->userAgent()?->first()?->user()?->first()?->phone;
     }
-
     public function deleteAvatar()
     {
         Storage::disk('public')->delete($this->attributes['avatar']);

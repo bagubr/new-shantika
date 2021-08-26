@@ -22,6 +22,20 @@ class AgencyController extends Controller
         $statuses = Agency::status();
         return view('agency.index', compact('agencies', 'statuses'));
     }
+    public function get_agency(Request $request)
+    {
+        $area_id = $request->area_id;
+        $agencies = Agency::query();
+        if (!empty($area_id)) {
+            $agencies = $agencies->whereHas('city', function ($q) use ($area_id) {
+                $q->where('area_id', $area_id);
+            });
+        }
+        $agencies = $agencies->get();
+        return response([
+            'agencies' => $agencies
+        ]);
+    }
 
     /**
      * Show the form for creating a new resource.

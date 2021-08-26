@@ -53,43 +53,31 @@ class RoutesController extends Controller
     {
         $data = $request->all();
         $route = Route::create($data);
-        foreach ($request->fleet_id as $key => $value) {
+
+        $agencies = $request['agency_id'];
+
+        $i = 1;
+        $checkpoints = '';
+        foreach ($request->fleet_detail_id as $key => $value) {
             FleetRoute::create([
                 'route_id' => $route->id,
-                'fleet_id' => $value,
+                'fleet_detail_id' => $value,
                 'price' => $request->price[$key]
             ]);
         }
-        $name = '~' . $route->departure_city()->first()->name . '~' . $route->destination_city()->first()->name . '~';
+        foreach ($agencies as $key => $agency) {
+            $checkpoint = Checkpoint::create([
+                'route_id' => $route->id,
+                'agency_id' => $agency,
+                'order' => $i++
+            ]);
+            $checkpoints .= '~' . $checkpoint->agency()->first()->name . '~';
+        }
         $route->update([
-            'name' => $name,
+            'name' => $checkpoints,
         ]);
-
         session()->flash('success', 'Route Berhasil Ditambahkan');
         return redirect(route('routes.index'));
-
-        // $data = $request->all();
-        // $route = Route::create($data);
-
-        // $agencies = $request['agency_id'];
-        // $arrived_at = $request['arrived_at1'];
-
-        // $i = 0;
-        // $checkpoints = '';
-        // foreach ($agencies as $key => $agency) {
-        //     $checkpoint = Checkpoint::create([
-        //         'route_id' => $route->id,
-        //         'arrived_at' => $arrived_at[$key],
-        //         'agency_id' => $agency,
-        //         'order' => $i++
-        //     ]);
-        //     $checkpoints .= '~' . $checkpoint->agency()->first()->name . '~';
-        // }
-        // $route->update([
-        //     'name' => $checkpoints,
-        // ]);
-        // session()->flash('success', 'Route Berhasil Ditambahkan');
-        // return redirect(route('routes.index'));
     }
 
     /**
