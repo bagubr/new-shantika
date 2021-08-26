@@ -39,7 +39,7 @@ class RouteSeeder extends Seeder
                 'price'         => $faker->numberBetween(50000, 500000),
             ]);
             $checkpoints = '';
-            for ($i = 1; $i <= $faker->randomDigit(); $i++) {
+            for ($i = 1; $i <= random_int(1, 5); $i++) {
                 $checkpoint = Checkpoint::create([
                     'route_id'  => $route->id,
                     'agency_id' => Agency::inRandomOrder()->first()->id,

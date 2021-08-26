@@ -10,6 +10,7 @@ use App\Models\Area;
 use App\Models\Checkpoint;
 use App\Models\City;
 use App\Models\Fleet;
+use App\Models\FleetDetail;
 use App\Models\FleetRoute;
 use App\Models\Route;
 use App\Repositories\AgencyRepository;
@@ -39,7 +40,7 @@ class RoutesController extends Controller
         $name = FacadesRoute::currentRouteName();
         $areas = Area::all();
         $cities = City::all();
-        $fleets = Fleet::all();
+        $fleets = FleetDetail::all();
         return view('routes.create', compact('cities', 'areas', 'fleets', 'name'));
     }
 

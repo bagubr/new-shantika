@@ -3,11 +3,13 @@ var app = new Vue({
     data: {
         message: 'Hello Vue!',
         test: [],
-        area_id: '',
+        area_id: 1,
         agency: [{
             id: '',
-            name: '',
         }]
+    },
+    mounted() {
+        this.getData();
     },
     methods: {
         getData() {
@@ -18,8 +20,19 @@ var app = new Vue({
                     },
                 })
                 .then(result => {
-                    this.test = result.data.agencies
+                    this.test = result.data.agencies;
+                    this.agency = [
+                        {
+                            id: ''
+                        }
+                    ];
                 });
+        },
+        addField() {
+            this.agency.push({ id: '' })
+        },
+        removeField(index) {
+            this.agency.splice(index, 1);
         },
     },
 })

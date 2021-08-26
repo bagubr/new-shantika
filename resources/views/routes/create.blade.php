@@ -47,68 +47,30 @@ Route
                         </div>
                         @endisset
                         <div class="form-group">
-                            <select v-model="area_id" @input="getData()" class="form-control">
+                            <label>Pilih Area</label>
+                            <select v-model="area_id" @change="getData" class="form-control">
                                 <option value="1">JAWA</option>
                                 <option value="2">JABODETABEK</option>
                             </select>
                         </div>
-                        <div id="dynamicAddRemove2">
-                            <div class="t2">
-                                <select class="form-control" v-model="agency" name="agency[]">
-                                    <option value="">Pilih Area</option>
-                                    <option :value="t.id" v-for="(t,index) in test" :key="index">
-                                        @{{t.name}}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <button type="button" name="add2" id="dynamic-ar2" class="btn btn-outline-primary">Tambah
-                            Armada
-                        </button>
-                        <div class="form-row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label>Kota Keberangkatan</label>
-                                    <select name="departure_city_id" class="form-control select2" required>
-                                        <option value="">Pilih Kota Keberangkatan</option>
-                                        @foreach ($cities as $city)
-                                        <option value="{{$city->id}}" @isset($route) @if ($city->id ==
-                                            $route->departure_city_id)
-                                            selected
-                                            @endif @endisset>{{$city->name}}</option>
-                                        @endforeach
+                        <div v-if="test.length > 0">
+                            <label>Pilih Line</label>
+                            <div class="form-group" v-for="(a, index) in agency" :key="index">
+                                <div class="input-group">
+                                    <select class="form-control" v-model="agency[index].id" name="agency_id[]">
+                                        <option value="">Pilih Line</option>
+                                        <option :value="t.id" v-for="(t,index) in test" :key="index">
+                                            @{{t.name}}
+                                        </option>
                                     </select>
+                                    <button v-if="index != 0" type="button" class="btn btn-outline-danger"
+                                        @click="removeField(index)">Delete
+                                    </button>
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <label>Kota Kedatangan</label>
-                                    <select name="destination_city_id" class="form-control select2" required>
-                                        <option value="">Pilih Kota Tujuan</option>
-                                        @foreach ($cities as $city)
-                                        <option @isset($route) @if ($city->id == $route->destination_city_id)
-                                            selected
-                                            @endif @endisset value="{{$city->id}}">{{$city->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label>Waktu Berangkat</label>
-                                    <input type="time" class="form-control" name="departure_at" @isset($route)
-                                        value="{{$route->departure_at}}" @endisset required>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <label>Waktu Kedatangan</label>
-                                    <input type="time" class="form-control" name="arrived_at" @isset($route)
-                                        value="{{$route->arrived_at}}" @endisset required>
-                                </div>
-                            </div>
+                            <button type="button" @click="addField" class="btn btn-outline-primary mb-5">
+                                Tambah Rute
+                            </button>
                         </div>
                         @isset($name)
                         @if ($name == 'routes.create')
@@ -118,9 +80,11 @@ Route
                                     <div class="col">
                                         <div class="form-group">
                                             <label>Armada</label>
-                                            <select class="form-control select2" name="fleet_id[]">
+                                            <select class="form-control select2" name="fleet_detail_id[]">
                                                 @foreach ($fleets as $fleet)
-                                                <option value="{{$fleet->id}}">{{$fleet->name}}</option>
+                                                <option value="{{$fleet->id}}">
+                                                    {{$fleet->fleet?->name}}/{{$fleet->fleet?->fleetclass?->name}}/{{$fleet->nickname}}
+                                                </option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -163,7 +127,7 @@ Route
     var i = 0;
     $("#dynamic-ar").click(function () {
         ++i;
-        $("#dynamicAddRemove").append(' <div class="t"> <div class="form-row"> <div class="col"> <div class="form-group"> <label>Armada</label> <select class="form-control select2" name="fleet_id[]"> @foreach ($fleets ?? '' as $fleet) <option value="{{$fleet->id}}">{{$fleet->name}}</option> @endforeach </select> </div> </div> <div class="col"> <div class="form-group"> <label>Harga</label> <div class="input-group mb-3"> <input type="number" class="form-control" name="price[]" id="jam2" placeholder="Masukkan Harga"> <div class="input-group-append"> <button type="button" class="btn btn-outline-danger remove-input-field">Delete</button> </div> </div> </div> </div> </div> </div>');
+        $("#dynamicAddRemove").append(' <div class="t"> <div class="form-row"> <div class="col"> <div class="form-group"> <label>Armada</label> <select class="form-control select2" name="fleet_detail_id[]"> @foreach ($fleets ?? '' as $fleet) <option value="{{$fleet->id}}">{{$fleet->name}}</option> @endforeach </select> </div> </div> <div class="col"> <div class="form-group"> <label>Harga</label> <div class="input-group mb-3"> <input type="number" class="form-control" name="price[]" id="jam2" placeholder="Masukkan Harga"> <div class="input-group-append"> <button type="button" class="btn btn-outline-danger remove-input-field">Delete</button> </div> </div> </div> </div> </div> </div>');
     });
     $(document).on('click', '.remove-input-field', function () {
         $(this).parents('.t').remove();
@@ -171,18 +135,9 @@ Route
 
 </script>
 <script>
-    var i = 0;
-    $("#dynamic-ar2").click(function () {
-        ++i;
-        $("#dynamicAddRemove2").append('  <div class="t2"> <select class="form-control" v-model="agency"> <option value="">Pilih Area</option> <option :value="t.id" v-for="(t,index) in test" :key="index"> @{{t.name}} </option> </select> </div>');
-    });
-    $(document).on('click', '.remove-input-field', function () {
-        $(this).parents('.t2').remove();
-    });
-</script>
-<script>
     $(function () {
-        $('.select2').select2()
+        $('.select2').select2();
+        $('.select23').select2()
     })
     $('.select2bs4').select2({
       theme: 'bootstrap4'
