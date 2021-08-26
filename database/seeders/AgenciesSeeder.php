@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Faker\Factory as Faker;
 use App\Models\User;
 use App\Models\Agency;
+use App\Models\AgencyDepartureTime;
 use App\Models\UserAgent;
 use App\Models\City;
 use App\Models\Province;
@@ -81,7 +82,6 @@ class AgenciesSeeder extends Seeder
             'TRANGKIL',
             'WEDARI',
         ];
-
         $data['REMBANG'] = [
             'KAYEN',
             'LASEM',
@@ -93,7 +93,103 @@ class AgenciesSeeder extends Seeder
             'GENUK',
             'KALIBANTENG',
         ];
-
+        $data['BEKASI'] = [
+            'JATI ASIH',
+            'CIKARANG',
+            'BEKASI',
+            'CIBITUNG',
+            'SUMMARECON'
+        ];
+        $data['BOGOR'] = [
+            'TERMINAL BOGOR',
+            'PARUNG',
+            'CIBINONG',
+            'GUNUNG PUTRI',
+            'CILEUNGSI',
+            'BUBULAK',
+            'CILENGSI',
+            'PRUMPUNG',
+            'JALAN BARU  BOGOR',
+            'PUL CIAWI',
+            'TERMINAL BARANA SIANG',
+            'KEDUNG HALANG',
+            'POMAD',
+            'CIKARET',
+            'SIMPANG CIBINONG',
+            'CENTRAL BOGOR'
+        ];
+        $data['CILEGON'] = [
+            'PELABUHAN MERAK',
+            'TERMINAL SERUNI',
+            'TERMINAL SRUNI CILEGON',
+            'TOL CIPERNA',
+            'TOL PLUMBON / KANCI'
+        ];
+        $data['DEPOK'] = [
+            'DEPOK',
+            'WARUNG JAMBU', 
+            'TERMINAL JATI JAJAR'
+        ];
+        $data['JAKARTA BARAT'] = [
+            'KALIDERES'
+        ];
+        $data['JAKARTA SELATAN'] = [
+            'LEBAK BULUS',
+            'PASAR JUMAT'
+        ];
+        $data['JAKARTA TIMUR'] = [
+            'PULOGEBANG',
+            'TERMINAL KP. RAMBUTAN',
+            'RAWA MANGUN',
+            'PASAR INDUK'
+        ];
+        $data['KARAWANG'] = [
+            'KLARI',
+            'KARAWANG BARAT'
+        ];
+        $data['SERANG'] = [
+            'SERANG',
+            'TAMAN KOPASUS',
+            'SERANG PAKUPATAN',
+            'CIRUAS',
+            'CIUJUNG',
+            'GORDA CIKANDE'
+        ];
+        $data['TANGERANG'] = [
+            'CILEDUG (MERUYA)',
+            'BSD',
+            'BITUNG',
+            'DOYONG',
+            'MUNCUL',
+            'AGEN PORIS',
+            'CILEDUK',
+            'PASAR KEMIS',
+            'BALA RAJA BARAT',
+            'BALA RAJA TIMUR'
+        ];
+        $data['JAKARTA UTARA'] = [
+            'TANJUNG PRIOK'
+        ];
+        $data['SUBANG'] = [
+            'KALIJATI'
+        ];
+        $data['BANDUNG'] = [
+            'BANDUNG,',
+            'CIMAHI',
+            'CICAHEUM',
+            'CIMINDI',
+            'EXIT TOL PADJAJARAN',
+            'PADJAJARAN',
+            'DAGO',
+            'CIBIRU',
+            'CILEUNYI',
+            'JATINANGOR',
+            'TERM CIAKAR SUMEDANG',
+            'ALAM SARI SUMEDANG',
+            'KERTA JATI'
+        ];
+        
+        
         $province = Province::create([
             'name' => 'JAWA TENGAH',
         ]);
@@ -109,22 +205,18 @@ class AgenciesSeeder extends Seeder
                     'name'      => $v,
                     'code'      => str_replace($vowels, "", $v),
                     'city_id'   => $city->id,
+                    'lat'       => $faker->latitude,
+                    'lng'       => $faker->longitude,
                     'address'   => $faker->address,
+                    'code'      => str_replace(['a','i','u','e','o','A','I','U','E','O'], "", $v)
                 ]);
-                $user = User::create([
-                    'name'  => $faker->name,
-                    'phone' => $faker->e164PhoneNumber,
-                    'email' => $faker->email,
-                    'avatar' => '',
-                    'token' => $faker->regexify('[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}'),
-                    'fcm_token' => $faker->sha256,
-                    'birth' => $faker->date($format = 'Y-m-d', $max = 'now'),
-                    'gender' => $faker->randomElement($array = array('Male', 'Female')),
-                    'address' => $faker->address,
+                AgencyDepartureTime::create([
+                    'agency_id' => $agent->id,
+                    'departure_at' => $faker->numberBetween(10, 17).":00:00"
                 ]);
-                UserAgent::create([
-                    'user_id'    => $user->id,
-                    'agency_id'   => $agent->id,
+                AgencyDepartureTime::create([
+                    'agency_id' => $agent->id,
+                    'departure_at' => $faker->numberBetween(14,17).":00:00"
                 ]);
             }
         }

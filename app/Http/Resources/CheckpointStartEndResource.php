@@ -16,8 +16,9 @@ class CheckpointStartEndResource extends JsonResource
     {
         $checkpoint_max_index = count($this->checkpoints) - 1;
         return [
-            'start' => new CheckpointResource($this->checkpoints[0]),
-            'end'   => new CheckpointResource($this->checkpoints[$checkpoint_max_index])
+            'start'         => new CheckpointResource($this->checkpoints[0]),
+            'destination'   => $this->when($this->destination_checkpoint != null, $this->destination_checkpoint),
+            'end'           => new CheckpointResource($this->checkpoints[$checkpoint_max_index]),
         ];
     }
 }
