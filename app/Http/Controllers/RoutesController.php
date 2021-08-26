@@ -91,7 +91,13 @@ class RoutesController extends Controller
     {
         $checkpoints = Checkpoint::where('route_id', $route->id)->orderBy('order')->get();
         $checkpoint_id = Checkpoint::where('route_id', $route->id)->get(['agency_id'])->toArray();
-        $agencies = AgencyRepository::all();
+        if ($route->checkpoints->count() == 0) {
+            $agencies = Agency::all();
+        } else {
+            $agencies = Agency::whereHas('city', function ($q) use ($route) {
+                $q->where('area_id', $route->checkpoints[0]?->agency?->city?->area?->id);
+            })->get();
+        }
         $fleets = Fleet::all();
         $route_fleets = FleetRoute::where('route_id', $route->id)->get();
         $statuses = Agency::status();

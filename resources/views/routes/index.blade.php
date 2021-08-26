@@ -49,8 +49,8 @@ Route
                                     <td>
                                         <a class="btn btn-primary btn-xs" href="{{route('routes.show',$route->id)}}"
                                             target="_blank">Detail</a>
-                                        <a href="{{route('routes.edit',$route->id)}}"
-                                            class="btn btn-warning btn-xs">Edit</a>
+                                        {{-- <a href="{{route('routes.edit',$route->id)}}"
+                                        class="btn btn-warning btn-xs">Edit</a> --}}
                                         <form action="{{route('routes.destroy',$route->id)}}" class="d-inline"
                                             method="POST">
                                             @csrf

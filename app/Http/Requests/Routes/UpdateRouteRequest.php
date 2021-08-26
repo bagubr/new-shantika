@@ -24,10 +24,7 @@ class UpdateRouteRequest extends FormRequest
     public function rules()
     {
         return [
-            'departure_city_id' => 'required|exists:cities,id',
-            'destination_city_id' => 'required|exists:cities,id',
-            'arrived_at' => 'required',
-            'departure_at' => 'required'
+            'name' => 'nullable',
         ];
     }
 }
