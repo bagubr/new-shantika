@@ -9,6 +9,7 @@ use App\Models\Area;
 use App\Models\Fleet;
 use App\Models\FleetRoute;
 use App\Models\Order;
+use App\Repositories\FleetRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,22 +23,31 @@ class FleetRouteController extends Controller
     public function index()
     {
         $fleet_routes = FleetRoute::all();
+        $fleets = FleetRepository::all();
         $statuses = Agency::status();
         $areas = Area::get();
-        return view('fleetroute.index', compact('fleet_routes', 'statuses', 'areas'));
+        return view('fleetroute.index', compact('fleet_routes', 'statuses', 'areas', 'fleets'));
     }
 
     public function search(Request $request)
     {
         $area_id = $request->area_id;
+        $fleet_id = $request->fleet_id;
+
         $areas = Area::get();
         $fleet_routes = FleetRoute::query();
+        $fleets = FleetRepository::all();
 
         if (!empty($area_id)) {
             $fleet_routes = $fleet_routes->whereHas('route.checkpoints', function ($q) use ($area_id) {
                 $q->whereHas('agency.city', function ($sq) use ($area_id) {
                     $sq->where('area_id', $area_id);
                 });
+            });
+        }
+        if (!empty($fleet_id)) {
+            $fleet_routes = $fleet_routes->whereHas('fleet_detail.fleet', function ($q) use ($fleet_id) {
+                $q->where('fleet_id', $fleet_id);
             });
         }
         $test = $request->flash();
@@ -48,7 +58,7 @@ class FleetRouteController extends Controller
         } else {
             session()->flash('error', 'Tidak Ada Data Ditemukan');
         }
-        return view('fleetroute.index', compact('fleet_routes', 'statuses', 'areas', 'test'));
+        return view('fleetroute.index', compact('fleet_routes', 'statuses', 'areas', 'test', 'fleets'));
     }
 
     /**

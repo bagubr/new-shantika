@@ -31,19 +31,40 @@ Armada Rute
                     <form action="{{route('fleet_route.search')}}" method="get">
                         @csrf
                         <div class="card-body">
-                            <div class="form-group">
-                                <label>Pilih Area</label>
-                                <select name="area_id" class="form-control">
-                                    <option value="">--PILIH AREA--</option>
-                                    @foreach ($areas as $area)
-                                    @if (old('area_id') == $area->id)
-                                    <option value="{{$area->id}}" selected>{{$area->name}}</option>
-                                    @else
-                                    <option value="{{$area->id}}">{{$area->name}}</option>
-                                    @endif
-                                    @endforeach
-                                </select>
+                            <div class="form-row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Cari Area</label>
+                                        <select name="area_id" class="form-control">
+                                            <option value="">--PILIH AREA--</option>
+                                            @foreach ($areas as $area)
+                                            @if (old('area_id') == $area->id)
+                                            <option value="{{$area->id}}" selected>{{$area->name}}</option>
+                                            @else
+                                            <option value="{{$area->id}}">{{$area->name}}</option>
+                                            @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Cari Armada</label>
+                                        <select name="fleet_id" class="form-control">
+                                            <option value="">--PILIH ARMADA--</option>
+                                            @foreach ($fleets as $fleet)
+                                            @if (old('fleet_id') == $fleet->id)
+                                            <option value="{{$fleet->id}}" selected>
+                                                {{$fleet->name}}/{{$fleet->fleetclass?->name}}</option> @else
+                                            <option value="{{$fleet->id}}">
+                                                {{$fleet->name}}/{{$fleet->fleetclass?->name}}</option>
+                                            @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
                         <div class="text-right m-2">
                             <button class="btn btn-success" type="submit">Cari</button>
