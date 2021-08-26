@@ -21,6 +21,11 @@ class Route extends Model
         'created_at', 'updated_at', 'deleted_at'
     ];
 
+
+    public function foo() {
+        return "hellowold";
+    }
+
     public function fleet_detail()
     {
         return $this->hasManyThrough(Fleet::class, FleetRoute::class, 'fleet_id', 'id');
