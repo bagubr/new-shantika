@@ -55,8 +55,12 @@ Agen
                                     <td>{{$agency->city?->name}}</td>
                                     <td>{{$agency->city?->area?->name}}</td>
                                     <td>{{$agency->address}}</td>
+                                    @if ($agency->agency_departure_times[0]?->departure_at)
                                     <td>{{$agency->agency_departure_times[0]?->departure_at}} |
                                         {{$agency->agency_departure_times[1]?->departure_at}}</td>
+                                    @else
+                                    <td>Daftarkan Waktuu</td>
+                                    @endif
                                     @if ($agency->is_active == 1)
                                     <td data-toggle="modal" data-target="#exampleModal{{$agency->id}}"
                                         class="text-success text-bold pointer">
