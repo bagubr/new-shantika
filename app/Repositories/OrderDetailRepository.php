@@ -15,7 +15,7 @@ class OrderDetailRepository
 
     public static function findForPriceDistributionByUserAndDateAndFleet($user_id, $date, $fleet_id) {
         $agency_id = User::with('agencies.agent')->find($user_id)->agencies?->agent?->id;
-        $order = OrderDetail::with(['order', 'order.fleet_route.fleet', 'order.fleet_route.route.checkpoints', 'order.payment', 'order.distribution'])
+        $order = OrderDetail::with(['order', 'order.fleet_route.fleet_detail.fleet', 'order.fleet_route.route.checkpoints', 'order.payment', 'order.distribution'])
             ->whereHas('order', function($query) use ($date) {
                 $query->whereDate('created_at', $date);
             })
@@ -31,7 +31,7 @@ class OrderDetailRepository
                     ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
                 });
             })
-            ->whereHas('order.fleet_route', function($query) use ($fleet_id) {
+            ->whereHas('order.fleet_route.fleet_detail', function($query) use ($fleet_id) {
                 $query->where('fleet_id', $fleet_id);
             })
             ->get();

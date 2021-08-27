@@ -43,21 +43,21 @@ class OrderRepository
 
     public static function unionBookingByUserIdAndDate(User $user, $date)
     {
-        $booking = Booking::select('id', 'fleet_route_id', 'user_id', 'booking_at as reserve_at', 'status', 'code_booking as code', 'layout_chair_id')
+        $booking = Booking::select('id', 'fleet_route_id', 'user_id', 'booking_at as reserve_at', 'status', 'code_booking as code', 'layout_chair_id', 'destination_agency_id', 'time_classification_id')
             ->addSelect(DB::raw("'BOOKING' as type"))
             ->addSelect(DB::raw("(select price from fleet_routes where fleet_routes.id = bookings.fleet_route_id) as price"))
             ->where('expired_at', '>', date('Y-m-d H:i:s'))
             ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
             ->whereUserId($user->id)
             ->distinct('code_booking');
-        $agen_order =  Order::select('id', 'fleet_route_id', 'user_id', 'reserve_at', 'status', 'code_order as code')
+        $agen_order =  Order::select('id', 'fleet_route_id', 'user_id', 'reserve_at', 'status', 'code_order as code', 'destination_agency_id', 'time_classification_id')
             ->addSelect(DB::raw("NULL as layout_chair_id"))
             ->addSelect(DB::raw("'PEMBELIAN' as type"))
             ->addSelect(DB::raw("price"))
             ->where('departure_agency_id', $user->agencies->agent->id)
             ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
             ->union($booking);
-        $user_order =  Order::select('id', 'fleet_route_id', 'user_id', 'reserve_at', 'status', 'code_order as code')
+        $user_order =  Order::select('id', 'fleet_route_id', 'user_id', 'reserve_at', 'status', 'code_order as code', 'destination_agency_id', 'time_classification_id')
             ->addSelect(DB::raw("NULL as layout_chair_id"))
             ->addSelect(DB::raw("'EXCHANGE' as type"))
             ->addSelect(DB::raw("price"))
@@ -111,11 +111,11 @@ class OrderRepository
                     ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
                 });
             })
-            ->with(['fleet_route.fleet'])
+            ->with(['fleet_route.fleet_detail.fleet'])
             ->where('status', Order::STATUS3)
             ->whereDate('created_at', $date)
             ->get()
-            ->groupBy('fleet_route.fleet.id')
+            ->groupBy('fleet_route.fleet_detail.fleet_id')
             ->all();
 
         $order = array_values($order);
@@ -135,9 +135,9 @@ class OrderRepository
     public static function findForPriceDistributionByDateAndFleet($user_id, $date, $fleet_id)
     {
         $agency_id = User::with('agencies.agent')->find($user_id)->agencies?->agent?->id;
-        $order = Order::with(['order_detail.chair', 'fleet_route.fleet', 'fleet_route.route.checkpoints', 'payment', 'distribution'])
+        $order = Order::with(['order_detail.chair', 'fleet_route.fleet_detail.fleet', 'fleet_route.route.checkpoints', 'payment', 'distribution'])
             ->whereDate('created_at', $date)
-            ->whereHas('fleet_route', function ($query) use ($fleet_id) {
+            ->whereHas('fleet_route.fleet_detail', function ($query) use ($fleet_id) {
                 $query->where('fleet_id', $fleet_id);
             })
             ->where(function($query) use ($agency_id) {

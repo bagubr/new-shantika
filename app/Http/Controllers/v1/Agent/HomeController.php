@@ -14,11 +14,12 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     public function home(Request $request) {
+        $user = UserRepository::findByToken($request->bearerToken());
         $testis = TestimonialRepository::getAll();
-        $unread_notifs = NotificationRepository::getUnreadNotificationByUserToken($request->bearerToken())->count();
+        $unread_notifs = NotificationRepository::getUnreadNotificationByUserId($user->id)->count();
         $articles = ArticleRepository::getAll();
 
-        UserService::updateFcmToken(UserRepository::findByToken($request->bearerToken()), $request->token);
+        UserService::updateFcmToken($user, $request->token);
 
         $this->sendSuccessResponse([
             'testimonials'=>$testis,

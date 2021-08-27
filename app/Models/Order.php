@@ -22,6 +22,7 @@ class Order extends Model
     protected $fillable = [
         'user_id',
         'fleet_route_id',
+        'time_classification_id',
         'code_order',
         'status',
         'price',
@@ -41,6 +42,7 @@ class Order extends Model
         $status = ['PENDING', 'EXCHANGED', 'PAID', 'CANCELED', 'EXPIRED', 'WAITING_CONFIRMATION', 'DECLINED', 'FINISHED'];
         return $status;
     }
+    
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -74,6 +76,10 @@ class Order extends Model
     public function distribution()
     {
         return $this->hasOne(OrderPriceDistribution::class, 'order_id', 'id');
+    }
+
+    public function time_classification() {
+        return $this->belongsTo(TimeClassification::class);
     }
 
     public function review()

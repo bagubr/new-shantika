@@ -19,33 +19,37 @@ class OrderListAgentResource extends JsonResource
      */
     public function toArray($request)
     {
-        $this->load('fleet_route.route.fleet.fleetclass');
+        $this->load(['fleet_route.route', 'fleet_route.fleet_detail.fleet.fleetclass', 'time_classification']);
 
         $fleet_route = $this->fleet_route;
         $route = $fleet_route->route;
         $checkpoints = $route->checkpoints;
-        $fleet = $fleet_route->fleet;
+        $fleet_detail = $fleet_route->fleet_detail;
+        $fleet = $fleet_detail->fleet;
 
         $checkpoint_max_index = count($checkpoints) - 1;
         $checkpoint_destination = CheckpointRepository::findByRouteAndAgency($route->id, $this->destination_agency_id);
+
         return [
             'id'                        => $this->id,
-            'layout_chair_id'           => Booking::where('code_booking', $this->code)->pluck('layout_chair_id') ?? $this->order_detail?->pluck('layout_chair_id'),
+            'layout_chair_id'           => $this->getLayoutChairId(),
             'fleet_route_id'            => $fleet_route->id,
+            'departure_at'              => $this->time_classification?->departure_at,
             'code'                      => $this->code,
             'name_fleet'                => $fleet->name,
             'fleet_class'               => $fleet->fleetclass?->name,
-            'departure_at'              => $route->departure_at,
-            'arrived_at'                => $route->arrived_at,
             'chairs'                    => @OrderDetailChairResource::collection($this->order_detail),
             'price'                     => $this->price,
             'reserve_at'                => $this->reserve_at,
             'status'                    => $this->status,
             'type'                      => $this->type,
-            'checkpoints'               => new CheckpointStartEndResource($route),
-            'city_start'                => $route->departure_city?->name,
-            'city_end'                  => $route->destination_city?->name,
-            'checkpoint_destination'    => new CheckpointResource($checkpoint_destination)
+            'checkpoints'               => new CheckpointStartEndResource($route, $checkpoint_destination),
         ];
+    }
+
+    private function getLayoutChairId() {
+        $booking = Booking::where('code_booking', $this->code)->pluck('layout_chair_id');
+        $order_detail = $this->order_detail?->pluck('layout_chair_id');
+        return $booking->isNotEmpty() ? $booking : $order_detail; 
     }
 }

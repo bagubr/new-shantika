@@ -5,16 +5,12 @@ namespace App\Repositories;
 use App\Models\Notification;
 
 class NotificationRepository {
-    public static function getUnreadNotificationByUserToken($token) {
-        return Notification::whereHas('user', function($query) use ($token) {
-            $query->where('token', $token);
-        })->where('is_seen', false)->get();
+    public static function getUnreadNotificationByUserId($id) {
+        return Notification::where('user_id', $id)->where('is_seen', false)->get();
     }
 
-    public static function getAllByUserToken($token) {
-        return Notification::whereHas('user', function($query) use ($token) {
-            $query->where('token', $token);
-        })->get();
+    public static function getAllByUserId($id) {
+        return Notification::where('user_id', $id)->get();
     }
 }
         

@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Models\Route;
 use App\Models\ScheduleUnavailableBooking;
 use App\Models\Setting;
+use App\Models\TimeClassification;
 use App\Repositories\BookingRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\UserRepository;
@@ -42,6 +43,8 @@ class BookingController extends Controller
             $_booking = new Booking([
                 'code_booking'=>$code_booking,
                 'fleet_route_id'=>$request->fleet_route_id,
+                'time_classification_id'=>$request->time_classification_id,
+                'destination_agency_id'=>$request->destination_agency_id,
                 'layout_chair_id'=>$layout_chair_id,
                 'booking_at'=>$request->booking_at,
                 'user_id'=>$user->id

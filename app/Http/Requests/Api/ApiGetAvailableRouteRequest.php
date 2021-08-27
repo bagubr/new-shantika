@@ -17,13 +17,13 @@ class ApiGetAvailableRouteRequest extends ApiRequest
      */
     public function rules()
     {
-        $time = implode(",",TimeClassification::pluck('name')->toArray());
+        $time = implode(",",TimeClassification::pluck('id')->toArray());
         return [
             'agency_id'=>'sometimes|numeric',
             'fleet_class_id'=>'sometimes|numeric',
             'agency_departure_id'=>'sometimes|numeric',
             'agency_arrived_id'=>'sometimes|numeric',
-            'time'=>'sometimes|in:'.$time,
+            'time_classification_id'=>'sometimes|in:'.$time,
         ];
     }
 }
