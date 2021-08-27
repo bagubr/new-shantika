@@ -6,6 +6,19 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class CheckpointStartEndResource extends JsonResource
 {
+    protected $destination_checkpoint;
+
+    public function __construct($resource, $destination_checkpoint = null)
+    {
+        parent::__construct($resource);
+
+        $this->destination_checkpoint = $destination_checkpoint;
+    }
+
+    public static function collection($resource) {
+        return parent::collection($resource);
+    }
+
     /**
      * Transform the resource into an array.
      *

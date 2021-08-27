@@ -29,6 +29,7 @@ class FleetRoute extends Model
     {
         return $this->belongsTo(Route::class, 'route_id', 'id');
     }
+    
     public function orders()
     {
         return $this->hasMany(Order::class, 'fleet_route_id', 'id');

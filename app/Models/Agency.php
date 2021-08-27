@@ -32,6 +32,10 @@ class Agency extends Model
         return $status;
     }
 
+    public function agent_departure() {
+        return $this->hasOne(AgencyDepartureTime::class);
+    }
+
     public function city()
     {
         return $this->belongsTo(City::class, 'city_id', 'id');
