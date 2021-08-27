@@ -130,14 +130,14 @@ class AgenciesSeeder extends Seeder
             'WARUNG JAMBU',
             'TERMINAL JATI JAJAR'
         ];
-        $data2['JAKARTA BARAT'] = [
+        $data3['JAKARTA BARAT'] = [
             'KALIDERES'
         ];
-        $data2['JAKARTA SELATAN'] = [
+        $data3['JAKARTA SELATAN'] = [
             'LEBAK BULUS',
             'PASAR JUMAT'
         ];
-        $data2['JAKARTA TIMUR'] = [
+        $data3['JAKARTA TIMUR'] = [
             'PULOGEBANG',
             'TERMINAL KP. RAMBUTAN',
             'RAWA MANGUN',
@@ -147,7 +147,7 @@ class AgenciesSeeder extends Seeder
             'KLARI',
             'KARAWANG BARAT'
         ];
-        $data2['SERANG'] = [
+        $data4['SERANG'] = [
             'SERANG',
             'TAMAN KOPASUS',
             'SERANG PAKUPATAN',
@@ -167,7 +167,7 @@ class AgenciesSeeder extends Seeder
             'BALA RAJA BARAT',
             'BALA RAJA TIMUR'
         ];
-        $data2['JAKARTA UTARA'] = [
+        $data3['JAKARTA UTARA'] = [
             'TANJUNG PRIOK'
         ];
         $data2['SUBANG'] = [
@@ -190,14 +190,75 @@ class AgenciesSeeder extends Seeder
         ];
 
 
-        $province = Province::create([
+        $province1 = Province::create([
             'name' => 'JAWA TENGAH',
         ]);
+        $province2 = Province::create([
+            'name' => 'JAWA BARAT',
+        ]);
+        $province3 = Province::create([
+            'name' => 'DKI JAKARTA',
+        ]);
+        $province4 = Province::create([
+            'name' => 'BANTEN',
+        ]);
         $vowels = array("a", "e", "i", "o", "u", "A", "E", "I", "O", "U", " ");
+        foreach ($data4 as $key => $value) {
+            $city = City::create([
+                'name' => $key,
+                'province_id' => $province4->id,
+                'area_id' => 2
+            ]);
+            foreach ($value as $k => $v) {
+                $agent = Agency::create([
+                    'name'      => $v,
+                    'code'      => str_replace($vowels, "", $v),
+                    'city_id'   => $city->id,
+                    'lat'       => $faker->latitude,
+                    'lng'       => $faker->longitude,
+                    'address'   => $faker->address,
+                    'code'      => str_replace(['a', 'i', 'u', 'e', 'o', 'A', 'I', 'U', 'E', 'O'], "", $v)
+                ]);
+                AgencyDepartureTime::create([
+                    'agency_id' => $agent->id,
+                    'departure_at' => $faker->numberBetween(10, 17) . ":00:00"
+                ]);
+                AgencyDepartureTime::create([
+                    'agency_id' => $agent->id,
+                    'departure_at' => $faker->numberBetween(14, 17) . ":00:00"
+                ]);
+            }
+        }
+        foreach ($data3 as $key => $value) {
+            $city = City::create([
+                'name' => $key,
+                'province_id' => $province3->id,
+                'area_id' => 2
+            ]);
+            foreach ($value as $k => $v) {
+                $agent = Agency::create([
+                    'name'      => $v,
+                    'code'      => str_replace($vowels, "", $v),
+                    'city_id'   => $city->id,
+                    'lat'       => $faker->latitude,
+                    'lng'       => $faker->longitude,
+                    'address'   => $faker->address,
+                    'code'      => str_replace(['a', 'i', 'u', 'e', 'o', 'A', 'I', 'U', 'E', 'O'], "", $v)
+                ]);
+                AgencyDepartureTime::create([
+                    'agency_id' => $agent->id,
+                    'departure_at' => $faker->numberBetween(10, 17) . ":00:00"
+                ]);
+                AgencyDepartureTime::create([
+                    'agency_id' => $agent->id,
+                    'departure_at' => $faker->numberBetween(14, 17) . ":00:00"
+                ]);
+            }
+        }
         foreach ($data2 as $key => $value) {
             $city = City::create([
                 'name' => $key,
-                'province_id' => $province->id,
+                'province_id' => $province2->id,
                 'area_id' => 2
             ]);
             foreach ($value as $k => $v) {
@@ -223,7 +284,7 @@ class AgenciesSeeder extends Seeder
         foreach ($data as $key => $value) {
             $city = City::create([
                 'name' => $key,
-                'province_id' => $province->id,
+                'province_id' => $province1->id,
                 'area_id' => 1
             ]);
             foreach ($value as $k => $v) {

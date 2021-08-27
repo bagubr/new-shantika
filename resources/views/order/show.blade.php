@@ -196,10 +196,9 @@ Pesanan
             @endif
         </div>
         <div class="col-md-5">
-            @foreach ($order_details as $order_detail)
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Detail Penumpang {{$order_detail->name}}</h3>
+                    <h3 class="card-title">Detail Penumpang {{$order->order_detail[0]?->name}}</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -209,34 +208,42 @@ Pesanan
                 <div class="card-body" style="display: block;">
                     <div class="form-group">
                         <label>Nama Penumpang</label>
-                        <input type="text" class="form-control" name="name" value="{{$order_detail->name}}" disabled>
+                        <input type="text" class="form-control" name="name" value="{{$order->order_detail[0]?->name}}"
+                            disabled>
                     </div>
                     <div class="form-row">
                         <div class="col">
                             <div class="form-group">
                                 <label>Nomor Hp</label>
-                                <p>{{$order_detail->phone}}</p>
+                                <p>{{$order->order_detail[0]?->phone}}</p>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label>Email</label>
-                                <p>{{$order_detail->email}}</p>
+                                <p>{{$order->order_detail[0]?->email}}</p>
                             </div>
                         </div>
+                        @foreach ($order_details as $order_detail)
                         <div class="col">
                             <div class="form-group">
                                 <label>Nomor Kursi</label> <br>
-                                <button
-                                    class="text-capitalize box btn btn-primary text-center">{{$order_detail->chair->name}}</button>
+                                <div class="row">
+                                    <div class="col mb-1">
+                                        <button
+                                            class="text-capitalize box btn btn-primary text-center">{{$order_detail->chair->name}}</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        @endforeach
                     </div>
                     <div class="form-row">
                         <div class="col">
                             <div class="form-group">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" @if ($order_detail->is_feed == 1)
+                                    <input class="form-check-input" type="checkbox"
+                                        @if($order->order_detail[0]?->is_feed == 1)
                                     checked
                                     @endif disabled="">
                                     <label class="form-check-label">Makan</label>
@@ -246,7 +253,8 @@ Pesanan
                         <div class="col">
                             <div class="form-group">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" @if ($order_detail->is_travel == 1)
+                                    <input class="form-check-input" type="checkbox"
+                                        @if($order->order_detail[0]?->is_travel == 1)
                                     checked
                                     @endif disabled="">
                                     <label class="form-check-label">Travel</label>
@@ -256,8 +264,8 @@ Pesanan
                         <div class="col">
                             <div class="form-group">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" @if ($order_detail->is_member == 1)
-                                    checked
+                                    <input class="form-check-input" type="checkbox"
+                                        @if($order->order_detail[0]?->is_member == 1) checked
                                     @endif disabled="">
                                     <label class="form-check-label">Member</label>
                                 </div>
@@ -266,9 +274,7 @@ Pesanan
                         </div>
                     </div>
                 </div>
-                <!-- /.card-body -->
             </div>
-            @endforeach
         </div>
     </div>
 
