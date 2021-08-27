@@ -2,14 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Models\Agency;
+use App\Models\NotificationSetting;
+use App\Models\User;
+use App\Models\UserAgent;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use App\Models\User;
-use App\Models\NotificationSetting;
 
-class UsersSeeder extends Seeder
+class UserAgentSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -30,6 +30,10 @@ class UsersSeeder extends Seeder
                 'birth' => $faker->date($format = 'Y-m-d', $max = 'now'),
                 'gender' => $faker->randomElement($array = array('Male', 'Female')),
                 'address' => $faker->address,
+            ]);
+            UserAgent::create([
+                'user_id' => $user->id,
+                'agency_id' => Agency::all()->random()->id
             ]);
             NotificationSetting::create([
                 'user_id' => $user->id,
