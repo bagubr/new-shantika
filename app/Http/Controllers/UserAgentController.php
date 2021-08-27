@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserAgent\CreateUserAgentRequest;
 use App\Http\Requests\UserAgent\UpdateUserAgentRequest;
+use App\Models\Area;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\UserAgent;
@@ -21,14 +22,17 @@ class UserAgentController extends Controller
     {
         $users = User::whereHas('agencies')->get();
         $agencies = AgencyRepository::all_order();
-        return view('user_agent.index', compact('users', 'agencies'));
+        $areas = Area::all();
+        return view('user_agent.index', compact('users', 'agencies', 'areas'));
     }
     public function search(Request $request)
     {
         $name_search = $request->name;
         $agent_search = $request->agent;
+        $area_id = $request->area_id;
         $users = User::query();
         $agencies = AgencyRepository::all_order();
+        $areas = Area::all();
 
         if (!empty($agent_search)) {
             $users = $users->whereHas('agencies', function ($q) use ($agent_search) {
@@ -36,7 +40,14 @@ class UserAgentController extends Controller
             });
         }
         if (!empty($name_search)) {
-            $users = $users->where('name', 'like', '%' . $name_search . '%')->whereHas('agencies');
+            $users = $users->where('name', 'ilike', '%' . $name_search . '%')->whereHas('agencies');
+        }
+        if (!empty($area_id)) {
+            $users = $users->whereHas('agencies.agent', function ($q) use ($area_id) {
+                $q->whereHas('city', function ($sq) use ($area_id) {
+                    $sq->where('area_id', $area_id);
+                });
+            });
         }
         if (empty($name_search && $agent_search)) {
             $users = $users->whereHas('agencies');
@@ -48,7 +59,7 @@ class UserAgentController extends Controller
         } else {
             session()->flash('error', 'Tidak Ada Data Ditemukan');
         }
-        return view('user_agent.index', compact('users', 'agencies', 'test'));
+        return view('user_agent.index', compact('users', 'agencies', 'test', 'areas'));
     }
 
     /**

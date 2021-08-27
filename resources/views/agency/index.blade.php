@@ -26,7 +26,6 @@ Agen
             <div class="col-12">
                 <div class="card">
                     <form action="{{route('agency.search')}}" method="get">
-                        @csrf
                         <div class="card-body">
                             <div class="form-group">
                                 <label>Cari Area</label>
