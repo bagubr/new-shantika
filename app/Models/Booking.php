@@ -20,7 +20,7 @@ class Booking extends Model
 
     public function fleet_route()
     {
-        return $this->belongsTo(FleetRoute::class, 'route_id');
+        return $this->belongsTo(FleetRoute::class, 'fleet_route_id');
     }
 
     public function layout_chair()

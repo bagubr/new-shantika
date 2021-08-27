@@ -12,10 +12,8 @@ class NotificationService {
         return $notification;
     }
 
-    public static function readAll($token) {
-        $user = UserRepository::findByToken($token);
-
-        $notification = Notification::where('user_id', $user->id)->update([
+    public static function readAll($user_id) {
+        $notification = Notification::where('user_id', $user_id)->update([
             'is_seen'=>true
         ]);
 

@@ -19,18 +19,19 @@ class OrderListAgentResource extends JsonResource
      */
     public function toArray($request)
     {
-        $this->load('fleet_route.route.fleet.fleetclass');
+        $this->load(['fleet_route.route', 'fleet_route.fleet_detail.fleet.fleetclass']);
 
         $fleet_route = $this->fleet_route;
         $route = $fleet_route->route;
         $checkpoints = $route->checkpoints;
-        $fleet = $fleet_route->fleet;
+        $fleet_detail = $fleet_route->fleet_detail;
+        $fleet = $fleet_detail->fleet;
 
         $checkpoint_max_index = count($checkpoints) - 1;
         $checkpoint_destination = CheckpointRepository::findByRouteAndAgency($route->id, $this->destination_agency_id);
         return [
             'id'                        => $this->id,
-            'layout_chair_id'           => Booking::where('code_booking', $this->code)->pluck('layout_chair_id') ?? $this->order_detail?->pluck('layout_chair_id'),
+            'layout_chair_id'           => $this->getLayoutChairId(),
             'fleet_route_id'            => $fleet_route->id,
             'code'                      => $this->code,
             'name_fleet'                => $fleet->name,
@@ -42,10 +43,15 @@ class OrderListAgentResource extends JsonResource
             'reserve_at'                => $this->reserve_at,
             'status'                    => $this->status,
             'type'                      => $this->type,
-            'checkpoints'               => new CheckpointStartEndResource($route),
+            'checkpoints'               => new CheckpointStartEndResource($route, $checkpoint_destination),
             'city_start'                => $route->departure_city?->name,
-            'city_end'                  => $route->destination_city?->name,
-            'checkpoint_destination'    => new CheckpointResource($checkpoint_destination)
+            'city_end'                  => $route->destination_city?->name
         ];
+    }
+
+    private function getLayoutChairId() {
+        $booking = Booking::where('code_booking', $this->code)->pluck('layout_chair_id');
+        $order_detail = $this->order_detail?->pluck('layout_chair_id');
+        return $booking->isNotEmpty() ? $booking : $order_detail; 
     }
 }

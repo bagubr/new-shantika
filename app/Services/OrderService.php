@@ -38,7 +38,7 @@ class OrderService {
             (new self)->sendFailedResponse([], "Maaf, kursi anda telah dibooking terlebih dahulu oleh orang lain");
         }
         $setting = Setting::first();
-        $ticket_price = $route->price - $data->fleet_route->fleet->fleetclass->price_food;
+        $ticket_price = $route->price - $data->fleet_route->fleet_detail->fleet->fleetclass->price_food;
         $ticket_price_with_food = $detail->is_feed
             ? $route->price * count($detail->layout_chair_id)
             : $ticket_price * count($detail->layout_chair_id);

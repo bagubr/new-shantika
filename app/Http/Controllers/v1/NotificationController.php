@@ -5,24 +5,28 @@ namespace App\Http\Controllers\v1;
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use App\Repositories\NotificationRepository;
+use App\Repositories\UserRepository;
 use App\Services\NotificationService;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
     public function index(Request $request) {
+        $user = UserRepository::findByToken($request->bearerToken());
         return $this->sendSuccessResponse([
-            'notifications'=>NotificationRepository::getAllByUserToken($request->bearerToken())
+            'notifications'=>NotificationRepository::getAllByUserId($user->id)
         ]);
     }
 
     public function indexUnread(Request $request) {
+        $user = UserRepository::findByToken($request->bearerToken());
         return $this->sendSuccessResponse([
-            'notifications'=>NotificationRepository::getUnreadNotificationByUserToken($request->bearerToken())
+            'notifications'=>NotificationRepository::getUnreadNotificationByUserId($user->id)
         ]);
     }
 
     public function read(Request $request) {
+        $user = UserRepository::findByToken($request->bearerToken());
         $notification = Notification::findOrFail($request->id);
         $notification = NotificationService::read($notification);
 
@@ -32,7 +36,8 @@ class NotificationController extends Controller
     }
 
     public function readAll(Request $request) {
-        $notification = NotificationService::readAll($request->bearerToken());
+        $user = UserRepository::findByToken($request->bearerToken());
+        $notification = NotificationService::readAll($user->id);
 
         return $this->sendSuccessResponse([]);
     }

@@ -56,7 +56,7 @@ class OrderController extends Controller
 
     public function show($id, Request $request) {
         if($request->status == 'BOOKING'){
-            $order = BookingRepository::findByCodeBookingWithRouteWithLayoutChair($id);
+            $order = BookingRepository::findByCodeBookingWithRouteWithLayoutChair($request->code_booking);
         } else {
             $order = OrderRepository::findWithDetailWithPayment($id);
         }
