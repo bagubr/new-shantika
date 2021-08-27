@@ -101,7 +101,7 @@ User Agent
                                 @foreach ($users as $user_agent)
                                 <tr>
                                     <td>{{$user_agent->name_agent}}</td>
-                                    <td>{{$user_agent->agent?->city?->area?->name}}</td>
+                                    <td>{{$user_agent->agencies?->agent?->city?->area?->name}}</td>
                                     <td>{{$user_agent->phone}}</td>
                                     <td>
                                         <a href="{{route('agency.edit',$user_agent->agencies?->agent->id)}}"
