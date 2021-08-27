@@ -33,12 +33,12 @@ class OrderSeeder extends Seeder
                 'reserve_at'        => $date,
             ]);
 
-            $space  = $route->fleet->layout->space_indexes;
-            $toilet = $route->fleet->layout->toilet_indexes;
-            $door   = $route->fleet->layout->door_indexes;
+            $space  = $route->fleet_detail->fleet->layout->space_indexes;
+            $toilet = $route->fleet_detail->fleet->layout->toilet_indexes;
+            $door   = $route->fleet_detail->fleet->layout->door_indexes;
             OrderDetail::create([
                 'order_id'          => $order->id,
-                'layout_chair_id'   => $route->fleet->layout->chairs->whereNotIn('index', $space)
+                'layout_chair_id'   => $route->fleet_detail->fleet->layout->chairs->whereNotIn('index', $space)
                     ->whereNotIn('index', $toilet)->whereNotIn('index', $door)->random()->id,
                 // 'code_ticket'       => 'STK-'.date('YmdHis'),
                 'name'              => User::find($order->user_id)->name ?? '',

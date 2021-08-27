@@ -82,10 +82,11 @@ Status Penumpang
                                             {{$order->code_order}}
                                         </a>
                                     </td>
-                                    <td>{{$order->fleet_route?->route?->departure_city?->area?->name}}</td>
+                                    <td>{{$order->fleet_route?->route?->checkpoints[0]?->agency?->city?->area?->name}}
+                                    </td>
                                     <td>
-                                        <a href="{{route('fleet_route.show',$order->fleet_route->id)}}">
-                                            {{$order->fleet_route?->route->name}}/{{$order->fleet_route?->fleet->name}}
+                                        <a href="{{route('fleet_route.show',$order->fleet_route?->id)}}">
+                                            {{$order->fleet_route?->route?->name}}
                                         </a>
                                     </td>
                                     <td>
@@ -102,7 +103,13 @@ Status Penumpang
                                         @endif
                                     </td>
                                     <td>{{$order->order_detail[0]->name}}</td>
-                                    <td>{{$order->payment?->payment_type->name}}</td>
+                                    <td>
+                                        @if ($order->payment)
+                                        {{$order->payment?->payment_type->name}}
+                                        @else
+                                        Pemesanan Melalui Agen
+                                        @endif
+                                    </td>
                                     <td>{{$order->status}}</td>
                                     <td>Rp. {{number_format($order->price)}}</td>
                                     <td>
@@ -113,14 +120,6 @@ Status Penumpang
                                         <a href="{{route('payment.edit',$order->payment?->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         @endif
-                                        {{-- <form action="{{route('user.destroy',$order->id)}}" class="d-inline"
-                                        method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-danger btn-xs"
-                                            onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
-                                            type="submit">Delete</button>
-                                        </form> --}}
                                     </td>
                                 </tr>
                                 @endforeach
