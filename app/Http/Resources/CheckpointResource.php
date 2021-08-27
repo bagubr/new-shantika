@@ -22,7 +22,6 @@ class CheckpointResource extends JsonResource
             'agency_lat'=>$this->agency?->lat,
             'agency_lng'=>$this->agency?->lng,
             'city_name'=>$this->agency?->city?->name ?? "",
-            'arrived_at'=>$this->arrived_at,
         ];
     }
 }
