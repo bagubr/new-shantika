@@ -46,12 +46,12 @@ class RouteController extends Controller
                 });
             });
         })
-        ->when(($request->time), function ($que) use ($request, $departure_agency) {
+        ->when(($request->time_classification_id), function ($que) use ($request, $departure_agency) {
             $que->whereHas('route.checkpoints', function ($query) use ($request, $departure_agency) {
-                $time_start = TimeClassificationRepository::findByName($request->time)->time_start;
-                $time_end = TimeClassificationRepository::findByName($request->time)->time_end;
+                $time_start = TimeClassificationRepository::findByName($request->time_classification_id)->time_start;
+                $time_end = TimeClassificationRepository::findByName($request->time_classification_id)->time_end;
                 $query->whereHas('agency.agent_departure', function($subquery) use ($time_start, $time_end, $departure_agency) {
-                    $subquery->where('departure_at', '>', $time_start);
+                    $subquery->where('departure_at', '>', $time_start)->orWhere('departure_at', '<', $time_end);
                 });
             });
         })

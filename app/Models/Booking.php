@@ -11,7 +11,9 @@ class Booking extends Model
 
     protected $fillable = [
         'fleet_route_id',
-        'layout_chair_id', 
+        'layout_chair_id',
+        'destination_agency_id', 
+        'time_classification_id',
         'user_id', 
         'expired_at',
         'booking_at',
@@ -21,6 +23,14 @@ class Booking extends Model
     public function fleet_route()
     {
         return $this->belongsTo(FleetRoute::class, 'fleet_route_id');
+    }
+
+    public function time_classification() {
+        return $this->belongsTo(TimeClassification::class);
+    }
+
+    public function destination_agency() {
+        return $this->belongsTo(Agency::class, 'destination_agency_id');
     }
 
     public function layout_chair()

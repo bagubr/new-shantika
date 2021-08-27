@@ -4,6 +4,7 @@ namespace App\Http\Resources\Route;
 
 use App\Http\Resources\CheckpointResource;
 use App\Http\Resources\CheckpointStartEndResource;
+use App\Models\Agency;
 use App\Models\Fleet;
 use App\Models\LayoutChair;
 use App\Models\Order;
@@ -35,12 +36,10 @@ class AvailableRoutesResource extends JsonResource
             'route_name'                => $route->name,
             'fleet_name'                => $this->fleet_detail->fleet->name ?? "",
             'fleet_class'               => $this->fleet_detail->fleet->fleetclass->name,
-            'departure_at'              => $first_checkpoint->agency->departure_at,
+            'departure_at'              => Agency::find($destination_agency_id)->agency_departure_times->first()->departure_at,
             'price'                     => $this->price,
             'chairs_available'          => $this->getChairsAvailable($request, $this->fleet_detail_id, $this->id, $this->fleet_detail->fleet->layout_id),
             'checkpoints'               => $this->when(@count($route->checkpoints) > 1, new CheckpointStartEndResource($route, $destination_checkpoint, (object) [])),
-            'city_start'                => $first_checkpoint->agency->city_name,
-            'city_end'                  => $last_checkpoint->agency->city_name
         ];
     }
 

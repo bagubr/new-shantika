@@ -19,7 +19,9 @@ class ApiBookingRequest extends ApiRequest
             'fleet_route_id'=>'required',
             'booking_at'=>'required|date',
             'layout_chair_id'=>'required|array',
-            'layout_chair_id.*'=>'required|numeric'
+            'layout_chair_id.*'=>'required|numeric',
+            'destination_agency_id'=>'required|numeric',
+            'time_classification_id'=>'required'
         ];
     }
 }
