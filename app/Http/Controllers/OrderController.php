@@ -62,7 +62,7 @@ class OrderController extends Controller
         }
         if (!empty($name_search)) {
             $orders = $orders->whereHas('user', function ($q) use ($name_search) {
-                $q->where('name', 'like', '%' . $name_search . '%');
+                $q->where('name', 'ilike', '%' . $name_search . '%');
             });
         }
         if (!empty($code_order_search)) {
