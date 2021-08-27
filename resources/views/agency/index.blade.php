@@ -41,6 +41,7 @@ Agen
                                     <th>Kota</th>
                                     <th>Area</th>
                                     <th>Alamat</th>
+                                    <th>Jam Pagi | Malam</th>
                                     <th>Status</th>
                                     <th>Avatar</th>
                                     <th>Aksi</th>
@@ -54,6 +55,8 @@ Agen
                                     <td>{{$agency->city?->name}}</td>
                                     <td>{{$agency->city?->area?->name}}</td>
                                     <td>{{$agency->address}}</td>
+                                    <td>{{$agency->agency_departure_times[0]?->departure_at}} |
+                                        {{$agency->agency_departure_times[1]?->departure_at}}</td>
                                     @if ($agency->is_active == 1)
                                     <td data-toggle="modal" data-target="#exampleModal{{$agency->id}}"
                                         class="text-success text-bold pointer">

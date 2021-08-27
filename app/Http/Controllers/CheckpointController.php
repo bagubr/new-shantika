@@ -42,15 +42,15 @@ class CheckpointController extends Controller
         $data = $request->all();
         $data['route_id'] = $request->route_id;
         Checkpoint::create($data);
-        // $checkpoint = Checkpoint::where('route_id', $request->route_id)->get();
-        // $route = Route::whereId($request->route_id)->first();
-        // $checkpoints = '';
-        // foreach ($checkpoint as $c) {
-        //     $checkpoints .= '~' . $c->agency()->first()->name . '~';
-        // }
-        // $route->update([
-        //     'name' => $checkpoints,
-        // ]);
+        $checkpoint = Checkpoint::where('route_id', $request->route_id)->orderBy('order', 'ASC')->get();
+        $route = Route::whereId($request->route_id)->first();
+        $checkpoints = '';
+        foreach ($checkpoint as $c) {
+            $checkpoints .= '~' . $c->agency()->first()->name . '~';
+        }
+        $route->update([
+            'name' => $checkpoints,
+        ]);
         session()->flash('success', 'Checkpoint Berhasil Ditambahkan');
         return redirect(route('routes.show', $request->route_id));
     }
@@ -98,15 +98,15 @@ class CheckpointController extends Controller
     public function destroy(Checkpoint $checkpoint)
     {
         $checkpoint->delete();
-        // $checkpointt = Checkpoint::where('route_id', $checkpoint->route_id)->get();
-        // $route = Route::whereId($checkpoint->route_id)->first();
-        // $checkpoints = '';
-        // foreach ($checkpointt as $c) {
-        //     $checkpoints .= '~' . $c->agency()->first()->name . '~';
-        // }
-        // $route->update([
-        //     'name' => $checkpoints,
-        // ]);
+        $checkpointt = Checkpoint::where('route_id', $checkpoint->route_id)->orderBy('order', 'ASC')->get();
+        $route = Route::whereId($checkpoint->route_id)->first();
+        $checkpoints = '';
+        foreach ($checkpointt as $c) {
+            $checkpoints .= '~' . $c->agency()->first()->name . '~';
+        }
+        $route->update([
+            'name' => $checkpoints,
+        ]);
         session()->flash('success', 'Checkpoint Berhasil Dihapus');
         return back();
     }

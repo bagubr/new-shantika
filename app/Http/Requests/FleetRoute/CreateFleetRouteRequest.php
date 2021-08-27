@@ -26,7 +26,7 @@ class CreateFleetRouteRequest extends FormRequest
     public function rules(Request $request)
     {
         return [
-            'fleet_id' => ['required', Rule::unique('fleet_routes')->where(function ($q) use ($request) {
+            'fleet_detail_id' => ['required', Rule::unique('fleet_routes')->where(function ($q) use ($request) {
                 return $q->where('route_id', $request->route_id);
             })],
             'route_id' => 'required|exists:routes,id',
@@ -36,7 +36,7 @@ class CreateFleetRouteRequest extends FormRequest
     public function messages()
     {
         return [
-            'fleet_id.unique' => 'Armada Sudah Digunakan',
+            'fleet_detail_id.unique' => 'Armada Sudah Digunakan',
         ];
     }
 }

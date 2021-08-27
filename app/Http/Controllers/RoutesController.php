@@ -59,13 +59,13 @@ class RoutesController extends Controller
 
         $i = 1;
         $checkpoints = '';
-        foreach ($request->fleet_detail_id as $key => $value) {
-            FleetRoute::create([
-                'route_id' => $route->id,
-                'fleet_detail_id' => $value,
-                'price' => $request->price[$key]
-            ]);
-        }
+        // foreach ($request->fleet_detail_id as $key => $value) {
+        //     FleetRoute::create([
+        //         'route_id' => $route->id,
+        //         'fleet_detail_id' => $value,
+        //         'price' => $request->price[$key]
+        //     ]);
+        // }
         foreach ($agencies as $key => $agency) {
             $checkpoint = Checkpoint::create([
                 'route_id' => $route->id,
@@ -78,7 +78,7 @@ class RoutesController extends Controller
             'name' => $checkpoints,
         ]);
         session()->flash('success', 'Route Berhasil Ditambahkan');
-        return redirect(route('routes.index'));
+        return redirect(route('routes.show', $route->id));
     }
 
     /**
@@ -91,8 +91,14 @@ class RoutesController extends Controller
     {
         $checkpoints = Checkpoint::where('route_id', $route->id)->orderBy('order')->get();
         $checkpoint_id = Checkpoint::where('route_id', $route->id)->get(['agency_id'])->toArray();
-        $agencies = AgencyRepository::all();
-        $fleets = Fleet::all();
+        if ($route->checkpoints->count() == 0) {
+            $agencies = Agency::all();
+        } else {
+            $agencies = Agency::whereHas('city', function ($q) use ($route) {
+                $q->where('area_id', $route->checkpoints[0]?->agency?->city?->area?->id);
+            })->get();
+        }
+        $fleets = FleetDetail::orderBy('fleet_id', 'ASC')->get();
         $route_fleets = FleetRoute::where('route_id', $route->id)->get();
         $statuses = Agency::status();
         return view('routes.show', compact('route', 'agencies', 'checkpoints', 'fleets', 'route_fleets', 'statuses'));

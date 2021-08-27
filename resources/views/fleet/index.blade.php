@@ -40,6 +40,7 @@ Armada
                             <thead>
                                 <tr>
                                     <th>Kode Armada</th>
+                                    <th>Unit Armada</th>
                                     <th>Kelas Armada</th>
                                     <th>Layout</th>
                                     <th>Gambar</th>
@@ -50,6 +51,13 @@ Armada
                                 @foreach ($fleets as $fleet)
                                 <tr>
                                     <td>{{$fleet->name}}</td>
+                                    <td>
+                                        @foreach ($fleet->fleet_detail as $detail)
+                                        <li>
+                                            {{$detail->nickname}} ({{$detail->plate_number}})
+                                        </li>
+                                        @endforeach
+                                    </td>
                                     <td>
                                         <a href="{{route('fleetclass.edit', $fleet->fleet_class_id)}}"
                                             target="_blank">{{$fleet->fleetclass?->name ?? '-'}}</a>

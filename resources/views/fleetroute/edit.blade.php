@@ -52,8 +52,9 @@ Rute Armada
                             <div class="col">
                                 <div class="form-group">
                                     <label>Armada</label>
-                                    <select name="fleet_id" class="form-control" readonly>
-                                        <option value="{{$fleet_route->fleet_id}}">{{$fleet_route->fleet?->name}}
+                                    <select name="fleet_detail_id" class="form-control" readonly>
+                                        <option value="{{$fleet_route->fleet_detail_id}}">
+                                            {{$fleet_route->fleet_detail?->fleet?->name}}
                                         </option>
                                     </select>
                                 </div>

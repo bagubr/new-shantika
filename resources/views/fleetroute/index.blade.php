@@ -31,19 +31,40 @@ Armada Rute
                     <form action="{{route('fleet_route.search')}}" method="get">
                         @csrf
                         <div class="card-body">
-                            <div class="form-group">
-                                <label>Pilih Area</label>
-                                <select name="area_id" class="form-control">
-                                    <option value="">--PILIH AREA--</option>
-                                    @foreach ($areas as $area)
-                                    @if (old('area_id') == $area->id)
-                                    <option value="{{$area->id}}" selected>{{$area->name}}</option>
-                                    @else
-                                    <option value="{{$area->id}}">{{$area->name}}</option>
-                                    @endif
-                                    @endforeach
-                                </select>
+                            <div class="form-row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Cari Area</label>
+                                        <select name="area_id" class="form-control">
+                                            <option value="">--PILIH AREA--</option>
+                                            @foreach ($areas as $area)
+                                            @if (old('area_id') == $area->id)
+                                            <option value="{{$area->id}}" selected>{{$area->name}}</option>
+                                            @else
+                                            <option value="{{$area->id}}">{{$area->name}}</option>
+                                            @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Cari Armada</label>
+                                        <select name="fleet_id" class="form-control">
+                                            <option value="">--PILIH ARMADA--</option>
+                                            @foreach ($fleets as $fleet)
+                                            @if (old('fleet_id') == $fleet->id)
+                                            <option value="{{$fleet->id}}" selected>
+                                                {{$fleet->name}}/{{$fleet->fleetclass?->name}}</option> @else
+                                            <option value="{{$fleet->id}}">
+                                                {{$fleet->name}}/{{$fleet->fleetclass?->name}}</option>
+                                            @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
                         <div class="text-right m-2">
                             <button class="btn btn-success" type="submit">Cari</button>
@@ -64,7 +85,6 @@ Armada Rute
                                     <th>Area</th>
                                     <th>Rute</th>
                                     <th>Harga</th>
-                                    <th>Kelas Armada</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -72,9 +92,11 @@ Armada Rute
                             <tbody>
                                 @foreach ($fleet_routes as $fleet_route)
                                 <tr>
-                                    <td>{{$fleet_route->fleet?->name}}</td>
+                                    <td>{{$fleet_route->fleet_detail?->fleet?->name}}/{{$fleet_route->fleet_detail?->fleet?->fleetclass?->name}}
+                                        ({{$fleet_route->fleet_detail?->nickname}})
+                                    </td>
                                     <td>
-                                        {{$fleet_route->route?->departure_city?->area?->name}}
+                                        {{$fleet_route->route?->checkpoints[0]?->agency?->city?->area?->name}}
                                     </td>
                                     <td>
                                         <a href="{{route('routes.show',$fleet_route->route_id)}}">
@@ -82,7 +104,6 @@ Armada Rute
                                         </a>
                                     </td>
                                     <td>Rp. {{number_format($fleet_route->price,2)}}</td>
-                                    <td>{{$fleet_route->fleet?->fleetclass?->name}}</td>
                                     @if ($fleet_route->is_active == 1)
                                     <td data-toggle="modal" data-target="#exampleModal{{$fleet_route->id}}"
                                         class="text-success text-bold pointer">

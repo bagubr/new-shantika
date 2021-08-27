@@ -22,7 +22,7 @@ Route
     @include('partials.error')
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">{{$route->name}}</h3>
@@ -38,37 +38,18 @@ Route
                         <input type="text" class="form-control" name="name" placeholder="Masukkan Nama"
                             value="{{$route->name}}" disabled>
                     </div>
-                    <div class="form-row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label>Keberangkatan</label>
-                                <input type="text" name="departure_at" class="form-control"
-                                    value="{{$route->departure_city?->name}}" disabled>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label>Kedatangan</label>
-                                <input type="text" name="arrived_at" class="form-control" disabled
-                                    value="{{$route->destination_city?->name}}">
-                            </div>
-                        </div>
-                    </div>
                     <div class="form-group">
                         <label>Area</label>
-                        <input type="text" class="form-control" value="{{$route->departure_city?->area?->name}}"
-                            disabled>
-                    </div>
-                    <div class="text-right">
-                        <a href="{{route('routes.edit',$route->id)}}" class="btn btn-warning mr-auto">Edit</a>
+                        <input type="text" class="form-control"
+                            value="{{$route->checkpoints[0]?->agency?->city?->area?->name ?? ''}}" disabled>
                     </div>
                 </div>
                 <!-- /.card-body -->
             </div>
             <!-- /.card -->
         </div>
-        <div class="col-md-6">
-            <div class="card card-primary">
+        <div class="col-md-5">
+            <div class="card card-success">
                 <div class="card-header">
                     <h3 class="card-title">Armada Rute Form {{$route->name}}</h3>
                     <div class="card-tools">
@@ -83,41 +64,29 @@ Route
                         <input type="text" value="{{$route->id}}" hidden name="route_id">
                         <div class="form-group">
                             <label>Armada</label>
-                            <select name="fleet_id" class="select2 form-control" required>
+                            <select name="fleet_detail_id" class="select2 form-control" required>
                                 <option value="">Pilih Armada</option>
                                 @foreach ($fleets as $fleet)
-                                <option value="{{$fleet->id}}">{{$fleet->name}}</option>
+                                <option value="{{$fleet->id}}">
+                                    {{$fleet->fleet?->name}}/{{$fleet->fleet?->fleetclass?->name}}/{{$fleet->nickname}}
+                                </option>
                                 @endforeach
                             </select>
                         </div>
-                        {{-- <div class="form-row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label>Waktu Keberangkatan</label>
-                                    <input type="time" required class="form-control" name="departure_at">
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <label>Waktu Kedatangan</label>
-                                    <input type="time" required class="form-control" name="arrived_at">
-                                </div>
-                            </div>
-                        </div> --}}
                         <div class="form-group">
                             <label>Harga</label>
                             <input type="number" name="price" required class="form-control">
                         </div>
                         <div class="text-right">
-                            <button class="btn btn-primary" type="submit">Tambah Data</button>
+                            <button class="btn btn-success" type="submit">Tambah Data</button>
                         </div>
                     </form>
                 </div>
                 <!-- /.card-body -->
             </div>
         </div>
-        <div class="col-md-12">
-            <div class="card card-primary">
+        <div class="col-md-7">
+            <div class="card card-success">
                 <div class="card-header">
                     <h3 class="card-title">Daftar Armada</h3>
                     <div class="card-tools">
@@ -139,7 +108,9 @@ Route
                         <tbody>
                             @foreach ($route_fleets as $route_fleet)
                             <tr>
-                                <td>{{$route_fleet->fleet_detail?->fleet?->name}}</td>
+                                <td>{{$route_fleet->fleet_detail?->fleet?->name}}/{{$route_fleet->fleet_detail?->fleet?->fleetclass?->name}}
+                                    ({{$route_fleet->fleet_detail?->nickname}})
+                                </td>
                                 <td>Rp. {{number_format($route_fleet->price,2)}}</td>
                                 @if ($route_fleet->is_active == 1)
                                 <td data-toggle="modal" data-target="#exampleModal{{$route_fleet->id}}"
@@ -153,7 +124,7 @@ Route
                                 </td>
                                 @endif
                                 <td>
-                                    <a href="{{route('fleet_route.edit',$route_fleet->id)}}"
+                                    <a data-toggle="modal" data-target="#exampleModal{{$route_fleet->id}}"
                                         class="btn btn-warning btn-xs">Edit</a>
                                     <form action="{{route('fleet_route.destroy',$route_fleet->id)}}" class="d-inline"
                                         method="POST">
@@ -170,7 +141,7 @@ Route
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Ubah Status
+                                            <h5 class="modal-title" id="exampleModalLabel">Ubah Data
                                                 {{$route_fleet->name}}</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
@@ -182,6 +153,12 @@ Route
                                             @method('PUT')
                                             <div class="modal-body">
                                                 <div class="form-group">
+                                                    <label>Harga</label>
+                                                    <input type="number" class="form-control" name="price"
+                                                        value="{{$route_fleet->price}}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Status</label>
                                                     <select class="form-control input" name="is_active">
                                                         @foreach ($statuses as $s => $key)
                                                         <option value="{{$s}}" @if ($s==$route_fleet->is_active)
@@ -206,8 +183,8 @@ Route
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="card card-primary">
+        <div class="col-md-5">
+            <div class="card card-warning">
                 <div class="card-header">
                     <h3 class="card-title">Line Form</h3>
                     <div class="card-tools">
@@ -241,8 +218,8 @@ Route
                 <!-- /.card-body -->
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="card card-primary">
+        <div class="col-md-7">
+            <div class="card card-warning">
                 <div class="card-header">
                     <h3 class="card-title">Line</h3>
                     <div class="card-tools">
@@ -267,7 +244,7 @@ Route
                             <tr>
                                 <td>{{$checkpoint->order}}</td>
                                 <td><a
-                                        href="{{route('agency.edit',$checkpoint->agency_id)}}">{{$checkpoint->agency->name}}/{{$checkpoint->agency->city->name}}</a>
+                                        href="{{route('agency.edit',$checkpoint->agency_id)}}">{{$checkpoint->agency?->city?->name}}/{{$checkpoint->agency?->name}}</a>
                                 </td>
                                 <td>
                                     <form action="{{route('checkpoint.destroy',$checkpoint->id)}}" class="d-inline"
