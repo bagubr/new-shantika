@@ -32,7 +32,9 @@ class RouteController extends BaseRouteController
             return $this->sendFailedResponse([], 'Akun agen anda dinonaktifkan, segera lakukan setoran atau kontak admin');
         }
 
-        $routes = FleetRoute::with(['fleet_detail.fleet.layout', 'route.checkpoints.agency.city'])
+        $routes = FleetRoute::with(['fleet_detail.fleet.layout', 'route.checkpoints.agency.city', 'route.checkpoints'=>function($query) {
+                $query->orderBy('order', 'asc');
+            }])
             ->where('is_active', true)
             ->whereHas('fleet_detail.fleet', function ($query) use ($request) {
                 $query->where('fleet_class_id', $request->fleet_class_id);

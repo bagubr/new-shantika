@@ -22,7 +22,7 @@ class AvailableRoutesResource extends JsonResource
      */
     public function toArray($request)
     {
-        $destination_agency_id = $request->agency_arrived_at ?? $request->agency_id;
+        $destination_agency_id = $request->agency_arrived_id ?? $request->agency_id;
 
         $route = $this->route;
         $checkpoints = $this->route?->checkpoints();
@@ -38,7 +38,7 @@ class AvailableRoutesResource extends JsonResource
             'departure_at'              => $first_checkpoint->agency->departure_at,
             'price'                     => $this->price,
             'chairs_available'          => $this->getChairsAvailable($request, $this->fleet_detail_id, $this->id, $this->fleet_detail->fleet->layout_id),
-            'checkpoints'               => $this->when(@count($route->checkpoints) > 1, new CheckpointStartEndResource($route, $destination_checkpoint)),
+            'checkpoints'               => $this->when(@count($route->checkpoints) > 1, new CheckpointStartEndResource($route, $destination_checkpoint, (object) [])),
             'city_start'                => $first_checkpoint->agency->city_name,
             'city_end'                  => $last_checkpoint->agency->city_name
         ];
