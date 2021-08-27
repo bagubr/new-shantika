@@ -18,6 +18,64 @@ class DashboardController extends Controller
     {
         return view('dashboard2');
     }
+
+    public function first_bulan()
+    {
+        $params = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "August", "September", "October", "November", "Desember"];
+        $thisYear  = Carbon::now()->startOfYear()->format('Y');
+        $status_order_selesai = ['PAID', 'EXCHANGED', 'FINISHED'];
+        for ($i = 0; $i < 12; $i++) {
+            $start    = Carbon::now()->startOfYear()->addMonth($i);
+            $orders_tahun_ini[] = Order::whereIn('status', $status_order_selesai)->whereYear('reserve_at', '2021')->whereMonth('reserve_at', $start)->count();
+        }
+        $orders[] = $orders_tahun_ini;
+        $data_week = [
+            'last_week' => "$thisYear",
+            'params' => $params,
+            'bulanan' => $orders,
+        ];
+        return $data_week;
+    }
+    public function first_tanggal()
+    {
+        for ($i = 0; $i < 31; $i++) {
+            $params[] = $i + 1;
+        }
+        $period = CarbonPeriod::create(Carbon::now()->startOfMonth()->format('Y-m-d'), Carbon::now()->endOfMonth()->format('Y-m-d'));
+        $dates = $period->count();
+        $thisMonth  = Carbon::now()->startOfMonth()->format('F Y');
+        $lastMonth  = Carbon::now()->subMonth()->startOfMonth()->format('F Y');
+        for ($i = 0; $i < $dates; $i++) {
+            $startOfMonth   = Carbon::now()->startOfMonth()->addDay($i);
+            $order[]        = Order::whereDate('reserve_at', $startOfMonth)->count();
+        }
+        $orders[] = $order;
+        $data_week = [
+            'last_week' => "$lastMonth",
+            'this_week' => "$thisMonth",
+            'params'    => $params,
+            'tanggalan' => $orders
+        ];
+        return $data_week;
+    }
+    public function first_harian()
+    {
+        $params = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
+        $startOfThisWeek    = Carbon::now()->startOfWeek();
+        $endOfThisWeek      = Carbon::now()->endOfWeek();
+        $status_order_selesai = ['PAID', 'EXCHANGED', 'FINISHED'];
+        for ($i = 0; $i < 7; $i++) {
+            $start    = Carbon::now()->startOfWeek()->addDay($i);
+            $orders_tahun_ini[] = Order::whereIn('status', $status_order_selesai)->whereDate('reserve_at', $start)->count();
+        }
+        $orders[] = $orders_tahun_ini;
+        $data_week = [
+            'Week' => "$startOfThisWeek - $endOfThisWeek",
+            'params' => $params,
+            'harian' => $orders,
+        ];
+        return $data_week;
+    }
     // public function index(Request $request)
     // {
     //     $data_statistic = ['weekly' => 'Harian', 'monthly' => 'Bulan', 'yearly' => 'Tahun'];
