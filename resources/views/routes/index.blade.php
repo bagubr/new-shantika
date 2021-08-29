@@ -23,7 +23,35 @@ Route
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12">
+            <div class="col-md-12">
+                <div class="card">
+                    <form action="{{route('routes.search')}}" method="get">
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Cari Area</label>
+                                        <select name="area_id" class="form-control">
+                                            <option value="">--PILIH AREA--</option>
+                                            @foreach ($areas as $area)
+                                            @if (old('area_id') == $area->id)
+                                            <option value="{{$area->id}}" selected>{{$area->name}}</option>
+                                            @else
+                                            <option value="{{$area->id}}">{{$area->name}}</option>
+                                            @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right m-2">
+                            <button class="btn btn-success" type="submit">Cari</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Table Route</h3>

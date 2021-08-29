@@ -28,15 +28,15 @@ class UserAgentController extends Controller
     public function search(Request $request)
     {
         $name_search = $request->name;
-        $agent_search = $request->agent;
+        $agent = $request->agent;
         $area_id = $request->area_id;
         $users = User::query();
         $agencies = AgencyRepository::all_order();
         $areas = Area::all();
 
-        if (!empty($agent_search)) {
-            $users = $users->whereHas('agencies', function ($q) use ($agent_search) {
-                $q->where('agency_id', 'like', $agent_search);
+        if (!empty($agent)) {
+            $users = $users->whereHas('agencies', function ($q) use ($agent) {
+                $q->where('agency_id', 'like', $agent);
             });
         }
         if (!empty($name_search)) {
@@ -49,13 +49,11 @@ class UserAgentController extends Controller
                 });
             });
         }
-        if (empty($name_search && $agent_search)) {
-            $users = $users->whereHas('agencies');
-        }
+        // $users = $users->whereHas('agencies');
         $test = $request->flash();
-        $users = $users->get();
+        $users = $users->has('agencies')->get();
         if (!$users->isEmpty()) {
-            session()->flash('success', 'Data Order Berhasil Ditemukan');
+            session()->flash('success', 'Data Berhasil Ditemukan');
         } else {
             session()->flash('error', 'Tidak Ada Data Ditemukan');
         }

@@ -57,7 +57,7 @@ User Agent
                                         <select name="agent" id="" class="form-control select2">
                                             <option value="">--Pilih Agen--</option>
                                             @foreach ($agencies as $agency)
-                                            @if (old('agent' == $agency->id))
+                                            @if (old('agent') == $agency->id)
                                             <option value="{{$agency->id}}" selected>
                                                 {{$agency->city?->name}}/{{$agency->name}}</option>
                                             @else

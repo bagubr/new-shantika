@@ -55,7 +55,7 @@ class FleetRouteController extends Controller
 
         $statuses = Agency::status();
         if (!$fleet_routes->isEmpty()) {
-            session()->flash('success', 'Data Order Berhasil Ditemukan');
+            session()->flash('success', 'Data Berhasil Ditemukan');
         } else {
             session()->flash('error', 'Tidak Ada Data Ditemukan');
         }
