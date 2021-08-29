@@ -111,6 +111,10 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::post('routes/fleet/store/', [RoutesController::class, 'store_fleet'])->name('route.fleet.store');
 
+    // DASHBOARD
+    route::get('first_bulan', [DashboardController::class, 'first_bulan'])->name('first_bulan');
+    // END OF DASHBOARD
+
     Route::resources([
         'fleet_detail' => FleetDetailController::class,
         'fleets' => FleetController::class,

@@ -25,20 +25,10 @@ Dashboard
 
 <!-- Main content -->
 <section class="content" id="app_dashboard">
-
+    {{-- <canvas id="myChart" width="400" height="400"></canvas> --}}
 </section>
 @endsection
 @push('script')
-<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-<script src="https://unpkg.com/vue-chartjs/dist/vue-chartjs.min.js"></script>
-
-<script>
-    var app = new Vue({
-  el: '#app_dashboard',
-  data: {
-    message: 'Hello Vue!'
-  }
-})
-</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{asset('js/dashboard/index.js')}}"></script>
 @endpush

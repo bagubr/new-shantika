@@ -28,9 +28,9 @@ class DashboardController extends Controller
             $start    = Carbon::now()->startOfYear()->addMonth($i);
             $orders_tahun_ini[] = Order::whereIn('status', $status_order_selesai)->whereYear('reserve_at', '2021')->whereMonth('reserve_at', $start)->count();
         }
-        $orders[] = $orders_tahun_ini;
+        $orders = $orders_tahun_ini;
         $data_week = [
-            'last_week' => "$thisYear",
+            'tahun' => "$thisYear",
             'params' => $params,
             'bulanan' => $orders,
         ];
@@ -70,7 +70,7 @@ class DashboardController extends Controller
         }
         $orders[] = $orders_tahun_ini;
         $data_week = [
-            'Week' => "$startOfThisWeek - $endOfThisWeek",
+            'week' => "$startOfThisWeek - $endOfThisWeek",
             'params' => $params,
             'harian' => $orders,
         ];
