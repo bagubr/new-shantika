@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Order;
 
 use App\Http\Resources\CheckpointStartEndResource;
+use App\Repositories\CheckpointRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class OrderTiketResource extends JsonResource
@@ -15,18 +16,18 @@ class OrderTiketResource extends JsonResource
      */
     public function toArray($request)
     {
-        $checkpoint_max_index = count($this->route->checkpoints) - 1;
+        $route = $this->fleet_route->route;
+        $checkpoint_destination = CheckpointRepository::findByRouteAndAgency($route?->id, $this->destination_agency_id);
         return [
             'id' => $this->id,
             'code_order' => $this->code_order,
-            'name_fleet' => $this->route->fleet->name,
+            'name_fleet' => $this->fleet_route->fleet_detail->fleet->name,
             'name_passenger'=>$this->order_detail[0]->name,
             'seat_passenger'=>$this->order_detail->pluck('chair.name'),
             'created_at'=>date('Y-m-d H:i:s', strtotime($this->created_at)),
             'reserve_at'=>date('Y-m-d H:i:s', strtotime($this->reserve_at)),
-            'checkpoints'        => new CheckpointStartEndResource($this->route),
-            'city_start'                => $this->route?->departure_city?->name,
-            'city_end'                  => $this->route?->destination_city?->name,
+            'departure_at'  => $this->agency->agency_departure_times->where('time_classification_id', $this->time_classification_id)->first()->departure_at,
+            'checkpoints'        => new CheckpointStartEndResource($route, $checkpoint_destination),
         ];
     }
 }
