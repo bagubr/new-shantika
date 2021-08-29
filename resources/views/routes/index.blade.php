@@ -23,7 +23,7 @@ Route
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12">
+            <div class="col-md-12">
                 <div class="card">
                     <form action="{{route('routes.search')}}" method="get">
                         <div class="card-body">
@@ -51,7 +51,7 @@ Route
                     </form>
                 </div>
             </div>
-            <div class="col-12">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Table Route</h3>
