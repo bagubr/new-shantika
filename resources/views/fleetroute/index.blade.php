@@ -118,14 +118,8 @@ Armada Rute
                                     <td>
                                         <a href="{{route('fleet_route.show',$fleet_route->id)}}"
                                             class="btn btn-primary btn-xs">Detail</a>
-                                        <form action="{{route('fleet_route.destroy',$fleet_route->id)}}"
-                                            class="d-inline" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger btn-xs"
-                                                onclick="return confirm('Apakah Anda yakin akan menghapus data armada Rute??')"
-                                                type="submit">Delete</button>
-                                        </form>
+                                        <a class="btn btn-danger btn-xs button-delete"
+                                            data-id="{{$fleet_route->id}}">Delete</a>
                                     </td>
                                 </tr>
                                 <div class="modal fade" id="exampleModal{{$fleet_route->id}}" tabindex="-1"
@@ -189,5 +183,49 @@ Armada Rute
     if ($('.select2').length > 0) {
         $('.select2').select2();
     };
+</script>
+<script>
+    $(document).on('click', '.button-delete', function (e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+        Swal.fire({
+            title: 'Apakah Anda Yakin Menghapus Data Ini ?',
+            text: "Pastikan Data Yang Akan Anda Hapus Benar",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Batal!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: 'fleet_route/' + id,
+                    type: "POST",
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id: id,
+                        _method: 'DELETE'
+                    },
+                    success: function (data) {
+                        Swal.fire(
+                            'Berhasil',
+                            'Data Anda Berhasil Dihapus',
+                            'success')
+                        location.reload();
+                    },
+                })
+            } else if (
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                Swal.fire(
+                    'Dibatalkan',
+                    'Data anda tidak terhapus',
+                    'error'
+                )
+            };
+        });
+    });
+            
 </script>
 @endpush

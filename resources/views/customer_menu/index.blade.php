@@ -51,14 +51,8 @@ Menu Pengguna
                                     <td>{{$customer_menu->order}}</td>
                                     <td><a href="{{route('customer_menu.edit',$customer_menu->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
-                                        <form action="{{route('customer_menu.destroy',$customer_menu->id)}}"
-                                            class="d-inline" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger btn-xs"
-                                                onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
-                                                type="submit">Delete</button>
-                                        </form>
+                                        <a class="btn btn-danger btn-xs button-delete"
+                                            data-id="{{$customer_menu->id}}">Delete</a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -81,5 +75,49 @@ Menu Pengguna
         "responsive": true, "lengthChange": false, "autoWidth": false,
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
+</script>
+<script>
+    $(document).on('click', '.button-delete', function (e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+        Swal.fire({
+            title: 'Apakah Anda Yakin Menghapus Data Ini ?',
+            text: "Pastikan Data Yang Akan Anda Hapus Benar",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Batal!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: 'customer_menu/' + id,
+                    type: "POST",
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id: id,
+                        _method: 'DELETE'
+                    },
+                    success: function (data) {
+                        Swal.fire(
+                            'Berhasil',
+                            'Data Anda Berhasil Dihapus',
+                            'success')
+                        location.reload();
+                    },
+                })
+            } else if (
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                Swal.fire(
+                    'Dibatalkan',
+                    'Data anda tidak terhapus',
+                    'error'
+                )
+            };
+        });
+    });
+            
 </script>
 @endpush

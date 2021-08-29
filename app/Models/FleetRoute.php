@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class FleetRoute extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'fleet_routes';
 
@@ -29,7 +29,7 @@ class FleetRoute extends Model
     {
         return $this->belongsTo(Route::class, 'route_id', 'id');
     }
-    
+
     public function orders()
     {
         return $this->hasMany(Order::class, 'fleet_route_id', 'id');
