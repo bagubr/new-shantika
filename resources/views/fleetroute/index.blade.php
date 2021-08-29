@@ -50,7 +50,7 @@ Armada Rute
                                 <div class="col">
                                     <div class="form-group">
                                         <label>Cari Armada</label>
-                                        <select name="fleet_id" class="form-control">
+                                        <select name="fleet_id" class="form-control select2">
                                             <option value="">--PILIH ARMADA--</option>
                                             @foreach ($fleets as $fleet)
                                             @if (old('fleet_id') == $fleet->id)
@@ -184,5 +184,10 @@ Armada Rute
         "responsive": true, "lengthChange": false, "autoWidth": false,
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
+</script>
+<script>
+    if ($('.select2').length > 0) {
+        $('.select2').select2();
+    };
 </script>
 @endpush
