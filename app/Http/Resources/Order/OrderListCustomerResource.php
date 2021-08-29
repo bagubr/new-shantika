@@ -19,24 +19,18 @@ class OrderListCustomerResource extends JsonResource
     {
         $fleet_route = $this->fleet_route;
         $route = $fleet_route->route;
-        $fleet = $fleet_route->fleet;
-
-        $checkpoint_max_index = count($route->checkpoints) - 1;
-        $checkpoint_destination = CheckpointRepository::findByRouteAndAgency($fleet_route?->id, $this->destination_agency_id);
+        $fleet = $fleet_route->fleet_detail->fleet;
+        $checkpoint_destination = CheckpointRepository::findByRouteAndAgency($route?->id, $this->destination_agency_id);
         return [
             'id'=>$this->id,
             'code_order'=>$this->code_order,
             'name_fleet'=>$fleet->name,
             'fleet_class'=>$fleet->fleetclass?->name,
             'created_at'=>date('Y-m-d H:i:s', strtotime($this->created_at)),
-            'departure_at'=>$route->departure_at,
-            'arrived_at'=>$route->arrived_at,
+            'departure_at'  => $this->agency->agency_departure_times->where('time_classification_id', $this->time_classification_id)->first()->departure_at,
             'price'=>$this->price,
             'status'=>$this->status,
-            'checkpoints'        => new CheckpointStartEndResource($route),
-            'city_start'                => $route->departure_city?->name,
-            'city_end'                  => $route->destination_city?->name,
-            'checkpoint_destination' => new CheckpointResource($checkpoint_destination),
+            'checkpoints'        => new CheckpointStartEndResource($route, $checkpoint_destination),
         ];
     }
 }

@@ -50,6 +50,7 @@ class OrderController extends Controller
             'fleet_route_id'=>$request->fleet_route_id,
             'id_member'=>$request->id_member,
             'reserve_at'=>$request->reserve_at,
+            'time_classification_id'=>$request->time_classification_id,
             'status'=>Order::STATUS1,
             'departure_agency_id'=>$request->departure_agency_id,
             'destination_agency_id'=>$request->destination_agency_id
@@ -59,7 +60,7 @@ class OrderController extends Controller
         $order = OrderService::create($order, $request, $request->payment_type_id);
 
         $this->createPayment($order->id, $request->payment_type_id);
-        // DB::commit();
+        DB::commit();
         return $this->sendSuccessResponse([
             'order' => new OrderDetailCustomerResource($order),
             'payment' => OrderService::getInvoice($order->payment)
