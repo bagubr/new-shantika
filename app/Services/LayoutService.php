@@ -53,7 +53,7 @@ class LayoutService {
                 $item->booking_detail = $booking->filter(function($value) use ($item) {
                     return $value->layout_chair_id == $item->id;
                 })->first();
-                $item->code = $booking->where('layout_chair_id', $item->id)->first()->agency->code;
+                $item->code = $booking->where('layout_chair_id', $item->id)->first()?->agency?->code;
             }
             if($item->is_unavailable) {
                 $item->order_detail = $unavailable->filter(function($value) use ($item) {
