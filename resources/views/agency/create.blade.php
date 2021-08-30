@@ -77,15 +77,16 @@ Agen
                             <div class="col">
                                 <div class="form-group">
                                     <label>Jam Keberangkatan Pagi</label>
-                                    <input type="time" class="form-control" name="departure_at[0]" required
-                                        value="{{isset($agency) ?$agency_departure[0]->departure_at : ''}}">
+                                    <input type="time" class="form-control" name="departure_at[1]" required
+                                        value="{{isset($agency) ?$agency->agency_departure_times[1]->departure_at : ''}}">
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label>Jam Keberangkatan Malam</label>
-                                    <input type="time" class="form-control" name="departure_at[1]"
-                                        value="{{isset($agency) ?$agency_departure[1]->departure_at : ''}}" required>
+                                    <input type="time" class="form-control" name="departure_at[0]"
+                                        value="{{isset($agency) ?$agency->agency_departure_times[0]->departure_at : ''}}"
+                                        required>
                                 </div>
                             </div>
                         </div>

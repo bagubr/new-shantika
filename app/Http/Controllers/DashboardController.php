@@ -16,6 +16,7 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
+        $status_order_selesai = ['PAID', 'EXCHANGED', 'FINISHED'];
         $data_statistic = ['weekly' => 'Harian', 'monthly' => 'Bulan', 'yearly' => 'Tahun'];
         if ($request->statistic) {
             if ($request->statistic == 'yearly') {
@@ -51,13 +52,17 @@ class DashboardController extends Controller
         $test = $request->flash();
         $users = User::all();
         $count_user = User::doesntHave('agencies')->count();
-        $orders_money = Order::has('fleet_route')->sum('price');
+        $orders_money = Order::whereIn('status', $status_order_selesai)->sum('price');
         session()->flash('Success', 'Berhasil Memuat Halaman');
         return view('dashboard2', compact('users', 'orders', 'order_count', 'count_user', 'orders_money', 'agencies', 'fleets', 'routes', 'data', 'data_statistic'));
     }
+
+    // START OF TIKET
+
     public function tiket_harian()
     {
         $params = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
+        $status_order_selesai = ['PAID', 'EXCHANGED', 'FINISHED'];
 
         for ($i = 0; $i < 7; $i++) {
             $startOfLastWeek  = Carbon::now()->startOfWeek()->addDay($i);
@@ -67,14 +72,14 @@ class DashboardController extends Controller
                         $smq->where('area_id', 1);
                     });
                 });
-            })->whereDate('reserve_at', '=', $startOfLastWeek)->where('status', 'PAID')->get()->count();
+            })->whereDate('reserve_at', '=', $startOfLastWeek)->whereIn('status', $status_order_selesai)->get()->count();
             $order_jabodetabek[] = Order::whereHas('fleet_route.route', function ($q) {
                 $q->whereHas('checkpoints.agency', function ($sq) {
                     $sq->whereHas('city', function ($smq) {
                         $smq->where('area_id', 2);
                     });
                 });
-            })->whereDate('reserve_at', '=', $startOfLastWeek)->where('status', 'PAID')->get()->count();
+            })->whereDate('reserve_at', '=', $startOfLastWeek)->whereIn('status', $status_order_selesai)->get()->count();
         }
         $weekly[] = $order_jawa;
         $weekly2[] = $order_jabodetabek;
@@ -89,6 +94,7 @@ class DashboardController extends Controller
     public function tiket_bulanan()
     {
         $params = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "August", "September", "October", "November", "Desember"];
+        $status_order_selesai = ['PAID', 'EXCHANGED', 'FINISHED'];
 
         for ($i = 0; $i < 12; $i++) {
             $start    =  Carbon::now()->startOfYear()->addMonth($i)->format('Y-m-d');
@@ -99,43 +105,14 @@ class DashboardController extends Controller
                         $smq->where('area_id', 1);
                     });
                 });
-            })->whereDate('reserve_at', '>=', $start)->whereDate('reserve_at', '<=', $end)->where('status', 'PAID')->get()->count();
+            })->whereDate('reserve_at', '>=', $start)->whereDate('reserve_at', '<=', $end)->whereIn('status', $status_order_selesai)->get()->count();
             $order_jabodetabek[] = Order::whereHas('fleet_route.route', function ($q) {
                 $q->whereHas('checkpoints.agency', function ($sq) {
                     $sq->whereHas('city', function ($smq) {
                         $smq->where('area_id', 2);
                     });
                 });
-            })->whereDate('reserve_at', '>=', $start)->whereDate('reserve_at', '<=', $end)->where('status', 'PAID')->get()->count();
-        }
-        $weekly[] = $order_jawa;
-        $weekly2[] = $order_jabodetabek;
-
-        $data = [
-            'params' => $params,
-            'weekly' => $weekly,
-            'weekly2' => $weekly2
-        ];
-        return $data;
-        $params = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "August", "September", "October", "November", "Desember"];
-
-        for ($i = 0; $i < 12; $i++) {
-            $start    =  Carbon::now()->startOfYear()->addMonth($i)->format('Y-m-d');
-            $end      =  Carbon::now()->startOfYear()->endOfMonth()->addMonth($i)->format('Y-m-d');
-            $order_jawa[] = Order::whereHas('fleet_route.route', function ($q) {
-                $q->whereHas('checkpoints.agency', function ($sq) {
-                    $sq->whereHas('city', function ($smq) {
-                        $smq->where('area_id', 1);
-                    });
-                });
-            })->whereDate('reserve_at', '>=', $start)->whereDate('reserve_at', '<=', $end)->where('status', 'PAID')->get()->count();
-            $order_jabodetabek[] = Order::whereHas('fleet_route.route', function ($q) {
-                $q->whereHas('checkpoints.agency', function ($sq) {
-                    $sq->whereHas('city', function ($smq) {
-                        $smq->where('area_id', 2);
-                    });
-                });
-            })->whereDate('reserve_at', '>=', $start)->whereDate('reserve_at', '<=', $end)->where('status', 'PAID')->get()->count();
+            })->whereDate('reserve_at', '>=', $start)->whereDate('reserve_at', '<=', $end)->whereIn('status', $status_order_selesai)->get()->count();
         }
         $weekly[] = $order_jawa;
         $weekly2[] = $order_jabodetabek;
@@ -152,7 +129,7 @@ class DashboardController extends Controller
         for ($i = 0; $i < 10; $i++) {
             $year[] = Carbon::now()->startOfDecade()->addYear($i)->format('Y');
         }
-
+        $status_order_selesai = ['PAID', 'EXCHANGED', 'FINISHED'];
         for ($i = 0; $i < 10; $i++) {
             $start          = Carbon::now()->startOfDecade()->addYear($i)->format('Y');
             $order_jawa[]   = Order::whereHas('fleet_route.route', function ($q) {
@@ -161,14 +138,14 @@ class DashboardController extends Controller
                         $smq->where('area_id', 1);
                     });
                 });
-            })->whereYear('reserve_at', '=', $start)->where('status', 'PAID')->get()->count();
+            })->whereYear('reserve_at', '=', $start)->whereIn('status', $status_order_selesai)->get()->count();
             $order_jabodetabek[]   = Order::whereHas('fleet_route.route', function ($q) {
                 $q->whereHas('checkpoints.agency', function ($sq) {
                     $sq->whereHas('city', function ($smq) {
                         $smq->where('area_id', 2);
                     });
                 });
-            })->whereYear('reserve_at', '=', $start)->where('status', 'PAID')->get()->count();
+            })->whereYear('reserve_at', '=', $start)->whereIn('status', $status_order_selesai)->get()->count();
         }
         $weekly[] = $order_jawa;
         $weekly2[] = $order_jabodetabek;
@@ -180,6 +157,9 @@ class DashboardController extends Controller
         ];
         return $data;
     }
+
+    // END OF TIKET
+
     // public function index(Request $request)
     // {
     //     $data_statistic = ['weekly' => 'Harian', 'monthly' => 'Bulan', 'yearly' => 'Tahun'];
@@ -243,6 +223,7 @@ class DashboardController extends Controller
     //     session()->flash('Success', 'Berhasil Memuat Halaman');
     //     return view('dashboard2', compact('users', 'orders', 'order_count', 'count_user', 'orders_money', 'agencies', 'fleets', 'routes', 'data', 'data_statistic', 'data_week', 'data_tiket'));
     // }
+
     public function tiket_tahun()
     {
         $params = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "August", "September", "October", "November", "Desember"];
@@ -321,6 +302,7 @@ class DashboardController extends Controller
         ];
         return $data_tiket;
     }
+
     public function pendapatan_yearly()
     {
         $params = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "August", "September", "October", "November", "Desember"];

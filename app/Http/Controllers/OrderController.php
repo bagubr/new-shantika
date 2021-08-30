@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Agency;
+use App\Models\FleetDetail;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Route;
@@ -22,9 +24,11 @@ class OrderController extends Controller
     {
         $orders = Order::orderBy('id', 'desc')->paginate(7);
         $routes = Route::all();
+        $fleet_details = FleetDetail::has('fleet_route')->get();
         $agent = ['AGENT', 'UMUM'];
+        $agencies = Agency::orderBy('name', 'asc')->get();
         $status = ['PENDING', 'EXCHANGED', 'PAID', 'CANCELED', 'EXPIRED', 'WAITING_CONFIRMATION'];
-        return view('order.index', compact('orders', 'routes', 'status', 'agent'));
+        return view('order.index', compact('orders', 'routes', 'status', 'agent', 'fleet_details', 'agencies'));
     }
     public function search(Request $request)
     {
@@ -35,12 +39,24 @@ class OrderController extends Controller
         $code_order_search = $request->code_order;
         $date_from_search = $request->date_from;
         $date_from_to = $request->date_to;
+        $fleet_detail_id = $request->fleet_detail_id;
+        $agency_id = $request->agency_id;
 
         $routes = RoutesRepository::getIdName();
         $orders = Order::query();
+        $fleet_details = FleetDetail::has('fleet_route')->get();
+        $agencies = Agency::orderBy('name', 'asc')->get();
         $status = ['PENDING', 'EXCHANGED', 'PAID', 'CANCELED', 'EXPIRED', 'WAITING_CONFIRMATION'];
         $agent = ['AGENT', 'UMUM'];
 
+        if (!empty($agency_id)) {
+            $orders = $orders->where('departure_agency_id', $agency_id);
+        }
+        if (!empty($fleet_detail_id)) {
+            $orders = $orders->whereHas('fleet_route', function ($q) use ($fleet_detail_id) {
+                $q->where('fleet_detail_id', $fleet_detail_id);
+            });
+        }
         if (!empty($routes_search)) {
             $orders = $orders->whereHas('fleet_route', function ($q) use ($routes_search) {
                 $q->where('route_id', '=', $routes_search);
@@ -81,7 +97,7 @@ class OrderController extends Controller
         } else {
             session()->flash('error', 'Tidak Ada Data Ditemukan');
         }
-        return view('order.index', compact('orders', 'routes', 'status', 'test', 'agent'));
+        return view('order.index', compact('orders', 'routes', 'status', 'test', 'agent', 'fleet_details', 'agencies'));
     }
 
     /**

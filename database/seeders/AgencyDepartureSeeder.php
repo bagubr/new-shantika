@@ -21,7 +21,8 @@ class AgencyDepartureSeeder extends Seeder
         foreach ($data as $key => $value) {
             AgencyDepartureTime::create([
                 'agency_id'     => $data->random()->id,
-                'departure_at'  => $faker->time()
+                'departure_at'  => $faker->time(),
+                'time_classification_id' => 1
             ]);
         }
     }

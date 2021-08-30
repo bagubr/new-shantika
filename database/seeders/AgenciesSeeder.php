@@ -220,12 +220,14 @@ class AgenciesSeeder extends Seeder
                     'code'      => str_replace(['a', 'i', 'u', 'e', 'o', 'A', 'I', 'U', 'E', 'O'], "", $v)
                 ]);
                 AgencyDepartureTime::create([
-                    'agency_id' => $agent->id,
-                    'departure_at' => $faker->numberBetween(10, 17) . ":00:00"
+                    'agency_id'                 => $agent->id,
+                    'departure_at'              => $faker->numberBetween(10, 17) . ":00:00",
+                    'time_classification_id'    => 1
                 ]);
                 AgencyDepartureTime::create([
-                    'agency_id' => $agent->id,
-                    'departure_at' => $faker->numberBetween(14, 17) . ":00:00"
+                    'agency_id'                 => $agent->id,
+                    'departure_at'              => $faker->numberBetween(14, 17) . ":00:00",
+                    'time_classification_id'    => 2
                 ]);
             }
         }
