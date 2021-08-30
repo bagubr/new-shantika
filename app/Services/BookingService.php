@@ -49,7 +49,7 @@ class BookingService {
         if($chairs[0]->id != $booking->id) {
             return;
         }
-        $payload = NotificationMessage::bookingExpired($chairs->pluck('layout_chair.name')->values()->toArray());
+        $payload = NotificationMessage::bookingExpired($chairs->pluck('layout_chair.name')->values()->toArray(), $booking->fleet_route?->fleet_detail?->fleet?->name);
         $notification = new Notification([
             "title"=>$payload[0],
             "body"=>$payload[1],
