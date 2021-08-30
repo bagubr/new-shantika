@@ -38,7 +38,7 @@ class TicketExchangedJob implements ShouldQueue
         $payload = NotificationMessage::successfullySendingTicket();
         $notification = Notification::build($payload[0], $payload[1], $this->order->id, $this->order->user_id);
         $order = Order::with('user')->find($this->order->id);
-        SendingNotification::dispatch($notification, $this->order->user?->fcm_token, true, [
+        SendingNotification::dispatch($notification, $order->user?->fcm_token, true, [
             'reference_id'=>(string) $this->order->id,
             'type'=>Notification::TYPE1
         ]);
