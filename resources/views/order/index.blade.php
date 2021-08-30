@@ -52,7 +52,7 @@ Pemesanan
                                 </div>
                             </div>
                             <div class="form-row">
-                                <div class="col">
+                                {{-- <div class="col">
                                     <div class="form-group">
                                         <label>Cari Rute</label>
                                         <select name="route_id" class="form-control select2">
@@ -60,145 +60,186 @@ Pemesanan
                                             @foreach ($routes as $route)
                                             @if (old('route_id') == $route->id)
                                             <option value="{{$route->id}}" selected>{{$route->name}}</option>
-                                            @else
-                                            <option value="{{$route->id}}">{{$route->name}}</option>
-                                            @endif
-                                            @endforeach
-                                        </select>
-
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="">Cari Status</label>
-                                        <select name="status" class="form-control">
-                                            <option value="">--Semua Status--</option>
-                                            @foreach ($status as $s)
-                                            @if (old('status') == $s)
-                                            <option value="{{$s}}" selected>{{$s}}</option>
-                                            @else
-                                            <option value="{{$s}}">{{$s}}</option>
-                                            @endif
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label for="">Agent</label>
-                                        <select name="agent" class="form-control">
-                                            <option value="">--Semua Pemesan--</option>
-                                            @foreach ($agent as $a)
-                                            @if (old('agent'))
-                                            <option value="{{$a}}" selected>{{$a}}</option>
-                                            @else
-                                            <option value="{{$a}}">{{$a}}</option>
-                                            @endif
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label>Mulai Dari</label>
-                                        <input type="date" class="form-control" name="date_from"
-                                            value="{{old('date_from')}}">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label>Sampai Dengan</label>
-                                        <input type="date" class="form-control" name="date_to"
-                                            value="{{old('date_to')}}">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <button class="btn btn-success" type="submit">Cari</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Table Pemesanan</h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Pemesan</th>
-                                    <th>Kode Order</th>
-                                    <th>Rute</th>
-                                    <th>Armada</th>
-                                    <th>Total Harga</th>
-                                    <th>Status</th>
-                                    <th>Keberangkatan -> Kedatangan</th>
-                                    <th>Tanggal Pemesanan</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($orders as $order)
-                                <tr>
-                                    <td>
-                                        @if ($order->user?->agencies)
-                                        <a href="{{route('user_agent.show',$order->user?->agencies?->agency_id)}}"
-                                            target="_blank">
-                                            {{$order->user?->name_agent}}
-                                        </a>
-                                        @else
-                                        {{$order->order_detail[0]->name}}
-                                        @endif
-                                    </td>
-                                    <td>{{$order->code_order}}</td>
-                                    <td>
-                                        @if ($order->fleet_route)
-                                        <a href="{{route('routes.show',$order->fleet_route?->route_id)}}">
-                                            {{$order->fleet_route?->route?->name}}
-                                        </a>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        {{$order->fleet_route?->fleet_detail?->fleet?->name}}/{{$order->fleet_route?->fleet_detail?->fleet?->fleetclass?->name}}
-                                    </td>
-                                    <td>
-                                        Rp. {{number_format($order->price,2)}}
-                                    </td>
-                                    <td>{{$order->status}}</td>
-                                    <td>{{$order->agency?->name}} -> {{$order->agency_destiny?->name}}</td>
-                                    <td>{{date('Y-m-d',strtotime($order->reserve_at))}}</td>
-                                    <td>
-                                        <a class="btn btn-primary btn-xs" href="{{route('order.show',$order->id)}}"
-                                            target="_blank">Detail</a>
-                                        <form action="{{route('order.destroy',$order->id)}}" class="d-inline"
-                                            method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger btn-xs"
-                                                onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
-                                                type="submit">Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
+                                @else
+                                <option value="{{$route->id}}">{{$route->name}}</option>
+                                @endif
                                 @endforeach
-                            </tbody>
-                        </table>
-                        @if (Request::routeIs('order.index'))
-                        {{$orders->links("pagination::bootstrap-4")}}
-                        @endif
+                                </select>
+
+                            </div>
+                    </div> --}}
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="">Cari Status</label>
+                            <select name="status" class="form-control">
+                                <option value="">--Semua Status--</option>
+                                @foreach ($status as $s)
+                                @if (old('status') == $s)
+                                <option value="{{$s}}" selected>{{$s}}</option>
+                                @else
+                                <option value="{{$s}}">{{$s}}</option>
+                                @endif
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                    <!-- /.card-body -->
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="">Status Pesanan</label>
+                            <select name="agent" class="form-control">
+                                <option value="">--Semua Pemesan--</option>
+                                @foreach ($agent as $a)
+                                @if (old('agent'))
+                                <option value="{{$a}}" selected>{{$a}}</option>
+                                @else
+                                <option value="{{$a}}">{{$a}}</option>
+                                @endif
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
-                <!-- /.card -->
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Armada</label>
+                            <select name="fleet_detail_id" class="form-control select2">
+                                <option value="">--PILIH ARMADA--</option>
+                                @foreach ($fleet_details as $fleet_detail)
+                                @if (old('fleet_detail_id') == $fleet_detail->id)
+                                <option value="{{$fleet_detail->id}}" selected>
+                                    {{$fleet_detail->fleet?->name}}/{{$fleet_detail->fleet?->fleetclass?->name}}
+                                    ({{$fleet_detail->nickname}})
+                                </option>
+                                @else
+                                <option value="{{$fleet_detail->id}}">
+                                    {{$fleet_detail->fleet?->name}}/{{$fleet_detail->fleet?->fleetclass?->name}}
+                                    ({{$fleet_detail->nickname}})
+                                </option>
+                                @endif
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Agen</label>
+                            <select class="form-control select2" name="agency_id">
+                                <option value="">--PILIH AGEN--</option>
+                                @foreach ($agencies as $agency)
+                                @if (old('agency_id') == $agency->id)
+                                <option value="{{$agency->id}}" selected>
+                                    {{$agency->name}}
+                                </option>
+                                @else
+                                <option value="{{$agency->id}}">
+                                    {{$agency->name}}
+                                </option>
+                                @endif
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Mulai Dari</label>
+                            <input type="date" class="form-control" name="date_from" value="{{old('date_from')}}">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Sampai Dengan</label>
+                            <input type="date" class="form-control" name="date_to" value="{{old('date_to')}}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-right">
+                    <button class="btn btn-success" type="submit">Cari</button>
+                </div>
+                </form>
             </div>
         </div>
     </div>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Table Pemesanan</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Pemesan</th>
+                            <th>Kode Order</th>
+                            <th>Rute</th>
+                            <th>Armada</th>
+                            <th>Total Harga</th>
+                            <th>Status</th>
+                            <th>Keberangkatan -> Kedatangan</th>
+                            <th>Tanggal Pemesanan</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($orders as $order)
+                        <tr>
+                            <td>
+                                @if ($order->user?->agencies)
+                                <a href="{{route('user_agent.show',$order->user?->agencies?->agency_id)}}"
+                                    target="_blank">
+                                    {{$order->user?->name_agent}}
+                                </a>
+                                @else
+                                {{$order->order_detail[0]->name}}
+                                @endif
+                            </td>
+                            <td>{{$order->code_order}}</td>
+                            <td>
+                                @if ($order->fleet_route)
+                                <a href="{{route('routes.show',$order->fleet_route?->route_id)}}">
+                                    {{$order->fleet_route?->route?->name}}
+                                </a>
+                                @endif
+                            </td>
+                            <td>
+                                {{$order->fleet_route?->fleet_detail?->fleet?->name}}/{{$order->fleet_route?->fleet_detail?->fleet?->fleetclass?->name}}
+                                ({{$order->fleet_route?->fleet_detail?->nickname}})
+                            </td>
+                            <td>
+                                Rp. {{number_format($order->price,2)}}
+                            </td>
+                            <td>{{$order->status}}</td>
+                            <td>{{$order->agency?->name}} -> {{$order->agency_destiny?->name}}</td>
+                            <td>{{date('Y-m-d',strtotime($order->reserve_at))}}</td>
+                            <td>
+                                <a class="btn btn-primary btn-xs" href="{{route('order.show',$order->id)}}"
+                                    target="_blank">Detail</a>
+                                <form action="{{route('order.destroy',$order->id)}}" class="d-inline" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger btn-xs"
+                                        onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                        type="submit">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                @if (Request::routeIs('order.index'))
+                {{$orders->links("pagination::bootstrap-4")}}
+                @endif
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+</div>
 </div>
 @endsection
 @push('script')
