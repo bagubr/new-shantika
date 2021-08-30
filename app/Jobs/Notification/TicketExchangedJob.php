@@ -43,7 +43,7 @@ class TicketExchangedJob implements ShouldQueue
             'type'=>Notification::TYPE1
         ]);
 
-        $checkpoint_start = $this->order->fleet_route->route->checkpoints()->where('agency_id', $this->order->departure_agency_id)->first();
+        $agency = $this->order->agency;
         $checkpoint_end = $this->order->fleet_route->route->checkpoints()->where('agency_id', $this->order->destination_agency_id)->first();
         $data = [
             "fleet_name"=>$this->order->fleet_route?->fleet?->name,
@@ -51,14 +51,13 @@ class TicketExchangedJob implements ShouldQueue
             "departure_at"=>$this->order->fleet_route?->route?->departure_at,
             "arrived_at"=>$this->order->fleet_route?->route?->arrived_at,
             "checkpoint_start"=>(object) [
-                "agency_id"=>$checkpoint_start->agency?->id ?? "",
-                "agency_name"=>$checkpoint_start->agency?->name ?? "",
-                "agency_address"=>$checkpoint_start->agency?->address ?? "",
-                "agency_phone"=>$checkpoint_start->agency?->phone ?? "",
-                "agency_lat"=>$checkpoint_start->agency?->lat,
-                "agency_lng"=>$checkpoint_start->agency?->lng,
-                "city_name"=>$checkpoint_start->agency?->city?->name ?? "",
-                "arrived_at"=>$checkpoint_start->arrived_at,
+                "agency_id"=>$agency?->id ?? "",
+                "agency_name"=>$agency?->name ?? "",
+                "agency_address"=>$agency?->address ?? "",
+                "agency_phone"=>$agency?->phone ?? "",
+                "agency_lat"=>$agency?->lat,
+                "agency_lng"=>$agency?->lng,
+                "city_name"=>$agency?->city?->name ?? "",
             ],
             "checkpoint_destination"=>(object) [
                 "agency_id"=>$checkpoint_end->agency?->id ?? "",
