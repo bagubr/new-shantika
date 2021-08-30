@@ -21,7 +21,6 @@ class CreateFleetRoutes extends Migration
             $table->foreign('route_id')->references('id')->on('routes');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
