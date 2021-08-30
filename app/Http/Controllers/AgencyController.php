@@ -20,7 +20,7 @@ class AgencyController extends Controller
      */
     public function index()
     {
-        $agencies = AgencyRepository::all();
+        $agencies = Agency::all();
         $statuses = Agency::status();
         $areas = Area::get();
         return view('agency.index', compact('agencies', 'statuses', 'areas'));
@@ -118,8 +118,8 @@ class AgencyController extends Controller
     public function edit(Agency $agency)
     {
         $cities = CityRepository::all();
-        $agency_departure = AgencyDepartureTime::where('agency_id', $agency->id)->get();
-        return view('agency.create', compact('agency', 'cities', 'agency_departure'));
+        // $agency_departure = AgencyDepartureTime::where('agency_id', $agency->id)->get();
+        return view('agency.create', compact('agency', 'cities'));
     }
 
     /**
@@ -137,16 +137,18 @@ class AgencyController extends Controller
             $agency->deleteAvatar();
             $data['avatar'] = $avatar;
         };
-        $agency_departure = AgencyDepartureTime::where('agency_id', $agency->id)->first();
-        $agency_departure1 = AgencyDepartureTime::where('agency_id', $agency->id)->orderBy('id', 'desc')->first();
+
+        $agency_departure = AgencyDepartureTime::where('agency_id', $agency->id)->orderBy('id', 'ASC')->first();
+        $agency_departure1 = AgencyDepartureTime::where('agency_id', $agency->id)->first();
+        dd($agency_departure, $agency_departure1);
         $agency->update($data);
         $agency_departure->update([
             'agency_id'     => $agency->id,
-            'departure_at'  => $request->departure_at[0],
+            'departure_at'  => $request->departure_at[1],
         ]);
         $agency_departure1->update([
             'agency_id'     => $agency->id,
-            'departure_at'  => $request->departure_at[1],
+            'departure_at'  => $request->departure_at[0],
         ]);
         session()->flash('success', 'Agency Berhasil Diperbarui');
         return redirect(route('agency.index'));

@@ -41,7 +41,7 @@ class FleetRouteController extends Controller
         if (!empty($area_id)) {
             $fleet_routes = $fleet_routes->whereHas('route.checkpoints', function ($q) use ($area_id) {
                 $q->whereHas('agency.city', function ($sq) use ($area_id) {
-                    $sq->where('area_id', $area_id);
+                    $sq->where('area_id', '!=', $area_id);
                 });
             });
         }
