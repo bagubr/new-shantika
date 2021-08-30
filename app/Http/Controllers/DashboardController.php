@@ -78,7 +78,6 @@ class DashboardController extends Controller
     }
 
     // START OF TIKET
-
     public function tiket_harian()
     {
         $params = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
@@ -177,11 +176,9 @@ class DashboardController extends Controller
         ];
         return $data;
     }
-
     // END OF TIKET
 
     // START OF PENDAPATAN TIKET
-
     public function pendapatan_yearly()
     {
         $params = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "August", "September", "October", "November", "Desember"];
@@ -244,7 +241,6 @@ class DashboardController extends Controller
         ];
         return $data_week;
     }
-
     public function pendapatan_weekly()
     {
         $params = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
@@ -378,8 +374,8 @@ class DashboardController extends Controller
         ];
         return $data_week;
     }
-
     // END OF PENDAPATAN TIKET
+
 
     // public function index(Request $request)
     // {
@@ -444,77 +440,4 @@ class DashboardController extends Controller
     //     session()->flash('Success', 'Berhasil Memuat Halaman');
     //     return view('dashboard2', compact('users', 'orders', 'order_count', 'count_user', 'orders_money', 'agencies', 'fleets', 'routes', 'data', 'data_statistic', 'data_week', 'data_tiket'));
     // }
-    public function weekly()
-    {
-        $params = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
-        // $currentDate = Carbon::now()->startOfWeek();
-
-        for ($i = 0; $i < 7; $i++) {
-            $startOfLastWeek  = Carbon::now()->startOfWeek()->addDay($i);
-            $order_jawa[] = Order::whereHas('route', function ($q) {
-                $q->where('area_id', '1');
-            })->whereDate('reserve_at', '=', $startOfLastWeek)->where('status', 'PAID')->get()->count();
-            $order_jabodetabek[] = Order::whereHas('route', function ($q) {
-                $q->where('area_id', '2');
-            })->whereDate('reserve_at', '=', $startOfLastWeek)->where('status', 'PAID')->get()->count();
-        }
-        $weekly[] = $order_jawa;
-        $weekly2[] = $order_jabodetabek;
-
-        $data = [
-            'params' => $params,
-            'weekly' => $weekly,
-            'weekly2' => $weekly2
-        ];
-        return $data;
-    }
-    public function monthly()
-    {
-        $params = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "August", "September", "October", "November", "Desember"];
-
-        for ($i = 0; $i < 12; $i++) {
-            $start    =  Carbon::now()->startOfYear()->addMonth($i)->format('Y-m-d');
-            $end      =  Carbon::now()->startOfYear()->endOfMonth()->addMonth($i)->format('Y-m-d');
-            $order_jawa[] = Order::whereHas('route', function ($q) {
-                $q->where('area_id', '1');
-            })->whereDate('reserve_at', '>=', $start)->whereDate('reserve_at', '<=', $end)->where('status', 'PAID')->get()->count();
-            $order_jabodetabek[] = Order::whereHas('route', function ($q) {
-                $q->where('area_id', '2');
-            })->whereDate('reserve_at', '>=', $start)->whereDate('reserve_at', '<=', $end)->where('status', 'PAID')->get()->count();
-        }
-        $weekly[] = $order_jawa;
-        $weekly2[] = $order_jabodetabek;
-
-        $data = [
-            'params' => $params,
-            'weekly' => $weekly,
-            'weekly2' => $weekly2
-        ];
-        return $data;
-    }
-    public function yearly()
-    {
-        for ($i = 0; $i < 10; $i++) {
-            $year[] = Carbon::now()->startOfDecade()->addYear($i)->format('Y');
-        }
-
-        for ($i = 0; $i < 10; $i++) {
-            $start          = Carbon::now()->startOfDecade()->addYear($i)->format('Y');
-            $order_jawa[]   = Order::whereHas('route', function ($q) {
-                $q->where('area_id', '1');
-            })->whereYear('reserve_at', '=', $start)->where('status', 'PAID')->get()->count();
-            $order_jabodetabek[]   = Order::whereHas('route', function ($q) {
-                $q->where('area_id', '2');
-            })->whereYear('reserve_at', '=', $start)->where('status', 'PAID')->get()->count();
-        }
-        $weekly[] = $order_jawa;
-        $weekly2[] = $order_jabodetabek;
-
-        $data = [
-            'params' => $year,
-            'weekly' => $weekly,
-            'weekly2' => $weekly2
-        ];
-        return $data;
-    }
 }
