@@ -50,15 +50,17 @@ class OrderRepository
             ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
             ->whereUserId($user->id)
             ->distinct('code_booking');
-        $agen_order =  Order::select('id', 'fleet_route_id', 'user_id', 'reserve_at', 'status', 'code_order as code', 'destination_agency_id', 'time_classification_id')
+        $agen_order =  Order::select('id', 'fleet_route_id', 'user_id', 'reserve_at', 'status', 'code_order as code')
             ->addSelect(DB::raw("NULL as layout_chair_id"))
+            ->addSelect('destination_agency_id', 'time_classification_id')
             ->addSelect(DB::raw("'PEMBELIAN' as type"))
             ->addSelect(DB::raw("price"))
             ->where('departure_agency_id', $user->agencies->agent->id)
             ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
             ->union($booking);
-        $user_order =  Order::select('id', 'fleet_route_id', 'user_id', 'reserve_at', 'status', 'code_order as code', 'destination_agency_id', 'time_classification_id')
+        $user_order =  Order::select('id', 'fleet_route_id', 'user_id', 'reserve_at', 'status', 'code_order as code')
             ->addSelect(DB::raw("NULL as layout_chair_id"))
+            ->addSelect('destination_agency_id', 'time_classification_id')
             ->addSelect(DB::raw("'EXCHANGE' as type"))
             ->addSelect(DB::raw("price"))
             ->where('departure_agency_id', $user->agencies->agent->id)
@@ -123,12 +125,13 @@ class OrderRepository
         return @$order[0];
     }
 
-    public static function getAtDate($date)
+    public static function getAtDateByFleetRouteId($date, $fleet_route_id)
     {
         return Order::with(['order_detail', 'user.agencies.agent'])->where(function ($query) use ($date) {
             $query->whereIn('status', Order::STATUS_BOUGHT)
                 ->whereDate('reserve_at', $date);
-        })
+            })
+            ->where('fleet_route_id', $fleet_route_id)
             ->get();
     }
 

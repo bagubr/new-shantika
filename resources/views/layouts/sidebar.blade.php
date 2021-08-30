@@ -285,7 +285,7 @@
                 <li class="nav-item">
                     <a href="{{route('config_setting.index')}}"
                         class="nav-link {{Request::routeIs('config_setting.*') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-bars"></i>
+                        <i class="fas fa-cogs"></i>
                         <p>
                             Pengaturan Global
                         </p>

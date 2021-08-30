@@ -20,7 +20,10 @@ class OrderListAgentResource extends JsonResource
      */
     public function toArray($request)
     {
-        $this->load(['fleet_route.route', 'fleet_route.fleet_detail.fleet.fleetclass']);
+        $this->agency = $this->load(['fleet_route.route', 'fleet_route.fleet_detail.fleet.fleetclass', 'agency'])->agency;
+        if($this->agency == null) {
+            $this->agency = $this->load('user.agencies.agent')->user->agencies->agent;
+        }
 
         $fleet_route = $this->fleet_route;
         $route = $fleet_route->route;
@@ -31,7 +34,6 @@ class OrderListAgentResource extends JsonResource
         $checkpoint_max_index = count($checkpoints) - 1;
         $checkpoint_destination = CheckpointRepository::findByRouteAndAgency($route->id, $this->destination_agency_id);
         $agent_start = $this->agency;
-
         return [
             'id'                        => $this->id,
             'layout_chair_id'           => $this->getLayoutChairId(),
@@ -41,6 +43,7 @@ class OrderListAgentResource extends JsonResource
             'fleet_class'               => $fleet->fleetclass?->name,
             'chairs'                    => @OrderDetailChairResource::collection($this->order_detail),
             'price'                     => $this->price,
+            'time_classification_id'    => $this->time_classification_id,
             'reserve_at'                => $this->reserve_at,
             'status'                    => $this->status,
             'type'                      => $this->type,

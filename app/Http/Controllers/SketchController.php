@@ -44,7 +44,7 @@ class SketchController extends Controller
             ->when($area_id, function($query) use ($area_id) {
                 $query->whereHas('fleet_route.route.checkpoints', function($subquery) use ($area_id) {
                     $subquery->whereHas('agency.city', function ($subsubquery) use ($area_id) {
-                        $subsubquery->where('area_id', '=', $area_id);
+                        $subsubquery->where('area_id', '!=', $area_id);
                     });
                 });
             })
