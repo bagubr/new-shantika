@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FleetDetail;
 use App\Models\FleetRoute;
 use App\Models\OrderPriceDistribution;
 use App\Models\OutcomeDetail;
@@ -17,27 +18,41 @@ class OrderPriceDistributionController extends Controller
     public function index()
     {
         $fleet_routes = FleetRoute::get();
+        $fleet_details = FleetDetail::has('fleet_route')->get();
         $order_price_distributions = OrderPriceDistribution::wherehas('order', function ($q) {
-            $q->where('status', 'PAID')->orderBy('reserve_at', 'DESC');
+            $q->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED'])->orderBy('reserve_at', 'DESC');
         })->get();
         $outcome_details = OutcomeDetail::all();
 
         $count_income = OrderPriceDistribution::pluck('for_owner')->sum();
         $count_outcome = OutcomeDetail::pluck('amount')->sum();
         $count_pendapatan_bersih = $count_income - $count_outcome;
-        return view('order_price_distribution.index', compact('order_price_distributions', 'outcome_details', 'fleet_routes', 'count_income', 'count_outcome', 'count_pendapatan_bersih'));
+        return view('order_price_distribution.index', compact('order_price_distributions', 'outcome_details', 'fleet_routes', 'count_income', 'count_outcome', 'count_pendapatan_bersih', 'fleet_details'));
     }
     public function search(Request $request)
     {
         $date_search = $request->date_search;
         $fleet_route_search = $request->fleet_route_search;
-        $fleet_routes = FleetRoute::get();
+        $fleet_detail_id = $request->fleet_detail_id;
+        $fleet_details = FleetDetail::has('fleet_route')->get();
 
+        $fleet_routes = FleetRoute::get();
         $order_price_distributions = OrderPriceDistribution::query();
         $outcome_details = OutcomeDetail::query();
+
+        if (!empty($fleet_detail_id)) {
+            $order_price_distributions = $order_price_distributions->whereHas('order', function ($q) use ($fleet_detail_id) {
+                $q->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED'])->whereHas('fleet_route', function ($sq) use ($fleet_detail_id) {
+                    $sq->where('fleet_detail_id', $fleet_detail_id);
+                });
+            });
+            $outcome_details = $outcome_details->whereHas('outcome', function ($q) use ($fleet_route_search) {
+                $q->where('fleet_route_id', $fleet_route_search);
+            });
+        }
         if (!empty($date_search)) {
             $order_price_distributions = $order_price_distributions->whereHas('order', function ($q) use ($date_search) {
-                $q->where('reserve_at', $date_search)->where('status', 'PAID');
+                $q->where('reserve_at', $date_search)->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
             });
             $outcome_details = $outcome_details->whereHas('outcome', function ($q) use ($date_search) {
                 $q->where('reported_at', $date_search);
@@ -45,7 +60,7 @@ class OrderPriceDistributionController extends Controller
         }
         if (!empty($fleet_route_search)) {
             $order_price_distributions = $order_price_distributions->whereHas('order', function ($q) use ($fleet_route_search) {
-                $q->where('fleet_route_id', $fleet_route_search)->where('status', 'PAID');
+                $q->where('fleet_route_id', $fleet_route_search)->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
             });
 
             $outcome_details = $outcome_details->whereHas('outcome', function ($q) use ($fleet_route_search) {
@@ -58,7 +73,7 @@ class OrderPriceDistributionController extends Controller
         $count_income = $order_price_distributions->pluck('for_owner')->sum();
         $count_outcome = $outcome_details->pluck('amount')->sum();
         $count_pendapatan_bersih = $count_income - $count_outcome;
-        return view('order_price_distribution.index', compact('order_price_distributions', 'test', 'outcome_details', 'fleet_routes', 'count_income', 'count_outcome', 'count_pendapatan_bersih'));
+        return view('order_price_distribution.index', compact('order_price_distributions', 'test', 'fleet_details', 'outcome_details', 'fleet_routes', 'count_income', 'count_outcome', 'count_pendapatan_bersih'));
     }
 
     /**

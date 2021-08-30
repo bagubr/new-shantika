@@ -69,14 +69,14 @@ class DashboardController extends Controller
             $order_jawa[] = Order::whereHas('fleet_route.route', function ($q) {
                 $q->whereHas('checkpoints.agency', function ($sq) {
                     $sq->whereHas('city', function ($smq) {
-                        $smq->where('area_id', 1);
+                        $smq->where('area_id', 2);
                     });
                 });
             })->whereDate('reserve_at', '=', $startOfLastWeek)->whereIn('status', $status_order_selesai)->get()->count();
             $order_jabodetabek[] = Order::whereHas('fleet_route.route', function ($q) {
                 $q->whereHas('checkpoints.agency', function ($sq) {
                     $sq->whereHas('city', function ($smq) {
-                        $smq->where('area_id', 2);
+                        $smq->where('area_id', 1);
                     });
                 });
             })->whereDate('reserve_at', '=', $startOfLastWeek)->whereIn('status', $status_order_selesai)->get()->count();
@@ -102,14 +102,14 @@ class DashboardController extends Controller
             $order_jawa[] = Order::whereHas('fleet_route.route', function ($q) {
                 $q->whereHas('checkpoints.agency', function ($sq) {
                     $sq->whereHas('city', function ($smq) {
-                        $smq->where('area_id', 1);
+                        $smq->where('area_id', 2);
                     });
                 });
             })->whereDate('reserve_at', '>=', $start)->whereDate('reserve_at', '<=', $end)->whereIn('status', $status_order_selesai)->get()->count();
             $order_jabodetabek[] = Order::whereHas('fleet_route.route', function ($q) {
                 $q->whereHas('checkpoints.agency', function ($sq) {
                     $sq->whereHas('city', function ($smq) {
-                        $smq->where('area_id', 2);
+                        $smq->where('area_id', 1);
                     });
                 });
             })->whereDate('reserve_at', '>=', $start)->whereDate('reserve_at', '<=', $end)->whereIn('status', $status_order_selesai)->get()->count();
@@ -135,14 +135,14 @@ class DashboardController extends Controller
             $order_jawa[]   = Order::whereHas('fleet_route.route', function ($q) {
                 $q->whereHas('checkpoints.agency', function ($sq) {
                     $sq->whereHas('city', function ($smq) {
-                        $smq->where('area_id', 1);
+                        $smq->where('area_id', 2);
                     });
                 });
             })->whereYear('reserve_at', '=', $start)->whereIn('status', $status_order_selesai)->get()->count();
             $order_jabodetabek[]   = Order::whereHas('fleet_route.route', function ($q) {
                 $q->whereHas('checkpoints.agency', function ($sq) {
                     $sq->whereHas('city', function ($smq) {
-                        $smq->where('area_id', 2);
+                        $smq->where('area_id', 1);
                     });
                 });
             })->whereYear('reserve_at', '=', $start)->whereIn('status', $status_order_selesai)->get()->count();

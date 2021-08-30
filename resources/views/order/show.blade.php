@@ -61,7 +61,8 @@ Pesanan
                                 <label>Armada</label>
                                 <a href="{{route('fleet_route.show',$order->fleet_route?->id)}}">
                                     <p>
-                                        {{$order->fleet_route?->fleet?->name}}
+                                        {{$order->fleet_route?->fleet_detail?->fleet?->name}}/{{$order->fleet_route?->fleet_detail?->fleet?->fleetclass?->name}}
+                                        ({{$order->fleet_route?->fleet_detail?->nickname}})
                                     </p>
                                 </a>
                             </div>
