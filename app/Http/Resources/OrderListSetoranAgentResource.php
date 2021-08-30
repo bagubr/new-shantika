@@ -16,13 +16,14 @@ class OrderListSetoranAgentResource extends JsonResource
     {
         $checkpoint_max_index = count($this->fleet_route->route->checkpoints) - 1;
         $checkpoint_destination = $this->fleet_route->route->checkpoints()->where('agency_id', $this->destination_agency_id)->first();
+        $agent_start = $this->agency;
         return [
             'id'=>$this->id,
             'fleet_name'=>$this->fleet_route?->fleet_detail?->fleet?->name,
             'fleet_id'=>$this->fleet_route?->fleet_detail?->fleet_id,
             'chairs_count'=>$this->order_detail()->count(),
             'deposit'=>abs($this->distribution()->sum('for_owner')),
-            'checkpoints'=> new CheckpointStartEndResource($this->fleet_route->route, $checkpoint_destination)
+            'checkpoints'=> new CheckpointStartEndResource($this->fleet_route->route, $checkpoint_destination, $agent_start)
         ];
     }
 }
