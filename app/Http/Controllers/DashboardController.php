@@ -19,6 +19,7 @@ class DashboardController extends Controller
     {
         $status_order_selesai = ['PAID', 'EXCHANGED', 'FINISHED'];
         $data_statistic = ['weekly' => 'Harian', 'monthly' => 'Bulan', 'yearly' => 'Tahun'];
+        // start tiket
         if ($request->statistic) {
             if ($request->statistic == 'yearly') {
                 $data = $this->tiket_tahunan();
@@ -30,34 +31,36 @@ class DashboardController extends Controller
         } else {
             $data = $this->tiket_harian();
         }
+        // end of tiket
+
         // AGENCY
-        $agencies = Agency::all();
+        $agencies = Agency::orderBy('name', 'asc')->get();
         $fleet_details = FleetDetail::all();
         $routes = Route::get(['id', 'name']);
 
         // START ORDER
         $orders = Order::query();
+        $order_count = Order::query();
         $fleet = $request->fleet;
-        if (!empty($request->agency)) {
-            $orders = $orders->where('user_id', $request->agency);
+
+        if (!empty($request->tujuan)) {
+            $orders = $orders->where('destination_agency_id', $request->tujuan);
         }
-        if (!empty($request->route)) {
-            $orders = $orders->where('route_id', $request->route);
-        }
-        if (!empty($request->fleet)) {
-            $orders = $orders->where('fleet_route_id', $request->fleet);
+        if (!empty($request->fleet_detail)) {
+            $orders = $orders->where('fleet_route_id', $request->fleet_detail);
         }
 
         $orders = $orders->get();
         // END OF ORDER
 
-        $order_count = Order::all()->count();
+        $total_order = Order::all()->count();
+
         $test = $request->flash();
         $users = User::all();
         $count_user = User::doesntHave('agencies')->count();
         $orders_money = Order::whereIn('status', $status_order_selesai)->sum('price');
         session()->flash('Success', 'Berhasil Memuat Halaman');
-        return view('dashboard2', compact('users', 'orders', 'order_count', 'count_user', 'orders_money', 'agencies', 'fleet_details', 'routes', 'data', 'data_statistic'));
+        return view('dashboard2', compact('users', 'orders', 'total_order', 'order_count', 'count_user', 'orders_money', 'agencies', 'fleet_details', 'routes', 'data', 'data_statistic'));
     }
 
     // START OF TIKET
