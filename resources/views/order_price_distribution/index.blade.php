@@ -212,7 +212,8 @@ Setoran
                                 @foreach ($outcome_details as $outcome)
                                 <tr>
                                     <td>{{date('Y-m-d',strtotime($outcome->outcome?->reported_at))}}</td>
-                                    <td>{{$outcome->outcome?->fleet_route?->route?->name}}/{{$outcome->outcome?->fleet_route?->fleet?->name}}
+                                    <td>{{$outcome->outcome?->fleet_detail?->fleet?->name}}/{{$outcome->outcome?->fleet_detail?->fleet?->fleetclass?->name}}
+                                        ({{$outcome->outcome?->fleet_detail?->nickname}})
                                     </td>
                                     <td>{{$outcome->name}}</td>
                                     <td>Rp {{number_format($outcome->amount)}}</td>

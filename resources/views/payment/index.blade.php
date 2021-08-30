@@ -8,12 +8,12 @@ Riwayat Pembayaran
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Riwayat Pembayaran</h1>
+                <h1 class="m-0">Riwayat Pembayaran Customer</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Riwayat Pembayaran</li>
+                    <li class="breadcrumb-item active">Riwayat Pembayaran Customer</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -26,7 +26,7 @@ Riwayat Pembayaran
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Riwayat Pembayaran</h3>
+                        <h3 class="card-title">Table Riwayat Pembayaran Customer</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -35,6 +35,7 @@ Riwayat Pembayaran
                                 <tr>
                                     <th>Kode Order</th>
                                     <th>Metode Pembayaran</th>
+                                    <th>Nominal</th>
                                     <th>Status</th>
                                     <th>Bukti Pembayaran</th>
                                     <th>Tanggal Pembayaran</th>
@@ -49,6 +50,7 @@ Riwayat Pembayaran
                                         </a>
                                     </td>
                                     <td>{{$payment->payment_type->name}}</td>
+                                    <td>Rp. {{number_format($payment->order?->price)}}</td>
                                     <td>{{$payment->status}}</td>
                                     <td>
                                         @if ($payment->proof)
@@ -75,14 +77,6 @@ Riwayat Pembayaran
                                         <a href="{{route('payment.edit',$payment->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         @endif
-                                        {{-- <form action="{{route('payment.destroy',$payment->id)}}" class="d-inline"
-                                        method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-danger btn-xs"
-                                            onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
-                                            type="submit">Delete</button>
-                                        </form> --}}
                                     </td>
                                 </tr>
                                 @endforeach
@@ -102,7 +96,7 @@ Riwayat Pembayaran
 <script>
     $(function () {
       $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
+        "responsive": true, "lengthChange": false, "autoWidth": false,"order": [[ 0, "desc" ]],
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
 </script>

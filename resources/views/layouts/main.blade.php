@@ -46,7 +46,8 @@
     <script src="https://unpkg.com/alpinejs@3.2.1/dist/cdn.min.js" defer></script>
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed">
+<body
+    class="hold-transition sidebar-mini layout-fixed {{Request::routeIs('order_price_distribution.*') ? 'sidebar-closed sidebar-collapse ' : ''}}">
     @auth
     <div class="wrapper">
         <!-- Navbar -->
