@@ -43,8 +43,10 @@ use App\Http\Controllers\SketchController;
 use App\Http\Controllers\StatusPenumpangController;
 use App\Http\Controllers\FleetDetailController;
 use App\Jobs\Notification\TicketExchangedJob;
+use App\Jobs\PaymentAcceptedNotificationJob;
 use App\Models\Admin;
 use App\Models\Notification;
+use App\Models\Order;
 use App\Models\OrderPriceDistribution;
 use App\Utils\NotificationMessage;
 use Illuminate\Support\Facades\Auth;
@@ -69,9 +71,16 @@ Auth::routes([
 ]);
 
 Route::get('/test', function () {
-    $order = \App\Models\Order::with(['fleet_route.route'])->orderBy('id', 'desc')->first();
-    TicketExchangedJob::dispatch($order);
-    return response($order);
+    $order_id = Order::find(231);
+    $payload = NotificationMessage::paymentSuccess($order_id->code_order);
+        $notification = Notification::build(
+        $payload[0],
+        $payload[1],
+        Notification::TYPE1,
+        $order_id->id,
+        $order_id->user_id
+    );
+    PaymentAcceptedNotificationJob::dispatchAfterResponse($notification, $order_id->user?->fcm_token, true);
 });
 
 Route::post('admin/store/fcm_token', [LoginController::class, 'storeFcmToken']);
