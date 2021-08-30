@@ -135,73 +135,7 @@ Pesanan
                     @endif
                 </div>
             </div>
-            @if ($order_price_distributions)
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">Pembagian Hasil</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="card-body" style="display: block;">
-                    <table class="table">
-                        <thead>
-                            <th>Harga Tiket</th>
-                            <th>Makan</th>
-                            <th>Travel</th>
-                            <th>Member</th>
-                            <th>Agent</th>
-                            <th>Owner</th>
-                            <th>Deposit</th>
-                            <th>Aksi</th>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Rp. {{number_format($order_price_distributions->ticket_only)}}</td>
-                                <td>Rp. {{number_format($order_price_distributions->for_food)}}</td>
-                                <td>Rp. {{number_format($order_price_distributions->for_travel)}}</td>
-                                <td>Rp. {{number_format($order_price_distributions->for_member)}}</td>
-                                <td>Rp. {{number_format($order_price_distributions->for_agent)}}</td>
-                                <td>Rp. {{number_format($order_price_distributions->for_owner)}}</td>
-                                <td>
-                                    @if ($order_price_distributions->deposited_at)
-                                    {{date('Y-m-d', strtotime($order_price_distributions->deposited_at))}}
-                                    @else
-                                    Belum Deposit
 
-                                    @endif
-                                </td>
-                                <td> @if (!$order_price_distributions->deposited_at)
-                                    <form
-                                        action="{{route('order_price_distribution.update', $order_price_distributions->id)}}"
-                                        class="d-inline" method="POST">
-                                        @csrf
-                                        @method('PUT')
-                                        <button class="badge badge-primary"
-                                            onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
-                                            type="submit">Deposit
-                                            Sekarang</button>
-                                    </form>
-                                    @endif
-                                    {{-- <form
-                                        action="{{route('order_price_distribution.destroy',$order_price_distributions->id)}}"
-                                    class="d-inline" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="badge badge-danger"
-                                        onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
-                                        type="submit">Delete</button>
-                                    </form> --}}
-                                </td>
-
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            @endif
         </div>
         <div class="col-md-5">
             <div class="card card-primary">
@@ -284,6 +218,73 @@ Pesanan
                 </div>
             </div>
         </div>
+        @if ($order_price_distributions)
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Pembagian Hasil</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body" style="display: block;">
+                <table class="table">
+                    <thead>
+                        <th>Harga Tiket</th>
+                        <th>Makan</th>
+                        <th>Travel</th>
+                        <th>Member</th>
+                        <th>Agent</th>
+                        <th>Owner</th>
+                        <th>Deposit</th>
+                        <th>Aksi</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Rp. {{number_format($order_price_distributions->ticket_only)}}</td>
+                            <td>Rp. {{number_format($order_price_distributions->for_food)}}</td>
+                            <td>Rp. {{number_format($order_price_distributions->for_travel)}}</td>
+                            <td>Rp. {{number_format($order_price_distributions->for_member)}}</td>
+                            <td>Rp. {{number_format($order_price_distributions->for_agent)}}</td>
+                            <td>Rp. {{number_format($order_price_distributions->for_owner)}}</td>
+                            <td>
+                                @if ($order_price_distributions->deposited_at)
+                                {{date('Y-m-d', strtotime($order_price_distributions->deposited_at))}}
+                                @else
+                                Belum Deposit
+
+                                @endif
+                            </td>
+                            <td> @if (!$order_price_distributions->deposited_at)
+                                <form
+                                    action="{{route('order_price_distribution.update', $order_price_distributions->id)}}"
+                                    class="d-inline" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <button class="badge badge-primary"
+                                        onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                        type="submit">Deposit
+                                        Sekarang</button>
+                                </form>
+                                @endif
+                                {{-- <form
+                                    action="{{route('order_price_distribution.destroy',$order_price_distributions->id)}}"
+                                class="d-inline" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button class="badge badge-danger"
+                                    onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                    type="submit">Delete</button>
+                                </form> --}}
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @endif
     </div>
 
 </section>
