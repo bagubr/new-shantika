@@ -108,14 +108,21 @@ Pesanan
                                 </select>
                             </div>
                         </div>
+                        @if ($order->payment?->status != 'DECLINED')
                         <div class="col">
                             <div class="form-group">
                                 <label>Dibayar Pada</label>
                                 <input type="date" value="{{$order->payment?->paid_at}}" disabled class="form-control">
                             </div>
                         </div>
-                        <img src="{{$order->payment?->proof_url}}" class="" style="height:100px" alt="">
+                        @endif
                     </div>
+                    @if ($order->payment?->status == 'DECLINED')
+                    <div class="form-group">
+                        <textarea disabled class="form-control">{{$order->payment?->proof_decline_reason}}</textarea>
+                    </div>
+                    @endif
+                    <img src="{{$order->payment?->proof_url}}" class="" style="height:100px" alt="">
                     <div class="text-right">
                         @if ($order->payment?->status == 'WAITING_CONFIRMATION')
                         <a href="{{route('payment.edit',$order->payment?->id)}}" class="btn btn-primary">Ubah Status</a>
@@ -225,19 +232,19 @@ Pesanan
                                 <p>{{$order->order_detail[0]?->email}}</p>
                             </div>
                         </div>
-                        @foreach ($order_details as $order_detail)
                         <div class="col">
                             <div class="form-group">
                                 <label>Nomor Kursi</label> <br>
                                 <div class="row">
+                                    @foreach ($order_details as $order_detail)
                                     <div class="col mb-1">
                                         <button
                                             class="text-capitalize box btn btn-primary text-center">{{$order_detail->chair->name}}</button>
                                     </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
-                        @endforeach
                     </div>
                     <div class="form-row">
                         <div class="col">

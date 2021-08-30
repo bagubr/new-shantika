@@ -73,7 +73,7 @@ class OrderController extends Controller
             } elseif ($status_agent == 'UMUM') {
                 $orders = $orders->whereHas('user', function ($y) {
                     $y->doesntHave('agencies');
-                });
+                })->orWhereDoesntHave('user');
             }
         }
         if (!empty($name_search)) {
