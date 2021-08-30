@@ -32,7 +32,6 @@ class OrderPriceDistributionController extends Controller
     public function search(Request $request)
     {
         $date_search = $request->date_search;
-        $fleet_route_search = $request->fleet_route_search;
         $fleet_detail_id = $request->fleet_detail_id;
         $fleet_details = FleetDetail::has('fleet_route')->get();
 
@@ -46,7 +45,7 @@ class OrderPriceDistributionController extends Controller
                     $sq->where('fleet_detail_id', $fleet_detail_id);
                 });
             });
-            $outcome_details = $outcome_details->whereHas('outcome.fleet_route', function ($q) use ($fleet_detail_id) {
+            $outcome_details = $outcome_details->whereHas('outcome', function ($q) use ($fleet_detail_id) {
                 $q->where('fleet_detail_id', $fleet_detail_id);
             });
         }
@@ -56,15 +55,6 @@ class OrderPriceDistributionController extends Controller
             });
             $outcome_details = $outcome_details->whereHas('outcome', function ($q) use ($date_search) {
                 $q->where('reported_at', $date_search);
-            });
-        }
-        if (!empty($fleet_route_search)) {
-            $order_price_distributions = $order_price_distributions->whereHas('order', function ($q) use ($fleet_route_search) {
-                $q->where('fleet_route_id', $fleet_route_search)->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
-            });
-
-            $outcome_details = $outcome_details->whereHas('outcome', function ($q) use ($fleet_route_search) {
-                $q->where('fleet_route_id', $fleet_route_search);
             });
         }
         $test = $request->flash();

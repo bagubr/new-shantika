@@ -30,24 +30,7 @@ Setoran
                             <div class="form-group">
                                 <label>Pilih Tanggal</label>
                                 <input type="date" name="date_search" class="form-control"
-                                    value="{{old('date_search')}}">
-                            </div>
-                            <div class="form-group">
-                                <label>Pilih Rute Armada</label>
-                                <select name="fleet_route_search" class="form-control select2" id="">
-                                    <option value="">Pilih Rute Armada</option>
-                                    @foreach ($fleet_routes as $fleet_route)
-                                    @if (old('fleet_route_search') == $fleet_route->id)
-                                    <option value="{{$fleet_route->id}}" selected>
-                                        {{$fleet_route->route?->name}}/{{$fleet_route->fleet?->name}}
-                                    </option>
-                                    @else
-                                    <option value="{{$fleet_route->id}}">
-                                        {{$fleet_route->route?->name}}/{{$fleet_route->fleet?->name}}
-                                    </option>
-                                    @endif
-                                    @endforeach
-                                </select>
+                                    value="{{old('date_search') }}">
                             </div>
                             <div class="form-group">
                                 <label>Armada</label>
@@ -157,7 +140,7 @@ Setoran
                                     <td>
                                         <a
                                             href="{{route('fleet_route.show',$order_price_distribution->order?->fleet_route_id)}}">
-                                            {{$order_price_distribution->order?->fleet_route?->route?->name}}/{{$order_price_distribution->order?->fleet_route?->fleet?->name}}
+                                            {{$order_price_distribution->order?->fleet_route?->route?->name}}
                                         </a>
                                     </td>
                                     <td>Rp. {{number_format($order_price_distribution->order?->fleet_route?->price)}}
