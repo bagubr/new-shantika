@@ -98,7 +98,8 @@ class PaymentController extends Controller
                 $payload[0],
                 $payload[1],
                 Notification::TYPE1,
-                $order_id->id
+                $order_id->id,
+                $order_id->user_id
             );
             PaymentAcceptedNotificationJob::dispatchAfterResponse($notification, $order_id->user?->fcm_token, true);
         } else if ($request->status == Order::STATUS7) {
@@ -107,7 +108,8 @@ class PaymentController extends Controller
                 $payload[0],
                 $payload[1],
                 Notification::TYPE1,
-                $order_id->id
+                $order_id->id,
+                $order_id->user_id
             );
             PaymentAcceptedNotificationJob::dispatchAfterResponse($notification, $order_id->user?->fcm_token, true);
         }
