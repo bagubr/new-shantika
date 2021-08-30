@@ -20,7 +20,7 @@ class LayoutService {
         }
         $user_id = UserRepository::findByToken(request()->bearerToken())?->id;
         $booking = BookingRepository::getTodayByRoute($fleet_route->id);
-        $unavailable = OrderRepository::getAtDate($date);
+        $unavailable = OrderRepository::getAtDateByFleetRouteId($date, $fleet_route->id);
 
         $layout->chairs = $layout->chairs->map(function ($item) use ($fleet_route, $date, $layout, $unavailable, $booking, $user_id) {
             $item->is_booking = $booking->where('layout_chair_id', $item->id)->isNotEmpty();
@@ -42,7 +42,7 @@ class LayoutService {
         }
         $user_id = UserRepository::findByToken(request()->bearerToken())?->id;
         $booking = BookingRepository::getTodayByRoute($fleet_route->id);
-        $unavailable = OrderRepository::getAtDate($date);
+        $unavailable = OrderRepository::getAtDateByFleetRouteId($date, $fleet_route->id);
 
         $layout->chairs = $layout->chairs->map(function ($item) use ($fleet_route, $date, $layout, $unavailable, $booking, $user_id) {
             $item->is_booking = $booking->where('layout_chair_id', $item->id)->isNotEmpty();

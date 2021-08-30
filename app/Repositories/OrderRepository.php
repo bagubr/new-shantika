@@ -125,12 +125,13 @@ class OrderRepository
         return @$order[0];
     }
 
-    public static function getAtDate($date)
+    public static function getAtDateByFleetRouteId($date, $fleet_route_id)
     {
         return Order::with(['order_detail', 'user.agencies.agent'])->where(function ($query) use ($date) {
             $query->whereIn('status', Order::STATUS_BOUGHT)
                 ->whereDate('reserve_at', $date);
-        })
+            })
+            ->where('fleet_route_id', $fleet_route_id)
             ->get();
     }
 
