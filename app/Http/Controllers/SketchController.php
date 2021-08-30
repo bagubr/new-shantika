@@ -31,8 +31,8 @@ class SketchController extends Controller
         $date = $request->date ?? date('Y-m-d');
         $area_id = $request->area_id;
         $orders = Order::whereIn('status', Order::STATUS_BOUGHT)
-            ->with('fleet_route.fleet_detail.fleetclass', 'fleet_route.route')
-            ->with('fleet_route.fleet_detail.layout')
+            ->with('fleet_route.fleet_detail.fleet.fleetclass', 'fleet_route.route')
+            ->with('fleet_route.fleet_detail.fleet.layout')
             ->withCount(['order_detail'=>function($query) {
                 $query->whereHas('order', function($subquery) {
                     $subquery->whereRaw('fleet_route_id = orders.fleet_route_id');
@@ -44,7 +44,7 @@ class SketchController extends Controller
             ->when($area_id, function($query) use ($area_id) {
                 $query->whereHas('fleet_route.route.checkpoints', function($subquery) use ($area_id) {
                     $subquery->whereHas('agency.city', function ($subsubquery) use ($area_id) {
-                        $subsubquery->where('area_id', '==', $area_id);
+                        $subsubquery->where('area_id', '=', $area_id);
                     });
                 });
             })
@@ -62,7 +62,7 @@ class SketchController extends Controller
         $layout = LayoutService::getAvailibilityChairsDetail($layout, $fleet_route, $request->date);
         $this->sendSuccessResponse([
             'data'=> new LayoutResource($layout),
-            'fleet'=>$fleet_route->fleet?->load('fleetclass')
+            'fleet'=>$fleet_route->fleet_detail?->fleet?->load('fleetclass')
         ]);
     }
 

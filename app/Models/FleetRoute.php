@@ -22,7 +22,7 @@ class FleetRoute extends Model
 
     public function fleet_detail()
     {
-        return $this->belongsTo(FleetDetail::class, 'fleet_detail_id', 'id');
+        return $this->belongsTo(FleetDetail::class, 'fleet_detail_id', 'id')->withTrashed();
     }
 
     public function route()

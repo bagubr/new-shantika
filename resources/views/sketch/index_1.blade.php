@@ -70,14 +70,10 @@ Sketch
                                 <i class="fas fa-bus" style="font-size: 2.5em; color: Mediumslateblue;"></i>
                             </div>
                             <div class="col-md-9">
-                                <b>@{{order.fleet_route?.fleet?.name}}
-                                    (@{{order.fleet_route?.fleet?.fleetclass?.name}})</b>
+                                <b>@{{order.fleet_route?.fleet_detail?.fleet?.name}}
+                                    (@{{order.fleet_route?.fleet_detail?.fleet?.fleetclass?.name}})</b>
                                 <br>
                                 <p style="font-size: 15px;">@{{order.fleet_route?.route?.name}}</p>
-                                <small class="font-italic font-weight-bold mt-4 tex-italic" style="font-size: 15px">
-                                    @{{order.fleet_route?.route?.departure_at}} -
-                                    @{{order.fleet_route?.route?.arrived_at}}
-                                </small>
                             </div>
                         </div>
                         <div class="row mt-4">
@@ -86,7 +82,7 @@ Sketch
                                     <i class="fas fa-users"></i>
                                     <br>
                                     <span>@{{order.order_detail_count || 0}} /
-                                        @{{order.fleet_route?.fleet?.layout?.total_chairs}}</span>
+                                        @{{order.fleet_route?.fleet_detail?.fleet?.layout?.total_chairs}}</span>
                                 </p>
                             </div>
                             <div class="col-6">
@@ -145,7 +141,7 @@ Sketch
                                     <div v-for="i in firstLayout.data.row" class="d-flex">
                                         <div v-for="j in firstLayout.data.col" class="m-1">
                                             <button v-html="loadText(i,j,0)" :class="loadClass(i,j,0)"
-                                                style="min-width: 100px" ref="btn-first-layout"
+                                                style="width: 100px; height: 45px" ref="btn-first-layout"
                                                 @click="selectSeat(i,j,0)"></button>
                                         </div>
                                     </div>
@@ -205,7 +201,7 @@ Sketch
                                     <div v-for="i in secondLayout.data.row" class="d-flex">
                                         <div v-for="j in secondLayout.data.col" class="m-1">
                                             <button v-html="loadText(i,j,1)" :class="loadClass(i,j,1)"
-                                                style="min-width: 100px" ref="btn-second-layout"
+                                                style="width: 100px; height: 45px" ref="btn-second-layout"
                                                 @click="dropSelectedSeat(i,j,1)"></button>
                                         </div>
                                     </div>
@@ -293,12 +289,11 @@ Sketch
                     })
                 },
                 setSelectOptionLayoutText(order) {
-                    let fleetName = order.fleet_route.fleet.name
-                    let fleetClass = order.fleet_route.fleet.fleetclass.name
-                    let at = `${order.fleet_route.route.departure_at} - ${order.fleet_route.route.arrived_at}`
+                    let fleetName = order.fleet_route.fleet_detail.fleet.name
+                    let fleetClass = order.fleet_route.fleet_detail.fleet.fleetclass.name
                     let routeName = order.fleet_route.route.name
 
-                    return `${fleetName} (${fleetClass} | ${routeName}) [${at}]`
+                    return `${fleetName} (${fleetClass} | ${routeName})`
                 },
                 selectOptionFirstLayout(event) {
                     this.getFirstLayout(event.currentTarget.value)
@@ -359,21 +354,21 @@ Sketch
 
                     if (chair.is_unavailable) {
                         if(chair.is_selected) {
-                            return `${chair.name} <i class="fas fa-user-check"></i>`
+                            return `<marquee>${chair.name} <i class="fas fa-user-check"></i> ${chair.code}</marquee>`
                         } else if (chair.is_switched) {
-                            return `${chair.name} <i class="fas fa-user-tag"></i>`
+                            return `<marquee>${chair.name} <i class="fas fa-user-tag"></i> ${chair.code}</marquee>`
                         }
-                        return `${chair.name} <i class="fas fa-user"></i>`
+                        return `<marquee>${chair.name} <i class="fas fa-user"></i> ${chair.code}</marquee>`
                     } else if (chair.is_booking) {
-                        return `${chair.name} <i class="fas fa-user-tag"></i>`
+                        return `<marquee>${chair.name} <i class="fas fa-user-tag"></i> ${chair.code}</marquee>`
                     } else if(chair.is_door) {
-                        return `<i class="fas fa-door-closed"></i>`
+                        return `<span><i class="fas fa-door-closed"></i></span>`
                     } else if (chair.is_space) {
-                        return `<i class="fas fa-people-arrows"></i>`
+                        return `<span><i class="fas fa-people-arrows"></i></span>`
                     } else if (chair.is_toilet) {
-                        return `<i class="fas fa-toilet"></i>`
+                        return `<span><i class="fas fa-toilet"></i></span>`
                     } else {
-                        return `${chair.name} <i class="fas fa-chair"></i>`
+                        return `<span>${chair.name} <i class="fas fa-chair"></i></span>`
                     }
                 },
                 loadClass(row, col, which) {
