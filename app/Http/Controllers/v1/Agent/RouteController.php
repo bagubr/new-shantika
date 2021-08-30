@@ -8,6 +8,7 @@ use App\Http\Resources\Route\AvailableRoutesResource;
 use App\Models\Agency;
 use App\Models\FleetRoute;
 use App\Models\Route;
+use App\Models\TimeClassification;
 use App\Repositories\AgencyRepository;
 use App\Repositories\TimeClassificationRepository;
 use App\Repositories\UserRepository;
@@ -51,8 +52,8 @@ class RouteController extends BaseRouteController
             })
             ->when(($request->time_classification_id), function ($que) use ($request, $departure_agency) {
                 $que->whereHas('route.checkpoints', function ($query) use ($request, $departure_agency) {
-                    $time_start = TimeClassificationRepository::findByName($request->time_classification_id)->time_start;
-                    $time_end = TimeClassificationRepository::findByName($request->time_classification_id)->time_end;
+                    $time_start = TimeClassification::find($request->time_classification_id)->time_start;
+                    $time_end = TimeClassification::find($request->time_classification_id)->time_end;
                     $query->whereHas('agency.agent_departure', function($subquery) use ($time_start, $time_end, $departure_agency) {
                         $subquery->where('departure_at', '>', $time_start)->orWhere('departure_at', '<', $time_end);
                     });
