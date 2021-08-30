@@ -46,10 +46,9 @@ class TicketExchangedJob implements ShouldQueue
         $agency = $this->order->agency;
         $checkpoint_end = $this->order->fleet_route->route->checkpoints()->where('agency_id', $this->order->destination_agency_id)->first();
         $data = [
-            "fleet_name"=>$this->order->fleet_route?->fleet?->name,
-            "fleet_class"=>$this->order->fleet_route?->fleet?->fleetclass?->name,
-            "departure_at"=>$this->order->fleet_route?->route?->departure_at,
-            "arrived_at"=>$this->order->fleet_route?->route?->arrived_at,
+            "fleet_name"=>$this->order->fleet_route?->fleet_detail?->fleet?->name,
+            "fleet_class"=>$this->order->fleet_route?->fleet_detail?->fleet?->fleetclass?->name,
+            "departure_at"=>$this->order->agency->agency_departure_times->where('time_classification_id', $this->order->time_classification_id)->first()->departure_at,
             "checkpoint_start"=>(object) [
                 "agency_id"=>$agency?->id ?? "",
                 "agency_name"=>$agency?->name ?? "",

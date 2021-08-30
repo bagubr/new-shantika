@@ -45,7 +45,6 @@
                 <th>Titik Keberangkatan</th>
                 <th>Jam Keberangkatan</th>
                 <th>Titik Tujuan</th>
-                <th>Jam Sampai Tujuan</th>
             </tr>
         </thead>
         <tbody>
@@ -55,7 +54,6 @@
                 <td>{{ $checkpoint_start->city_name }} (Agen {{$checkpoint_start->agency_name}})</td>
                 <td>{{ $departure_at }}</td>
                 <td>{{ $checkpoint_destination->city_name }} (Agen {{$checkpoint_destination->agency_name}})</td>
-                <td>{{ $arrived_at }}</td>
             </tr>
         </tbody>
     </table>
