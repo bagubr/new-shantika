@@ -18,7 +18,7 @@ class ApiAvailableFleetClassRequest extends ApiRequest
         return [
             'agency_id'=>'required',
             'date'=>'required|date',
-            'time'=>'required'
+            'time_classification_id'=>'required'
         ];
     }
 }
