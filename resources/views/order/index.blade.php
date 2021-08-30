@@ -157,12 +157,14 @@ Pemesanan
                                     </td>
                                     <td>{{$order->code_order}}</td>
                                     <td>
+                                        @if ($order->fleet_route)
                                         <a href="{{route('routes.show',$order->fleet_route?->route_id)}}">
-                                            {{$order->fleet_route?->route->name}}
+                                            {{$order->fleet_route?->route?->name}}
                                         </a>
+                                        @endif
                                     </td>
                                     <td>
-                                        {{$order->fleet_route?->fleet?->name}}/{{$order->fleet_route?->fleet?->fleetclass?->name}}
+                                        {{$order->fleet_route?->fleet_detail?->fleet?->name}}/{{$order->fleet_route?->fleet_detail?->fleet?->fleetclass?->name}}
                                     </td>
                                     <td>
                                         Rp. {{number_format($order->price,2)}}

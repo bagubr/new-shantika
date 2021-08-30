@@ -339,7 +339,7 @@ Dashboard
                             @endforeach],
             },
         ]
-        };
+    };
     const data2 = {
         labels      : labels,
         datasets    : [

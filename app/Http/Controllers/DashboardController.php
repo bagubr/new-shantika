@@ -14,67 +14,171 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('dashboard2');
-    }
+        $data_statistic = ['weekly' => 'Harian', 'monthly' => 'Bulan', 'yearly' => 'Tahun'];
+        if ($request->statistic) {
+            if ($request->statistic == 'yearly') {
+                $data = $this->tiket_tahunan();
+            } elseif ($request->statistic == 'monthly') {
+                $data = $this->tiket_bulanan();
+            } else {
+                $data = $this->tiket_harian();
+            }
+        } else {
+            $data = $this->tiket_harian();
+        }
+        // AGENCY
+        $agencies = Agency::all();
+        $fleets = Fleet::get(['id', 'name']);
+        $routes = Route::get(['id', 'name']);
+        $orders = Order::query();
+        $fleet = $request->fleet;
+        if (!empty($request->agency)) {
+            $orders = $orders->where('user_id', $request->agency);
+        }
+        if (!empty($request->route)) {
+            $orders = $orders->where('route_id', $request->route);
+        }
+        if (!empty($request->fleet)) {
+            $orders = $orders->whereHas('route', function ($q) use ($fleet) {
+                $q->where('fleet_id', $fleet);
+            });
+        }
 
-    public function first_bulan()
-    {
-        $params = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "August", "September", "October", "November", "Desember"];
-        $thisYear  = Carbon::now()->startOfYear()->format('Y');
-        $status_order_selesai = ['PAID', 'EXCHANGED', 'FINISHED'];
-        for ($i = 0; $i < 12; $i++) {
-            $start    = Carbon::now()->startOfYear()->addMonth($i);
-            $orders_tahun_ini[] = Order::whereIn('status', $status_order_selesai)->whereYear('reserve_at', '2021')->whereMonth('reserve_at', $start)->count();
-        }
-        $orders = $orders_tahun_ini;
-        $data_week = [
-            'tahun' => "$thisYear",
-            'params' => $params,
-            'bulanan' => $orders,
-        ];
-        return $data_week;
+        $orders = $orders->orderBy('id', 'desc')->paginate(7);
+        $order_count = Order::all()->count();
+        $test = $request->flash();
+        $users = User::all();
+        $count_user = User::doesntHave('agencies')->count();
+        $orders_money = Order::has('fleet_route')->sum('price');
+        session()->flash('Success', 'Berhasil Memuat Halaman');
+        return view('dashboard2', compact('users', 'orders', 'order_count', 'count_user', 'orders_money', 'agencies', 'fleets', 'routes', 'data', 'data_statistic'));
     }
-    public function first_tanggal()
-    {
-        for ($i = 0; $i < 31; $i++) {
-            $params[] = $i + 1;
-        }
-        $period = CarbonPeriod::create(Carbon::now()->startOfMonth()->format('Y-m-d'), Carbon::now()->endOfMonth()->format('Y-m-d'));
-        $dates = $period->count();
-        $thisMonth  = Carbon::now()->startOfMonth()->format('F Y');
-        $lastMonth  = Carbon::now()->subMonth()->startOfMonth()->format('F Y');
-        for ($i = 0; $i < $dates; $i++) {
-            $startOfMonth   = Carbon::now()->startOfMonth()->addDay($i);
-            $order[]        = Order::whereDate('reserve_at', $startOfMonth)->count();
-        }
-        $orders[] = $order;
-        $data_week = [
-            'last_week' => "$lastMonth",
-            'this_week' => "$thisMonth",
-            'params'    => $params,
-            'tanggalan' => $orders
-        ];
-        return $data_week;
-    }
-    public function first_harian()
+    public function tiket_harian()
     {
         $params = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
-        $startOfThisWeek    = Carbon::now()->startOfWeek();
-        $endOfThisWeek      = Carbon::now()->endOfWeek();
-        $status_order_selesai = ['PAID', 'EXCHANGED', 'FINISHED'];
+
         for ($i = 0; $i < 7; $i++) {
-            $start    = Carbon::now()->startOfWeek()->addDay($i);
-            $orders_tahun_ini[] = Order::whereIn('status', $status_order_selesai)->whereDate('reserve_at', $start)->count();
+            $startOfLastWeek  = Carbon::now()->startOfWeek()->addDay($i);
+            $order_jawa[] = Order::whereHas('fleet_route.route', function ($q) {
+                $q->whereHas('checkpoints.agency', function ($sq) {
+                    $sq->whereHas('city', function ($smq) {
+                        $smq->where('area_id', 1);
+                    });
+                });
+            })->whereDate('reserve_at', '=', $startOfLastWeek)->where('status', 'PAID')->get()->count();
+            $order_jabodetabek[] = Order::whereHas('fleet_route.route', function ($q) {
+                $q->whereHas('checkpoints.agency', function ($sq) {
+                    $sq->whereHas('city', function ($smq) {
+                        $smq->where('area_id', 2);
+                    });
+                });
+            })->whereDate('reserve_at', '=', $startOfLastWeek)->where('status', 'PAID')->get()->count();
         }
-        $orders[] = $orders_tahun_ini;
-        $data_week = [
-            'week' => "$startOfThisWeek - $endOfThisWeek",
+        $weekly[] = $order_jawa;
+        $weekly2[] = $order_jabodetabek;
+
+        $data = [
             'params' => $params,
-            'harian' => $orders,
+            'weekly' => $weekly,
+            'weekly2' => $weekly2
         ];
-        return $data_week;
+        return $data;
+    }
+    public function tiket_bulanan()
+    {
+        $params = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "August", "September", "October", "November", "Desember"];
+
+        for ($i = 0; $i < 12; $i++) {
+            $start    =  Carbon::now()->startOfYear()->addMonth($i)->format('Y-m-d');
+            $end      =  Carbon::now()->startOfYear()->endOfMonth()->addMonth($i)->format('Y-m-d');
+            $order_jawa[] = Order::whereHas('fleet_route.route', function ($q) {
+                $q->whereHas('checkpoints.agency', function ($sq) {
+                    $sq->whereHas('city', function ($smq) {
+                        $smq->where('area_id', 1);
+                    });
+                });
+            })->whereDate('reserve_at', '>=', $start)->whereDate('reserve_at', '<=', $end)->where('status', 'PAID')->get()->count();
+            $order_jabodetabek[] = Order::whereHas('fleet_route.route', function ($q) {
+                $q->whereHas('checkpoints.agency', function ($sq) {
+                    $sq->whereHas('city', function ($smq) {
+                        $smq->where('area_id', 2);
+                    });
+                });
+            })->whereDate('reserve_at', '>=', $start)->whereDate('reserve_at', '<=', $end)->where('status', 'PAID')->get()->count();
+        }
+        $weekly[] = $order_jawa;
+        $weekly2[] = $order_jabodetabek;
+
+        $data = [
+            'params' => $params,
+            'weekly' => $weekly,
+            'weekly2' => $weekly2
+        ];
+        return $data;
+        $params = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "August", "September", "October", "November", "Desember"];
+
+        for ($i = 0; $i < 12; $i++) {
+            $start    =  Carbon::now()->startOfYear()->addMonth($i)->format('Y-m-d');
+            $end      =  Carbon::now()->startOfYear()->endOfMonth()->addMonth($i)->format('Y-m-d');
+            $order_jawa[] = Order::whereHas('fleet_route.route', function ($q) {
+                $q->whereHas('checkpoints.agency', function ($sq) {
+                    $sq->whereHas('city', function ($smq) {
+                        $smq->where('area_id', 1);
+                    });
+                });
+            })->whereDate('reserve_at', '>=', $start)->whereDate('reserve_at', '<=', $end)->where('status', 'PAID')->get()->count();
+            $order_jabodetabek[] = Order::whereHas('fleet_route.route', function ($q) {
+                $q->whereHas('checkpoints.agency', function ($sq) {
+                    $sq->whereHas('city', function ($smq) {
+                        $smq->where('area_id', 2);
+                    });
+                });
+            })->whereDate('reserve_at', '>=', $start)->whereDate('reserve_at', '<=', $end)->where('status', 'PAID')->get()->count();
+        }
+        $weekly[] = $order_jawa;
+        $weekly2[] = $order_jabodetabek;
+
+        $data = [
+            'params' => $params,
+            'weekly' => $weekly,
+            'weekly2' => $weekly2
+        ];
+        return $data;
+    }
+    public function tiket_tahunan()
+    {
+        for ($i = 0; $i < 10; $i++) {
+            $year[] = Carbon::now()->startOfDecade()->addYear($i)->format('Y');
+        }
+
+        for ($i = 0; $i < 10; $i++) {
+            $start          = Carbon::now()->startOfDecade()->addYear($i)->format('Y');
+            $order_jawa[]   = Order::whereHas('fleet_route.route', function ($q) {
+                $q->whereHas('checkpoints.agency', function ($sq) {
+                    $sq->whereHas('city', function ($smq) {
+                        $smq->where('area_id', 1);
+                    });
+                });
+            })->whereYear('reserve_at', '=', $start)->where('status', 'PAID')->get()->count();
+            $order_jabodetabek[]   = Order::whereHas('fleet_route.route', function ($q) {
+                $q->whereHas('checkpoints.agency', function ($sq) {
+                    $sq->whereHas('city', function ($smq) {
+                        $smq->where('area_id', 2);
+                    });
+                });
+            })->whereYear('reserve_at', '=', $start)->where('status', 'PAID')->get()->count();
+        }
+        $weekly[] = $order_jawa;
+        $weekly2[] = $order_jabodetabek;
+
+        $data = [
+            'params' => $year,
+            'weekly' => $weekly,
+            'weekly2' => $weekly2
+        ];
+        return $data;
     }
     // public function index(Request $request)
     // {
