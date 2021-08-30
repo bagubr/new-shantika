@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Agency;
 use App\Models\Fleet;
+use App\Models\FleetDetail;
 use App\Models\Order;
 use App\Models\OrderPriceDistribution;
 use App\Models\Route;
@@ -31,8 +32,10 @@ class DashboardController extends Controller
         }
         // AGENCY
         $agencies = Agency::all();
-        $fleets = Fleet::get(['id', 'name']);
+        $fleet_details = FleetDetail::all();
         $routes = Route::get(['id', 'name']);
+
+        // START ORDER
         $orders = Order::query();
         $fleet = $request->fleet;
         if (!empty($request->agency)) {
@@ -42,19 +45,19 @@ class DashboardController extends Controller
             $orders = $orders->where('route_id', $request->route);
         }
         if (!empty($request->fleet)) {
-            $orders = $orders->whereHas('route', function ($q) use ($fleet) {
-                $q->where('fleet_id', $fleet);
-            });
+            $orders = $orders->where('fleet_route_id', $request->fleet);
         }
 
-        $orders = $orders->orderBy('id', 'desc')->paginate(7);
+        $orders = $orders->get();
+        // END OF ORDER
+
         $order_count = Order::all()->count();
         $test = $request->flash();
         $users = User::all();
         $count_user = User::doesntHave('agencies')->count();
         $orders_money = Order::whereIn('status', $status_order_selesai)->sum('price');
         session()->flash('Success', 'Berhasil Memuat Halaman');
-        return view('dashboard2', compact('users', 'orders', 'order_count', 'count_user', 'orders_money', 'agencies', 'fleets', 'routes', 'data', 'data_statistic'));
+        return view('dashboard2', compact('users', 'orders', 'order_count', 'count_user', 'orders_money', 'agencies', 'fleet_details', 'routes', 'data', 'data_statistic'));
     }
 
     // START OF TIKET
