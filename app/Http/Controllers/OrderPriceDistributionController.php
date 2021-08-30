@@ -46,8 +46,8 @@ class OrderPriceDistributionController extends Controller
                     $sq->where('fleet_detail_id', $fleet_detail_id);
                 });
             });
-            $outcome_details = $outcome_details->whereHas('outcome', function ($q) use ($fleet_route_search) {
-                $q->where('fleet_route_id', $fleet_route_search);
+            $outcome_details = $outcome_details->whereHas('outcome.fleet_route', function ($q) use ($fleet_detail_id) {
+                $q->where('fleet_detail_id', $fleet_detail_id);
             });
         }
         if (!empty($date_search)) {
