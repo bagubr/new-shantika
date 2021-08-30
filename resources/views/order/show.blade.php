@@ -93,7 +93,7 @@ Pesanan
                             <div class="form-group">
                                 <label>Sumber Pemesan</label>
                                 @if ($order->user?->agencies)
-                                <h5>{{$order->user?->agencies?->name}}</h5>
+                                <h5>{{$order->user?->agencies?->agent?->name}}</h5>
                                 @else
                                 <h5>Umum</h5>
                                 @endif
