@@ -13,10 +13,8 @@
             <th>{{$outcome->reported_at}}</th>
         </tr>
         <tr>
-            <th>Rute</th>
-            <th>{{$outcome->fleet_route?->route?->name}}</th>
-            <th>{{$outcome->fleet_route?->fleet?->name}}</th>
-            <th>{{$outcome->fleet_route?->fleet?->fleetclass?->name}}</th>
+            <th>{{$outcome->fleet_detail?->fleet?->name}}</th>
+            <th>{{$outcome->fleet_detail?->fleet?->fleetclass?->name}}</th>
         </tr>
     </thead>
         <tr>

@@ -11,6 +11,7 @@ use App\Repositories\OrderRepository;
 use App\Models\Order;
 use App\Models\Route;
 use App\Models\Fleet;
+use App\Models\FleetDetail;
 use App\Models\FleetRoute;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -25,8 +26,8 @@ class OutcomeController extends Controller
     public function create()
     {
         $orders = [];
-        $fleet_routes = FleetRoute::orderBy('id', 'desc')->get();
-        return view('outcome.create', compact('fleet_routes', 'orders'));
+        $fleet_details = FleetDetail::has('fleet_route')->get();
+        return view('outcome.create', compact('orders', 'fleet_details'));
     }
 
     public function createType()
@@ -36,9 +37,11 @@ class OutcomeController extends Controller
     }
     public function export($id)
     {
-        return Excel::download(new OutcomeExport($id), 'outcome.xlsx');
+        $outcome = Outcome::find($id);
+        $file_name = $outcome->fleet_detail->fleet->name.'_'.$outcome->fleet_detail->plate_number.'_'.$outcome->fleet_detail->nickname.'_'.$outcome->reported_at;
+        return Excel::download(new OutcomeExport($id), $file_name.'.xlsx');
     }
-
+    
     public function storeType(Request $request)
     {
         OutcomeType::create([
@@ -49,18 +52,18 @@ class OutcomeController extends Controller
 
     public function search(Request $request)
     {
-        $orders = OrderRepository::getAtDateAndFleetRoute($request->reported_at, $request->fleet_route_id);
-        $fleet_routes = FleetRoute::orderBy('id', 'desc')->get();
-        $fleet_route_id = $request->fleet_route_id ?? '';
+        $orders = OrderRepository::getAtDateAndFleetDetail($request->reported_at, $request->fleet_detail_id);
+        $fleet_details = FleetDetail::has('fleet_route')->get();
+        $fleet_detail_id = $request->fleet_detail_id ?? '';
         $reported_at = $request->reported_at ?? '';
-        return view('outcome.create', compact('fleet_routes', 'orders', 'fleet_route_id', 'reported_at'));
+        return view('outcome.create', compact('fleet_details', 'orders', 'fleet_detail_id', 'reported_at'));
     }
 
     public function store(Request $request)
     {
-        if ($request->fleet_route_id != 'WITH_TYPE' && $request->fleet_route_id) {
-            $exist = Outcome::whereDate('reported_at', $request->reported_at)->whereFleetRouteId($request->fleet_route_id)->first();
-            $order_price_distribution = OrderRepository::getAtDateAndFleetRoute($request->reported_at, $request->fleet_route_id);
+        if ($request->fleet_detail_id != 'WITH_TYPE' && $request->fleet_detail_id) {
+            $exist = Outcome::whereDate('reported_at', $request->reported_at)->whereFleetDetailId($request->fleet_detail_id)->first();
+            $order_price_distribution = OrderRepository::getAtDateAndFleetDetail($request->reported_at, $request->fleet_detail_id);
             if ($exist) {
                 $after = count($order_price_distribution?->pluck('id'));
                 $before = count(json_decode($exist->order_price_distribution_id));
@@ -73,7 +76,7 @@ class OutcomeController extends Controller
                 return redirect('outcome')->with('error', 'Data sudah di tambahkan');
             }
             $data = $this->validate($request, [
-                'fleet_route_id'      => 'required|integer|exists:fleet_routes,id',
+                'fleet_detail_id'      => 'required|integer|exists:fleet_details,id',
             ]);
             $data['order_price_distribution_id'] = $order_price_distribution?->pluck('id') ?? [];
         } else {
@@ -99,7 +102,7 @@ class OutcomeController extends Controller
         try {
             $outcome = Outcome::create($data);
             foreach ($data['outcome_details'] as $key => $value) {
-                unset($data['fleet_route_id'], $data['reported_at']);
+                unset($data['fleet_detail_id'], $data['reported_at']);
                 $value['outcome_id'] = $outcome->id;
                 OutcomeDetail::create($value);
             }
