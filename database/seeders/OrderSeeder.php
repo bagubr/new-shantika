@@ -21,7 +21,7 @@ class OrderSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create('id_ID');
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             $route = FleetRoute::all()->random();
             $date = date('Y-m-d H:i:s');
             $order = Order::create([
@@ -32,7 +32,7 @@ class OrderSeeder extends Seeder
                 'status'            => 'PAID',
                 'price'             => $route->price,
                 'expired_at'        => date('Y-m-d H:i:s', strtotime($date . ' +3 day')),
-                'reserve_at'        => Carbon::now()->subDays(rand(1, 10)),
+                'reserve_at'        => Carbon::now()->subDays(rand(1, 200)),
             ]);
 
             $space  = $route->fleet_detail->fleet->layout->space_indexes;
