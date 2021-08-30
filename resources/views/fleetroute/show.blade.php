@@ -93,8 +93,8 @@ Rute Armada
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>Tanggal</th>
                                 <th>Kode Order</th>
+                                <th>Tanggal</th>
                                 <th>Akun</th>
                                 <th>Pemesan</th>
                                 <th>Jumlah Pesanan</th>
@@ -105,12 +105,12 @@ Rute Armada
                         <tbody>
                             @foreach ($orders as $order)
                             <tr>
-                                <td>{{date('Y-m-d',strtotime($order->reserve_at))}}</td>
                                 <td>
                                     <a href="{{route('order.show',$order->id)}}">
                                         {{$order->code_order}}
                                     </a>
                                 </td>
+                                <td>{{date('Y-m-d',strtotime($order->reserve_at))}}</td>
                                 <td>
                                     @if ($order->user?->agencies)
                                     <a href="{{route('user_agent.show',$order->user_id)}}" target="_blank">
