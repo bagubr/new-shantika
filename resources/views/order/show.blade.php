@@ -82,9 +82,23 @@ Pesanan
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label>Harga</label>
-                        <h3>Rp. {{number_format($order->price,2)}}</h3>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Harga</label>
+                                <h3>Rp. {{number_format($order->price,2)}}</h3>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Sumber Pemesan</label>
+                                @if ($order->user?->agency)
+                                <h5>{{$order->user?->agency?->name}}</h5>
+                                @else
+                                <h5>Umum</h5>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                     <div class="border-bottom"></div>
                     @if ($order->payment)
