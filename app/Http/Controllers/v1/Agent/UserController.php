@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function show(Request $request) {
         $user = UserService::getAuthenticatedUser($request->bearerToken());
-        $review = ReviewService::sumByAgencyId($user->agencies->agent_id);
+        $review = ReviewService::sumByAgencyId($user->agencies->agency_id);
 
         return $this->sendSuccessResponse([
             'user'=>$user,
