@@ -31,8 +31,8 @@ class SketchController extends Controller
         $date = $request->date ?? date('Y-m-d');
         $area_id = $request->area_id;
         $orders = Order::whereIn('status', Order::STATUS_BOUGHT)
-            ->with('fleet_route.fleet.fleetclass', 'fleet_route.route')
-            ->with('fleet_route.fleet.layout')
+            ->with('fleet_route.fleet_detail.fleetclass', 'fleet_route.route')
+            ->with('fleet_route.fleet_detail.layout')
             ->withCount(['order_detail'=>function($query) {
                 $query->whereHas('order', function($subquery) {
                     $subquery->whereRaw('fleet_route_id = orders.fleet_route_id');
@@ -42,8 +42,10 @@ class SketchController extends Controller
                 $query->whereDate('reserve_at', $date);
             })
             ->when($area_id, function($query) use ($area_id) {
-                $query->whereHas('fleet_route.route.departure_city', function($subquery) use ($area_id) {
-                    $subquery->where('area_id', $area_id);
+                $query->whereHas('fleet_route.route.checkpoints', function($subquery) use ($area_id) {
+                    $subquery->whereHas('agency.city', function ($subsubquery) use ($area_id) {
+                        $subsubquery->where('area_id', '==', $area_id);
+                    });
                 });
             })
             ->distinct('fleet_route_id')

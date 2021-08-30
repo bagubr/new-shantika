@@ -19,6 +19,10 @@ class AgencyDepartureTime extends Model
         'time_classification_id'
     ];
 
+    public function agency() {
+        return $this->belongsTo(Agency::class);
+    }
+
     public function getTimeClassificationIdAttribute() {
         return TimeClassification::where('time_start', '<=', $this->attributes['departure_at'])->where('time_end', '>=', $this->attributes['departure_at'])->first()?->id;
     }

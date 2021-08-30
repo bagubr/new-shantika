@@ -6,6 +6,7 @@ use App\Http\Resources\CheckpointResource;
 use App\Http\Resources\CheckpointStartEndResource;
 use App\Http\Resources\OrderDetailChairResource;
 use App\Models\Booking;
+use App\Repositories\AgencyDepartureTimeRepository;
 use App\Repositories\CheckpointRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -19,7 +20,7 @@ class OrderListAgentResource extends JsonResource
      */
     public function toArray($request)
     {
-        $this->load(['fleet_route.route', 'fleet_route.fleet_detail.fleet.fleetclass', 'time_classification']);
+        $this->load(['fleet_route.route', 'fleet_route.fleet_detail.fleet.fleetclass']);
 
         $fleet_route = $this->fleet_route;
         $route = $fleet_route->route;
@@ -34,7 +35,6 @@ class OrderListAgentResource extends JsonResource
             'id'                        => $this->id,
             'layout_chair_id'           => $this->getLayoutChairId(),
             'fleet_route_id'            => $fleet_route->id,
-            'departure_at'              => $this->time_classification?->departure_at,
             'code'                      => $this->code,
             'name_fleet'                => $fleet->name,
             'fleet_class'               => $fleet->fleetclass?->name,
