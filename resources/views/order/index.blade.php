@@ -55,7 +55,7 @@ Pemesanan
                                 <div class="col">
                                     <div class="form-group">
                                         <label>Cari Rute</label>
-                                        <select name="route_id" class="form-control">
+                                        <select name="route_id" class="form-control select2">
                                             <option value="">--Semua Rute--</option>
                                             @foreach ($routes as $route)
                                             @if (old('route_id') == $route->id)
@@ -138,6 +138,7 @@ Pemesanan
                                     <th>Armada</th>
                                     <th>Total Harga</th>
                                     <th>Status</th>
+                                    <th>Keberangkatan -> Kedatangan</th>
                                     <th>Tanggal Pemesanan</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -170,6 +171,7 @@ Pemesanan
                                         Rp. {{number_format($order->price,2)}}
                                     </td>
                                     <td>{{$order->status}}</td>
+                                    <td>{{$order->agency?->name}} -> {{$order->agency_destiny?->name}}</td>
                                     <td>{{date('Y-m-d',strtotime($order->reserve_at))}}</td>
                                     <td>
                                         <a class="btn btn-primary btn-xs" href="{{route('order.show',$order->id)}}"

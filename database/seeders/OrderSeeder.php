@@ -2,12 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Models\Agency;
 use App\Models\FleetRoute;
 use Illuminate\Database\Seeder;
 use App\Models\Order;
 use App\Models\Route;
 use App\Models\User;
 use App\Models\OrderDetail;
+use App\Models\TimeClassification;
 use Carbon\Carbon;
 use Faker\Factory as Faker;
 
@@ -33,6 +35,10 @@ class OrderSeeder extends Seeder
                 'price'             => $route->price,
                 'expired_at'        => date('Y-m-d H:i:s', strtotime($date . ' +3 day')),
                 'reserve_at'        => Carbon::now()->subDays(rand(1, 200)),
+                'departure_agency_id'   => Agency::all()->random()->id,
+                'destination_agency_id' => Agency::all()->random()->id,
+                'time_classification_id' => TimeClassification::all()->random()->id
+
             ]);
 
             $space  = $route->fleet_detail->fleet->layout->space_indexes;
