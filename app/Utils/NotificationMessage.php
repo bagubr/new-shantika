@@ -27,9 +27,10 @@ class NotificationMessage {
         return ["Pembayaran telah kadaluarsa", "Pembayaran anda untuk keberangkatan jam ".$datetime." sudah kadaluarsa"];
     }
 
-    public static function bookingExpired(array $chair) {
+    public static function bookingExpired(array $chair, $fleet_name = null) {
         $chair = implode(", ", $chair);
-        return ["Booking Kursi Armada Kadaluarsa", "Booking kursi ".$chair." telah kadaluarsa"];
+        $fleet_name = $fleet_name ?? 'Armada';
+        return ["Booking Kursi ".$fleet_name." Kadaluarsa", "Booking kursi ".$chair." telah kadaluwarsa"];
     }
 
     public static function paymentSuccess($str) {
