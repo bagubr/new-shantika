@@ -209,4 +209,19 @@ class OrderRepository
             $query->whereFleetRouteId($fleet_route);
         })->get();
     }
+
+    public static function getAtDateAndFleetDetail($date, $fleet_detail)
+    {
+        if(!$fleet_detail || $fleet_detail == 'WITH_TYPE'){
+            return [];
+        }
+        return Order::where(function ($query) use ($date, $fleet_detail) {
+            $query->where('status', Order::STATUS3);
+            $query->whereDate('reserve_at', $date);
+            $query->whereHas('fleet_route', function ($q) use ($fleet_detail)
+            {
+                $q->whereFleetDetailId($fleet_detail);
+            });
+        })->get();
+    }
 }

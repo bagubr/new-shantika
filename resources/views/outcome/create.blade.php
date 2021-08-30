@@ -34,7 +34,7 @@ Pengeluran
                     @include('partials.error')
                     <form action="{{route('outcome.store')}}" method="POST">
                         @csrf
-                        <input type="hidden" name="fleet_route_id" value="{{@$fleet_route_id}}">
+                        <input type="hidden" name="fleet_detail_id" value="{{@$fleet_detail_id}}">
                         <input type="hidden" name="reported_at" value="{{((@$reported_at)?$reported_at:date('Y-m-d'))}}">
                         @include('outcome.form')
                         <br>
@@ -60,15 +60,27 @@ Pengeluran
                     <form action="{{route('outcome.search')}}" method="GET">
                         <div class="form-row">
                             <div class="col">
-                                <div class="form-group">
-                                    <label>Cari Route Armada</label>
-                                    <select name="fleet_route_id" id="select-rute" class="form-control" required>
-                                        <option value="WITH_TYPE" {{(@$fleet_route_id == 'WITH_TYPE')?'selected':''}}>--Pengeluaran Lain--</option>
-                                        @foreach ($fleet_routes as $fleet_route)
-                                        @if (@$fleet_route_id == $fleet_route->id)
-                                        <option value="{{$fleet_route->id}}" selected>{{$fleet_route->route->name}} | {{$fleet_route->fleet->name}}</option>
+                                
+                            <div class="form-group">
+                                    <label>Armada</label>
+                                    <select name="fleet_detail_id" id="select-armada" class="form-control select2">
+                                        <option value="">--PILIH ARMADA--</option>
+                                        @foreach ($fleet_details as $fleet_detail)
+                                        @if (old('fleet_detail_id') == $fleet_detail->id)
+                                        <option value="{{$fleet_detail->id}}" selected>
+                                            {{$fleet_detail->fleet?->name}}/{{$fleet_detail->fleet?->fleetclass?->name}}
+                                            ({{$fleet_detail->nickname}})
+                                        </option>
+                                        @elseif (@$fleet_detail_id == $fleet_detail->id)
+                                        <option value="{{$fleet_detail->id}}" selected>
+                                            {{$fleet_detail->fleet?->name}}/{{$fleet_detail->fleet?->fleetclass?->name}}
+                                            ({{$fleet_detail->nickname}})
+                                        </option>
                                         @else
-                                        <option value="{{$fleet_route->id}}">{{$fleet_route->route->name}} | {{$fleet_route->fleet->name}}</option>
+                                        <option value="{{$fleet_detail->id}}">
+                                            {{$fleet_detail->fleet?->name}}/{{$fleet_detail->fleet?->fleetclass?->name}}
+                                            ({{$fleet_detail->nickname}})
+                                        </option>
                                         @endif
                                         @endforeach
                                     </select>
@@ -105,6 +117,7 @@ Pengeluran
                                 <th>Armada</th>
                                 <th>Total Harga</th>
                                 <th>Status</th>
+                                <th>Keberangkatan -> Kedatangan</th>
                                 <th>Tanggal Pemesanan</th>
                                 <!-- <th>Aksi</th> -->
                             </tr>
@@ -124,27 +137,31 @@ Pengeluran
                                 </td>
                                 <td>{{$order->code_order}}</td>
                                 <td>
+                                    @if ($order->fleet_route)
                                     <a href="{{route('routes.show',$order->fleet_route?->route_id)}}">
-                                        {{$order->fleet_route?->route->name}}
+                                        {{$order->fleet_route?->route?->name}}
                                     </a>
+                                    @endif
                                 </td>
                                 <td>
-                                    {{$order->fleet_route?->fleet?->name}}/{{$order->fleet_route?->fleet?->fleetclass?->name}}
+                                    {{$order->fleet_route?->fleet_detail?->fleet?->name}}/{{$order->fleet_route?->fleet_detail?->fleet?->fleetclass?->name}}
+                                    ({{$order->fleet_route?->fleet_detail?->nickname}})
                                 </td>
                                 <td>
                                     Rp. {{number_format($order->price,2)}}
                                 </td>
                                 <td>{{$order->status}}</td>
+                                <td>{{$order->agency?->name}} -> {{$order->agency_destiny?->name}}</td>
                                 <td>{{date('Y-m-d',strtotime($order->reserve_at))}}</td>
                                 <!-- <td>
                                     <a class="btn btn-primary btn-xs" href="{{route('order.show',$order->id)}}"
                                         target="_blank">Detail</a>
-                                    <form action="{{route('order.destroy',$order->id)}}" class="d-inline"
-                                        method="POST">
+                                    <form action="{{route('order.destroy',$order->id)}}" class="d-inline" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-danger btn-xs"
-                                            onclick="return confirm('Are you sure?')" type="submit">Delete</button>
+                                            onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                            type="submit">Delete</button>
                                     </form>
                                 </td> -->
                             </tr>
@@ -194,7 +211,7 @@ Pengeluran
     });
 </script>
 <script>
-    $('#select-rute').on('change', function() {
+    $('#select-armada').on('change', function() {
         var rute = this.value;
         if(rute == 'WITH_TYPE'){
             console.log(rute);

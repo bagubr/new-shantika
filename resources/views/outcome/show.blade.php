@@ -37,18 +37,13 @@ Pengeluaran
                     </div>
                     <div class="form-group">
                         <label>Armada</label>
-                        <input type="text" class="form-control" value="{{$outcome->fleet_route?->fleet?->name}}"
+                        <input type="text" class="form-control" value="{{$outcome->fleet_detail?->fleet?->name}}"
                             disabled>
                     </div>
                     <div class="form-group">
                         <label>Kelas Armada</label>
                         <input type="text" class="form-control"
-                            value="{{$outcome->fleet_route?->fleet?->fleetclass?->name}}" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label>Rute</label>
-                        <input type="text" class="form-control" value="{{$outcome->fleet_route?->route?->name}}"
-                            disabled>
+                            value="{{$outcome->fleet_detail?->fleet?->fleetclass?->name}}" disabled>
                     </div>
                     <a class="btn btn-success btn-sm" href="{{route('outcome.export',$id)}}">Export Excel</a>
                 </div>

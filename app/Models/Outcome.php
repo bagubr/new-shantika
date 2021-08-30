@@ -10,7 +10,7 @@ class Outcome extends Model
     use HasFactory;
 
     protected $fillable = [
-        'fleet_route_id',
+        'fleet_detail_id',
         'order_price_distribution_id',
         'outcome_type_id',
         'reported_at',
@@ -57,9 +57,9 @@ class Outcome extends Model
         return OrderPriceDistribution::whereIn('order_id', json_decode($this->order_price_distribution_id))->sum('for_member');
     }
 
-    public function fleet_route()
+    public function fleet_detail()
     {
-        return $this->belongsTo(FleetRoute::class, 'fleet_route_id');
+        return $this->belongsTo(FleetDetail::class, 'fleet_detail_id');
     }
 
     public function outcome_type()
