@@ -20,9 +20,10 @@ class OrderListAgentResource extends JsonResource
      */
     public function toArray($request)
     {
-        $this->agency = $this->load(['fleet_route.route', 'fleet_route.fleet_detail.fleet.fleetclass', 'agency'])->agency;
+        $this->load(['fleet_route.route', 'fleet_route.fleet_detail.fleet.fleetclass', 'agency']);
+        $this->agency = $this->load(['agency'])->agency;
         if($this->agency == null) {
-            $this->agency = $this->load('user.agencies.agent')->user->agencies->agent;
+            $this->agency = $this->load('user.agencies.agent')->user?->agencies?->agent;
         }
 
         $fleet_route = $this->fleet_route;

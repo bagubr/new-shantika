@@ -15,7 +15,7 @@ class BookingRepository {
         return Booking::where('fleet_route_id', $fleet_route_id)
             ->whereIn('layout_chair_id', $layout_chair_id)
             ->where('booking_at', 'ilike', '%'.$date.'%')
-            ->where('expired_at', '<', date('Y-m-d H:i:s', strtotime($expiry. " minutes")))
+            ->where('expired_at', '>', date('Y-m-d H:i:s'))
             ->where('user_id', '!=', $user_id)
             ->exists();
     }
@@ -26,10 +26,9 @@ class BookingRepository {
     }
 
     public static function getTodayByRoute($fleet_route_id) {
-        $expiry = Setting::first()->booking_expired_duration;
         return Booking::where('fleet_route_id', $fleet_route_id)
             ->with('user.agencies.agent')
-            ->where('expired_at', '<', date('Y-m-d H:i:s', strtotime($expiry. " minutes")))
+            ->where('expired_at', '>', date('Y-m-d H:i:s'))
             ->get();
     }
 }
