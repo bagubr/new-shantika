@@ -31,52 +31,52 @@ Armada
                     </div>
                 </div>
                 <div class="card-body" style="display: block;">
-                        <div class="form-group">
-                            <label for="inputName">Kode Armada</label>
-                            <input type="text" id="inputName" class="form-control" name="name"
-                                placeholder="Masukkan Kode" value="{{isset($fleet) ? $fleet->name : ''}}" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>Deskripsi</label>
-                            <textarea class="form-control" rows="3" name="description"
-                                placeholder="Masukkan Deskripsi" readonly>{{isset($fleet) ? $fleet->description : ''}}</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Armada Layout</label>
-                            <select class="form-control select2" name="layout_id" style="width: 100%;" disabled>
-                                <option value="">Pilih Armada Layout</option>
-                                @foreach ($layouts as $layout)
-                                <option value="{{$layout->id}}" @isset($fleet) @if ($layout->id ===
-                                    $fleet->layout_id)
-                                    selected
-                                    @endif @endisset>{{$layout->name}}
-                                </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Kelas Armada</label>
-                            <select class="form-control select2" name="fleet_class_id" style="width: 100%;" disabled>
-                                <option value="">Pilih Kelas Armada</option>
-                                @foreach ($fleetclasses as $fleetclass)
-                                <option value="{{$fleetclass->id}}" @isset($fleet) @if ($fleetclass->id ===
-                                    $fleet->fleet_class_id)
-                                    selected
-                                    @endif @endisset>{{$fleetclass->name}}
-                                </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="">Gambar</label>
-                            @if ($fleet->image)
-                            <a href="{{$fleet->image}}" data-toggle="lightbox">
-                                <img src="{{$fleet->image}}" height="100px" alt="">
-                                @else
-                                Tidak Ada Gambar
-                                @endif
-                            </a>
-                        </div>
+                    <div class="form-group">
+                        <label for="inputName">Kode Armada</label>
+                        <input type="text" id="inputName" class="form-control" name="name" placeholder="Masukkan Kode"
+                            value="{{isset($fleet) ? $fleet->name : ''}}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Deskripsi</label>
+                        <textarea class="form-control" rows="3" name="description" placeholder="Masukkan Deskripsi"
+                            readonly>{{isset($fleet) ? $fleet->description : ''}}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Armada Layout</label>
+                        <select class="form-control select2" name="layout_id" style="width: 100%;" disabled>
+                            <option value="">Pilih Armada Layout</option>
+                            @foreach ($layouts as $layout)
+                            <option value="{{$layout->id}}" @isset($fleet) @if ($layout->id ===
+                                $fleet->layout_id)
+                                selected
+                                @endif @endisset>{{$layout->name}}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Kelas Armada</label>
+                        <select class="form-control select2" name="fleet_class_id" style="width: 100%;" disabled>
+                            <option value="">Pilih Kelas Armada</option>
+                            @foreach ($fleetclasses as $fleetclass)
+                            <option value="{{$fleetclass->id}}" @isset($fleet) @if ($fleetclass->id ===
+                                $fleet->fleet_class_id)
+                                selected
+                                @endif @endisset>{{$fleetclass->name}}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Gambar</label>
+                        @if ($fleet->image)
+                        <a href="{{$fleet->image}}" data-toggle="lightbox">
+                            <img src="{{$fleet->image}}" height="100px" alt="">
+                            @else
+                            Tidak Ada Gambar
+                            @endif
+                        </a>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -188,8 +188,8 @@ Armada
       theme: 'bootstrap4'
     })
 </script>
-<script>  
-$(document).ready(function(){  
+<script>
+    $(document).ready(function(){  
      var i=0;  
      $('#add').click(function(){  
           i++;  

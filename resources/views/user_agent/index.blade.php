@@ -30,6 +30,19 @@ User Agent
                     </div>
                     <div class="card-body">
                         <form action="{{route('user_agent.search')}}" method="GET">
+                            <div class="form-group">
+                                <label>Cari Area</label>
+                                <select name="area_id" class="form-control">
+                                    <option value="">--PILIH AREA--</option>
+                                    @foreach ($areas as $area)
+                                    @if (old('area_id') == $area->id)
+                                    <option value="{{$area->id}}" selected>{{$area->name}}</option>
+                                    @else
+                                    <option value="{{$area->id}}">{{$area->name}}</option>
+                                    @endif
+                                    @endforeach
+                                </select>
+                            </div>
                             <div class="form-row">
                                 <div class="col">
                                     <div class="form-group">
@@ -44,7 +57,7 @@ User Agent
                                         <select name="agent" id="" class="form-control select2">
                                             <option value="">--Pilih Agen--</option>
                                             @foreach ($agencies as $agency)
-                                            @if (old('agent' == $agency->id))
+                                            @if (old('agent') == $agency->id)
                                             <option value="{{$agency->id}}" selected>
                                                 {{$agency->city?->name}}/{{$agency->name}}</option>
                                             @else
@@ -76,6 +89,7 @@ User Agent
                             <thead>
                                 <tr>
                                     <th>Nama</th>
+                                    <th>Area</th>
                                     <th>Nomor HP</th>
                                     <th>Agen</th>
                                     <th>Email</th>
@@ -87,6 +101,7 @@ User Agent
                                 @foreach ($users as $user_agent)
                                 <tr>
                                     <td>{{$user_agent->name_agent}}</td>
+                                    <td>{{$user_agent->agencies?->agent?->city?->area?->name}}</td>
                                     <td>{{$user_agent->phone}}</td>
                                     <td>
                                         <a href="{{route('agency.edit',$user_agent->agencies?->agent->id)}}"

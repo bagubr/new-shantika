@@ -24,7 +24,11 @@ Dashboard
 <!-- /.content-header -->
 
 <!-- Main content -->
-<section class="content">
-
+<section class="content" id="app_dashboard">
+    {{-- <canvas id="myChart" width="400" height="400"></canvas> --}}
 </section>
 @endsection
+@push('script')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{asset('js/dashboard/index.js')}}"></script>
+@endpush

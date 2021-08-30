@@ -57,14 +57,8 @@ Bank
                                     <td>
                                         <a href="{{route('bank_account.edit',$bank_account->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
-                                        <form action="{{route('bank_account.destroy',$bank_account->id)}}"
-                                            class="d-inline" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger btn-xs"
-                                                onclick="return confirm('Apakah Anda yakin akan menghapus data kota?')"
-                                                type="submit">Delete</button>
-                                        </form>
+                                        <a class="btn btn-danger btn-xs button-delete"
+                                            data-id="{{$bank_account->id}}">Delete</a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -87,5 +81,49 @@ Bank
         "responsive": true, "lengthChange": false, "autoWidth": false,
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
+</script>
+<script>
+    $(document).on('click', '.button-delete', function (e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+        Swal.fire({
+            title: 'Apakah Anda Yakin Menghapus Data Ini ?',
+            text: "Pastikan Data Yang Akan Anda Hapus Benar",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Batal!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: 'bank_account/' + id,
+                    type: "POST",
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id: id,
+                        _method: 'DELETE'
+                    },
+                    success: function (data) {
+                        Swal.fire(
+                            'Berhasil',
+                            'Data Anda Berhasil Dihapus',
+                            'success')
+                        location.reload();
+                    },
+                })
+            } else if (
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                Swal.fire(
+                    'Dibatalkan',
+                    'Data anda tidak terhapus',
+                    'error'
+                )
+            };
+        });
+    });
+            
 </script>
 @endpush

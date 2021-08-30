@@ -92,12 +92,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('user_agent/search', [UserAgentController::class, 'search'])->name('user_agent.search');
 
     Route::get('agency/all', [AgencyController::class, 'get_agency'])->name('agency.get_agency');
+    Route::get('agency/search', [AgencyController::class, 'search'])->name('agency.search');
     Route::put('agency/update_status/{agency}', [AgencyController::class, 'update_status'])->name('agency.update_status');
 
     Route::get('order_price_distribution/search', [OrderPriceDistributionController::class, 'search'])->name('order_price_distribution.search');
 
     Route::get('status_penumpang/search', [StatusPenumpangController::class, 'search'])->name('status_penumpang.search');
     Route::get('status_penumpang/export/', [StatusPenumpangController::class, 'export'])->name('status_penumpang.export');
+
+    Route::get('routes/search', [RoutesController::class, 'search'])->name('routes.search');
 
     Route::get('fleet_route/search', [FleetRouteController::class, 'search'])->name('fleet_route.search');
     Route::put('fleet_route/update_status/{fleet_route}', [FleetRouteController::class, 'update_status'])->name('fleet_route.update_status');
@@ -107,6 +110,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('sketch/store', [SketchController::class, 'store']);
 
     Route::post('routes/fleet/store/', [RoutesController::class, 'store_fleet'])->name('route.fleet.store');
+
+    // DASHBOARD
+    route::get('first_bulan', [DashboardController::class, 'first_bulan'])->name('first_bulan');
+    // END OF DASHBOARD
 
     Route::resources([
         'fleet_detail' => FleetDetailController::class,

@@ -85,9 +85,11 @@ Status Penumpang
                                     <td>{{$order->fleet_route?->route?->checkpoints[0]?->agency?->city?->area?->name}}
                                     </td>
                                     <td>
+                                        @if ($order->fleet_route)
                                         <a href="{{route('fleet_route.show',$order->fleet_route?->id)}}">
                                             {{$order->fleet_route?->route?->name}}
                                         </a>
+                                        @endif
                                     </td>
                                     <td>
                                         @if ($order->user?->agencies)

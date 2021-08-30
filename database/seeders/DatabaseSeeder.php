@@ -34,5 +34,7 @@ class DatabaseSeeder extends Seeder
         $this->call([PaymentTypeSeeder::class]);
         $this->call([PaymentSeeder::class]);
         $this->call([SettingSeeder::class]);
+        $this->call([AdminShantikaSeeder::class]);
+        $this->call([UserAgentSeeder::class]);
     }
 }

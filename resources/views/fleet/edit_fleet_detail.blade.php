@@ -52,10 +52,10 @@ Edit Detail Armada
                             <select class="form-control select2" name="fleet_id" style="width: 100%;" disabled>
                                 <option value="">Pilih Armada</option>
                                 @foreach ($fleets as $fleet_now)
-                                <option value="{{$fleet_now->id}}" @isset($fleet) @if ($fleet_now->id ===
-                                    $fleet->id)
+                                <option value="{{$fleet_now->id}}" @isset($fleet_detail) @if ($fleet_now->id ===
+                                    $fleet_detail->fleet?->id)
                                     selected
-                                    @endif @endisset>{{$fleet_now->fleet?->name}}
+                                    @endif @endisset>{{$fleet_now->name}}
                                 </option>
                                 @endforeach
                             </select>

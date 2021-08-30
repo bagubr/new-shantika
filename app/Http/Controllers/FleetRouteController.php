@@ -50,11 +50,12 @@ class FleetRouteController extends Controller
                 $q->where('fleet_id', $fleet_id);
             });
         }
-        $test = $request->flash();
-        $fleet_routes = $fleet_routes->get();
+        $test           = $request->flash();
+        $fleet_routes   = $fleet_routes->get();
+
         $statuses = Agency::status();
         if (!$fleet_routes->isEmpty()) {
-            session()->flash('success', 'Data Order Berhasil Ditemukan');
+            session()->flash('success', 'Data Berhasil Ditemukan');
         } else {
             session()->flash('error', 'Tidak Ada Data Ditemukan');
         }

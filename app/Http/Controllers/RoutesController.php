@@ -13,8 +13,8 @@ use App\Models\Fleet;
 use App\Models\FleetDetail;
 use App\Models\FleetRoute;
 use App\Models\Route;
-use App\Repositories\AgencyRepository;
 use App\Repositories\RoutesRepository;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route as FacadesRoute;
 
 class RoutesController extends Controller
@@ -27,7 +27,30 @@ class RoutesController extends Controller
     public function index()
     {
         $routes = RoutesRepository::all();
-        return view('routes.index', compact('routes'));
+        $areas = Area::all();
+        return view('routes.index', compact('routes', 'areas'));
+    }
+    public function search(Request $request)
+    {
+        $area_id = $request->area_id;
+        $areas = Area::get();
+        $routes = Route::query();
+
+        if (!empty($area_id)) {
+            $routes = $routes->whereHas('checkpoints.agency', function ($q) use ($area_id) {
+                $q->whereHas('city', function ($sq) use ($area_id) {
+                    $sq->where('area_id', $area_id);
+                });
+            });
+        }
+        $test           = $request->flash();
+        $routes   = $routes->get();
+        if (!$routes->isEmpty()) {
+            session()->flash('success', 'Data Berhasil Ditemukan');
+        } else {
+            session()->flash('error', 'Tidak Ada Data Ditemukan');
+        }
+        return view('routes.index', compact('routes', 'areas', 'test'));
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Http\Requests\Agency\CreateAgencyRequest;
 use App\Http\Requests\Agency\UpdateAgencyRequest;
 use App\Models\Agency;
 use App\Models\AgencyDepartureTime;
+use App\Models\Area;
 use App\Repositories\AgencyRepository;
 use App\Repositories\CityRepository;
 use Illuminate\Http\Request;
@@ -21,7 +22,31 @@ class AgencyController extends Controller
     {
         $agencies = AgencyRepository::all();
         $statuses = Agency::status();
-        return view('agency.index', compact('agencies', 'statuses'));
+        $areas = Area::get();
+        return view('agency.index', compact('agencies', 'statuses', 'areas'));
+    }
+    public function search(Request $request)
+    {
+        $area_id  = $request->area_id;
+        $agencies   = Agency::query();
+        $statuses = Agency::status();
+        $areas = Area::get();
+
+
+        if (!empty($area_id)) {
+            $agencies = $agencies->whereHas('city', function ($q) use ($area_id) {
+                $q->where('area_id', $area_id);
+            });
+        }
+        $test       = $request->flash();
+        $agencies   = $agencies->get();
+
+        if (!$agencies->isEmpty()) {
+            session()->flash('success', 'Data Order Berhasil Ditemukan');
+        } else {
+            session()->flash('error', 'Tidak Ada Data Ditemukan');
+        }
+        return view('agency.index', compact('agencies', 'statuses', 'test', 'areas'));
     }
     public function get_agency(Request $request)
     {

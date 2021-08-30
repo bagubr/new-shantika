@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Route;
 use App\Models\User;
 use App\Models\OrderDetail;
+use Carbon\Carbon;
 use Faker\Factory as Faker;
 
 class OrderSeeder extends Seeder
@@ -20,17 +21,18 @@ class OrderSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create('id_ID');
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $route = FleetRoute::all()->random();
             $date = date('Y-m-d H:i:s');
             $order = Order::create([
                 'user_id'           => User::all()->random()->id,
                 'fleet_route_id'    => $route->id,
                 'code_order'        => 'STK-' . date('YmdHis'),
-                'status'            => $faker->randomElement($array = array('PENDING', 'EXPIRED', 'PAID', 'CANCELED', 'EXCHANGED')),
+                // 'status'            => $faker->randomElement($array = array('PENDING', 'EXPIRED', 'PAID', 'CANCELED', 'EXCHANGED')),
+                'status'            => 'PAID',
                 'price'             => $route->price,
                 'expired_at'        => date('Y-m-d H:i:s', strtotime($date . ' +3 day')),
-                'reserve_at'        => $date,
+                'reserve_at'        => Carbon::now()->subDays(rand(1, 10)),
             ]);
 
             $space  = $route->fleet_detail->fleet->layout->space_indexes;
@@ -40,7 +42,6 @@ class OrderSeeder extends Seeder
                 'order_id'          => $order->id,
                 'layout_chair_id'   => $route->fleet_detail->fleet->layout->chairs->whereNotIn('index', $space)
                     ->whereNotIn('index', $toilet)->whereNotIn('index', $door)->random()->id,
-                // 'code_ticket'       => 'STK-'.date('YmdHis'),
                 'name'              => User::find($order->user_id)->name ?? '',
                 'phone'             => User::find($order->user_id)->phone ?? '',
                 'email'             => User::find($order->user_id)->email ?? '',

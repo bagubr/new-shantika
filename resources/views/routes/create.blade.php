@@ -2,6 +2,11 @@
 @section('title')
 Route
 @endsection
+<style>
+    select {
+        min-width: 300px;
+    }
+</style>
 @section('content')
 <section class="content-header">
     <div class="container-fluid">
@@ -48,27 +53,21 @@ Route
                         @endisset
                         <div class="form-group">
                             <label>Pilih Area</label>
-                            <select v-model="area_id" @change="getData" class="form-control">
+                            <select name="area_id" class="form-control myselect" id="area_id">
+                                <option value="">--PILIH AREA--</option>
                                 <option value="1">JAWA</option>
                                 <option value="2">JABODETABEK</option>
                             </select>
+                            <small class="text-danger d-none" id="refresh"><i class="fas fa-info-circle"></i> Refresh
+                                halaman
+                                jika ingin
+                                mengganti Area</small>
                         </div>
-                        <div v-if="test.length > 0">
+                        <div>
                             <label>Pilih Line</label>
-                            <div class="form-group" v-for="(a, index) in agency" :key="index">
-                                <div class="input-group">
-                                    <select class="form-control" v-model="agency[index].id" name="agency_id[]" required>
-                                        <option value="">Pilih Line</option>
-                                        <option :value="t.id" v-for="(t,index) in test" :key="index">
-                                            (@{{t.city_name}}) @{{t.name}}
-                                        </option>
-                                    </select>
-                                    <button v-if="index != 0" type="button" class="btn btn-outline-danger"
-                                        @click="removeField(index)">Delete
-                                    </button>
-                                </div>
-                            </div>
-                            <button type="button" @click="addField" class="btn btn-outline-primary mb-5">
+                            <div id="container" class="mb-3"></div>
+                            <div id="container2"></div>
+                            <button type="button" class="btn btn-outline-primary mb-5" id="addRow">
                                 Tambah Rute
                             </button>
                         </div>
@@ -90,23 +89,8 @@ Route
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="{{asset('js/route/index.js')}}"></script>
 <script>
-    var i = 0;
-    $("#dynamic-ar").click(function () {
-        ++i;
-        $("#dynamicAddRemove").append(' <div class="t"> <div class="form-row"> <div class="col"> <div class="form-group"> <label>Armada</label> <select class="form-control select2" name="fleet_detail_id[]"> @foreach ($fleets as $fleet) <option value="{{$fleet->id}}"> {{$fleet->fleet?->name}}/{{$fleet->fleet?->fleetclass?->name}}/{{$fleet->nickname}} </option> @endforeach </select> </div> </div> <div class="col"> <div class="form-group"> <label>Harga</label> <div class="input-group mb-3"> <input type="number" class="form-control" name="price[]" id="jam2" placeholder="Masukkan Harga"><div class="input-group-append"> <button type="button" class="btn btn-outline-danger remove-input-field">Delete</button></div> </div> </div> </div> </div> </div>');
-    });
-    $(document).on('click', '.remove-input-field', function () {
-        $(this).parents('.t').remove();
-    });
-
-</script>
-<script>
-    $(function () {
-        $('.select2').select2();
-        $('.select23').select2()
-    })
-    $('.select2bs4').select2({
-      theme: 'bootstrap4'
-    })
+    if ($('.select2').length > 0) {
+                    $('.select2').select2();
+                };
 </script>
 @endpush
