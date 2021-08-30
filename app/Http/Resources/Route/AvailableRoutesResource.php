@@ -10,6 +10,7 @@ use App\Models\LayoutChair;
 use App\Models\Order;
 use App\Models\Layout;
 use App\Models\OrderDetail;
+use App\Repositories\AgencyRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -23,8 +24,9 @@ class AvailableRoutesResource extends JsonResource
      */
     public function toArray($request)
     {
+        $departure_agency = Agency::find($request->agency_departure_id) ?? AgencyRepository::findByToken($request->bearerToken());
         $destination_agency_id = $request->agency_arrived_id ?? $request->agency_id;
-
+        
         $route = $this->route;
         $checkpoints = $this->route?->checkpoints();
         $first_checkpoint = $checkpoints->orderBy('order', 'asc')->first();
@@ -39,7 +41,7 @@ class AvailableRoutesResource extends JsonResource
             'departure_at'              => Agency::find($destination_agency_id)->agency_departure_times->first()->departure_at,
             'price'                     => $this->price,
             'chairs_available'          => $this->getChairsAvailable($request, $this->fleet_detail_id, $this->id, $this->fleet_detail->fleet->layout_id),
-            'checkpoints'               => $this->when(@count($route->checkpoints) > 1, new CheckpointStartEndResource($route, $destination_checkpoint, (object) [])),
+            'checkpoints'               => $this->when(@count($route->checkpoints) > 1, new CheckpointStartEndResource($route, $destination_checkpoint, $departure_agency)),
         ];
     }
 

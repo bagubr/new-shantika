@@ -23,7 +23,7 @@ class LayoutRepository
     
     public static function findByFleetRoute(FleetRoute $fleet_route)
     {
-        $layout = Layout::with('chairs')->find($fleet_route->fleet->layout_id);
+        $layout = Layout::with('chairs')->find($fleet_route->fleet_detail->fleet->layout_id);
 
         return $layout;
     }

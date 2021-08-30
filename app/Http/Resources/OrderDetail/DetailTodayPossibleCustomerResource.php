@@ -23,6 +23,7 @@ class DetailTodayPossibleCustomerResource extends JsonResource
             'customer_phone'=>$order->order_detail[0]->phone,
             'customer_email'=>$order->order_detail[0]->email,
             'reserve_at'=>$order->reserve_at,
+            'departure_at'=>$order->agency->agency_departure_times->where('time_classification_id', $this->order->time_classification_id)->first()->departure_at,
             'chairs'=>$order->order_detail()->with('chair')->get()->pluck('chair.name')->values(),
             'where_bought_ticket'=>$this->getWhereTicketBought($order),
             'checkpoints'=>new CustomerTakenRouteResource($order),

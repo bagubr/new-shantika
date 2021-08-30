@@ -7,12 +7,14 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class CheckpointStartEndResource extends JsonResource
 {
     protected $destination_checkpoint;
+    protected $start_agent;
 
-    public function __construct($resource, $destination_checkpoint = null)
+    public function __construct($resource, $destination_checkpoint = null, $start_agent = null)
     {
         parent::__construct($resource);
 
         $this->destination_checkpoint = $destination_checkpoint;
+        $this->start_agent = $start_agent;
     }
 
     public static function collection($resource) {
@@ -29,8 +31,8 @@ class CheckpointStartEndResource extends JsonResource
     {
         $checkpoint_max_index = count($this->checkpoints) - 1;
         return [
-            'start'         => new CheckpointResource($this->checkpoints[0]),
-            'destination'   => $this->when($this->destination_checkpoint != null, new CheckpointResource($this->destination_checkpoint)),
+            'start'         => $this->when($this->start_agent, new AgencyResource($this->start_agent), new CheckpointResource($this->checkpoints[0]), (object) []),
+            'destination'   => $this->when($this->destination_checkpoint != null, new CheckpointResource($this->destination_checkpoint), (object) []),
             'end'           => new CheckpointResource($this->checkpoints[$checkpoint_max_index]),
         ];
     }

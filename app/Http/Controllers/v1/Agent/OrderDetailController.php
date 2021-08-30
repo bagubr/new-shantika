@@ -27,7 +27,6 @@ class OrderDetailController extends Controller
         $order_detail = OrderDetailRepository::firstForPossibleCustomer($id);
 
         return $this->sendSuccessResponse([
-            // 'order_detail'=>$order_detail
             'order_detail'=>new DetailTodayPossibleCustomerResource($order_detail)
         ]);
     }

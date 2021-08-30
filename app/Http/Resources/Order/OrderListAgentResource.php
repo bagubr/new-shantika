@@ -6,6 +6,7 @@ use App\Http\Resources\CheckpointResource;
 use App\Http\Resources\CheckpointStartEndResource;
 use App\Http\Resources\OrderDetailChairResource;
 use App\Models\Booking;
+use App\Repositories\AgencyDepartureTimeRepository;
 use App\Repositories\CheckpointRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -19,7 +20,7 @@ class OrderListAgentResource extends JsonResource
      */
     public function toArray($request)
     {
-        $this->load(['fleet_route.route', 'fleet_route.fleet_detail.fleet.fleetclass', 'time_classification']);
+        $this->load(['fleet_route.route', 'fleet_route.fleet_detail.fleet.fleetclass']);
 
         $fleet_route = $this->fleet_route;
         $route = $fleet_route->route;
@@ -29,12 +30,12 @@ class OrderListAgentResource extends JsonResource
 
         $checkpoint_max_index = count($checkpoints) - 1;
         $checkpoint_destination = CheckpointRepository::findByRouteAndAgency($route->id, $this->destination_agency_id);
+        $agent_start = $this->agency;
 
         return [
             'id'                        => $this->id,
             'layout_chair_id'           => $this->getLayoutChairId(),
             'fleet_route_id'            => $fleet_route->id,
-            'departure_at'              => $this->time_classification?->departure_at,
             'code'                      => $this->code,
             'name_fleet'                => $fleet->name,
             'fleet_class'               => $fleet->fleetclass?->name,
@@ -43,7 +44,7 @@ class OrderListAgentResource extends JsonResource
             'reserve_at'                => $this->reserve_at,
             'status'                    => $this->status,
             'type'                      => $this->type,
-            'checkpoints'               => new CheckpointStartEndResource($route, $checkpoint_destination),
+            'checkpoints'               => new CheckpointStartEndResource($route, $checkpoint_destination, $agent_start),
         ];
     }
 

@@ -14,11 +14,12 @@ class TodayPossibleCustomerResource extends JsonResource
      */
     public function toArray($request)
     {
-        $order = $this->order;
+        $order = $this->order->load('agency.agency_departure_times');
         $distribution = $order->distribution;
         return [
             'id'=>$this->id,
             'order_id'=>$this->order_id,
+            'departure_at'=>$order->agency->agency_departure_times->where('time_classification_id', $this->order->time_classification_id)->first()->departure_at,
             'name'=>$this->name,
             'phone'=>$this->phone,
             'email'=>$this->email,

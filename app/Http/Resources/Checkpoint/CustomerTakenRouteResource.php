@@ -16,10 +16,12 @@ class CustomerTakenRouteResource extends JsonResource
      */
     public function toArray($request)
     {
+        $checkpoint_destination = $this->fleet_route?->route->checkpoints()->where('agency_id', $this->destination_agency_id)->first();
+        $agent_start = $this->agency;
         return [
             'fleet_name'=>$this->fleet_route?->fleet?->name,
             'fleet_class'=>$this->fleet_route?->fleet?->fleetclass?->name,
-            'checkpoints'=>new CheckpointStartEndResource($this->fleet_route?->route, $this->fleet_route?->route->checkpoints()->where('agency_id', $this->destination_agency_id)->first()),
+            'checkpoints'=>new CheckpointStartEndResource($this->fleet_route?->route, $agent_start),
             'city_start'                => $this->fleet_route?->route?->departure_city?->name,
             'city_end'                  => $this->fleet_route?->route?->destination_city?->name,
             'status'=>$this->status

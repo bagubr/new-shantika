@@ -44,4 +44,10 @@ class AgencyRepository
             })
             ->orderBy('name')->get();
     }
+
+    public static function findByToken($token) {
+        $user = UserRepository::findByToken($token);
+        $agent = $user->agencies->agent;
+        return $agent;
+    }
 }

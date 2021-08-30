@@ -26,13 +26,14 @@ class OrderDetailCustomerResource extends JsonResource
         $checkpoint_max_index = count($route->checkpoints) - 1;
         $seting = Setting::first();
         $checkpoint_destination = CheckpointRepository::findByRouteAndAgency($route?->id, $this->destination_agency_id);
+        $agent_start = $this->agency;
         return [
             'id' => $this->id,
             'code_order' => $this->code_order,
             'name_fleet' => $fleet_route->fleet_detail?->fleet?->name,
             'fleet_class' => $fleet_route->fleet_detail?->fleet?->fleetclass?->name,
             'total_passenger' => count($this->order_detail),
-            'checkpoints'        => new CheckpointStartEndResource($route, $checkpoint_destination),
+            'checkpoints'        => new CheckpointStartEndResource($route, $checkpoint_destination, $agent_start),
             'created_at' => date('Y-m-d H:i:s', strtotime($this->created_at)),
             'reserve_at' => date('Y-m-d H:i:s', strtotime($this->reserve_at)),
             'departure_at'  => $this->agency->agency_departure_times->where('time_classification_id', $this->time_classification_id)->first()->departure_at,
