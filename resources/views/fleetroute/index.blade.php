@@ -54,7 +54,8 @@ Armada Rute
                                             @foreach ($fleets as $fleet)
                                             @if (old('fleet_id') == $fleet->id)
                                             <option value="{{$fleet->id}}" selected>
-                                                {{$fleet->name}}/{{$fleet->fleetclass?->name}}</option> @else
+                                                {{$fleet->name}}/{{$fleet->fleetclass?->name}}</option>
+                                            @else
                                             <option value="{{$fleet->id}}">
                                                 {{$fleet->name}}/{{$fleet->fleetclass?->name}}</option>
                                             @endif

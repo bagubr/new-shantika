@@ -26,7 +26,6 @@ Setoran
             <div class="col-4">
                 <div class="card">
                     <form action="{{route('order_price_distribution.search')}}" method="get">
-                        @csrf
                         <div class="card-body">
                             <div class="form-group">
                                 <label>Pilih Tanggal</label>
@@ -45,6 +44,25 @@ Setoran
                                     @else
                                     <option value="{{$fleet_route->id}}">
                                         {{$fleet_route->route?->name}}/{{$fleet_route->fleet?->name}}
+                                    </option>
+                                    @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Armada</label>
+                                <select name="fleet_detail_id" id="" class="form-control select2">
+                                    <option value="">--PILIH ARMADA--</option>
+                                    @foreach ($fleet_details as $fleet_detail)
+                                    @if (old('fleet_detail_id') == $fleet_detail->id)
+                                    <option value="{{$fleet_detail->id}}" selected>
+                                        {{$fleet_detail->fleet?->name}}/{{$fleet_detail->fleet?->fleetclass?->name}}
+                                        ({{$fleet_detail->nickname}})
+                                    </option>
+                                    @else
+                                    <option value="{{$fleet_detail->id}}">
+                                        {{$fleet_detail->fleet?->name}}/{{$fleet_detail->fleet?->fleetclass?->name}}
+                                        ({{$fleet_detail->nickname}})
                                     </option>
                                     @endif
                                     @endforeach
@@ -107,6 +125,7 @@ Setoran
                                 <tr>
                                     <th>Tanggal Pemesanan</th>
                                     <th>Kode Order</th>
+                                    <th>Armada</th>
                                     <th>Agen</th>
                                     <th>Jumlah Seat</th>
                                     <th>Rute</th>
@@ -129,6 +148,9 @@ Setoran
                                         <a href="{{route('order.show',$order_price_distribution->order?->id)}}">
                                             {{$order_price_distribution->order?->code_order}}
                                         </a>
+                                    </td>
+                                    <td>{{$order_price_distribution->order?->fleet_route?->fleet_detail?->fleet?->name}}/{{$order_price_distribution->order?->fleet_route?->fleet_detail?->fleet?->fleetclass?->name}}
+                                        ({{$order_price_distribution->order?->fleet_route?->fleet_detail?->nickname}})
                                     </td>
                                     <td>{{$order_price_distribution->order?->agency?->name}}</td>
                                     <td>{{$order_price_distribution->order?->order_detail?->count()}}</td>
@@ -237,14 +259,5 @@ Setoran
         "responsive": true, "lengthChange": false, "autoWidth": false,
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
-</script>
-<script>
-    $(function () {
-        $('.select2').select2()
-    })
-    $('.select2bs4').select2({
-        theme: 'bootstrap4'
-    })
-
 </script>
 @endpush
