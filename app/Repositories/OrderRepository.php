@@ -44,7 +44,7 @@ class OrderRepository
     public static function unionBookingByUserIdAndDate(User $user, $date)
     {
         $booking = Booking::select('id', 'fleet_route_id', 'user_id', 'booking_at as reserve_at', 'status', 'code_booking as code', 'layout_chair_id', 'destination_agency_id', 'time_classification_id')
-            ->addSelect(DB::raw("'NULL' as departure_agency_id"))
+            ->addSelect(DB::raw("0 as departure_agency_id"))
             ->addSelect(DB::raw("'BOOKING' as type"))
             ->addSelect(DB::raw("(select price from fleet_routes where fleet_routes.id = bookings.fleet_route_id) as price"))
             ->where('expired_at', '>', date('Y-m-d H:i:s'))
