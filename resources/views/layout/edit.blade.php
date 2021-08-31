@@ -308,7 +308,7 @@
                     return res.json()
                 }).finally(e => {
                     el.innerText = 'Lanjutkan'
-                    // window.location.reload(true)
+                    window.location.reload(true)
                     el.disable = false;
                 })
             },

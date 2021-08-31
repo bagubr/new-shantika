@@ -140,7 +140,6 @@ class AgencyController extends Controller
 
         $agency_departure = AgencyDepartureTime::where('agency_id', $agency->id)->orderBy('id', 'ASC')->first();
         $agency_departure1 = AgencyDepartureTime::where('agency_id', $agency->id)->first();
-        dd($agency_departure, $agency_departure1);
         $agency->update($data);
         $agency_departure->update([
             'agency_id'     => $agency->id,

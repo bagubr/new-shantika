@@ -8,11 +8,15 @@ use App\Repositories\UserRepository;
 use App\Services\ReviewService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
     public function show(Request $request) {
         $user = UserService::getAuthenticatedUser($request->bearerToken());
+        if(empty($user)) {
+            $this->sendFailedResponse([], 'Oops sepertinya anda harus login ulang');
+        }
         $review = ReviewService::sumByAgencyId($user->agencies->agency_id);
 
         return $this->sendSuccessResponse([

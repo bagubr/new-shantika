@@ -27,9 +27,6 @@ Menu Pengguna
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Table Menu Pengguna</h3>
-                        <div class="text-right">
-                            <a href="{{route('customer_menu.create')}}" class="btn btn-primary btn-sm">Tambah</a>
-                        </div>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">

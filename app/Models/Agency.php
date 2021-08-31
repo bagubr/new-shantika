@@ -14,11 +14,10 @@ class Agency extends Model
     protected $table = 'agencies';
 
     protected $fillable = [
-        'name', 'code', 'city_id', 'lat', 'lng', 'address', 'avatar', 'is_active'
+        'name', 'code', 'city_id', 'lat', 'lng', 'address', 'avatar', 'is_active', 'phone'
     ];
 
     protected $appends = [
-        'phone',
         'avatar_url',
         'city_name',
     ];
@@ -61,11 +60,6 @@ class Agency extends Model
     public function getAvatarUrlAttribute()
     {
         return $this->attributes['avatar'] ? env('STORAGE_URL') . '/' . $this->attributes['avatar'] : "";
-    }
-
-    public function getPhoneAttribute()
-    {
-        return $this->userAgent()?->first()?->user()?->first()?->phone;
     }
     public function deleteAvatar()
     {
