@@ -157,10 +157,12 @@ Setoran
                                     <td>{{$order_price_distribution->order?->agency?->name}}</td>
                                     <td>{{$order_price_distribution->order?->order_detail?->count()}}</td>
                                     <td>
+                                        @if ($order_price_distribution->order?->fleet_route)
                                         <a
                                             href="{{route('fleet_route.show',$order_price_distribution->order?->fleet_route_id)}}">
                                             {{$order_price_distribution->order?->fleet_route?->route?->name}}
                                         </a>
+                                        @endif
                                     </td>
                                     <td>Rp. {{number_format($order_price_distribution->order?->fleet_route?->price)}}
                                     </td>
