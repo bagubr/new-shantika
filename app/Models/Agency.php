@@ -18,7 +18,6 @@ class Agency extends Model
     ];
 
     protected $appends = [
-        'phone',
         'avatar_url',
         'city_name',
     ];
@@ -61,11 +60,6 @@ class Agency extends Model
     public function getAvatarUrlAttribute()
     {
         return $this->attributes['avatar'] ? env('STORAGE_URL') . '/' . $this->attributes['avatar'] : "";
-    }
-
-    public function getPhoneAttribute()
-    {
-        return $this->userAgent()?->first()?->user()?->first()?->phone;
     }
     public function deleteAvatar()
     {
