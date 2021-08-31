@@ -138,7 +138,7 @@ Pesanan
                     @endif
                     <img src="{{$order->payment?->proof_url}}" class="" style="height:100px" alt="">
                     <div class="text-right">
-                        @if ($order->payment?->status == 'WAITING_CONFIRMATION')
+                        @if ($order->payment?->status == 'WAITING_CONFIRMATION' || $order->payment?->status == 'PENDING')
                         <a href="{{route('payment.edit',$order->payment?->id)}}" class="btn btn-primary">Ubah Status</a>
                         @endif
                     </div>
