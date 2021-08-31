@@ -39,6 +39,7 @@ Pengeluaran
                             <thead>
                                 <tr>
                                     <th>Tanggal Laporan</th>
+                                    <th>Tanggal Pengeluaran</th>
                                     <!-- <th>Rute</th> -->
                                     <th>Tipe Pengeluaran</th>
                                     <th>Armada</th>
@@ -52,6 +53,7 @@ Pengeluaran
                             <tbody>
                                 @foreach ($outcomes as $outcome)
                                 <tr>
+                                    <td>{{$outcome->created_at}}</td>
                                     <td>{{$outcome->reported_at}}</td>
                                     <!-- <td>{{$outcome?->fleet_detail?->route->name??"Non Rute"}}</td> -->
                                     <td>{{$outcome->outcome_type?->name??'-'}}</td>
