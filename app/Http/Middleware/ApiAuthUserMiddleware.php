@@ -26,9 +26,6 @@ class ApiAuthUserMiddleware
         if(!str_contains($user->token, $token)) {
             $this->sendFailedResponse([], "Oops, anda sepertinya harus login ulang",401);
         }
-        if($user->is_active == false) {
-            return $this->sendFailedResponse([], "Oops, akun anda telah dinonaktifkan",401);
-        }
         //Check if not agent
         $agent = UserAgent::where('user_id', $user->id)->first();
         if($agent) $this->sendFailedResponse([], 'Oops, kamu pakai akun agent untuk mengakses aplikasi customer?!', 401);

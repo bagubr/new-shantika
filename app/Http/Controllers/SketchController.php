@@ -74,9 +74,7 @@ class SketchController extends Controller
         $order_details = [];
         foreach($froms as $key => $value) {
             $detail = OrderDetail::whereHas('order', function($query) use ($request) {
-                $query->whereDate('reserve_at', $request['date'])->whereHas('fleet_route', function($subquery) use ($request) {
-                    $subquery->where('id', $request['first_fleet_route_id']);
-                });
+                $query->whereDate('reserve_at', $request['date'])->where('fleet_route_id', $request['first_fleet_route_id']);
             })->where('layout_chair_id', $value['id'])->first();
             $detail->update([
                 'layout_chair_id'=>$tos[$key]['id']
