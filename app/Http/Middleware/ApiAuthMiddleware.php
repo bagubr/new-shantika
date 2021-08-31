@@ -27,7 +27,7 @@ class ApiAuthMiddleware
             $this->sendFailedResponse([], "Oops, anda sepertinya harus login ulang",401);
         }
         if($user->is_active == false ){
-            $this->sendFailedResponse([], "Oops, akun anda telah dinonaktifkan",401);
+            return $this->sendFailedResponse([], "Oops, akun anda telah dinonaktifkan",401);
         }
         //Check device
         $user_agent = $request->userAgent();
