@@ -68,7 +68,7 @@ class PaymentController extends Controller
         $payment_types = PaymentTypeRepository::all();
         $test = strtotime($payment->paid_at);
         $time = date('Y-m-d', $test);
-        $statuses = ['PAID', 'WAITING_CONFIRMATION', 'DECLINED'];
+        $statuses = ['PAID', 'DECLINED'];
         return view('payment.create', compact('payment', 'payment_types', 'statuses', 'time'));
     }
 
@@ -81,7 +81,7 @@ class PaymentController extends Controller
      */
     public function update(UpdatePaymentRequest $request, Payment $payment)
     {
-        $data = $request->only('payment_type_id', 'status', 'proof_decline_reason', 'paid_at');
+        $data = $request->only('status', 'proof_decline_reason', 'paid_at');
         $order_id = Order::where('id', $payment->order_id)->first();
         if ($request->hasFile('proof')) {
             $proof = $request->proof->store('proof', 'public');
