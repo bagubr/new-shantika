@@ -10,8 +10,12 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     public function showProfileCustomer(Request $request) {
+        
         $user = UserRepository::findByToken($request->bearerToken()) 
-            ?? $this->sendFailedResponse([], 'Anda sepertinya perlu login ulang / anda perlu regis ulang');
+        ?? $this->sendFailedResponse([], 'Anda sepertinya perlu login ulang / anda perlu regis ulang');
+        if($user->is_active == false ){
+            return $this->sendFailedResponse([], 'Anda sepertinya perlu login ulang / anda perlu regis ulang', 401);
+        }
 
         return $this->sendSuccessResponse([
             'user'=>$user

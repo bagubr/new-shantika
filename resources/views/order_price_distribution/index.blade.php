@@ -51,6 +51,23 @@ Setoran
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label>Agen</label>
+                                <select name="agency_id" id="" class="form-control select2">
+                                    <option value="">--PILIH AGEN--</option>
+                                    @foreach ($agencies as $agency)
+                                    @if (old('agency_id') == $agency->id)
+                                    <option value="{{$agency->id}}" selected>
+                                        {{$agency->city?->name}}/{{$agency->name}}
+                                    </option>
+                                    @else
+                                    <option value="{{$agency->id}}">
+                                        {{$agency->city?->name}}/{{$agency->name}}
+                                    </option>
+                                    @endif
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                         <div class="text-right m-2">
                             <button class="btn btn-success" type="submit">Cari</button>
@@ -128,9 +145,11 @@ Setoran
                                 <tr>
                                     <td>{{date('Y-m-d',strtotime($order_price_distribution->order?->reserve_at))}}</td>
                                     <td>
+                                        @if ($order_price_distribution->order)
                                         <a href="{{route('order.show',$order_price_distribution->order?->id)}}">
                                             {{$order_price_distribution->order?->code_order}}
                                         </a>
+                                        @endif
                                     </td>
                                     <td>{{$order_price_distribution->order?->fleet_route?->fleet_detail?->fleet?->name}}/{{$order_price_distribution->order?->fleet_route?->fleet_detail?->fleet?->fleetclass?->name}}
                                         ({{$order_price_distribution->order?->fleet_route?->fleet_detail?->nickname}})
@@ -138,10 +157,12 @@ Setoran
                                     <td>{{$order_price_distribution->order?->agency?->name}}</td>
                                     <td>{{$order_price_distribution->order?->order_detail?->count()}}</td>
                                     <td>
+                                        @if ($order_price_distribution->order?->fleet_route)
                                         <a
                                             href="{{route('fleet_route.show',$order_price_distribution->order?->fleet_route_id)}}">
                                             {{$order_price_distribution->order?->fleet_route?->route?->name}}
                                         </a>
+                                        @endif
                                     </td>
                                     <td>Rp. {{number_format($order_price_distribution->order?->fleet_route?->price)}}
                                     </td>
@@ -212,9 +233,7 @@ Setoran
                                 @foreach ($outcome_details as $outcome)
                                 <tr>
                                     <td>{{date('Y-m-d',strtotime($outcome->outcome?->reported_at))}}</td>
-                                    <td>{{$outcome->outcome?->fleet_detail?->fleet?->name}}/{{$outcome->outcome?->fleet_detail?->fleet?->fleetclass?->name}}
-                                        ({{$outcome->outcome?->fleet_detail?->nickname}})
-                                    </td>
+                                    <td>{{$outcome->outcome?->order_price_distributions ?? 'Tidak Ada'}}</td>
                                     <td>{{$outcome->name}}</td>
                                     <td>Rp {{number_format($outcome->amount)}}</td>
                                 </tr>
