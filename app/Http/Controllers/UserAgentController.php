@@ -172,9 +172,7 @@ class UserAgentController extends Controller
     public function destroy(User $user_agent)
     {
         $user_agent->deleteAvatar();
-        if ($user_agent->agencies) {
-            $user_agent->agencies->delete();
-        }
+        $user_agent->agencies->delete();
         $user_agent->delete();
         session()->flash('success', 'User Agent Berhasil Dihapus');
         return redirect(route('user_agent.index'));
