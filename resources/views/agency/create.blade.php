@@ -91,7 +91,7 @@ Agen
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Phone</label>
+                            <label>No. Telepon</label>
                             <input type="tel" name="phone" class="form-control" placeholder="Masukkan Nomor Telp" id=""
                                 value="{{isset($agency) ? $agency->phone : ''}}" required>
                         </div>
