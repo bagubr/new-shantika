@@ -26,7 +26,7 @@ class ApiAuthMiddleware
         if(!str_contains($user->token, $token)) {
             $this->sendFailedResponse([], "Oops, anda sepertinya harus login ulang",401);
         }
-        if($user->is_active = false ){
+        if($user->is_active == false ){
             $this->sendFailedResponse([], "Oops, akun anda telah dinonaktifkan",401);
         }
         //Check device
