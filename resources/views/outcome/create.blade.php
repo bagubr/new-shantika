@@ -34,8 +34,9 @@ Pengeluran
                     @include('partials.error')
                     <form action="{{route('outcome.store')}}" method="POST">
                         @csrf
+                        <input type="date" class="form-control" name="reported_at"
+                                        value="{{((isset($reported_at))?$reported_at:date('Y-m-d'))}}">
                         <input type="hidden" name="fleet_detail_id" value="{{@$fleet_detail_id}}">
-                        <input type="hidden" name="reported_at" value="{{((@$reported_at)?$reported_at:date('Y-m-d'))}}">
                         @include('outcome.form')
                         <br>
                         <button type="button" name="add" id="dynamic-ar" class="btn btn-info">Tambah
