@@ -23,11 +23,9 @@ class ApiAuthAgentMiddleware
     {
         $token = $request->bearerToken() ?? $this->sendFailedResponse([], "Oops, anda sepertinya harus login ulang", 401);
         $user = UserToken::where('token', $token)->exists() ?? $this->sendFailedResponse([], "Oops, anda sepertinya harus login ulang", 401);
-        if($user->is_active == false) {
-            return $this->sendFailedResponse([], "Oops, akun anda telah dinonaktifkan",401);
-        }
         if($user) {
             return $next($request);
+
         }
         return $this->sendFailedResponse([], 'Oops, sepertinya anda harus login ulang');
     }
