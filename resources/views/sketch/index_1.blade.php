@@ -116,7 +116,7 @@ Sketch
                                 <label for="">Armada</label>
                                 <div class="row">
                                     <div class="col">
-                                        <select @change="selectOptionFirstLayout($event)" class="form-control" id="">
+                                        <select @change="selectOptionFirstLayout($event)" v-model="firstLayout.fleetRouteId" class="form-control" id="">
                                             <option :value="order.fleet_route_id" v-for="order in result.orders"
                                                 :key="order.id" v-text="setSelectOptionLayoutText(order)"></option>
                                         </select>
@@ -175,7 +175,7 @@ Sketch
                                 <label for="">Armada</label>
                                 <div class="row">
                                     <div class="col">
-                                        <select @change="selectOptionSecondLayout($event)" name="" class="form-control"
+                                        <select @change="selectOptionSecondLayout($event)" v-model="secondLayout.fleetRouteId" class="form-control"
                                             id="">
                                             <option :value="order.fleet_route_id" v-for="order in result.orders"
                                                 :key="order.id" v-text="setSelectOptionLayoutText(order)"></option>
@@ -338,17 +338,22 @@ Sketch
                         this.secondLayout.isLoading = false
                     }) 
                 },
-                getCurrentIndexByRowCol(row, col) {
-                    return (((row - 1) * this.firstLayout.data.col) + col) - 1
+                getCurrentIndexByRowCol(row, col, which) {
+                    if(which == 0) {
+                        return (((row - 1) * this.firstLayout.data.col) + col) - 1
+                    } else {
+                        return (((row - 1) * this.secondLayout.data.col) + col) - 1
+                    }
                 },
                 loadText(row, col, which) {
                     this.whichLayout(which);
-                    let index = this.getCurrentIndexByRowCol(row, col)
                     
                     let chair;
                     if(which == 0) {
+                        let index = this.getCurrentIndexByRowCol(row, col, 0)
                         chair = this.firstLayout.data.chairs.filter((e, i) =>  i == index)[0]
                     } else {
+                        let index = this.getCurrentIndexByRowCol(row, col, 1)
                         chair = this.secondLayout.data.chairs.filter((e, i) =>  i == index)[0]
                     }
 
@@ -373,12 +378,13 @@ Sketch
                 },
                 loadClass(row, col, which) {
                     this.whichLayout(which);
-                    let index = this.getCurrentIndexByRowCol(row, col)
-
+                
                     let chair;
                     if(which == 0) {
+                        let index = this.getCurrentIndexByRowCol(row, col, 0)
                         chair = this.firstLayout.data.chairs.filter((e, i) =>  i == index)[0]
                     } else {
+                        let index = this.getCurrentIndexByRowCol(row, col, 1)
                         chair = this.secondLayout.data.chairs.filter((e, i) =>  i == index)[0]
                     }
 
@@ -416,7 +422,7 @@ Sketch
                 },
                 selectSeat(row,col,which) {
                     this.whichLayout(which)
-                    let index = this.getCurrentIndexByRowCol(row, col)
+                    let index = this.getCurrentIndexByRowCol(row, col,which)
                     if(!this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable) {
                         return alert("Pilih kursi yang sudah dibeli!");
                     }
