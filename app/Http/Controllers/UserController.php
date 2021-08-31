@@ -20,7 +20,8 @@ class UserController extends Controller
     public function index()
     {
         $users = User::whereDoesntHave('agencies')->get();
-        return view('user.index', compact('users'));
+        $statuses = Agency::status();
+        return view('user.index', compact('users', 'statuses'));
     }
 
     /**
@@ -109,6 +110,14 @@ class UserController extends Controller
         };
         $user->update($data);
         session()->flash('success', 'User Berhasil Diperbarui');
+        return redirect(route('user.index'));
+    }
+    public function update_status(Request $request, User $user)
+    {
+        $user->update([
+            'is_active' => $request->is_active,
+        ]);
+        session()->flash('success', 'User Status Berhasil Diubah');
         return redirect(route('user.index'));
     }
 

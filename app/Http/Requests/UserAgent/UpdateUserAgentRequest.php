@@ -28,11 +28,12 @@ class UpdateUserAgentRequest extends FormRequest
             'phone' => 'required',
             'email' => 'required|email',
             'avatar' => 'nullable|image|max:2048',
-            'birth_place' => 'required',
+            'birth_place' => 'nullable',
             'birth' => 'required|date',
             'address' => 'required',
             'gender' => 'required|in:Male,Female',
             'agency_id' => 'required',
+            'is_active' => 'required',
         ];
     }
 }

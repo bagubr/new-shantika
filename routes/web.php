@@ -73,7 +73,7 @@ Auth::routes([
 Route::get('/test', function () {
     $order_id = Order::find(231);
     $payload = NotificationMessage::paymentSuccess($order_id->code_order);
-        $notification = Notification::build(
+    $notification = Notification::build(
         $payload[0],
         $payload[1],
         Notification::TYPE1,
@@ -104,6 +104,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('agency/all', [AgencyController::class, 'get_agency'])->name('agency.get_agency');
     Route::get('agency/search', [AgencyController::class, 'search'])->name('agency.search');
     Route::put('agency/update_status/{agency}', [AgencyController::class, 'update_status'])->name('agency.update_status');
+    Route::put('user_agent/update_status/{user_agent}', [UserAgentController::class, 'update_status'])->name('user_agent.update_status');
+    Route::put('user/update_status/{user}', [UserController::class, 'update_status'])->name('user.update_status');
 
     Route::get('order_price_distribution/search', [OrderPriceDistributionController::class, 'search'])->name('order_price_distribution.search');
 
