@@ -296,7 +296,7 @@
                         class="nav-link {{Request::routeIs('slider.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-sliders-h"></i>
                         <p>
-                            Slider
+                            Slider Customer
                         </p>
                     </a>
                 </li>
