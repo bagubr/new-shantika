@@ -106,8 +106,13 @@ class LayoutController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        try {
+            Layout::find($id)->delete();
+            return back()->with('success', 'Layout berhasil dihapus');
+        } catch(\Exception $e) {
+            return back()->with('error', 'Layout gagal dihapus');
+        }
     }
 }
