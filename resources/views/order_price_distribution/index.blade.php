@@ -233,14 +233,6 @@ Setoran
                                 @foreach ($outcome_details as $outcome)
                                 <tr>
                                     <td>{{date('Y-m-d',strtotime($outcome->outcome?->reported_at))}}</td>
-                                    <td>
-                                        @if ($outcome->outcome?->fleet_detail)
-                                        {{$outcome->outcome?->fleet_detail?->fleet?->name}}/{{$outcome->outcome?->fleet_detail?->fleet?->fleetclass?->name}}
-                                        ({{$outcome->outcome?->fleet_detail?->nickname}})
-                                        @else
-                                        Tidak Ada Armada
-                                        @endif
-                                    </td>
                                     <td>{{$outcome->outcome?->order_price_distributions ?? 'Tidak Ada'}}</td>
                                     <td>{{$outcome->name}}</td>
                                     <td>Rp {{number_format($outcome->amount)}}</td>
