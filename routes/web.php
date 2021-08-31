@@ -91,6 +91,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('schedule_not_operate/search', [ScheduleNotOperateController::class, 'search'])->name('schedule_not_operate.search');
     Route::get('order/search', [OrderController::class, 'search'])->name('order.search');
 
+    Route::post('outcome/statistic', [OutcomeController::class, 'statistic'])->name('outcome_statistic');
     Route::get('outcome/search', [OutcomeController::class, 'search'])->name('outcome.search');
     Route::get('outcome/export/{id}', [OutcomeController::class, 'export'])->name('outcome.export');
     Route::get('outcome_type/create', [OutcomeController::class, 'createType'])->name('outcome_type.create');
