@@ -15,6 +15,9 @@ class HomeController extends Controller
 {
     public function home(Request $request) {
         $user = UserRepository::findByToken($request->bearerToken());
+        if(!$user->is_active) {
+            return $this->sendFailedResponse([], 'Maaf, akun anda tidak aktif');
+        }
         $testis = TestimonialRepository::getAll();
         $unread_notifs = NotificationRepository::getUnreadNotificationByUserId($user->id)->count();
         $articles = ArticleRepository::getAll();
