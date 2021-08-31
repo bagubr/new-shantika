@@ -25,7 +25,7 @@ class CreateChatRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'link' => 'required|active_url',
+            'link' => 'required',
             'value' => 'nullable',
             'type' => 'required',
             'icon' => 'nullable|image|max:2048',

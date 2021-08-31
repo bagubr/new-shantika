@@ -51,6 +51,7 @@ class LayoutController extends Controller
                 'layout_id'=>$layout->id
             ]));
         }
+        $request->session()->flash('success', 'Berhasil menyimpan data!');
         return response([
             $layout,  $chairs     
         ]);
@@ -93,6 +94,7 @@ class LayoutController extends Controller
         $layout = Layout::find($id);
         $layout->update($request->only(['id', 'name', 'note']));
         DB::commit();
+        $request->session()->flash('success', 'Berhasil menyimpan data!');
         return response([
             $layout
         ]);
@@ -104,8 +106,13 @@ class LayoutController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        try {
+            Layout::find($id)->delete();
+            return back()->with('success', 'Layout berhasil dihapus');
+        } catch(\Exception $e) {
+            return back()->with('error', 'Layout gagal dihapus');
+        }
     }
 }
