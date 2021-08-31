@@ -46,8 +46,6 @@ class UserRepository
                     (new self)->sendFailedResponse([], "Oops sepertinya anda harus login ulang");
                 }
                 return $user;
-            } else {
-                (new self)->sendFailedResponse([], "Oops, sepertinya anda harus login ulang");
             }
         } catch (\Throwable $th) {
             (new self)->sendFailedResponse([], "Oops, sepertinya anda harus login ulang");

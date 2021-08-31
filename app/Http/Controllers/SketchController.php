@@ -74,8 +74,8 @@ class SketchController extends Controller
         $order_details = [];
         foreach($froms as $key => $value) {
             $detail = OrderDetail::whereHas('order', function($query) use ($request) {
-                $query->whereDate('reserve_at', $request['date'])->whereHas('fleet_route.fleet_detail', function($subquery) use ($request) {
-                    $subquery->where('fleet_id', $request['first_fleet_id']);
+                $query->whereDate('reserve_at', $request['date'])->whereHas('fleet_route', function($subquery) use ($request) {
+                    $subquery->where('id', $request['first_fleet_route_id']);
                 });
             })->where('layout_chair_id', $value['id'])->first();
             $detail->update([
@@ -87,7 +87,7 @@ class SketchController extends Controller
             $detail->refresh();
             $notification = Notification::build(
                 NotificationMessage::changeChair($detail->order?->fleet_route?->fleet_detail?->fleet?->name, $detail->chair?->name)[0],
-                NotificationMessage::changeChair($detail->order?->fleet_route?->fleet_detail?->fleet?->name, $detail->chair?->name)[1],
+                NotificationMessage::changeChair($detail->order?->fleet_route?->fleet_detail?->fleet->name, $detail->chair?->name)[1],
                 Notification::TYPE5,
                 $detail->order->id,
                 $detail->order->user_id
