@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Chat;
 use Faker\Factory as Faker;
+
 class ChatSeeder extends Seeder
 {
     /**
@@ -22,7 +23,7 @@ class ChatSeeder extends Seeder
         foreach ($data as $key => $value) {
             Chat::create([
                 'name'  => $value,
-                'value' => $faker->url,
+                'link'  => $faker->url,
                 'type'  => 'AGENT',
                 'icon'  => '',
             ]);
@@ -34,11 +35,10 @@ class ChatSeeder extends Seeder
         foreach ($data as $key => $value) {
             Chat::create([
                 'name'  => $value,
-                'value' => $faker->url,
+                'link'  => $faker->url,
                 'type'  => 'CUST',
                 'icon'  => '',
             ]);
         }
-
     }
 }

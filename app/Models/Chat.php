@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 class Chat extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'value', 'type', 'icon', 'link'];
+    protected $fillable = ['name', 'link', 'value', 'type', 'icon'];
 
     public function getIconAttribute($value)
     {

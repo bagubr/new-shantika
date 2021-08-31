@@ -43,23 +43,23 @@ Chat
                         <div class="form-group">
                             <label>Chat Nama</label><span class="text-danger">*</span>
                             <input type="text" class="form-control" name="name" placeholder="Masukkan Nama"
-                                value="{{isset($chat) ? $chat->name : ''}}">
+                                value="{{isset($chat) ? $chat->name : ''}}" required>
                         </div>
                         <div class="form-group">
                             <label>Link</label><span class="text-danger">*</span>
                             <input type="text" name="link" class="form-control" placeholder="Masukkan Link"
-                                value="{{isset($chat) ? $chat->link: ''}}">
+                                value="{{isset($chat) ? $chat->link: ''}}" required>
                         </div>
                         <i class="text-danger">Contoh whatsapp https://wa.me/+6282xxxxxx</i>
                         <div class="form-group">
                             <label for="">Pesan</label>
                             <textarea class="form-control" name="value" id="test1"
-                                placeholder="Masukkan Pesan">{{isset($chat) ? $chat->value : ''}}</textarea>
+                                placeholder="Masukkan Pesan">{{isset($chat) ? str_replace("?text=", "", $chat->value) : ''}}</textarea>
                             <i class="text-danger">Masukkan pesan jika menggunakan link whatsapp</i>
                         </div>
                         <div class="form-group">
                             <label>Tipe</label><span class="text-danger">*</span>
-                            <select name="type" class="form-control" id="">
+                            <select name="type" class="form-control" id="" required>
                                 <option value="">Pilih Tipe</option>
                                 <option value="CUST" @isset($chat) @if ($chat->type == 'CUST')
                                     selected
