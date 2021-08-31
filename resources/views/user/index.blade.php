@@ -39,6 +39,7 @@ User
                                     <th>Nama</th>
                                     <th>Nomor HP</th>
                                     <th>Email</th>
+                                    <th>Status</th>
                                     <th>Image</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -49,6 +50,17 @@ User
                                     <td>{{$user->name}}</td>
                                     <td>{{$user->phone}}</td>
                                     <td>{{$user->email}}</td>
+                                    @if ($user->is_active == 1)
+                                    <td data-toggle="modal" data-target="#exampleModal{{$user->id}}"
+                                        class="text-success text-bold pointer">
+                                        Aktif
+                                    </td>
+                                    @else
+                                    <td data-toggle="modal" data-target="#exampleModal{{$user->id}}"
+                                        class="text-danger text-bold">
+                                        Non Aktif
+                                    </td>
+                                    @endif
                                     <td>
                                         @if ($user->avatar)
                                         <a href="{{$user->avatar_url}}" data-toggle="lightbox">
@@ -61,16 +73,51 @@ User
                                     <td>
                                         <a href="{{route('user.edit',$user->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
-                                        <form action="{{route('user.destroy',$user->id)}}" class="d-inline"
-                                            method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger btn-xs"
-                                                onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
-                                                type="submit">Delete</button>
-                                        </form>
+                                        {{-- <form action="{{route('user.destroy',$user->id)}}" class="d-inline"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger btn-xs"
+                                            onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                            type="submit">Delete</button>
+                                        </form> --}}
                                     </td>
                                 </tr>
+                                <div class="modal fade" id="exampleModal{{$user->id}}" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Ubah Status
+                                                    {{$user->name}}</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form action="{{route('user.update_status',$user->id)}}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <select class="form-control input" name="is_active">
+                                                            @foreach ($statuses as $s => $key)
+                                                            <option value="{{$s}}" @if ($s==$user->is_active)
+                                                                selected
+                                                                @endif>{{$key}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Batal</button>
+                                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                                 @endforeach
                             </tbody>
                         </table>
