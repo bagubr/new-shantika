@@ -155,7 +155,17 @@ Setoran
                                         ({{$order_price_distribution->order?->fleet_route?->fleet_detail?->nickname}})
                                     </td>
                                     <td>{{$order_price_distribution->order?->agency?->name}}</td>
-                                    <td>{{$order_price_distribution->order?->order_detail?->count()}}</td>
+                                    <td>
+                                        {{$order_price_distribution->order?->order_detail?->count()}}
+                                        (
+                                        @foreach ($order_price_distribution->order?->order_detail as $order_detail)
+                                        {{$order_detail->chair?->name}}
+                                        @if (!$loop->last)
+                                        ,
+                                        @endif
+                                        @endforeach
+                                        )
+                                    </td>
                                     <td>
                                         @if ($order_price_distribution->order?->fleet_route)
                                         <a
