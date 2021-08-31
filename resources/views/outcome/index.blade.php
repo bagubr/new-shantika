@@ -45,6 +45,7 @@ Pengeluaran
                                     <th>Kelas Armada</th>
                                     <th>Total Pendapatan</th>
                                     <th>Total Pengeluaran</th>
+                                    <th>Total Pendapatan Bersih</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -58,6 +59,7 @@ Pengeluaran
                                     <td>{{$outcome?->fleet_route?->fleet?->fleetclass?->name??'Non Rute'}}</td>
                                     <td>Rp. {{number_format($outcome->sum_total_pendapatan,2)}}</td>
                                     <td>Rp. {{number_format($outcome->sum_pengeluaran,2)}}</td>
+                                    <td>Rp. {{number_format($outcome->sum_total_pendapatan_bersih,2)}}</td>
                                     <td>
                                         <a href="{{route('outcome.show',$outcome->id)}}"
                                             class="btn btn-info btn-xs">Show</a>
