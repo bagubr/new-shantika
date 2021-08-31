@@ -91,6 +91,11 @@ Agen
                             </div>
                         </div>
                         <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" name="phone" class="form-control" placeholder="Masukkan Nomor Telp" id=""
+                                value="{{isset($agency) ? $agency->phone : ''}}" required>
+                        </div>
+                        <div class="form-group">
                             <label>Alamat</label>
                             <input type="text" name="address" class="form-control" placeholder="Masukkan Alamat" id=""
                                 value="{{isset($agency) ? $agency->address : ''}}" required>
