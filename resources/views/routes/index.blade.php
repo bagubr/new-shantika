@@ -30,9 +30,9 @@ Route
                             <div class="form-row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label>Cari Tujuan</label>
+                                        <label>Cari Area</label>
                                         <select name="area_id" class="form-control">
-                                            <option value="">--PILIH TUJUAN--</option>
+                                            <option value="">--PILIH AREA--</option>
                                             @foreach ($areas as $area)
                                             @if (old('area_id') == $area->id)
                                             <option value="{{$area->id}}" selected>{{$area->name}}</option>
@@ -65,7 +65,7 @@ Route
                             <thead>
                                 <tr>
                                     <th>Nama</th>
-                                    <th>Area</th>
+                                    <th>Tujuan</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>

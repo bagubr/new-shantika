@@ -20,7 +20,11 @@ class HomeController extends Controller
         $data['testimonial'] = TestimonialRepository::getAll();
         $data['customer_menu'] = CustomerMenuRepository::getAll();
         if(!empty($request->token)){
-            UserService::updateFcmToken(UserRepository::findByToken($request->bearerToken()), $request->token);
+            $user = UserRepository::findByToken($request->bearerToken());
+            if(!$user->is_active) {
+                return $this->sendFailedResponse([], 'Maaf, akun anda tidak aktif');
+            }       
+            UserService::updateFcmToken($user, $request->token);
         }
         $this->sendSuccessResponse($data);
     }
