@@ -34,6 +34,7 @@ Pengeluran
                     @include('partials.error')
                     <form action="{{route('outcome.store')}}" method="POST">
                         @csrf
+                        <label for="">Tanggal Pengeluaran</label>
                         <input type="date" class="form-control" name="reported_at"
                                         value="{{((isset($reported_at))?$reported_at:date('Y-m-d'))}}">
                         <input type="hidden" name="fleet_detail_id" value="{{@$fleet_detail_id}}">
