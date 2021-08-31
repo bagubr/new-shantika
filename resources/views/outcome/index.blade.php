@@ -39,7 +39,7 @@ Pengeluaran
                             <thead>
                                 <tr>
                                     <th>Tanggal Laporan</th>
-                                    <th>Rute</th>
+                                    <!-- <th>Rute</th> -->
                                     <th>Tipe Pengeluaran</th>
                                     <th>Armada</th>
                                     <th>Kelas Armada</th>
@@ -53,10 +53,10 @@ Pengeluaran
                                 @foreach ($outcomes as $outcome)
                                 <tr>
                                     <td>{{$outcome->reported_at}}</td>
-                                    <td>{{$outcome?->fleet_route?->route->name??"Non Rute"}}</td>
+                                    <!-- <td>{{$outcome?->fleet_detail?->route->name??"Non Rute"}}</td> -->
                                     <td>{{$outcome->outcome_type?->name??'-'}}</td>
-                                    <td>{{$outcome?->fleet_route?->fleet?->name??'Non Rute'}}</td>
-                                    <td>{{$outcome?->fleet_route?->fleet?->fleetclass?->name??'Non Rute'}}</td>
+                                    <td>{{$outcome?->fleet_detail?->fleet?->name??'Non Rute'}}</td>
+                                    <td>{{$outcome?->fleet_detail?->fleet?->fleetclass?->name??'Non Rute'}}</td>
                                     <td>Rp. {{number_format($outcome->sum_total_pendapatan,2)}}</td>
                                     <td>Rp. {{number_format($outcome->sum_pengeluaran,2)}}</td>
                                     <td>Rp. {{number_format($outcome->sum_total_pendapatan_bersih,2)}}</td>
