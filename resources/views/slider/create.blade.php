@@ -58,15 +58,11 @@ Slider
                                 {{isset($slider) ? $slider->description : ''}}
                             </textarea>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group d-none">
                             <label>Tipe</label>
-                            <select name="type" class="form-control">
+                            <select name="type" class="form-control" readonly>
                                 <option value="">Pilih Tipe</option>
-                                @foreach ($types as $type)
-                                <option value="{{$type}}" @isset($slider) @if ($type===$slider->type)
-                                    selected
-                                    @endif @endisset>{{$type}}</option>
-                                @endforeach
+                                <option value="CUST" selected>CUSTOMER</option>
                             </select>
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>

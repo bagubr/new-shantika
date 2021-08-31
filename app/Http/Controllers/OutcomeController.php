@@ -14,13 +14,98 @@ use App\Models\Fleet;
 use App\Models\FleetDetail;
 use App\Models\FleetRoute;
 use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
 
 class OutcomeController extends Controller
 {
+    protected $params;
+
+    public function __construct()
+    {
+        $this->params = ['weekly' => 'Harian', 'monthly' => 'Bulan', 'yearly' => 'Tahun'];
+    }
+
     public function index(Request $request)
     {
         $outcomes = Outcome::paginate(10);
-        return view('outcome.index', compact('outcomes'));
+        $data = $this->statistic($request);
+        $params = $this->params;
+        return view('outcome.index', compact('outcomes', 'params', 'data'));
+    }
+
+    public function statistic(Request $request)
+    {
+        $params = $request->params??'weekly';
+        if($params == 'weekly'){
+            $label = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
+            $now = $this->weekly();
+            $previous = $this->weekly(-7);
+        }elseif($params == 'monthly'){
+            $label = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "August", "September", "October", "November", "Desember"];
+            $now = $this->mountly();
+            $previous = $this->mountly(-12);
+        }elseif($params == 'yearly'){
+            for ($i = 0; $i < 10; $i++) {
+                $label[] = Carbon::now()->startOfDecade()->addYear($i)->format('Y');
+            }
+            $now = $this->yearly();
+            $previous = $this->yearly();
+        }
+
+        return [
+            'labels' => $label,
+            'now' => $now,
+            'previous' => $previous,
+        ];
+    }
+
+    public function weekly($day = 0)
+    {
+        for ($i = $day; $i < 7; $i++) {
+            $startOfLastWeek  = Carbon::now()->startOfWeek()->addDay($i);
+            $outcomes = Outcome::whereDate('reported_at', '=', $startOfLastWeek)->get();
+
+            $sum = 0;
+            foreach ($outcomes as $key => $value) {
+                $sum += $value->sum_total_pendapatan_bersih;
+            }
+            $data[] = $sum;
+
+        }
+        return $data;
+    }
+
+    public function mountly($month = 0)
+    {
+        for ($i = $month; $i < 12; $i++) {
+            $start    =  Carbon::now()->startOfYear()->addMonth($i)->format('Y-m-d');
+            $end      =  Carbon::now()->startOfYear()->endOfMonth()->addMonth($i)->format('Y-m-d');
+            $outcomes = Outcome::whereDate('reported_at', '>=', $start)->whereDate('reported_at', '<=', $end)->get();
+
+            $sum = 0;
+            foreach ($outcomes as $key => $value) {
+                $sum += $value->sum_total_pendapatan_bersih;
+            }
+            $data[] = $sum;
+
+        }
+        return $data;
+    }
+
+    public function yearly()
+    {
+        for ($i = 0; $i < 10; $i++) {
+            $year     = Carbon::now()->startOfDecade()->addYear($i)->format('Y');
+            $outcomes = Outcome::whereYear('reported_at', '=', $year)->get();
+
+            $sum = 0;
+            foreach ($outcomes as $key => $value) {
+                $sum += $value->sum_total_pendapatan_bersih;
+            }
+            $data[] = $sum;
+
+        }
+        return $data;
     }
 
     public function create()

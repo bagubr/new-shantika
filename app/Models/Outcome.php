@@ -20,6 +20,7 @@ class Outcome extends Model
 
     protected $appends = [
         'sum_total_pendapatan',
+        'sum_total_pendapatan_bersih',
         'sum_pengeluaran',
         'sum_food',
         'sum_travel',
@@ -27,10 +28,16 @@ class Outcome extends Model
         'sum_commition',
     ];
 
+    public function getSumTotalPendapatanBersihAttribute()
+    {
+        return $this->sum_total_pendapatan - $this->sum_pengeluaran;
+    }
+
     public function getSumTotalPendapatanAttribute()
     {
         return OrderPriceDistribution::whereIn('order_id', json_decode($this->order_price_distribution_id))->sum('for_owner');
     }
+
 
     public function getSumPengeluaranAttribute()
     {

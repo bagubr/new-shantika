@@ -52,16 +52,16 @@ Route
                         </div>
                         @endisset
                         <div class="form-group">
-                            <label>Pilih Area</label>
+                            <label>Pilih Tujuan</label>
                             <select name="area_id" class="form-control myselect" id="area_id">
-                                <option value="">--PILIH AREA--</option>
+                                <option value="">--PILIH TUJUAN--</option>
                                 <option value="1">JAWA</option>
                                 <option value="2">JABODETABEK</option>
                             </select>
                             <small class="text-danger d-none" id="refresh"><i class="fas fa-info-circle"></i> Refresh
                                 halaman
                                 jika ingin
-                                mengganti Area</small>
+                                mengganti Tujuan</small>
                         </div>
                         <div>
                             <label>Pilih Line</label>
