@@ -27,7 +27,7 @@ class OutcomeController extends Controller
 
     public function index(Request $request)
     {
-        $outcomes = Outcome::paginate(10);
+        $outcomes = Outcome::ORDERbY('id', 'desc')->paginate(10);
         $data = $this->statistic($request);
         $params = $this->params;
         return view('outcome.index', compact('outcomes', 'params', 'data'));
@@ -227,13 +227,12 @@ class OutcomeController extends Controller
 
     public function destroy($id)
     {
-        $outcome = Outcome::find($id);
-        $outcome->delete();
         try {
-            return redirect()->back()->with('success', 'Berhasil Hapus Data');
+            $outcome = Outcome::find($id);
+            $outcome->delete();
         } catch (\Throwable $th) {
-            return redirect()->back()->with('success', 'Gagal Hapus Data');
         }
+        return redirect()->back()->with('success', 'Berhasil Hapus Data');
     }
 
     // public function export($id)
