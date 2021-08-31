@@ -36,7 +36,11 @@ class UserService {
     }
 
     public static function getAuthenticatedUser($token) {
-        $user = UserRepository::findByToken($token);
+        try {
+            $user = UserRepository::findByToken($token);
+        } catch (\Exception $e) {
+            $user = null;
+        }
 
         return $user 
             ? $user 
