@@ -14,7 +14,7 @@ class UserController extends Controller
         $user = UserRepository::findByToken($request->bearerToken()) 
         ?? $this->sendFailedResponse([], 'Anda sepertinya perlu login ulang / anda perlu regis ulang');
         if($user->is_active == false ){
-            return $this->sendFailedResponse([], 'Anda sepertinya perlu login ulang / anda perlu regis ulang');
+            return $this->sendFailedResponse([], 'Anda sepertinya perlu login ulang / anda perlu regis ulang', 401);
         }
 
         return $this->sendSuccessResponse([
