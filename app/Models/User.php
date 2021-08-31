@@ -24,6 +24,7 @@ class User extends Authenticatable
         'birth_place',
         'gender',
         'uuid',
+        'is_active',
         'address',
     ];
 
