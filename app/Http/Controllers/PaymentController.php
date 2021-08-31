@@ -68,7 +68,7 @@ class PaymentController extends Controller
         $payment_types = PaymentTypeRepository::all();
         $test = strtotime($payment->paid_at);
         $time = date('Y-m-d', $test);
-        $statuses = ['PAID', 'WAITING_CONFIRMATION', 'DECLINED'];
+        $statuses = ['PAID', 'DECLINED'];
         return view('payment.create', compact('payment', 'payment_types', 'statuses', 'time'));
     }
 
