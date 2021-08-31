@@ -24,7 +24,6 @@ class UpdatePaymentRequest extends FormRequest
     public function rules()
     {
         return [
-            'payment_type_id' => 'required|exists:payment_types,id',
             'status' => 'required',
             'paid_at' => 'nullable',
             'proof' => 'nullable|image|max:2048',
