@@ -354,13 +354,13 @@ Sketch
 
                     if (chair.is_unavailable) {
                         if(chair.is_selected) {
-                            return `<marquee scrollamount="2">${chair.name} <i class="fas fa-user-check"></i> ${chair.code}</marquee>`
+                            return `<marquee scrollamount="2">${chair.name} <i class="fas fa-user-check"></i> ${chair.code || ''}</marquee>`
                         } else if (chair.is_switched) {
-                            return `<marquee scrollamount="2">${chair.name} <i class="fas fa-user-tag"></i> ${chair.code}</marquee>`
+                            return `<marquee scrollamount="2">${chair.name} <i class="fas fa-user-tag"></i> ${chair.code || ''}</marquee>`
                         }
-                        return `<marquee scrollamount="2">${chair.name} <i class="fas fa-user"></i> ${chair.code}</marquee>`
+                        return `<marquee scrollamount="2">${chair.name} <i class="fas fa-user"></i> ${chair.code || ''}</marquee>`
                     } else if (chair.is_booking) {
-                        return `<marquee scrollamount="2">${chair.name} <i class="fas fa-user-tag"></i> ${chair.code}</marquee>`
+                        return `<marquee scrollamount="2">${chair.name} <i class="fas fa-user-tag"></i> ${chair.code || ''}</marquee>`
                     } else if(chair.is_door) {
                         return `<span><i class="fas fa-door-closed"></i></span>`
                     } else if (chair.is_space) {
