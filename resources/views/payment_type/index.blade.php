@@ -49,15 +49,14 @@ Tipe Pembayaran
                                 <td>
                                     <a href="{{route('payment_type.edit',$payment_type->id)}}"
                                         class="btn btn-warning btn-xs">Edit</a>
-                                    {{-- <form action="{{route('payment_type.destroy',$payment_type->id)}}"
-                                    class="d-inline"
-                                    method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-danger btn-xs"
-                                        onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
-                                        type="submit">Delete</button>
-                                    </form> --}}
+                                    <form action="{{route('payment_type.destroy',$payment_type->id)}}" class="d-inline"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger btn-xs"
+                                            onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                            type="submit">Delete</button>
+                                    </form>
                                 </td>
                             </tr>
                             @endforeach
