@@ -28,7 +28,7 @@ class CustomerMenuController extends Controller
      */
     public function create()
     {
-        return view('customer_menu.create');
+        // return view('customer_menu.create');
     }
 
     /**
