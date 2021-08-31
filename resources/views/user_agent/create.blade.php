@@ -87,7 +87,7 @@ User Agent
                         <div class="form-group">
                             <label>Phone</label><span class="text-danger">*</span>
                             <input type="text" name="phone" class="form-control" id="" placeholder="Masukkan Nomor Hp"
-                                value="{{isset($user_agent) ? $user_agent->phone : old('phone')}}">
+                                value="{{isset($user_agent) ? $user_agent->phone : old('phone')}}" required>
                             <span class="text-red">co. +62812345678</span>
                         </div>
                         <div class="form-group">
@@ -101,6 +101,18 @@ User Agent
                             <textarea name="address" class="form-control"
                                 id="">{{isset($user_agent) ? $user_agent->address : old('address')}}</textarea>
                         </div>
+                        @if (Request::routeIs('user_agent.edit'))
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select class="form-control input" name="is_active" required>
+                                @foreach ($statuses as $s => $key)
+                                <option value="{{$s}}" @if ($s==$user_agent->is_active)
+                                    selected
+                                    @endif>{{$key}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @endif
                         <div class="form-group">
                             <label>Avatar</label>
                             <input type="file" accept="image/*" class="form-control" name="avatar">

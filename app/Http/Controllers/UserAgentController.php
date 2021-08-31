@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserAgent\CreateUserAgentRequest;
 use App\Http\Requests\UserAgent\UpdateUserAgentRequest;
+use App\Models\Agency;
 use App\Models\Area;
 use App\Models\Order;
 use App\Models\User;
@@ -23,7 +24,8 @@ class UserAgentController extends Controller
         $users = User::whereHas('agencies')->get();
         $agencies = AgencyRepository::all_order();
         $areas = Area::all();
-        return view('user_agent.index', compact('users', 'agencies', 'areas'));
+        $statuses = Agency::status();
+        return view('user_agent.index', compact('users', 'agencies', 'areas', 'statuses'));
     }
     public function search(Request $request)
     {
@@ -124,7 +126,16 @@ class UserAgentController extends Controller
     {
         $agencies = AgencyRepository::all_order();
         $genders = ['Male', 'Female'];
-        return view('user_agent.create', compact('user_agent', 'genders', 'agencies'));
+        $statuses = Agency::status();
+        return view('user_agent.create', compact('user_agent', 'genders', 'agencies', 'statuses'));
+    }
+    public function update_status(Request $request, User $user_agent)
+    {
+        $user_agent->update([
+            'is_active' => $request->is_active,
+        ]);
+        session()->flash('success', 'Agency Status Berhasil Diubah');
+        return redirect(route('user_agent.index'));
     }
 
     /**
@@ -136,7 +147,7 @@ class UserAgentController extends Controller
      */
     public function update(UpdateUserAgentRequest $request, User $user_agent)
     {
-        $data = $request->only(['name', 'phone', 'email', 'birth_place', 'birth', 'address', 'gender']);
+        $data = $request->only(['name', 'phone', 'email', 'birth_place', 'birth', 'address', 'gender', 'is_active']);
         $number = $request->phone;
         $country_code = '62';
         $isZero = substr($number, 0, 1);
