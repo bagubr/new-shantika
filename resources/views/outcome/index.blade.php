@@ -98,9 +98,6 @@ Pengeluaran
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="text-right">
-                                <button class="btn btn-success" type="submit">Cari</button>
-                            </div>
                         </form>
                         <div class="chart">
                             <canvas id="barChart"
@@ -137,7 +134,7 @@ Pengeluaran
       @endforeach],
       datasets: [
         {
-          label               : 'Jawa',
+          label               : 'Sekarang',
           backgroundColor     : '#17a2b8',
           borderColor         : '#17a2b8',
           pointRadius         : false,
@@ -148,7 +145,7 @@ Pengeluaran
           data                : [@foreach ($data['now'] as $value){{$value}},@endforeach]
         },
         {
-          label               : 'Jabodetabek',
+          label               : 'Sebelumnya',
           backgroundColor     : '#c1c7d1',
           borderColor         : '#c1c7d1',
           pointRadius         : false,
