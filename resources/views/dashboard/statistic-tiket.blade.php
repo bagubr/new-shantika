@@ -64,16 +64,22 @@
 </script>
 <script>
     $(document).on('change', '.statistic', function (e) {
-        console.log(this.value);
+        var params = this.value;
         $.ajax({
             url: "{{url('dashboard/dashboard')}}",
             type: "POST",
             data: {
                 _token: '{{ csrf_token() }}',
-                params: this.value,
+                params: params,
             },
             success: function (data) {
                 console.log(data);
+                $('.change-statistic').attr('data-digit', 0);
+                if(params == 'weekly'){
+                    $('.change-statistic-previous').attr('data-digit', -7);
+                }else{
+                    $('.change-statistic-previous').attr('data-digit', -12);
+                }
                 window.ChartNow.data.labels = data['now']['labels'];
                 window.ChartPrevious.data.labels = data['previous']['labels'];
                 window.ChartNow.data.datasets[0].data = data['now']['data'][0];
@@ -89,14 +95,19 @@
 
 <script>
     $(document).on('click', '.change-statistic', function (e) {
-        var digit_now = parseInt($(this).attr('data-digit')) - 7;
+        var params = $('.statistic').val();
+        if(params == 'weekly'){
+            var digit_now = parseInt($(this).attr('data-digit')) - 7;
+        }else{
+            var digit_now = parseInt($(this).attr('data-digit')) - 12;
+        }
 
         $.ajax({
             url: "{{url('dashboard/dashboard')}}",
             type: "POST",
             data: {
                 _token: '{{ csrf_token() }}',
-                params: $('.statistic').val(),
+                params: params,
                 digit: digit_now,
             },
             success: function (data) {
@@ -118,13 +129,18 @@
 
 <script>
     $(document).on('click', '.change-statistic-previous', function (e) {
-        var digit_now = parseInt($(this).attr('data-digit')) + 7;
+        var params = $('.statistic').val();
+        if(params == 'weekly'){
+            var digit_now = parseInt($(this).attr('data-digit')) + 7;
+        }else{
+            var digit_now = parseInt($(this).attr('data-digit')) + 12;
+        }
         $.ajax({
             url: "{{url('dashboard/dashboard')}}",
             type: "POST",
             data: {
                 _token: '{{ csrf_token() }}',
-                params: $('.statistic').val(),
+                params: params,
                 digit: digit_now,
             },
             success: function (data) {
