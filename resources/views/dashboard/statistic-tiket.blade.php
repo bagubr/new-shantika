@@ -83,6 +83,8 @@
                 window.ChartNow.data.labels = data['now']['labels'];
                 window.ChartPrevious.data.labels = data['previous']['labels'];
                 window.ChartNow.data.datasets[0].data = data['now']['data'][0];
+                window.ChartNow.data.datasets[1].data = data['now']['data'][1];
+                window.ChartPrevious.data.datasets[0].data = data['previous']['data'][0];
                 window.ChartPrevious.data.datasets[1].data = data['previous']['data'][1];
                 $('.label-now').html(data['now']['data']['label']);
                 $('.label-previous').html(data['previous']['data']['label']);
@@ -115,6 +117,8 @@
                 window.ChartNow.data.labels = data['now']['labels'];
                 window.ChartPrevious.data.labels = data['previous']['labels'];
                 window.ChartNow.data.datasets[0].data = data['now']['data'][0];
+                window.ChartNow.data.datasets[1].data = data['now']['data'][1];
+                window.ChartPrevious.data.datasets[0].data = data['previous']['data'][0];
                 window.ChartPrevious.data.datasets[1].data = data['previous']['data'][1];
                 $('.label-now').html(data['now']['data']['label']);
                 $('.label-previous').html(data['previous']['data']['label']);
@@ -148,6 +152,8 @@
                 window.ChartNow.data.labels = data['now']['labels'];
                 window.ChartPrevious.data.labels = data['previous']['labels'];
                 window.ChartNow.data.datasets[0].data = data['now']['data'][0];
+                window.ChartNow.data.datasets[1].data = data['now']['data'][1];
+                window.ChartPrevious.data.datasets[0].data = data['previous']['data'][0];
                 window.ChartPrevious.data.datasets[1].data = data['previous']['data'][1];
                 $('.label-now').html(data['now']['data']['label']);
                 $('.label-previous').html(data['previous']['data']['label']);
