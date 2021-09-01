@@ -82,13 +82,9 @@ Dashboard
             <form action="{{route('dashboard')}}" method="GET">
                 <div class="form-group">
                     <label>Periode</label>
-                    <select name="statistic" class="form-control statistic-penjualan">
-                        @foreach ($params as $key => $value)
-                        @if (old('statistic') == $key)
-                        <option value="{{$key}}" selected>{{$value}}</option>
-                        @else
+                    <select name="tiket" class="form-control statistic">
+                        @foreach ($data['params'] as $key => $value)
                         <option value="{{$key}}">{{$value}}</option>
-                        @endif
                         @endforeach
                     </select>
                 </div>
@@ -96,140 +92,24 @@ Dashboard
                     <button class="btn btn-success" type="submit">Cari</button>
                 </div> -->
             </form>
-            <div class="chart">
-                <canvas id="barChart"
-                    style="min-height: 250px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
-            </div>
-        </div>
-    </div>
-    <div class="card card-primary">
-        <div class="card-header">
-            <h3 class="card-title">Pemesan</h3>
-            <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                </button>
-            </div>
-        </div>
-        <div class="card-body">
-            <form action="{{route('dashboard')}}" method="GET">
-                <div class="form-row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Armada Bus</label>
-                            <select name="fleet_detail" class="form-control select2">
-                                <option value="">-Semua Armada-</option>
-                                @foreach ($fleet_details as $fleet_detail)
-                                @if (old('fleet_detail') == $fleet_detail->id)
-                                <option value="{{$fleet_detail->id}}" selected>
-                                    {{$fleet_detail->fleet?->name}}/{{$fleet_detail->fleet?->fleetclass?->name}}
-                                    ({{$fleet_detail->nickname}})
-                                </option>
-                                @else
-                                <option value="{{$fleet_detail->id}}">
-                                    {{$fleet_detail->fleet?->name}}/{{$fleet_detail->fleet?->fleetclass?->name}}
-                                    ({{$fleet_detail->nickname}})
-                                </option>
-                                @endif
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Tujuan</label>
-                            <select name="tujuan" class="form-control select2">
-                                <option value="">-Semua Tujuan-</option>
-                                @foreach ($agencies as $agency)
-                                @if (old('tujuan') == $agency->id)
-                                <option selected value="{{$agency->id}}">{{$agency->name}}</option>
-                                @endif
-                                <option value="{{$agency->id}}">{{$agency->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <button class="btn btn-success" type="submit">Cari</button>
-                </div>
-            </form>
-            <table class="table table-bordered table-striped my-3" id="example1">
-                <thead>
-                    <tr>
-                        <th>Kode Order</th>
-                        <th>Tanggal</th>
-                        <th>Armada</th>
-                        <th>Total Tiket</th>
-                        <th>Tujuan</th>
-                        <th>Total Pendapatan</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($orders as $order)
-                    <tr>
-                        <td>{{$order->code_order}}</td>
-                        <td>{{$order->reserve_at}}</td>
-                        <td>{{$order->fleet_route?->fleet_detail?->fleet->name}}/{{$order->fleet_route?->fleet_detail?->fleet?->fleetclass?->name}}
-                            ({{$order->fleet_route?->fleet_detail?->nickname}})
-                        </td>
-                        <td>{{count($order->order_detail)}}</td>
-                        <td>
-                            {{$order->agency_destiny?->name}}
-                        </td>
-                        <td>Rp. {{number_format($order->price,2)}}</td>
-                        <td><a href="{{route('order.show', $order->id)}}" class="badge badge-primary"
-                                target="">Detail</a></td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="card card-success">
-        <div class="card-header">
-            <h3 class="card-title">Statistik Pendapatan Penjualan Tiket</h3>
-            <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                </button>
-            </div>
-        </div>
-        <div class="card-body">
-            <form action="{{route('dashboard')}}" method="GET">
-                <div class="form-group">
-                    <label>Periode</label>
-                    <select name="tiket" class="form-control">
-                        @foreach ($params as $key => $value)
-                        @if (old('tiket') == $key)
-                        <option value="{{$key}}" selected>{{$value}}</option>
-                        @else
-                        <option value="{{$key}}">{{$value}}</option>
-                        @endif
-                        @endforeach
-                    </select>
-                </div>
-                <div class="text-right">
-                    <button class="btn btn-success" type="submit">Cari</button>
-                </div>
-            </form>
             <div class="row">
                 <div class="col">
                     <div class="text-center">
-                        <p>{{$data_tiket['this_week']}}</p>
+                        <i class="fas fa-arrow-left change-statistic" data-digit="{{$data['digit']??0}}"></i>
+                        <p class="label-now">{{$data['now']['data']['label']}}</p>
                     </div>
                     <div class="chart">
-                        <canvas id="barChart2"
+                        <canvas id="ChartNow"
                             style="min-height: 250px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
                     </div>
                 </div>
                 <div class="col">
                     <div class="text-center">
-                        <p>{{$data_tiket['last_week']}}</p>
+                        <i class="fas fa-arrow-right change-statistic-previous" data-digit="{{$data['digit']??0}}"></i>
+                        <p class="label-previous">{{$data['previous']['data']['label']}}</p>
                     </div>
                     <div class="chart">
-                        <canvas id="barChart5"
+                        <canvas id="ChartPrevious"
                             style="min-height: 250px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
                     </div>
                 </div>
@@ -244,82 +124,6 @@ Dashboard
 <script src="{{asset('plugins/chart.js/Chart.min.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 @include('dashboard.statistic-tiket')
-<script>
-    const labels1 = [@foreach ($data_tiket['params'] as  $d)
-        "{{$d}}",
-    @endforeach];        
-    const data4 = {
-        labels: labels1,
-        datasets: [{
-            label: 'Jawa',
-            data            : [@foreach ($data_tiket['weekly'][0] as $d)
-                                    {{$d}},
-                                @endforeach],
-            backgroundColor : 'rgb(255, 99, 132)',
-            borderColor     : 'rgb(255, 99, 132)',
-        },
-        {
-            label           : 'Jabodetabek',
-            backgroundColor : 'rgb(253, 206, 18)',
-            borderColor     : 'rgb(253, 206, 18)',
-            data            : [@foreach ($data_tiket['weekly2'][0] as $d)
-                            {{$d}},
-                            @endforeach],
-        },
-        ]
-    };
-    const data5 = {
-        labels: labels1,
-        datasets: [{
-            label           : 'Jawa',
-            data            : [@foreach ($data_tiket['weekly_last'][0] as $d)
-                                    {{$d}},
-                                @endforeach],
-            backgroundColor : 'rgb(255, 99, 132)',
-            borderColor     : 'rgb(255, 99, 132)',
-        },
-        {
-            label           : 'Jabodetabek',
-            backgroundColor : 'rgb(253, 206, 18)',
-            borderColor     : 'rgb(253, 206, 18)',
-            data            : [@foreach ($data_tiket['weekly_last2'][0] as $d)
-                            {{$d}},
-                            @endforeach],
-        },
-        ]
-    };
-    const config4 = {
-        type: 'bar',
-        data: data4,
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        },
-    };
-    const config5 = {
-        type: 'bar',
-        data: data5,
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        },
-    };
-    var barChart2 = new Chart(
-        document.getElementById("barChart2"),
-        config4
-    );
-    var barChart5 = new Chart(
-        document.getElementById("barChart5"),
-        config5
-    );
-</script>
-
 <script>
     $(function () {
       $("#example1").DataTable({

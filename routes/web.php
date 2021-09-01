@@ -13,6 +13,7 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\ConfigSettingController;
 use App\Http\Controllers\CustomerMenuController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Dashboard2Controller;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FleetClassController;
@@ -87,7 +88,8 @@ Route::post('admin/store/fcm_token', [LoginController::class, 'storeFcmToken']);
 
 Route::group(['middleware' => ['auth']], function () {
 
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/', [Dashboard2Controller::class, 'index'])->name('dashboard');
+    Route::post('dashboard/dashboard', [Dashboard2Controller::class, 'statistic'])->name('dashboard.statistic');
     Route::get('schedule_not_operate/search', [ScheduleNotOperateController::class, 'search'])->name('schedule_not_operate.search');
     Route::get('order/search', [OrderController::class, 'search'])->name('order.search');
 
