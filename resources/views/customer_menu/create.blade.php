@@ -42,18 +42,27 @@ Menu Pengguna
                         @endisset
                         <div class="form-group">
                             <label>Nama Menu</label>
-                            <input type="text" class="form-control" name="name"
+                            <input type="text" class="form-control" name="name" required
                                 value="{{isset($customer_menu) ? $customer_menu->name : ''}}">
                         </div>
                         <div class="form-group">
                             <label>Urutan</label>
-                            <input type="number" class="form-control" name="order"
+                            <input type="number" class="form-control" name="order" required
                                 value="{{isset($customer_menu) ? $customer_menu->order : ''}}">
                         </div>
                         <div class="form-group">
                             <label>Icon</label>
                             <input type="file" class="form-control" name="icon" accept="image/*"
                                 value="{{isset($customer_menu) ? $customer_menu->icon : ''}}">
+                            <small class="text-danger"><i class="fas fa-info-circle"></i> Pastikan ukuran gambar
+                                312x312(72)dpi, agar hasil maksimal</small>
+                            <br>
+                            @isset($customer_menu)
+                            <a href="{{$customer_menu->icon}}" data-toggle="lightbox">
+                                <img src="{{isset($customer_menu) ? $customer_menu->icon : ''}}" class="img-thumbnail"
+                                    style="height: 100px" alt="">
+                            </a>
+                            @endisset
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">

@@ -72,6 +72,15 @@ Chat
                         <div class="form-group">
                             <label>Icon</label>
                             <input type="file" class="form-control" name="icon" accept="image/*">
+                            <small class="text-danger"><i class="fas fa-info-circle"></i> Pastikan ukuran gambar
+                                312x312(72)dpi, agar hasil maksimal</small>
+                            <br>
+                            @isset($chat)
+                            <a href="{{$chat->icon}}" data-toggle="lightbox">
+                                <img src="{{isset($chat) ? $chat->icon : ''}}" class="img-thumbnail"
+                                    style="height: 100px" alt="">
+                            </a>
+                            @endisset
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">

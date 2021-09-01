@@ -45,18 +45,27 @@ Artikel
                         @endisset
                         <div class="form-group">
                             <label for="inputName">Nama Artikel</label>
-                            <input type="text" id="inputName" class="form-control" name="name"
+                            <input type="text" id="inputName" class="form-control" name="name" required
                                 placeholder="Masukkan Nama" value="{{isset($article) ? $article->name : ''}}">
                         </div>
                         <div class="form-group">
                             <label>Deskripsi</label>
-                            <textarea id="summernote" name="description">
+                            <textarea id="summernote" name="description" required>
                                 {{isset($article) ? $article->description : ''}}
                             </textarea>
                         </div>
                         <div class="form-group">
                             <label>Gambar</label>
                             <input type="file" class="form-control" name="image" accept="image/*">
+                            <small class="text-danger"><i class="fas fa-info-circle"></i> Pastikan ukuran gambar
+                                445 x 445 (72)dpi, agar hasil maksimal</small>
+                            <br>
+                            @isset($article)
+                            <a href="{{$article->image}}" data-toggle="lightbox">
+                                <img src="{{isset($article) ? $article->image : ''}}" class="img-thumbnail"
+                                    style="height: 100px" alt="">
+                            </a>
+                            @endisset
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">

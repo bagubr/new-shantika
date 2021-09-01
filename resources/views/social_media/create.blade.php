@@ -43,17 +43,27 @@ Social Detail
                         <div class="form-group">
                             <label>Nama</label>
                             <input type="text" class="form-control" name="name"
-                                value="{{isset($social_media) ? $social_media->name : ''}}" placeholder="Masukkan Nama">
+                                value="{{isset($social_media) ? $social_media->name : ''}}" placeholder="Masukkan Nama"
+                                required>
                         </div>
                         <div class="form-group">
                             <label>Link</label>
                             <input type="text" class="form-control" name="value"
-                                value="{{isset($social_media) ? $social_media->value : ''}}"
+                                value="{{isset($social_media) ? $social_media->value : ''}}" required
                                 placeholder="Masukkan Link">
                         </div>
                         <div class="form-group">
                             <label>Icon</label>
                             <input type="file" name="icon" class="form-control" id="" accept="image/*">
+                            <small class="text-danger"><i class="fas fa-info-circle"></i> Pastikan ukuran gambar
+                                312x312(72)dpi, agar hasil maksimal</small>
+                            <br>
+                            @isset($social_media)
+                            <a href="{{$social_media->icon}}" data-toggle="lightbox">
+                                <img src="{{isset($social_media) ? $social_media->icon : ''}}" class="img-thumbnail"
+                                    style="height: 100px" alt="">
+                            </a>
+                            @endisset
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">

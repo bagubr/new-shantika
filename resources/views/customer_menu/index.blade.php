@@ -43,7 +43,11 @@ Menu Pengguna
                                 @foreach ($customer_menus as $customer_menu)
                                 <tr>
                                     <td>{{$customer_menu->name}}</td>
-                                    <td><img src="{{$customer_menu->icon}}" height="100px" alt="">
+                                    <td>
+                                        <a href="{{$customer_menu->icon}}" data-toggle="lightbox">
+                                            <img src="{{isset($customer_menu) ? $customer_menu->icon : ''}}"
+                                                class="img-thumbnail" style="height: 100px" alt="">
+                                        </a>
                                     </td>
                                     <td>{{$customer_menu->order}}</td>
                                     <td><a href="{{route('customer_menu.edit',$customer_menu->id)}}"

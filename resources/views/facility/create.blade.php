@@ -42,12 +42,21 @@ Facility
                         @endisset
                         <div class="form-group">
                             <label>Nama</label>
-                            <input type="text" class="form-control" name="name" placeholder="Masukkan Nama"
+                            <input type="text" class="form-control" name="name" placeholder="Masukkan Nama" required
                                 value="{{isset($facility) ? $facility->name : ''}}">
                         </div>
                         <div class="form-group">
                             <label>Gambar</label>
                             <input type="file" name="image" accept="image/*" class="form-control" alt="">
+                            <small class="text-danger"><i class="fas fa-info-circle"></i> Pastikan ukuran gambar
+                                412x412(72)dpi, agar hasil maksimal</small>
+                            <br>
+                            @isset($facility)
+                            <a href="{{$facility->image}}" data-toggle="lightbox">
+                                <img src="{{isset($facility) ? $facility->image : ''}}" class="img-thumbnail"
+                                    style="height: 100px" alt="">
+                            </a>
+                            @endisset
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">

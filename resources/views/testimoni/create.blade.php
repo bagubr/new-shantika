@@ -45,12 +45,12 @@ Testimoni
                         @endisset
                         <div class="form-group">
                             <label>Judul</label>
-                            <input type="text" name="title" class="form-control" placeholder="Masukkan Judul"
+                            <input type="text" name="title" class="form-control" placeholder="Masukkan Judul" required
                                 value="{{isset($testimoni) ? $testimoni->title : ''}}">
                         </div>
                         <div class="form-group">
                             <label>Pengguna</label>
-                            <select name="user_id" class="form-control select2" id="">
+                            <select name="user_id" class="form-control select2" required>
                                 <option value="">Pilih Pengguna</option>
                                 @foreach ($users as $user)
                                 <option value="{{$user->id}}" @isset($testimoni) @if ($user->id == $testimoni->user_id)
@@ -61,14 +61,23 @@ Testimoni
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Gambar</label>
-                            <input type="file" class="form-control" name="image" accept="image/*">
-                        </div>
-                        <div class="form-group">
                             <label>Review</label>
-                            <textarea id="summernote" name="review">
+                            <textarea id="summernote" name="review" required>
                                 {{isset($testimoni) ? $testimoni->review : ''}}
                             </textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Gambar</label>
+                            <input type="file" class="form-control" name="image" accept="image/*">
+                            <small class="text-danger"><i class="fas fa-info-circle"></i> Pastikan ukuran gambar
+                                445x230(72)dpi, agar hasil maksimal</small>
+                            <br>
+                            @isset($testimoni)
+                            <a href="{{$testimoni->image}}" data-toggle="lightbox">
+                                <img src="{{isset($testimoni) ? $testimoni->image : ''}}" class="img-thumbnail"
+                                    style="height: 100px" alt="">
+                            </a>
+                            @endisset
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">

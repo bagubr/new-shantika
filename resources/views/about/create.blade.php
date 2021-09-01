@@ -45,17 +45,19 @@ Tentang Kita
                         @endisset
                         <div class="form-group">
                             <label>Deskripsi</label>
-                            <textarea name="description" id="summernote"
+                            <textarea name="description" id="summernote" required
                                 class="form-control">{{isset($about) ? $about->description : ''}}</textarea>
                         </div>
                         <div class="form-group">
                             <label>Alamat</label>
                             <input type="text" class="form-control" name="address" placeholder="Masukkan Alamat"
-                                value="{{isset($about) ? $about->address : ''}}">
+                                required value="{{isset($about) ? $about->address : ''}}">
                         </div>
                         <div class="form-group">
                             <label>Gambar</label>
                             <input type="file" name="image" class="form-control" accept="image/*" id="">
+                            <small class="text-danger"><i class="fas fa-info-circle"></i> Pastikan ukuran gambar
+                                445x236(72)dpi, agar hasil maksimal</small>
                         </div>
                         <div class="form-group">
                             <a href="{{isset($about) ? $about->image : ''}}" data-toggle="lightbox">
