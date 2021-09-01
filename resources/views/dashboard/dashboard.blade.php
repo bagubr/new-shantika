@@ -99,8 +99,8 @@ Dashboard
                         <p class="label-now">{{$data['now']['data']['label']}}</p>
                     </div>
                     <div class="chart">
-                        <canvas id="ChartNow"
-                            style="min-height: 250px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
+                        <canvas id="ChartPrevious"
+                        style="min-height: 250px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
                     </div>
                 </div>
                 <div class="col">
@@ -109,7 +109,7 @@ Dashboard
                         <p class="label-previous">{{$data['previous']['data']['label']}}</p>
                     </div>
                     <div class="chart">
-                        <canvas id="ChartPrevious"
+                        <canvas id="ChartNow"
                             style="min-height: 250px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
                     </div>
                 </div>
