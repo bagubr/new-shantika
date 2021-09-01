@@ -96,7 +96,7 @@ Dashboard
                 <div class="col">
                     <div class="text-center">
                         <i class="fas fa-arrow-left change-statistic" data-digit="{{$data['digit']??0}}"></i>
-                        <p class="label-now">{{$data['now']['data']['label']}}</p>
+                        <p class="label-previous">{{$data['previous']['data']['label']}}</p>
                     </div>
                     <div class="chart">
                         <canvas id="ChartPrevious"
@@ -106,7 +106,7 @@ Dashboard
                 <div class="col">
                     <div class="text-center">
                         <i class="fas fa-arrow-right change-statistic-previous" data-digit="{{$data['digit']??0}}"></i>
-                        <p class="label-previous">{{$data['previous']['data']['label']}}</p>
+                        <p class="label-now">{{$data['now']['data']['label']}}</p>
                     </div>
                     <div class="chart">
                         <canvas id="ChartNow"
