@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Order\UpdateOrderReserveAtRequest;
 use App\Models\Agency;
 use App\Models\FleetDetail;
 use App\Models\Order;
@@ -12,6 +13,8 @@ use App\Repositories\OrderDetailRepository;
 use App\Repositories\OrderPriceDistributionRepository;
 use App\Repositories\RoutesRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class OrderController extends Controller
 {
@@ -156,6 +159,20 @@ class OrderController extends Controller
     public function update(Request $request, $id)
     {
         //
+    }
+
+    public function update_jadwal(UpdateOrderReserveAtRequest $request, Order $order)
+    {
+        $data = $request->all();
+        $data['password'] = $request->password;
+        $hashed = Auth::user()->password;
+        if (Hash::check($data['password'], $hashed)) {
+            $order->update($data);
+            session()->flash('success', 'Jadwal Berhasil Diubah');
+        } else {
+            session()->flash('error', 'Password Anda Tidak Sama');
+        }
+        return back();
     }
 
     /**

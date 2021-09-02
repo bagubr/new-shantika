@@ -91,6 +91,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/', [Dashboard2Controller::class, 'index'])->name('dashboard');
     Route::post('dashboard/dashboard', [Dashboard2Controller::class, 'statistic'])->name('dashboard.statistic');
     Route::get('schedule_not_operate/search', [ScheduleNotOperateController::class, 'search'])->name('schedule_not_operate.search');
+
+    Route::put('order/update_jadwal/{order}', [OrderController::class, 'update_jadwal'])->name('order.update_jadwal');
     Route::get('order/search', [OrderController::class, 'search'])->name('order.search');
 
     Route::post('outcome/statistic', [OutcomeController::class, 'statistic'])->name('outcome_statistic');

@@ -138,14 +138,13 @@ Pesanan
                     @endif
                     <img src="{{$order->payment?->proof_url}}" class="" style="height:100px" alt="">
                     <div class="text-right">
-                        @if ($order->payment?->status == 'WAITING_CONFIRMATION' || $order->payment?->status == 'PENDING')
+                        @if ($order->payment?->status == 'WAITING_CONFIRMATION' || $order->payment?->status ==
+                        'PENDING')
                         <a href="{{route('payment.edit',$order->payment?->id)}}" class="btn btn-primary">Ubah Status</a>
                         @endif
                     </div>
-                    @elseif ($order->payment?->payment_type->id == 1 )
+                    @elseif ($order->payment?->payment_type?->id == 1 )
                     <h5>Pembayaran Otomatis</h5>
-                    @else
-                    <h5>Belum Ada Transaksi</h5>
                     @endif
                 </div>
             </div>
@@ -229,6 +228,34 @@ Pesanan
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Reschedule Jadwal</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" style="display: block;">
+                    <form action="{{route('order.update_jadwal',$order->id)}}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="form-group">
+                            <label>Tanggal</label>
+                            <input type="date" value="{{date('Y-m-d',strtotime($order->reserve_at))}}"
+                                class="form-control" required name="reserve_at">
+                        </div>
+                        <div class="form-group">
+                            <label>Masukkan Password Akun Anda</label>
+                            <input type="password" name="password" class="form-control" required>
+                        </div>
+                        <div class="text-right">
+                            <input type="submit" class="btn btn-primary" value="Ubah Tanggal">
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
