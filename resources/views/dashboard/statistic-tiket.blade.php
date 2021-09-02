@@ -1,4 +1,7 @@
 <script>
+    $(document).ajaxStart(function() { Pace.restart(); });
+</script>
+<script>
     const dataNow = {
         labels: [@foreach ($data['now']['labels'] as  $value)"{{$value}}",@endforeach],
         datasets: [{
@@ -65,12 +68,16 @@
 <script>
     $(document).on('change', '.statistic', function (e) {
         var params = this.value;
+        var agency_id = $('.change-statistic-agent').val();
+        var fleet_id = $('.change-statistic-fleet').val();
         $.ajax({
             url: "{{url('dashboard/dashboard')}}",
             type: "POST",
             data: {
                 _token: '{{ csrf_token() }}',
                 params: params,
+                agency_id: agency_id,
+                fleet_id: fleet_id,
             },
             success: function (data) {
                 console.log(data);
@@ -98,6 +105,8 @@
 <script>
     $(document).on('click', '.change-statistic', function (e) {
         var params = $('.statistic').val();
+        var agency_id = $('.change-statistic-agent').val();
+        var fleet_id = $('.change-statistic-fleet').val();
         if(params == 'weekly'){
             var digit_now = parseInt($(this).attr('data-digit')) - 7;
         }else{
@@ -111,6 +120,8 @@
                 _token: '{{ csrf_token() }}',
                 params: params,
                 digit: digit_now,
+                agency_id: agency_id,
+                fleet_id: fleet_id,
             },
             success: function (data) {
                 console.log(data);
@@ -134,6 +145,8 @@
 <script>
     $(document).on('click', '.change-statistic-previous', function (e) {
         var params = $('.statistic').val();
+        var agency_id = $('.change-statistic-agent').val();
+        var fleet_id = $('.change-statistic-fleet').val();
         if(params == 'weekly'){
             var digit_now = parseInt($(this).attr('data-digit')) + 7;
         }else{
@@ -146,6 +159,80 @@
                 _token: '{{ csrf_token() }}',
                 params: params,
                 digit: digit_now,
+                agency_id: agency_id,
+                fleet_id: fleet_id,
+            },
+            success: function (data) {
+                console.log(data);
+                window.ChartNow.data.labels = data['now']['labels'];
+                window.ChartPrevious.data.labels = data['previous']['labels'];
+                window.ChartNow.data.datasets[0].data = data['now']['data'][0];
+                window.ChartNow.data.datasets[1].data = data['now']['data'][1];
+                window.ChartPrevious.data.datasets[0].data = data['previous']['data'][0];
+                window.ChartPrevious.data.datasets[1].data = data['previous']['data'][1];
+                $('.label-now').html(data['now']['data']['label']);
+                $('.label-previous').html(data['previous']['data']['label']);
+                $('.change-statistic').attr('data-digit', digit_now);
+                $('.change-statistic-previous').attr('data-digit', digit_now);
+                window.ChartNow.update();
+                window.ChartPrevious.update();
+            },
+        });
+    });
+</script>
+
+<script>
+    $(document).on('change', '.change-statistic-agent', function (e) {
+        var params = $('.statistic').val();
+        var agency_id = $(this).val();
+        var digit_now = parseInt($('.change-statistic').attr('data-digit'));
+        var fleet_id = $('.change-statistic-fleet').val();
+        console.log(agency_id)
+        $.ajax({
+            url: "{{url('dashboard/dashboard')}}",
+            type: "POST",
+            data: {
+                _token: '{{ csrf_token() }}',
+                params: params,
+                digit: digit_now,
+                agency_id: agency_id,
+                fleet_id: fleet_id,
+            },
+            success: function (data) {
+                console.log(data);
+                window.ChartNow.data.labels = data['now']['labels'];
+                window.ChartPrevious.data.labels = data['previous']['labels'];
+                window.ChartNow.data.datasets[0].data = data['now']['data'][0];
+                window.ChartNow.data.datasets[1].data = data['now']['data'][1];
+                window.ChartPrevious.data.datasets[0].data = data['previous']['data'][0];
+                window.ChartPrevious.data.datasets[1].data = data['previous']['data'][1];
+                $('.label-now').html(data['now']['data']['label']);
+                $('.label-previous').html(data['previous']['data']['label']);
+                $('.change-statistic').attr('data-digit', digit_now);
+                $('.change-statistic-previous').attr('data-digit', digit_now);
+                window.ChartNow.update();
+                window.ChartPrevious.update();
+            },
+        });
+    });
+</script>
+
+<script>
+    $(document).on('change', '.change-statistic-fleet', function (e) {
+        var params = $('.statistic').val();
+        var fleet_id = $(this).val();
+        var agency_id = $('.change-statistic-agent').val();
+        var digit_now = parseInt($('.change-statistic').attr('data-digit'));
+        console.log(agency_id)
+        $.ajax({
+            url: "{{url('dashboard/dashboard')}}",
+            type: "POST",
+            data: {
+                _token: '{{ csrf_token() }}',
+                params: params,
+                digit: digit_now,
+                agency_id: agency_id,
+                fleet_id: fleet_id,
             },
             success: function (data) {
                 console.log(data);
