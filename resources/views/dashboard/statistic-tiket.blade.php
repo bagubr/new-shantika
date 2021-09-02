@@ -1,4 +1,7 @@
 <script>
+    $(document).ajaxStart(function() { Pace.restart(); });
+</script>
+<script>
     const dataNow = {
         labels: [@foreach ($data['now']['labels'] as  $value)"{{$value}}",@endforeach],
         datasets: [{

@@ -2,8 +2,9 @@
 @section('title')
 Dashboard
 @endsection
-{{-- @push('css')
-@endpush --}}
+@push('css')
+<link rel="stylesheet" href="https://adminlte.io/themes/AdminLTE/plugins/pace/pace.min.css">
+@endpush
 @section('content')
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -149,6 +150,7 @@ Dashboard
 @endsection
 @push('script')
 <!-- ChartJS -->
+<script src="https://adminlte.io/themes/AdminLTE/bower_components/PACE/pace.min.js"></script>
 <script src="{{asset('plugins/chart.js/Chart.min.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 @include('dashboard.statistic-tiket')
