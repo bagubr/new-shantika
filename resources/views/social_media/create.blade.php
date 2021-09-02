@@ -56,7 +56,7 @@ Social Detail
                             <label>Icon</label>
                             <input type="file" name="icon" class="form-control" id="" accept="image/*">
                             <small class="text-danger"><i class="fas fa-info-circle"></i> Pastikan ukuran gambar
-                                312x312(72)dpi, agar hasil maksimal</small>
+                                412x412(72)dpi, agar hasil maksimal</small>
                             <br>
                             @isset($social_media)
                             <a href="{{$social_media->icon}}" data-toggle="lightbox">
