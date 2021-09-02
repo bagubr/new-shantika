@@ -38,8 +38,8 @@ Testimoni Pengguna
                                 <tr>
                                     <th>Judul Testimoni</th>
                                     <th>Nama</th>
-                                    <th>Image</th>
                                     <th>Review</th>
+                                    <th>Image</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -48,13 +48,12 @@ Testimoni Pengguna
                                 <tr>
                                     <td>{{$testimoni->title}}</td>
                                     <td>{{$testimoni->user?->name}}</td>
+                                    <td>{!!$testimoni->review!!}</td>
                                     <td>
                                         <a href="{{$testimoni->image}}" data-toggle="lightbox">
-                                            <img src="{{$testimoni->image}}" height="100px"
-                                                alt="{{$testimoni->user?->name}}">
+                                            <img src="{{$testimoni->image}}" height="100px">
                                         </a>
                                     </td>
-                                    <td>{!!$testimoni->review!!}</td>
                                     <td>
                                         <a href="{{route('testimoni.edit',$testimoni->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>

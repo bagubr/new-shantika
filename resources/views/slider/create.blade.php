@@ -45,19 +45,30 @@ Slider
                         @endisset
                         <div class="form-group">
                             <label>Nama</label>
-                            <input type="text" class="form-control" name="name" placeholder="Masukkan Nama"
+                            <input type="text" class="form-control" name="name" placeholder="Masukkan Nama" required
                                 value="{{isset($slider) ? $slider->name : ''}}">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Deskripsi</label>
+                            <textarea id="summernote" name="description" required>
+                                {{isset($slider) ? $slider->description : ''}}
+                            </textarea>
                         </div>
                         <div class="form-group">
                             <label>Gambar</label>
                             <input type="file" class="form-control" name="image" accept="image/*">
+                            <small class="text-danger"><i class="fas fa-info-circle"></i> Pastikan ukuran gambar
+                                445x236(72)dpi, agar hasil maksimal</small>
+                            <br>
+                            @isset($slider)
+                            <a href="{{$slider->image}}" data-toggle="lightbox">
+                                <img src="{{isset($slider) ? $slider->image : ''}}" class="img-thumbnail"
+                                    style="height: 100px" alt="">
+                            </a>
+                            @endisset
                         </div>
-                        <div class="form-group">
-                            <label>Deskripsi</label>
-                            <textarea id="summernote" name="description">
-                                {{isset($slider) ? $slider->description : ''}}
-                            </textarea>
-                        </div>
+
                         <div class="form-group d-none">
                             <label>Tipe</label>
                             <select name="type" class="form-control" readonly>
