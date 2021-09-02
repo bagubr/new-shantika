@@ -80,13 +80,41 @@ Dashboard
         </div>
         <div class="card-body">
             <form action="{{route('dashboard')}}" method="GET">
-                <div class="form-group">
-                    <label>Periode</label>
-                    <select name="tiket" class="form-control statistic">
-                        @foreach ($data['params'] as $key => $value)
-                        <option value="{{$key}}">{{$value}}</option>
-                        @endforeach
-                    </select>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Periode</label>
+                            <select name="tiket" class="form-control statistic">
+                                @foreach ($data['params'] as $key => $value)
+                                <option value="{{$key}}">{{$value}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Armada</label>
+                            <select name="fleet_detail_id" class="form-control change-statistic-fleet select2">
+                                <option value="">--PILIH ARMADA--</option>
+                                @foreach ($data['fleets'] as $fleet)
+                                <option value="{{$fleet->id}}">
+                                    {{$fleet->name}}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Agent</label>
+                            <select name="tiket" class="form-control change-statistic-agent select2">
+                                @foreach ($data['agencies'] as $key => $value)
+                                <option value="">--PILIH AGEN--</option>
+                                <option value="{{$value->id}}">{{$value->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <!-- <div class="text-right">
                     <button class="btn btn-success" type="submit">Cari</button>

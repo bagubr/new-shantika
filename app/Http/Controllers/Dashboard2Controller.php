@@ -31,6 +31,8 @@ class Dashboard2Controller extends Controller
         
         $data = $this->statistic($request);
         $data['digit'] = 0;
+        $data['agencies'] = Agency::orderBy('name', 'asc')->get();
+        $data['fleets'] = Fleet::orderBy('name', 'asc')->get();
         $data['digit_previous'] = -7;
         return view('dashboard.dashboard', compact('total_order', 'count_user', 'orders_money', 'data'));
     }
@@ -57,10 +59,10 @@ class Dashboard2Controller extends Controller
         // start pendapatan
         $params = $request->params??'weekly';
         if ($params == 'monthly') {
-            $data['data'] = $this->pendapatan_monthly($digit);
+            $data['data'] = $this->pendapatan_monthly($request, $digit);
             $data['labels'] = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "August", "September", "October", "November", "Desember"];
         } elseif($params == 'weekly') {
-            $data['data'] = $this->pendapatan_weekly($digit);
+            $data['data'] = $this->pendapatan_weekly($request, $digit);
             $data['labels'] = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
         }
         return $data;
@@ -68,24 +70,48 @@ class Dashboard2Controller extends Controller
     }
 
     // START OF PENDAPATAN TIKET
-    public function pendapatan_weekly($day = 0)
+    public function pendapatan_weekly(Request $request, $day = 0)
     {
         $data['label']  = Carbon::now()->startOfWeek()->addDay($day)->format('Y-m-d').' '.Carbon::now()->endOfWeek()->addDay($day)->format('Y-m-d');
+        $data['agency_id'] = $request->agency_id??'';
+        $data['fleet_id'] = $request->fleet_id??'';
         $max = $day + 7;
         for ($i = $day; $i < $max; $i++) {
             $startOfWeek  = Carbon::now()->startOfWeek()->addDay($i);
-            $data[0][] = OrderPriceDistribution::whereHas('order', function ($q) use ($startOfWeek) {
-                $q->whereStatus(Order::STATUS_BOUGHT)->where('reserve_at', '=', $startOfWeek)->whereHas('fleet_route.route', function ($sq) {
-                    $sq->whereHas('checkpoints.agency', function ($sqq) {
+            $data[0][] = OrderPriceDistribution::whereHas('order', function ($q) use ($startOfWeek, $request) {
+                $q->when(($request->agency_id), function ($sqa) use ($request)
+                {
+                    $sqa->where('departure_agency_id', $request->agency_id);
+                });
+                $q->whereHas('fleet_route.fleet_detail', function ($sqf) use ($request)
+                {
+                    $sqf->when(($request->fleet_id), function ($sqqf) use ($request)
+                    {
+                        $sqqf->where('fleet_id', $request->fleet_id);
+                    });
+                });
+                $q->whereIn('status', Order::STATUS_BOUGHT)->where('reserve_at', '=', $startOfWeek)->whereHas('fleet_route.route', function ($sq) use ($request) {
+                    $sq->whereHas('checkpoints.agency', function ($sqq) use ($request) {
                         $sqq->whereHas('city', function ($sqqq) {
                             $sqqq->where('area_id', 2);
                         });
                     });
                 });
             })->get()->pluck('for_owner')->sum();
-            $data[1][] = OrderPriceDistribution::whereHas('order', function ($q) use ($startOfWeek) {
-                $q->whereStatus(Order::STATUS_BOUGHT)->where('reserve_at', '=', $startOfWeek)->whereHas('fleet_route.route', function ($sq) {
-                    $sq->whereHas('checkpoints.agency', function ($sqq) {
+            $data[1][] = OrderPriceDistribution::whereHas('order', function ($q) use ($startOfWeek, $request){
+                $q->when(($request->agency_id), function ($sqa) use ($request)
+                {
+                    $sqa->where('departure_agency_id', $request->agency_id);
+                });
+                $q->whereHas('fleet_route.fleet_detail', function ($sqf) use ($request)
+                {
+                    $sqf->when(($request->fleet_id), function ($sqqf) use ($request)
+                    {
+                        $sqqf->where('fleet_id', $request->fleet_id);
+                    });
+                });
+                $q->whereIn('status', Order::STATUS_BOUGHT)->where('reserve_at', '=', $startOfWeek)->whereHas('fleet_route.route', function ($sq) use ($request) {
+                    $sq->whereHas('checkpoints.agency', function ($sqq) use ($request) {
                         $sqq->whereHas('city', function ($sqqq) {
                             $sqqq->where('area_id', 1);
                         });
@@ -95,25 +121,49 @@ class Dashboard2Controller extends Controller
         }
         return $data;
     }
-    public function pendapatan_monthly($day = 0)
+    public function pendapatan_monthly(Request $request, $day = 0)
     {
         $data['label'] = Carbon::now()->startOfMonth()->addMonth($day)->format('Y');
+        $data['agency_id'] = $request->agency_id??'';
+        $data['fleet_id'] = $request->fleet_id??'';
         $max = $day + 12;
         for ($i = $day; $i < $max; $i++) {
             $start          =  Carbon::now()->startOfYear()->addMonth($i)->format('Y-m-d');
             $end            =  Carbon::now()->startOfYear()->endOfMonth()->addMonth($i)->format('Y-m-d');
-            $data[0][]       = OrderPriceDistribution::whereHas('order', function ($q) use ($start, $end) {
-                $q->whereStatus(Order::STATUS_BOUGHT)->whereDate('reserve_at', '>=', $start)->whereDate('reserve_at', '<=', $end)->whereHas('fleet_route.route', function ($sq) {
-                    $sq->whereHas('checkpoints.agency', function ($sqq) {
+            $data[0][]       = OrderPriceDistribution::whereHas('order', function ($q) use ($start, $end, $request){
+                $q->when(($request->agency_id), function ($sqa) use ($request)
+                {
+                    $sqa->where('departure_agency_id', $request->agency_id);
+                });
+                $q->whereHas('fleet_route.fleet_detail', function ($sqf) use ($request)
+                {
+                    $sqf->when(($request->fleet_id), function ($sqqf) use ($request)
+                    {
+                        $sqqf->where('fleet_id', $request->fleet_id);
+                    });
+                });
+                $q->whereIn('status', Order::STATUS_BOUGHT)->whereDate('reserve_at', '>=', $start)->whereDate('reserve_at', '<=', $end)->whereHas('fleet_route.route', function ($sq) use ($request) {
+                    $sq->whereHas('checkpoints.agency', function ($sqq) use ($request) {
                         $sqq->whereHas('city', function ($sqqq) {
                             $sqqq->where('area_id', 2);
                         });
                     });
                 });
             })->get()->pluck('for_owner')->sum();
-            $data[1][]       = OrderPriceDistribution::whereHas('order', function ($q) use ($start, $end) {
-                $q->whereStatus(Order::STATUS_BOUGHT)->whereDate('reserve_at', '>=', $start)->whereDate('reserve_at', '<=', $end)->whereHas('fleet_route.route', function ($sq) {
-                    $sq->whereHas('checkpoints.agency', function ($sqq) {
+            $data[1][]       = OrderPriceDistribution::whereHas('order', function ($q) use ($start, $end, $request){
+                $q->when(($request->agency_id), function ($sqa) use ($request)
+                {
+                    $sqa->where('departure_agency_id', $request->agency_id);
+                });
+                $q->whereHas('fleet_route.fleet_detail', function ($sqf) use ($request)
+                {
+                    $sqf->when(($request->fleet_id), function ($sqqf) use ($request)
+                    {
+                        $sqqf->where('fleet_id', $request->fleet_id);
+                    });
+                });
+                $q->whereIn('status', Order::STATUS_BOUGHT)->whereDate('reserve_at', '>=', $start)->whereDate('reserve_at', '<=', $end)->whereHas('fleet_route.route', function ($sq) use ($request) {
+                    $sq->whereHas('checkpoints.agency', function ($sqq) use ($request) {
                         $sqq->whereHas('city', function ($sqqq) {
                             $sqqq->where('area_id', 1);
                         });
