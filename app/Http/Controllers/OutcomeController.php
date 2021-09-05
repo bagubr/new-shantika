@@ -36,32 +36,40 @@ class OutcomeController extends Controller
     public function statistic(Request $request)
     {
         $params = $request->params??'weekly';
+        $digit = $request->digit??0;
         if($params == 'weekly'){
             $label = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
-            $now = $this->weekly();
-            $previous = $this->weekly(-7);
+            $title  = Carbon::now()->startOfWeek()->addDay($digit)->format('Y-m-d').' - '.Carbon::now()->endOfWeek()->addDay($digit - 7)->format('Y-m-d');
+            $now = $this->weekly($digit);
+            $previous = $this->weekly($digit - 7);
         }elseif($params == 'monthly'){
             $label = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "August", "September", "October", "November", "Desember"];
-            $now = $this->mountly();
-            $previous = $this->mountly(-12);
+            $title    =  Carbon::now()->startOfYear()->addMonth($digit)->format('Y').' - '.Carbon::now()->startOfYear()->endOfMonth()->addMonth($digit - 12)->format('Y');
+            $now = $this->mountly($digit);
+            $previous = $this->mountly($digit - 12);
         }elseif($params == 'yearly'){
-            for ($i = 0; $i < 10; $i++) {
-                $label[] = Carbon::now()->startOfDecade()->addYear($i)->format('Y');
+            $max = $digit + 9;
+            $title = Carbon::now()->startOfDecade()->addYear($digit)->format('Y').' - '.Carbon::now()->startOfDecade()->addYear($max - 1)->format('Y');
+            for ($i = $digit; $i < $max; $i++) {
+                $label[] = Carbon::now()->startOfDecade()->addYear($i)->format('Y').' - '.Carbon::now()->startOfDecade()->addYear($i - 9)->format('Y');
             }
-            $now = $this->yearly();
-            $previous = $this->yearly();
+            $now = $this->yearly($digit);
+            $previous = $this->yearly($digit - 9);
         }
 
         return [
             'labels' => $label,
+            'title' => $title??'',
             'now' => $now,
             'previous' => $previous,
+            'digit' => $request->digit??0
         ];
     }
 
     public function weekly($day = 0)
     {
-        for ($i = $day; $i < 7; $i++) {
+        $max = $day + 7;
+        for ($i = $day; $i < $max; $i++) {
             $startOfLastWeek  = Carbon::now()->startOfWeek()->addDay($i);
             $outcomes = Outcome::whereDate('reported_at', '=', $startOfLastWeek)->get();
 
@@ -77,7 +85,8 @@ class OutcomeController extends Controller
 
     public function mountly($month = 0)
     {
-        for ($i = $month; $i < 12; $i++) {
+        $max = $month + 12;
+        for ($i = $month; $i < $max; $i++) {
             $start    =  Carbon::now()->startOfYear()->addMonth($i)->format('Y-m-d');
             $end      =  Carbon::now()->startOfYear()->endOfMonth()->addMonth($i)->format('Y-m-d');
             $outcomes = Outcome::whereDate('reported_at', '>=', $start)->whereDate('reported_at', '<=', $end)->get();
@@ -92,9 +101,10 @@ class OutcomeController extends Controller
         return $data;
     }
 
-    public function yearly()
+    public function yearly($day = 0)
     {
-        for ($i = 0; $i < 10; $i++) {
+        $max = $day + 9;
+        for ($i = $day; $i <= $max; $i++) {
             $year     = Carbon::now()->startOfDecade()->addYear($i)->format('Y');
             $outcomes = Outcome::whereYear('reported_at', '=', $year)->get();
 

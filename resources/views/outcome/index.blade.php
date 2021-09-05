@@ -102,6 +102,11 @@ Pengeluaran
                             </div>
                         </form>
                         <div class="chart">
+                            <center>
+                                <i class="fas fa-arrow-left change-statistic-previous" data-digit="{{$data['digit']??0}}"></i>
+                                <label class="label">{{$data['title']}}</label>
+                                <i class="fas fa-arrow-right change-statistic-now" data-digit="{{$data['digit']??0}}"></i>
+                            </center>
                             <canvas id="barChart"
                                 style="min-height: 250px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
                         </div>
@@ -182,20 +187,84 @@ Pengeluaran
 </script>
 <script>
     $(document).on('change', '.statistic', function (e) {
-        console.log(this.value);
+        var digit = parseInt($('.change-statistic-now').attr('data-digit'));
         $.ajax({
             url: "{{url('outcome/statistic')}}",
             type: "POST",
             data: {
                 _token: '{{ csrf_token() }}',
                 params: this.value,
+                digit:digit,
             },
             success: function (data) {
+                console.log(data)
                 window.myChart.data.labels = data['labels'];
                 window.myChart.data.datasets[0].data = data['now'];
                 window.myChart.data.datasets[1].data = data['previous'];
+                $('.label').html(data['title']);
                 window.myChart.update();
-                console.log(data['labels'])
+            },
+        });
+    });
+</script>
+<script>
+    $(document).on('click', '.change-statistic-now', function (e) {
+        var params = $('.statistic').val();
+        if(params == 'weekly'){
+            var digit = parseInt($(this).attr('data-digit')) + 7;
+        }else if (params == 'monthly'){
+            var digit = parseInt($(this).attr('data-digit')) + 12;
+        }else {
+            var digit = parseInt($(this).attr('data-digit')) + 10;
+        }
+        $.ajax({
+            url: "{{url('outcome/statistic')}}",
+            type: "POST",
+            data: {
+                _token: '{{ csrf_token() }}',
+                params: params,
+                digit: digit,
+            },
+            success: function (data) {
+                console.log(data)
+                window.myChart.data.labels = data['labels'];
+                window.myChart.data.datasets[0].data = data['now'];
+                window.myChart.data.datasets[1].data = data['previous'];
+                $('.change-statistic-now').attr('data-digit', digit);
+                $('.change-statistic-previous').attr('data-digit', digit);
+                $('.label').html(data['title']);
+                window.myChart.update();
+            },
+        });
+    });
+</script>
+<script>
+    $(document).on('click', '.change-statistic-previous', function (e) {
+        var params = $('.statistic').val();
+        if(params == 'weekly'){
+            var digit = parseInt($(this).attr('data-digit')) - 7;
+        }else if (params == 'monthly'){
+            var digit = parseInt($(this).attr('data-digit')) - 12;
+        }else {
+            var digit = parseInt($(this).attr('data-digit')) - 10;
+        }
+        $.ajax({
+            url: "{{url('outcome/statistic')}}",
+            type: "POST",
+            data: {
+                _token: '{{ csrf_token() }}',
+                params: params,
+                digit: digit,
+            },
+            success: function (data) {
+                console.log(data)
+                window.myChart.data.labels = data['labels'];
+                window.myChart.data.datasets[0].data = data['now'];
+                window.myChart.data.datasets[1].data = data['previous'];
+                $('.change-statistic-now').attr('data-digit', digit);
+                $('.change-statistic-previous').attr('data-digit', digit);
+                $('.label').html(data['title']);
+                window.myChart.update();
             },
         });
     });
