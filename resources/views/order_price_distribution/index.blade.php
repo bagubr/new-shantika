@@ -122,7 +122,6 @@ Setoran
                                 <i class="ion ion-stats-bars"></i>
                             </div>
                         </div>
-                        <a class="btn btn-success btn-sm" href="{{route('order_price_distribution.export')}}">Export Excel</a>
                     </div>
                 </div>
             </div>
@@ -133,6 +132,7 @@ Setoran
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
+                    <!-- <a class="btn btn-success btn-sm d-inline" href="{{route('order_price_distribution.export')}}">Export Excel</a> -->
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
@@ -279,15 +279,41 @@ Setoran
 </div>
 @endsection
 @push('script')
+
 <script>
     $(function () {
       $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    });
-    $(function () {
-      $("#example2").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
+        "responsive": true, "lengthChange": false, "autoWidth": false, "button":[
+            'csv'
+        ],
+        "buttons": [
+            {
+                "extend": 'pdf',           
+                "exportOptions": {
+                        "columns": [1,2,3,4,5,6,7,8,9,10,11,12,13] // indexes of the columns that should be printed,
+                    }                      // Exclude indexes that you don't want to print.
+            },
+            {
+                "extend": 'csv',
+                "exportOptions": {
+                        "columns": [1,2,3,4,5,6,7,8,9,10,11,12,13] 
+                    }
+
+            },
+            {
+                "extend": 'excel',
+                "exportOptions": {
+                        "columns": [1,2,3,4,5,6,7,8,9,10,11,12,13] 
+                    }
+            },
+            {
+                "extend": 'print',
+                "exportOptions": {
+                        "columns": [1,2,3,4,5,6,7,8,9,10,11,12,13] 
+                    }
+            }
+        ],
+        "dom": 'Bfrtip',
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
 </script>
