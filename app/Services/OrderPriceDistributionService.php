@@ -18,7 +18,7 @@ class OrderPriceDistributionService {
         } else {
             $total_price['for_agent'] = 0;
         }
-        $total_price['for_owner'] = array_sum($total_price);
+        $total_price['for_owner'] = $total_price['ticket_only'] - $total_price['for_travel'] - $total_price['for_food'] - (-1 * $total_price['for_member']) - (-1 * $total_price['for_agent']);
         
         $price_distribution = OrderPriceDistribution::create(array_merge($total_price, [
             'order_id'=>$order->id,

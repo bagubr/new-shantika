@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th>Armada</th>
-            <th>{{\App\Models\FleetRoute::find($fleet_route_id)->fleet_detail->fleet->name}}</th>
+            <th>{{\App\Models\FleetRoute::find($fleet_route_id)->fleet_detail?->fleet?->name}}</th>
         </tr>
         <tr>
             <th>Tanggal</th>
@@ -10,7 +10,7 @@
         </tr>
         <tr>
             <th>Nomor Kendaraan</th>
-            <th>{{\App\Models\FleetRoute::find($fleet_route_id)->fleet_detail->plate_number}}</th>
+            <th>{{\App\Models\FleetRoute::find($fleet_route_id)->fleet_detail?->plate_number}}</th>
         </tr>
     </thead>
 </table>
@@ -27,7 +27,7 @@
         <tr>
             <td>{{$loop->iteration}}</td>
             <td>{{$agency->name}}</td>
-            <td width="70%">
+            <td>
                 @foreach($langsir as $order)
                 @if($agency->id == $order->departure_agency_id)
                 @foreach($order->order_detail->pluck('layout_chair_id') as $layout_chair_id)

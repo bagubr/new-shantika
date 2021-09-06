@@ -116,7 +116,7 @@ class OrderRepository
             })
             ->with(['fleet_route.fleet_detail.fleet'])
             ->where('status', Order::STATUS3)
-            ->whereDate('created_at', $date)
+            ->whereDate('reserve_at', $date)
             ->get()
             ->groupBy('fleet_route.fleet_detail.fleet_id')
             ->all();
