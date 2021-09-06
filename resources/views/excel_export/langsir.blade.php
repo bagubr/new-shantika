@@ -23,10 +23,6 @@
         </tr>
     </thead>
     <tbody>
-        
-        @php
-            $layout_chair_exists = [];
-        @endphp
         @foreach($agencies as $agency)
         <tr>
             <td>{{$loop->iteration}}</td>
@@ -41,9 +37,6 @@
                 @endforeach
             </td>
         </tr>
-        @php
-            $layout_chair_exists += $order->order_detail->pluck('layout_chair_id');
-        @endphp
         @endforeach
         <tr>
             <th>Bangku Kosong</th>
@@ -52,7 +45,7 @@
                  $layout_chair = \App\Models\LayoutChair::whereLayoutId(\App\Models\FleetRoute::find($fleet_route_id)->fleet_detail?->fleet?->layout_id)->get()->pluck('id');
                 @endphp
                 @foreach($layout_chair as $layout_chair_id)
-                    @if(in_array($layout_chair_id, $layout_chair_exists))
+                    @if(in_array($layout_chair_id, $langsir->order_detail->pluck('layout_chair_id')))
                         {{\App\Models\LayoutChair::find($layout_chair_id)->name}},
                     @endif
                 @endforeach
