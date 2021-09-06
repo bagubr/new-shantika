@@ -81,13 +81,12 @@ Agen
                                     <td>{{$agency->city?->area?->name}}</td>
                                     <td>{{$agency->address}}</td>
                                     <td>{{$agency->phone ?? '-'}}</td>
-                                    {{-- @if ($agency->agency_departure_times[0] && $agency->agency_departure_times[1]) --}}
 
                                     <td>
-                                        @foreach ($agency->agency_departure_times as $time)
-                                        {{$time->departure_at}}
-                                        @endforeach
-                                        @if ($agency->is_active == 1)
+                                        {{$agency->agency_departure_times->departure_at[0]}} |
+                                        {{$agency->agency_departure_times->departure_at[1]}}
+                                    </td>
+                                    @if ($agency->is_active == 1)
                                     <td data-toggle="modal" data-target="#exampleModal{{$agency->id}}"
                                         class="text-success text-bold pointer">
                                         Aktif
