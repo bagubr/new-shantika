@@ -77,6 +77,29 @@ Setoran
             </div>
             <div class="col-8">
                 <div class="row">
+                    <div class="col-md-4">
+                        <div class="small-box bg-primary">
+                            <div class="inner">
+                                <h3>{{number_format($count_seat)}} <sup style="font-size: 20px">Kursi</sup>
+                                </h3>
+                                <p>Total Kursi Terjual</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-man"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3><sup style="font-size: 20px">Rp</sup> {{number_format($count_ticket)}}</h3>
+                                <p>Total Penjualan Tiket</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-card"></i>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-md-6">
                         <div class="small-box bg-success">
                             <div class="inner">
@@ -96,18 +119,6 @@ Setoran
                             </div>
                             <div class="icon">
                                 <i class="ion ion-card"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="small-box bg-primary">
-                            <div class="inner">
-                                <h3>{{number_format($count_seat)}} <sup style="font-size: 20px">Kursi</sup>
-                                </h3>
-                                <p>Total Kursi Terjual</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-man"></i>
                             </div>
                         </div>
                     </div>

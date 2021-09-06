@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Agency;
 use App\Models\FleetDetail;
 use App\Models\FleetRoute;
+use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\OrderPriceDistribution;
 use App\Models\OutcomeDetail;
@@ -28,11 +29,16 @@ class OrderPriceDistributionController extends Controller
         })->get();
 
         $outcome_details    = OutcomeDetail::all();
-        $count_income       = OrderPriceDistribution::pluck('for_owner')->sum();
+        $count_income       = OrderPriceDistribution::whereHas('order', function ($q) {
+            $q->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
+        })->pluck('for_owner')->sum();
         $count_outcome      = OutcomeDetail::pluck('amount')->sum();
-        $count_seat         = OrderDetail::all()->count();
+        $count_seat         = OrderDetail::whereHas('order', function ($q) {
+            $q->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
+        })->get()->count();
+        $count_ticket       = Order::whereIn('status', ['PAID', 'EXCHANGED', 'FINISHED'])->pluck('price')->sum();
         $count_pendapatan_bersih = $count_income - $count_outcome;
-        return view('order_price_distribution.index', compact('order_price_distributions', 'count_seat', 'agencies', 'outcome_details', 'fleet_routes', 'count_income', 'count_outcome', 'count_pendapatan_bersih', 'fleet_details'));
+        return view('order_price_distribution.index', compact('count_ticket', 'order_price_distributions', 'count_seat', 'agencies', 'outcome_details', 'fleet_routes', 'count_income', 'count_outcome', 'count_pendapatan_bersih', 'fleet_details'));
     }
     public function search(Request $request)
     {
@@ -48,6 +54,7 @@ class OrderPriceDistributionController extends Controller
         $order_price_distributions  = OrderPriceDistribution::query();
         $outcome_details            = OutcomeDetail::query();
         $order_details              = OrderDetail::query();
+        $tiket_price                = Order::query();
 
         if (!empty($fleet_detail_id)) {
             $order_price_distributions = $order_price_distributions->whereHas('order', function ($q) use ($fleet_detail_id) {
@@ -57,6 +64,9 @@ class OrderPriceDistributionController extends Controller
             });
             $order_details      = $order_details->whereHas('order.fleet_route', function ($q) use ($fleet_detail_id) {
                 $q->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED'])->where('fleet_detail_id', $fleet_detail_id);
+            });
+            $tiket_price        = $tiket_price->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED'])->whereHas('fleet_route', function ($q) use ($fleet_detail_id) {
+                $q->where('fleet_detail_id', $fleet_detail_id);
             });
             $outcome_details    = $outcome_details->whereHas('outcome', function ($q) use ($fleet_detail_id) {
                 $q->where('fleet_detail_id', $fleet_detail_id);
@@ -69,6 +79,7 @@ class OrderPriceDistributionController extends Controller
             $order_details              = $order_details->whereHas('order', function ($q) use ($date_search) {
                 $q->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED'])->whereDate('reserve_at', $date_search);
             });
+            $tiket_price                = $tiket_price->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED'])->whereDate('reserve_at', $date_search);
             $outcome_details            = $outcome_details->whereHas('outcome', function ($q) use ($date_search) {
                 $q->whereDate('reported_at', $date_search);
             });
@@ -81,6 +92,7 @@ class OrderPriceDistributionController extends Controller
             $order_details              = $order_details->whereHas('order', function ($q) use ($agency_id) {
                 $q->where('departure_agency_id', $agency_id)->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
             });
+            $tiket_price                = $tiket_price->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED'])->where('departure_agency_id', $agency_id);
         }
 
         $test = $request->flash();
@@ -91,7 +103,8 @@ class OrderPriceDistributionController extends Controller
         $count_outcome              = $outcome_details->pluck('amount')->sum();
         $count_seat                 = $order_details->get()->count();
         $count_pendapatan_bersih    = $count_income - $count_outcome;
-        return view('order_price_distribution.index', compact('order_price_distributions', 'test', 'fleet_details', 'outcome_details', 'fleet_routes', 'count_income', 'agencies', 'count_outcome', 'count_pendapatan_bersih', 'count_seat'));
+        $count_ticket               = $tiket_price->pluck('price')->sum();
+        return view('order_price_distribution.index', compact('count_ticket', 'order_price_distributions', 'test', 'fleet_details', 'outcome_details', 'fleet_routes', 'count_income', 'agencies', 'count_outcome', 'count_pendapatan_bersih', 'count_seat'));
     }
 
     /**
