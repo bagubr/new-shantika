@@ -71,10 +71,9 @@ class SketchController extends Controller
         $tos = $request->data['to_layout_chair_id'];
 
         DB::beginTransaction();
-        $order_details = [];
         foreach($froms as $key => $value) {
             $detail = OrderDetail::whereHas('order', function($query) use ($request) {
-                $query->whereDate('reserve_at', $request['date'])->where('fleet_route_id', $request['first_fleet_route_id']);
+                $query->whereDate('reserve_at', $request['from_date'])->where('fleet_route_id', $request['first_fleet_route_id']);
             })->where('layout_chair_id', $value['id'])->first();
             if(empty($detail) || empty($detail?->order)) {
                 continue;
@@ -83,7 +82,8 @@ class SketchController extends Controller
                 'layout_chair_id'=>$tos[$key]['id']
             ]);
             $detail->order()->update([
-                'fleet_route_id'=>$request['second_fleet_route_id']
+                'fleet_route_id'=>$request['second_fleet_route_id'],
+                'reserve_at'=>$request['to_date']
             ]);
             $detail->refresh();
             $notification = Notification::build(
