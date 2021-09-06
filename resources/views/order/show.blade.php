@@ -273,6 +273,10 @@ Pesanan
                     </div>
                 </div>
                 <div class="card-body" style="display: block;">
+                    @if ($order->status == 'CANCELED')
+                    <h5 class="card-title">Orderan Dibatalkan</h5>
+                    <p class="card-text text-bold">{{$order->cancelation_reason}}</p>
+                    @else
                     <form action="{{route('order.cancelation',$order->id)}}" method="POST">
                         @csrf
                         @method('PUT')
@@ -290,6 +294,7 @@ Pesanan
                                 value="Batalkan Order">
                         </div>
                     </form>
+                    @endif
                 </div>
             </div>
             @endif
