@@ -320,7 +320,7 @@ Sketch
                 },
                 printFirstLayout() {
                     let query = new URLSearchParams({
-                        date: this.firstLayout.date,
+                        date: new Date(this.firstLayout.date).toDateString(),
                         fleet_route_id: this.firstLayout.fleetRouteId,
                         area_id: this.filter.area_id
                     });
@@ -329,7 +329,7 @@ Sketch
                 },
                 printSecondLayout() {
                     let query = new URLSearchParams({
-                        date: this.secondLayout.date,
+                        date: new Date(this.secondLayout.date).toDateString(),
                         fleet_route_id: this.secondLayout.fleetRouteId,
                         area_id: this.filter.area_id
                     });
