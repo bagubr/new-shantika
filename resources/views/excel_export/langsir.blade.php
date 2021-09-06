@@ -23,6 +23,10 @@
         </tr>
     </thead>
     <tbody>
+        
+        @php
+            $layout_chair_exists = [];
+        @endphp
         @foreach($agencies as $agency)
         <tr>
             <td>{{$loop->iteration}}</td>
