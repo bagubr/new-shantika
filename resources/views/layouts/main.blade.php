@@ -116,6 +116,7 @@
     <!-- Select2 -->
     <script src="{{asset('plugins/select2/js/select2.full.min.js')}}"></script>
 
+
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-messaging.js"></script>
@@ -157,7 +158,6 @@
         });
 
         messaging.onMessage((payload) => {
-            console.log(payload)
             new Notification('{{env("APP_NAME")}}', {
                 body: payload.notification.body
             })
