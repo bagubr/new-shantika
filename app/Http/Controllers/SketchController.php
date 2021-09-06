@@ -10,6 +10,7 @@ use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Agency;
 use App\Repositories\LayoutRepository;
 use App\Services\LayoutService;
 use App\Utils\NotificationMessage;
@@ -98,6 +99,40 @@ class SketchController extends Controller
         DB::commit();
         session()->flash('success', 'Kursi penumpang berhasil diubah');
         return response([$froms, $tos], 200);
+    }
+
+    public function export(Request $request)
+    {
+        $area_id = $request->area_id;
+        $date = $request->date;
+        $fleet_route_id = $request->fleet_route_id;
+        $langsir = Order::whereIn('status', Order::STATUS_BOUGHT)
+        ->with('fleet_route.fleet_detail.fleet.fleetclass', 'fleet_route.route')
+        ->with('fleet_route.fleet_detail.fleet.layout')
+        ->withCount(['order_detail'=>function($query) {
+            $query->whereHas('order', function($subquery) {
+                $subquery->whereRaw('fleet_route_id = orders.fleet_route_id');
+            });
+        }])
+        ->when($date, function ($query) use ($date) {
+            $query->whereDate('reserve_at', $date);
+        })
+        ->when($area_id, function($query) use ($area_id) {
+            $query->whereHas('fleet_route.route.checkpoints', function($subquery) use ($area_id) {
+                $subquery->whereHas('agency.city', function ($subsubquery) use ($area_id) {
+                    $subsubquery->where('area_id', '!=', $area_id);
+                });
+            });
+        })->when($fleet_route_id, function ($query) use ($fleet_route_id)
+        {
+            $query->where('fleet_route_id', $fleet_route_id);
+        })
+        ->get();
+        $agencies = Agency::whereHas('city', function ($query) use ($area_id)
+        {
+            $query->whereAreaId($area_id);
+        })->get();
+        return view('excel_export.langsir', compact('langsir', 'agencies', 'date', 'fleet_route_id'));
     }
     
 }

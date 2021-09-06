@@ -284,7 +284,7 @@ Sketch
             methods: {
                 searchOrders() {
                     let params = new URLSearchParams(this.filter)
-                    fetch('/sketch/orders?'+params).then(res => res.json()).then(res => {
+                    fetch("{{url('/')}}/sketch/orders?"+params).then(res => res.json()).then(res => {
                         this.result.orders = res.orders
                     })
                 },
@@ -318,7 +318,7 @@ Sketch
                         fleet_route_id: fleetRouteId || this.firstLayout.fleetRouteId,
                         date: this.filter.date
                     })
-                    fetch('/sketch/orders/detail?'+params).then(res => res.json()).then(res => {
+                    fetch("{{url('/')}}/sketch/orders/detail?"+params).then(res => res.json()).then(res => {
                         this.firstLayout.data = res.data
                         this.firstLayout.fleet = res.fleet
                     }).finally(() => {
@@ -331,7 +331,7 @@ Sketch
                         fleet_route_id: fleetRouteId || this.secondLayout.fleetRouteId,
                         date: this.filter.date
                     })
-                    fetch('/sketch/orders/detail?'+params).then(res => res.json()).then(res => {
+                    fetch("{{url('/')}}/sketch/orders/detail?"+params).then(res => res.json()).then(res => {
                         this.secondLayout.data = res.data
                         this.secondLayout.fleet = res.fleet
                     }).finally(() => {
@@ -460,7 +460,7 @@ Sketch
                         }
                     }
 
-                    fetch('/sketch/store', {
+                    fetch("{{url('sketch/store')}}", {
                         method: 'POST',
                         body: JSON.stringify(form),
                         headers: {
