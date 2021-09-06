@@ -37,6 +37,7 @@ Layout
                             <thead>
                                 <tr>
                                     <th>Nama</th>
+                                    <th>Deskripsi</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -44,6 +45,7 @@ Layout
                                 @foreach ($layouts as $layout)
                                 <tr>
                                     <td>{{$layout->name}}</td>
+                                    <td>{{$layout->note}}</td>
                                     <td>
                                         <a href="{{route('layouts.edit',$layout->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>

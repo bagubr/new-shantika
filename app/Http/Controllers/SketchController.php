@@ -16,6 +16,8 @@ use App\Services\LayoutService;
 use App\Utils\NotificationMessage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\LangsirExport;
 
 class SketchController extends Controller
 {
@@ -103,36 +105,8 @@ class SketchController extends Controller
 
     public function export(Request $request)
     {
-        $area_id = $request->area_id;
-        $date = $request->date;
-        $fleet_route_id = $request->fleet_route_id;
-        $langsir = Order::whereIn('status', Order::STATUS_BOUGHT)
-        ->with('fleet_route.fleet_detail.fleet.fleetclass', 'fleet_route.route')
-        ->with('fleet_route.fleet_detail.fleet.layout')
-        ->withCount(['order_detail'=>function($query) {
-            $query->whereHas('order', function($subquery) {
-                $subquery->whereRaw('fleet_route_id = orders.fleet_route_id');
-            });
-        }])
-        ->when($date, function ($query) use ($date) {
-            $query->whereDate('reserve_at', $date);
-        })
-        ->when($area_id, function($query) use ($area_id) {
-            $query->whereHas('fleet_route.route.checkpoints', function($subquery) use ($area_id) {
-                $subquery->whereHas('agency.city', function ($subsubquery) use ($area_id) {
-                    $subsubquery->where('area_id', '!=', $area_id);
-                });
-            });
-        })->when($fleet_route_id, function ($query) use ($fleet_route_id)
-        {
-            $query->where('fleet_route_id', $fleet_route_id);
-        })
-        ->get();
-        $agencies = Agency::whereHas('city', function ($query) use ($area_id)
-        {
-            $query->whereAreaId($area_id);
-        })->get();
-        return view('excel_export.langsir', compact('langsir', 'agencies', 'date', 'fleet_route_id'));
+        $file_name = date('dmYHis');
+        return Excel::download(new LangsirExport($request), $file_name.'.xlsx');
     }
     
 }
