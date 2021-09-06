@@ -38,12 +38,10 @@ Pengeluaran
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th>Tanggal Laporan</th>
                                     <th>Tanggal Pengeluaran</th>
-                                    <!-- <th>Rute</th> -->
                                     <th>Tipe Pengeluaran</th>
-                                    <th>Armada</th>
-                                    <th>Kelas Armada</th>
                                     <th>Total Pendapatan</th>
                                     <th>Total Pengeluaran</th>
                                     <th>Total Pendapatan Bersih</th>
@@ -53,16 +51,15 @@ Pengeluaran
                             <tbody>
                                 @foreach ($outcomes as $outcome)
                                 <tr>
+                                    <td>{{$outcome->code}}</td>
                                     <td>{{$outcome->created_at}}</td>
                                     <td>{{$outcome->reported_at}}</td>
-                                    <!-- <td>{{$outcome?->fleet_detail?->route->name??"Non Rute"}}</td> -->
-                                    <td>{{$outcome->outcome_type?->name??'-'}}</td>
-                                    <td>{{$outcome?->fleet_detail?->fleet?->name??'Non Rute'}}</td>
-                                    <td>{{$outcome?->fleet_detail?->fleet?->fleetclass?->name??'Non Rute'}}</td>
+                                    <td>{{$outcome->outcome_type_name}}</td>
                                     <td>Rp. {{number_format($outcome->sum_total_pendapatan,2)}}</td>
                                     <td>Rp. {{number_format($outcome->sum_pengeluaran,2)}}</td>
                                     <td>Rp. {{number_format($outcome->sum_total_pendapatan_bersih,2)}}</td>
                                     <td>
+                                        <a class="btn btn-success btn-xs" href="{{route('outcome.export',$outcome->id)}}">Export Excel</a>
                                         <a href="{{route('outcome.show',$outcome->id)}}"
                                             class="btn btn-info btn-xs">Show</a>
                                         <form action="{{route('outcome.destroy',$outcome->id)}}" class="d-inline"

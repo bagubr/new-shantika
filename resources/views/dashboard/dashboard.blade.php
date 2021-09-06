@@ -109,8 +109,8 @@ Dashboard
                         <div class="form-group">
                             <label>Agent</label>
                             <select name="tiket" class="form-control change-statistic-agent select2">
-                                @foreach ($data['agencies'] as $key => $value)
                                 <option value="">--PILIH AGEN--</option>
+                                @foreach ($data['agencies'] as $key => $value)
                                 <option value="{{$value->id}}">{{$value->name}}</option>
                                 @endforeach
                             </select>

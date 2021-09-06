@@ -27,7 +27,7 @@ class OutcomeController extends Controller
 
     public function index(Request $request)
     {
-        $outcomes = Outcome::ORDERbY('id', 'desc')->paginate(10);
+        $outcomes = Outcome::orderBy('id', 'desc')->paginate(10);
         $data = $this->statistic($request);
         $params = $this->params;
         return view('outcome.index', compact('outcomes', 'params', 'data'));
@@ -133,7 +133,7 @@ class OutcomeController extends Controller
     public function export($id)
     {
         $outcome = Outcome::find($id);
-        $file_name = $outcome->fleet_detail->fleet->name.'_'.$outcome->fleet_detail->plate_number.'_'.$outcome->fleet_detail->nickname.'_'.$outcome->reported_at;
+        $file_name = $outcome->code;
         return Excel::download(new OutcomeExport($id), $file_name.'.xlsx');
     }
     

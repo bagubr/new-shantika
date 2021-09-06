@@ -8,6 +8,7 @@ use App\Models\Order;
 // use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
 // class OutcomeExport implements FromCollection
 // {
@@ -19,7 +20,7 @@ use Maatwebsite\Excel\Concerns\FromView;
 //         return Outcome::with('outcome_detail')->get();
 //     }
 // }
-class OutcomeExport implements FromView
+class OutcomeExport implements FromView, ShouldAutoSize
 {
     public function __construct(int $id)
     {

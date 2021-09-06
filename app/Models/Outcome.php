@@ -26,7 +26,19 @@ class Outcome extends Model
         'sum_travel',
         'sum_member',
         'sum_commition',
+        'code',
+        'outcome_type_name',
     ];
+
+    public function getCodeAttribute()
+    {
+        return 'NS-'.date('dmYHis', strtotime($this->created_at));
+    }
+
+    public function getOutcomeTypeNameAttribute()
+    {
+        return $this->outcome_type()?->first()?->name??'Rute';
+    }
 
     public function getSumTotalPendapatanBersihAttribute()
     {

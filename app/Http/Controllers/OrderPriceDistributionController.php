@@ -10,6 +10,8 @@ use App\Models\OrderDetail;
 use App\Models\OrderPriceDistribution;
 use App\Models\OutcomeDetail;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\SetoranExport;
 
 class OrderPriceDistributionController extends Controller
 {
@@ -107,6 +109,10 @@ class OrderPriceDistributionController extends Controller
         return view('order_price_distribution.index', compact('count_ticket', 'order_price_distributions', 'test', 'fleet_details', 'outcome_details', 'fleet_routes', 'count_income', 'agencies', 'count_outcome', 'count_pendapatan_bersih', 'count_seat'));
     }
 
+    public function export(Request $request)
+    {
+        return Excel::download(new SetoranExport($request), date('dmYHis').'.xlsx');
+    }
     /**
      * Show the form for creating a new resource.
      *
