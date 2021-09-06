@@ -148,8 +148,6 @@ Pesanan
                     </div>
                     @endif
                     <img src="{{$order->payment?->proof_url}}" class="" style="height:100px" alt="">
-                    <button class="btn btn-danger">Batalkan Pesanan</button>
-
                     <div class="text-right">
                         @if ($order->payment?->status == 'WAITING_CONFIRMATION' || $order->payment?->status ==
                         'PENDING')
