@@ -17,7 +17,7 @@ class OrderDetailRepository
         $agency_id = User::with('agencies.agent')->find($user_id)->agencies?->agent?->id;
         $order = OrderDetail::with(['order', 'order.fleet_route.fleet_detail.fleet', 'order.fleet_route.route.checkpoints', 'order.payment', 'order.distribution'])
             ->whereHas('order', function($query) use ($date) {
-                $query->whereDate('created_at', $date);
+                $query->whereDate('reserve_at', $date);
             })
             ->whereHas('order',function($query) use ($agency_id) {
                 $query->where(function($subquery) use ($agency_id) {

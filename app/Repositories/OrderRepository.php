@@ -96,7 +96,7 @@ class OrderRepository
                 });
             })
             ->where('status', Order::STATUS3)
-            ->whereDate('created_at', $date)
+            ->whereDate('reserve_at', $date)
             ->count();
     }
 
@@ -142,7 +142,7 @@ class OrderRepository
     {
         $agency_id = User::with('agencies.agent')->find($user_id)->agencies?->agent?->id;
         $order = Order::with(['order_detail.chair', 'fleet_route.fleet_detail.fleet', 'fleet_route.route.checkpoints', 'payment', 'distribution'])
-            ->whereDate('created_at', $date)
+            ->whereDate('reserve_at', $date)
             ->whereHas('fleet_route.fleet_detail', function ($query) use ($fleet_id) {
                 $query->where('fleet_id', $fleet_id);
             })
