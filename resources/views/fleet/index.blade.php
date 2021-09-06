@@ -72,8 +72,8 @@ Armada
                                             <img src="{{$fleet->image}}" height="100px" alt="">
                                             @else
                                             Tidak Ada Gambar
-                                            @endif
                                         </a>
+                                        @endif
                                     </td>
                                     <td>
                                         <a href="{{route('fleets.edit',$fleet->id)}}"

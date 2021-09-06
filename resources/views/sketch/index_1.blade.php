@@ -41,13 +41,6 @@ Sketch
                         </select>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="">Tanggal</label>
-                        <input v-model="filter.date" type="date" name="date" id="" class="form-control"
-                            value="{{ date('Y-m-d') }}">
-                    </div>
-                </div>
             </div>
             <div class="text-right m-2">
                 <button @click="searchOrders()" class="btn btn-success" type="submit">Cari</button>
@@ -98,173 +91,34 @@ Sketch
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modal-default">
-        <div class="modal-dialog modal-xl modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">@{{this.firstLayout.fleet.name}} -> @{{this.secondLayout.fleet.name}}</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Memindahkan penumpang dari bis <b>@{{this.firstLayout.fleet.name}}</b> ke
-                        <b>@{{this.secondLayout.fleet.name}}</b></p>
-                    <div class="row">
-                        <div class="col-6 border-right">
-                            <div class="form-group position-sticky bg-white pb-1 pt-1" style="top: -17px">
-                                <label for="">Armada</label>
-                                <div class="row">
-                                    <div class="col">
-                                        <select @change="selectOptionFirstLayout($event)" v-model="firstLayout.fleetRouteId" class="form-control" id="">
-                                            <option :value="order.fleet_route_id" v-for="order in result.orders"
-                                                :key="order.id" v-text="setSelectOptionLayoutText(order)"></option>
-                                        </select>
-                                    </div>
-                                    <div class="col-auto">
-                                        <button class="btn btn-secondary" @click="firstLayout.isShowInGrid = false">
-                                            <i class="fas fa-list"></i>
-                                        </button>
-                                        <button class="btn btn-secondary" @click="firstLayout.isShowInGrid = true">
-                                            <i class="fas fa-th"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div v-if="firstLayout.isLoading" class="w-100 row justify-content-center">
-                                <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_Stt1R6.json"
-                                    background="transparent" speed="1" style="width: 100px; height: 100px;" loop
-                                    autoplay></lottie-player>
-                            </div>
-                            <div v-else>
-                                <div v-if="firstLayout.isShowInGrid">
-                                    <div v-for="i in firstLayout.data.row" class="d-flex">
-                                        <div v-for="j in firstLayout.data.col" class="m-1">
-                                            <button v-html="loadText(i,j,0)" :class="loadClass(i,j,0)"
-                                                style="width: 100px; height: 45px" ref="btn-first-layout"
-                                                @click="selectSeat(i,j,0)"></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div v-else>
-                                    <div v-for="chair in firstLayout.data.chairs" class="w-100">
-                                        <div v-if="chair.order_detail != undefined" class="border-top border-bottom">
-                                            <p class="font-weight-bold">@{{chair.name}} -
-                                                @{{chair.order_detail.order_detail[0].name}}
-                                                (@{{chair.order_detail?.user?.agencies?.agent?.name || 'Customer'}})</p>
-                                            <a :href="'https://wa.me/'+chair.order_detail.order_detail[0].phone"
-                                                target="_blank">@{{chair.order_detail.order_detail[0].phone}}</a>
-                                            <p>Status Pembelian Tiket: @{{chair.order_detail.status}}</p>
-                                            <p>@{{chair.order_detail.code_order}}</p>
-                                        </div>
-                                        <div v-if="chair.booking_detail != undefined" class="border-top border-bottom">
-                                            <p class="font-weight-bold text-warning">@{{chair.name}} -
-                                                @{{chair.booking_detail.name}}
-                                                (@{{chair.order_detail?.user?.agencies?.agent?.name || 'Customer'}})</p>
-                                            <a :href="'https://wa.me/'+chair.booking_detail.phone"
-                                                target="_blank">@{{chair.booking_detail.phone}}</a>
-                                            <p>Jam Kadaluarsa Booking: @{{chair.booking_detail.expired_at}}</p>
-                                            <p>@{{chair.booking_detail.code_booking}}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6 border-right">
-                            <div class="form-group position-sticky bg-white pb-1 pt-1" style="top: -17px">
-                                <label for="">Armada</label>
-                                <div class="row">
-                                    <div class="col">
-                                        <select @change="selectOptionSecondLayout($event)" v-model="secondLayout.fleetRouteId" class="form-control"
-                                            id="">
-                                            <option :value="order.fleet_route_id" v-for="order in result.orders"
-                                                :key="order.id" v-text="setSelectOptionLayoutText(order)"></option>
-                                        </select>
-                                    </div>
-                                    <div class="col-auto">
-                                        <button class="btn btn-secondary" @click="secondLayout.isShowInGrid = false">
-                                            <i class="fas fa-list"></i>
-                                        </button>
-                                        <button class="btn btn-secondary" @click="secondLayout.isShowInGrid = true">
-                                            <i class="fas fa-th"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div v-if="secondLayout.isLoading" class="w-100 row justify-content-center">
-                                <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_Stt1R6.json"
-                                    background="transparent" speed="1" style="width: 100px; height: 100px;" loop
-                                    autoplay></lottie-player>
-                            </div>
-                            <div v-else>
-                                <div v-if="secondLayout.isShowInGrid">
-                                    <div v-for="i in secondLayout.data.row" class="d-flex">
-                                        <div v-for="j in secondLayout.data.col" class="m-1">
-                                            <button v-html="loadText(i,j,1)" :class="loadClass(i,j,1)"
-                                                style="width: 100px; height: 45px" ref="btn-second-layout"
-                                                @click="dropSelectedSeat(i,j,1)"></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div v-else>
-                                    <div v-for="chair in secondLayout.data.chairs" class="w-100">
-                                        <div v-if="chair.order_detail != undefined" class="border-top border-bottom">
-                                            <p class="font-weight-bold">@{{chair.name}} -
-                                                @{{chair.order_detail.order_detail[0].name}}
-                                                (@{{chair.order_detail?.user?.agencies?.agent?.name || 'Customer'}})</p>
-                                            <a :href="'https://wa.me/'+chair.order_detail.order_detail[0].phone"
-                                                target="_blank">@{{chair.order_detail.order_detail[0].phone}}</a>
-                                            <p>Status Pembelian Tiket: @{{chair.order_detail.status}}</p>
-                                            <p>@{{chair.order_detail.code_order}}</p>
-                                        </div>
-                                        <div v-if="chair.booking_detail != undefined" class="border-top border-bottom">
-                                            <p class="font-weight-bold text-warning">@{{chair.name}} -
-                                                @{{chair.booking_detail.name}}
-                                                (@{{chair.order_detail?.user?.agencies?.agent?.name || 'Customer'}})</p>
-                                            <a :href="'https://wa.me/'+chair.booking_detail.phone"
-                                                target="_blank">@{{chair.booking_detail.phone}}</a>
-                                            <p>Jam Kadaluarsa Booking: @{{chair.booking_detail.expired_at}}</p>
-                                            <p>@{{chair.booking_detail.code_booking}}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-danger" @click="reset()">Reset</button>
-                    <button type="button" class="btn btn-primary" @click="submit()">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('sketch.modal')
 </div>
 @endsection
 @push('script')
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 {{-- <script src="https://cdn.jsdelivr.net/npm/vue@2"></script> --}}
-<script>
-    $('[data-toggle="popover"]').popover();
-</script>
+
+<script src="https://unpkg.com/vuejs-datepicker"></script>
 <script>
     var app = new Vue({
             el: '#app-sketch',
+            components: {
+                vuejsDatepicker
+            },
             data: {
                 csrf_token: '{{ csrf_token() }}',
                 data: {
                     areas: {!! $areas !!}
                 },
                 filter: {
-                    date: new Date().toISOString().slice(0,10),
                     area_id: {!! $areas->first()->id !!}
                 },
                 result: {
                     orders: []
                 },
-                
                 firstLayout: {
+                    date: new Date().toDateString(),
                     fleetId: null,
                     fleetRouteId: null,
                     isLoading: false,
@@ -273,6 +127,7 @@ Sketch
                     data: {},
                 },
                 secondLayout: {
+                    date:  new Date().toDateString(),
                     fleetId: null,
                     fleetRouteId: null,
                     isLoading: false,
@@ -312,11 +167,18 @@ Sketch
                     this.secondLayout.fleetId = fleetId
                     this.getSecondLayout()
                 },
+                handleDateChange(type) {
+                    if(type == 'FIRST') {
+                        this.getFirstLayout()
+                    } else {
+                        this.getSecondLayout()
+                    }
+                },
                 getFirstLayout(fleetRouteId = null) {
                     this.firstLayout.isLoading = true
                     let params = new URLSearchParams({
                         fleet_route_id: fleetRouteId || this.firstLayout.fleetRouteId,
-                        date: this.filter.date
+                        date: new Date(this.firstLayout.date).toDateString()
                     })
                     fetch("{{url('/')}}/sketch/orders/detail?"+params).then(res => res.json()).then(res => {
                         this.firstLayout.data = res.data
@@ -329,7 +191,7 @@ Sketch
                     this.secondLayout.isLoading = true
                     let params = new URLSearchParams({
                         fleet_route_id: fleetRouteId || this.secondLayout.fleetRouteId,
-                        date: this.filter.date
+                        date: new Date(this.secondLayout.date).toDateString()
                     })
                     fetch("{{url('/')}}/sketch/orders/detail?"+params).then(res => res.json()).then(res => {
                         this.secondLayout.data = res.data
@@ -359,13 +221,13 @@ Sketch
 
                     if (chair.is_unavailable) {
                         if(chair.is_selected) {
-                            return `<marquee scrollamount="2">${chair.name} <i class="fas fa-user-check"></i> ${chair.code || ''}</marquee>`
+                            return `<p class="text-nowrap">${chair.name} | ${chair.code || ''}</p>`
                         } else if (chair.is_switched) {
-                            return `<marquee scrollamount="2">${chair.name} <i class="fas fa-user-tag"></i> ${chair.code || ''}</marquee>`
+                            return `<p class="text-nowrap">${chair.name} | ${chair.code || ''}</p>`
                         }
-                        return `<marquee scrollamount="2">${chair.name} <i class="fas fa-user"></i> ${chair.code || ''}</marquee>`
+                        return `<p class="text-nowrap">${chair.name} | ${chair.code || ''}</p>`
                     } else if (chair.is_booking) {
-                        return `<marquee scrollamount="2">${chair.name} <i class="fas fa-user-tag"></i> ${chair.code || ''}</marquee>`
+                        return `<p class="text-nowrap">${chair.name} | ${chair.code || ''}</p>`
                     } else if(chair.is_door) {
                         return `<span><i class="fas fa-door-closed"></i></span>`
                     } else if (chair.is_space) {
@@ -373,7 +235,7 @@ Sketch
                     } else if (chair.is_toilet) {
                         return `<span><i class="fas fa-toilet"></i></span>`
                     } else {
-                        return `<span>${chair.name} <i class="fas fa-chair"></i></span>`
+                        return `<span>${chair.name}</span>`
                     }
                 },
                 loadClass(row, col, which) {
@@ -453,8 +315,11 @@ Sketch
                         second_fleet_route_id: this.secondLayout.fleetRouteId,
                         first_fleet_id: this.firstLayout.fleetId,
                         second_fleet_id: this.secondLayout.fleetId,
-                        date: this.filter.date,
+                        first_date: this.firstLayout.date,
+                        second_date: this.secondLayout.date,
                         data: {
+                            from_date: this.firstLayout.date,
+                            to_date: this.secondLayout.date,
                             from_layout_chair_id: this.firstLayout.data.chairs.filter(e => e.is_switched == true),
                             to_layout_chair_id: this.secondLayout.data.chairs.filter(e => e.is_selected == true),
                         }

@@ -89,7 +89,7 @@ Pemesanan
                             <select name="agent" class="form-control">
                                 <option value="">--Semua Pemesan--</option>
                                 @foreach ($agent as $a)
-                                @if (old('agent'))
+                                @if (old('agent') == $a)
                                 <option value="{{$a}}" selected>{{$a}}</option>
                                 @else
                                 <option value="{{$a}}">{{$a}}</option>
@@ -232,30 +232,22 @@ Pemesanan
                         @endforeach
                     </tbody>
                 </table>
-                @if (Request::routeIs('order.index'))
-                {{$orders->links("pagination::bootstrap-4")}}
-                @endif
             </div>
-            <!-- /.card-body -->
         </div>
-        <!-- /.card -->
     </div>
-</div>
-</div>
 </div>
 @endsection
 @push('script')
 <script>
     $(function () {
-      $("#example1").DataTable({
-        "responsive": true, 
-        "lengthChange": false, 
-        "autoWidth": false,        
-        "paging":   false,
-        "ordering": false,
-        "info":     false,
-        "searching" : false,
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $("#example1").DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "order": [
+                [1, "desc"]
+            ],
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
 </script>
 @endpush

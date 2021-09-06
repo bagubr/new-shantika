@@ -26,7 +26,7 @@ class AddSoftdeleteToFleetRoutesTable extends Migration
     public function down()
     {
         Schema::table('fleet_routes', function (Blueprint $table) {
-            //
+            $table->softDeletes();
         });
     }
 }

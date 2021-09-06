@@ -2,7 +2,7 @@
 @foreach($notification->all() as $item)
     <a class="dropdown-item" href="">
         {{$item->title}} · 
-        <small class="text-secondary font-italic">{{date('d M Y H:i', $item->created_at)}}</small> ·
+        <small class="text-secondary font-italic">{{date('d M Y H:i', strtotime($item->created_at))}}</small> ·
         <small class="text-secondary font-italic">{{ $item->type }}</small>
         <br>
         <span class="text-secondary">

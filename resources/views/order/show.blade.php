@@ -148,8 +148,6 @@ Pesanan
                     </div>
                     @endif
                     <img src="{{$order->payment?->proof_url}}" class="" style="height:100px" alt="">
-                    <button class="btn btn-danger">Batalkan Pesanan</button>
-
                     <div class="text-right">
                         @if ($order->payment?->status == 'WAITING_CONFIRMATION' || $order->payment?->status ==
                         'PENDING')
@@ -272,7 +270,7 @@ Pesanan
                     </form>
                 </div>
             </div>
-            @else
+            @elseif($order->user?->agencies || !$order->status == 'FINISHED')
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Batalkan Tiket</h3>

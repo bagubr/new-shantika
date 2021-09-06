@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Events\SendingNotification;
+use App\Events\SendingNotificationToAdmin;
 use App\Events\SendingNotificationToTopic;
 use App\Listeners\SendNotification;
+use App\Listeners\SendNotificationToAdmin;
 use App\Listeners\SendNotificationToTopic;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -39,6 +41,11 @@ class EventServiceProvider extends ServiceProvider
         Event::listen(
             SendingNotificationToTopic::class,
             [SendNotificationToTopic::class, 'handle']
+        );
+
+        Event::listen(
+            SendingNotificationToAdmin::class,
+            [SendNotificationToAdmin::class, 'handle']
         );
     }
 }
