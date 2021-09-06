@@ -35,7 +35,7 @@
             <td>
                 {{$order_price_distribution->order?->order_detail?->count()}}
                 (
-                @foreach ($order_price_distribution->order?->order_detail?[] as $order_detail)
+                @foreach ($order_price_distribution->order?->order_detail??[] as $order_detail)
                 {{$order_detail->chair?->name}}
                 @if (!$loop->last)
                 ,
