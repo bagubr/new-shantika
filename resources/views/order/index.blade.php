@@ -219,8 +219,7 @@ Pemesanan
                             <td>{{$order->agency?->name}} -> {{$order->agency_destiny?->name}}</td>
                             <td>{{date('Y-m-d',strtotime($order->reserve_at))}}</td>
                             <td>
-                                <a class="btn btn-primary btn-xs" href="{{route('order.show',$order->id)}}"
-                                    target="_blank">Detail</a>
+                                <a class="btn btn-primary btn-xs" href="{{route('order.show',$order->id)}}">Detail</a>
                                 <form action="{{route('order.destroy',$order->id)}}" class="d-inline" method="POST">
                                     @csrf
                                     @method('DELETE')
