@@ -76,13 +76,19 @@ Pesanan
                         <div class="col">
                             <div class="form-group">
                                 <label>Dipesan Pada Tanggal</label>
-                                <p>{{$order->reserve_at}}</p>
+                                <p>{{$order->created_at}}</p>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label>Tanggal Kadaluarsa</label>
                                 <p>{{$order->expired_at}}</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Tanggal Keberangkatan</label>
+                                <p>{{date('Y-m-d', strtotime($order->reserve_at))}}</p>
                             </div>
                         </div>
                     </div>

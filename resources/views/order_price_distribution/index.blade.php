@@ -161,7 +161,7 @@ Setoran
                                     <th class="none">Travel</th>
                                     <th class="none">Member</th>
                                     <th class="none">Agent</th>
-                                    <th>Deposit</th>
+                                    {{-- <th>Deposit</th> --}}
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -206,31 +206,33 @@ Setoran
                                     <td>Rp.
                                         {{number_format($order_price_distribution->order?->fleet_route?->price * $order_price_distribution->order?->order_detail?->count())}}
                                     </td>
-                                    <td>Rp. {{number_format($order_price_distribution->for_owner,2)}}</td>
-                                    <td>Rp. {{number_format($order_price_distribution->for_food,2)}}</td>
-                                    <td>Rp. {{number_format($order_price_distribution->for_travel,2)}}</td>
-                                    <td>Rp. {{number_format($order_price_distribution->for_member,2)}}</td>
-                                    <td>Rp. {{number_format($order_price_distribution->for_agent,2)}}</td>
-                                    <td>
+                                    <td>Rp. {{number_format($order_price_distribution->for_owner)}}</td>
+                                    <td>Rp. {{number_format($order_price_distribution->for_food)}}</td>
+                                    <td>Rp. {{number_format($order_price_distribution->for_travel)}}</td>
+                                    <td>Rp. {{number_format($order_price_distribution->for_member)}}</td>
+                                    <td>Rp. {{number_format($order_price_distribution->for_agent)}}</td>
+                                    {{-- <td>
                                         @if ($order_price_distribution->deposited_at)
                                         {{date('Y-m-d', strtotime($order_price_distribution->deposited_at))}}
-                                        @else
-                                        Belum Deposit
-                                        @endif
-                                    </td>
+                                    @else
+                                    Belum Deposit
+                                    @endif
+                                    </td> --}}
                                     <td>
-                                        @if (!$order_price_distribution->deposited_at)
+                                        {{-- @if (!$order_price_distribution->deposited_at)
                                         <form
                                             action="{{route('order_price_distribution.update', $order_price_distribution->id)}}"
-                                            class="d-inline" method="POST">
-                                            @csrf
-                                            @method('PUT')
-                                            <button class="btn btn-primary btn-xs"
-                                                onclick="return confirm('Apakah Anda Yakin Ingin Deposit?')"
-                                                type="submit">Deposit
-                                                Sekarang</button>
+                                        class="d-inline" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <button class="btn btn-primary btn-xs"
+                                            onclick="return confirm('Apakah Anda Yakin Ingin Deposit?')"
+                                            type="submit">Deposit
+                                            Sekarang</button>
                                         </form>
-                                        @endif
+                                        @endif --}}
+                                        <a href="{{route('order.show',$order_price_distribution->order?->id)}}"
+                                            class="btn btn-primary btn-xs">Detail</a>
                                         <form
                                             action="{{route('order_price_distribution.destroy',$order_price_distribution->id)}}"
                                             class="d-inline" method="POST">
