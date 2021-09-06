@@ -77,6 +77,29 @@ Setoran
             </div>
             <div class="col-8">
                 <div class="row">
+                    <div class="col-md-4">
+                        <div class="small-box bg-primary">
+                            <div class="inner">
+                                <h3>{{number_format($count_seat)}} <sup style="font-size: 20px">Kursi</sup>
+                                </h3>
+                                <p>Total Kursi Terjual</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-man"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3><sup style="font-size: 20px">Rp</sup> {{number_format($count_ticket)}}</h3>
+                                <p>Total Penjualan Tiket</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-card"></i>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-md-6">
                         <div class="small-box bg-success">
                             <div class="inner">
@@ -96,18 +119,6 @@ Setoran
                             </div>
                             <div class="icon">
                                 <i class="ion ion-card"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="small-box bg-primary">
-                            <div class="inner">
-                                <h3>{{number_format($count_seat)}} <sup style="font-size: 20px">Kursi</sup>
-                                </h3>
-                                <p>Total Kursi Terjual</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-man"></i>
                             </div>
                         </div>
                     </div>
@@ -144,12 +155,12 @@ Setoran
                                     <th>Rute</th>
                                     <th>Harga Tiket</th>
                                     <th>Dana Agen</th>
-                                    <th>Makan</th>
-                                    <th>Travel</th>
-                                    <th>Member</th>
-                                    <th>Agent</th>
-                                    <th>Total Owner</th>
-                                    <th>Deposit</th>
+                                    <th>Total Setoran Agen</th>
+                                    <th class="none">Makan</th>
+                                    <th class="none">Travel</th>
+                                    <th class="none">Member</th>
+                                    <th class="none">Agent</th>
+                                    {{-- <th>Deposit</th> --}}
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -170,14 +181,16 @@ Setoran
                                     <td>{{$order_price_distribution->order?->agency?->name}}</td>
                                     <td>
                                         {{$order_price_distribution->order?->order_detail?->count()}}
-                                        {{-- (
-                                @foreach ($order_price_distribution->order?->order_detail as $order_detail)
-                                {{$order_detail->chair?->name}}
+                                        @if ($order_price_distribution->order?->order_detail)
+                                        (
+                                        @foreach ($order_price_distribution->order?->order_detail as $order_detail)
+                                        {{$order_detail->chair?->name}}
                                         @if (!$loop->last)
                                         ,
                                         @endif
                                         @endforeach
-                                        ) --}}
+                                        )
+                                        @endif
                                     </td>
                                     <td>
                                         @if ($order_price_distribution->order?->fleet_route)
@@ -192,31 +205,33 @@ Setoran
                                     <td>Rp.
                                         {{number_format($order_price_distribution->order?->fleet_route?->price * $order_price_distribution->order?->order_detail?->count())}}
                                     </td>
-                                    <td>Rp. {{number_format($order_price_distribution->for_food,2)}}</td>
-                                    <td>Rp. {{number_format($order_price_distribution->for_travel,2)}}</td>
-                                    <td>Rp. {{number_format($order_price_distribution->for_member,2)}}</td>
-                                    <td>Rp. {{number_format($order_price_distribution->for_agent,2)}}</td>
-                                    <td>Rp. {{number_format($order_price_distribution->for_owner,2)}}</td>
-                                    <td>
+                                    <td>Rp. {{number_format($order_price_distribution->for_owner)}}</td>
+                                    <td>Rp. {{number_format($order_price_distribution->for_food)}}</td>
+                                    <td>Rp. {{number_format($order_price_distribution->for_travel)}}</td>
+                                    <td>Rp. {{number_format($order_price_distribution->for_member)}}</td>
+                                    <td>Rp. {{number_format($order_price_distribution->for_agent)}}</td>
+                                    {{-- <td>
                                         @if ($order_price_distribution->deposited_at)
                                         {{date('Y-m-d', strtotime($order_price_distribution->deposited_at))}}
-                                        @else
-                                        Belum Deposit
-                                        @endif
-                                    </td>
+                                    @else
+                                    Belum Deposit
+                                    @endif
+                                    </td> --}}
                                     <td>
-                                        @if (!$order_price_distribution->deposited_at)
+                                        {{-- @if (!$order_price_distribution->deposited_at)
                                         <form
                                             action="{{route('order_price_distribution.update', $order_price_distribution->id)}}"
-                                            class="d-inline" method="POST">
-                                            @csrf
-                                            @method('PUT')
-                                            <button class="btn btn-primary btn-xs"
-                                                onclick="return confirm('Apakah Anda Yakin Ingin Deposit?')"
-                                                type="submit">Deposit
-                                                Sekarang</button>
+                                        class="d-inline" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <button class="btn btn-primary btn-xs"
+                                            onclick="return confirm('Apakah Anda Yakin Ingin Deposit?')"
+                                            type="submit">Deposit
+                                            Sekarang</button>
                                         </form>
-                                        @endif
+                                        @endif --}}
+                                        <a href="{{route('order.show',$order_price_distribution->order?->id)}}"
+                                            class="btn btn-primary btn-xs">Detail</a>
                                         <form
                                             action="{{route('order_price_distribution.destroy',$order_price_distribution->id)}}"
                                             class="d-inline" method="POST">
@@ -282,39 +297,75 @@ Setoran
 
 <script>
     $(function () {
-      $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false, "button":[
-            'csv'
-        ],
-        "buttons": [
-            {
-                "extend": 'pdf',           
-                "exportOptions": {
-                        "columns": [1,2,3,4,5,6,7,8,9,10,11,12,13] // indexes of the columns that should be printed,
-                    }                      // Exclude indexes that you don't want to print.
-            },
-            {
-                "extend": 'csv',
-                "exportOptions": {
-                        "columns": [1,2,3,4,5,6,7,8,9,10,11,12,13] 
-                    }
+        $("#example1").DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "order": [[ 1, "desc" ]],
+            "buttons": [
+                {
+                    "extend": 'pdf',           
+                    "exportOptions": {
+                            "columns": [1,2,3,4,5,6,7,8,9] // indexes of the columns that should be printed,
+                        }                      // Exclude indexes that you don't want to print.
+                },
+                {
+                    "extend": 'csv',
+                    "exportOptions": {
+                            "columns": [1,2,3,4,5,6,7,8,9] 
+                        }
 
-            },
-            {
-                "extend": 'excel',
-                "exportOptions": {
-                        "columns": [1,2,3,4,5,6,7,8,9,10,11,12,13] 
-                    }
-            },
-            {
-                "extend": 'print',
-                "exportOptions": {
-                        "columns": [1,2,3,4,5,6,7,8,9,10,11,12,13] 
-                    }
-            }
-        ],
-        "dom": 'Bfrtip',
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+                },
+                {
+                    "extend": 'excel',
+                    "exportOptions": {
+                            "columns": [1,2,3,4,5,6,7,8,9] 
+                        }
+                },
+                {
+                    "extend": 'print',
+                    "exportOptions": {
+                            "columns": [1,2,3,4,5,6,7,8,9] 
+                        }
+                }
+            ],
+            "dom": 'Bfrtip',
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
+    $(function () {
+        $("#example2").DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "buttons": [
+                {
+                    "extend": 'pdf',           
+                    "exportOptions": {
+                            "columns": [1,2,3,4] // indexes of the columns that should be printed,
+                        }                      // Exclude indexes that you don't want to print.
+                },
+                {
+                    "extend": 'csv',
+                    "exportOptions": {
+                            "columns": [1,2,3,4] 
+                        }
+
+                },
+                {
+                    "extend": 'excel',
+                    "exportOptions": {
+                            "columns": [1,2,3,4] 
+                        }
+                },
+                {
+                    "extend": 'print',
+                    "exportOptions": {
+                            "columns": [1,2,3,4] 
+                        }
+                }
+            ],
+            "dom": 'Bfrtip',
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
 </script>
 @endpush

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Order\OrderCancelationRequest;
 use App\Http\Requests\Order\UpdateOrderReserveAtRequest;
 use App\Models\Agency;
 use App\Models\FleetDetail;
@@ -169,6 +170,19 @@ class OrderController extends Controller
         if (Hash::check($data['password'], $hashed)) {
             $order->update($data);
             session()->flash('success', 'Jadwal Berhasil Diubah');
+        } else {
+            session()->flash('error', 'Password Anda Tidak Sama');
+        }
+        return back();
+    }
+    public function cancelation(OrderCancelationRequest $request, Order $order)
+    {
+        $data               = $request->all();
+        $data['status']     = 'CANCELED';
+        $hashed = Auth::user()->password;
+        if (Hash::check($data['password'], $hashed)) {
+            $order->update($data);
+            session()->flash('success', 'Orderan Berhasil DiBatalkan');
         } else {
             session()->flash('error', 'Password Anda Tidak Sama');
         }

@@ -33,6 +33,7 @@ class Order extends Model
         'proof',
         'destination_agency_id',
         'departure_agency_id',
+        'cancelation_reason',
     ];
     protected $appends = [
         'area_name',
@@ -42,7 +43,7 @@ class Order extends Model
         $status = ['PENDING', 'EXCHANGED', 'PAID', 'CANCELED', 'EXPIRED', 'WAITING_CONFIRMATION', 'DECLINED', 'FINISHED'];
         return $status;
     }
-    
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -78,7 +79,8 @@ class Order extends Model
         return $this->hasOne(OrderPriceDistribution::class, 'order_id', 'id');
     }
 
-    public function time_classification() {
+    public function time_classification()
+    {
         return $this->belongsTo(TimeClassification::class);
     }
 

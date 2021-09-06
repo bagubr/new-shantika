@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Events\SendingNotification;
+use App\Jobs\Admin\NewOrderNotification;
 use App\Jobs\Notification\TicketExchangedJob;
 use App\Models\Admin;
 use App\Models\Agency;
@@ -81,6 +82,7 @@ class OrderService {
         );
         SendingNotification::dispatch($notification, Admin::whereNotNull('fcm_token')->pluck('fcm_token'), false);
         SendingNotification::dispatch($notification, $order->user?->fcm_token, true);
+        NewOrderNotification::dispatchAfterResponse($notification, Admin::whereNotNull('fcm_token')->pluck('fcm_token'), true);
     }
 
     public static function createDetail($order, $layout_chairs, $detail) {
