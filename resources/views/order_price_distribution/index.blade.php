@@ -34,7 +34,7 @@ Setoran
                             </div>
                             <div class="form-group">
                                 <label>Armada</label>
-                                <select name="fleet_detail_id" id="" class="form-control select2">
+                                <select name="fleet_detail_id" class="form-control select2">
                                     <option value="">--PILIH ARMADA--</option>
                                     @foreach ($fleet_details as $fleet_detail)
                                     @if (old('fleet_detail_id') == $fleet_detail->id)
@@ -53,7 +53,7 @@ Setoran
                             </div>
                             <div class="form-group">
                                 <label>Agen</label>
-                                <select name="agency_id" id="" class="form-control select2">
+                                <select name="agency_id" class="form-control select2">
                                     <option value="">--PILIH AGEN--</option>
                                     @foreach ($agencies as $agency)
                                     @if (old('agency_id') == $agency->id)
@@ -77,29 +77,41 @@ Setoran
             </div>
             <div class="col-8">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-md-6">
                         <div class="small-box bg-success">
                             <div class="inner">
                                 <h3><sup style="font-size: 20px">Rp</sup> {{number_format($count_income)}}</h3>
-                                <p>Total Pemasukkan</p>
+                                <p>Total Setoran Agen</p>
                             </div>
                             <div class="icon">
-                                <i class="ion ion-stats-bars"></i>
+                                <i class="ion ion-card"></i>
                             </div>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-6">
                         <div class="small-box bg-danger">
                             <div class="inner">
                                 <h3><sup style="font-size: 20px">Rp</sup> {{number_format($count_outcome)}}</h3>
                                 <p>Total Pengeluaran</p>
                             </div>
                             <div class="icon">
-                                <i class="ion ion-stats-bars"></i>
+                                <i class="ion ion-card"></i>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12">
+                    <div class="col-md-4">
+                        <div class="small-box bg-primary">
+                            <div class="inner">
+                                <h3>{{number_format($count_seat)}} <sup style="font-size: 20px">Kursi</sup>
+                                </h3>
+                                <p>Total Kursi Terjual</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-man"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
                         <div class="small-box bg-warning">
                             <div class="inner">
                                 <h3><sup style="font-size: 20px">Rp</sup> {{number_format($count_pendapatan_bersih)}}
@@ -124,7 +136,7 @@ Setoran
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Tanggal Pemesanan</th>
+                                    <th>Tanggal</th>
                                     <th>Kode Order</th>
                                     <th>Armada</th>
                                     <th>Agen</th>
@@ -158,14 +170,14 @@ Setoran
                                     <td>{{$order_price_distribution->order?->agency?->name}}</td>
                                     <td>
                                         {{$order_price_distribution->order?->order_detail?->count()}}
-                                        (
-                                        @foreach ($order_price_distribution->order?->order_detail as $order_detail)
-                                        {{$order_detail->chair?->name}}
+                                        {{-- (
+                                @foreach ($order_price_distribution->order?->order_detail as $order_detail)
+                                {{$order_detail->chair?->name}}
                                         @if (!$loop->last)
                                         ,
                                         @endif
                                         @endforeach
-                                        )
+                                        ) --}}
                                     </td>
                                     <td>
                                         @if ($order_price_distribution->order?->fleet_route)
@@ -244,7 +256,12 @@ Setoran
                                 @foreach ($outcome_details as $outcome)
                                 <tr>
                                     <td>{{date('Y-m-d',strtotime($outcome->outcome?->reported_at))}}</td>
-                                    <td>{{$outcome->outcome?->order_price_distributions ?? 'Tidak Ada'}}</td>
+                                    @if ($outcome->outcome->fleet_detail)
+                                    <td>{{$outcome->outcome?->fleet_detail?->fleet?->name}}/{{$outcome->outcome?->fleet_detail?->nickname}}
+                                    </td>
+                                    @else
+                                    <td>Tidak Ada</td>
+                                    @endif
                                     <td>{{$outcome->name}}</td>
                                     <td>Rp {{number_format($outcome->amount)}}</td>
                                 </tr>

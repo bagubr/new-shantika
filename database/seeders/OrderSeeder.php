@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\Route;
 use App\Models\User;
 use App\Models\OrderDetail;
+use App\Models\OrderPriceDistribution;
 use App\Models\TimeClassification;
 use Carbon\Carbon;
 use Faker\Factory as Faker;
@@ -54,6 +55,18 @@ class OrderSeeder extends Seeder
                 'is_feed'           => $faker->randomElement($array = array(true, false)),
                 'is_travel'         => $faker->randomElement($array = array(true, false)),
                 'is_member'         => $faker->randomElement($array = array(true, false)),
+            ]);
+
+            OrderPriceDistribution::create([
+                'order_id'      => $order->id,
+                'for_food'      => 10000,
+                'for_travel'    => 10000,
+                'for_member'    => 10000,
+                'for_agent'     => 10000,
+                'for_owner'     => $order->price - 40000,
+                'ticket_only'   => $order->price,
+                'deposited_at'  => null
+
             ]);
         }
     }
