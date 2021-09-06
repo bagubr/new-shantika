@@ -56,6 +56,7 @@ class OrderRepository
             ->addSelect('destination_agency_id', 'time_classification_id', 'departure_agency_id')
             ->addSelect(DB::raw("'PEMBELIAN' as type"))
             ->addSelect(DB::raw("price"))
+            ->whereHas('user.agencies')
             ->where('departure_agency_id', $user->agencies->agent->id)
             ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
             ->union($booking);
@@ -65,6 +66,7 @@ class OrderRepository
             ->addSelect(DB::raw("'EXCHANGE' as type"))
             ->addSelect(DB::raw("price"))
             ->where('departure_agency_id', $user->agencies->agent->id)
+            ->whereDoesntHave('user.agencies')
             ->whereIn('status', [Order::STATUS5, Order::STATUS8])
             ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
             ->union($agen_order)
