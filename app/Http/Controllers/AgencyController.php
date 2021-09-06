@@ -20,7 +20,7 @@ class AgencyController extends Controller
      */
     public function index()
     {
-        $agencies = Agency::all();
+        $agencies   = Agency::orderBy('id')->get();
         $statuses = Agency::status();
         $areas = Area::get();
         return view('agency.index', compact('agencies', 'statuses', 'areas'));
@@ -122,7 +122,6 @@ class AgencyController extends Controller
     public function edit(Agency $agency)
     {
         $cities = CityRepository::all();
-        // $agency_departure = AgencyDepartureTime::where('agency_id', $agency->id)->get();
         $agency_departure = AgencyDepartureTime::where('agency_id', $agency->id)->where('time_classification_id', 1)->first();
         $agency_departure1 = AgencyDepartureTime::where('agency_id', $agency->id)->where('time_classification_id', 2)->first();
         return view('agency.create', compact('agency', 'cities', 'agency_departure', 'agency_departure1'));

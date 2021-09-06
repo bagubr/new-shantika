@@ -20,6 +20,8 @@ class Agency extends Model
     protected $appends = [
         'avatar_url',
         'city_name',
+        'morning_time',
+        'night_time'
     ];
 
     public static function status()
@@ -31,7 +33,8 @@ class Agency extends Model
         return $status;
     }
 
-    public function agent_departure() {
+    public function agent_departure()
+    {
         return $this->hasOne(AgencyDepartureTime::class);
     }
 
@@ -42,6 +45,14 @@ class Agency extends Model
     public function agency_departure_times()
     {
         return $this->hasMany(AgencyDepartureTime::class, 'agency_id', 'id');
+    }
+    public function getMorningTimeAttribute()
+    {
+        return $this->agency_departure_times()?->where('time_classification_id', 1)?->first()?->departure_at;
+    }
+    public function getNightTimeAttribute()
+    {
+        return $this->agency_departure_times()?->where('time_classification_id', 2)?->first()?->departure_at;
     }
     public function getCityNameAttribute()
     {
