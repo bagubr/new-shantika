@@ -26,7 +26,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::orderBy('id', 'desc')->paginate(7);
+        $orders = Order::all();
         $routes = Route::all();
         $fleet_details = FleetDetail::has('fleet_route')->get();
         $agent = ['AGENT', 'UMUM'];
@@ -182,7 +182,7 @@ class OrderController extends Controller
         $hashed = Auth::user()->password;
         if (Hash::check($data['password'], $hashed)) {
             $order->update($data);
-            session()->flash('success', 'Jadwal Berhasil Diubah');
+            session()->flash('success', 'Orderan Berhasil DiBatalkan');
         } else {
             session()->flash('error', 'Password Anda Tidak Sama');
         }

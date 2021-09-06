@@ -49,22 +49,26 @@ Pesanan
                         <div class="col">
                             <div class="form-group">
                                 <label>Rute</label>
+                                @if ($order->fleet_route)
                                 <a href="{{route('routes.show',$order->fleet_route?->route_id)}}">
                                     <p>
                                         {{$order->fleet_route?->route?->name}}
                                     </p>
                                 </a>
+                                @endif
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label>Armada</label>
+                                @if ($order->fleet_route)
                                 <a href="{{route('fleet_route.show',$order->fleet_route?->id)}}">
                                     <p>
                                         {{$order->fleet_route?->fleet_detail?->fleet?->name}}/{{$order->fleet_route?->fleet_detail?->fleet?->fleetclass?->name}}
                                         ({{$order->fleet_route?->fleet_detail?->nickname}})
                                     </p>
                                 </a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -72,13 +76,19 @@ Pesanan
                         <div class="col">
                             <div class="form-group">
                                 <label>Dipesan Pada Tanggal</label>
-                                <p>{{$order->reserve_at}}</p>
+                                <p>{{$order->created_at}}</p>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label>Tanggal Kadaluarsa</label>
                                 <p>{{$order->expired_at}}</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Tanggal Keberangkatan</label>
+                                <p>{{date('Y-m-d', strtotime($order->reserve_at))}}</p>
                             </div>
                         </div>
                     </div>
@@ -262,7 +272,7 @@ Pesanan
                     </form>
                 </div>
             </div>
-            @else
+            @elseif($order->user?->agencies || !$order->status == 'FINISHED')
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Batalkan Tiket</h3>
@@ -273,6 +283,10 @@ Pesanan
                     </div>
                 </div>
                 <div class="card-body" style="display: block;">
+                    @if ($order->status == 'CANCELED')
+                    <h5 class="card-title">Orderan Dibatalkan</h5>
+                    <p class="card-text text-bold">{{$order->cancelation_reason}}</p>
+                    @else
                     <form action="{{route('order.cancelation',$order->id)}}" method="POST">
                         @csrf
                         @method('PUT')
@@ -290,6 +304,7 @@ Pesanan
                                 value="Batalkan Order">
                         </div>
                     </form>
+                    @endif
                 </div>
             </div>
             @endif

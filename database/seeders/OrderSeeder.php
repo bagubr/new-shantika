@@ -31,7 +31,7 @@ class OrderSeeder extends Seeder
                 'user_id'           => User::all()->random()->id,
                 'fleet_route_id'    => $route->id,
                 'code_order'        => 'STK-' . date('YmdHis'),
-                'status'            => $faker->randomElement($array = array('PENDING', 'EXPIRED', 'PAID', 'CANCELED', 'EXCHANGED')),
+                'status'            => $faker->randomElement($array = array('WAITING_CONFIRMATION', 'PAID', 'EXCHANGED')),
                 // 'status'            => 'PAID',
                 'price'             => $route->price,
                 'expired_at'        => date('Y-m-d H:i:s', strtotime($date . ' +3 day')),

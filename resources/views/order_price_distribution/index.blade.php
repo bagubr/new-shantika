@@ -68,9 +68,9 @@ Setoran
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
-                        <div class="text-right m-2">
-                            <button class="btn btn-success" type="submit">Cari</button>
+                            <div class="text-right">
+                                <button class="btn btn-success" type="submit">Cari</button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -133,7 +133,6 @@ Setoran
                                 <i class="ion ion-stats-bars"></i>
                             </div>
                         </div>
-                        <a class="btn btn-success btn-sm" href="{{route('order_price_distribution.export')}}">Export Excel</a>
                     </div>
                 </div>
             </div>
@@ -144,6 +143,7 @@ Setoran
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
+                        <!-- <a class="btn btn-success btn-sm d-inline" href="{{route('order_price_distribution.export')}}">Export Excel</a> -->
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
@@ -155,12 +155,12 @@ Setoran
                                     <th>Rute</th>
                                     <th>Harga Tiket</th>
                                     <th>Dana Agen</th>
-                                    <th>Makan</th>
-                                    <th>Travel</th>
-                                    <th>Member</th>
-                                    <th>Agent</th>
-                                    <th>Total Owner</th>
-                                    <th>Deposit</th>
+                                    <th>Total Setoran Agen</th>
+                                    <th class="none">Makan</th>
+                                    <th class="none">Travel</th>
+                                    <th class="none">Member</th>
+                                    <th class="none">Agent</th>
+                                    {{-- <th>Deposit</th> --}}
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -181,14 +181,16 @@ Setoran
                                     <td>{{$order_price_distribution->order?->agency?->name}}</td>
                                     <td>
                                         {{$order_price_distribution->order?->order_detail?->count()}}
-                                        {{-- (
-                                @foreach ($order_price_distribution->order?->order_detail as $order_detail)
-                                {{$order_detail->chair?->name}}
+                                        @if ($order_price_distribution->order?->order_detail)
+                                        (
+                                        @foreach ($order_price_distribution->order?->order_detail as $order_detail)
+                                        {{$order_detail->chair?->name}}
                                         @if (!$loop->last)
                                         ,
                                         @endif
                                         @endforeach
-                                        ) --}}
+                                        )
+                                        @endif
                                     </td>
                                     <td>
                                         @if ($order_price_distribution->order?->fleet_route)
@@ -203,31 +205,33 @@ Setoran
                                     <td>Rp.
                                         {{number_format($order_price_distribution->order?->fleet_route?->price * $order_price_distribution->order?->order_detail?->count())}}
                                     </td>
-                                    <td>Rp. {{number_format($order_price_distribution->for_food,2)}}</td>
-                                    <td>Rp. {{number_format($order_price_distribution->for_travel,2)}}</td>
-                                    <td>Rp. {{number_format($order_price_distribution->for_member,2)}}</td>
-                                    <td>Rp. {{number_format($order_price_distribution->for_agent,2)}}</td>
-                                    <td>Rp. {{number_format($order_price_distribution->for_owner,2)}}</td>
-                                    <td>
+                                    <td>Rp. {{number_format($order_price_distribution->for_owner)}}</td>
+                                    <td>Rp. {{number_format($order_price_distribution->for_food)}}</td>
+                                    <td>Rp. {{number_format($order_price_distribution->for_travel)}}</td>
+                                    <td>Rp. {{number_format($order_price_distribution->for_member)}}</td>
+                                    <td>Rp. {{number_format($order_price_distribution->for_agent)}}</td>
+                                    {{-- <td>
                                         @if ($order_price_distribution->deposited_at)
                                         {{date('Y-m-d', strtotime($order_price_distribution->deposited_at))}}
-                                        @else
-                                        Belum Deposit
-                                        @endif
-                                    </td>
+                                    @else
+                                    Belum Deposit
+                                    @endif
+                                    </td> --}}
                                     <td>
-                                        @if (!$order_price_distribution->deposited_at)
+                                        {{-- @if (!$order_price_distribution->deposited_at)
                                         <form
                                             action="{{route('order_price_distribution.update', $order_price_distribution->id)}}"
-                                            class="d-inline" method="POST">
-                                            @csrf
-                                            @method('PUT')
-                                            <button class="btn btn-primary btn-xs"
-                                                onclick="return confirm('Apakah Anda Yakin Ingin Deposit?')"
-                                                type="submit">Deposit
-                                                Sekarang</button>
+                                        class="d-inline" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <button class="btn btn-primary btn-xs"
+                                            onclick="return confirm('Apakah Anda Yakin Ingin Deposit?')"
+                                            type="submit">Deposit
+                                            Sekarang</button>
                                         </form>
-                                        @endif
+                                        @endif --}}
+                                        <a href="{{route('order.show',$order_price_distribution->order?->id)}}"
+                                            class="btn btn-primary btn-xs">Detail</a>
                                         <form
                                             action="{{route('order_price_distribution.destroy',$order_price_distribution->id)}}"
                                             class="d-inline" method="POST">
@@ -290,16 +294,81 @@ Setoran
 </div>
 @endsection
 @push('script')
+
 <script>
     $(function () {
-      $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $("#example1").DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "order": [
+                [1, "desc"]
+            ],
+            "buttons": [{
+                    "extend": 'pdf',
+                    "exportOptions": {
+                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                    }
+                },
+                {
+                    "extend": 'csv',
+                    "exportOptions": {
+                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                    }
+
+                },
+                {
+                    "extend": 'excel',
+                    "exportOptions": {
+                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                    }
+                },
+                {
+                    "extend": 'print',
+                    "exportOptions": {
+                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                    }
+                }
+            ],
+            "dom": 'Bfrtip',
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
+</script>
+<script>
     $(function () {
-      $("#example2").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $("#example2").DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "buttons": [
+                {
+                    "extend": 'pdf',
+                    "exportOptions": {
+                        "columns": [0,1, 2, 3]
+                    }
+                },
+                {
+                    "extend": 'csv',
+                    "exportOptions": {
+                        "columns": [0,1, 2, 3]
+                    }
+
+                },
+                {
+                    "extend": 'excel',
+                    "exportOptions": {
+                        "columns": [0,1, 2, 3]
+                    }
+                },
+                {
+                    "extend": 'print',
+                    "exportOptions": {
+                        "columns": [0,1, 2, 3]
+                    }
+                }
+            ],
+            "dom": 'Bfrtip',
+        }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
     });
 </script>
 @endpush
