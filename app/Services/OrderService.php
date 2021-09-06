@@ -81,7 +81,6 @@ class OrderService {
             $order->user_id
         );
         SendingNotification::dispatch($notification, Admin::whereNotNull('fcm_token')->pluck('fcm_token'), false);
-        SendingNotification::dispatch($notification, $order->user?->fcm_token, true);
         NewOrderNotification::dispatchAfterResponse($notification, Admin::whereNotNull('fcm_token')->pluck('fcm_token'), true);
     }
 
