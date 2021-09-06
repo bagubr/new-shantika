@@ -49,22 +49,26 @@ Pesanan
                         <div class="col">
                             <div class="form-group">
                                 <label>Rute</label>
+                                @if ($order->fleet_route)
                                 <a href="{{route('routes.show',$order->fleet_route?->route_id)}}">
                                     <p>
                                         {{$order->fleet_route?->route?->name}}
                                     </p>
                                 </a>
+                                @endif
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label>Armada</label>
+                                @if ($order->fleet_route)
                                 <a href="{{route('fleet_route.show',$order->fleet_route?->id)}}">
                                     <p>
                                         {{$order->fleet_route?->fleet_detail?->fleet?->name}}/{{$order->fleet_route?->fleet_detail?->fleet?->fleetclass?->name}}
                                         ({{$order->fleet_route?->fleet_detail?->nickname}})
                                     </p>
                                 </a>
+                                @endif
                             </div>
                         </div>
                     </div>
