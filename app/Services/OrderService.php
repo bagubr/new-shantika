@@ -81,7 +81,7 @@ class OrderService {
             $order->user_id
         );
         SendingNotification::dispatch($notification, Admin::whereNotNull('fcm_token')->pluck('fcm_token'), false);
-        NewOrderNotification::dispatchAfterResponse($notification, Admin::whereNotNull('fcm_token')->pluck('fcm_token'), true);
+        NewOrderNotification::dispatch($notification, Admin::whereNotNull('fcm_token')->pluck('fcm_token'), true);
     }
 
     public static function createDetail($order, $layout_chairs, $detail) {
