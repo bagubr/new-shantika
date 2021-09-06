@@ -88,12 +88,16 @@ class AgencyController extends Controller
             $data['avatar'] = $request->avatar->store('avatar', 'public');
         }
         $agency = Agency::create($data);
-        foreach ($request->departure_at as $key => $value) {
-            AgencyDepartureTime::create([
-                'agency_id'     => $agency->id,
-                'departure_at'  => $value,
-            ]);
-        }
+        AgencyDepartureTime::create([
+            'agency_id'                 => $agency->id,
+            'departure_at'              => $request->departure_at,
+            'time_classification_id'    => 1
+        ]);
+        AgencyDepartureTime::create([
+            'agency_id'                 => $agency->id,
+            'departure_at'              => $request->departure_at1,
+            'time_classification_id'    => 2
+        ]);
         session()->flash('success', 'Agency Berhasil Ditambahkan');
         return redirect(route('agency.index'));
     }
@@ -119,7 +123,9 @@ class AgencyController extends Controller
     {
         $cities = CityRepository::all();
         // $agency_departure = AgencyDepartureTime::where('agency_id', $agency->id)->get();
-        return view('agency.create', compact('agency', 'cities'));
+        $agency_departure = AgencyDepartureTime::where('agency_id', $agency->id)->where('time_classification_id', 1)->first();
+        $agency_departure1 = AgencyDepartureTime::where('agency_id', $agency->id)->where('time_classification_id', 2)->first();
+        return view('agency.create', compact('agency', 'cities', 'agency_departure', 'agency_departure1'));
     }
 
     /**
@@ -138,16 +144,16 @@ class AgencyController extends Controller
             $data['avatar'] = $avatar;
         };
 
-        $agency_departure = AgencyDepartureTime::where('agency_id', $agency->id)->orderBy('id', 'ASC')->first();
-        $agency_departure1 = AgencyDepartureTime::where('agency_id', $agency->id)->first();
+        $agency_departure = AgencyDepartureTime::where('agency_id', $agency->id)->where('time_classification_id', 1)->first();
+        $agency_departure1 = AgencyDepartureTime::where('agency_id', $agency->id)->where('time_classification_id', 2)->first();
         $agency->update($data);
         $agency_departure->update([
             'agency_id'     => $agency->id,
-            'departure_at'  => $request->departure_at[1],
+            'departure_at'  => $request->departure_at,
         ]);
         $agency_departure1->update([
             'agency_id'     => $agency->id,
-            'departure_at'  => $request->departure_at[0],
+            'departure_at'  => $request->departure_at1,
         ]);
         session()->flash('success', 'Agency Berhasil Diperbarui');
         return redirect(route('agency.index'));
