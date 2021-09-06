@@ -272,7 +272,7 @@ Pesanan
                     </form>
                 </div>
             </div>
-            @else
+            @elseif($order->user?->agencies || !$order->status == 'FINISHED')
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Batalkan Tiket</h3>

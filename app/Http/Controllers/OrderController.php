@@ -26,7 +26,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::orderBy('id', 'desc')->paginate(7);
+        $orders = Order::all();
         $routes = Route::all();
         $fleet_details = FleetDetail::has('fleet_route')->get();
         $agent = ['AGENT', 'UMUM'];

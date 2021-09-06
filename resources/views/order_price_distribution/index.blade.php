@@ -68,9 +68,9 @@ Setoran
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
-                        <div class="text-right m-2">
-                            <button class="btn btn-success" type="submit">Cari</button>
+                            <div class="text-right">
+                                <button class="btn btn-success" type="submit">Cari</button>
+                            </div>
                         </div>
                     </form>
                 </div>
