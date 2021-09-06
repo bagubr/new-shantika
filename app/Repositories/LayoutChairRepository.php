@@ -22,7 +22,7 @@ class LayoutChairRepository {
                     ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
                 });
             })
-            ->whereDate('created_at', $date);
+            ->whereDate('reserve_at', $date);
         })
         ->count();
     }

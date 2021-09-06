@@ -23,7 +23,7 @@ class OrderPriceDistributionRepository
                     ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
                 });
             })
-            ->whereDate('created_at', $date);
+            ->whereDate('reserve_at', $date);
         })->sum('for_owner');
     }
 
@@ -41,7 +41,7 @@ class OrderPriceDistributionRepository
                 ->whereDoesntHave('user.agencies')
                 ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
             })
-            ->whereDate('created_at', $date);
+            ->whereDate('reserve_at', $date);
         })->sum('for_agent');
         return abs($sum);
     }

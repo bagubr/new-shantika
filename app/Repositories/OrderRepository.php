@@ -56,6 +56,7 @@ class OrderRepository
             ->addSelect('destination_agency_id', 'time_classification_id', 'departure_agency_id')
             ->addSelect(DB::raw("'PEMBELIAN' as type"))
             ->addSelect(DB::raw("price"))
+            ->whereHas('user.agencies')
             ->where('departure_agency_id', $user->agencies->agent->id)
             ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
             ->union($booking);
@@ -65,6 +66,7 @@ class OrderRepository
             ->addSelect(DB::raw("'EXCHANGE' as type"))
             ->addSelect(DB::raw("price"))
             ->where('departure_agency_id', $user->agencies->agent->id)
+            ->whereDoesntHave('user.agencies')
             ->whereIn('status', [Order::STATUS5, Order::STATUS8])
             ->whereDate('created_at', date('Y-m-d H:i:s', strtotime($date)))
             ->union($agen_order)
@@ -94,7 +96,7 @@ class OrderRepository
                 });
             })
             ->where('status', Order::STATUS3)
-            ->whereDate('created_at', $date)
+            ->whereDate('reserve_at', $date)
             ->count();
     }
 
@@ -140,7 +142,7 @@ class OrderRepository
     {
         $agency_id = User::with('agencies.agent')->find($user_id)->agencies?->agent?->id;
         $order = Order::with(['order_detail.chair', 'fleet_route.fleet_detail.fleet', 'fleet_route.route.checkpoints', 'payment', 'distribution'])
-            ->whereDate('created_at', $date)
+            ->whereDate('reserve_at', $date)
             ->whereHas('fleet_route.fleet_detail', function ($query) use ($fleet_id) {
                 $query->where('fleet_id', $fleet_id);
             })
