@@ -98,9 +98,9 @@ class OrderPriceDistributionController extends Controller
 
     public function export(Request $request)
     {
-        $fleet_detail_id = $this->request->fleet_detail_id;
-        $date_search = $this->request->date_search;
-        $agency_id = $this->request->agency_id;
+        $fleet_detail_id = $request->fleet_detail_id;
+        $date_search = $request->date_search;
+        $agency_id = $request->agency_id;
 
         $order_price_distributions = OrderPriceDistribution::query();
 
