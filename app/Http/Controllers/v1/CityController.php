@@ -11,7 +11,8 @@ use Illuminate\Http\Request;
 class CityController extends Controller
 {
     public function index(Request $request) {
-        $agency = AgencyRepository::findWithCity($request->agency_id);
+        $user = UserRepository::findByToken($request->bearerToken());
+        $agency = AgencyRepository::findWithCity($user->agencies?->agency_id);
         
         $this->sendSuccessResponse([
             'cities'=>City::orderBy('name')->when($agency, function($query) use ($agency) {
