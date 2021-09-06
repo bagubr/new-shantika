@@ -13,6 +13,9 @@
                     <div class="row">
                         <div class="col-6 border-right">
                             <div class="form-group position-sticky bg-white pb-1 pt-1" style="top: -17px">
+                                <div class="row">
+                                    <a class="btn btn-primary" :href="printFirstLayout()" target="_blank">Print</a>
+                                </div>
                                 <label for="">Tanggal</label>
                                 <div class="row">
                                     <div class="col-12">
@@ -78,6 +81,9 @@
                         </div>
                         <div class="col-6 border-right">
                             <div class="form-group position-sticky bg-white pb-1 pt-1" style="top: -17px">
+                                <div class="row">
+                                    <a class="btn btn-primary" :href="printSecondLayout()" target="_blank">Print</a>
+                                </div>
                                 <label for="">Tanggal</label>
                                 <div class="row">
                                     <div class="col-12">
