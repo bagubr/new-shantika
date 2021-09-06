@@ -309,6 +309,24 @@ Sketch
                     this.secondLayout.data.chairs.filter((e, i) => i == index)[0].is_selected = true
                     this.$forceUpdate()
                 },
+                printFirstLayout() {
+                    let query = new URLSearchParams({
+                        date: this.firstLayout.date,
+                        fleet_route_id: this.firstLayout.fleetRouteId,
+                        area_id: this.filter.area_id
+                    });
+
+                    return `{{url('/sketch/export')}}?${query}`
+                },
+                printSecondLayout() {
+                    let query = new URLSearchParams({
+                        date: this.secondLayout.date,
+                        fleet_route_id: this.secondLayout.fleetRouteId,
+                        area_id: this.filter.area_id
+                    });
+
+                    return `{{url('/sketch/export')}}?${query}`
+                },
                 submit() {
                     let form = {
                         first_fleet_route_id: this.firstLayout.fleetRouteId,
