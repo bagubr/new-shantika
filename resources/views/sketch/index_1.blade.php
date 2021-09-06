@@ -30,7 +30,7 @@ Sketch
     <div class="container-fluid">
         <div class="card">
             <div class="row p-2">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="form-group">
                         <label>Pilih Area</label>
                         <select v-model="filter.area_id" name="area_id" class="form-control" id="">
@@ -39,6 +39,12 @@ Sketch
                                 @{{area.name}}
                             </option>
                         </select>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="">Tanggal</label>
+                        <vuejs-datepicker v-model="firstLayout.date" input-class="form-control bg-white" format="yyyy-MM-dd"/>
                     </div>
                 </div>
             </div>
@@ -138,7 +144,10 @@ Sketch
             },
             methods: {
                 searchOrders() {
-                    let params = new URLSearchParams(this.filter)
+                    let params = new URLSearchParams({
+                        ...this.filter,
+                        date: new Date(this.firstLayout.date).toDateString()
+                    })
                     fetch("{{url('/')}}/sketch/orders?"+params).then(res => res.json()).then(res => {
                         this.result.orders = res.orders
                     })
@@ -311,7 +320,7 @@ Sketch
                 },
                 printFirstLayout() {
                     let query = new URLSearchParams({
-                        date: this.firstLayout.date,
+                        date: new Date(this.firstLayout.date).toDateString(),
                         fleet_route_id: this.firstLayout.fleetRouteId,
                         area_id: this.filter.area_id
                     });
@@ -320,7 +329,7 @@ Sketch
                 },
                 printSecondLayout() {
                     let query = new URLSearchParams({
-                        date: this.secondLayout.date,
+                        date: new Date(this.secondLayout.date).toDateString(),
                         fleet_route_id: this.secondLayout.fleetRouteId,
                         area_id: this.filter.area_id
                     });
