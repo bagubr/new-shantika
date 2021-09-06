@@ -21,7 +21,7 @@ class AdminNotification extends Model
         return $this->belongsTo(Admin::class);
     }
 
-    public static function build(string|array $title, ?string $body, ?string $type, int|string $reference_id = null) {
+    public static function build(string|array $title, ?string $body = null, ?string $type = null, int|string $reference_id = null) {
         if(is_array($title)) {
             return new self($title);
         }
