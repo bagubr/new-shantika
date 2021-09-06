@@ -6,7 +6,7 @@
         </tr>
         <tr>
             <th>Tanggal</th>
-            <th>{{date('d-m-Y', $date)}}</th>
+            <th>{{date('d-m-Y', strtotime($date))}}</th>
         </tr>
         <tr>
             <th>Nomor Kendaraan</th>
@@ -28,13 +28,13 @@
             <td>{{$loop->iteration}}</td>
             <td>{{$agency->name}}</td>
             <td width="70%">
-            @foreach($langsir as $order)
+                @foreach($langsir as $order)
                 @if($agency->id == $order->departure_agency_id)
-                    @foreach($order->order_detail->pluck('layout_chair_id') as $layout_chair_id)
-                        {{\App\Models\LayoutChair::find($layout_chair_id)->name}}, 
-                    @endforeach 
+                @foreach($order->order_detail->pluck('layout_chair_id') as $layout_chair_id)
+                {{\App\Models\LayoutChair::find($layout_chair_id)->name}},
+                @endforeach
                 @endif
-            @endforeach
+                @endforeach
             </td>
         </tr>
         @endforeach
