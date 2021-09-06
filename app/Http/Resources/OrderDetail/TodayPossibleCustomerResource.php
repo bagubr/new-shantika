@@ -19,7 +19,7 @@ class TodayPossibleCustomerResource extends JsonResource
         return [
             'id'=>$this->id,
             'order_id'=>$this->order_id,
-            'departure_at'=>$order->agency->agency_departure_times->where('time_classification_id', $this->order->time_classification_id)->first()->departure_at,
+            'departure_at'=>$order->agency?->agency_departure_times?->where('time_classification_id', $this->order->time_classification_id)->first()?->departure_at??'',
             'name'=>$this->name,
             'phone'=>$this->phone,
             'email'=>$this->email,
