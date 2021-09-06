@@ -143,7 +143,7 @@ Setoran
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                    <!-- <a class="btn btn-success btn-sm d-inline" href="{{route('order_price_distribution.export')}}">Export Excel</a> -->
+                        <!-- <a class="btn btn-success btn-sm d-inline" href="{{route('order_price_distribution.export')}}">Export Excel</a> -->
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
@@ -301,37 +301,40 @@ Setoran
             "responsive": true,
             "lengthChange": false,
             "autoWidth": false,
-            "order": [[ 1, "desc" ]],
-            "buttons": [
-                {
-                    "extend": 'pdf',           
+            "order": [
+                [1, "desc"]
+            ],
+            "buttons": [{
+                    "extend": 'pdf',
                     "exportOptions": {
-                            "columns": [1,2,3,4,5,6,7,8,9] // indexes of the columns that should be printed,
-                        }                      // Exclude indexes that you don't want to print.
+                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                    }
                 },
                 {
                     "extend": 'csv',
                     "exportOptions": {
-                            "columns": [1,2,3,4,5,6,7,8,9] 
-                        }
+                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                    }
 
                 },
                 {
                     "extend": 'excel',
                     "exportOptions": {
-                            "columns": [1,2,3,4,5,6,7,8,9] 
-                        }
+                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                    }
                 },
                 {
                     "extend": 'print',
                     "exportOptions": {
-                            "columns": [1,2,3,4,5,6,7,8,9] 
-                        }
+                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                    }
                 }
             ],
             "dom": 'Bfrtip',
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
+</script>
+<script>
     $(function () {
         $("#example2").DataTable({
             "responsive": true,
@@ -339,33 +342,33 @@ Setoran
             "autoWidth": false,
             "buttons": [
                 {
-                    "extend": 'pdf',           
+                    "extend": 'pdf',
                     "exportOptions": {
-                            "columns": [1,2,3,4] // indexes of the columns that should be printed,
-                        }                      // Exclude indexes that you don't want to print.
+                        "columns": [0,1, 2, 3]
+                    }
                 },
                 {
                     "extend": 'csv',
                     "exportOptions": {
-                            "columns": [1,2,3,4] 
-                        }
+                        "columns": [0,1, 2, 3]
+                    }
 
                 },
                 {
                     "extend": 'excel',
                     "exportOptions": {
-                            "columns": [1,2,3,4] 
-                        }
+                        "columns": [0,1, 2, 3]
+                    }
                 },
                 {
                     "extend": 'print',
                     "exportOptions": {
-                            "columns": [1,2,3,4] 
-                        }
+                        "columns": [0,1, 2, 3]
+                    }
                 }
             ],
             "dom": 'Bfrtip',
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
     });
 </script>
 @endpush
