@@ -20,7 +20,7 @@ class AgencyController extends Controller
      */
     public function index()
     {
-        $agencies = Agency::all();
+        $agencies   = Agency::orderBy('id')->get();
         $statuses = Agency::status();
         $areas = Area::get();
         return view('agency.index', compact('agencies', 'statuses', 'areas'));

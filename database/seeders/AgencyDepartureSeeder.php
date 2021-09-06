@@ -20,9 +20,16 @@ class AgencyDepartureSeeder extends Seeder
         $faker = Faker::create('id_ID');
         foreach ($data as $key => $value) {
             AgencyDepartureTime::create([
-                'agency_id'     => $data->random()->id,
+                'agency_id'     => $value->id,
                 'departure_at'  => $faker->time(),
                 'time_classification_id' => 1
+            ]);
+        }
+        foreach ($data as $key => $value) {
+            AgencyDepartureTime::create([
+                'agency_id'     => $value->id,
+                'departure_at'  => $faker->time(),
+                'time_classification_id' => 2
             ]);
         }
     }
