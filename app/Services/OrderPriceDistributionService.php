@@ -31,7 +31,7 @@ class OrderPriceDistributionService {
     public static function calculateDistribution($order, $order_details) {
         $ticket_only = $order->fleet_route?->price - $order?->fleet_route?->fleet?->fleetclass?->price_food;
         $total_price = [
-            'for_food'=>$order?->fleet_route?->fleet?->fleetclass?->price_food * count($order_details),
+            'for_food'=>$order?->fleet_route?->fleet_detail?->fleet?->fleetclass?->price_food * count($order_details),
             'for_travel'=>0,
             'for_member'=>0,
             'for_agent'=>$ticket_only * count($order_details),
