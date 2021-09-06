@@ -110,6 +110,7 @@ Setoran
                                 <i class="ion ion-stats-bars"></i>
                             </div>
                         </div>
+                        <a class="btn btn-success btn-sm" href="{{route('order_price_distribution.export')}}">Export Excel</a>
                     </div>
                 </div>
             </div>

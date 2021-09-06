@@ -112,6 +112,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('user/update_status/{user}', [UserController::class, 'update_status'])->name('user.update_status');
 
     Route::get('order_price_distribution/search', [OrderPriceDistributionController::class, 'search'])->name('order_price_distribution.search');
+    Route::get('order_price_distribution/export', [OrderPriceDistributionController::class, 'export'])->name('order_price_distribution.export');
 
     Route::get('status_penumpang/search', [StatusPenumpangController::class, 'search'])->name('status_penumpang.search');
     Route::get('status_penumpang/export/', [StatusPenumpangController::class, 'export'])->name('status_penumpang.export');
