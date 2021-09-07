@@ -76,9 +76,7 @@ class SketchController extends Controller
             $detail = OrderDetail::whereHas('order', function($query) use ($request) {
                 $query->whereDate('reserve_at', $request->data['from_date'])->where('fleet_route_id', $request['first_fleet_route_id']);
             })->where('layout_chair_id', $value['id'])->first();
-            if(empty($detail) || empty($detail?->order)) {
-                continue;
-            }
+            Log::info($detail);
             $detail->update([
                 'layout_chair_id'=>$tos[$key]['id']
             ]);
