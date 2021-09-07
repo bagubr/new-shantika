@@ -10,7 +10,7 @@ class NotificationMessage {
     public static function newTicketOrder($order) {
         return [
             "Pembelian Tiket",
-            "Pemesan baru pada armada ".$order->fleet_route?->fleet_detail?->fleet?->name." di kursi ".implode(",", $order->order_detail()->pluck('chair.name'))." pada tanggal ".date('d-m-Y', strtotime($order->reserve_at))
+            "Pemesan baru pada armada ".$order->fleet_route?->fleet_detail?->fleet?->name." pada tanggal ".date('d-m-Y', strtotime($order->reserve_at))
         ];
     }
 
