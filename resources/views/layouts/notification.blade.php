@@ -1,6 +1,6 @@
 @inject('notification', 'App\Repositories\AdminNotificationRepository')
 @foreach($notification::all() as $item)
-    <a class="dropdown-item" href="{{url('order/'.$item->reference_id)}}">
+    <a class="dropdown-item" href="{{url('notification/'.$item->id)}}" target="_blank">
         {{$item->title}} · 
         <small class="text-secondary font-italic">{{date('d M Y H:i', strtotime($item->created_at))}}</small> ·
         <small class="text-secondary font-italic">{{ $item->type }}</small>

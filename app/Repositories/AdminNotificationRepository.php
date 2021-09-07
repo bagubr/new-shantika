@@ -6,7 +6,7 @@ use App\Models\AdminNotification;
 
 class AdminNotificationRepository {
     public static function all() {
-        return AdminNotification::limit(10)->get();
+        return AdminNotification::limit(10)->orderBy('id', 'desc')->get();
     }
 }
         

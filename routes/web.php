@@ -3,6 +3,7 @@
 use App\Events\SendingNotification;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminNotificationController;
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\ArticleController;
@@ -96,6 +97,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('order/update_jadwal/{order}', [OrderController::class, 'update_jadwal'])->name('order.update_jadwal');
     Route::put('order/cancelation/{order}', [OrderController::class, 'cancelation'])->name('order.cancelation');
     Route::get('order/search', [OrderController::class, 'search'])->name('order.search');
+
+    Route::get('notification/{id}', [AdminNotificationController::class, 'show']);
 
     Route::post('outcome/statistic', [OutcomeController::class, 'statistic'])->name('outcome_statistic');
     Route::get('outcome/search', [OutcomeController::class, 'search'])->name('outcome.search');
