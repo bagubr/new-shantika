@@ -35,7 +35,7 @@ class NotificationMessage {
         return ["Booking kursi armada ".$fleet_name." kadaluwarsa", "Masa booking kursi ".$chair." telah kadaluwarsa"];
     }
 
-    public static function paymentSuccess($str) {
+    public static function paymentSuccess() {
         return ["Transaksi diterima", "Pembayaran transaksi Anda telah sukses"];
     }
 
