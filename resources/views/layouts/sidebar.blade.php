@@ -242,20 +242,37 @@
                 <li class="nav-item">
                     <a href="{{route('config_setting.index')}}"
                         class="nav-link {{Request::routeIs('config_setting.*') ? 'active' : ''}}">
-                        <i class="fas fa-cogs"></i>
+                        <i class="nav-icon fas fa-cogs"></i>
                         <p>Pengaturan Global</p>
                     </a>
                 </li>
                 <li class="nav-header">LAINNYA</li>
-                <li class="nav-item">
-                    <a href="{{route('admin.index')}}" class="nav-link {{Request::routeIs('admin.*') ? 'active' : ''}}">
+                @role('superadmin')
+                <li class="nav-item {{Request::routeIs('admin.*','role.*') ? 'menu-open' : ''}}">
+                    <a href="#" class="nav-link {{Request::routeIs('admin.*','role.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-user-cog"></i>
                         <p>
                             Admin
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('admin.index')}}"
+                                class="nav-link {{Request::routeIs('admin.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Admin</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('role.index')}}"
+                                class="nav-link {{Request::routeIs('role.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Admin Role</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-                @role('superadmin')
                 <li class="nav-item">
                     <a href="{{route('customer_menu.index')}}"
                         class="nav-link {{Request::routeIs('customer_menu.*') ? 'active' : ''}}">

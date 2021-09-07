@@ -44,6 +44,7 @@ use App\Http\Controllers\OutcomeController;
 use App\Http\Controllers\SketchController;
 use App\Http\Controllers\StatusPenumpangController;
 use App\Http\Controllers\FleetDetailController;
+use App\Http\Controllers\RoleController;
 use App\Jobs\Notification\TicketExchangedJob;
 use App\Jobs\PaymentAcceptedNotificationJob;
 use App\Models\Admin;
@@ -88,9 +89,7 @@ Route::get('/test', function () {
 Route::post('admin/store/fcm_token', [LoginController::class, 'storeFcmToken']);
 
 Route::group(['middleware' => ['auth']], function () {
-    // Route::group(['middleware' => ['role:accounting']], function () {
     Route::get('/', [Dashboard2Controller::class, 'index'])->name('dashboard');
-    // });
     Route::post('dashboard/dashboard', [Dashboard2Controller::class, 'statistic'])->name('dashboard.statistic');
     Route::get('schedule_not_operate/search', [ScheduleNotOperateController::class, 'search'])->name('schedule_not_operate.search');
 
@@ -165,7 +164,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Lainnya
 
-    Route::group(['middleware' => ['role:superadmin|keuangan']], function () {
+    Route::group(['middleware' => ['role:superadmin']], function () {
         Route::resources([
             'information' => InformationController::class,
             'faq' => FaqController::class,
@@ -183,6 +182,7 @@ Route::group(['middleware' => ['auth']], function () {
             'config_setting' => ConfigSettingController::class,
             'bank_account' => BankAccountController::class,
             'admin' => AdminController::class,
+            'role' => RoleController::class,
         ]);
     });
 });
