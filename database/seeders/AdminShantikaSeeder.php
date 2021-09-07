@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Admin;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class AdminShantikaSeeder extends Seeder
@@ -15,10 +15,11 @@ class AdminShantikaSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('admins')->insert([
+        $user = Admin::create([
             'name' => "CAN CREATIVE",
             'email' => 'cancreative@gmail.com',
             'password' => Hash::make('12345678')
         ]);
+        $user->assignRole('superadmin');
     }
 }
