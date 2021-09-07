@@ -51,7 +51,6 @@ class SketchController extends Controller
             })
             ->distinct('fleet_route_id')
             ->get();
-        
         return response([
             'orders'=>$orders
         ]);
@@ -76,15 +75,12 @@ class SketchController extends Controller
             $detail = OrderDetail::whereHas('order', function($query) use ($request) {
                 $query->whereDate('reserve_at', date('Y-m-d', strtotime($request->data['from_date'])))->where('fleet_route_id', $request['first_fleet_route_id']);
             })->where('layout_chair_id', $value['id'])->first();
-            Log::info([
-                $request->data['from_date'],
-                $request['first_fleet_route_id'],
-                $request['second_fleet_route_id'],
-                $tos[$key]['id']
-            ]);
             $detail->update([
                 'layout_chair_id'=>$tos[$key]['id']
             ]);
+            $detail->refresh();
+        }
+        foreach($froms as $key => $value) {
             $detail->order()->update([
                 'fleet_route_id'=>$request['second_fleet_route_id'],
                 'reserve_at'=>$request->data['to_date']
