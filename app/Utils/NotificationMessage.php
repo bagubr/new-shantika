@@ -4,7 +4,7 @@ namespace App\Utils;
 
 class NotificationMessage {
     public static function successfullySendingTicket() {
-        return ["Pembelian berhasil", "Tiket berhasil dikirimkan"];
+        return ["Pembelian berhasil", "Pesan tiket telah berhasil, segera lakukan pembayaran"];
     }
 
     public static function newSlider($title,$message) {
@@ -12,50 +12,59 @@ class NotificationMessage {
     }
 
     public static function newArticle($title, $body) {
-        return [$title,  preg_replace( "/\n\s+/", "\n", rtrim(html_entity_decode(strip_tags($body))))];
+        $body = preg_replace( "/\n\s+/", "\n", rtrim(html_entity_decode(strip_tags($body))));
+        return [$title,  "Yuk, baca artikel $body"];
     }
 
     public static function newTestimonial($title, $body) {
-        return [$title, preg_replace( "/\n\s+/", "\n", rtrim(html_entity_decode(strip_tags($body))))];
+        $body = preg_replace( "/\n\s+/", "\n", rtrim(html_entity_decode(strip_tags($body))));
+        return [$title, "Baca ulasan baru dari pelanggan New Shantika"];
     }
 
     public static function paymentWillExpired() {
-        return ["Pembayaran anda akan segera berakhir", "Pembayaran anda akan berakhir dalam 30 menit lagi"];
+        return ["Pembayaran anda akan segera berakhir", "Tagihan pembelian tiket Anda akan berakhir, segera lakukan pembayaran"];
     }
 
     public static function paymentExpired($datetime) {
-        return ["Pembayaran telah kadaluarsa", "Pembayaran anda untuk keberangkatan waktu ".$datetime." sudah kadaluwarsa"];
+        return ["Tagihan telah kadaluwarsa", "Tagihan Anda untuk keberangkatan tanggal ".$datetime." sudah kadaluwarsa"];
     }
 
     public static function bookingExpired(array $chair, $fleet_name = null) {
         $chair = implode(", ", $chair);
         $fleet_name = $fleet_name ?? 'Armada';
-        return ["Booking Kursi ".$fleet_name." Kadaluarsa", "Booking kursi ".$chair." telah kadaluwarsa"];
+        return ["Booking kursi armada ".$fleet_name." kadaluwarsa", "Masa booking kursi ".$chair." telah kadaluwarsa"];
     }
 
-    public static function paymentSuccess($str) {
-        return ["Pembayaran diterima", "Pembayaran untuk kode ".$str." telah sukses"];
+    public static function paymentSuccess() {
+        return ["Transaksi diterima", "Pembayaran transaksi Anda telah sukses"];
     }
 
     public static function paymentDeclined($str, $reason) {
-        return ["Pembayaran anda ditolak", "Pembayaran untuk kode ".$str." telah ditolak dengan alasan ".$reason];
+        return ["Transaksi anda ditolak", "Pembayaran untuk kode ".$str." telah ditolak dengan alasan ".$reason];
     }
 
     public static function changeChair($fleet, $chair) {
         return [
-            "Perhatian! KURSI anda dipindah!",
-            "Armada anda menjadi ".$fleet." dengan nomor kursi ".$chair
+            "Perhatian! Kursi Anda telah dipindah!",
+            "Nomor kursi Anda diubah menjadi ".$chair. " pada armada ".$fleet
+        ];
+    }
+
+    public static function scheduleChanged($fleet, $datetime) {
+        return [
+            "Perhatian! Jadwal keberangkatan Anda diubah",
+            "Jadwal keberangkatan di armada ".$fleet." Anda berhasil diubah"
         ];
     }
 
     public static function activateAccount($name) {
         $name = self::getFirstName($name);
-        return "Halo, ".$name.", akun anda telah diaktifkan";
+        return ["Akun anda diaktifkan", "Yey, akun anda telah diaktifkan kembali"];
     }
 
     public static function deactivateAccount($name, $reason = null) {
         $name = self::getFirstName($name);
-        return "Halo, ".$name.", akun anda telah kami nonaktifkan sementara karena ".($reason ? $reason : "beberapa alasan");
+        return ["Akun anda dinonaktifkan", "Maaf, akun anda telah kami nonaktifkan sementara karena ".($reason ? $reason : "beberapa alasan")];
     }
 
     private static function getFirstName($name) {

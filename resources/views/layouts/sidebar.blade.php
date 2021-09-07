@@ -88,6 +88,7 @@
                         </p>
                     </a>
                 </li>
+                @hasanyrole('superadmin|ticketing')
                 <li class="nav-header">OPERASIONAL TIKETING</li>
                 <li class="nav-item {{Request::routeIs('area.*','province.*','city.*') ? 'menu-open' : ''}}">
                     <a href="#" class="nav-link {{Request::routeIs('area.*','province.*','city.*') ? 'active' : ''}}">
@@ -239,41 +240,34 @@
                         </p>
                     </a>
                 </li>
-                {{-- <li class="nav-item {{ Request::is('schedule_*') ? 'menu-open' : '' }}">
-                <a href="#" class="nav-link {{Request::is('schedule_*') ? 'active' : ''}}">
-                    <i class="nav-icon fas fa-calendar"></i>
-                    <p>
-                        Jadwal
-                        <i class="right fas fa-angle-left"></i>
-                    </p>
-                </a>
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="{{ route('schedule_not_operate.index') }}"
-                            class="nav-link {{ Request::routeIs('schedule_not_operate.*') ? 'active' : '' }}">
-                            <i class="nav-icon far fa-circle"></i>
-                            <p>Operasi</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('schedule_unavailable_booking.index') }}"
-                            class="nav-link {{ Request::routeIs('schedule_unavailable_booking.*') ? 'active' : '' }}">
-                            <i class="nav-icon far fa-circle"></i>
-                            <p>Booking Tidak Tersedia</p>
-                        </a>
-                    </li>
-                </ul>
-                </li> --}}
+                @endrole
+                <li class="nav-header">LAINNYA</li>
+                @role('superadmin')
+                <li class="nav-item {{Request::routeIs('admin.*','role.*') ? 'menu-open' : ''}}">
+                    <a href="#" class="nav-link {{Request::routeIs('admin.*','role.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-user-cog"></i>
+                        <p>
+                            Admin
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('admin.index')}}"
+                                class="nav-link {{Request::routeIs('admin.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Admin</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="nav-item">
                     <a href="{{route('config_setting.index')}}"
                         class="nav-link {{Request::routeIs('config_setting.*') ? 'active' : ''}}">
-                        <i class="fas fa-cogs"></i>
-                        <p>
-                            Pengaturan Global
-                        </p>
+                        <i class="nav-icon fas fa-cogs"></i>
+                        <p>Pengaturan Global</p>
                     </a>
                 </li>
-                <li class="nav-header">LAINNYA</li>
                 <li class="nav-item">
                     <a href="{{route('customer_menu.index')}}"
                         class="nav-link {{Request::routeIs('customer_menu.*') ? 'active' : ''}}">
@@ -395,6 +389,7 @@
                         </p>
                     </a>
                 </li>
+                @endrole
                 <li class="nav-item">
                     <a href="{{ route('logout') }}" onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();" class="nav-link">

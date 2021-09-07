@@ -1,5 +1,5 @@
 @inject('notification', 'App\Repositories\AdminNotificationRepository')
-@foreach($notification->all() as $item)
+@foreach($notification::all() as $item)
     <a class="dropdown-item" href="">
         {{$item->title}} · 
         <small class="text-secondary font-italic">{{date('d M Y H:i', strtotime($item->created_at))}}</small> ·
@@ -10,3 +10,7 @@
         </span>
     </a>
 @endforeach
+
+<a class="dropdown-item text-lightblue" href="">
+    Lihat Semua...
+</a>

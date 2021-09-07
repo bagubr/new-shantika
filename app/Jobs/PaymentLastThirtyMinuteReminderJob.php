@@ -13,7 +13,7 @@ use Illuminate\Queue\SerializesModels;
 
 class PaymentLastThirtyMinuteReminderJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable;
 
     /**
      * Create a new job instance.

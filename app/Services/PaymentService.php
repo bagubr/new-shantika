@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\SendingNotification;
 use App\Jobs\PaymentExpiredReminderJob;
 use App\Jobs\PaymentLastThirtyMinuteReminderJob;
 use App\Models\Notification;
@@ -25,7 +26,7 @@ class PaymentService {
                 'payment_type_id'=>$payment_type_id,
                 'status'=>Payment::STATUS1,
                 'secret_key'=>md5(date('Ymdhis')).uniqid(),
-                'expired_at'=>date('Y-m-d H:i:s', strtotime('+3 days'))
+                'expired_at'=>date('Y-m-d H:i:s', strtotime('+3 hours'))
             ]);
         } else {
             Xendit::setApiKey(env('API_KEY_XENDIT'));
@@ -61,14 +62,14 @@ class PaymentService {
         $payload = NotificationMessage::paymentWillExpired();
         $notification = Notification::build($payload[0], $payload[1], Notification::TYPE1, $invoice->order_id);
         PaymentLastThirtyMinuteReminderJob::dispatch($notification, $invoice->order?->user?->fcm_token, false)
-            ->delay(now()->addMinutes($send_at));
+            ->delay(now()->addMinutes(2));
 
         $time = strtotime($invoice->expired_at);
         $send_at = now()->diffInMinutes(date('Y-m-d H:i:s', $time));
         $payload = NotificationMessage::paymentExpired(date("d-M-Y", strtotime($invoice->order->reserve_at)));
         $notification = Notification::build($payload[0], $payload[1], Notification::TYPE1, $invoice->order_id);
         PaymentExpiredReminderJob::dispatch($notification, $invoice->order?->user?->fcm_token, false)
-            ->delay(now()->addMinutes($send_at));
+            ->delay(now()->addMinutes(5));
     }
 
     public static function getSecretAttribute(Payment $payment) {
@@ -118,6 +119,18 @@ class PaymentService {
             'status'=>$status
         ]);
         $payment->refresh();
+        
+        if($status == Order::STATUS3) {
+            $message = NotificationMessage::paymentSuccess();
+            $notification = Notification::build(
+                $message[0],
+                $message[1],
+                Notification::TYPE1,
+                $payment->order->id,
+                $payment->order->user_id
+            );
+            SendingNotification::dispatch($notification, $payment->order->user?->fcm_token, true);
+        }
 
         return $payment;
     }

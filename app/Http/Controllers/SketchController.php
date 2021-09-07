@@ -34,15 +34,11 @@ class SketchController extends Controller
     {
         $date = $request->date ?? date('Y-m-d');
         $area_id = $request->area_id;
-        $orders = Order::whereIn('status', Order::STATUS_BOUGHT)
-            ->with('order_detail.chair')
+        $orders = Order::select('*')
+            ->addSelect(DB::raw("(select count(*) from order_details left join orders o on orders.id = order_details.order_id where orders.reserve_at::text ilike '%$date%') as order_detail_count"))
+            ->whereIn('status', Order::STATUS_BOUGHT)
             ->with('fleet_route.fleet_detail.fleet.fleetclass', 'fleet_route.route')
             ->with('fleet_route.fleet_detail.fleet.layout')
-            ->withCount(['order_detail'=>function($query) {
-                $query->whereHas('order', function($subquery) {
-                    $subquery->whereRaw('fleet_route_id = orders.fleet_route_id');
-                });
-            }])
             ->when($date, function ($query) use ($date) {
                 $query->whereDate('reserve_at', $date);
             })
@@ -77,14 +73,14 @@ class SketchController extends Controller
         DB::beginTransaction();
         foreach($froms as $key => $value) {
             $detail = OrderDetail::whereHas('order', function($query) use ($request) {
-                $query->whereDate('reserve_at', $request->data['from_date'])->where('fleet_route_id', $request['first_fleet_route_id']);
+                $query->whereDate('reserve_at', date('Y-m-d', strtotime($request->data['from_date'])))->where('fleet_route_id', $request['first_fleet_route_id']);
             })->where('layout_chair_id', $value['id'])->first();
-            if(empty($detail) || empty($detail?->order)) {
-                continue;
-            }
             $detail->update([
                 'layout_chair_id'=>$tos[$key]['id']
             ]);
+            $detail->refresh();
+        }
+        foreach($froms as $key => $value) {
             $detail->order()->update([
                 'fleet_route_id'=>$request['second_fleet_route_id'],
                 'reserve_at'=>$request->data['to_date']
