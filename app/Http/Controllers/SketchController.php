@@ -51,7 +51,6 @@ class SketchController extends Controller
             })
             ->distinct('fleet_route_id')
             ->get();
-        
         return response([
             'orders'=>$orders
         ]);
