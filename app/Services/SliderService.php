@@ -13,6 +13,7 @@ class SliderService {
         $data['image'] = $data['image']->store('slider_image', 'public');
 
         $slider = Slider::create($data);
+        self::sendNotification($slider);
 
         return $slider;
     }
