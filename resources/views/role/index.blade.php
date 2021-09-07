@@ -36,8 +36,7 @@ Admin Role
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Nama</th>
-                                    <th>Email</th>
+                                    <th>Role</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -45,13 +44,9 @@ Admin Role
                                 @foreach ($roles as $role)
                                 <tr>
                                     <td>{{$role->name}}</td>
-                                    <td>{{$role->email}}</td>
-                                    <td><a href="{{route('role.edit',$role->id)}}"
-                                            class="btn btn-warning btn-xs">Edit</a>
-                                        @if (Auth::user()->id != $role->id)
-                                        <a class="btn btn-danger btn-xs button-delete"
-                                            data-id="{{$role->id}}">Delete</a>
-                                        @endif
+                                    <td>
+                                        <a href="{{route('role.edit',$role->id)}}"
+                                            class="btn btn-primary btn-xs">Detail</a>
                                     </td>
                                 </tr>
                                 @endforeach
