@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\LangsirExport;
+use PDF;
 
 class SketchController extends Controller
 {
@@ -33,14 +34,11 @@ class SketchController extends Controller
     {
         $date = $request->date ?? date('Y-m-d');
         $area_id = $request->area_id;
-        $orders = Order::whereIn('status', Order::STATUS_BOUGHT)
+        $orders = Order::select('*')
+            ->addSelect(DB::raw("(select count(*) from order_details left join orders o on orders.id = order_details.order_id where orders.reserve_at::text ilike '%$date%') as order_detail_count"))
+            ->whereIn('status', Order::STATUS_BOUGHT)
             ->with('fleet_route.fleet_detail.fleet.fleetclass', 'fleet_route.route')
             ->with('fleet_route.fleet_detail.fleet.layout')
-            ->withCount(['order_detail'=>function($query) {
-                $query->whereHas('order', function($subquery) {
-                    $subquery->whereRaw('fleet_route_id = orders.fleet_route_id');
-                });
-            }])
             ->when($date, function ($query) use ($date) {
                 $query->whereDate('reserve_at', $date);
             })
@@ -105,8 +103,47 @@ class SketchController extends Controller
 
     public function export(Request $request)
     {
-        $file_name = date('dmYHis');
-        return Excel::download(new LangsirExport($request), $file_name.'.pdf', \Maatwebsite\Excel\Excel::MPDF);
+        $area_id = $request->area_id;
+        $date = $request->date;
+        $fleet_route_id = $request->fleet_route_id;
+        $data['langsir'] = Order::whereIn('status', Order::STATUS_BOUGHT)
+        ->with('fleet_route.fleet_detail.fleet.fleetclass', 'fleet_route.route')
+        ->with('fleet_route.fleet_detail.fleet.layout')
+        ->withCount(['order_detail'=>function($query) {
+            $query->whereHas('order', function($subquery) {
+                $subquery->whereRaw('fleet_route_id = orders.fleet_route_id');
+            });
+        }])
+        ->when($date, function ($query) use ($date) {
+            $query->whereDate('reserve_at', $date);
+        })
+        ->when($area_id, function($query) use ($area_id) {
+            $query->whereHas('fleet_route.route.checkpoints', function($subquery) use ($area_id) {
+                $subquery->whereHas('agency.city', function ($subsubquery) use ($area_id) {
+                    $subsubquery->where('area_id', '!=', $area_id);
+                });
+            });
+        })->when($fleet_route_id, function ($query) use ($fleet_route_id)
+        {
+            $query->where('fleet_route_id', $fleet_route_id);
+        })
+        ->get();
+        $data['agencies'] = Agency::whereHas('city', function ($query) use ($area_id)
+        {
+            $query->whereAreaId($area_id);
+        })->get();
+
+        $data['date'] = $date;
+        $data['fleet_route_id'] = $fleet_route_id;
+
+        $pdf = PDF::loadView('excel_export.langsir', $data);
+        $pdf->stream('document.pdf');
+
+        // $mpdf = new \Mpdf\Mpdf();
+        // $mpdf->loadView('excel_export.langsir');
+        // $mpdf->Output();
+        // $file_name = date('dmYHis');
+        // return Excel::download(new LangsirExport($request), $file_name.'.pdf', Excel::MPDF);
     }
     
 }

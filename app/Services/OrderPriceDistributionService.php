@@ -47,9 +47,9 @@ class OrderPriceDistributionService {
             }
             if($order_detail->is_member) {
                 $total_price['for_member'] -= $setting->member;
+                $total_price['for_agent'] -= $setting->member;
             }
         }
-
         return $total_price;
     }
 }

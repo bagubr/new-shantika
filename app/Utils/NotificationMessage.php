@@ -4,7 +4,7 @@ namespace App\Utils;
 
 class NotificationMessage {
     public static function successfullySendingTicket() {
-        return ["Pembelian berhasil", "Tiket berhasil dikirimkan"];
+        return ["Pembelian berhasil", "Pesan tiket telah berhasil, segera lakukan pembayaran"];
     }
 
     public static function newSlider($title,$message) {
@@ -24,7 +24,7 @@ class NotificationMessage {
     }
 
     public static function paymentExpired($datetime) {
-        return ["Pembayaran telah kadaluarsa", "Pembayaran anda untuk keberangkatan jam ".$datetime." sudah kadaluarsa"];
+        return ["Tagihan telah kadaluwarsa", "Tagihan Anda untuk keberangkatan tanggal ".$datetime." sudah kadaluwarsa"];
     }
 
     public static function bookingExpired(array $chair, $fleet_name = null) {
