@@ -106,7 +106,7 @@ class SketchController extends Controller
     public function export(Request $request)
     {
         $file_name = date('dmYHis');
-        return Excel::download(new LangsirExport($request), $file_name.'.xlsx');
+        return Excel::download(new LangsirExport($request), $file_name.'.pdf', \Maatwebsite\Excel\Excel::MPDF);
     }
     
 }

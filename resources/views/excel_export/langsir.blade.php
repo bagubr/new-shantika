@@ -38,5 +38,18 @@
             </td>
         </tr>
         @endforeach
+        <tr>
+            <th>Bangku Kosong</th>
+            <th>
+                @php
+                 $layout_chair = \App\Models\LayoutChair::whereLayoutId(\App\Models\FleetRoute::find($fleet_route_id)->fleet_detail?->fleet?->layout_id)->get()->pluck('id');
+                @endphp
+                @foreach($layout_chair as $layout_chair_id)
+                    @if(in_array($layout_chair_id, $langsir->order_detail->pluck('layout_chair_id')))
+                        {{\App\Models\LayoutChair::find($layout_chair_id)->name}},
+                    @endif
+                @endforeach
+            </th>
+        </tr>
     </tbody>
 </table>
