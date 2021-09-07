@@ -22,7 +22,7 @@ class NotificationMessage {
     }
 
     public static function paymentWillExpired() {
-        return ["Pembayaran anda akan segera berakhir", "Tagihan pembelian tiket Anda akan berakhir dalam 30 menit lagi"];
+        return ["Pembayaran anda akan segera berakhir", "Tagihan pembelian tiket Anda akan berakhir, segera lakukan pembayaran"];
     }
 
     public static function paymentExpired($datetime) {
