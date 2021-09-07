@@ -59,12 +59,12 @@ class NotificationMessage {
 
     public static function activateAccount($name) {
         $name = self::getFirstName($name);
-        return "Yey, akun anda telah diaktifkan kembali";
+        return ["Akun anda diaktifkan", "Yey, akun anda telah diaktifkan kembali"];
     }
 
     public static function deactivateAccount($name, $reason = null) {
         $name = self::getFirstName($name);
-        return "Maaf, akun anda telah kami nonaktifkan sementara karena ".($reason ? $reason : "beberapa alasan");
+        return ["Akun anda dinonaktifkan", "Maaf, akun anda telah kami nonaktifkan sementara karena ".($reason ? $reason : "beberapa alasan")];
     }
 
     private static function getFirstName($name) {
