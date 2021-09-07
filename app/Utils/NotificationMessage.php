@@ -7,8 +7,11 @@ class NotificationMessage {
         return ["Pembelian berhasil", "Pesan tiket telah berhasil, segera lakukan pembayaran"];
     }
 
-    public static function newTicketOrder() {
-        
+    public static function newTicketOrder($order) {
+        return [
+            "Pembelian Tiket",
+            "Pemesan baru pada armada ".$order->fleet_route?->fleet_detail?->fleet?->name." di kursi ".implode(",", $order->order_detail?->chair->pluck('name'))
+        ];
     }
 
     public static function newSlider($title,$message) {
