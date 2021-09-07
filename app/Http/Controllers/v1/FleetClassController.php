@@ -23,7 +23,7 @@ class FleetClassController extends Controller
         return $this->sendSuccessResponse([
             'fleet_classes'=>FleetClass::whereHas('fleets.fleet_detail.fleet_route.route.checkpoints', function($query) use ($request, $agency) {
                 $query->whereHas('agency.city', function($subquery) use ($agency) {
-                    $subquery->where('area_id', '!=', $agency->city->area_id);
+                    $subquery->where('area_id', '=', $agency->city->area_id);
                 });
             })->get()
         ]);
