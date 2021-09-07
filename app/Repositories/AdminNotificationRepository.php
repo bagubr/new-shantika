@@ -5,8 +5,8 @@ namespace App\Repositories;
 use App\Models\AdminNotification;
 
 class AdminNotificationRepository {
-    public function all() {
-        return AdminNotification::all();
+    public static function all() {
+        return AdminNotification::limit(10)->get();
     }
 }
         

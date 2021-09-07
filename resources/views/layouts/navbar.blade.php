@@ -19,7 +19,7 @@
                 </a>
               
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                  @include('layouts.notification')
+                    @include('layouts.notification')
                 </div>
               </div>
         </li>
