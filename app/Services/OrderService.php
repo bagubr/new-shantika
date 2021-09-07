@@ -92,7 +92,7 @@ class OrderService {
                 'layout_chair_id'   => $layout_chair_id,
                 'name'              => $detail->name,
                 'phone'             => $detail->phone,
-                'email'             => $detail->email ?? $order->user->email,
+                'email'             => $detail->email ?? $order->user?->email ?? $order->agency->users()->whereNotNull('email')->pluck('email')[0],
                 'is_feed'           => $detail->is_feed,
                 'is_travel'         => $detail->is_travel,
                 'is_member'         => $detail->is_member
