@@ -15,11 +15,11 @@ class OrderController extends Controller
         $fleet_route = FleetRoute::find($request->fleet_route_id);
         $setting = Setting::first();
 
-        $price_ticket = $fleet_route->price - $fleet_route->fleet?->fleetclass?->price_food;
+        $price_ticket = $fleet_route->price - $fleet_route->fleet_detail?->fleet?->fleetclass?->price_food;
         
         $data = [
             'total_food'=>$request->is_food 
-                ? $fleet_route->fleet?->fleetclass?->price_food * $request->seat_count 
+                ? $fleet_route->fleet_detail?->fleet->fleetclass?->price_food * $request->seat_count 
                 : 0,
             'total_travel'=>$request->is_travel ? $setting->travel * $request->seat_count : 0,
             'total_member'=>$request->is_member ? -($setting->member) * $request->seat_count : 0

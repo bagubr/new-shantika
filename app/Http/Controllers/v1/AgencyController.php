@@ -22,7 +22,6 @@ class AgencyController extends Controller
     public function getWithCity(Request $request)
     {
         $agency_city = AgencyRepository::getWithCity($request);
-        $user = UserRepository::findByToken($request->bearerToken());
         $this->sendSuccessResponse([
             'agencies_city'=> AgencyWithCityResource::collection($agency_city)
         ]);
