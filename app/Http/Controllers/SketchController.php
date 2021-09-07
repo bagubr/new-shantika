@@ -35,6 +35,7 @@ class SketchController extends Controller
         $date = $request->date ?? date('Y-m-d');
         $area_id = $request->area_id;
         $orders = Order::whereIn('status', Order::STATUS_BOUGHT)
+            ->with('order_detail.chair')
             ->with('fleet_route.fleet_detail.fleet.fleetclass', 'fleet_route.route')
             ->with('fleet_route.fleet_detail.fleet.layout')
             ->withCount(['order_detail'=>function($query) {
@@ -54,7 +55,6 @@ class SketchController extends Controller
             })
             ->distinct('fleet_route_id')
             ->get();
-        
         return response([
             'orders'=>$orders
         ]);

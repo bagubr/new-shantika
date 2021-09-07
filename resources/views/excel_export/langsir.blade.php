@@ -20,30 +20,35 @@
             <th>NO</th>
             <th>AGEN</th>
             <th>NOMOR BANGKU</th>
+            <th>NAMA PENUMPANG </th>
+            <th>TUJUAN</th>
         </tr>
     </thead>
     <tbody>
+        @php
+        $index = 0;
+        @endphp
         @foreach($agencies as $agency)
-        <tr>
-            <td width="5%">{{$loop->iteration}}</td>
-            <td>{{$agency->name}}</td>
-            <td width="70%">
-                @foreach($langsir as $order)
+            @foreach($langsir as $order)
                 @if($agency->id == $order->departure_agency_id)
-                @foreach($order->order_detail->pluck('layout_chair_id') as $layout_chair_id)
-                {{\App\Models\LayoutChair::find($layout_chair_id)->name}},
+                    @foreach($order->order_detail as $order_detail)
                     @php
-                        $layout_chair_exists[] = $layout_chair_id;
+                        $layout_chair_exists[] = $order_detail->layout_chair_id;
                     @endphp
-                @endforeach
+                    <tr>
+                        <td width="5%">{{$loop->iteration}}</td>
+                        <td>{{$agency->name}}</td>
+                        <td width="20%">({{\App\Models\LayoutChair::find($order_detail->layout_chair_id)->name}}),</td>
+                        <td width="20%">{{ $order_detail->name }},</td>
+                        <td width="20%">{{ \App\Models\Agency::find($order->destination_agency_id)->name }}</td>
+                    </tr>
+                    @endforeach
                 @endif
-                @endforeach
-            </td>
-        </tr>
+            @endforeach
         @endforeach
         <tr>
             <th>Bangku Kosong</th>
-            <th colspan="2">
+            <th colspan="4">
                 @php
                  $layout_chair = \App\Models\LayoutChair::whereLayoutId(\App\Models\FleetRoute::find($fleet_route_id)->fleet_detail?->fleet?->layout_id)->get()->pluck('id');
                 @endphp
