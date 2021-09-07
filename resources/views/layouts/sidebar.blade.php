@@ -88,6 +88,7 @@
                         </p>
                     </a>
                 </li>
+                @hasanyrole('superadmin|ticketing')
                 <li class="nav-header">OPERASIONAL TIKETING</li>
                 <li class="nav-item {{Request::routeIs('area.*','province.*','city.*') ? 'menu-open' : ''}}">
                     <a href="#" class="nav-link {{Request::routeIs('area.*','province.*','city.*') ? 'active' : ''}}">
@@ -239,13 +240,7 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{route('config_setting.index')}}"
-                        class="nav-link {{Request::routeIs('config_setting.*') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-cogs"></i>
-                        <p>Pengaturan Global</p>
-                    </a>
-                </li>
+                @endrole
                 <li class="nav-header">LAINNYA</li>
                 @role('superadmin')
                 <li class="nav-item {{Request::routeIs('admin.*','role.*') ? 'menu-open' : ''}}">
@@ -264,147 +259,149 @@
                                 <p>Admin</p>
                             </a>
                         </li>
-                        {{-- <li class="nav-item">
-                            <a href="{{route('role.index')}}"
-                        class="nav-link {{Request::routeIs('role.*') ? 'active' : ''}}">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Admin Role</p>
-                        </a>
-                </li> --}}
-            </ul>
-            </li>
-            <li class="nav-item">
-                <a href="{{route('customer_menu.index')}}"
-                    class="nav-link {{Request::routeIs('customer_menu.*') ? 'active' : ''}}">
-                    <i class="nav-icon fas fa-bars"></i>
-                    <p>
-                        Menu Customer
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{route('chat.index')}}" class="nav-link {{Request::routeIs('chat.*') ? 'active' : ''}}">
-                    <i class="nav-icon fas fa-comment"></i>
-                    <p>
-                        Kontak Bantuan
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{route('slider.index')}}" class="nav-link {{Request::routeIs('slider.*') ? 'active' : ''}}">
-                    <i class="nav-icon fas fa-sliders-h"></i>
-                    <p>
-                        Slider Customer
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{route('facility.index')}}"
-                    class="nav-link {{Request::routeIs('facility.*') ? 'active' : ''}}">
-                    <i class="nav-icon fas fa-sign"></i>
-                    <p>
-                        Fasilitas
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{route('article.index')}}" class="nav-link {{Request::routeIs('article.*') ? 'active' : ''}}">
-                    <i class="nav-icon fas fa-newspaper"></i>
-                    <p>
-                        Artikel
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item {{Request::routeIs('testimoni.*','review.*') ? 'menu-open' : ''}}">
-                <a href="#" class="nav-link {{Request::routeIs('testimoni.*','review.*') ? 'active' : ''}}">
-                    <i class="nav-icon fas fa-quote-left"></i>
-                    <p>
-                        Ulasan
-                        <i class="right fas fa-angle-left"></i>
-                    </p>
-                </a>
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="{{route('review.index')}}"
-                            class="nav-link {{Request::routeIs('review.*') ? 'active' : ''}}">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Review</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{route('testimoni.index')}}"
-                            class="nav-link {{Request::routeIs('testimoni.*') ? 'active' : ''}}">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Testimoni</p>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="nav-item">
-                <a href="{{route('faq.index')}}" class="nav-link {{Request::routeIs('faq.*') ? 'active' : ''}}">
-                    <i class="nav-icon fas fa-question"></i>
-                    <p>
-                        FAQ
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{route('bank_account.index')}}"
-                    class="nav-link {{Request::routeIs('bank_account.*') ? 'active' : ''}}">
-                    <i class="nav-icon fas fa-credit-card"></i>
-                    <p>
-                        Data Bank
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{route('about.index')}}" class="nav-link {{Request::routeIs('about.*') ? 'active' : ''}}">
-                    <i class="nav-icon fas fa-info"></i>
-                    <p>
-                        Tentang Kami
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{route('terms_condition.index')}}"
-                    class="nav-link {{Request::routeIs('terms_condition.*') ? 'active' : ''}}">
-                    <i class="nav-icon fas fa-balance-scale"></i>
-                    <p>
-                        Syarat dan Ketentuan
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{route('social_media.index')}}"
-                    class="nav-link {{Request::routeIs('social_media.*') ? 'active' : ''}}">
-                    <i class="nav-icon fas fa-hashtag"></i>
-                    <p>
-                        Sosial Media
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{route('privacy_policy.index')}}"
-                    class="nav-link {{Request::routeIs('privacy_policy.*') ? 'active' : ''}}">
-                    <i class="nav-icon fas fa-handshake"></i>
-                    <p>
-                        Kebijakan Privasi
-                    </p>
-                </a>
-            </li>
-            @endrole
-            <li class="nav-item">
-                <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('config_setting.index')}}"
+                        class="nav-link {{Request::routeIs('config_setting.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-cogs"></i>
+                        <p>Pengaturan Global</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('customer_menu.index')}}"
+                        class="nav-link {{Request::routeIs('customer_menu.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-bars"></i>
+                        <p>
+                            Menu Customer
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('chat.index')}}" class="nav-link {{Request::routeIs('chat.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-comment"></i>
+                        <p>
+                            Kontak Bantuan
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('slider.index')}}"
+                        class="nav-link {{Request::routeIs('slider.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-sliders-h"></i>
+                        <p>
+                            Slider Customer
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('facility.index')}}"
+                        class="nav-link {{Request::routeIs('facility.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-sign"></i>
+                        <p>
+                            Fasilitas
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('article.index')}}"
+                        class="nav-link {{Request::routeIs('article.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-newspaper"></i>
+                        <p>
+                            Artikel
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item {{Request::routeIs('testimoni.*','review.*') ? 'menu-open' : ''}}">
+                    <a href="#" class="nav-link {{Request::routeIs('testimoni.*','review.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-quote-left"></i>
+                        <p>
+                            Ulasan
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('review.index')}}"
+                                class="nav-link {{Request::routeIs('review.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Review</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('testimoni.index')}}"
+                                class="nav-link {{Request::routeIs('testimoni.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Testimoni</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('faq.index')}}" class="nav-link {{Request::routeIs('faq.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-question"></i>
+                        <p>
+                            FAQ
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('bank_account.index')}}"
+                        class="nav-link {{Request::routeIs('bank_account.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-credit-card"></i>
+                        <p>
+                            Data Bank
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('about.index')}}" class="nav-link {{Request::routeIs('about.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-info"></i>
+                        <p>
+                            Tentang Kami
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('terms_condition.index')}}"
+                        class="nav-link {{Request::routeIs('terms_condition.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-balance-scale"></i>
+                        <p>
+                            Syarat dan Ketentuan
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('social_media.index')}}"
+                        class="nav-link {{Request::routeIs('social_media.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-hashtag"></i>
+                        <p>
+                            Sosial Media
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('privacy_policy.index')}}"
+                        class="nav-link {{Request::routeIs('privacy_policy.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-handshake"></i>
+                        <p>
+                            Kebijakan Privasi
+                        </p>
+                    </a>
+                </li>
+                @endrole
+                <li class="nav-item">
+                    <a href="{{ route('logout') }}" onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();" class="nav-link">
-                    <i class="nav-icon fas fa-door-open"></i>
-                    <p>
-                        Keluar
-                    </p>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
-                </a>
-            </li>
+                        <i class="nav-icon fas fa-door-open"></i>
+                        <p>
+                            Keluar
+                        </p>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

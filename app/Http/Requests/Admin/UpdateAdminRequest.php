@@ -26,7 +26,13 @@ class UpdateAdminRequest extends FormRequest
         return [
             'name'      => 'required',
             'email'     => 'required|unique:admins,email,' . $this->admin->id,
-            'password'  => 'nullable'
+            'password'  => 'nullable|confirmed',
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'password.confirmed' => 'Password Tidak Sama',
         ];
     }
 }
