@@ -12,7 +12,12 @@ class Article extends Model
     protected $fillable = [
         'name', 'description', 'image'
     ];
-    public function getImageAttribute($value)
+    public $appends = ['image'];
+    public function getImageAttribute()
+    {
+        return $this->attributes['image'] ? env('STORAGE_URL') . '/' . $this->attributes['image'] : "";
+    }
+    public function getImageAssetAttribute($value)
     {
         return url('storage/' . $value);
     }
