@@ -7,6 +7,10 @@ class NotificationMessage {
         return ["Pembelian berhasil", "Pesan tiket telah berhasil, segera lakukan pembayaran"];
     }
 
+    public static function newTicketOrder() {
+        
+    }
+
     public static function newSlider($title,$message) {
         return [$title,$message];
     }
