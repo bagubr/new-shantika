@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SendingNotification;
 use App\Http\Requests\Order\OrderCancelationRequest;
 use App\Http\Requests\Order\UpdateOrderReserveAtRequest;
 use App\Models\Agency;
 use App\Models\FleetDetail;
+use App\Models\Notification;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Route;
@@ -13,6 +15,7 @@ use App\Models\User;
 use App\Repositories\OrderDetailRepository;
 use App\Repositories\OrderPriceDistributionRepository;
 use App\Repositories\RoutesRepository;
+use App\Utils\NotificationMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -169,6 +172,10 @@ class OrderController extends Controller
         $hashed = Auth::user()->password;
         if (Hash::check($data['password'], $hashed)) {
             $order->update($data);
+            $order->refresh();
+            $message = NotificationMessage::scheduleChanged($order->fleet_route?->fleet_detail?->fleet?->name, date('d-m-Y', strtotime($order->created_at)));
+            $notification = Notification::build($message[0], $message[1], Notification::TYPE1, $order->id, $order->user?->id);
+            SendingNotification::dispatch($notification, $order->user?->fcm_token,true);
             session()->flash('success', 'Jadwal Berhasil Diubah');
         } else {
             session()->flash('error', 'Password Anda Tidak Sama');
