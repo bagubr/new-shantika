@@ -74,11 +74,14 @@ class SketchController extends Controller
         DB::beginTransaction();
         foreach($froms as $key => $value) {
             $detail = OrderDetail::whereHas('order', function($query) use ($request) {
-                $query->whereDate('reserve_at', $request->data['from_date'])->where('fleet_route_id', $request['first_fleet_route_id']);
+                $query->whereDate('reserve_at', date('Y-m-d', strtotime($request->data['from_date'])))->where('fleet_route_id', $request['first_fleet_route_id']);
             })->where('layout_chair_id', $value['id'])->first();
-            if(empty($detail) || empty($detail?->order)) {
-                continue;
-            }
+            Log::info([
+                $request->data['from_date'],
+                $request['first_fleet_route_id'],
+                $request['second_fleet_route_id'],
+                $tos[$key]['id']
+            ]);
             $detail->update([
                 'layout_chair_id'=>$tos[$key]['id']
             ]);

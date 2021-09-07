@@ -46,7 +46,7 @@ class NotificationMessage {
     public static function changeChair($fleet, $chair) {
         return [
             "Perhatian! Kursi Anda telah dipindah!",
-            "Armada Anda menjadi ".$fleet." dengan nomor kursi ".$chair
+            "Nomor kursi Anda diubah menjadi ".$chair. " pada armada ".$fleet
         ];
     }
 

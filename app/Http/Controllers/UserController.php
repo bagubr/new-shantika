@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SendingNotification;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\Agency;
+use App\Models\Notification;
 use App\Models\User;
 use App\Models\UserAgent;
 use App\Repositories\CityRepository;
+use App\Utils\NotificationMessage;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -117,6 +120,15 @@ class UserController extends Controller
         $user->update([
             'is_active' => $request->is_active,
         ]);
+        
+        if($request->is_active) {
+            $message = NotificationMessage::activateAccount($user->name);
+        } else {
+            $message = NotificationMessage::deactivateAccount($user->name);
+        }
+        $notification = Notification::build($message[0], $message[1], Notification::TYPE2, $user->id, $user->id);
+        SendingNotification::dispatch($notification, $user->fcm_token, false);
+
         session()->flash('success', 'User Status Berhasil Diubah');
         return redirect(route('user.index'));
     }
