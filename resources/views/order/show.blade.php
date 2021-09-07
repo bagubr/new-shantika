@@ -241,7 +241,7 @@ Pesanan
                     </div>
                 </div>
             </div>
-            @if (!$order->user?->agencies)
+            @if (!$order->user?->agencies || $order->status != 'FINISHED')
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Reschedule Jadwal</h3>
@@ -270,7 +270,7 @@ Pesanan
                     </form>
                 </div>
             </div>
-            @elseif($order->user?->agencies || !$order->status == 'FINISHED')
+            @elseif($order->user?->agencies || $order->status != 'FINISHED')
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Batalkan Tiket</h3>
