@@ -4484,7 +4484,6 @@
             "time": "2021-06-14T19:01:35+00:00"
         },
         {
-<<<<<<< HEAD
             "name": "spatie/laravel-permission",
             "version": "5.1.1",
             "source": {
@@ -4529,7 +4528,9 @@
                 "files": [
                     "src/helpers.php"
                 ]
-=======
+            }
+        },
+        {
             "name": "setasign/fpdi",
             "version": "v2.3.6",
             "source": {
@@ -4565,7 +4566,6 @@
                 "psr-4": {
                     "setasign\\Fpdi\\": "src/"
                 }
->>>>>>> 317bc57cd29a8d9dcb05f029a44a345a77942e16
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -4573,37 +4573,6 @@
             ],
             "authors": [
                 {
-<<<<<<< HEAD
-                    "name": "Freek Van der Herten",
-                    "email": "freek@spatie.be",
-                    "homepage": "https://spatie.be",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Permission handling for Laravel 6.0 and up",
-            "homepage": "https://github.com/spatie/laravel-permission",
-            "keywords": [
-                "acl",
-                "laravel",
-                "permission",
-                "permissions",
-                "rbac",
-                "roles",
-                "security",
-                "spatie"
-            ],
-            "support": {
-                "issues": "https://github.com/spatie/laravel-permission/issues",
-                "source": "https://github.com/spatie/laravel-permission/tree/5.1.1"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/spatie",
-                    "type": "github"
-                }
-            ],
-            "time": "2021-09-01T20:02:17+00:00"
-=======
                     "name": "Jan Slabon",
                     "email": "jan.slabon@setasign.com",
                     "homepage": "https://www.setasign.com"
@@ -4632,7 +4601,6 @@
                 }
             ],
             "time": "2021-02-11T11:37:01+00:00"
->>>>>>> 317bc57cd29a8d9dcb05f029a44a345a77942e16
         },
         {
             "name": "swiftmailer/swiftmailer",
