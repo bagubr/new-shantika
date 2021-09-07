@@ -24,7 +24,7 @@ class OrderSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create('id_ID');
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $route = FleetRoute::all()->random();
             $date = date('Y-m-d H:i:s');
             $order = Order::create([

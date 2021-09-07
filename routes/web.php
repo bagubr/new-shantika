@@ -2,6 +2,7 @@
 
 use App\Events\SendingNotification;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\ArticleController;
@@ -87,8 +88,9 @@ Route::get('/test', function () {
 Route::post('admin/store/fcm_token', [LoginController::class, 'storeFcmToken']);
 
 Route::group(['middleware' => ['auth']], function () {
-
+    // Route::group(['middleware' => ['role:accounting']], function () {
     Route::get('/', [Dashboard2Controller::class, 'index'])->name('dashboard');
+    // });
     Route::post('dashboard/dashboard', [Dashboard2Controller::class, 'statistic'])->name('dashboard.statistic');
     Route::get('schedule_not_operate/search', [ScheduleNotOperateController::class, 'search'])->name('schedule_not_operate.search');
 
@@ -138,41 +140,49 @@ Route::group(['middleware' => ['auth']], function () {
         'fleet_detail' => FleetDetailController::class,
         'fleets' => FleetController::class,
         'fleetclass' => FleetClassController::class,
-        'information' => InformationController::class,
-        'faq' => FaqController::class,
-        'privacy_policy' => PrivacyPolicyController::class,
         'layouts' => LayoutController::class,
         'routes' => RoutesController::class,
         'agency' => AgencyController::class,
-        'chat' => ChatController::class,
         'checkpoint' => CheckpointController::class,
-        'facility' => FacilityController::class,
-        'customer_menu' => CustomerMenuController::class,
-        'slider' => SliderController::class,
         'user' => UserController::class,
         'user_agent'  => UserAgentController::class,
-        'testimoni' => TestimoniController::class,
-        'article' => ArticleController::class,
-        'about' => AboutController::class,
         'time_classification' => TimeClassificationController::class,
-        'social_media' => SocialMediaController::class,
-        'terms_condition' => TermsAndConditionController::class,
         'payment' => PaymentController::class,
         'payment_type' => PaymentTypeController::class,
-        'schedule_not_operate' => ScheduleNotOperateController::class,
-        'schedule_unavailable_booking' => ScheduleUnavailableBookingController::class,
+        // 'schedule_not_operate' => ScheduleNotOperateController::class,
+        // 'schedule_unavailable_booking' => ScheduleUnavailableBookingController::class,
         'area' => AreaController::class,
         'province' => ProvinceController::class,
         'city' => CityController::class,
         'order' => OrderController::class,
         'member' => MemberController::class,
-        'review' => ReviewController::class,
         'order_price_distribution' => OrderPriceDistributionController::class,
-        'config_setting' => ConfigSettingController::class,
-        'bank_account' => BankAccountController::class,
         'outcome' => OutcomeController::class,
         'sketch' => SketchController::class,
         'fleet_route' => FleetRouteController::class,
-        'status_penumpang' => StatusPenumpangController::class
+        'status_penumpang' => StatusPenumpangController::class,
     ]);
+
+    // Lainnya
+
+    Route::group(['middleware' => ['role:superadmin|keuangan']], function () {
+        Route::resources([
+            'information' => InformationController::class,
+            'faq' => FaqController::class,
+            'privacy_policy' => PrivacyPolicyController::class,
+            'chat' => ChatController::class,
+            'facility' => FacilityController::class,
+            'customer_menu' => CustomerMenuController::class,
+            'slider' => SliderController::class,
+            'testimoni' => TestimoniController::class,
+            'article' => ArticleController::class,
+            'about' => AboutController::class,
+            'social_media' => SocialMediaController::class,
+            'terms_condition' => TermsAndConditionController::class,
+            'review' => ReviewController::class,
+            'config_setting' => ConfigSettingController::class,
+            'bank_account' => BankAccountController::class,
+            'admin' => AdminController::class,
+        ]);
+    });
 });
