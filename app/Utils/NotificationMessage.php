@@ -20,7 +20,7 @@ class NotificationMessage {
     }
 
     public static function paymentWillExpired() {
-        return ["Pembayaran anda akan segera berakhir", "Pembayaran anda akan berakhir dalam 30 menit lagi"];
+        return ["Pembayaran anda akan segera berakhir", "Tagihan pembelian tiket Anda akan berakhir dalam 30 menit lagi"];
     }
 
     public static function paymentExpired($datetime) {
@@ -30,21 +30,28 @@ class NotificationMessage {
     public static function bookingExpired(array $chair, $fleet_name = null) {
         $chair = implode(", ", $chair);
         $fleet_name = $fleet_name ?? 'Armada';
-        return ["Booking Kursi ".$fleet_name." Kadaluarsa", "Booking kursi ".$chair." telah kadaluwarsa"];
+        return ["Booking kursi armada ".$fleet_name." kadaluwarsa", "Masa booking kursi ".$chair." telah kadaluwarsa"];
     }
 
     public static function paymentSuccess($str) {
-        return ["Pembayaran diterima", "Pembayaran untuk kode ".$str." telah sukses"];
+        return ["Transaksi diterima", "Pembayaran transaksi Anda telah sukses"];
     }
 
     public static function paymentDeclined($str, $reason) {
-        return ["Pembayaran anda ditolak", "Pembayaran untuk kode ".$str." telah ditolak dengan alasan ".$reason];
+        return ["Transaksi anda ditolak", "Pembayaran untuk kode ".$str." telah ditolak dengan alasan ".$reason];
     }
 
     public static function changeChair($fleet, $chair) {
         return [
-            "Perhatian! KURSI anda dipindah!",
-            "Armada anda menjadi ".$fleet." dengan nomor kursi ".$chair
+            "Perhatian! Kursi Anda telah dipindah!",
+            "Armada Anda menjadi ".$fleet." dengan nomor kursi ".$chair
+        ];
+    }
+
+    public static function scheduleChanged($fleet, $datetime) {
+        return [
+            "Perhatian! Jadwal keberangkatan Anda diubah",
+            "Jadwal keberangkatan di armada ".$fleet." Anda berhasil diubah"
         ];
     }
 
