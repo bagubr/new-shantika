@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\SendingNotification;
 use App\Jobs\PaymentExpiredReminderJob;
 use App\Jobs\PaymentLastThirtyMinuteReminderJob;
 use App\Models\Notification;
@@ -118,6 +119,16 @@ class PaymentService {
             'status'=>$status
         ]);
         $payment->refresh();
+
+        $message = NotificationMessage::paymentSuccess();
+        $notification = Notification::build(
+            $message[0],
+            $message[1],
+            Notification::TYPE1,
+            $payment->order->id,
+            $payment->order->user_id
+        );
+        SendingNotification::dispatch($notification, $payment->order->user?->fcm_token, true);
 
         return $payment;
     }
