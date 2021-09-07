@@ -12,11 +12,13 @@ class NotificationMessage {
     }
 
     public static function newArticle($title, $body) {
-        return [$title,  preg_replace( "/\n\s+/", "\n", rtrim(html_entity_decode(strip_tags($body))))];
+        $body = preg_replace( "/\n\s+/", "\n", rtrim(html_entity_decode(strip_tags($body))));
+        return [$title,  "Yuk, baca artikel $body"];
     }
 
     public static function newTestimonial($title, $body) {
-        return [$title, preg_replace( "/\n\s+/", "\n", rtrim(html_entity_decode(strip_tags($body))))];
+        $body = preg_replace( "/\n\s+/", "\n", rtrim(html_entity_decode(strip_tags($body))));
+        return [$title, "Baca ulasan baru dari pelanggan New Shantika"];
     }
 
     public static function paymentWillExpired() {
