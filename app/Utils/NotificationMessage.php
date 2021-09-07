@@ -24,7 +24,7 @@ class NotificationMessage {
     }
 
     public static function paymentExpired($datetime) {
-        return ["Pembayaran telah kadaluarsa", "Pembayaran anda untuk keberangkatan jam ".$datetime." sudah kadaluarsa"];
+        return ["Pembayaran telah kadaluarsa", "Pembayaran anda untuk keberangkatan waktu ".$datetime." sudah kadaluwarsa"];
     }
 
     public static function bookingExpired(array $chair, $fleet_name = null) {

@@ -63,6 +63,7 @@
                                                 (@{{chair.order_detail?.user?.agencies?.agent?.name || 'Customer'}})</p>
                                             <a :href="'https://wa.me/'+chair.order_detail.order_detail[0].phone"
                                                 target="_blank">@{{chair.order_detail.order_detail[0].phone}}</a>
+                                            <p>Agen Keberangkatan: @{{chair.order_detail.agency?.name}}</p>
                                             <p>Status Pembelian Tiket: @{{chair.order_detail.status}}</p>
                                             <p>@{{chair.order_detail.code_order}}</p>
                                         </div>
