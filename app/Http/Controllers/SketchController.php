@@ -34,14 +34,11 @@ class SketchController extends Controller
     {
         $date = $request->date ?? date('Y-m-d');
         $area_id = $request->area_id;
-        $orders = Order::whereIn('status', Order::STATUS_BOUGHT)
+        $orders = Order::select('*')
+            ->addSelect(DB::raw("(select count(*) from order_details left join orders o on orders.id = order_details.order_id where orders.reserve_at::text ilike '%$date%') as order_detail_count"))
+            ->whereIn('status', Order::STATUS_BOUGHT)
             ->with('fleet_route.fleet_detail.fleet.fleetclass', 'fleet_route.route')
             ->with('fleet_route.fleet_detail.fleet.layout')
-            ->withCount(['order_detail'=>function($query) {
-                $query->whereHas('order', function($subquery) {
-                    $subquery->whereRaw('fleet_route_id = orders.fleet_route_id');
-                });
-            }])
             ->when($date, function ($query) use ($date) {
                 $query->whereDate('reserve_at', $date);
             })

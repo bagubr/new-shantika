@@ -25,7 +25,7 @@ class PaymentService {
                 'payment_type_id'=>$payment_type_id,
                 'status'=>Payment::STATUS1,
                 'secret_key'=>md5(date('Ymdhis')).uniqid(),
-                'expired_at'=>date('Y-m-d H:i:s', strtotime('+3 days'))
+                'expired_at'=>date('Y-m-d H:i:s', strtotime('+30 seconds'))
             ]);
         } else {
             Xendit::setApiKey(env('API_KEY_XENDIT'));
