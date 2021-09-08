@@ -152,6 +152,7 @@ Setoran
                                     <th>Armada</th>
                                     <th>Agen</th>
                                     <th>Jumlah Seat</th>
+                                    <th>Seat</th>
                                     <th>Rute</th>
                                     <th>Harga Tiket</th>
                                     <th>Dana Agen</th>
@@ -175,23 +176,14 @@ Setoran
                                         </a>
                                         @endif
                                     </td>
-                                    <td>{{$order_price_distribution->order?->fleet_route?->fleet_detail?->fleet?->name}}/{{$order_price_distribution->order?->fleet_route?->fleet_detail?->fleet?->fleetclass?->name}}
-                                        ({{$order_price_distribution->order?->fleet_route?->fleet_detail?->nickname}})
+                                    <td>{{$order_price_distribution->order?->fleet_route?->fleet_detail?->fleet?->name}}/{{$order_price_distribution->order?->fleet_route?->fleet_detail?->fleet?->fleetclass?->name}}({{$order_price_distribution->order?->fleet_route?->fleet_detail?->nickname}})
                                     </td>
                                     <td>{{$order_price_distribution->order?->agency?->name}}</td>
                                     <td>
                                         {{$order_price_distribution->order?->order_detail?->count()}}
-                                        @if ($order_price_distribution->order?->order_detail)
-                                        (
-                                        @foreach ($order_price_distribution->order?->order_detail as $order_detail)
-                                        {{$order_detail->chair?->name}}
-                                        @if (!$loop->last)
-                                        ,
-                                        @endif
-                                        @endforeach
-                                        )
-                                        @endif
+
                                     </td>
+                                    <td>@if ($order_price_distribution->order?->order_detail)@foreach ($order_price_distribution->order?->order_detail as $order_detail){{$order_detail->chair?->name}}@if (!$loop->last)/@endif @endforeach @endif</td>
                                     <td>
                                         @if ($order_price_distribution->order?->fleet_route)
                                         <a
@@ -200,36 +192,16 @@ Setoran
                                         </a>
                                         @endif
                                     </td>
-                                    <td>Rp. {{number_format($order_price_distribution->order?->fleet_route?->price)}}
+                                    <td>Rp.{{number_format($order_price_distribution->order?->fleet_route?->price)}}
                                     </td>
-                                    <td>Rp.
-                                        {{number_format($order_price_distribution->order?->fleet_route?->price * $order_price_distribution->order?->order_detail?->count())}}
+                                    <td>Rp.{{number_format($order_price_distribution->order?->fleet_route?->price * $order_price_distribution->order?->order_detail?->count())}}
                                     </td>
                                     <td>Rp. {{number_format($order_price_distribution->for_owner)}}</td>
                                     <td>Rp. {{number_format($order_price_distribution->for_food)}}</td>
                                     <td>Rp. {{number_format($order_price_distribution->for_travel)}}</td>
                                     <td>Rp. {{number_format($order_price_distribution->for_member)}}</td>
                                     <td>Rp. {{number_format($order_price_distribution->for_agent)}}</td>
-                                    {{-- <td>
-                                        @if ($order_price_distribution->deposited_at)
-                                        {{date('Y-m-d', strtotime($order_price_distribution->deposited_at))}}
-                                    @else
-                                    Belum Deposit
-                                    @endif
-                                    </td> --}}
                                     <td>
-                                        {{-- @if (!$order_price_distribution->deposited_at)
-                                        <form
-                                            action="{{route('order_price_distribution.update', $order_price_distribution->id)}}"
-                                        class="d-inline" method="POST">
-                                        @csrf
-                                        @method('PUT')
-                                        <button class="btn btn-primary btn-xs"
-                                            onclick="return confirm('Apakah Anda Yakin Ingin Deposit?')"
-                                            type="submit">Deposit
-                                            Sekarang</button>
-                                        </form>
-                                        @endif --}}
                                         <a href="{{route('order.show',$order_price_distribution->order?->id)}}"
                                             class="btn btn-primary btn-xs">Detail</a>
                                         <form
@@ -307,26 +279,26 @@ Setoran
             "buttons": [{
                     "extend": 'pdf',
                     "exportOptions": {
-                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13]
                     }
                 },
                 {
                     "extend": 'csv',
                     "exportOptions": {
-                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13]
                     }
 
                 },
                 {
                     "extend": 'excel',
                     "exportOptions": {
-                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13]
                     }
                 },
                 {
                     "extend": 'print',
                     "exportOptions": {
-                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13]
                     }
                 }
             ],
