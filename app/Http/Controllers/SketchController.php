@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\LangsirExport;
+use App\Repositories\OrderDetailRepository;
 use PDF;
 
 class SketchController extends Controller
@@ -35,7 +36,6 @@ class SketchController extends Controller
         $date = $request->date ?? date('Y-m-d');
         $area_id = $request->area_id;
         $orders = Order::select('*')
-            ->addSelect(DB::raw("(select count(*) from order_details left join orders o on orders.id = order_details.order_id where orders.reserve_at::text ilike '%$date%') as order_detail_count"))
             ->whereIn('status', Order::STATUS_BOUGHT)
             ->with('fleet_route.fleet_detail.fleet.fleetclass', 'fleet_route.route')
             ->with('fleet_route.fleet_detail.fleet.layout')
@@ -51,6 +51,9 @@ class SketchController extends Controller
             })
             ->distinct('fleet_route_id')
             ->get();
+        foreach($orders as $order) {
+            $order->order_detail_count = count(OrderDetailRepository::findForPriceDistributionByUserAndDateAndFleet(null,$order->reserve_at, $order->fleet_route?->fleet_detail?->fleet_id));
+        }
         return response([
             'orders'=>$orders
         ]);
@@ -71,29 +74,29 @@ class SketchController extends Controller
         $tos = $request->data['to_layout_chair_id'];
 
         DB::beginTransaction();
+        $detail = [];
         foreach($froms as $key => $value) {
-            $detail = OrderDetail::whereHas('order', function($query) use ($request) {
+            $detail[$key] = OrderDetail::whereHas('order', function($query) use ($request) {
                 $query->whereDate('reserve_at', date('Y-m-d', strtotime($request->data['from_date'])))->where('fleet_route_id', $request['first_fleet_route_id']);
             })->where('layout_chair_id', $value['id'])->first();
-            $detail->update([
+            $detail[$key]->update([
                 'layout_chair_id'=>$tos[$key]['id']
             ]);
-            $detail->refresh();
         }
         foreach($froms as $key => $value) {
-            $detail->order()->update([
+            $detail[$key]->order()->update([
                 'fleet_route_id'=>$request['second_fleet_route_id'],
                 'reserve_at'=>$request->data['to_date']
             ]);
-            $detail->refresh();
+            $detail[$key]->refresh();
             $notification = Notification::build(
-                NotificationMessage::changeChair($detail->order?->fleet_route?->fleet_detail?->fleet?->name, $detail->chair?->name)[0],
-                NotificationMessage::changeChair($detail->order?->fleet_route?->fleet_detail?->fleet->name, $detail->chair?->name)[1],
+                NotificationMessage::changeChair($detail[$key]->order?->fleet_route?->fleet_detail?->fleet?->name, $detail[$key]->chair?->name)[0],
+                NotificationMessage::changeChair($detail[$key]->order?->fleet_route?->fleet_detail?->fleet->name, $detail[$key]->chair?->name)[1],
                 Notification::TYPE5,
-                $detail->order->id,
-                $detail->order->user_id
+                $detail[$key]->order->id,
+                $detail[$key]->order->user_id
             );
-            SendingNotification::dispatch($notification, $detail->order?->user?->fcm_token,true);
+            SendingNotification::dispatch($notification, $detail[$key]->order?->user?->fcm_token,true);
         }
         DB::commit();
         session()->flash('success', 'Kursi penumpang berhasil diubah');
