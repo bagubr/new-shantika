@@ -11,8 +11,8 @@
                     <p>Memindahkan penumpang dari bis <b>@{{this.firstLayout.fleet.name}}</b> ke
                         <b>@{{this.secondLayout.fleet.name}}</b></p>
                     <div class="row">
-                        <div class="col-6 border-right">
-                            <div class="form-group position-sticky bg-white pb-1 pt-1" style="top: -17px">
+                        <div class="col-12 col-md-6 border-right">
+                            <div class="form-group position-md-sticky bg-white pb-1 pt-1" style="top: -17px">
                                 <div class="row mb-1">
                                     <div class="col-12 text-right">
                                         <a class="btn btn-secondary" :href="printFirstLayout()" target="_blank"><i class="fas fa-print"></i> Print Sketch Langsir</a>
@@ -48,7 +48,7 @@
                                     autoplay></lottie-player>
                             </div>
                             <div v-else>
-                                <div v-if="firstLayout.isShowInGrid">
+                                <div v-if="firstLayout.isShowInGrid" class="overflow-auto">
                                     <div v-for="i in firstLayout.data.row" class="d-flex">
                                         <div v-for="j in firstLayout.data.col" class="m-1">
                                             <button v-html="loadText(i,j,0)" :class="loadClass(i,j,0)"
@@ -82,8 +82,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6 border-right">
-                            <div class="form-group position-sticky bg-white pb-1 pt-1" style="top: -17px">
+                        <div class="col-12 col-md-6 border-right">
+                            <div class="form-group position-md-sticky bg-white pb-1 pt-1" style="top: -17px">
                                 <div class="row mb-1">
                                     <div class="col-12 text-right">
                                         <a class="btn btn-secondary" :href="printSecondLayout()" target="_blank"><i class="fas fa-print"></i> Print Sketch Langsir</a>
@@ -120,7 +120,7 @@
                                     autoplay></lottie-player>
                             </div>
                             <div v-else>
-                                <div v-if="secondLayout.isShowInGrid">
+                                <div v-if="secondLayout.isShowInGrid" class="overflow-auto">
                                     <div v-for="i in secondLayout.data.row" class="d-flex">
                                         <div v-for="j in secondLayout.data.col" class="m-1">
                                             <button v-html="loadText(i,j,1)" :class="loadClass(i,j,1)"
