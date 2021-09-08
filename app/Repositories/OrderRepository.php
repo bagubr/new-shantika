@@ -116,6 +116,7 @@ class OrderRepository
                     ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
                 });
             })
+            ->distinct('fleet_route_id')
             ->with(['fleet_route.fleet_detail.fleet'])
             ->whereDate('reserve_at', $date)
             ->get();
