@@ -89,7 +89,9 @@ class OrderService {
             Notification::TYPE1,
             $order->id
         );
-        SendingNotification::dispatch($notification, $order->user?->fcm_token, false);
+        if(empty($order->user?->agencies)) {
+            SendingNotification::dispatch($notification, $order->user?->fcm_token, false);
+        }
         NewOrderNotification::dispatch($admin_notification, Admin::whereNotNull('fcm_token')->pluck('fcm_token'), true);
     }
 
