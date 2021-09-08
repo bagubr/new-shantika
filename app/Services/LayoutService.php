@@ -52,7 +52,7 @@ class LayoutService {
                 $item->booking_detail = $booking->filter(function($value) use ($item) {
                     return $value->layout_chair_id == $item->id;
                 })->first();
-                $item->code = $booking->where('layout_chair_id', $item->id)->first()?->agency?->code;
+                $item->code = $booking->where('layout_chair_id', $item->id)->first()?->user?->agencies?->agent?->code;
             }
             if($item->is_unavailable) {
                 $item->order_detail = $unavailable->filter(function($value) use ($item) {
@@ -60,9 +60,7 @@ class LayoutService {
                 })->first();
                 $item->code = $unavailable->filter(function($value) use ($item) {
                     return $value->order_detail->where('layout_chair_id', $item->id)->isNotEmpty();
-                })->first()?->agency?->code ?? $booking->filter(function($value) use ($item) {
-                    return $value->where('layout_chair_id', $item->id)->isNotEmpty();
-                })->first()?->user?->agencies?->agent?->code;
+                })->first()?->agency?->code;
             }
             return $item;
         });
