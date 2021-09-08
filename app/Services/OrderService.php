@@ -6,6 +6,7 @@ use App\Events\SendingNotification;
 use App\Jobs\Admin\NewOrderNotification;
 use App\Jobs\Notification\TicketExchangedJob;
 use App\Models\Admin;
+use App\Models\AdminNotification;
 use App\Models\Agency;
 use App\Models\FleetRoute;
 use App\Models\Notification;
@@ -73,15 +74,23 @@ class OrderService {
     } 
 
     private static function sendNotification($order) {
+        $message = NotificationMessage::successfullySendingTicket();
         $notification = Notification::build(
-            NotificationMessage::successfullySendingTicket()[0],
-            NotificationMessage::successfullySendingTicket()[1],
+            $message[0],
+            $message[1],
             Notification::TYPE1,
             $order->id,
             $order->user_id
         );
+        $message = NotificationMessage::newTicketOrder($order);
+        $admin_notification = AdminNotification::build(
+            $message[0],
+            $message[1],
+            Notification::TYPE1,
+            $order->id
+        );
         SendingNotification::dispatch($notification, $order->user?->fcm_token, false);
-        NewOrderNotification::dispatch($notification, Admin::whereNotNull('fcm_token')->pluck('fcm_token'), true);
+        NewOrderNotification::dispatch($admin_notification, Admin::whereNotNull('fcm_token')->pluck('fcm_token'), true);
     }
 
     public static function createDetail($order, $layout_chairs, $detail) {
@@ -92,7 +101,7 @@ class OrderService {
                 'layout_chair_id'   => $layout_chair_id,
                 'name'              => $detail->name,
                 'phone'             => $detail->phone,
-                'email'             => $detail->email ?? $order->user->email,
+                'email'             => $detail->email ?? $order->user?->email ?? $order->agency->users()->whereNotNull('email')->pluck('email')[0],
                 'is_feed'           => $detail->is_feed,
                 'is_travel'         => $detail->is_travel,
                 'is_member'         => $detail->is_member
