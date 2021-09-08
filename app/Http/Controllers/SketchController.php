@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\LangsirExport;
+use App\Repositories\OrderDetailRepository;
 use PDF;
 
 class SketchController extends Controller
@@ -35,7 +36,6 @@ class SketchController extends Controller
         $date = $request->date ?? date('Y-m-d');
         $area_id = $request->area_id;
         $orders = Order::select('*')
-            ->addSelect(DB::raw("(select count(*) from order_details left join orders o on orders.id = order_details.order_id where orders.reserve_at::text ilike '%$date%') as order_detail_count"))
             ->whereIn('status', Order::STATUS_BOUGHT)
             ->with('fleet_route.fleet_detail.fleet.fleetclass', 'fleet_route.route')
             ->with('fleet_route.fleet_detail.fleet.layout')
@@ -51,6 +51,9 @@ class SketchController extends Controller
             })
             ->distinct('fleet_route_id')
             ->get();
+        foreach($orders as $order) {
+            $order->order_detail_count = count(OrderDetailRepository::findForPriceDistributionByUserAndDateAndFleet(null,$order->reserve_at, $order->fleet_route?->fleet_detail?->fleet_id));
+        }
         return response([
             'orders'=>$orders
         ]);
