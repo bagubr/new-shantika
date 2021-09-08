@@ -185,10 +185,7 @@ Setoran
                                     </td>
                                     <td> @if ($order_price_distribution->order?->order_detail)
                                         @foreach ($order_price_distribution->order?->order_detail as $order_detail)
-                                        {{$order_detail->chair?->name}}
-                                        @if (!$loop->last)
-                                        ,
-                                        @endif
+                                        {{$order_detail->chair?->name}},
                                         @endforeach
                                         @endif</td>
                                     <td>
