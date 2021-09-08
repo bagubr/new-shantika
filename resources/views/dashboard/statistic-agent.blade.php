@@ -13,11 +13,12 @@
         type: 'bar',
         data: dataAgent,
         options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+            indexAxis: 'y',
+            elements: {
+                bar: {
+                    borderWidth: 2,
                 }
-            }
+            },
         },
     };
     window.ChartAgent = new Chart(
