@@ -11,7 +11,7 @@
                     <p>Memindahkan penumpang dari bis <b>@{{this.firstLayout.fleet.name}}</b> ke
                         <b>@{{this.secondLayout.fleet.name}}</b></p>
                     <div class="row">
-                        <div class="col-12 col-md-6 border-right">
+                        <div class="col-12 col-lg-6 border-right">
                             <div class="form-group position-md-sticky bg-white pb-1 pt-1" style="top: -17px">
                                 <div class="row mb-1">
                                     <div class="col-12 text-right">
@@ -82,7 +82,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-6 border-right">
+                        <div class="col-12 col-lg-6 border-right">
                             <div class="form-group position-md-sticky bg-white pb-1 pt-1" style="top: -17px">
                                 <div class="row mb-1">
                                     <div class="col-12 text-right">
