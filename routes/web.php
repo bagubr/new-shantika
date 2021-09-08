@@ -3,6 +3,7 @@
 use App\Events\SendingNotification;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminNotificationController;
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\ArticleController;
@@ -91,11 +92,14 @@ Route::post('admin/store/fcm_token', [LoginController::class, 'storeFcmToken']);
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/', [Dashboard2Controller::class, 'index'])->name('dashboard');
     Route::post('dashboard/dashboard', [Dashboard2Controller::class, 'statistic'])->name('dashboard.statistic');
+    Route::post('dashboard/agent', [Dashboard2Controller::class, 'statisticAgent'])->name('dashboard.agent');
     Route::get('schedule_not_operate/search', [ScheduleNotOperateController::class, 'search'])->name('schedule_not_operate.search');
 
     Route::put('order/update_jadwal/{order}', [OrderController::class, 'update_jadwal'])->name('order.update_jadwal');
     Route::put('order/cancelation/{order}', [OrderController::class, 'cancelation'])->name('order.cancelation');
     Route::get('order/search', [OrderController::class, 'search'])->name('order.search');
+
+    Route::get('notification/{id}', [AdminNotificationController::class, 'show']);
 
     Route::post('outcome/statistic', [OutcomeController::class, 'statistic'])->name('outcome_statistic');
     Route::get('outcome/search', [OutcomeController::class, 'search'])->name('outcome.search');

@@ -4,6 +4,23 @@ Dashboard
 @endsection
 @push('css')
 <link rel="stylesheet" href="https://adminlte.io/themes/AdminLTE/plugins/pace/pace.min.css">
+<style>
+.chartWrapper {
+ position: relative;
+}
+
+.chartWrapper > canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+}
+
+.chartAreaWrapper {
+  width: 600px;
+  overflow-x: scroll;
+}
+</style>
 @endpush
 @section('content')
 <!-- Content Header (Page header) -->
@@ -143,6 +160,32 @@ Dashboard
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Area</label>
+                        <select name="area" class="form-control change-statistic-area select2">
+                            <option value="">--PILIH AREA--</option>
+                            @foreach ($data_agent['area'] as $key => $value)
+                            <option value="{{$value->id}}">{{$value->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="text-center">
+                        {{-- <i class="fas fa-arrow-left change-statistic" data-digit-agent="{{$data['digit-agent']??0}}"></i> --}}
+                        <p class="label-agent">{{@$data_agent['agent']['data']['label']}}</p>
+                        {{-- <i class="fas fa-arrow-right change-statistic-previous" data-digit-agent="{{$data['digit-agent']??0}}"></i> --}}
+                    </div>
+                    <div class="chart">
+                        <canvas id="ChartAgent"
+                        style="min-height: 250px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -154,6 +197,7 @@ Dashboard
 <script src="{{asset('plugins/chart.js/Chart.min.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 @include('dashboard.statistic-tiket')
+@include('dashboard.statistic-agent')
 <script>
     $(function () {
       $("#example1").DataTable({

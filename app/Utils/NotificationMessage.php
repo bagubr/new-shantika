@@ -7,6 +7,13 @@ class NotificationMessage {
         return ["Pembelian berhasil", "Pesan tiket telah berhasil, segera lakukan pembayaran"];
     }
 
+    public static function newTicketOrder($order) {
+        return [
+            "Pembelian Tiket",
+            "Pemesan baru pada armada ".$order->fleet_route?->fleet_detail?->fleet?->name." untuk tanggal ".date('d-m-Y', strtotime($order->reserve_at))
+        ];
+    }
+
     public static function newSlider($title,$message) {
         return [$title,$message];
     }

@@ -116,16 +116,16 @@ class OrderRepository
                     ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
                 });
             })
+            ->distinct('fleet_route_id')
             ->with(['fleet_route.fleet_detail.fleet'])
-            ->where('status', Order::STATUS3)
             ->whereDate('reserve_at', $date)
-            ->get()
-            ->groupBy('fleet_route.fleet_detail.fleet_id')
-            ->all();
+            ->get();
+            // ->groupBy('fleet_route.fleet_detail.fleet_id')
+            // ->all();
 
-        $order = array_values($order);
+        // $order = array_values($order);
 
-        return @$order[0];
+        return @$order;
     }
 
     public static function getAtDateByFleetRouteId($date, $fleet_route_id)

@@ -18,7 +18,7 @@ class OrderPriceDistributionService {
         } else {
             $total_price['for_agent'] = 0;
         }
-        $total_price['for_owner'] = $total_price['ticket_only'] - $total_price['for_travel'] - $total_price['for_food'] - (-1 * $total_price['for_member']) - (-1 * $total_price['for_agent']);
+        $total_price['for_owner'] = $total_price['ticket_only'] - $total_price['for_travel'] - (-1 * $total_price['for_member']) - (-1 * $total_price['for_agent']);
         
         $price_distribution = OrderPriceDistribution::create(array_merge($total_price, [
             'order_id'=>$order->id,
@@ -41,6 +41,7 @@ class OrderPriceDistributionService {
         foreach($order_details as $order_detail) {
             if(!$order_detail->is_feed) {
                 $total_price['for_food'] -=  $order->fleet_route?->fleet?->fleetclass?->price_food;
+                $total_price['for_agent'] -=  $order->fleet_route?->fleet?->fleetclass?->price_food;
             }
             if($order_detail->is_travel) {
                 $total_price['for_travel'] += $setting->travel;

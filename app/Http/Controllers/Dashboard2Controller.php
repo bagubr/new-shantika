@@ -6,9 +6,11 @@ use App\Models\Agency;
 use App\Models\Fleet;
 use App\Models\FleetDetail;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\OrderPriceDistribution;
 use App\Models\Route;
 use App\Models\User;
+use App\Models\Area;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
@@ -31,10 +33,39 @@ class Dashboard2Controller extends Controller
         
         $data = $this->statistic($request);
         $data['digit'] = 0;
-        $data['agencies'] = Agency::orderBy('name', 'asc')->get();
         $data['fleets'] = Fleet::orderBy('name', 'asc')->get();
         $data['digit_previous'] = -7;
-        return view('dashboard.dashboard', compact('total_order', 'count_user', 'orders_money', 'data'));
+
+        
+        $data['agencies'] = Agency::orderBy('code', 'asc')->get();
+        $data_agent = $this->statisticAgent($request);
+        // $data_agent['agencies_area'] = Agency::orderBy('name', 'asc')->get();
+        $data_agent['area'] = Area::orderBy('name', 'asc')->get();
+
+        return view('dashboard.dashboard', compact('total_order', 'count_user', 'orders_money', 'data', 'data_agent'));
+    }
+
+    public function statisticAgent(Request $request)
+    {
+        $data_agent = Agency::select('id', 'code')->orderBy('code', 'asc')
+        ->when(($request->area_id), function ($query) use ($request)
+        {
+            $query->whereHas('city', function ($subquery) use ($request)
+            {
+               $subquery->where('area_id', $request->area_id);
+            });
+        })
+        ->get();
+
+        foreach ($data_agent as $key => $value) {
+            $data['agent']['data'][] = OrderDetail::whereHas('order', function ($query) use ($value)
+            {
+                $query->where('departure_agency_id', $value->id);
+            })->count();
+        }
+        $data['agencies_area'] = $data_agent->pluck('code');
+        
+        return $data;
     }
     
     public function statistic(Request $request)

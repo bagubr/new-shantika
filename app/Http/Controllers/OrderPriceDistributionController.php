@@ -101,10 +101,10 @@ class OrderPriceDistributionController extends Controller
         $outcome_details            = $outcome_details->get();
         $order_price_distributions  = $order_price_distributions->get();
 
-        $count_income               = $order_price_distributions->pluck('for_owner')->sum();
+        $count_income               = $order_price_distributions->pluck('for_owner')->sum() + $order_price_distributions->pluck('for_food')->sum();
         $count_outcome              = $outcome_details->pluck('amount')->sum();
         $count_seat                 = $order_details->get()->count();
-        $count_pendapatan_bersih    = $count_income - $count_outcome;
+        $count_pendapatan_bersih    = $order_price_distributions->pluck('for_owner')->sum();
         $count_ticket               = $tiket_price->pluck('price')->sum();
         return view('order_price_distribution.index', compact('count_ticket', 'order_price_distributions', 'test', 'fleet_details', 'outcome_details', 'fleet_routes', 'count_income', 'agencies', 'count_outcome', 'count_pendapatan_bersih', 'count_seat'));
     }
