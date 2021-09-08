@@ -28,7 +28,7 @@ class OrderSetoranDetailAgentResource extends JsonResource
             'food_price_sum'=>$this->sum('distribution.for_food'),
             'member_price_sum'=>$this->sum('distribution.for_member'),
             'travel_price_sum'=>$this->sum('distribution.for_travel'),
-            'total_deposit'=>$this->sum('distribution.for_owner')
+            'total_deposit'=>$this->sum('distribution.for_owner') + $this->sum('distribution.for_food')
         ];
     }
 
