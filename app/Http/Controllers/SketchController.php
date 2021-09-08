@@ -74,29 +74,29 @@ class SketchController extends Controller
         $tos = $request->data['to_layout_chair_id'];
 
         DB::beginTransaction();
+        $detail = [];
         foreach($froms as $key => $value) {
-            $detail = OrderDetail::whereHas('order', function($query) use ($request) {
+            $detail[$key] = OrderDetail::whereHas('order', function($query) use ($request) {
                 $query->whereDate('reserve_at', date('Y-m-d', strtotime($request->data['from_date'])))->where('fleet_route_id', $request['first_fleet_route_id']);
             })->where('layout_chair_id', $value['id'])->first();
-            $detail->update([
+            $detail[$key]->update([
                 'layout_chair_id'=>$tos[$key]['id']
             ]);
-            $detail->refresh();
         }
         foreach($froms as $key => $value) {
-            $detail->order()->update([
+            $detail[$key]->order()->update([
                 'fleet_route_id'=>$request['second_fleet_route_id'],
                 'reserve_at'=>$request->data['to_date']
             ]);
-            $detail->refresh();
+            $detail[$key]->refresh();
             $notification = Notification::build(
-                NotificationMessage::changeChair($detail->order?->fleet_route?->fleet_detail?->fleet?->name, $detail->chair?->name)[0],
-                NotificationMessage::changeChair($detail->order?->fleet_route?->fleet_detail?->fleet->name, $detail->chair?->name)[1],
+                NotificationMessage::changeChair($detail[$key]->order?->fleet_route?->fleet_detail?->fleet?->name, $detail[$key]->chair?->name)[0],
+                NotificationMessage::changeChair($detail[$key]->order?->fleet_route?->fleet_detail?->fleet->name, $detail[$key]->chair?->name)[1],
                 Notification::TYPE5,
-                $detail->order->id,
-                $detail->order->user_id
+                $detail[$key]->order->id,
+                $detail[$key]->order->user_id
             );
-            SendingNotification::dispatch($notification, $detail->order?->user?->fcm_token,true);
+            SendingNotification::dispatch($notification, $detail[$key]->order?->user?->fcm_token,true);
         }
         DB::commit();
         session()->flash('success', 'Kursi penumpang berhasil diubah');
