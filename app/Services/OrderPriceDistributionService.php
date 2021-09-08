@@ -41,6 +41,7 @@ class OrderPriceDistributionService {
         foreach($order_details as $order_detail) {
             if(!$order_detail->is_feed) {
                 $total_price['for_food'] -=  $order->fleet_route?->fleet?->fleetclass?->price_food;
+                $total_price['for_agent'] -=  $order->fleet_route?->fleet?->fleetclass?->price_food;
             }
             if($order_detail->is_travel) {
                 $total_price['for_travel'] += $setting->travel;
