@@ -183,7 +183,7 @@ Setoran
                                         {{$order_price_distribution->order?->order_detail?->count()}}
 
                                     </td>
-                                    <td>@if($order_price_distribution->order?->order_detail)@foreach ($order_price_distribution->order?->order_detail as $order_detail){{$order_detail->chair?->name}},@endforeach @endif</td>
+                                    <td>@if($order_price_distribution->order?->order_detail)@foreach ($order_price_distribution->order?->order_detail as $order_detail){{$order_detail->chair?->name}}/@endforeach @endif</td>
                                     <td>
                                         @if ($order_price_distribution->order?->fleet_route)
                                         <a
