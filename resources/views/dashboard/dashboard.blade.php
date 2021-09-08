@@ -182,7 +182,7 @@ Dashboard
                     </div>
                     <div class="chart">
                         <canvas id="ChartAgent"
-                        style="min-height: 250px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
+                        style="min-height: 250px; height: 500px; max-height: 5000px; max-width: 100%;"></canvas>
                     </div>
                 </div>
             </div>

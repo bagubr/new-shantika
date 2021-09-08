@@ -60,7 +60,9 @@ class LayoutService {
                 })->first();
                 $item->code = $unavailable->filter(function($value) use ($item) {
                     return $value->order_detail->where('layout_chair_id', $item->id)->isNotEmpty();
-                })->first()?->agency?->code;
+                })->first()?->agency?->code ?? $booking->filter(function($value) use ($item) {
+                    return $value->where('layout_chair_id', $item->id)->isNotEmpty();
+                })->first()?->user?->agencies?->agent?->code;
             }
             return $item;
         });
