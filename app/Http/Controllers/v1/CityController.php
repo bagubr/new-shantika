@@ -12,7 +12,7 @@ class CityController extends Controller
 {
     public function index(Request $request) {
         $user = UserRepository::findByToken($request->bearerToken());
-        $agency_id = $user->agencies?->agency_id;
+        $agency_id = $user?->agencies?->agency_id;
         $agency = null;
         if(!empty($agency_id)) {
             $agency = AgencyRepository::findWithCity($agency_id);
