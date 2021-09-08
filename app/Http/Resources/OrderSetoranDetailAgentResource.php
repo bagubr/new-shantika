@@ -2,10 +2,17 @@
 
 namespace App\Http\Resources;
 
+use App\Models\OrderDetail;
+use App\Models\Order;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class OrderSetoranDetailAgentResource extends JsonResource
 {
+    public function __construct($resource, $chairs)
+    {
+        parent::__construct($resource);
+        $this->chair_count = $chairs;
+    }
     /**
      * Transform the resource into an array.
      *
@@ -16,9 +23,10 @@ class OrderSetoranDetailAgentResource extends JsonResource
     {
         $table_chairs = $this->getDetailChairs($this, $this->pluck('order_detail'));
         $coll_table_chairs = collect($table_chairs);
+        $order = $this[0];
         return [
             'fleet_name'=>$this[0]->fleet_route?->fleet_detail?->fleet?->name,
-            'chair_count'=>$this->count('order_detail'),
+            'chair_count'=>$this->chair_count,
             'commision'=>abs($this->sum("distribution.for_agent")),
             'earning'=>$this->sum('distribution.for_owner'),
             'checkpoint_destination'=>new CheckpointResource($this[0]->fleet_route->route?->checkpoints()->where('agency_id', $this[0]->destination_agency_id)->first()),

@@ -113,7 +113,7 @@ class OrderController extends Controller
         }
         return $this->sendSuccessResponse([
             'chairs'=> OrderDetailSetoranAgentResource::collection($chairs),
-            'order'=>new OrderSetoranDetailAgentResource($order)
+            'order'=>new OrderSetoranDetailAgentResource($order, count($chairs))
         ]);
     }
 }
