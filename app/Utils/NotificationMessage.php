@@ -50,10 +50,10 @@ class NotificationMessage {
         return ["Transaksi anda ditolak", "Pembayaran untuk kode ".$str." telah ditolak dengan alasan ".$reason];
     }
 
-    public static function changeChair($fleet, $chair) {
+    public static function changeChair($fleet, $chair, $date) {
         return [
             "Perhatian! Kursi Anda telah dipindah!",
-            "Nomor kursi Anda diubah menjadi ".$chair. " pada armada ".$fleet
+            "Nomor kursi Anda diubah menjadi ".$chair. " pada armada ".$fleet. " pada tanggal ".$date
         ];
     }
 

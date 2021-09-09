@@ -93,7 +93,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-12">
-                                                    <form @submit.prevent="cancelOrder(chair.order_detail.order_detail.filter(e => e.layout_chair_id == chair.id)[0].id, chair.password, chair.cancelation_reason)" class="w-100">
+                                                    <form @submit.prevent="cancelOrder(chair.order_detail.order_detail.filter(e => e.layout_chair_id == chair.id)[0].id, chair.password, chair.cancelation_reason, chair.isAll)" class="w-100">
                                                         <div class="form-group">
                                                             <label for="">Alasan Penolakan</label>
                                                             <input type="text" v-model="chair.cancelation_reason" class="form-control">
@@ -101,6 +101,10 @@
                                                         <div class="form-group">
                                                             <label for="">Password</label>
                                                             <input type="password" v-model="chair.password" class="form-control" id="">
+                                                        </div>
+                                                        <div class="form-check-inline">
+                                                            <input type="checkbox" v-model="chair.is_all" class="form-check" id="">
+                                                            <label for="">&nbsp; Batalkan 1 rombongan ini</label>
                                                         </div>
                                                         <div class="form-group">
                                                             <button class="btn btn-primary" type="submit">Submit</button>

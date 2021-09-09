@@ -378,12 +378,13 @@ Sketch
                         return e
                     })
                 },
-                cancelOrder(orderDetailId, password, reason) {
+                cancelOrder(orderDetailId, password, reason, isAll) {
                     fetch('{{url("")}}'+`/order/cancelation/${orderDetailId}`, {
                         method: 'PUT',
                         body: JSON.stringify({
                             'password':password,
-                            'cancelation_reason':reason 
+                            'cancelation_reason':reason,
+                            'is_all':isAll || false
                         }),
                         headers: {
                             'Content-Type': 'application/json',

@@ -33,7 +33,7 @@ class OrderListAgentResource extends JsonResource
         $fleet = $fleet_detail->fleet;
 
         $checkpoint_max_index = count($checkpoints) - 1;
-        $checkpoint_destination = CheckpointRepository::findByRouteAndAgency($route->id, $this->destination_agency_id);
+        $agency_destiny = $this->agency_destiny;
         $agent_start = $this->agency;
         return [
             'id'                        => $this->id,
@@ -48,7 +48,7 @@ class OrderListAgentResource extends JsonResource
             'reserve_at'                => $this->reserve_at,
             'status'                    => $this->status,
             'type'                      => $this->type,
-            'checkpoints'               => new CheckpointStartEndResource($route, $checkpoint_destination, $agent_start),
+            'checkpoints'               => new CheckpointStartEndResource($route, $agency_destiny, $agent_start),
         ];
     }
 

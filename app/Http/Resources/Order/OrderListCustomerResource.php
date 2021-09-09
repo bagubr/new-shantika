@@ -20,7 +20,7 @@ class OrderListCustomerResource extends JsonResource
         $fleet_route = $this->fleet_route;
         $route = $fleet_route->route;
         $fleet = $fleet_route->fleet_detail->fleet;
-        $checkpoint_destination = CheckpointRepository::findByRouteAndAgency($route?->id, $this->destination_agency_id);
+        $agency_destiny = $this->agency_destiny;
         $agent_start = $this->agency;
         return [
             'id'=>$this->id,
@@ -31,7 +31,7 @@ class OrderListCustomerResource extends JsonResource
             'departure_at'  => $this->agency->agency_departure_times->where('time_classification_id', $this->time_classification_id)->first()?->departure_at,
             'price'=>$this->price,
             'status'=>$this->status,
-            'checkpoints'        => new CheckpointStartEndResource($route, $checkpoint_destination, $agent_start),
+            'checkpoints'        => new CheckpointStartEndResource($route, $agency_destiny, $agent_start),
         ];
     }
 }

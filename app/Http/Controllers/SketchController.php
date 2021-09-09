@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\LangsirExport;
 use App\Repositories\OrderDetailRepository;
-use PDF;
+use Mpdf\Mpdf;
 
 class SketchController extends Controller
 {
@@ -90,8 +90,8 @@ class SketchController extends Controller
             ]);
             $detail[$key]->refresh();
             $notification = Notification::build(
-                NotificationMessage::changeChair($detail[$key]->order?->fleet_route?->fleet_detail?->fleet?->name, $detail[$key]->chair?->name)[0],
-                NotificationMessage::changeChair($detail[$key]->order?->fleet_route?->fleet_detail?->fleet->name, $detail[$key]->chair?->name)[1],
+                NotificationMessage::changeChair($detail[$key]->order?->fleet_route?->fleet_detail?->fleet?->name, $detail[$key]->chair?->name, $request['to_date'])[0],
+                NotificationMessage::changeChair($detail[$key]->order?->fleet_route?->fleet_detail?->fleet->name, $detail[$key]->chair?->name, $request['to_date'])[1],
                 Notification::TYPE5,
                 $detail[$key]->order->id,
                 $detail[$key]->order->user_id
@@ -138,7 +138,7 @@ class SketchController extends Controller
         $data['date'] = $date;
         $data['fleet_route_id'] = $fleet_route_id;
 
-        $pdf = PDF::loadView('excel_export.langsir', $data);
+        $pdf = Mpdf::loadView('excel_export.langsir', $data);
         $pdf->stream('document.pdf');
 
         // $mpdf = new \Mpdf\Mpdf();
