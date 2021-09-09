@@ -197,10 +197,13 @@ class OrderController extends Controller
             ]);
         }
         DB::beginTransaction();
-        Log::info(count($order_detail->order->order_detail));
         if(count($order_detail->order->order_detail) > 1) {
             $order_detail->delete();
             // OrderService::revertPrice($order_detail);
+        } else {
+            $order_detail->order->update([
+                'status'=>Order::STATUS4,
+            ]);
         }
         session()->flash('success', 'Berhasil menghapus order');
         return response([

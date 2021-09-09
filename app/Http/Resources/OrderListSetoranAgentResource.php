@@ -18,8 +18,7 @@ class OrderListSetoranAgentResource extends JsonResource
     {
         $chairs = OrderDetailRepository::findForPriceDistributionByUserAndDateAndFleet($this->user_id,$this->reserve_at, $this->fleet_route->fleet_detail->fleet_id);
 
-        $checkpoint_max_index = count($this->fleet_route->route->checkpoints) - 1;
-        $checkpoint_destination = $this->fleet_route->route->checkpoints()->where('agency_id', $this->destination_agency_id)->first();
+        $agent_destination = $this->agency_destiny;
         $agent_start = $this->agency;
         return [
             'id'=>$this->id,
@@ -27,7 +26,7 @@ class OrderListSetoranAgentResource extends JsonResource
             'fleet_id'=>$this->fleet_route?->fleet_detail?->fleet_id,
             'chairs_count'=>count($chairs),
             'deposit'=>abs($this->distribution()->sum('for_owner')),
-            'checkpoints'=> new CheckpointStartEndResource($this->fleet_route->route, $checkpoint_destination, $agent_start)
+            'checkpoints'=> new CheckpointStartEndResource($this->fleet_route->route, $agent_destination, $agent_start)
         ];
     }
 }
