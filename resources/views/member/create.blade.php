@@ -53,6 +53,11 @@ Member
                             </select>
                         </div>
                         <div class="form-group">
+                            <label>Kode Member</label><span class="text-danger">*</span>
+                            <input type="number" name="code_member" class="form-control"
+                                value="{{isset($member) ? $member->code_member : ''}}">
+                        </div>
+                        <div class="form-group">
                             <label>Nama</label><span class="text-danger">*</span>
                             <input type="text" class="form-control" name="name"
                                 value="{{isset($member)? $member->name : ''}}" id="">

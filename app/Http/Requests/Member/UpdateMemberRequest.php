@@ -24,10 +24,11 @@ class UpdateMemberRequest extends FormRequest
     public function rules()
     {
         return [
-            'agency_id' => 'required|exists:agencies,id',
-            'name' => 'required',
-            'address' => 'required',
-            'phone' => 'required'
+            'code_member'   => 'required|unique:memberships,code_member,' . $this->id,
+            'agency_id'     => 'nullable',
+            'name'          => 'required',
+            'address'       => 'required',
+            'phone'         => 'required'
         ];
     }
 }

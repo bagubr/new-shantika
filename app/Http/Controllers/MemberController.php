@@ -43,9 +43,7 @@ class MemberController extends Controller
      */
     public function store(CreateMemberRequest $request)
     {
-        $last = Membership::latest()->first();
         $data = $request->all();
-        $data['code_member'] = $last->code_member + 1;
         Membership::create($data);
 
         session()->flash('success', 'Member Berhasil Ditambahkan');
