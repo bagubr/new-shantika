@@ -96,7 +96,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('schedule_not_operate/search', [ScheduleNotOperateController::class, 'search'])->name('schedule_not_operate.search');
 
     Route::put('order/update_jadwal/{order}', [OrderController::class, 'update_jadwal'])->name('order.update_jadwal');
-    Route::put('order/cancelation/{order}', [OrderController::class, 'cancelation'])->name('order.cancelation');
+    Route::put('order/cancelation/{order_detail}', [OrderController::class, 'cancelation'])->name('order.cancelation');
     Route::get('order/search', [OrderController::class, 'search'])->name('order.search');
 
     Route::get('notification/{id}', [AdminNotificationController::class, 'show']);

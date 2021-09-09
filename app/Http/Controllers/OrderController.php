@@ -15,10 +15,13 @@ use App\Models\User;
 use App\Repositories\OrderDetailRepository;
 use App\Repositories\OrderPriceDistributionRepository;
 use App\Repositories\RoutesRepository;
+use App\Services\OrderService;
 use App\Utils\NotificationMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -182,18 +185,27 @@ class OrderController extends Controller
         }
         return back();
     }
-    public function cancelation(OrderCancelationRequest $request, Order $order)
+    public function cancelation(OrderCancelationRequest $request, OrderDetail $order_detail)
     {
         $data               = $request->all();
         $data['status']     = 'CANCELED';
         $hashed = Auth::user()->password;
-        if (Hash::check($data['password'], $hashed)) {
-            $order->update($data);
-            session()->flash('success', 'Orderan Berhasil DiBatalkan');
-        } else {
-            session()->flash('error', 'Password Anda Tidak Sama');
+        if (!Hash::check($data['password'], $hashed)) {
+            session()->flash('error', 'Password anda tidak sama');
+            return response([
+                'code'=>0
+            ]);
         }
-        return back();
+        DB::beginTransaction();
+        Log::info(count($order_detail->order->order_detail));
+        if(count($order_detail->order->order_detail) > 1) {
+            $order_detail->delete();
+            // OrderService::revertPrice($order_detail);
+        }
+        session()->flash('success', 'Berhasil menghapus order');
+        return response([
+            'code'=>1
+        ], 200);
     }
 
     /**

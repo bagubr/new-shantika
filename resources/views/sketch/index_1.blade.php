@@ -60,7 +60,7 @@ Sketch
                     </h3>
                 </div>
             </div>
-            <div v-for="order in result.orders" class="col-12 col-sm-6 col-lg-4 col-xl-3">
+            <div v-for="order in result.orders" class="col-12 col-sm-6 col-lg-4 col-xl-3 pt-2 pb-2">
                 <div class="card h-100 p-2 shadow" data-toggle="modal" data-target="#modal-default"
                     @click="handleChangeFocusFirstLayout(order.fleet_route_id, order.fleet_route.fleet_id)">
                     <div class="card-body">
@@ -69,8 +69,9 @@ Sketch
                                 <i class="fas fa-bus" style="font-size: 2.5em; color: Mediumslateblue;"></i>
                             </div>
                             <div class="col-md-9">
-                                <b>@{{order.fleet_route?.fleet_detail?.fleet?.name}}
-                                    (@{{order.fleet_route?.fleet_detail?.fleet?.fleetclass?.name}})</b>
+                                <b>@{{order.fleet_route?.fleet_detail?.fleet?.name}}</b>
+                                <br>
+                                <span>@{{order.fleet_route?.fleet_detail?.fleet?.fleetclass?.name}}</span>
                                 <br>
                                 <p style="font-size: 15px;">@{{order.fleet_route?.route?.name}}</p>
                             </div>
@@ -377,6 +378,21 @@ Sketch
                         return e
                     })
                 },
+                cancelOrder(orderDetailId, password, reason) {
+                    fetch('{{url("")}}'+`/order/cancelation/${orderDetailId}`, {
+                        method: 'PUT',
+                        body: JSON.stringify({
+                            'password':password,
+                            'cancelation_reason':reason 
+                        }),
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{csrf_token()}}'
+                        }
+                    }).then(res => res.json()).then(res => {
+                        window.location.reload()
+                    })
+                }
             },
             mounted() {
                 this.searchOrders()

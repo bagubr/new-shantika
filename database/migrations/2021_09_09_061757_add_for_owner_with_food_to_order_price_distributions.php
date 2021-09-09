@@ -14,7 +14,7 @@ class AddForOwnerWithFoodToOrderPriceDistributions extends Migration
     public function up()
     {
         Schema::table('order_price_distributions', function (Blueprint $table) {
-            $table->integer('for_owner_with_food');
+            $table->integer('for_owner_with_food')->default(0);
         });
     }
 

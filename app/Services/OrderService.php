@@ -163,6 +163,39 @@ class OrderService {
         return $order;
     }
 
+    public static function revertPrice(OrderDetail $order_detail) {
+        $order_detail->load(['order.distribution']);
+        $order = $order_detail->order;
+        $distrib = $order->distribution;
+        $order_details = $order->order_detail;
+
+        $data = [
+            'for_food'=>$distrib->for_food,
+            'for_agent'=>$distrib->for_agent,
+            'for_travel'=>$distrib->for_travel,
+            'for_owner'=>$distrib->for_owner,
+            'for_owner_with_food'=> $distrib->for_food_with_owner,  
+            'price'=>$order->price,
+        ];
+        
+        if($order_detail->is_feed) {
+            $food_price = $distrib->for_food / count($order_details);
+            $data['for_food'] -= $food_price;
+            $data['for_owner_with_food'] -= $food_price;
+            $data['price'] -= $food_price;
+        }
+        if($order_detail->is_travel) {
+            $travel_price = $distrib->for_travel / count($order_details);
+            $data['for_travel'] -= $travel_price;
+            $data['price'] -= $travel_price;
+        }
+        if($order_detail->is_member) {
+            $member_price = $distrib->for_member / count($order_details);
+            $data['for_member'] += $member_price;
+            $data['price'] += $member_price;
+        }
+    }
+
     public static function generateCodeOrder($id) {
         return 'NS'.str_pad($id, 8, '0', STR_PAD_LEFT);
     }

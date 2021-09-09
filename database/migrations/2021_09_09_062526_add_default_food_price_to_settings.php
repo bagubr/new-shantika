@@ -14,7 +14,7 @@ class AddDefaultFoodPriceToSettings extends Migration
     public function up()
     {
         Schema::table('settings', function (Blueprint $table) {
-            $table->integer('default_food_price');
+            $table->integer('default_food_price')->default(0);
         });
     }
 
