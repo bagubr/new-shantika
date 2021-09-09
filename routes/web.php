@@ -87,6 +87,7 @@ Route::get('/test', function () {
     PaymentAcceptedNotificationJob::dispatchAfterResponse($notification, $order_id->user?->fcm_token, true);
 });
 
+Route::get('_/privacy_policy', [LoginController::class, 'privacyPolicy'])->name('_privacy_policy');
 Route::post('admin/store/fcm_token', [LoginController::class, 'storeFcmToken']);
 
 Route::group(['middleware' => ['auth']], function () {

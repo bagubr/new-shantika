@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\PrivacyPolicy;
 use App\Providers\RouteServiceProvider;
 use Google\Service\Docs\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -38,5 +39,10 @@ class LoginController extends Controller
         ]);
 
         return response([], 200);
+    }
+
+    public function privacyPolicy() {
+        $privacy_policy = PrivacyPolicy::first();
+        return view('privacy_policy', compact('privacy_policy'));
     }
 }

@@ -134,7 +134,7 @@ Login
                 </div>
                 <div class="mt-3">
                     <p class="text-center" style="color: #271D5F">Support by
-                        <a target="_blank" href="https://can.co.id/">CanCreative</a>
+                        <a target="_blank" href="https://can.co.id/" target="_blank">Can Creative</a> | <a href="{{url('_/privacy_policy')}}" target="_blank">Kebijakan Privasi</a>
                     </p>
                 </div>
             </div>
