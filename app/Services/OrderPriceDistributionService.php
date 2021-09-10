@@ -33,32 +33,30 @@ class OrderPriceDistributionService {
     }
 
     public static function calculateDistribution($order, $order_details) {
+        $setting = Setting::first();
+        $price_food = $order->fleet_route?->fleet_detail?->fleet?->fleetclass?->price_food;
         $total_price = [
             'for_food'=>0,
             'for_travel'=>0,
             'for_member'=>0,
-            'for_agent'=>$order->fleet_route?->price * count($order_details),
-            'ticket_only'=>$order->fleet_route?->price,
+            'for_agent'=>0,
+            'ticket_only'=>($order->fleet_route?->price * count($order_details)) - ($price_food * count($order_details)),
             'food'=>0
         ];
-        $setting = Setting::first();
+        $total_price['for_agent'] = $total_price['ticket_only'];
         foreach($order_details as $order_detail) {
             if($order_detail->is_feed) {
-                $total_price['for_food'] +=  $order->fleet_route?->fleet?->fleetclass?->price_food;
-                $total_price['food'] += $order->fleet_route?->fleet?->fleetclass?->price_food;
-                $total_price['for_agent'] -=  $order->fleet_route?->fleet?->fleetclass?->price_food;
-                $total_price['ticket_only'] -= $order->fleet_route?->fleet?->fleetclass?->price_food;
+                $total_price['for_food'] +=  $price_food;
+                $total_price['food'] += $price_food;
+                $total_price['ticket_only'] -= $price_food;
             } else {
                 $total_price['food'] += $setting->default_food_price;
-                $total_price['for_agent'] -=  $setting->default_food_price;
-                $total_price['ticket_only'] -= $setting->default_food_price;
             }
             if($order_detail->is_travel) {
                 $total_price['for_travel'] += $setting->travel;
             }
             if($order_detail->is_member) {
                 $total_price['for_member'] -= $setting->member;
-                $total_price['for_agent'] -= $setting->member;
             }
         }
         return $total_price;
