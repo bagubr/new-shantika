@@ -26,10 +26,8 @@ class AvailableRoutesResource extends JsonResource
     {
         $departure_agency = Agency::find($request->agency_departure_id) ?? AgencyRepository::findByToken($request->bearerToken());
         $destination_agency_id = $request->agency_arrived_id ?? $request->agency_id;
-        $agency_destiny = Agency::find($destination_agency_id);
-        
+        $agency_destiny = Agency::find($destination_agency_id); 
         $route = $this->route;
-        $checkpoints = $this->route?->checkpoints();
         return [
             'id'                        => $this->id,
             'layout_id'                 => $this->fleet_detail->fleet->layout->id,

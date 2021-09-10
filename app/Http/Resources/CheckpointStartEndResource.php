@@ -13,7 +13,7 @@ class CheckpointStartEndResource extends JsonResource
     {
         parent::__construct($resource);
 
-        $this->destination_checkpoint = $destination_agent;
+        $this->destination_agent = $destination_agent;
         $this->start_agent = $start_agent;
     }
 
@@ -32,7 +32,7 @@ class CheckpointStartEndResource extends JsonResource
         $checkpoint_max_index = count($this->checkpoints) - 1;
         return [
             'start'         => $this->when($this->start_agent, new AgencyResource($this->start_agent), (object) []),
-            'destination'   => $this->when($this->destination_checkpoint != null, new AgencyResource($this->destination_agent), (object) []),
+            'destination'   => $this->when($this->destination_agent != null, new AgencyResource($this->destination_agent), (object) []),
             'end'           => new CheckpointResource($this->checkpoints[$checkpoint_max_index]),
         ];
     }
