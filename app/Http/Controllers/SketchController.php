@@ -49,7 +49,7 @@ class SketchController extends Controller
                     });
                 });
             })
-            ->distinct('fleet_route_id')
+            ->distinct(['fleet_route_id', 'time_classification_id'])
             ->get();
         foreach ($orders as $order) {
             $order->order_detail_count = count(OrderDetailRepository::findForPriceDistributionByUserAndDateAndFleet(null, $order->reserve_at, $order->fleet_route?->fleet_detail?->fleet_id));
