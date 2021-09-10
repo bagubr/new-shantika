@@ -43,7 +43,7 @@ class OrderService {
         $ticket_price = $route->price - $data->fleet_route->fleet_detail->fleet->fleetclass->price_food;
         $ticket_price_with_food = $detail->is_feed
             ? $route->price * count($detail->layout_chair_id)
-            : $ticket_price * count($detail->layout_chair_id);
+            : $ticket_price * count($detail->layout_chair_id) + $setting->default_food_price * count($detail->layout_chair_id);
         $data->price = $ticket_price_with_food;
         if($detail->is_travel){
             $price_travel = $setting->travel * count($detail->layout_chair_id);
