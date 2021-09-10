@@ -33,13 +33,16 @@ class OrderPriceDistributionController extends Controller
         $outcome_details    = OutcomeDetail::all();
         $count_income       = OrderPriceDistribution::whereHas('order', function ($q) {
             $q->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
+        })->pluck('for_owner_with_food')->sum();
+        $count_income_clean = OrderPriceDistribution::whereHas('order', function ($q) {
+            $q->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
         })->pluck('for_owner')->sum();
         $count_outcome      = OutcomeDetail::pluck('amount')->sum();
         $count_seat         = OrderDetail::whereHas('order', function ($q) {
             $q->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
         })->get()->count();
         $count_ticket       = Order::whereIn('status', ['PAID', 'EXCHANGED', 'FINISHED'])->pluck('price')->sum();
-        $count_pendapatan_bersih = $count_income - $count_outcome;
+        $count_pendapatan_bersih = $count_income_clean - $count_outcome;
         return view('order_price_distribution.index', compact('count_ticket', 'order_price_distributions', 'count_seat', 'agencies', 'outcome_details', 'fleet_routes', 'count_income', 'count_outcome', 'count_pendapatan_bersih', 'fleet_details'));
     }
     public function search(Request $request)
