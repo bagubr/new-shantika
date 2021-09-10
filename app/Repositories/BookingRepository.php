@@ -25,8 +25,11 @@ class BookingRepository {
         return Booking::with(['fleet_route.route', 'chair'])->where('code_booking', $code_booking)->get();
     }
 
-    public static function getTodayByRoute($fleet_route_id) {
+    public static function getTodayByRoute($fleet_route_id, $time_classification_id = null) {
         return Booking::where('fleet_route_id', $fleet_route_id)
+            ->when($time_classification_id, function($query) use ($time_classification_id) {
+                $query->where('time_classification_id', $time_classification_id);
+            })
             ->with('user.agencies.agent')
             ->where('expired_at', '>', date('Y-m-d H:i:s'))
             ->get();

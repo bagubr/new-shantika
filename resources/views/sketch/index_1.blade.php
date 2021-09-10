@@ -34,9 +34,18 @@ Sketch
                     <div class="form-group">
                         <label>Pilih Area</label>
                         <select v-model="filter.area_id" name="area_id" class="form-control" id="">
-                            <option value="">--PILIH--</option>
+                            <option value="" selected>--PILIH--</option>
                             <option v-for="area in data.areas" :key="area.id" :value="area.id">
                                 @{{area.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Pilih Shift</label>
+                        <select v-model="filter.time_classification_id" name="time_classification" class="form-control" id="">
+                            <option value="" selected>--PILIH--</option>
+                            <option v-for="time_classification in data.time_classifications" :key="time_classification.id" :value="time_classification.id">
+                                @{{time_classification.name}}
                             </option>
                         </select>
                     </div>
@@ -71,6 +80,7 @@ Sketch
                             <div class="col-md-9">
                                 <b>@{{order.fleet_route?.fleet_detail?.fleet?.name}}</b>
                                 <br>
+                                <p>@{{order.time_classification.name}}</p>
                                 <span>@{{order.fleet_route?.fleet_detail?.fleet?.fleetclass?.name}}</span>
                                 <br>
                                 <p style="font-size: 15px;">@{{order.fleet_route?.route?.name}}</p>
@@ -116,10 +126,12 @@ Sketch
             data: {
                 csrf_token: '{{ csrf_token() }}',
                 data: {
-                    areas: {!! $areas !!}
+                    areas: {!! $areas !!},
+                    time_classifications: {!! $time_classifications !!},
                 },
                 filter: {
-                    area_id: {!! $areas->first()->id !!}
+                    area_id: {!! $areas->first()->id !!},
+                    time_classification_id: ""
                 },
                 result: {
                     orders: []

@@ -13,11 +13,13 @@ class OrderDetailRepository
         return OrderDetail::where('order_id', $order)->get();
     }
 
-    public static function findForPriceDistributionByUserAndDateAndFleet($user_id, $date, $fleet_id) {
+    public static function findForPriceDistributionByUserAndDateAndFleet($user_id, $date, $fleet_id, $time_classification_id = null) {
         $agency_id = User::with('agencies.agent')->find($user_id)?->agencies?->agent?->id;
         $order = OrderDetail::with(['order', 'order.fleet_route.fleet_detail.fleet', 'order.fleet_route.route.checkpoints', 'order.payment', 'order.distribution'])
-            ->whereHas('order', function($query) use ($date) {
-                $query->whereDate('reserve_at', $date);
+            ->whereHas('order', function($query) use ($date, $time_classification_id) {
+                $query->whereDate('reserve_at', $date)->when($time_classification_id, function($subquery) use ($time_classification_id) {
+                    $subquery->where('time_classification_id', $time_classification_id);
+                });
             })
             ->whereHas('order',function($query) use ($agency_id) {
                 if(!empty($agency_id)) {

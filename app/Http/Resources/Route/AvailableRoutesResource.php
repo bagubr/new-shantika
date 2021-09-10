@@ -37,7 +37,7 @@ class AvailableRoutesResource extends JsonResource
             'departure_at'              => Agency::find($destination_agency_id)->agency_departure_times->first()->departure_at,
             'price'                     => $this->price,
             'chairs_available'          => $this->getChairsAvailable($request, $this->fleet_detail_id, $this->id, $this->fleet_detail->fleet->layout_id),
-            'checkpoints'               => $this->when(@count($route->checkpoints) > 1, new CheckpointStartEndResource($route, $agency_destiny, $departure_agency)),
+            'checkpoints'               => $this->when(count($route->checkpoints) >= 1, new CheckpointStartEndResource($route, $agency_destiny, $departure_agency)),
         ];
     }
 

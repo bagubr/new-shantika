@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\LangsirExport;
+use App\Models\TimeClassification;
 use App\Repositories\OrderDetailRepository;
 use PDF;
 
@@ -26,8 +27,10 @@ class SketchController extends Controller
     public function index(Request $request)
     {
         $areas = Area::get();
+        $time_classifications = TimeClassification::all();
         return view('sketch.index_1', [
-            'areas' => $areas
+            'areas' => $areas,
+            'time_classifications'=>$time_classifications
         ]);
     }
 
@@ -38,7 +41,7 @@ class SketchController extends Controller
         $orders = Order::select('*')
             ->whereIn('status', Order::STATUS_BOUGHT)
             ->with('fleet_route.fleet_detail.fleet.fleetclass', 'fleet_route.route')
-            ->with('fleet_route.fleet_detail.fleet.layout')
+            ->with('fleet_route.fleet_detail.fleet.layout', 'time_classification')
             ->when($date, function ($query) use ($date) {
                 $query->whereDate('reserve_at', $date);
             })
@@ -52,7 +55,7 @@ class SketchController extends Controller
             ->distinct(['fleet_route_id', 'time_classification_id'])
             ->get();
         foreach ($orders as $order) {
-            $order->order_detail_count = count(OrderDetailRepository::findForPriceDistributionByUserAndDateAndFleet(null, $order->reserve_at, $order->fleet_route?->fleet_detail?->fleet_id));
+            $order->order_detail_count = count(OrderDetailRepository::findForPriceDistributionByUserAndDateAndFleet(null, $order->reserve_at, $order->fleet_route?->fleet_detail?->fleet_id, $order->time_classification_id));
         }
         return response([
             'orders' => $orders
