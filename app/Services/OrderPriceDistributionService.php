@@ -43,7 +43,7 @@ class OrderPriceDistributionService {
         ];
         $setting = Setting::first();
         foreach($order_details as $order_detail) {
-            if(!$order_detail->is_feed) {
+            if($order_detail->is_feed) {
                 $total_price['for_food'] +=  $order->fleet_route?->fleet?->fleetclass?->price_food;
                 $total_price['food'] += $order->fleet_route?->fleet?->fleetclass?->price_food;
                 $total_price['for_agent'] -=  $order->fleet_route?->fleet?->fleetclass?->price_food;
