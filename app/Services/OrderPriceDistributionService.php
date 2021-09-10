@@ -48,7 +48,6 @@ class OrderPriceDistributionService {
             if($order_detail->is_feed) {
                 $total_price['for_food'] +=  $price_food;
                 $total_price['food'] += $price_food;
-                $total_price['ticket_only'] -= $price_food;
             } else {
                 $total_price['food'] += $setting->default_food_price;
             }
