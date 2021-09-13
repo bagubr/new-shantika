@@ -8,6 +8,7 @@ use App\Jobs\Notification\TicketExchangedJob;
 use App\Models\Admin;
 use App\Models\AdminNotification;
 use App\Models\Agency;
+use App\Models\BlockedChair;
 use App\Models\FleetRoute;
 use App\Models\Notification;
 use App\Models\Order;
@@ -31,8 +32,8 @@ class OrderService {
     public static function create(Order $data, $detail, $payment_type_id = null) {
         $route = FleetRoute::find($data->fleet_route_id)
             ?? (new self)->sendFailedResponse([], 'Rute perjalanan tidak ditemukan');
-        $order_exists = OrderRepository::isOrderUnavailable($data->fleet_route_id, $data->reserve_at, $detail->layout_chair_id);
-        $booking_exists = BookingRepository::isBooked($data->fleet_route_id, $data->user_id, $detail->layout_chair_id, $data->reserve_at);
+        $order_exists = OrderRepository::isOrderUnavailable($data->fleet_route_id, $data->reserve_at, $detail->layout_chair_id, $data->time_classification_id);
+        $booking_exists = BookingRepository::isBooked($data->fleet_route_id, $data->user_id, $detail->layout_chair_id, $data->reserve_at, $data->time_classification_id);
         if($order_exists) {
             (new self)->sendFailedResponse([], 'Maaf, kursi sudah dibeli oleh orang lain, silahkan pilih kursi lain');
         }
@@ -97,7 +98,11 @@ class OrderService {
 
     public static function createDetail($order, $layout_chairs, $detail) {
         $order_details = [];
+        $blocked_chairs = BlockedChair::where('fleet_route_id', $order->fleet_route_id)->pluck('layout_chair_id')->toArray();
         foreach($layout_chairs as $layout_chair_id) {
+            if(in_array($layout_chair_id, $blocked_chairs)) {
+                (new self)->sendFailedResponse([], 'Kursi ada yang sudah diblokir, silahkan refresh dan pilih kembali');
+            }
             $order_details[] = OrderDetail::create([
                 'order_id'          => $order->id,
                 'layout_chair_id'   => $layout_chair_id,

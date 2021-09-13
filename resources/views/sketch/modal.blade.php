@@ -24,6 +24,15 @@
                                         <vuejs-datepicker v-model="firstLayout.date" input-class="form-control bg-white" @input="handleDateChange('FIRST')" format="yyyy-MM-dd"/>
                                     </div>
                                 </div>
+                                <label for="">Shift</label>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <select @change="selectOptionFirstLayout()" v-model="firstLayout.timeClassificationId" class="form-control" id="">
+                                            <option v-for="timeClassification in data.timeClassifications" :value="timeClassification.id" 
+                                                :key="timeClassification.id">@{{timeClassification.name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 <label for="">Armada</label>
                                 <div class="row">
                                     <div class="col">
@@ -138,6 +147,15 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <vuejs-datepicker v-model="secondLayout.date" input-class="form-control bg-white" @input="handleDateChange('SECOND')" format="yyyy-MM-dd"/>
+                                    </div>
+                                </div>
+                                <label for="">Shift</label>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <select @change="selectOptionSecondLayout()" v-model="secondLayout.timeClassificationId" class="form-control" id="">
+                                            <option v-for="timeClassification in data.timeClassifications" :value="timeClassification.id" 
+                                                :key="timeClassification.id">@{{timeClassification.name}}</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <label for="">Armada</label>

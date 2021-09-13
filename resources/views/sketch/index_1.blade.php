@@ -2,14 +2,6 @@
 @section('title')
 Sketch
 @endsection
-@push('css')
-<style>
-    body {
-        transform: scale(1);
-        transform-origin: 0 0;
-    }
-</style>
-@endpush
 @section('content')
 <div class="content-header">
     <div class="container-fluid">
@@ -42,9 +34,9 @@ Sketch
                     </div>
                     <div class="form-group">
                         <label>Pilih Shift</label>
-                        <select v-model="filter.time_classification_id" name="time_classification" class="form-control" id="">
+                        <select v-model="firstLayout.timeClassificationId" name="time_classification" class="form-control" id="">
                             <option value="" selected>--PILIH--</option>
-                            <option v-for="time_classification in data.time_classifications" :key="time_classification.id" :value="time_classification.id">
+                            <option v-for="time_classification in data.timeClassifications" :key="time_classification.id" :value="time_classification.id">
                                 @{{time_classification.name}}
                             </option>
                         </select>
@@ -71,7 +63,7 @@ Sketch
             </div>
             <div v-for="order in result.orders" class="col-12 col-sm-6 col-lg-4 col-xl-3 pt-2 pb-2">
                 <div class="card h-100 p-2 shadow" data-toggle="modal" data-target="#modal-default"
-                    @click="handleChangeFocusFirstLayout(order.fleet_route_id, order.fleet_route.fleet_id)">
+                    @click="handleChangeFocusFirstLayout(order.fleet_route_id, order.fleet_route.fleet_id, order.time_classification_id)">
                     <div class="card-body">
                         <div class="row m-1">
                             <div class="col-md-3 text-center">
@@ -127,17 +119,17 @@ Sketch
                 csrf_token: '{{ csrf_token() }}',
                 data: {
                     areas: {!! $areas !!},
-                    time_classifications: {!! $time_classifications !!},
+                    timeClassifications: {!! $time_classifications !!},
                 },
                 filter: {
-                    area_id: {!! $areas->first()->id !!},
-                    time_classification_id: ""
+                    area_id: {!! $areas->first()->id !!}
                 },
                 result: {
                     orders: []
                 },
                 firstLayout: {
                     date: new Date().toDateString(),
+                    timeClassificationId: "",
                     fleetId: null,
                     fleetRouteId: null,
                     isLoading: false,
@@ -147,6 +139,7 @@ Sketch
                 },
                 secondLayout: {
                     date:  new Date().toDateString(),
+                    timeClassificationId: "",
                     fleetId: null,
                     fleetRouteId: null,
                     isLoading: false,
@@ -172,21 +165,23 @@ Sketch
 
                     return `${fleetName} (${fleetClass} | ${routeName})`
                 },
-                selectOptionFirstLayout(event) {
-                    this.getFirstLayout(event.currentTarget.value)
+                selectOptionFirstLayout(event = null) {
+                    this.getFirstLayout(event?.currentTarget?.value)
                 },
-                selectOptionSecondLayout(event) {
-                    this.getSecondLayout(event.currentTarget.value)
+                selectOptionSecondLayout(event = null) {
+                    this.getSecondLayout(event?.currentTarget?.value)
                 },
-                handleChangeFocusFirstLayout(fleetRouteId, fleetId) {
+                handleChangeFocusFirstLayout(fleetRouteId, fleetId, timeClassificationId) {
                     this.firstLayout.fleetRouteId = fleetRouteId
                     this.firstLayout.fleetId = fleetId
+                    this.firstLayout.timeClassificationId = timeClassificationId
                     this.getFirstLayout()
-                    this.handleChangeFocusSecondLayout(fleetRouteId, fleetId)
+                    this.handleChangeFocusSecondLayout(fleetRouteId, fleetId, timeClassificationId)
                 },
-                handleChangeFocusSecondLayout(fleetRouteId, fleetId) {
+                handleChangeFocusSecondLayout(fleetRouteId, fleetId, timeClassificationId) {
                     this.secondLayout.fleetRouteId = fleetRouteId
                     this.secondLayout.fleetId = fleetId
+                    this.secondLayout.timeClassificationId = timeClassificationId
                     this.getSecondLayout()
                 },
                 handleDateChange(type) {
@@ -200,6 +195,7 @@ Sketch
                     this.firstLayout.isLoading = true
                     let params = new URLSearchParams({
                         fleet_route_id: fleetRouteId || this.firstLayout.fleetRouteId,
+                        time_classification_id: this.firstLayout.timeClassificationId,
                         date: new Date(this.firstLayout.date).toDateString()
                     })
                     fetch("{{url('/')}}/sketch/orders/detail?"+params).then(res => res.json()).then(res => {
@@ -213,6 +209,7 @@ Sketch
                     this.secondLayout.isLoading = true
                     let params = new URLSearchParams({
                         fleet_route_id: fleetRouteId || this.secondLayout.fleetRouteId,
+                        time_classification_id: this.secondLayout.timeClassificationId,
                         date: new Date(this.secondLayout.date).toDateString()
                     })
                     fetch("{{url('/')}}/sketch/orders/detail?"+params).then(res => res.json()).then(res => {
@@ -360,6 +357,8 @@ Sketch
                         data: {
                             from_date: this.firstLayout.date,
                             to_date: this.secondLayout.date,
+                            to_time_classification_id: this.firstLayout.timeClassificationId,
+                            from_time_classification_id: this.secondLayout.timeClassificationId,
                             from_layout_chair_id: this.firstLayout.data.chairs.filter(e => e.is_switched == true),
                             to_layout_chair_id: this.secondLayout.data.chairs.filter(e => e.is_selected == true),
                         }

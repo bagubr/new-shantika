@@ -6,7 +6,7 @@ use App\Models\Booking;
 use App\Models\Setting;
 
 class BookingRepository {
-    public static function isBooked($fleet_route_id, $user_id, int|array $layout_chair_id, string $date = null) {
+    public static function isBooked($fleet_route_id, $user_id, int|array $layout_chair_id, string $date = null, $time_classification_id = null) {
         if(empty($date)) $date = date('Y-m-d');
         if(is_int($layout_chair_id)) {
             $layout_chair_id = (array) $layout_chair_id;
@@ -17,6 +17,9 @@ class BookingRepository {
             ->where('booking_at', 'ilike', '%'.$date.'%')
             ->where('expired_at', '>', date('Y-m-d H:i:s'))
             ->where('user_id', '!=', $user_id)
+            ->when($time_classification_id, function($query) use ($time_classification_id) {
+                $query->where('time_classification_id', $time_classification_id);
+            })
             ->exists();
     }
 

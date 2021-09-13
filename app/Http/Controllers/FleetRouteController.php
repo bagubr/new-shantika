@@ -6,8 +6,10 @@ use App\Http\Requests\FleetRoute\CreateFleetRouteRequest;
 use App\Http\Requests\FleetRoute\UpdateFleetRouteRequest;
 use App\Models\Agency;
 use App\Models\Area;
+use App\Models\BlockedChair;
 use App\Models\Fleet;
 use App\Models\FleetRoute;
+use App\Models\Layout;
 use App\Models\Order;
 use App\Repositories\FleetRepository;
 use Illuminate\Http\Request;
@@ -22,7 +24,7 @@ class FleetRouteController extends Controller
      */
     public function index()
     {
-        $fleet_routes = FleetRoute::all();
+        $fleet_routes = FleetRoute::withCount('blocked_chairs')->get();
         $fleets = FleetRepository::all();
         $statuses = Agency::status();
         $areas = Area::get();
@@ -136,6 +138,35 @@ class FleetRouteController extends Controller
         ]);
         session()->flash('success', 'Status Rute Armada Berhasil Diubah');
         return redirect()->back();
+    }
+
+    public function blockedChairs(FleetRoute $fleet_route) {
+        $fleet_route->load('fleet_detail.fleet.layout.chairs');
+        $data['blocked_chairs'] = BlockedChair::where('fleet_route_id', $fleet_route->id)->get();
+        $data['layout'] = $fleet_route->fleet_detail?->fleet?->layout;
+        $data['layout']->chairs = $data['layout']->chairs->map(function($e) use($data) {
+            $e->is_blocked = in_array($e->id, $data['blocked_chairs']->pluck('layout_chair_id')->toArray());
+            return $e;
+        });
+        $data['fleet_route'] = $fleet_route;
+        return view('fleetroute.blocked_chairs', $data); 
+    }
+
+    public function updateBlockedChairs(FleetRoute $fleet_route, int $layout_chair_id) {
+        $block_chair = BlockedChair::where('fleet_route_id', $fleet_route->id)->where('layout_chair_id', $layout_chair_id)->first();
+
+        if(empty($block_chair)) {
+            BlockedChair::create([
+                'fleet_route_id'=>$fleet_route->id,
+                'layout_chair_id'=>$layout_chair_id
+            ]);
+        } else {
+            $block_chair->delete();
+        }
+
+        $this->sendSuccessResponse([
+            'is_blocked'=>BlockedChair::where('fleet_route_id', $fleet_route->id)->where('layout_chair_id', $layout_chair_id)->exists()
+        ]);
     }
 
     /**
