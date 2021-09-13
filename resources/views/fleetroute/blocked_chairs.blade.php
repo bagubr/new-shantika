@@ -28,7 +28,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Blocking Kursi</h3>
+                            <h3 class="card-title">Blocking Kursi Armada {{$fleet_route->fleet_detail->fleet->name}}, Rute {{$fleet_route->route->name}}</h3>
                         </div>
                         <div class="card-body" id="app-blocked-chairs">
                             <div class="overflow-auto">
