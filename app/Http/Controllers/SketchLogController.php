@@ -9,7 +9,7 @@ class SketchLogController extends Controller
 {
     public function index(Request $request) {
         return view('sketch.log', [
-            'logs'=>SketchLog::get()
+            'logs'=>SketchLog::orderBy('created_at', 'desc')->get()
         ]);
     }
 }

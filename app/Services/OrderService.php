@@ -169,6 +169,7 @@ class OrderService {
     }
 
     public static function revertPrice(OrderDetail $order_detail) {
+        $setting = Setting::first();
         $order_detail->load(['order.distribution']);
         $order = $order_detail->order;
         $distrib = $order->distribution;
