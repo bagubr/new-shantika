@@ -197,7 +197,16 @@ class OrderController extends Controller
             ]);
         }
         DB::beginTransaction();
+        if(!empty($request->is_all)) {
+            $order_detail->order()->update([
+                'status'=>Order::STATUS4,
+                'cancelation_reason'=>$request->cancelation_reason
+            ]);
+        }
         if(count($order_detail->order->order_detail) > 1) {
+            $order_detail->order()->update([
+                'cancelation_reason'=>$request->cancelation_reason
+            ]);
             $order_detail->delete();
             // OrderService::revertPrice($order_detail);
         } else {
@@ -205,6 +214,11 @@ class OrderController extends Controller
                 'status'=>Order::STATUS4,
             ]);
         }
+        
+        $message = NotificationMessage::orderCanceled($order_detail->order->fleet_route->fleet_detail->fleet->name, $request->cancelation_reason);
+        $notification = Notification::build($message[0], $message[1], Notification::TYPE1, $order_detail->order_id, $order_detail->order->user_id);
+        SendingNotification::dispatch($notification, $order_detail->order?->user?->fcm_token, true);
+
         session()->flash('success', 'Berhasil menghapus order');
         return response([
             'code'=>1
