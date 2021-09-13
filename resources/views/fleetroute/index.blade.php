@@ -86,6 +86,7 @@ Armada Rute
                                     <th>Rute</th>
                                     <th>Harga</th>
                                     <th>Status</th>
+                                    <th>Jumlah Kursi Diblock</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -115,6 +116,9 @@ Armada Rute
                                         Non Aktif
                                     </td>
                                     @endif
+                                    <td>
+                                        {{$fleet_route->blocked_chairs_count}}
+                                    </td>
                                     <td>
                                         <a href="{{route('fleet_route.blocked_chair', $fleet_route->id)}}" class="btn btn-primary btn-xs">Kursi Diblock</a>
                                         <a href="{{route('fleet_route.show',$fleet_route->id)}}"

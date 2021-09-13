@@ -34,4 +34,8 @@ class FleetRoute extends Model
     {
         return $this->hasMany(Order::class, 'fleet_route_id', 'id');
     }
+
+    public function blocked_chairs() {
+        return $this->hasMany(BlockedChair::class, 'fleet_route_id', 'id');
+    }
 }

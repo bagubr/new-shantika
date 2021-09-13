@@ -24,7 +24,7 @@ class FleetRouteController extends Controller
      */
     public function index()
     {
-        $fleet_routes = FleetRoute::all();
+        $fleet_routes = FleetRoute::withCount('blocked_chairs')->get();
         $fleets = FleetRepository::all();
         $statuses = Agency::status();
         $areas = Area::get();
