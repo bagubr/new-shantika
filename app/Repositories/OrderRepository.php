@@ -165,12 +165,15 @@ class OrderRepository
         return $order;
     }
 
-    public static function isOrderUnavailable($fleet_route_id, $date, $layout_chair_id)
+    public static function isOrderUnavailable($fleet_route_id, $date, $layout_chair_id, $time_classification_id = null)
     {
         return Order::where('fleet_route_id', $fleet_route_id)
             ->where('reserve_at', 'ilike', '%' . $date . '%')
             ->whereHas('order_detail', function ($query) use ($layout_chair_id) {
                 $query->whereIn('layout_chair_id', is_array($layout_chair_id) ? $layout_chair_id : [$layout_chair_id]);
+            })
+            ->when($time_classification_id, function($query) use ($time_classification_id) {
+                $query->where('time_classification_id', $time_classification_id);
             })
             ->whereIn('status', Order::STATUS_BOUGHT)
             ->exists();

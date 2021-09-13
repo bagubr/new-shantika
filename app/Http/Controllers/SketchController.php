@@ -21,6 +21,7 @@ use App\Exports\LangsirExport;
 use App\Models\TimeClassification;
 use App\Repositories\OrderDetailRepository;
 use PDF;
+use Throwable;
 
 class SketchController extends Controller
 {
@@ -38,6 +39,7 @@ class SketchController extends Controller
     {
         $date = $request->date ?? date('Y-m-d');
         $area_id = $request->area_id;
+        $time_classification_id = $request->time_classification_id;
         $orders = Order::select('*')
             ->whereIn('status', Order::STATUS_BOUGHT)
             ->with('fleet_route.fleet_detail.fleet.fleetclass', 'fleet_route.route')
@@ -51,6 +53,9 @@ class SketchController extends Controller
                         $subsubquery->where('area_id', '!=', $area_id);
                     });
                 });
+            })
+            ->when($request->time_classification_id, function($query) use ($time_classification_id)  {
+                $query->where('time_classification_id', $time_classification_id);
             })
             ->distinct(['fleet_route_id', 'time_classification_id'])
             ->get();
@@ -79,29 +84,38 @@ class SketchController extends Controller
         $tos = $request->data['to_layout_chair_id'];
 
         DB::beginTransaction();
-        $detail = [];
-        foreach ($froms as $key => $value) {
-            $detail[$key] = OrderDetail::whereHas('order', function ($query) use ($request) {
-                $query->whereDate('reserve_at', date('Y-m-d', strtotime($request->data['from_date'])))->where('fleet_route_id', $request['first_fleet_route_id']);
-            })->where('layout_chair_id', $value['id'])->first();
-            $detail[$key]->update([
-                'layout_chair_id' => $tos[$key]['id']
-            ]);
-        }
-        foreach ($froms as $key => $value) {
-            $detail[$key]->order()->update([
-                'fleet_route_id' => $request['second_fleet_route_id'],
-                'reserve_at' => $request->data['to_date']
-            ]);
-            $detail[$key]->refresh();
-            $notification = Notification::build(
-                NotificationMessage::changeChair($detail[$key]->order?->fleet_route?->fleet_detail?->fleet?->name, $detail[$key]->chair?->name, $request['to_date'])[0],
-                NotificationMessage::changeChair($detail[$key]->order?->fleet_route?->fleet_detail?->fleet->name, $detail[$key]->chair?->name, $request['to_date'])[1],
-                Notification::TYPE5,
-                $detail[$key]->order->id,
-                $detail[$key]->order->user_id
-            );
-            SendingNotification::dispatch($notification, $detail[$key]->order?->user?->fcm_token, true);
+        try {
+            $detail = [];
+            foreach ($froms as $key => $value) {
+                $detail[$key] = OrderDetail::whereHas('order', function ($query) use ($request) {
+                    $query->whereDate('reserve_at', date('Y-m-d', strtotime($request->data['from_date'])))
+                        ->where('fleet_route_id', $request['first_fleet_route_id'])
+                        ->where('time_classification_id', $request->data['from_time_classification_id']);
+                })->where('layout_chair_id', $value['id'])->first();
+                $detail[$key]->update([
+                    'layout_chair_id' => $tos[$key]['id']
+                ]);
+            }
+            foreach ($froms as $key => $value) {
+                $detail[$key]->order()->update([
+                    'fleet_route_id' => $request['second_fleet_route_id'],
+                    'reserve_at' => date('Y-m-d H:i:s', strtotime($request->data['to_date'])),
+                    'time_classification_id'=>$request->data['to_time_classification_id']
+                ]);
+                $detail[$key]->refresh();
+                $notification = Notification::build(
+                    NotificationMessage::changeChair($detail[$key]->order?->fleet_route?->fleet_detail?->fleet?->name, $detail[$key]->chair?->name, date('d-M-Y', strtotime($request->data['to_date'])))[0],
+                    NotificationMessage::changeChair($detail[$key]->order?->fleet_route?->fleet_detail?->fleet->name, $detail[$key]->chair?->name, date('d-M-Y', strtotime($request->data['to_date'])))[1],
+                    Notification::TYPE5,
+                    $detail[$key]->order->id,
+                    $detail[$key]->order->user_id
+                );
+                SendingNotification::dispatch($notification, $detail[$key]->order?->user?->fcm_token, true);
+            }
+        } catch (Throwable $t) {
+            session()->flash('error', 'Kursi penumpang gagal diubah');
+            Log::info($t);
+            return response([], 500);
         }
         DB::commit();
         session()->flash('success', 'Kursi penumpang berhasil diubah');
