@@ -37,6 +37,6 @@ class DatabaseSeeder extends Seeder
         $this->call([SettingSeeder::class]);
         $this->call([AdminShantikaSeeder::class]);
         $this->call([UserAgentSeeder::class]);
-        // $this->call([MemberSeeder::class]);
+        $this->call([MemberSeeder::class]);
     }
 }

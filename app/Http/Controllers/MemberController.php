@@ -20,7 +20,7 @@ class MemberController extends Controller
      */
     public function index()
     {
-        $members = Membership::all();
+        $members = Membership::where('name', '!=', 'No Name')->get();
         return view('member.index', compact('members'));
     }
 
@@ -44,6 +44,15 @@ class MemberController extends Controller
     public function store(CreateMemberRequest $request)
     {
         $data = $request->all();
+        $number = $request->phone;
+        $country_code = '62';
+        $isZero = substr($number, 0, 1);
+        if ($isZero == '0') {
+            $new_number = substr_replace($number, '+' . $country_code, 0, ($number[0] == '0'));
+            $data['phone'] = $new_number;
+        } else {
+            $data['phone'] = $number;
+        }
         Membership::create($data);
 
         session()->flash('success', 'Member Berhasil Ditambahkan');
@@ -83,6 +92,15 @@ class MemberController extends Controller
     public function update(UpdateMemberRequest $request, Membership $member)
     {
         $data = $request->all();
+        $number = $request->phone;
+        $country_code = '62';
+        $isZero = substr($number, 0, 1);
+        if ($isZero == '0') {
+            $new_number = substr_replace($number, '+' . $country_code, 0, ($number[0] == '0'));
+            $data['phone'] = $new_number;
+        } else {
+            $data['phone'] = $number;
+        }
         $member->update($data);
 
         session()->flash('success', 'Member Berhasil Diubah');
