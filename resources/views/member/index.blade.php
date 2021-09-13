@@ -38,7 +38,7 @@ Member
                                 <tr>
                                     <th>Kode Member</th>
                                     <th>Name</th>
-                                    <th>Agent</th>
+                                    <th>Nomor Hp</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -47,7 +47,7 @@ Member
                                 <tr>
                                     <td>{{$member->code_member}}</td>
                                     <td>{{$member->name}}</td>
-                                    <td>{{$member->agency->name}}</td>
+                                    <td>{{$member->phone}}</td>
                                     <td>
                                         <a href="{{route('member.edit',$member->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
@@ -78,7 +78,7 @@ Member
 <script>
     $(function () {
       $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
+        "responsive": true, "lengthChange": false, "autoWidth": false,"order": [[ 0, "desc" ]],
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
 </script>
