@@ -189,6 +189,8 @@ class OrderService {
             $data['for_food'] -= $food_price;
             $data['for_owner_with_food'] -= $food_price;
             $data['price'] -= $food_price;
+        } else {
+            
         }
         if($order_detail->is_travel) {
             $travel_price = $distrib->for_travel / count($order_details);
