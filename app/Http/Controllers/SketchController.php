@@ -21,6 +21,7 @@ use App\Exports\LangsirExport;
 use App\Models\SketchLog;
 use App\Models\TimeClassification;
 use App\Repositories\OrderDetailRepository;
+use Illuminate\Support\Facades\Auth;
 use PDF;
 use Throwable;
 
@@ -72,7 +73,7 @@ class SketchController extends Controller
     {
         $fleet_route = FleetRoute::find($request->fleet_route_id);
         $layout = LayoutRepository::findByFleetRoute($fleet_route);
-        $layout = LayoutService::getAvailibilityChairsDetail($layout, $fleet_route, $request->date);
+        $layout = LayoutService::getAvailibilityChairsDetail($layout, $fleet_route, $request->date, $request->time_classification_id);
         $this->sendSuccessResponse([
             'data' => new LayoutResource($layout),
             'fleet' => $fleet_route->fleet_detail?->fleet?->load('fleetclass')
@@ -104,6 +105,7 @@ class SketchController extends Controller
                     'time_classification_id'=>$request->data['to_time_classification_id']
                 ]);
                 SketchLog::create([
+                    'admin_id'=>Auth::user()->id,
                     'order_id'=>$detail[$key]->order_id,
                     'from_date'=>$detail[$key]->order->reserve_at,
                     'to_date'=>date('Y-m-d H:i:s', strtotime($request->data['to_date'])),

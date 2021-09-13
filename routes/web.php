@@ -46,6 +46,7 @@ use App\Http\Controllers\SketchController;
 use App\Http\Controllers\StatusPenumpangController;
 use App\Http\Controllers\FleetDetailController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SketchLogController;
 use App\Jobs\Notification\TicketExchangedJob;
 use App\Jobs\PaymentAcceptedNotificationJob;
 use App\Models\Admin;
@@ -134,6 +135,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('sketch/orders', [SketchController::class, 'getDeparturingOrders']);
     Route::get('sketch/orders/detail', [SketchController::class, 'getAvailibilityChairs']);
     Route::get('sketch/export', [SketchController::class, 'export']);
+    Route::get('sketch/log', [SketchLogController::class, 'index']);
     Route::post('sketch/store', [SketchController::class, 'store']);
 
     Route::post('routes/fleet/store/', [RoutesController::class, 'store_fleet'])->name('route.fleet.store');

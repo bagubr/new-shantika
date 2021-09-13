@@ -163,7 +163,7 @@
                                     <div class="col">
                                         <select @change="selectOptionSecondLayout($event)" v-model="secondLayout.fleetRouteId" class="form-control"
                                             id="">
-                                            <option :value="order.fleet_route_id" v-for="order in result.orders"
+                                            <option :value="order.fleet_route_id" v-for="order in result._orders"
                                                 :key="order.id" v-text="setSelectOptionLayoutText(order)"></option>
                                         </select>
                                     </div>

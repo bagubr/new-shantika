@@ -13,6 +13,7 @@ class SketchLog extends Model
     const TYPE2 = 'CANCELED'; 
 
     protected $fillable = [
+        'admin_id',
         'from_date',
         'to_date',
         'order_id',
@@ -24,5 +25,37 @@ class SketchLog extends Model
         'to_time_classification_id',
         'type'
     ];
+
+    public function from_fleet_route() {
+        return $this->belongsTo(FleetRoute::class, "from_fleet_route_id");
+    }
+
+    public function to_fleet_route() {
+        return $this->belongsTo(FleetRoute::class, "to_fleet_route_id");
+    }
+
+    public function from_layout_chair() {
+        return $this->belongsTo(LayoutChair::class, "from_layout_chair_id");
+    }
+
+    public function to_layout_chair() {
+        return $this->belongsTo(LayoutChair::class, "to_layout_chair_id");
+    }
+
+    public function from_time_classification() {
+        return $this->belongsTo(TimeClassification::class, "from_time_classification_id");
+    }
+
+    public function to_time_classification() {
+        return $this->belongsTo(TimeClassification::class, "to_time_classification_id");
+    }
+
+    public function order() {
+        return $this->belongsTo(Order::class);
+    }
+
+    public function admin() {
+        return $this->belongsTo(Admin::class);
+    }
 
 }

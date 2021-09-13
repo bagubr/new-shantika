@@ -50,6 +50,7 @@ Sketch
                 </div>
             </div>
             <div class="text-right m-2">
+                <a class="btn btn-primary" href="{{url('sketch/log')}}">Riwayat Sketch</a>
                 <button @click="searchOrders()" class="btn btn-success" type="submit">Cari</button>
             </div>
         </div>
@@ -125,7 +126,8 @@ Sketch
                     area_id: {!! $areas->first()->id !!}
                 },
                 result: {
-                    orders: []
+                    orders: [],
+                    _orders: []
                 },
                 firstLayout: {
                     date: new Date().toDateString(),
@@ -156,6 +158,15 @@ Sketch
                     })
                     fetch("{{url('/')}}/sketch/orders?"+params).then(res => res.json()).then(res => {
                         this.result.orders = res.orders
+                    })
+                },
+                search_orders() {
+                    let params = new URLSearchParams({
+                        ...this.filter,
+                        date: new Date(this.secondLayout.date).toDateString()
+                    })
+                    fetch("{{url('/')}}/sketch/orders?"+params).then(res => res.json()).then(res => {
+                        this.result._orders = res.orders
                     })
                 },
                 setSelectOptionLayoutText(order) {
@@ -189,6 +200,7 @@ Sketch
                         this.getFirstLayout()
                     } else {
                         this.getSecondLayout()
+                        this.search_orders()
                     }
                 },
                 getFirstLayout(fleetRouteId = null) {
@@ -212,6 +224,7 @@ Sketch
                         time_classification_id: this.secondLayout.timeClassificationId,
                         date: new Date(this.secondLayout.date).toDateString()
                     })
+                    this.search_orders();
                     fetch("{{url('/')}}/sketch/orders/detail?"+params).then(res => res.json()).then(res => {
                         this.secondLayout.data = res.data
                         this.secondLayout.fleet = res.fleet
