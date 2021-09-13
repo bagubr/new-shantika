@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\LangsirExport;
+use App\Models\SketchLog;
 use App\Models\TimeClassification;
 use App\Repositories\OrderDetailRepository;
 use PDF;
@@ -87,7 +88,7 @@ class SketchController extends Controller
         try {
             $detail = [];
             foreach ($froms as $key => $value) {
-                $detail[$key] = OrderDetail::whereHas('order', function ($query) use ($request) {
+                $detail[$key] = OrderDetail::with('order')->whereHas('order', function ($query) use ($request) {
                     $query->whereDate('reserve_at', date('Y-m-d', strtotime($request->data['from_date'])))
                         ->where('fleet_route_id', $request['first_fleet_route_id'])
                         ->where('time_classification_id', $request->data['from_time_classification_id']);
@@ -101,6 +102,18 @@ class SketchController extends Controller
                     'fleet_route_id' => $request['second_fleet_route_id'],
                     'reserve_at' => date('Y-m-d H:i:s', strtotime($request->data['to_date'])),
                     'time_classification_id'=>$request->data['to_time_classification_id']
+                ]);
+                SketchLog::create([
+                    'order_id'=>$detail[$key]->order_id,
+                    'from_date'=>$detail[$key]->order->reserve_at,
+                    'to_date'=>date('Y-m-d H:i:s', strtotime($request->data['to_date'])),
+                    'from_fleet_route_id'=>$request['first_fleet_route_id'],
+                    'to_fleet_route_id'=>$request['second_fleet_route_id'],
+                    'from_layout_chair_id'=>$value['id'],
+                    'to_layout_chair_id'=>$tos[$key]['id'],
+                    'from_time_classification_id'=>$request->data['from_time_classification_id'],
+                    'to_time_classification_id'=>$request->data['to_time_classification_id'],
+                    'type'=>SketchLog::TYPE1
                 ]);
                 $detail[$key]->refresh();
                 $notification = Notification::build(

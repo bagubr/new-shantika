@@ -64,6 +64,13 @@ class NotificationMessage {
         ];
     }
 
+    public static function orderCanceled($fleet_name, $reason) {
+        return [
+            "Perhatian! Tiket anda telah kami batalkan",
+            "Tiket anda untuk armada ".$fleet_name." telah kami batalkan dengan alasan berikut: ".$reason
+        ];
+    }
+
     public static function activateAccount($name) {
         $name = self::getFirstName($name);
         return ["Akun anda diaktifkan", "Yey, akun anda telah diaktifkan kembali"];

@@ -27,7 +27,7 @@ class OrderCancelationRequest extends FormRequest
             'status'                => 'nullable',
             'password'              => 'required',
             'cancelation_reason'    => 'required',
-            'is_all'                => 'required'
+            'is_all'                => 'nullable'
         ];
     }
 }
