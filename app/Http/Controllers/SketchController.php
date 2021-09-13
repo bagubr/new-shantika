@@ -112,7 +112,8 @@ class SketchController extends Controller
                     'from_layout_chair_id'=>$value['id'],
                     'to_layout_chair_id'=>$tos[$key]['id'],
                     'from_time_classification_id'=>$request->data['from_time_classification_id'],
-                    'to_time_classification_id'=>$request->data['to_time_classification_id']
+                    'to_time_classification_id'=>$request->data['to_time_classification_id'],
+                    'type'=>SketchLog::TYPE1
                 ]);
                 $detail[$key]->refresh();
                 $notification = Notification::build(

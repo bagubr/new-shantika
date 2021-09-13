@@ -9,6 +9,9 @@ class SketchLog extends Model
 {
     use HasFactory;
 
+    const TYPE1 = 'CHANGE';
+    const TYPE2 = 'CANCELED'; 
+
     protected $fillable = [
         'from_date',
         'to_date',
@@ -18,6 +21,8 @@ class SketchLog extends Model
         'from_layout_chair_id',
         'to_layout_chair_id',
         'from_time_classification_id',
-        'to_time_classification_id'
+        'to_time_classification_id',
+        'type'
     ];
+
 }
