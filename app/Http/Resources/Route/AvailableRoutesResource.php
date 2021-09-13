@@ -53,7 +53,7 @@ class AvailableRoutesResource extends JsonResource
                 });
             })
             ->count();
-        // $booking_count = ;
+        // $booking_count = Booking::where('fleet_route_id', $fleet_route_id)->where('expired_at', '>=', date('Y-m-d H:i:s'))->count();
         $blocked_count = BlockedChair::where('fleet_route_id', $fleet_route_id)->count();
         $layout = Layout::find($layout_id);
         
