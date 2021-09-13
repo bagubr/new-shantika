@@ -120,7 +120,7 @@ Armada Rute
                                         {{$fleet_route->blocked_chairs_count}}
                                     </td>
                                     <td>
-                                        <a href="{{route('fleet_route.blocked_chair', $fleet_route->id)}}" class="btn btn-primary btn-xs">Kursi Diblock</a>
+                                        <a href="{{route('fleet_route.blocked_chair', $fleet_route->id)}}" target="_blank" class="btn btn-primary btn-xs">Kursi Diblock</a>
                                         <a href="{{route('fleet_route.show',$fleet_route->id)}}"
                                             class="btn btn-primary btn-xs">Detail</a>
                                         <a class="btn btn-danger btn-xs button-delete"
