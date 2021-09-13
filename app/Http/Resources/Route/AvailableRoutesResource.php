@@ -59,6 +59,6 @@ class AvailableRoutesResource extends JsonResource
         
         $total_seat = $layout->total_indexes - count($layout->space_indexes) - count($layout->toilet_indexes) - count($layout->door_indexes);
 
-        return ($total_seat + $blocked_count) - $used_count;
+        return $total_seat - ($used_count + $blocked_count);
     }
 }
