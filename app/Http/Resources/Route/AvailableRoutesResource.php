@@ -5,6 +5,8 @@ namespace App\Http\Resources\Route;
 use App\Http\Resources\CheckpointResource;
 use App\Http\Resources\CheckpointStartEndResource;
 use App\Models\Agency;
+use App\Models\BlockedChair;
+use App\Models\Booking;
 use App\Models\Fleet;
 use App\Models\LayoutChair;
 use App\Models\Order;
@@ -51,10 +53,12 @@ class AvailableRoutesResource extends JsonResource
                 });
             })
             ->count();
+        // $booking_count = ;
+        $blocked_count = BlockedChair::where('fleet_route_id', $fleet_route_id)->count();
         $layout = Layout::find($layout_id);
         
         $total_seat = $layout->total_indexes - count($layout->space_indexes) - count($layout->toilet_indexes) - count($layout->door_indexes);
 
-        return $total_seat - $used_count;
+        return ($total_seat + $blocked_count) - $used_count;
     }
 }
