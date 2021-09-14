@@ -214,10 +214,10 @@ class OrderController extends Controller
                 'to_date'=>$order->reserve_at,
                 'from_fleet_route_id'=>$order->fleet_route_id,
                 'to_fleet_route_id'=>$order->fleet_route_id,
-                'from_layout_chair_id'=>0,
-                'to_layout_chair_id'=>0,
-                'from_time_classification_id'=>$request->data['from_time_classification_id'],
-                'to_time_classification_id'=>$request->data['to_time_classification_id'],
+                'from_layout_chair_id'=>$order_detail->layout_chair_id,
+                'to_layout_chair_id'=>$order_detail->layout_chair_id,
+                'from_time_classification_id'=>$order->time_classification_id,
+                'to_time_classification_id'=>$order->time_classification_id,
                 'type'=>SketchLog::TYPE2
             ]);
             
@@ -241,12 +241,12 @@ class OrderController extends Controller
                 'to_fleet_route_id'=>$order->fleet_route_id,
                 'from_layout_chair_id'=>$order_detail->layout_chair_id,
                 'to_layout_chair_id'=>$order_detail->layout_chair_id,
-                'from_time_classification_id'=>$request->data['from_time_classification_id'],
-                'to_time_classification_id'=>$request->data['to_time_classification_id'],
+                'from_time_classification_id'=>$order->time_classification_id,
+                'to_time_classification_id'=>$order->time_classification_id,
                 'type'=>SketchLog::TYPE2
             ]);
             $order_detail->delete();
-            // OrderService::revertPrice($order_detail);
+            OrderService::revertPrice($order_detail);
         } else {
             $order_detail->order->update([
                 'status'=>Order::STATUS4,
@@ -259,13 +259,15 @@ class OrderController extends Controller
                 'to_date'=>$order->reserve_at,
                 'from_fleet_route_id'=>$order->fleet_route_id,
                 'to_fleet_route_id'=>$order->fleet_route_id,
-                'from_layout_chair_id'=>0,
-                'to_layout_chair_id'=>0,
-                'from_time_classification_id'=>$request->data['from_time_classification_id'],
-                'to_time_classification_id'=>$request->data['to_time_classification_id'],
+                'from_layout_chair_id'=>$order_detail->layout_chair_id,
+                'to_layout_chair_id'=>$order_detail->layout_chair_id,
+                'from_time_classification_id'=>$order->time_classification_id,
+                'to_time_classification_id'=>$order->time_classification_id,
                 'type'=>SketchLog::TYPE2
             ]);
         }
+
+        DB::commit();
         SendingNotification::dispatch($notification, $order_detail->order?->user?->fcm_token, true);
     
         session()->flash('success', 'Berhasil menghapus order');

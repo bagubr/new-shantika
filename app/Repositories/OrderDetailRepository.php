@@ -22,6 +22,7 @@ class OrderDetailRepository
                 });
             })
             ->whereHas('order',function($query) use ($agency_id) {
+                $query->whereIn('status', Order::STATUS_BOUGHT);
                 if(!empty($agency_id)) {
                     $query->where(function($subquery) use ($agency_id) {
                         $subquery->where('departure_agency_id', $agency_id)

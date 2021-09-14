@@ -180,26 +180,35 @@ class OrderService {
             'for_agent'=>$distrib->for_agent,
             'for_travel'=>$distrib->for_travel,
             'for_owner'=>$distrib->for_owner,
+            'ticket_only'=>$distrib->ticket_only,
             'for_owner_with_food'=> $distrib->for_food_with_owner,  
             'price'=>$order->price,
         ];
-        
+        $one_ticket = $distrib->ticket_only / count($order_details);
+        $data['ticket_only'] = $data['ticket_only'] - $one_ticket;
+
+        $food_price = $distrib->for_food / count($order_details);
         if($order_detail->is_feed) {
-            $food_price = $distrib->for_food / count($order_details);
             $data['for_food'] -= $food_price;
             $data['for_owner_with_food'] -= $food_price;
             $data['price'] -= $food_price;
         } else {
-            
+            $data['for_food'] -= ($food_price + $setting->default_food_price);
+            $data['for_owner_with_food'] -= ($food_price + $setting->default_food_price);
+            $data['price'] -= ($food_price + $setting->default_food_price);
         }
         if($order_detail->is_travel) {
             $travel_price = $distrib->for_travel / count($order_details);
             $data['for_travel'] -= $travel_price;
+            $data['for_owner'] -= $travel_price;
+            $data['for_owner_with_food'] -= $travel_price;
             $data['price'] -= $travel_price;
         }
         if($order_detail->is_member) {
             $member_price = $distrib->for_member / count($order_details);
             $data['for_member'] += $member_price;
+            $data['for_owner'] -= $member_price;
+            $data['for_owner_with_food'] -= $member_price;
             $data['price'] += $member_price;
         }
     }

@@ -115,6 +115,7 @@ Sketch Log
                                     <th>Dari Kursi ke Kursi</th>
                                     <th>Dari Tanggal ke Tanggal</th>
                                     <th>Dari Shift ke Shift</th>
+                                    <th>Jenis</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -138,6 +139,9 @@ Sketch Log
                                     <td>
                                         {{$log->from_time_classification->name}} -> 
                                         {{$log->to_time_classification->name}}
+                                    </td>
+                                    <td>
+                                        {{$log->type == 'CHANGE' ? 'Perubahan Kursi' : 'Pembatalan'}}
                                     </td>
                                 </tr>
                                 @endforeach
