@@ -17,6 +17,7 @@ class SketchLog extends Model
         'from_date',
         'to_date',
         'order_id',
+        'departure_agency_id',
         'from_fleet_route_id',
         'to_fleet_route_id',
         'from_layout_chair_id',

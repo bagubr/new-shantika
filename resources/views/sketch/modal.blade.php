@@ -96,11 +96,6 @@
                                             <span>@{{chair.order_detail.code_order}}</span>
                                             <br>
                                             <div class="row">
-                                                <div class="col-6">
-                                                    <button class="btn btn-danger w-100" type="button" @click="chair.is_show_cancel_order = true">Batalkan Pemesanan</button>
-                                                </div>
-                                            </div>
-                                            <div v-show="chair.is_show_cancel_order == true" class="row">
                                                 <div class="col-12">
                                                     <form @submit.prevent="cancelOrder(chair.order_detail.order_detail.filter(e => e.layout_chair_id == chair.id)[0].id, chair.password, chair.cancelation_reason, chair.isAll)" class="w-100">
                                                         <div class="form-group">

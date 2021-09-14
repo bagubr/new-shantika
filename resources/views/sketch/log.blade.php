@@ -33,6 +33,77 @@ Sketch Log
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Filter</h3>
+                            </div>
+                            <div class="card-body">
+                                <form action="" method="GET">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="">Nama Admin</label>
+                                                <select class="form-control" name="admin_id" id="">
+                                                    <option value="" selected>--PILIH ADMIN--</option>
+                                                    @foreach ($admins as $admin)
+                                                        <option value="{{$admin->id}}">{{$admin->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="">Agen Keberangkatan</label>
+                                                <select class="form-control" name="agency_id" id="">
+                                                    <option value="" selected>--PILIH AGEN--</option>
+                                                    @foreach ($agencies as $agency)
+                                                        <option value="{{$agency->id}}">{{$agency->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="">Dari Armada</label>
+                                                <select class="form-control" name="from_fleet_id" id="">
+                                                    <option value="" selected>--PILIH ARMADA--</option>
+                                                    @foreach($fleets as $fleet)
+                                                        <option value="{{$fleet->id}}">{{$fleet->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="">Ke Armada</label>
+                                                <select class="form-control" name="to_fleet_id" id="">
+                                                    <option value="" selected>--PILIH ARMADA--</option>
+                                                    @foreach($fleets as $fleet)
+                                                        <option value="{{$fleet->id}}">{{$fleet->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="">Dari Tanggal</label>
+                                                <input type="datetime-local" name="from_date" class="form-control" id="">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="">Ke Tanggal</label>
+                                                <input type="datetime-local" name="to_date" class="form-control" id="">
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-success">Cari</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
