@@ -97,20 +97,20 @@
                                             <br>
                                             <div class="row">
                                                 <div class="col-12">
-                                                    <form @submit.prevent="cancelOrder(chair.order_detail.order_detail.filter(e => e.layout_chair_id == chair.id)[0].id, chair.password, chair.cancelation_reason, chair.isAll)" class="w-100">
+                                                    <form autocomplete="off" @submit.prevent="cancelOrder(chair.order_detail.order_detail.filter(e => e.layout_chair_id == chair.id)[0].id, chair.password, chair.cancelation_reason, chair.isAll)" class="w-100">
                                                         <div class="form-group">
                                                             <label for="">Alasan Penolakan</label>
-                                                            <input type="text" v-model="chair.cancelation_reason" class="form-control">
+                                                            <input type="text" autocomplete="off" v-model="chair.cancelation_reason" class="form-control">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="">Password</label>
-                                                            <input type="password" v-model="chair.password" class="form-control" id="">
+                                                            <input type="password" autocomplete="new-password" v-model="chair.password" class="form-control" id="">
                                                         </div>
-                                                        <div class="form-check-inline">
-                                                            <input type="checkbox" v-model="chair.is_all" class="form-check" id="">
-                                                            <label for="">&nbsp; Batalkan 1 rombongan ini</label>
+                                                        <div class="form-check">
+                                                            <input type="checkbox" v-model="chair.is_all" class="form-check-input" id="">
+                                                            <label class="form-check-label">&nbsp; Batalkan 1 rombongan ini</label>
                                                         </div>
-                                                        <div class="form-group">
+                                                        <div class="form-group text-right">
                                                             <button class="btn btn-primary" type="submit">Submit</button>
                                                             <button class="btn btn-secondary" type="button" @click="chair.is_show_cancel_order = false">Close</button>
                                                         </div>
