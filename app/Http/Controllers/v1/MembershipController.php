@@ -16,7 +16,7 @@ class MembershipController extends Controller
 
         $is_exist_code_member = Membership::where('code_member', $code_member)->exists()
             ?? $this->sendFailedResponse([], 'Kode Membership tidak ditemukan');
-        $member = Membership::where('code_member', $code_member)->first()
+        $member = Membership::where('code_member', $code_member)->where('name', $request->name)->first()
             ?? $this->sendFailedResponse([], 'Nama dengan kode member '.$code_member.' Membership tidak ditemukan');
 
         return $this->sendSuccessResponse([
