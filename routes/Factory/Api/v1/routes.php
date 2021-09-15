@@ -22,6 +22,7 @@ Route::group([
     Route::get('fleet_classes', 'FleetClassController@index');
     Route::get('fleet_classes/available', 'FleetClassController@available');
 
+    Route::get('slider', 'SliderController@index');
     Route::get('slider_detail/{id}', 'SliderController@sliderDetail');
     Route::get('article_detail/{id}', 'ArticleController@articleDetail');
     Route::get('testimonial_detail/{id}', 'TestimonialController@testimonialDetail');
