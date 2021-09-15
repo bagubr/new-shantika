@@ -211,6 +211,15 @@ class OrderService {
             $data['for_owner_with_food'] -= $member_price;
             $data['price'] += $member_price;
         }
+
+        try {
+            $order_detail->order()->update($data);
+            $order_detail->order->distribution()->update($data);
+
+            return true;
+        } catch(Exception $e) {
+            return false;
+        }
     }
 
     public static function generateCodeOrder($id) {
