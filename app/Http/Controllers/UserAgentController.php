@@ -35,6 +35,7 @@ class UserAgentController extends Controller
         $users = User::query();
         $agencies = AgencyRepository::all_order();
         $areas = Area::all();
+        $statuses = Agency::status();
 
         if (!empty($agent)) {
             $users = $users->whereHas('agencies', function ($q) use ($agent) {
@@ -59,7 +60,7 @@ class UserAgentController extends Controller
         } else {
             session()->flash('error', 'Tidak Ada Data Ditemukan');
         }
-        return view('user_agent.index', compact('users', 'agencies', 'test', 'areas'));
+        return view('user_agent.index', compact('users', 'agencies', 'test', 'areas', 'statuses'));
     }
 
     /**
