@@ -23,7 +23,6 @@ class OrderSetoranDetailAgentResource extends JsonResource
     {
         $table_chairs = $this->getDetailChairs($this, $this->pluck('order_detail'));
         $coll_table_chairs = collect($table_chairs);
-        $order = $this[0];
         return [
             'fleet_name'=>$this[0]->fleet_route?->fleet_detail?->fleet?->name,
             'chair_count'=>$this->chair_count,

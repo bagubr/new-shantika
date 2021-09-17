@@ -23,7 +23,7 @@ class OrderDetailSetoranAgentResource extends JsonResource
             'customer_name'=>$this->name,
             'customer_phone'=>$this->phone,
             'customer_email'=>$this->email,
-            'is_self_bought'=>!$this->order->user->agencies
+            'is_self_bought'=>!$this->order?->user?->agencies
         ];
     }
 
