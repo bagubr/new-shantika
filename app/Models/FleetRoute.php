@@ -29,11 +29,7 @@ class FleetRoute extends Model
     protected $hidden = [
         'created_at', 'updated_at'
     ];
-
-    public function scopeGetPrice(Builder $query, $date) {
-        return $query->addSelect(DB::raw("(select price from fleet_route_prices where start_at <= $date and end_at >= $date  limit 1) as price"));
-    }
-
+    
     public function fleet_detail()
     {
         return $this->belongsTo(FleetDetail::class, 'fleet_detail_id', 'id')->withTrashed();
