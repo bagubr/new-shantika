@@ -31,24 +31,31 @@ Harga Rute Armada
                         <h3 class="card-title">Cari Harga Rute Armada</h3>
                     </div>
                     <div class="card-body">
-                        <form action="" method="get">
+                        <form action="{{route('fleet_route_prices.search')}}" method="get">
                             <div class="form-group">
                                 <label>Armada</label>
                                 <select name="fleet_route_id" class="form-control select2">
                                     <option value="">Pilih Armada</option>
-                                    @foreach ($fleet_details as $fleet_detail)
-                                    <option value="{{$fleet_detail->fleet_route_id}}">
-                                        {{$fleet_detail->fleet?->name}}/{{$fleet_detail->fleet?->fleetclass?->name}}
-                                        ({{$fleet_detail->nickname}})
+                                    @foreach ($fleet_routes as $fleet_route)
+                                    @if (old('fleet_route_id') == $fleet_route->id)
+                                    <option value="{{$fleet_route->id}}" selected>
+                                        {{$fleet_route->fleet_detail?->fleet?->name}}/{{$fleet_route->fleet_detail?->fleet?->fleetclass->name}}
+                                        ({{$fleet_route->fleet_detail?->nickname}})
                                     </option>
+                                    @else
+                                    <option value="{{$fleet_route->id}}">
+                                        {{$fleet_route->fleet_detail?->fleet?->name}}/{{$fleet_route->fleet_detail?->fleet?->fleetclass->name}}
+                                        ({{$fleet_route->fleet_detail?->nickname}})
+                                    </option>
+                                    @endif
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>Tanggal</label>
-                                <input type="date" class="form-control" name="date">
+                                <input type="date" class="form-control" name="date_search" value="{{old('date') }}">
                             </div>
-                            <input type="submit" value="Submit" class="btn btn-success float-right">
+                            <input type="submit" value="Cari" class="btn btn-success float-right">
                         </form>
                     </div>
                 </div>

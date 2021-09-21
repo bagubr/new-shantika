@@ -53,7 +53,6 @@ use App\Jobs\PaymentAcceptedNotificationJob;
 use App\Models\Admin;
 use App\Models\Notification;
 use App\Models\Order;
-use App\Models\OrderPriceDistribution;
 use App\Utils\NotificationMessage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -106,6 +105,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::post('outcome/statistic', [OutcomeController::class, 'statistic'])->name('outcome_statistic');
     Route::get('outcome/search', [OutcomeController::class, 'search'])->name('outcome.search');
+
     Route::get('outcome/export/{id}', [OutcomeController::class, 'export'])->name('outcome.export');
     Route::get('outcome_type/create', [OutcomeController::class, 'createType'])->name('outcome_type.create');
     Route::get('outcome/export/{id}', [OutcomeController::class, 'export'])->name('outcome.export');
@@ -122,6 +122,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('order_price_distribution/search', [OrderPriceDistributionController::class, 'search'])->name('order_price_distribution.search');
     Route::get('order_price_distribution/export', [OrderPriceDistributionController::class, 'export'])->name('order_price_distribution.export');
+
+    Route::get('fleet_route_prices/search', [FleetRoutePriceController::class, 'search'])->name('fleet_route_prices.search');
 
     Route::get('status_penumpang/search', [StatusPenumpangController::class, 'search'])->name('status_penumpang.search');
     Route::get('status_penumpang/export/', [StatusPenumpangController::class, 'export'])->name('status_penumpang.export');
