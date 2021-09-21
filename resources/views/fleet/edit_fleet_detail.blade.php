@@ -48,6 +48,14 @@ Edit Detail Armada
                                 placeholder="Masukkan Nomor Plat" value="{{$fleet_detail->plate_number}}">
                         </div>
                         <div class="form-group">
+                            <label for="inputName">Shift</label>
+                            <select name="time_classification_id" class="form-control" id="">
+                                @foreach ($time_classifications as $item)
+                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label>Armada</label>
                             <select class="form-control select2" name="fleet_id" style="width: 100%;" disabled>
                                 <option value="">Pilih Armada</option>

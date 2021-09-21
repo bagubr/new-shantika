@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Fleet\CreateFleetRequest;
 use App\Http\Requests\Fleet\UpdateFleetRequest;
 use App\Models\Fleet;
+use App\Models\TimeClassification;
 use App\Repositories\FleetClassRepository;
 use App\Repositories\FleetRepository;
 use App\Repositories\LayoutRepository;
@@ -61,11 +62,12 @@ class FleetController extends Controller
      */
     public function show($id)
     {
-        $fleet = Fleet::with('fleet_detail')->find($id);
+        $fleet = Fleet::with('fleet_detail.time_classification')->find($id);
         $fleets = Fleet::get();
         $fleetclasses = FleetClassRepository::all();
         $layouts = LayoutRepository::all();
-        return view('fleet.show', compact('fleets', 'fleetclasses', 'layouts', 'fleet'));
+        $time_classifications = TimeClassification::get();
+        return view('fleet.show', compact('fleets', 'fleetclasses', 'layouts', 'fleet', 'time_classifications'));
     }
 
     /**
