@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FleetRoutePrice\CreateFleetRoutePriceRequest;
 use App\Models\FleetRoute;
+use App\Models\FleetRoutePrice;
 use Illuminate\Http\Request;
 
 class FleetRoutePriceController extends Controller
@@ -34,9 +36,19 @@ class FleetRoutePriceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateFleetRoutePriceRequest $request)
     {
-        //
+        foreach ($request->fleet_route_id as $key => $value) {
+            FleetRoutePrice::create([
+                'fleet_route_id' => $value,
+                'start_at' => $request['start_at'],
+                'end_at' => $request['end_at'],
+                'price' => $request['price'],
+                'note' => $request['note']
+            ]);
+        }
+        session()->flash('success', 'Harga Rute Armada Berhasil Ditambahkan');
+        return redirect(route('fleet_route_prices.index'));
     }
 
     /**

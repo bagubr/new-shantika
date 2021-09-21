@@ -42,19 +42,23 @@ Harga Rute Armada
                         @endisset
                         <div class="form-row">
                             <div class="col">
-                                <label>Tanggal Awal</label>
-                                <input type="date" class="form-control" name="start_at" required
-                                    value="{{isset($fleet_route_price) ? $fleet_route_price->start_at : ''}}">
+                                <div class="form-group">
+                                    <label>Tanggal Awal</label>
+                                    <input type="date" class="form-control" name="start_at" required
+                                        value="{{isset($fleet_route_price) ? $fleet_route_price->start_at : ''}}">
+                                </div>
                             </div>
                             <div class="col">
-                                <label>Tanggal Akhir</label>
-                                <input type="date" class="form-control" name="end_at" required
-                                    value="{{isset($fleet_route_price) ? $fleet_route_price->end_at : ''}}">
+                                <div class="form-group">
+                                    <label>Tanggal Akhir</label>
+                                    <input type="date" class="form-control" name="end_at" required
+                                        value="{{isset($fleet_route_price) ? $fleet_route_price->end_at : ''}}">
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Rute Armada</label>
-                            <select name="fleet_route_id" id="" class="select2 form-control" multiple required>
+                            <select name="fleet_route_id[]" id="" class="select2 form-control" multiple required>
                                 @foreach ($fleet_routes as $fleet_route)
                                 <option value="{{$fleet_route->id}}">
                                     {{$fleet_route->fleet_detail?->fleet?->name}}/{{$fleet_route->fleet_detail?->fleet?->fleetclass?->name}}
@@ -71,7 +75,7 @@ Harga Rute Armada
                         </div>
                         <div class="form-group">
                             <label>Deskripsi</label>
-                            <textarea name="" class="form-control" cols="30" rows="10"></textarea>
+                            <textarea name="note" class="form-control" rows="5"></textarea>
                         </div>
                         <div class="mt-2">
                             <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
