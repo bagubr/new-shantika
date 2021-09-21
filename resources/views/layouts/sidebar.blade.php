@@ -173,7 +173,16 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item {{Request::routeIs('agency.*','user_agent.*') ? 'menu-open' : ''}}">
+                <li class="nav-item">
+                    <a href="{{route('fleet_route_prices.index')}}"
+                        class="nav-link {{Request::routeIs('fleet_route_prices.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-dollar-sign"></i>
+                        <p>
+                            Harga Rute Armada
+                        </p>
+                    </a>
+                </li>
+                <li class=" nav-item {{Request::routeIs('agency.*','user_agent.*') ? 'menu-open' : ''}}">
                     <a href="#" class="nav-link {{Request::routeIs('agency.*','user_agent.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-street-view"></i>
                         <p>
