@@ -39,7 +39,7 @@ class RouteController extends Controller
         })
         ->whereHas('route.checkpoints', function ($query) use ($destination_agency, $departure_agency) {
             $query->where(function($subquery) use ($destination_agency) {
-                $subquery->whereRaw('checkpoints.order != 0')->where('agency_id', $destination_agency->id)->whereHas('agency', function($subsubquery) {
+                $subquery->where('agency_id', $destination_agency->id)->whereHas('agency', function($subsubquery) {
                     $subsubquery->where('is_active', true);
                 });
             });
