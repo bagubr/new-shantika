@@ -84,7 +84,6 @@ Armada Rute
                                     <th>Armada</th>
                                     <th>Tujuan</th>
                                     <th>Rute</th>
-                                    <th>Harga</th>
                                     <th>Status</th>
                                     <th>Jumlah Kursi Diblock</th>
                                     <th>Aksi</th>
@@ -104,7 +103,6 @@ Armada Rute
                                             {{$fleet_route->route?->name}}
                                         </a>
                                     </td>
-                                    <td>Rp. {{number_format($fleet_route->price,2)}}</td>
                                     @if ($fleet_route->is_active == 1)
                                     <td data-toggle="modal" data-target="#exampleModal{{$fleet_route->id}}"
                                         class="text-success text-bold pointer">
@@ -120,7 +118,8 @@ Armada Rute
                                         {{$fleet_route->blocked_chairs_count}}
                                     </td>
                                     <td>
-                                        <a href="{{route('fleet_route.blocked_chair', $fleet_route->id)}}" target="_blank" class="btn btn-primary btn-xs">Kursi Diblock</a>
+                                        <a href="{{route('fleet_route.blocked_chair', $fleet_route->id)}}"
+                                            target="_blank" class="btn btn-primary btn-xs">Kursi Diblock</a>
                                         <a href="{{route('fleet_route.show',$fleet_route->id)}}"
                                             class="btn btn-primary btn-xs">Detail</a>
                                         <a class="btn btn-danger btn-xs button-delete"

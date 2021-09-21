@@ -18,9 +18,34 @@ class FleetRoutePriceController extends Controller
     public function index()
     {
         $fleet_route_prices = FleetRoutePrice::all();
-        $fleet_details = FleetDetail::has('fleet_route')->get();
+        $fleet_routes = FleetRoute::all();
 
-        return view('fleetrouteprice.index', compact('fleet_route_prices', 'fleet_details'));
+        return view('fleetrouteprice.index', compact('fleet_route_prices', 'fleet_routes'));
+    }
+
+    public function search(Request $request)
+    {
+        $fleet_route_id = $request->fleet_route_id;
+        $date_search = $request->date_search;
+
+        $fleet_route_prices = FleetRoutePrice::query();
+
+        if (!empty($fleet_route_id)) {
+            $fleet_route_prices = $fleet_route_prices->where('fleet_route_id', $fleet_route_id);
+        }
+        if (!empty($date_search)) {
+            $fleet_route_prices = $fleet_route_prices->where('start_at', '<=', $date_search)->where('end_at', '>=', $date_search);
+        }
+        $test                   = $request->flash();
+        $fleet_route_prices     = $fleet_route_prices->get();
+        $fleet_routes = FleetRoute::all();
+
+        if (!$fleet_route_prices->isEmpty()) {
+            session()->flash('success', 'Data Berhasil Ditemukan');
+        } else {
+            session()->flash('error', 'Tidak Ada Data Ditemukan');
+        }
+        return view('fleetrouteprice.index', compact('fleet_route_prices', 'test', 'fleet_routes'));
     }
 
     /**

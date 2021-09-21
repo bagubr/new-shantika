@@ -140,32 +140,34 @@ class FleetRouteController extends Controller
         return redirect()->back();
     }
 
-    public function blockedChairs(FleetRoute $fleet_route) {
+    public function blockedChairs(FleetRoute $fleet_route)
+    {
         $fleet_route->load('fleet_detail.fleet.layout.chairs');
         $data['blocked_chairs'] = BlockedChair::where('fleet_route_id', $fleet_route->id)->get();
         $data['layout'] = $fleet_route->fleet_detail?->fleet?->layout;
-        $data['layout']->chairs = $data['layout']->chairs->map(function($e) use($data) {
+        $data['layout']->chairs = $data['layout']->chairs->map(function ($e) use ($data) {
             $e->is_blocked = in_array($e->id, $data['blocked_chairs']->pluck('layout_chair_id')->toArray());
             return $e;
         });
         $data['fleet_route'] = $fleet_route;
-        return view('fleetroute.blocked_chairs', $data); 
+        return view('fleetroute.blocked_chairs', $data);
     }
 
-    public function updateBlockedChairs(FleetRoute $fleet_route, int $layout_chair_id) {
+    public function updateBlockedChairs(FleetRoute $fleet_route, int $layout_chair_id)
+    {
         $block_chair = BlockedChair::where('fleet_route_id', $fleet_route->id)->where('layout_chair_id', $layout_chair_id)->first();
 
-        if(empty($block_chair)) {
+        if (empty($block_chair)) {
             BlockedChair::create([
-                'fleet_route_id'=>$fleet_route->id,
-                'layout_chair_id'=>$layout_chair_id
+                'fleet_route_id' => $fleet_route->id,
+                'layout_chair_id' => $layout_chair_id
             ]);
         } else {
             $block_chair->delete();
         }
 
         $this->sendSuccessResponse([
-            'is_blocked'=>BlockedChair::where('fleet_route_id', $fleet_route->id)->where('layout_chair_id', $layout_chair_id)->exists()
+            'is_blocked' => BlockedChair::where('fleet_route_id', $fleet_route->id)->where('layout_chair_id', $layout_chair_id)->exists()
         ]);
     }
 

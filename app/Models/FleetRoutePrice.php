@@ -20,7 +20,8 @@ class FleetRoutePrice extends Model
         'color'
     ];
 
-    public function fleet_route() {
+    public function fleet_route()
+    {
         return $this->belongsTo(FleetRoute::class);
     }
 }
