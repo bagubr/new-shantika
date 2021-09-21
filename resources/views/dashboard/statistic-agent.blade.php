@@ -28,13 +28,29 @@
 </script>
 <script>
     $(document).on('change', '.change-statistic-area', function (e) {
-        var area_id = this.value;
+        let name = this.name
+        let form = {
+            area_id: null,
+            year: null,
+            month: null
+        }
+        switch (name) {
+            case 'area_id':
+                form.area_id = this.value
+                break;
+            case 'year':
+                form.year = this.value
+                break;
+            case 'month':
+                form.month = this.value
+                break;
+        }
         $.ajax({
             url: "{{url('dashboard/agent')}}",
             type: "POST",
             data: {
                 _token: '{{ csrf_token() }}',
-                area_id: area_id,
+                ...form
             },
             success: function (data) {
                 console.log(data);
@@ -42,6 +58,9 @@
                 window.ChartAgent.data.datasets[0].data = data['agent']['data'];
                 window.ChartAgent.update();
             },
+            beforeSend: function() {
+                Pace.restart();
+            }
         });
     });
 </script>

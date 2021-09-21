@@ -172,6 +172,27 @@ Dashboard
                         </select>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Tahun</label>
+                        <select name="year" class="form-control change-statistic-area">
+                            @for($x=0;$x<=5;$x++)
+                            <option>{{date('Y', strtotime("-$x years"))}}</option>
+                            @endfor
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Bulan</label>
+                        <select name="month" class="form-control change-statistic-area" id="">
+                        <option value selected>--PILIH BULAN--</option>
+                        @for($x=date('m', strtotime('-'.date('m', strtotime('-1 month')).' month'));$x<=12;$x++)
+                        <option value="{{$x}}">{{date('F', strtotime("$x month"))}}</option>
+                        @endfor
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col">

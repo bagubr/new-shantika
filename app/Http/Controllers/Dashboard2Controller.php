@@ -26,7 +26,6 @@ class Dashboard2Controller extends Controller
 
     public function index(Request $request)
     {
-
         $total_order = Order::all()->count();
         $count_user = User::doesntHave('agencies')->count();
         $orders_money = Order::whereIn('status', Order::STATUS_BOUGHT)->sum('price');
@@ -58,9 +57,15 @@ class Dashboard2Controller extends Controller
         ->get();
 
         foreach ($data_agent as $key => $value) {
-            $data['agent']['data'][] = OrderDetail::whereHas('order', function ($query) use ($value)
+            $data['agent']['data'][] = OrderDetail::whereHas('order', function ($query) use ($value, $request)
             {
-                $query->where('departure_agency_id', $value->id);
+                $query->where('departure_agency_id', $value->id)
+                    ->when($request->month, function($query) use ($request) {
+                        $query->whereMonth('reserve_at', $request->month);
+                    })
+                    ->when($request->year, function($query) use ($request) {
+                        $query->whereYear('reserve_at', $request->year);
+                    });
             })->count();
         }
         $data['agencies_area'] = $data_agent->pluck('code');
