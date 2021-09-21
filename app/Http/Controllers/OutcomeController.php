@@ -15,6 +15,7 @@ use App\Models\FleetDetail;
 use App\Models\FleetRoute;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class OutcomeController extends Controller
 {
@@ -193,7 +194,7 @@ class OutcomeController extends Controller
                 'amount' => $request->amount[$key],
             ];
         }
-        \DB::beginTransaction();
+        DB::beginTransaction();
         try {
             $outcome = Outcome::create($data);
             foreach ($data['outcome_details'] as $key => $value) {
@@ -202,11 +203,11 @@ class OutcomeController extends Controller
                 OutcomeDetail::create($value);
             }
         } catch (\Throwable $th) {
-            \DB::rollback();
+            DB::rollback();
             throw $th;
             return redirect('outcome')->with('error', 'Data gagal di tambahkan');
         }
-        \DB::commit();
+        DB::commit();
 
         return redirect('outcome')->with('success', 'Data berhasil di tambahkan');
     }
