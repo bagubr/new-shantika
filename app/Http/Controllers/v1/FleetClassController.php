@@ -26,7 +26,7 @@ class FleetClassController extends Controller
                 $query->whereHas('agency.city', function($subquery) use ($agency) {
                     $subquery->where('area_id', '=', $agency->city->area_id);
                 });
-            })->whereHas('fleets.fleet_detail.fleet_route.price', function($query) use ($request) {
+            })->whereHas('fleets.fleet_detail.fleet_route.prices', function($query) use ($request) {
                 $query->where('start_at', '<=', $request->date)->where('end_at', '>=', $request->date);
             })->get()
         ]);
