@@ -37,13 +37,19 @@ Harga Rute Armada
                         <form action="" method="get">
                             <div class="form-group">
                                 <label>Armada</label>
-                                <select name="fleet" id="" class="form-control select2">
-                                    <option value=""></option>
+                                <select name="fleet_route_id" class="form-control select2">
+                                    <option value="">Pilih Armada</option>
+                                    @foreach ($fleet_details as $fleet_detail)
+                                    <option value="{{$fleet_detail->fleet_route_id}}">
+                                        {{$fleet_detail->fleet?->name}}/{{$fleet_detail->fleet?->fleetclass?->name}}
+                                        ({{$fleet_detail->nickname}})
+                                    </option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>Tanggal</label>
-                                <input type="date" class="form-control">
+                                <input type="date" class="form-control" name="date">
                             </div>
                         </form>
                     </div>
@@ -106,18 +112,28 @@ Harga Rute Armada
         var calendarEl = document.getElementById('calendar');
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
-            timeZone: 'UTC',
-            initialView: 'dayGridMonth',
+            eventDidMount: function (info) {
+                $(info.el).tooltip({
+                    title: info.event.extendedProps.description,
+                    container: 'body',
+                    delay: {
+                        "show": 50,
+                        "hide": 50
+                    }
+                });
+            },
             events: [
                 @foreach($fleet_route_prices as $fleet_route_price) {
-                    title:  '{{$fleet_route_price->fleet_route?->fleet_detail?->fleet?->name}}/{{$fleet_route_price->fleet_route?->fleet_detail?->fleet?->fleetclass?->name}}({{$fleet_route_price->fleet_route?->fleet_detail?->nickname}})|{{$fleet_route_price->note}}',
-                    start:  '{{$fleet_route_price->start_at}}',
-                    end:    '{{$fleet_route_price->end_at}}',
-                    color:  'purple'
+                    title: '{{$fleet_route_price->fleet_route?->fleet_detail?->fleet?->name}}/{{$fleet_route_price->fleet_route?->fleet_detail?->fleet?->fleetclass?->name}}({{$fleet_route_price->fleet_route?->fleet_detail?->nickname}})',
+                    start: '{{$fleet_route_price->start_at}}',
+                    description : 'Rp. {{number_format($fleet_route_price->price)}} | {{$fleet_route_price->note}}',
+                    end: '{{$fleet_route_price->end_at}}',
+                    color: 'purple'
                 },
                 @endforeach
-            ],
+            ]
         });
+
         calendar.render();
     });
 </script>

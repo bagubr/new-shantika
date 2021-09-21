@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FleetRoutePrice\CreateFleetRoutePriceRequest;
+use App\Models\FleetDetail;
 use App\Models\FleetRoute;
 use App\Models\FleetRoutePrice;
 use Illuminate\Http\Request;
@@ -17,7 +18,9 @@ class FleetRoutePriceController extends Controller
     public function index()
     {
         $fleet_route_prices = FleetRoutePrice::all();
-        return view('fleetrouteprice.index', compact('fleet_route_prices'));
+        $fleet_details = FleetDetail::has('fleet_route')->get();
+
+        return view('fleetrouteprice.index', compact('fleet_route_prices', 'fleet_details'));
     }
 
     /**
@@ -40,9 +43,10 @@ class FleetRoutePriceController extends Controller
     public function store(CreateFleetRoutePriceRequest $request)
     {
         foreach ($request->fleet_route_id as $key => $value) {
-            FleetRoutePrice::create([
+            FleetRoutePrice::updateOrCreate([
                 'fleet_route_id' => $value,
                 'start_at' => $request['start_at'],
+            ], [
                 'end_at' => $request['end_at'],
                 'price' => $request['price'],
                 'note' => $request['note']
