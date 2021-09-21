@@ -48,6 +48,7 @@ class FleetRoutePriceController extends Controller
                 'start_at' => $request['start_at'],
             ], [
                 'end_at' => $request['end_at'],
+                'color' => $request['color'],
                 'price' => $request['price'],
                 'note' => $request['note']
             ]);
@@ -73,9 +74,10 @@ class FleetRoutePriceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(FleetRoutePrice $fleet_route_price)
     {
-        //
+        $fleet_routes = FleetRoute::all();
+        return view('fleetrouteprice.create', compact('fleet_route_price', 'fleet_routes'));
     }
 
     /**
@@ -85,9 +87,12 @@ class FleetRoutePriceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CreateFleetRoutePriceRequest $request, FleetRoutePrice $fleet_route_price)
     {
-        //
+        $data = $request->all();
+        $fleet_route_price->update($data);
+        session()->flash('success', 'Harga Rute Armada Berhasil Diubah');
+        return redirect(route('fleet_route_prices.index'));
     }
 
     /**
@@ -96,8 +101,10 @@ class FleetRoutePriceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(FleetRoutePrice $fleet_route_price)
     {
-        //
+        $fleet_route_price->delete();
+        session()->flash('success', 'Harga Rute Armada Berhasil Dihapus');
+        return back();
     }
 }
