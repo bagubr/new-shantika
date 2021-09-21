@@ -34,6 +34,9 @@ class RouteController extends Controller
             $query->orderBy('order', 'asc');
         }])
         ->where('is_active', true)
+        ->whereHas('fleet_detail', function($query) use ($request) {
+            $query->where('time_classification_id', $request->time_classification_id);
+        })
         ->whereHas('fleet_detail.fleet', function ($query) use ($request) {
             $query->where('fleet_class_id', $request->fleet_class_id);
         })
