@@ -12,6 +12,7 @@ use App\Models\TimeClassification;
 use App\Repositories\AgencyRepository;
 use App\Repositories\TimeClassificationRepository;
 use App\Repositories\UserRepository;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class RouteController extends BaseRouteController
@@ -22,6 +23,7 @@ class RouteController extends BaseRouteController
         if ($request->date > $max_date) {
             $this->sendFailedResponse([], 'Kamu tidak bisa memesan untuk tanggal lebih dari ' . $max_date);
         }
+        $date = $request->date;
         $user = UserRepository::findByToken($request->bearerToken());
         $departure_agency = AgencyRepository::findWithCity($user->agencies->agency_id);
         $destination_agency = AgencyRepository::findWithCity($request->agency_id);
@@ -51,6 +53,9 @@ class RouteController extends BaseRouteController
                         $subsubquery->where('area_id', '!=', $departure_agency->city->area_id);
                     });
                 });
+            })
+            ->whereHas('prices', function(Builder $query) use ($date) {
+                 $query->where('start_at', '<=', $date)->where('end_at', '>=', $date);
             })
             ->when(($request->time_classification_id), function ($que) use ($request, $departure_agency) {
                 $que->whereHas('route.checkpoints', function ($query) use ($request, $departure_agency) {

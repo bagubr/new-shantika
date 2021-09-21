@@ -29,7 +29,7 @@ class FleetRoute extends Model
     protected $hidden = [
         'created_at', 'updated_at'
     ];
-    
+
     public function fleet_detail()
     {
         return $this->belongsTo(FleetDetail::class, 'fleet_detail_id', 'id')->withTrashed();
@@ -47,5 +47,9 @@ class FleetRoute extends Model
 
     public function blocked_chairs() {
         return $this->hasMany(BlockedChair::class, 'fleet_route_id', 'id');
+    }
+
+    public function prices() {
+        return $this->hasMany(FleetRoutePrice::class);
     }
 }
