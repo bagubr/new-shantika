@@ -16,7 +16,8 @@ class FleetRoutePriceController extends Controller
      */
     public function index()
     {
-        return view('fleetrouteprice.index');
+        $fleet_route_prices = FleetRoutePrice::all();
+        return view('fleetrouteprice.index', compact('fleet_route_prices'));
     }
 
     /**
