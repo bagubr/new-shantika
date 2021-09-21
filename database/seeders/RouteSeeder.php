@@ -33,7 +33,6 @@ class RouteSeeder extends Seeder
             FleetRoute::create([
                 'route_id'          => $route->id,
                 'fleet_detail_id'   => $value->id,
-                'price'             => $faker->numberBetween(50000, 500000),
             ]);
             $checkpoints = '';
             for ($i = 1; $i <= random_int(1, 5); $i++) {

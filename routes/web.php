@@ -45,6 +45,7 @@ use App\Http\Controllers\OutcomeController;
 use App\Http\Controllers\SketchController;
 use App\Http\Controllers\StatusPenumpangController;
 use App\Http\Controllers\FleetDetailController;
+use App\Http\Controllers\FleetRoutePriceController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SketchLogController;
 use App\Jobs\Notification\TicketExchangedJob;
@@ -148,6 +149,7 @@ Route::group(['middleware' => ['auth']], function () {
         'fleet_detail' => FleetDetailController::class,
         'fleets' => FleetController::class,
         'fleetclass' => FleetClassController::class,
+        'fleet_route_prices' => FleetRoutePriceController::class,
         'layouts' => LayoutController::class,
         'routes' => RoutesController::class,
         'agency' => AgencyController::class,
