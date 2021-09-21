@@ -10,7 +10,7 @@ class FleetDetail extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = [
-        'fleet_id', 'plate_number', 'nickname'
+        'fleet_id', 'time_classification_id', 'plate_number', 'nickname'
     ];
 
     public function fleet()
@@ -20,5 +20,9 @@ class FleetDetail extends Model
     public function fleet_route()
     {
         return $this->hasMany(FleetRoute::class, 'fleet_detail_id', 'id');
+    }
+
+    public function time_classification() {
+        return $this->belongsTo(TimeClassification::class);
     }
 }
