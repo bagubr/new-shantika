@@ -18,7 +18,7 @@ class FleetRoute extends Model
             $query = $builder->getQuery();
             $builder->when(empty($query->columns), fn ($q) => $q->select('*'))
                 ->addSelect((function($query) {
-                    return DB::raw("(select price from fleet_route_prices where start_at < x and end_at > x  limit 1) as price");
+                    return DB::raw("(select price from fleet_route_prices limit 1) as price");
                 })($query));
         });
     }
