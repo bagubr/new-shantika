@@ -58,9 +58,15 @@ Harga Rute Armada
                         </div>
                         <div class="form-group">
                             <label>Rute Armada</label>
-                            <select name="fleet_route_id[]" id="" class="select2 form-control" multiple required>
+                            <select id="" class="select2 form-control" @empty($fleet_route_price) multiple
+                                name="fleet_route_id[]" @endempty @isset($fleet_route_price) name="fleet_route_id"
+                                @endisset required>
                                 @foreach ($fleet_routes as $fleet_route)
-                                <option value="{{$fleet_route->id}}">
+                                <option value="{{$fleet_route->id}}" @isset($fleet_route_price) @if($fleet_route_price->
+                                    fleet_route_id == $fleet_route->id)
+                                    selected
+                                    @endif
+                                    @endisset>
                                     {{$fleet_route->fleet_detail?->fleet?->name}}/{{$fleet_route->fleet_detail?->fleet?->fleetclass?->name}}
                                     ({{$fleet_route->fleet_detail?->nickname}})
                                     ({{$fleet_route->route?->name}})
@@ -71,11 +77,33 @@ Harga Rute Armada
                         <div class="form-group">
                             <label>Harga</label>
                             <input type="number" name="price" required class="form-control"
+                                value="{{isset($fleet_route_price) ? $fleet_route_price->price : ''}}"
                                 placeholder="Masukkan Harga">
                         </div>
                         <div class="form-group">
                             <label>Deskripsi</label>
-                            <textarea name="note" class="form-control" rows="5"></textarea>
+                            <textarea name="note" class="form-control"
+                                rows="5">{{isset($fleet_route_price) ? $fleet_route_price->note : ''}}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select name="color" class="form-control" required>
+                                <option value="">Pilih Tipe Harga</option>
+                                <option value="blue" @isset($fleet_route_price) @if ($fleet_route_price->color ==
+                                    'blue')
+                                    selected
+                                    @endif @endisset>Harga Normal</option>
+                                <option value="red" @isset($fleet_route_price) @if ($fleet_route_price->color ==
+                                    'red')
+                                    selected
+                                    @endif @endisset>Penurunan Harga
+                                </option>
+                                <option value="green" @isset($fleet_route_price) @if ($fleet_route_price->color ==
+                                    'green')
+                                    selected
+                                    @endif @endisset>Kenaikan Harga
+                                </option>
+                            </select>
                         </div>
                         <div class="mt-2">
                             <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>

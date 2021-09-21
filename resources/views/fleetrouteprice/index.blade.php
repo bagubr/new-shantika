@@ -29,9 +29,6 @@ Harga Rute Armada
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Cari Harga Rute Armada</h3>
-                        <div class="text-right">
-                            <a href="{{route('fleet_route_prices.create')}}" class="btn btn-primary btn-sm">Tambah</a>
-                        </div>
                     </div>
                     <div class="card-body">
                         <form action="" method="get">
@@ -51,6 +48,7 @@ Harga Rute Armada
                                 <label>Tanggal</label>
                                 <input type="date" class="form-control" name="date">
                             </div>
+                            <input type="submit" value="Submit" class="btn btn-success float-right">
                         </form>
                     </div>
                 </div>
@@ -59,6 +57,9 @@ Harga Rute Armada
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Table</h3>
+                        <div class="text-right">
+                            <a href="{{route('fleet_route_prices.create')}}" class="btn btn-primary btn-sm">Tambah</a>
+                        </div>
                     </div>
                     <div class="card-body">
                         <table id="example1" class="table table-bordered table-striped">
@@ -128,7 +129,7 @@ Harga Rute Armada
                     start: '{{$fleet_route_price->start_at}}',
                     description : 'Rp. {{number_format($fleet_route_price->price)}} | {{$fleet_route_price->note}}',
                     end: '{{$fleet_route_price->end_at}}',
-                    color: 'purple'
+                    color: '{{$fleet_route_price->color}}'
                 },
                 @endforeach
             ]

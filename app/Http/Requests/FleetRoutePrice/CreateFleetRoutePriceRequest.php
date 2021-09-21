@@ -28,7 +28,8 @@ class CreateFleetRoutePriceRequest extends FormRequest
             'start_at' => 'required|date',
             'end_at' => 'nullable|date|after:start_at',
             'price' => 'required',
-            'note' => 'nullable'
+            'note' => 'nullable',
+            'color' => 'required',
         ];
     }
 }
