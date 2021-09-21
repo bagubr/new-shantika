@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Scopes\FleetRoute\PriceScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Request;
 
 class FleetRoute extends Model
 {
@@ -14,13 +16,8 @@ class FleetRoute extends Model
 
     protected static function booted()
     {
-        static::addGlobalScope(function (Builder $builder) {
-            $query = $builder->getQuery();
-            $builder->when(empty($query->columns), fn ($q) => $q->select('*'))
-                ->addSelect((function($query) {
-                    return DB::raw("(select price from fleet_route_prices limit 1) as price");
-                })($query));
-        });
+        $date = Request::input('date');
+        static::addGlobalScope(new PriceScope($date));
     }
 
     protected $table = 'fleet_routes';
@@ -33,9 +30,9 @@ class FleetRoute extends Model
         'created_at', 'updated_at'
     ];
 
-    protected $appends = [
-        'price'
-    ];
+    public function scopeGetPrice(Builder $query, $date) {
+        return $query->addSelect(DB::raw("(select price from fleet_route_prices where start_at <= $date and end_at >= $date  limit 1) as price"));
+    }
 
     public function fleet_detail()
     {
