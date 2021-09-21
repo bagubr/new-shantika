@@ -24,21 +24,7 @@ class OrderPriceDistributionRepository
                 });
             })
             ->whereDate('reserve_at', $date);
-        })->sum('for_owner') + OrderPriceDistribution::whereHas('order', function ($query) use ($user, $date) {
-            $query->where(function($subquery) use ($user, $date) {
-                $subquery->where(function($subsubquery) use ($user) {
-                    $subsubquery->where('departure_agency_id', $user->agencies?->agent?->id)
-                        ->whereHas('user.agencies')
-                        ->whereIn('status', [Order::STATUS3]);
-                })
-                ->orWhere(function($subsubquery) use ($user) {
-                    $subsubquery->where('departure_agency_id', $user->agencies?->agent?->id)
-                    ->whereDoesntHave('user.agencies')
-                    ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
-                });
-            })
-            ->whereDate('reserve_at', $date);
-        })->sum('for_food');
+        })->sum('for_owner_gross');
     }
 
     public static function getSumCommisionOfAgencyByDate($token, $date)

@@ -12,18 +12,7 @@ use function PHPSTORM_META\map;
 class OrderPriceDistributionService {
     public static function createByOrderDetail(Order $order, array $order_details) {
         $total_price = self::calculateDistribution($order, $order_details);
-        $setting = Setting::first();
-        
-        $is_agent = UserRepository::findUserIsAgent($order->user_id);
-        if($is_agent) {
-            $total_price['for_agent'] = -1 * round($setting->commision * $total_price['for_agent']);
-        } else {
-            $total_price['for_agent'] = 0;
-        }
 
-        $total_price['for_owner'] = $total_price['ticket_only'] - $total_price['for_travel'] - (-1 * $total_price['for_member']) - (-1 * $total_price['for_agent']);
-        $total_price['for_owner_with_food'] = $total_price['ticket_only'] + $total_price['food'] - $total_price['for_travel'] - (-1 * $total_price['for_member']) - (-1 * $total_price['for_agent']);
-        
         $price_distribution = OrderPriceDistribution::create(array_merge($total_price, [
             'order_id'=>$order->id,
         ]));
@@ -43,13 +32,14 @@ class OrderPriceDistributionService {
             'ticket_only'=>($order->fleet_route?->price * count($order_details)) - ($price_food * count($order_details)),
             'food'=>0
         ];
-        $total_price['for_agent'] = $total_price['ticket_only'];
+        $total_price['for_agent'] = $total_price['ticket_only'] * $setting->commision;
+        
         foreach($order_details as $order_detail) {
             if($order_detail->is_feed) {
                 $total_price['for_food'] +=  $price_food;
                 $total_price['food'] += $price_food;
             } else {
-                $total_price['food'] += $setting->default_food_price;
+                $total_price['food'] += $price_food - $setting->default_food_price;
             }
             if($order_detail->is_travel) {
                 $total_price['for_travel'] += $setting->travel;
@@ -58,6 +48,18 @@ class OrderPriceDistributionService {
                 $total_price['for_member'] -= $setting->member;
             }
         }
+
+        $is_agent = UserRepository::findUserIsAgent($order->user_id);
+        if($is_agent) {
+            $total_price['for_agent'] = -1 * round($setting->commision * $total_price['for_agent']);
+        } else {
+            $total_price['for_agent'] = 0;
+        }
+
+        $total_price['for_owner'] = $total_price['ticket_only'] - $total_price['for_travel'] - (-1 * $total_price['for_member']) - (-1 * $total_price['for_agent']);
+        $total_price['for_owner_with_food'] = $total_price['ticket_only'] + $total_price['food'] - $total_price['for_travel'] - (-1 * $total_price['for_member']) - (-1 * $total_price['for_agent']);
+        $total_price['for_owner_gross'] = $total_price['ticket_only'] + $total_price['food'] + $total_price['for_travel'] - (-1 * $total_price['for_member']) - (-1 * $total_price['for_agent']);
+        
         return $total_price;
     }
 }
