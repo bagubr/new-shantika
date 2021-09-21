@@ -25,7 +25,6 @@ class UpdateFleetRouteRequest extends FormRequest
     {
         return [
             'route_id' => 'required',
-            'price' => 'required',
             'is_active' => 'required'
         ];
     }

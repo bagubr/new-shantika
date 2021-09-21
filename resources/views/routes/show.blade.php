@@ -73,10 +73,6 @@ Route
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label>Harga</label>
-                            <input type="number" name="price" required class="form-control">
-                        </div>
                         <div class="text-right">
                             <button class="btn btn-success" type="submit">Tambah Data</button>
                         </div>
@@ -100,7 +96,6 @@ Route
                         <thead>
                             <tr>
                                 <th>Armada</th>
-                                <th>Harga</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
@@ -111,7 +106,6 @@ Route
                                 <td>{{$route_fleet->fleet_detail?->fleet?->name}}/{{$route_fleet->fleet_detail?->fleet?->fleetclass?->name}}
                                     ({{$route_fleet->fleet_detail?->nickname}})
                                 </td>
-                                <td>Rp. {{number_format($route_fleet->price,2)}}</td>
                                 @if ($route_fleet->is_active == 1)
                                 <td data-toggle="modal" data-target="#exampleModal{{$route_fleet->id}}"
                                     class="text-success text-bold">
@@ -152,11 +146,6 @@ Route
                                             @csrf
                                             @method('PUT')
                                             <div class="modal-body">
-                                                <div class="form-group">
-                                                    <label>Harga</label>
-                                                    <input type="number" class="form-control" name="price"
-                                                        value="{{$route_fleet->price}}">
-                                                </div>
                                                 <div class="form-group">
                                                     <label>Status</label>
                                                     <select class="form-control input" name="is_active">

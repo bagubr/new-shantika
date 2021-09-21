@@ -61,10 +61,6 @@ Rute Armada
                                 value="{{$fleet_route->route?->checkpoints[0]?->agency?->city?->area?->name}}">
                         </div>
                         <div class="form-group">
-                            <label>Harga</label>
-                            <input type="number" name="price" class="form-control" value="{{$fleet_route->price}}">
-                        </div>
-                        <div class="form-group">
                             <label>Status</label>
                             <select name="is_active" class="form-control">
                                 @foreach ($statuses as $status => $key)
