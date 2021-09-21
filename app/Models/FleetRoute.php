@@ -2,13 +2,27 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class FleetRoute extends Model
 {
     use HasFactory, SoftDeletes;
+
+    protected static function booted()
+    {
+        static::addGlobalScope(function (Builder $builder) {
+            $query = $builder->getQuery();
+            dd($this->attributes);
+            $builder->when(empty($query->columns), fn ($q) => $q->select('*'))
+                ->addSelect((function($query) {
+                    return DB::raw("(select price from fleet_route_prices where start_at < x and end_at > x  limit 1) as price");
+                })($query));
+        });
+    }
 
     protected $table = 'fleet_routes';
 
@@ -18,6 +32,10 @@ class FleetRoute extends Model
 
     protected $hidden = [
         'created_at', 'updated_at'
+    ];
+
+    protected $appends = [
+        'price'
     ];
 
     public function fleet_detail()

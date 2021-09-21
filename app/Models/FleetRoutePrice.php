@@ -15,7 +15,8 @@ class FleetRoutePrice extends Model
         'fleet_route_id',
         'start_at',
         'end_at',
-        'price'
+        'price',
+        'note'
     ];
 
     public function fleet_route() {
