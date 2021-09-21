@@ -28,6 +28,8 @@ class FleetClassController extends Controller
                 });
             })->whereHas('fleets.fleet_detail.fleet_route.prices', function($query) use ($request) {
                 $query->where('start_at', '<=', $request->date)->where('end_at', '>=', $request->date);
+            })->whereHas('fleets.fleet_detail', function($query) use ($request) {
+                $query->where('time_classification_id', $request->time_classification_id);
             })->get()
         ]);
     }
