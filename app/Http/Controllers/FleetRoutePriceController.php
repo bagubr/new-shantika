@@ -101,8 +101,10 @@ class FleetRoutePriceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(FleetRoutePrice $fleet_route_price)
     {
-        //
+        $fleet_route_price->delete();
+        session()->flash('success', 'Harga Rute Armada Berhasil Dihapus');
+        return back();
     }
 }

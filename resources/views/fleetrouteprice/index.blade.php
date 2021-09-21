@@ -82,8 +82,14 @@ Harga Rute Armada
                                     <td>Rp. {{number_format($fleet_route_price->price,2)}}</td>
                                     <td><a href="{{route('fleet_route_prices.edit',$fleet_route_price->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
-                                        <a class="btn btn-danger btn-xs button-delete"
-                                            data-id="{{$fleet_route_price->id}}">Delete</a>
+                                        <form action="{{route('fleet_route_prices.destroy',$fleet_route_price->id)}}"
+                                            class="d-inline" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger btn-xs"
+                                                onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                                type="submit">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                                 @endforeach
