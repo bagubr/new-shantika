@@ -36,16 +36,14 @@ Harga Rute Armada
                                 <label>Armada</label>
                                 <select name="fleet_route_id" class="form-control select2">
                                     <option value="">Pilih Armada</option>
-                                    @foreach ($fleet_routes as $fleet_route)
-                                    @if (old('fleet_route_id') == $fleet_route->id)
-                                    <option value="{{$fleet_route->id}}" selected>
-                                        {{$fleet_route->fleet_detail?->fleet?->name}}/{{$fleet_route->fleet_detail?->fleet?->fleetclass->name}}
-                                        ({{$fleet_route->fleet_detail?->nickname}})
+                                    @foreach ($fleets as $fleet)
+                                    @if (old('fleet_route_id') == $fleet->id)
+                                    <option value="{{$fleet->id}}" selected>
+                                        {{$fleet->name}}/{{$fleet->fleetclass?->name}}
                                     </option>
                                     @else
-                                    <option value="{{$fleet_route->id}}">
-                                        {{$fleet_route->fleet_detail?->fleet?->name}}/{{$fleet_route->fleet_detail?->fleet?->fleetclass->name}}
-                                        ({{$fleet_route->fleet_detail?->nickname}})
+                                    <option value="{{$fleet->id}}">
+                                        {{$fleet->name}}/{{$fleet->fleetclass?->name}}
                                     </option>
                                     @endif
                                     @endforeach
@@ -73,6 +71,7 @@ Harga Rute Armada
                             <thead>
                                 <tr>
                                     <th>Nama</th>
+                                    <th>Rute</th>
                                     <th>Tanggal</th>
                                     <th>Harga</th>
                                     <th>Aksi</th>
@@ -85,6 +84,7 @@ Harga Rute Armada
                                         {{$fleet_route_price->fleet_route?->fleet_detail?->fleet?->name}}/{{$fleet_route_price->fleet_route?->fleet_detail?->fleet?->fleetclass?->name}}
                                         ({{$fleet_route_price->fleet_route?->fleet_detail?->nickname}})
                                     </td>
+                                    <td>{{$fleet_route_price->fleet_route?->route?->name}}</td>
                                     <td>{{$fleet_route_price->start_at}} - {{$fleet_route_price->end_at}}</td>
                                     <td>Rp. {{number_format($fleet_route_price->price,2)}}</td>
                                     <td><a href="{{route('fleet_route_prices.edit',$fleet_route_price->id)}}"
