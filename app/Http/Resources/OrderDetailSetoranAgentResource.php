@@ -28,6 +28,6 @@ class OrderDetailSetoranAgentResource extends JsonResource
     }
 
     private function getTruePrice($order, $distribution) {
-        return ($order->price - ($distribution->for_food + $distribution->for_travel + $distribution->for_member)) / count($order->order_detail);
+        return ($order->price - ($distribution->for_travel + $distribution->for_member)) / count($order->order_detail);
     }
 }
