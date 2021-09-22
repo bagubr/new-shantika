@@ -28,7 +28,6 @@ class CreateFleetRouteRequest extends FormRequest
         return [
             'fleet_detail_id' => ['required'],
             'route_id' => 'required|exists:routes,id',
-            'price' => 'required',
         ];
     }
     public function messages()

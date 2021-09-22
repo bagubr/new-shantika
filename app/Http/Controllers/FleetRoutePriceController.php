@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FleetRoutePrice\CreateFleetRoutePriceRequest;
+use App\Models\Fleet;
 use App\Models\FleetDetail;
 use App\Models\FleetRoute;
 use App\Models\FleetRoutePrice;
@@ -18,9 +19,9 @@ class FleetRoutePriceController extends Controller
     public function index()
     {
         $fleet_route_prices = FleetRoutePrice::all();
-        $fleet_routes = FleetRoute::all();
+        $fleets = Fleet::all();
 
-        return view('fleetrouteprice.index', compact('fleet_route_prices', 'fleet_routes'));
+        return view('fleetrouteprice.index', compact('fleet_route_prices', 'fleets'));
     }
 
     public function search(Request $request)
@@ -31,21 +32,23 @@ class FleetRoutePriceController extends Controller
         $fleet_route_prices = FleetRoutePrice::query();
 
         if (!empty($fleet_route_id)) {
-            $fleet_route_prices = $fleet_route_prices->where('fleet_route_id', $fleet_route_id);
+            $fleet_route_prices = $fleet_route_prices->whereHas('fleet_route.fleet_detail', function ($q) use ($fleet_route_id) {
+                $q->where('fleet_id', $fleet_route_id);
+            });
         }
         if (!empty($date_search)) {
             $fleet_route_prices = $fleet_route_prices->where('start_at', '<=', $date_search)->where('end_at', '>=', $date_search);
         }
         $test                   = $request->flash();
         $fleet_route_prices     = $fleet_route_prices->get();
-        $fleet_routes = FleetRoute::all();
+        $fleets = Fleet::all();
 
         if (!$fleet_route_prices->isEmpty()) {
             session()->flash('success', 'Data Berhasil Ditemukan');
         } else {
             session()->flash('error', 'Tidak Ada Data Ditemukan');
         }
-        return view('fleetrouteprice.index', compact('fleet_route_prices', 'test', 'fleet_routes'));
+        return view('fleetrouteprice.index', compact('fleet_route_prices', 'test', 'fleets'));
     }
 
     /**
