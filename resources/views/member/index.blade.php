@@ -33,6 +33,20 @@ Member
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
+                        <div class="card">
+                            <div class="card-body">
+                                <form action="{{url('member/import')}}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="">Import</label>
+                                        <input type="file" class="form-control" name="file" id="">
+                                    </div>
+                                    <div class="form-group text-right">
+                                        <button class="btn btn-primary" type="submit">Import</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>

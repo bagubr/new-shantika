@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Member\CreateMemberRequest;
 use App\Http\Requests\Member\UpdateMemberRequest;
+use App\Imports\MembershipImport;
 use App\Models\Agency;
 use App\Models\Membership;
 use App\Models\User;
 use App\Repositories\AgencyRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MemberController extends Controller
 {
@@ -118,5 +120,10 @@ class MemberController extends Controller
         $member->delete();
         session()->flash('success', 'Member Berhasil Dihapus');
         return redirect(route('member.index'));
+    }
+
+    public function import(Request $request) {
+        Excel::import(new MembershipImport(), $request->file('file'));
+        return back()->with('success', 'Berhasil mengimport data');
     }
 }

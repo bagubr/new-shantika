@@ -143,6 +143,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::post('routes/fleet/store/', [RoutesController::class, 'store_fleet'])->name('route.fleet.store');
 
+    Route::post('member/import', [MemberController::class, 'import'])->name('member.import');
+
     // DASHBOARD
     route::get('first_bulan', [DashboardController::class, 'first_bulan'])->name('first_bulan');
     // END OF DASHBOARD
