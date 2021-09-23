@@ -47,7 +47,7 @@ Member
                                 </form>
                             </div>
                         </div>
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>Kode Member</th>
@@ -78,6 +78,9 @@ Member
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="text-right">
+                            {{$members->links()}}
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -89,11 +92,4 @@ Member
 </div>
 @endsection
 @push('script')
-<script>
-    $(function () {
-      $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,"order": [[ 0, "desc" ]],
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    });
-</script>
 @endpush

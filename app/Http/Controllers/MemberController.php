@@ -22,7 +22,7 @@ class MemberController extends Controller
      */
     public function index()
     {
-        $members = Membership::where('name', '!=', 'No Name')->get();
+        $members = Membership::orderBy('id', 'DESC')->paginate(10);
         return view('member.index', compact('members'));
     }
 
@@ -46,6 +46,8 @@ class MemberController extends Controller
     public function store(CreateMemberRequest $request)
     {
         $data = $request->all();
+        $member = Membership::orderBy('id', 'desc')->first()->code_member;
+        $data['code_member'] = (int)$member + 1;
         $number = $request->phone;
         $country_code = '62';
         $isZero = substr($number, 0, 1);
@@ -122,7 +124,8 @@ class MemberController extends Controller
         return redirect(route('member.index'));
     }
 
-    public function import(Request $request) {
+    public function import(Request $request)
+    {
         Excel::import(new MembershipImport(), $request->file('file'));
         return back()->with('success', 'Berhasil mengimport data');
     }

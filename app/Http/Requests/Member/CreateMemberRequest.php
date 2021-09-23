@@ -24,7 +24,7 @@ class CreateMemberRequest extends FormRequest
     public function rules()
     {
         return [
-            'code_member'       => 'required|unique:memberships,code_member',
+            'code_member'       => 'nullable|unique:memberships,code_member',
             'agency_id'         => 'nullable',
             'name'              => 'required',
             'address'           => 'required',
