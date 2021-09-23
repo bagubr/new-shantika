@@ -25,6 +25,27 @@ class MemberController extends Controller
         $members = Membership::orderBy('id', 'DESC')->paginate(10);
         return view('member.index', compact('members'));
     }
+    public function search(Request $request)
+    {
+        $members = Membership::query();
+        $name = $request->name;
+        $code_member = $request->code_member;
+
+        if (!empty($name)) {
+            $members = $members->where('name', 'ilike', '%' . $name . '%');
+        }
+        if (!empty($code_member)) {
+            $members = $members->where('code_member', $code_member);
+        }
+
+        $members = $members->orderBy('id', 'DESC')->paginate();
+        if (!$members->isEmpty()) {
+            session()->flash('success', 'Data Member Berhasil Ditemukan');
+        } else {
+            session()->flash('error', 'Tidak Ada Data Ditemukan');
+        }
+        return view('member.index', compact('members'));
+    }
 
     /**
      * Show the form for creating a new resource.
