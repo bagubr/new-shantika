@@ -52,6 +52,8 @@ class OrderPriceDistributionService {
         $is_agent = UserRepository::findUserIsAgent($order->user_id);
         if(!$is_agent && $order->status == Order::STATUS1) {
             $total_price['for_agent'] = 0;
+        } else if(!$is_agent && $order->status == Order::STATUS5) {
+            $total_price['for_agent'] *= -1;
             $total_price['for_owner'] = 0;
             $total_price['for_owner_with_food'] = 0;
             $total_price['for_owner_gross'] = 0;
