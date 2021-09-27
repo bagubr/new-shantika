@@ -24,7 +24,7 @@ class OrderPriceDistributionRepository
                 });
             })
             ->whereDate('reserve_at', $date);
-        })->sum('for_owner_gross');
+        })->sum('total_deposit');
     }
 
     public static function getSumCommisionOfAgencyByDate($token, $date)
