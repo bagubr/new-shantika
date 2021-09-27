@@ -141,7 +141,7 @@ class OrderService {
             'exchanged_at'=>date('Y-m-d H:i:s')
         ]);
         $order->distribution()->update([
-            'for_agent'=>OrderPriceDistributionService::calculateDistribution($order, $order->order_detail)['for_agent']
+            'for_agent'=>OrderPriceDistributionService::calculateDistribution($order, $order->order_detail)['for_agent_later']
         ]);
         DB::commit();
         $order->refresh();
