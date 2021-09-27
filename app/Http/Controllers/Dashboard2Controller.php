@@ -235,8 +235,7 @@ class Dashboard2Controller extends Controller
         return response([
             'sum_total_order'=>$total_order,
             'sum_count_user'=>$count_user,
-            'sum_count_money'=>$orders_money,
-            'requests'=>$request->toArray()
+            'sum_count_money'=>number_format($orders_money),
         ]);
     }  
 }
