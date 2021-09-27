@@ -51,7 +51,7 @@ class OrderPriceDistributionService {
         }
 
         $is_agent = UserRepository::findUserIsAgent($order->user_id);
-        if($order->status == Order::STATUS5 && !$is_agent) {
+        if($order->status == Order::STATUS3 && !$is_agent) {
             $total_price['for_agent'] *= -1;
         } else if ($is_agent) {
             $total_price['for_agent'] *= -1;
