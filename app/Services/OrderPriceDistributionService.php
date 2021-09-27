@@ -51,11 +51,10 @@ class OrderPriceDistributionService {
         }
 
         $is_agent = UserRepository::findUserIsAgent($order->user_id);
-        if($is_agent) {
+        if($order->status == Order::STATUS5 && !$is_agent) {
             $total_price['for_agent'] *= -1;
-        } else {
-            $total_price['for_agent'] = 0;
-            $total_price['for_agent_later'] *= -1;
+        } else if ($is_agent) {
+            $total_price['for_agent'] *= -1;
         }
 
         $total_price['for_owner'] = $total_price['ticket_only'] - $total_price['for_travel'] - (-1 * $total_price['for_member']) - (-1 * $total_price['for_agent']);
