@@ -23,6 +23,47 @@ Member
 <div class="content">
     <div class="container-fluid">
         <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Import Member</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{url('member/import')}}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group">
+                                <label>Import</label>
+                                <input type="file" class="form-control" name="file">
+                            </div>
+                            <div class="text-right">
+                                <button class="btn btn-primary" type="submit">Import</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Cari Member</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{route('member.search')}}" method="get">
+                            <div class="form-group">
+                                <label>Nama</label>
+                                <input type="text" class="form-control" name="name">
+                            </div>
+                            <div class="form-group">
+                                <label>Kode Member</label>
+                                <input type="text" class="form-control" name="code_member">
+                            </div>
+                            <div class="text-right">
+                                <button class="btn btn-success" type="submit">Cari</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
@@ -33,21 +74,7 @@ Member
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <div class="card">
-                            <div class="card-body">
-                                <form action="{{url('member/import')}}" method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                    <div class="form-group">
-                                        <label for="">Import</label>
-                                        <input type="file" class="form-control" name="file" id="">
-                                    </div>
-                                    <div class="form-group text-right">
-                                        <button class="btn btn-primary" type="submit">Import</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>Kode Member</th>
@@ -78,6 +105,9 @@ Member
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="text-right">
+                            {{$members->links()}}
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -89,11 +119,4 @@ Member
 </div>
 @endsection
 @push('script')
-<script>
-    $(function () {
-      $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,"order": [[ 0, "desc" ]],
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    });
-</script>
 @endpush

@@ -22,7 +22,28 @@ class MemberController extends Controller
      */
     public function index()
     {
-        $members = Membership::where('name', '!=', 'No Name')->get();
+        $members = Membership::orderBy('id', 'DESC')->paginate(10);
+        return view('member.index', compact('members'));
+    }
+    public function search(Request $request)
+    {
+        $members = Membership::query();
+        $name = $request->name;
+        $code_member = $request->code_member;
+
+        if (!empty($name)) {
+            $members = $members->where('name', 'ilike', '%' . $name . '%');
+        }
+        if (!empty($code_member)) {
+            $members = $members->where('code_member', $code_member);
+        }
+
+        $members = $members->orderBy('id', 'DESC')->paginate();
+        if (!$members->isEmpty()) {
+            session()->flash('success', 'Data Member Berhasil Ditemukan');
+        } else {
+            session()->flash('error', 'Tidak Ada Data Ditemukan');
+        }
         return view('member.index', compact('members'));
     }
 
@@ -46,6 +67,8 @@ class MemberController extends Controller
     public function store(CreateMemberRequest $request)
     {
         $data = $request->all();
+        $member = Membership::orderBy('id', 'desc')->first()->code_member;
+        $data['code_member'] = (int)$member + 1;
         $number = $request->phone;
         $country_code = '62';
         $isZero = substr($number, 0, 1);
@@ -122,7 +145,8 @@ class MemberController extends Controller
         return redirect(route('member.index'));
     }
 
-    public function import(Request $request) {
+    public function import(Request $request)
+    {
         Excel::import(new MembershipImport(), $request->file('file'));
         return back()->with('success', 'Berhasil mengimport data');
     }
