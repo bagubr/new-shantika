@@ -29,7 +29,6 @@ class OrderPriceDistributionService {
             'for_travel'=>0,
             'for_member'=>0,
             'for_agent'=>0,
-            'for_agent_later'=>0,
             'ticket_only'=>($order->fleet_route?->price * count($order_details)) - ($price_food * count($order_details)),
             'food'=>0
         ];
