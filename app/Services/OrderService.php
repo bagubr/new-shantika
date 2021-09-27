@@ -140,8 +140,12 @@ class OrderService {
             'status'=>Order::STATUS5,
             'exchanged_at'=>date('Y-m-d H:i:s')
         ]);
+        $total_price = OrderPriceDistributionService::calculateDistribution($order, $order->order_detail);
         $order->distribution()->update([
-            'for_agent'=>OrderPriceDistributionService::calculateDistribution($order, $order->order_detail)['for_agent'],
+            'for_agent'=>$total_price['for_agent'],
+            'for_owner'=>$total_price['for_owner'],
+            'for_owner_with_food'=>$total_price['for_owner_with_food'],
+            'for_owner_gross'=>$total_price['for_owner_gross']
         ]);
         DB::commit();
         $order->refresh();
