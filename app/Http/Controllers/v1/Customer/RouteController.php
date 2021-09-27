@@ -11,6 +11,7 @@ use App\Models\Route;
 use App\Models\TimeClassification;
 use App\Repositories\AgencyRepository;
 use App\Repositories\TimeClassificationRepository;
+use Illuminate\Database\Eloquent\Builder;
 
 class RouteController extends Controller
 {
@@ -22,6 +23,7 @@ class RouteController extends Controller
         }
         $destination_agency = AgencyRepository::findWithCity($request->agency_arrived_id);
         $departure_agency = AgencyRepository::findWithCity($request->agency_departure_id);
+        $date = $request->date;
 
         if (empty($destination_agency->is_active)) {
             return $this->sendFailedResponse([], 'Agen tujuan tidak aktif, mohon coba agen yang lain');
@@ -52,6 +54,9 @@ class RouteController extends Controller
                 });
             });
         })
+        ->whereHas('prices', function(Builder $query) use ($date) {
+            $query->where('start_at', '<=', $date)->where('end_at', '>=', $date);
+       })
         ->when(($request->time_classification_id), function ($que) use ($request, $departure_agency) {
             $que->whereHas('route.checkpoints', function ($query) use ($request, $departure_agency) {
                 $time_start = TimeClassification::find($request->time_classification_id)->time_start;
