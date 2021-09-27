@@ -13,7 +13,9 @@ use App\Models\User;
 use App\Models\Area;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 
 class Dashboard2Controller extends Controller
 {
@@ -210,4 +212,31 @@ class Dashboard2Controller extends Controller
 
         return $data;
     }
+
+    public function statisticSum(Request $request) {
+        $total_order = Order::when($request->year, function($query) use ($request) {
+            $query->whereYear('reserve_at', $request->year);
+        })->when($request->month, function($query) use ($request) {
+            $query->whereMonth('reserve_at', $request->month);
+        })->count();
+
+        $count_user = User::doesntHave('agencies')->when($request->year, function($query) use ($request) {
+            $query->whereYear('created_at', $request->year);
+        })->when($request->month, function($query) use ($request) {
+            $query->whereMonth('created_at', $request->month);
+        })->count();
+
+        $orders_money = Order::when($request->year, function($query) use ($request) {
+            $query->whereYear('reserve_at', $request->year);
+        })->when($request->month, function($query) use ($request) {
+            $query->whereMonth('reserve_at', $request->month);
+        })->whereIn('status', Order::STATUS_BOUGHT)->sum('price');
+
+        return response([
+            'sum_total_order'=>$total_order,
+            'sum_count_user'=>$count_user,
+            'sum_count_money'=>$orders_money,
+            'requests'=>$request->toArray()
+        ]);
+    }  
 }
