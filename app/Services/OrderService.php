@@ -142,9 +142,6 @@ class OrderService {
         ]);
         $order->distribution()->update([
             'for_agent'=>OrderPriceDistributionService::calculateDistribution($order, $order->order_detail)['for_agent'],
-            'for_owner'=>0,
-            'for_owner_with_food'=>0,
-            'for_owner_gross'=>0
         ]);
         DB::commit();
         $order->refresh();

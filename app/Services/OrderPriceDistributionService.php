@@ -52,14 +52,17 @@ class OrderPriceDistributionService {
         $is_agent = UserRepository::findUserIsAgent($order->user_id);
         if(!$is_agent && $order->status == Order::STATUS6) {
             $total_price['for_agent'] = 0;
+            $total_price['for_owner'] = 0;
+            $total_price['for_owner_with_food'] = 0;
+            $total_price['for_owner_gross'] = 0;
         } else {
             $total_price['for_agent'] *= -1;
+            $total_price['for_owner'] = $total_price['ticket_only'] - $total_price['for_travel'] - (-1 * $total_price['for_member']) - (-1 * $total_price['for_agent']);
+            $total_price['for_owner_with_food'] = $total_price['ticket_only'] + $total_price['food'] - $total_price['for_travel'] - (-1 * $total_price['for_member']) - (-1 * $total_price['for_agent']);
+            $total_price['for_owner_gross'] = $total_price['ticket_only'] + $total_price['food'] + $total_price['for_travel'] - (-1 * $total_price['for_member']) - (-1 * $total_price['for_agent']);
+            
         }
 
-        $total_price['for_owner'] = $total_price['ticket_only'] - $total_price['for_travel'] - (-1 * $total_price['for_member']) - (-1 * $total_price['for_agent']);
-        $total_price['for_owner_with_food'] = $total_price['ticket_only'] + $total_price['food'] - $total_price['for_travel'] - (-1 * $total_price['for_member']) - (-1 * $total_price['for_agent']);
-        $total_price['for_owner_gross'] = $total_price['ticket_only'] + $total_price['food'] + $total_price['for_travel'] - (-1 * $total_price['for_member']) - (-1 * $total_price['for_agent']);
-        
         return $total_price;
     }
 }
