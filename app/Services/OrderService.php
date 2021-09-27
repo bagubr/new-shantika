@@ -141,13 +141,15 @@ class OrderService {
             'exchanged_at'=>date('Y-m-d H:i:s')
         ]);
         $order->distribution()->update([
-            'for_agent'=>OrderPriceDistributionService::calculateDistribution($order, $order->order_detail)['for_agent_later']
+            'for_agent'=>OrderPriceDistributionService::calculateDistribution($order, $order->order_detail)['for_agent_later'],
+            'for_owner'=>0,
+            'for_owner_with_food'=>0,
+            'for_owner_gross'=>0
         ]);
         DB::commit();
         $order->refresh();
 
         TicketExchangedJob::dispatch($order);
-
         return $order;
     }
 
