@@ -8,6 +8,7 @@ use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Repositories\PaymentTypeRepository;
+use App\Services\OrderPriceDistributionService;
 use App\Utils\NotificationMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -93,6 +94,13 @@ class PaymentController extends Controller
             'status' => $request->status,
         ]);
         if ($request->status == Order::STATUS3) {
+            $total_price = OrderPriceDistributionService::calculateDistribution($order_id, $order_id->order_detail);
+            $order_id->distribution()->update([
+                'for_agent'=>$total_price['for_agent'],
+                'for_owner'=>$total_price['for_owner'],
+                'for_owner_with_food'=>$total_price['for_owner_with_food'],
+                'for_owner_gross'=>$total_price['for_owner_gross']
+            ]);
             $payload = NotificationMessage::paymentSuccess($order_id->code_order);
             $notification = Notification::build(
                 $payload[0],
