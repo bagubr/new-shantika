@@ -33,7 +33,7 @@ class OrderPriceDistributionController extends Controller
         $outcome_details    = OutcomeDetail::all();
         $count_income       = OrderPriceDistribution::whereHas('order', function ($q) {
             $q->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
-        })->pluck('for_owner_with_food')->sum();
+        })->pluck('for_owner_gross')->sum();
         $count_income_clean = OrderPriceDistribution::whereHas('order', function ($q) {
             $q->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
         })->pluck('for_owner')->sum();
