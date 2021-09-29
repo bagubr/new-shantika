@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class PaymentController extends Controller
 {
     public function callbackXendit(Request $request) {
-        if($request->header('X-CALLBACK-TOKEN') != env('nAp6IE9ALb9YqAz9PFX3c40GkKAFOppCz29DaWbSLE0y7QR6')) {
+        if($request->header('X-CALLBACK-TOKEN') != env('HEADER_XENDIT')) {
             abort(404);
         }
 
