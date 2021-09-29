@@ -103,6 +103,7 @@ class OrderRepository
     public static function getBoughtRouteByAgencyByDate($token, $date)
     {
         $user = UserRepository::findByToken($token);
+        $agency_id = $user->agencies?->agency_id;
 
         $order = Order::where(function($query) use ($user) {
             $query->where(function($subquery) use ($user) {
@@ -121,7 +122,7 @@ class OrderRepository
             ->whereDate('reserve_at', $date)
             ->orderBy('fleet_route_id', 'asc')
             ->select()
-            ->addSelect(DB::raw("(select sum(total_deposit) from order_price_distributions opd left join orders o on o.id = opd.order_id where o.fleet_route_id = orders.fleet_route_id) as total_deposit_fleet_route"))
+            ->addSelect(DB::raw("(select sum(total_deposit) from order_price_distributions opd left join orders o on o.id = opd.order_id where o.fleet_route_id = orders.fleet_route_id and o.reserve_at::text ilike '$date' and o.departure_agency_id = $agency_id) as total_deposit_fleet_route"))
             ->get();
             // ->groupBy('fleet_route.fleet_detail.fleet_id')
             // ->all();
