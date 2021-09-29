@@ -119,6 +119,8 @@ class OrderRepository
             ->distinct('fleet_route_id')
             ->with(['fleet_route.fleet_detail.fleet'])
             ->whereDate('reserve_at', $date)
+            ->select()
+            ->addSelect(DB::raw("(select sum(total_deposit) from order_price_distributions opd left join orders o on o.id = opd.order_id where o.fleet_route_id = orders.fleet_route_id) as total_deposit_fleet_route"))
             ->get();
             // ->groupBy('fleet_route.fleet_detail.fleet_id')
             // ->all();

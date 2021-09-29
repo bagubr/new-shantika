@@ -16,7 +16,7 @@ class OrderListSetoranAgentResource extends JsonResource
      */
     public function toArray($request)
     {
-        $chairs = OrderDetailRepository::findForPriceDistributionByUserAndDateAndFleet($this->user_id,$this->reserve_at, $this->fleet_route->fleet_detail->fleet_id);
+        $chairs = OrderDetailRepository::findForPriceDistributionByUserAndDateAndFleet($this->user_id,$this->reserve_at, $this->fleet_route?->fleet_detail?->fleet_id);
 
         $agent_destination = $this->agency_destiny;
         $agent_start = $this->agency;
@@ -25,8 +25,8 @@ class OrderListSetoranAgentResource extends JsonResource
             'fleet_name'=>$this->fleet_route?->fleet_detail?->fleet?->name,
             'fleet_id'=>$this->fleet_route?->fleet_detail?->fleet_id,
             'chairs_count'=>count($chairs),
-            'deposit'=>abs($this->distribution()->sum('total_deposit')),
-            'checkpoints'=> new CheckpointStartEndResource($this->fleet_route->route, $agent_destination, $agent_start)
+            'deposit'=>abs($this->total_deposit_fleet_route),
+            'checkpoints'=> new CheckpointStartEndResource($this->fleet_route?->route, $agent_destination, $agent_start)
         ];
     }
 }
