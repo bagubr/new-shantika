@@ -91,7 +91,7 @@ class OrderController extends Controller
             'deposit' => OrderPriceDistributionRepository::getSumDepositOfAgencyByDate($request->bearerToken(), $request->date),
             'commision' => OrderPriceDistributionRepository::getSumCommisionOfAgencyByDate($request->bearerToken(), $request->date),
             'chairs' => LayoutChairRepository::countBoughtByAgencyByDate($request->bearerToken(), $request->date),
-            'buses' => OrderRepository::countBoughtRouteByAgencyByDate($request->bearerToken(), $request->date)
+            'buses' => OrderRepository::countBoughtRouteByAgencyByDate($request->bearerToken(), $request->date, true)
         ]);
     }
 

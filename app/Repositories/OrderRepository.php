@@ -79,7 +79,7 @@ class OrderRepository
         return Order::with('fleet_route.route.checkpoints')->where('code_order', $code_order)->first();
     }
 
-    public static function countBoughtRouteByAgencyByDate($token, $date)
+    public static function countBoughtRouteByAgencyByDate($token, $date, $is_distinct = false)
     {
         $agency_id = UserRepository::findByToken($token)?->agencies?->agent?->id;
 
@@ -94,6 +94,9 @@ class OrderRepository
                     ->whereDoesntHave('user.agencies')
                     ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
                 });
+            })
+            ->when($is_distinct, function($query) {
+                $query->distinct('fleet_route_id');
             })
             ->whereDate('reserve_at', $date)
             ->count();
