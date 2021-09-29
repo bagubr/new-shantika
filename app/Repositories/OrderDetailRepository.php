@@ -57,7 +57,7 @@ class OrderDetailRepository
                 ->whereDoesntHave('user.agencies')
                 ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
             })
-            ->whereDate($date);
+            ->whereDate('reserve_at', $date);
         })
         ->orderBy('layout_chair_id', 'asc')
         ->get();
