@@ -11,6 +11,10 @@ use Illuminate\Http\Request;
 class PaymentController extends Controller
 {
     public function callbackXendit(Request $request) {
+        if($request->header('X-CALLBACK-TOKEN') != env('nAp6IE9ALb9YqAz9PFX3c40GkKAFOppCz29DaWbSLE0y7QR6')) {
+            abort(404);
+        }
+
         $payment = PaymentRepository::findBySecret($request->id);
 
         $payment = PaymentService::receiveCallback($payment, $request->status);
