@@ -56,7 +56,8 @@ class OrderDetailRepository
                 $subsubquery->where('departure_agency_id', $agency_id)
                 ->whereDoesntHave('user.agencies')
                 ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
-            });
+            })
+            ->whereDate($date);
         })
         ->orderBy('layout_chair_id', 'asc')
         ->get();
