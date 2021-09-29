@@ -45,12 +45,11 @@ class OrderDetailRepository
     }
 
     public static function getAllByAgencyId(User $user, $date) {
-        $user_order =  OrderDetail::with(['order.distribution', 'chair'=>function($query) {
-            $query->orderBy('name', 'asc');
-        }])->whereHas('order', function($query) use ($user, $date) {
+        $user_order =  OrderDetail::with(['order.distribution', 'chair'])->whereHas('order', function($query) use ($user, $date) {
             $query->where('departure_agency_id', $user->agencies->agency_id)
             ->whereDate('reserve_at', $date);
         })
+        ->orderBy('layout_chair_id', 'asc')
         ->get();
         return $user_order;
     }
