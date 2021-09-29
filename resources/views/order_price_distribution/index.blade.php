@@ -103,7 +103,7 @@ Setoran
                     <div class="col-md-6">
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h3><sup style="font-size: 20px">Rp</sup> {{number_format($count_income)}}</h3>
+                                <h3><sup style="font-size: 20px">Rp</sup> {{number_format($total_deposit)}}</h3>
                                 <p>Total Setoran Agen</p>
                             </div>
                             <div class="icon">

@@ -31,6 +31,9 @@ class OrderPriceDistributionController extends Controller
         })->get();
 
         $outcome_details    = OutcomeDetail::all();
+        $total_deposit = OrderPriceDistribution::whereHas('order', function ($q) {
+            $q->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
+        })->pluck('total_deposit')->sum();
         $count_income       = OrderPriceDistribution::whereHas('order', function ($q) {
             $q->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
         })->pluck('for_owner_gross')->sum();
@@ -43,7 +46,7 @@ class OrderPriceDistributionController extends Controller
         })->get()->count();
         $count_ticket       = Order::whereIn('status', ['PAID', 'EXCHANGED', 'FINISHED'])->pluck('price')->sum();
         $count_pendapatan_bersih = $count_income_clean - $count_outcome;
-        return view('order_price_distribution.index', compact('count_ticket', 'order_price_distributions', 'count_seat', 'agencies', 'outcome_details', 'fleet_routes', 'count_income', 'count_outcome', 'count_pendapatan_bersih', 'fleet_details'));
+        return view('order_price_distribution.index', compact('count_ticket', 'order_price_distributions', 'count_seat', 'agencies', 'outcome_details', 'fleet_routes', 'count_income', 'count_outcome', 'count_pendapatan_bersih', 'fleet_details', 'total_deposit'));
     }
     public function search(Request $request)
     {
