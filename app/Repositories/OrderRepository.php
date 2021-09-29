@@ -95,7 +95,6 @@ class OrderRepository
                     ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
                 });
             })
-            ->where('status', Order::STATUS3)
             ->whereDate('reserve_at', $date)
             ->count();
     }
