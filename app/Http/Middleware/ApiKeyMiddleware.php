@@ -16,6 +16,9 @@ class ApiKeyMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
+        if($request->header('X-API-KEY') != env('API_KEY') && env('APP_DEBUG') == false) {
+            return abort(403, 'Invalid API Key');
+        }
         return $next($request);
     }
 }
