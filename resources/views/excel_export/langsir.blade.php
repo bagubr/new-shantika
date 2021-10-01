@@ -42,8 +42,10 @@
             <th>Bangku Kosong</th>
             <th colspan="4">
                 @php
-                 $layout_chair_exists = $order_detail->pluck('layout_chair_id')->toArray();
-                 $layout_chair = \App\Models\LayoutChair::whereLayoutId(\App\Models\FleetRoute::find($fleet_route_id)->fleet_detail?->fleet?->layout_id)->orderBy('name', 'asc')->get()->pluck('id');
+                 $layout_chair_exists = $order_detail->with(['chairs'=>function($query) {
+                    $query->orderBy('index', 'asc');
+                 }])->pluck('layout_chair_id')->toArray();
+                 $layout_chair = \App\Models\LayoutChair::whereLayoutId(\App\Models\FleetRoute::find($fleet_route_id)->fleet_detail?->fleet?->layout_id)->orderBy('index', 'asc')->get()->pluck('id');
                 @endphp
                 @foreach($layout_chair as $layout_chair_id)
                     @if(!in_array($layout_chair_id, $layout_chair_exists))
