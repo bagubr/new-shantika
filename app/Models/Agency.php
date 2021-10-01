@@ -76,4 +76,10 @@ class Agency extends Model
     {
         Storage::disk('public')->delete($this->attributes['avatar']);
     }
+    public function orders() {
+        return $this->hasMany(Order::class, 'departure_agency_id', 'id');
+    }
+    public function order_details() {
+        return $this->hasManyThrough(OrderDetail::class, Order::class, 'departure_agency_id', 'order_id', 'id', 'id');
+    }
 }

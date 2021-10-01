@@ -199,7 +199,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Area</label>
-                            <select name="area" class="form-control change-statistic-area select2">
+                            <select name="area_id" class="form-control change-statistic-area select2">
                                 <option value="">--PILIH AREA--</option>
                                 @foreach ($data_agent['area'] as $key => $value)
                                     <option value="{{ $value->id }}">{{ $value->name }}</option>

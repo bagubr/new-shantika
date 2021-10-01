@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 
 class Dashboard2Controller extends Controller
@@ -56,10 +57,12 @@ class Dashboard2Controller extends Controller
                $subquery->where('area_id', $request->area_id);
             });
         })
+        ->withCount('order_details')
+        ->whereHas('order_details')
         ->get();
 
         foreach ($data_agent as $key => $value) {
-            $count = OrderDetail::whereHas('order', function ($query) use ($value, $request)
+            $data['agent']['data'][] = OrderDetail::whereHas('order', function ($query) use ($value, $request)
             {
                 $query->where('departure_agency_id', $value->id)
                     ->when($request->month, function($query) use ($request) {
@@ -70,9 +73,6 @@ class Dashboard2Controller extends Controller
                     })
                     ->whereIn('status', [Order::STATUS3, Order::STATUS5, Order::STATUS8]);
             })->count();
-            if($count > 0) {
-                $data['agent']['data'][] = $count;
-            }
         }
         $data['agencies_area'] = $data_agent->pluck('code');
         

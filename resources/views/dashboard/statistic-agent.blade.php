@@ -1,3 +1,4 @@
+
 <script>
     const dataAgent = {
         labels: [@foreach ($data_agent['agencies_area'] as $key => $value)"{{$value}}",@endforeach],
@@ -55,7 +56,7 @@
             success: function (data) {
                 console.log(data);
                 window.ChartAgent.data.labels = data['agencies_area'];
-                window.ChartAgent.data.datasets[0].data = data['agent']['data'];
+                window.ChartAgent.data.datasets[0].data = data['agent']['data'] || [];
                 window.ChartAgent.update();
             },
             beforeSend: function() {
