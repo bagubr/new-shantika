@@ -59,7 +59,7 @@ class Dashboard2Controller extends Controller
         ->get();
 
         foreach ($data_agent as $key => $value) {
-            $data['agent']['data'][] = OrderDetail::whereHas('order', function ($query) use ($value, $request)
+            $count = OrderDetail::whereHas('order', function ($query) use ($value, $request)
             {
                 $query->where('departure_agency_id', $value->id)
                     ->when($request->month, function($query) use ($request) {
@@ -67,8 +67,12 @@ class Dashboard2Controller extends Controller
                     })
                     ->when($request->year, function($query) use ($request) {
                         $query->whereYear('reserve_at', $request->year);
-                    });
+                    })
+                    ->whereIn('status', [Order::STATUS3, Order::STATUS5, Order::STATUS8]);
             })->count();
+            if($count > 0) {
+                $data['agent']['data'][] = $count;
+            }
         }
         $data['agencies_area'] = $data_agent->pluck('code');
         
