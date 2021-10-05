@@ -21,13 +21,16 @@ class FleetClassController extends Controller
     public function available(ApiAvailableFleetClassRequest $request) {
         $agency = Agency::find($request->agency_id);
         return $this->sendSuccessResponse([
-            'fleet_classes'=>FleetClass::whereHas('fleets.fleet_detail.fleet_route.route.checkpoints', function($query) use ($request, $agency) {
-                $query->where('agency_id', $agency->id);
-                $query->whereHas('agency.city', function($subquery) use ($agency) {
-                    $subquery->where('area_id', '=', $agency->city->area_id);
+            'fleet_classes'=>FleetClass::whereHas('fleets.fleet_detail.fleet_route', function($query) use ($request, $agency) {
+                $query->whereHas('route.checkpoints', function($subquery) use ($request, $agency) {
+                    $subquery->where('agency_id', $agency->id);
+                    $subquery->whereHas('agency.city', function($subquery) use ($agency) {
+                        $subquery->where('area_id', '=', $agency->city->area_id);
+                    });
+                })
+                ->whereHas('prices', function($subquery) use ($request) {
+                    $subquery->where('start_at', '<=', $request->date)->where('end_at', '>=', $request->date);
                 });
-            })->whereHas('fleets.fleet_detail.fleet_route.prices', function($query) use ($request) {
-                $query->where('start_at', '<=', $request->date)->where('end_at', '>=', $request->date);
             })->whereHas('fleets.fleet_detail', function($query) use ($request) {
                 $query->where('time_classification_id', $request->time_classification_id);
             })->get()
