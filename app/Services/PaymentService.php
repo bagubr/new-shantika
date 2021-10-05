@@ -33,7 +33,7 @@ class PaymentService {
             $payload = [
                 'external_id'=>$order->id.uniqid(),
                 'payer_email'=>$order->order_detail[0]->email,
-                'description'=>'test',
+                'description'=>'Pembayaran Tiket Armada',
                 'amount'=>$order->price,
             ];
             $invoice = \Xendit\Invoice::create($payload);
