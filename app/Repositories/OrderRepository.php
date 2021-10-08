@@ -109,15 +109,17 @@ class OrderRepository
         $date = date('Y-m-d', strtotime($date));
 
         $order = Order::where(function($query) use ($user) {
-            $query->where(function($subquery) use ($user) {
-                    $subquery->where('departure_agency_id', $user->agencies?->agent?->id)
-                        ->whereHas('user.agencies')
-                        ->whereIn('status', [Order::STATUS3]);
-                })
-                ->orWhere(function($subquery) use ($user) {
-                    $subquery->where('departure_agency_id', $user->agencies?->agent?->id)
-                    ->whereDoesntHave('user.agencies')
-                    ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
+            $query->where(function($q) use ($user) {
+                    $q->where(function($subquery) use ($user) {
+                        $subquery->where('departure_agency_id', $user->agencies?->agent?->id)
+                            ->whereHas('user.agencies')
+                            ->whereIn('status', [Order::STATUS3]);
+                    })
+                    ->orWhere(function($subquery) use ($user) {
+                        $subquery->where('departure_agency_id', $user->agencies?->agent?->id)
+                        ->whereDoesntHave('user.agencies')
+                        ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
+                    });
                 });
             })
             ->distinct('fleet_route_id')
