@@ -64,7 +64,7 @@ class OrderRepository
             ->addSelect(DB::raw("NULL as layout_chair_id"))
             ->addSelect('destination_agency_id', 'time_classification_id', 'departure_agency_id')
             ->addSelect(DB::raw("'EXCHANGE' as type"))
-            ->addSelect('DB::raw("(select o.ticket_price from order_price_distributions o where o.order_id = orders.id) as price")')
+            ->addSelect(DB::raw("(select o.ticket_price from order_price_distributions o where o.order_id = orders.id) as price"))
             ->where('departure_agency_id', $user->agencies->agent->id)
             ->whereDoesntHave('user.agencies')
             ->whereIn('status', [Order::STATUS5, Order::STATUS8])
