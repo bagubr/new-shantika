@@ -32,8 +32,8 @@ class OrderPriceDistributionService {
             'total_deposit'=>0,
             'ticket_only'=>($order->price) - ($price_food * count($order_details)),
             'ticket_price'=>$order->agency_destiny?->city?->area_id == 1 
-                ? $order->agency_destiny?->prices->sortByDesc('start_at')->first()->price 
-                : $order->agency?->prices->sortByDesc('start_at')->first()->price,
+                ? $order->agency->prices->sortByDesc('start_at')->first()->price
+                : $order->agency_destiny->prices->sortByDesc('start_at')->first()->price, 
             'food'=>0
         ];
         $total_price['for_agent'] = $total_price['ticket_only'] * $setting->commision;
