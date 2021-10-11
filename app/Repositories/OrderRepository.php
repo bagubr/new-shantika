@@ -46,7 +46,7 @@ class OrderRepository
         $booking = Booking::select('id', 'fleet_route_id', 'user_id', 'booking_at as reserve_at', 'status', 'code_booking as code', 'layout_chair_id', 'destination_agency_id', 'time_classification_id')
             ->addSelect(DB::raw("0 as departure_agency_id"))
             ->addSelect(DB::raw("'BOOKING' as type"))
-            ->addSelect(DB::raw("(select price from (select price, fleet_route_id from fleet_route_prices where fleet_route_prices.fleet_route_id = bookings.fleet_route_id and start_at <= '$date' and end_at >= '$date' order by created_at desc limit 1) as p where p.fleet_route_id = bookings.fleet_route_id) as price"))
+            ->addSelect(DB::raw("(select ap.price from agency_prices ap where ap.agency_id = bookings.destination_agency_id order by ap.start_at desc) as price"))
             ->where('expired_at', '>', date('Y-m-d H:i:s'))
             ->whereDate('booking_at', date('Y-m-d H:i:s', strtotime($date)))
             ->whereUserId($user->id)
