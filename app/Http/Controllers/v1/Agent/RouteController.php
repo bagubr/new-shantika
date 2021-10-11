@@ -35,7 +35,9 @@ class RouteController extends BaseRouteController
             return $this->sendFailedResponse([], 'Akun agen anda dinonaktifkan, segera lakukan setoran atau kontak admin');
         }
 
-        $routes = FleetRoute::with(['fleet_detail.fleet.layout', 'route.checkpoints.agency.city', 'route.checkpoints.agency.prices'])
+        $routes = FleetRoute::with(['fleet_detail.fleet.layout', 'route.checkpoints.agency.city', 'route.checkpoints.agency.prices'=>function($query) {
+              $query->orderBy('id', 'desc');
+            }])
             ->where('is_active', true)
             ->whereHas('fleet_detail', function($query) use ($request) {
                 $query->where('time_classification_id', $request->time_classification_id);
@@ -43,12 +45,12 @@ class RouteController extends BaseRouteController
             ->whereHas('fleet_detail.fleet', function ($query) use ($request) {
                 $query->where('fleet_class_id', $request->fleet_class_id);
             })
-            ->whereHas('route.checkpoints', function ($query) use ($destination_agency, $departure_agency) {
-                $query->where(function($subquery) use ($destination_agency) {
+            ->whereHas('route.checkpoints', function ($query) use ($date, $destination_agency, $departure_agency) {
+                $query->where(function($subquery) use ($date, $destination_agency) {
                     $subquery->where('agency_id', $destination_agency->id)
-                        ->whereHas('agency', function($subsubquery) {
-                            $subsubquery->where('is_active', true)->whereHas('prices', function($sssq) {
-                                $sssq->orderBy('start_at', 'desc');
+                        ->whereHas('agency', function($subsubquery) use ($date) {
+                            $subsubquery->where('is_active', true)->whereHas('prices', function($subsubquery) use ($date) {
+                                $subsubquery->where('start_at', '<=', $date);
                             });
                         });
                 });

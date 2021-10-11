@@ -50,6 +50,6 @@ class FleetRoute extends Model
     }
 
     public function prices() {
-        return $this->hasMany(FleetRoutePrice::class);
+        return $this->hasMany(FleetRoutePrice::class)->orderBy('created_at', 'desc');
     }
 }
