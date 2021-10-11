@@ -120,8 +120,8 @@ class OrderRepository
                     ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
                 });
             })
-            ->distinct('fleet_route_id')
             ->with(['fleet_route.fleet_detail.fleet'])
+            ->distinct('fleet_route_id')
             ->whereDate('reserve_at', $date)
             ->orderBy('fleet_route_id', 'asc')
             ->select()
@@ -137,7 +137,7 @@ class OrderRepository
 
     public static function getAtDateByFleetRouteId($date, $fleet_route_id)
     {
-        return Order::with(['order_detail', 'user.agencies.agent'])->where(function ($query) use ($date) {
+        return Order::with(['order_detail', 'user.agencies.agent', 'agency', 'agency_destiny'])->where(function ($query) use ($date) {
             $query->whereIn('status', Order::STATUS_BOUGHT)
                 ->whereDate('reserve_at', $date);
             })

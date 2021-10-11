@@ -93,6 +93,8 @@
                                             <br>
                                             <span>Agen Keberangkatan: @{{chair.order_detail.agency?.name}}</span>
                                             <br>
+                                            <span>Agen Tujuan: @{{chair.order_detail.agency_destiny?.name}}</span>
+                                            <br>
                                             <span>@{{chair.order_detail.code_order}}</span>
                                             <br>
                                             <div class="row">
