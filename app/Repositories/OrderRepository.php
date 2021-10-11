@@ -55,7 +55,7 @@ class OrderRepository
             ->addSelect(DB::raw("NULL as layout_chair_id"))
             ->addSelect('destination_agency_id', 'time_classification_id', 'departure_agency_id')
             ->addSelect(DB::raw("'PEMBELIAN' as type"))
-            ->addSelect('DB::raw("(select o.ticket_price from order_price_distributions o where o.order_id = orders.id) as price")')
+            ->addSelect(DB::raw("(select o.ticket_price from order_price_distributions o where o.order_id = orders.id) as price"))
             ->whereHas('user.agencies')
             ->where('departure_agency_id', $user->agencies->agent->id)
             ->whereDate('reserve_at', date('Y-m-d H:i:s', strtotime($date)))
