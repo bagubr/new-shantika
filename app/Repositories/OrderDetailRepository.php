@@ -61,6 +61,7 @@ class OrderDetailRepository
             })
             ->whereDate('reserve_at', $date);
         })
+        ->orderBy('order_id', 'desc')
         ->orderBy('layout_chair_id', 'asc')
         ->get();
         return $user_order;
