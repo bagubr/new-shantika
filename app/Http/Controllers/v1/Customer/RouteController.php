@@ -32,9 +32,7 @@ class RouteController extends Controller
             return $this->sendFailedResponse([], 'Akun agen keberangkatan anda dinonaktifkan, mohon coba agen yang lain');
         }
 
-        $routes = FleetRoute::with(['fleet_detail.fleet.layout', 'route.checkpoints.agency.city', 'route.checkpoints'=>function($query) {
-            $query->orderBy('order', 'asc');
-        }])
+        $routes = FleetRoute::with(['fleet_detail.fleet.layout', 'route.checkpoints.agency.city', 'route.checkpoints.agency.prices'])
         ->where('is_active', true)
         ->whereHas('fleet_detail', function($query) use ($request) {
             $query->where('time_classification_id', $request->time_classification_id);
@@ -44,9 +42,12 @@ class RouteController extends Controller
         })
         ->whereHas('route.checkpoints', function ($query) use ($destination_agency, $departure_agency) {
             $query->where(function($subquery) use ($destination_agency) {
-                $subquery->where('agency_id', $destination_agency->id)->whereHas('agency', function($subsubquery) {
-                    $subsubquery->where('is_active', true);
-                });
+                $subquery->where('agency_id', $destination_agency->id)
+                    ->whereHas('agency', function($subsubquery) {
+                        $subsubquery->where('is_active', true)->whereHas('prices', function($sssq) {
+                            $sssq->orderBy('start_at', 'desc');
+                        });
+                    });
             });
             $query->where(function($subquery) use ($departure_agency) {
                 $subquery->whereHas('agency.city', function ($subsubquery) use ($departure_agency) {
@@ -54,9 +55,6 @@ class RouteController extends Controller
                 });
             });
         })
-        ->whereHas('prices', function(Builder $query) use ($date) {
-            $query->where('start_at', '<=', $date)->where('end_at', '>=', $date);
-       })
         ->when(($request->time_classification_id), function ($que) use ($request, $departure_agency) {
             $que->whereHas('route.checkpoints', function ($query) use ($request, $departure_agency) {
                 $time_start = TimeClassification::find($request->time_classification_id)->time_start;

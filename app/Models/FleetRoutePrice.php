@@ -9,13 +9,14 @@ class FleetRoutePrice extends Model
 {
     use HasFactory;
 
-    protected $table = 'fleet_route_prices';
+    // This model / table are used for increasing or decreasing the price & applying fleet routes to the certain price
+    // that the price are seted in table cities / model City.
 
     protected $fillable = [
         'fleet_route_id',
         'start_at',
         'end_at',
-        'price',
+        'deviation_price',
         'note',
         'color'
     ];
