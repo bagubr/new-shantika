@@ -33,7 +33,6 @@ class OrderDetailAgentResource extends JsonResource
         $fleet = $fleet_detail->fleet;
         $order_detail = $this->order_detail;
 
-        $checkpoint_max_index = count($checkpoints) - 1;
         $agent_destination = $this->agency_destiny;
         $agent_start = $this->agency;
         $price_feed = $distribution?->for_food;

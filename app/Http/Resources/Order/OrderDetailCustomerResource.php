@@ -23,8 +23,6 @@ class OrderDetailCustomerResource extends JsonResource
         $fleet_route = $this->fleet_route;
         $route = $fleet_route->route;
 
-        $checkpoint_max_index = count($route->checkpoints) - 1;
-        $seting = Setting::first();
         $agency_destiny = $this->agency_destiny;
         $agent_start = $this->agency;
         return [
