@@ -36,6 +36,7 @@ class OrderPriceDistributionService {
                 : $order->agency_destiny->prices->sortByDesc('start_at')->first()->price, 
             'food'=>0
         ];
+        $total_price['ticket_price'] += $order->fleet_route->prices[0]->true_deviation_price;
         $total_price['for_agent'] = $total_price['ticket_only'] * $setting->commision;
         
         foreach($order_details as $order_detail) {
