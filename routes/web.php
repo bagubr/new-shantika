@@ -5,6 +5,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminNotificationController;
 use App\Http\Controllers\AgencyController;
+use App\Http\Controllers\AgencyPriceController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Auth\LoginController;
@@ -178,6 +179,7 @@ Route::group(['middleware' => ['auth']], function () {
         'sketch' => SketchController::class,
         'fleet_route' => FleetRouteController::class,
         'status_penumpang' => StatusPenumpangController::class,
+        'agency_price'=> AgencyPriceController::class
     ]);
 
     // Lainnya

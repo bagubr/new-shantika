@@ -30,7 +30,7 @@ Agen
 </section>
 <section class="content">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Form</h3>
@@ -134,6 +134,60 @@ Agen
                 <!-- /.card-body -->
             </div>
             <!-- /.card -->
+        </div>
+        <div class="col-md-6">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Harga Tujuan Agen</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" style="display: block;">
+                    <form action="{{route('agency_price.store')}}" method="post" class="row">
+                        @csrf
+                        <input type="hidden" name="agency_id" value="{{$agency->id}}">
+                        <div class="form-group col-4">
+                            <label for="">Harga</label>
+                            <input type="number" name="price" class="form-control" id="">
+                        </div>
+                        <div class="form-group col-4">
+                            <label for="">Mulai Dari</label>
+                            <input type="datetime-local" name="start_at" class="form-control" id="">
+                        </div>
+                        <div class="form-group col-4 align-self-center">
+                            <button type="submit" class="btn btn-success w-100">Submit</button>
+                        </div>
+                    </form>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Harga</th>
+                                <th>Mulai Tanggal</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($agency->prices as $price)
+                            <tr>
+                                <td>Rp. {{number_format($price->price)}}</td>
+                                <td>{{date('d F Y', strtotime($price->start_at))}}</td>
+                                <td>
+                                    <form action="{{route('agency_price.destroy', $price->id)}}" method="POST">
+                                        @method('delete')
+                                        @csrf
+                                        <button type="submit" class="badge badge-danger border-0">Hapus</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
         </div>
     </div>
 </section>
