@@ -75,9 +75,9 @@ Harga Rute Armada
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Harga</label>
-                            <input type="number" name="price" required class="form-control"
-                                value="{{isset($fleet_route_price) ? $fleet_route_price->price : ''}}"
+                            <label>Perubahan Harga</label>
+                            <input type="number" name="deviation_price" required class="form-control"
+                                value="{{isset($fleet_route_price) ? $fleet_route_price->deviation_price : ''}}"
                                 placeholder="Masukkan Harga">
                         </div>
                         <div class="form-group">
