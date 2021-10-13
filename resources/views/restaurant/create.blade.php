@@ -77,7 +77,7 @@ Restoran
                                 <div class="form-group">
                                     <label>Koordinat Longtitude</label>
                                     <input class="form-control" type="text" id="lng" name="long" readonly
-                                        value="{{isset($restaurant) ? $restaurant->lng : ''}}">
+                                        value="{{isset($restaurant) ? $restaurant->long : ''}}">
                                 </div>
                             </div>
                         </div>
@@ -104,6 +104,11 @@ Restoran
                         <div class="form-group">
                             <label>Gambar</label>
                             <input type="file" name="image" class="form-control" accept="image/*">
+                            @isset($restaurant)
+                            <a href="{{$restaurant->image}}" data-toggle="lightbox">
+                                <img src="{{$restaurant->image}}" style="height: 100px">
+                            </a>
+                            @endisset
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">

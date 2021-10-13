@@ -43,6 +43,16 @@ class RestaurantController extends Controller
             $data['image'] = $image;
         };
 
+        $number = $request->phone;
+        $country_code = '62';
+        $isZero = substr($number, 0, 1);
+        if ($isZero == '0') {
+            $new_number = substr_replace($number, '+' . $country_code, 0, ($number[0] == '0'));
+            $data['phone'] = $new_number;
+        } else {
+            $data['phone'] = $number;
+        }
+
         Restaurant::create($data);
         session()->flash('success', 'Restoran Berhasil Ditambahkan');
         return redirect(route('restaurant.index'));
@@ -65,9 +75,9 @@ class RestaurantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Restaurant $restaurant)
     {
-        //
+        return view('restaurant.create', compact('restaurant'));
     }
 
     /**
@@ -77,9 +87,27 @@ class RestaurantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CreateRestaurantRequest $request, Restaurant $restaurant)
     {
-        //
+        $data = $request->all();
+        $number = $request->phone;
+        $country_code = '62';
+        $isZero = substr($number, 0, 1);
+        if ($isZero == '0') {
+            $new_number = substr_replace($number, '+' . $country_code, 0, ($number[0] == '0'));
+            $data['phone'] = $new_number;
+        } else {
+            $data['phone'] = $number;
+        }
+        if ($request->hasFile('image')) {
+            $image = $request->image->store('image', 'public');
+            $restaurant->deleteImage();
+            $data['image'] = $image;
+        };
+
+        $restaurant->update($data);
+        session()->flash('success', 'Restoran Berhasil Diperbarui');
+        return redirect(route('restaurant.index'));
     }
 
     /**
@@ -88,8 +116,12 @@ class RestaurantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Restaurant $restaurant)
     {
-        //
+        $restaurant->deleteImage();
+        $restaurant->delete();
+
+        session()->flash('success', 'Restoran Berhasil Dihapus');
+        return back();
     }
 }
