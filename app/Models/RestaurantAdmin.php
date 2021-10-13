@@ -10,7 +10,7 @@ class RestaurantAdmin extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $protected = ['admin_id', 'restaurant_id', 'phone'];
+    protected $fillable = ['admin_id', 'restaurant_id', 'phone'];
 
     public function admin()
     {

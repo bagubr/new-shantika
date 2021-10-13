@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Restaurant\AssignRestaurantUserRequest;
 use App\Http\Requests\Restaurant\CreateRestaurantRequest;
+use App\Models\Admin;
 use App\Models\Restaurant;
+use App\Models\RestaurantAdmin;
 use Illuminate\Http\Request;
 
 class RestaurantController extends Controller
@@ -64,9 +67,12 @@ class RestaurantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Restaurant $restaurant)
     {
-        //
+        $admins = Admin::whereHas('roles', function ($q) {
+            $q->where('name', 'restaurant');
+        })->whereDoesntHave('restaurant_admin')->get();
+        return view('restaurant.show', compact('restaurant', 'admins'));
     }
 
     /**
@@ -78,6 +84,23 @@ class RestaurantController extends Controller
     public function edit(Restaurant $restaurant)
     {
         return view('restaurant.create', compact('restaurant'));
+    }
+
+    public function assign_user(AssignRestaurantUserRequest $request)
+    {
+        $data = $request->all();
+        $number = $request->phone;
+        $country_code = '62';
+        $isZero = substr($number, 0, 1);
+        if ($isZero == '0') {
+            $new_number = substr_replace($number, '+' . $country_code, 0, ($number[0] == '0'));
+            $data['phone'] = $new_number;
+        } else {
+            $data['phone'] = $number;
+        }
+        RestaurantAdmin::create($data);
+        session()->flash('success', 'Admin Restoran Berhasil Ditambahkan');
+        return back();
     }
 
     /**

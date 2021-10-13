@@ -153,6 +153,10 @@ Route::group(['middleware' => ['auth']], function () {
     route::get('first_bulan', [DashboardController::class, 'first_bulan'])->name('first_bulan');
     // END OF DASHBOARD
 
+    // restaurant
+    route::post('restaurant/assing', [RestaurantController::class, 'assign_user'])->name('restaurant.assign_user');
+    // end of restaurant
+
     Route::resources([
         'fleet_detail' => FleetDetailController::class,
         'fleets' => FleetController::class,

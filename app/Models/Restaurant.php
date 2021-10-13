@@ -20,4 +20,8 @@ class Restaurant extends Model
     {
         Storage::disk('public')->delete($this->attributes['image']);
     }
+    public function admins()
+    {
+        return $this->hasMany(RestaurantAdmin::class, 'admin_id', 'id');
+    }
 }

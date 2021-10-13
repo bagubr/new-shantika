@@ -54,7 +54,10 @@ Restoran
                                             <img src="{{$restaurant->image}}" height="100px" alt="">
                                         </a>
                                     </td>
-                                    <td><a href="{{route('restaurant.edit',$restaurant->id)}}"
+                                    <td>
+                                        <a href="{{route('restaurant.show', $restaurant->id)}}"
+                                            class="btn btn-primary btn-xs">Show</a>
+                                        <a href="{{route('restaurant.edit',$restaurant->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <a class="btn btn-danger btn-xs button-delete"
                                             data-id="{{$restaurant->id}}">Delete</a>
