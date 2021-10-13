@@ -36,8 +36,20 @@ Scan Barcode
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Order Code</label>
-                                    <input type="text" class="form-control" readonly name="order_code">
+                                    <label>Kode Order</label>
+                                    <input type="text" class="form-control" readonly name="order_code" id="code_order">
+                                </div>
+                                <div class="form-group">
+                                    <label>Nama Pemesan</label>
+                                    <input type="text" class="form-control" readonly name="order_code" id="name_order">
+                                </div>
+                                <div class="form-group">
+                                    <label>Order ID</label>
+                                    <input type="text" class="form-control" readonly name="order_id" id="order_id"
+                                        required>
+                                </div>
+                                <div class="text-right">
+                                    <input type="submit" value="Konfirmasi" class="btn btn-success">
                                 </div>
                             </div>
                         </div>
@@ -59,22 +71,16 @@ Scan Barcode
 <script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>
 <script>
     function onScanSuccess(decodedText, decodedResult) {
-        $("input:text").val(`NS${decodedText}`);
         console.log(`Code scanned = ${decodedText}`);
+        $("#code_order").val(`NS${decodedText}`);
         $.ajax({
             type: "GET",
-            url: ajaxurl,
-            data: formData,
+            url: "order/find/" + `NS${decodedText}`,
             dataType: 'json',
             success: function (data) {
-                var todo = '<tr id="todo' + data.id + '"><td>' + data.id + '</td><td>' + data.title + '</td><td>' + data.description + '</td>';
-                if (state == "add") {
-                    jQuery('#todo-list').append(todo);
-                } else {
-                    jQuery("#todo" + todo_id).replaceWith(todo);
-                }
-                jQuery('#myForm').trigger("reset");
-                jQuery('#formModal').modal('hide')
+                console.log(data);
+                $("#name_order").val(data.order.order_detail[0].name);
+                $("#order_id").val(data.order.order_detail[0].id);
             },
             error: function (data) {
                 console.log(data);

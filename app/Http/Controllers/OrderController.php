@@ -133,11 +133,12 @@ class OrderController extends Controller
         //
     }
 
-    public function showByCodeOrder($code_order) {
-        $order = OrderRepository::findByCodeOrder($code_order);
+    public function showByCodeOrder($code_order)
+    {
+        $order = Order::with('order_detail')->where('code_order', $code_order)->first();
 
         return $this->sendSuccessResponse([
-            'order'=>$order
+            'order' => $order
         ]);
     }
 
@@ -188,7 +189,7 @@ class OrderController extends Controller
             $order->refresh();
             $message = NotificationMessage::scheduleChanged($order->fleet_route?->fleet_detail?->fleet?->name, date('d-m-Y', strtotime($order->created_at)));
             $notification = Notification::build($message[0], $message[1], Notification::TYPE1, $order->id, $order->user?->id);
-            SendingNotification::dispatch($notification, $order->user?->fcm_token,true);
+            SendingNotification::dispatch($notification, $order->user?->fcm_token, true);
             session()->flash('success', 'Jadwal Berhasil Diubah');
         } else {
             session()->flash('error', 'Password Anda Tidak Sama');
@@ -205,83 +206,83 @@ class OrderController extends Controller
         if (!Hash::check($data['password'], $hashed)) {
             session()->flash('error', 'Password anda tidak sama');
             return response([
-                'code'=>0
+                'code' => 0
             ]);
         }
         DB::beginTransaction();
         $message = NotificationMessage::orderCanceled($order_detail->order->fleet_route->fleet_detail->fleet->name, $request->cancelation_reason);
         $notification = Notification::build($message[0], $message[1], Notification::TYPE1, $order_detail->order_id, $order_detail->order->user_id);
-        if(!empty($request->is_all)) {
+        if (!empty($request->is_all)) {
             $order_detail->order()->update([
-                'status'=>Order::STATUS4,
-                'cancelation_reason'=>$request->cancelation_reason
+                'status' => Order::STATUS4,
+                'cancelation_reason' => $request->cancelation_reason
             ]);
             SketchLog::create([
-                'admin_id'=>Auth::user()->id,
-                'order_id'=>$order_detail->order_id,
-                'from_date'=>$order->reserve_at,
-                'to_date'=>$order->reserve_at,
-                'from_fleet_route_id'=>$order->fleet_route_id,
-                'to_fleet_route_id'=>$order->fleet_route_id,
-                'from_layout_chair_id'=>$order_detail->layout_chair_id,
-                'to_layout_chair_id'=>$order_detail->layout_chair_id,
-                'from_time_classification_id'=>$order->time_classification_id,
-                'to_time_classification_id'=>$order->time_classification_id,
-                'type'=>SketchLog::TYPE2
+                'admin_id' => Auth::user()->id,
+                'order_id' => $order_detail->order_id,
+                'from_date' => $order->reserve_at,
+                'to_date' => $order->reserve_at,
+                'from_fleet_route_id' => $order->fleet_route_id,
+                'to_fleet_route_id' => $order->fleet_route_id,
+                'from_layout_chair_id' => $order_detail->layout_chair_id,
+                'to_layout_chair_id' => $order_detail->layout_chair_id,
+                'from_time_classification_id' => $order->time_classification_id,
+                'to_time_classification_id' => $order->time_classification_id,
+                'type' => SketchLog::TYPE2
             ]);
-            
+
             SendingNotification::dispatch($notification, $order_detail->order?->user?->fcm_token, true);
-    
+
             session()->flash('success', 'Berhasil menghapus order');
             return response([
-                'code'=>1
+                'code' => 1
             ], 200);
         }
-        if(count($order_detail->order->order_detail) > 1) {
+        if (count($order_detail->order->order_detail) > 1) {
             $order_detail->order()->update([
-                'cancelation_reason'=>$request->cancelation_reason
+                'cancelation_reason' => $request->cancelation_reason
             ]);
             SketchLog::create([
-                'admin_id'=>Auth::user()->id,
-                'order_id'=>$order_detail->order_id,
-                'from_date'=>$order->reserve_at,
-                'to_date'=>$order->reserve_at,
-                'from_fleet_route_id'=>$order->fleet_route_id,
-                'to_fleet_route_id'=>$order->fleet_route_id,
-                'from_layout_chair_id'=>$order_detail->layout_chair_id,
-                'to_layout_chair_id'=>$order_detail->layout_chair_id,
-                'from_time_classification_id'=>$order->time_classification_id,
-                'to_time_classification_id'=>$order->time_classification_id,
-                'type'=>SketchLog::TYPE2
+                'admin_id' => Auth::user()->id,
+                'order_id' => $order_detail->order_id,
+                'from_date' => $order->reserve_at,
+                'to_date' => $order->reserve_at,
+                'from_fleet_route_id' => $order->fleet_route_id,
+                'to_fleet_route_id' => $order->fleet_route_id,
+                'from_layout_chair_id' => $order_detail->layout_chair_id,
+                'to_layout_chair_id' => $order_detail->layout_chair_id,
+                'from_time_classification_id' => $order->time_classification_id,
+                'to_time_classification_id' => $order->time_classification_id,
+                'type' => SketchLog::TYPE2
             ]);
             $order_detail->delete();
             OrderService::revertPrice($order_detail);
         } else {
             $order_detail->order->update([
-                'status'=>Order::STATUS4,
-                'cancelation_reason'=>$request->cancelation_reason
+                'status' => Order::STATUS4,
+                'cancelation_reason' => $request->cancelation_reason
             ]);
             SketchLog::create([
-                'admin_id'=>Auth::user()->id,
-                'order_id'=>$order_detail->order_id,
-                'from_date'=>$order->reserve_at,
-                'to_date'=>$order->reserve_at,
-                'from_fleet_route_id'=>$order->fleet_route_id,
-                'to_fleet_route_id'=>$order->fleet_route_id,
-                'from_layout_chair_id'=>$order_detail->layout_chair_id,
-                'to_layout_chair_id'=>$order_detail->layout_chair_id,
-                'from_time_classification_id'=>$order->time_classification_id,
-                'to_time_classification_id'=>$order->time_classification_id,
-                'type'=>SketchLog::TYPE2
+                'admin_id' => Auth::user()->id,
+                'order_id' => $order_detail->order_id,
+                'from_date' => $order->reserve_at,
+                'to_date' => $order->reserve_at,
+                'from_fleet_route_id' => $order->fleet_route_id,
+                'to_fleet_route_id' => $order->fleet_route_id,
+                'from_layout_chair_id' => $order_detail->layout_chair_id,
+                'to_layout_chair_id' => $order_detail->layout_chair_id,
+                'from_time_classification_id' => $order->time_classification_id,
+                'to_time_classification_id' => $order->time_classification_id,
+                'type' => SketchLog::TYPE2
             ]);
         }
 
         DB::commit();
         SendingNotification::dispatch($notification, $order_detail->order?->user?->fcm_token, true);
-    
+
         session()->flash('success', 'Berhasil menghapus order');
         return response([
-            'code'=>1
+            'code' => 1
         ], 200);
     }
 
