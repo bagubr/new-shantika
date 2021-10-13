@@ -15,6 +15,7 @@ use App\Models\SketchLog;
 use App\Models\User;
 use App\Repositories\OrderDetailRepository;
 use App\Repositories\OrderPriceDistributionRepository;
+use App\Repositories\OrderRepository;
 use App\Repositories\RoutesRepository;
 use App\Services\OrderService;
 use App\Utils\NotificationMessage;
@@ -130,6 +131,14 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+    public function showByCodeOrder($code_order) {
+        $order = OrderRepository::findByCodeOrder($code_order);
+
+        return $this->sendSuccessResponse([
+            'order'=>$order
+        ]);
     }
 
     /**
