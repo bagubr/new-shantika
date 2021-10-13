@@ -154,7 +154,8 @@ Route::group(['middleware' => ['auth']], function () {
     // END OF DASHBOARD
 
     // restaurant
-    route::post('restaurant/assing', [RestaurantController::class, 'assign_user'])->name('restaurant.assign_user');
+    route::post('restaurant/assign', [RestaurantController::class, 'assign_user'])->name('restaurant.assign_user');
+    route::delete('restaurant/admin/delete/{restaurant_admin}', [RestaurantController::class, 'destroy_admin'])->name('restaurant.destroy_admin');
     // end of restaurant
 
     Route::resources([

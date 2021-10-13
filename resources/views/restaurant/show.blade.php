@@ -120,7 +120,14 @@ Restoran
                                 <td>{{$r->admin->name}}</td>
                                 <td>{{$r->phone}}</td>
                                 <td>
-                                    <a class="btn btn-danger btn-xs button-delete" data-id="{{$r->id}}">Delete</a>
+                                    <form action="{{route('restaurant.destroy_admin',$r->id)}}" class="d-inline"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger btn-xs"
+                                            onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                            type="submit">Delete</button>
+                                    </form>
                                 </td>
                             </tr>
                             @endforeach
@@ -132,3 +139,12 @@ Restoran
     </div>
 </section>
 @endsection
+@push('script')
+<script>
+    $(function () {
+      $("#example1").DataTable({
+        "responsive": true, "lengthChange": false, "autoWidth": false,
+      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
+</script>
+@endpush

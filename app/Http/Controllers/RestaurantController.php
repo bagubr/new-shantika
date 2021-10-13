@@ -147,4 +147,12 @@ class RestaurantController extends Controller
         session()->flash('success', 'Restoran Berhasil Dihapus');
         return back();
     }
+
+    public function destroy_admin(RestaurantAdmin $restaurant_admin)
+    {
+        $restaurant_admin->delete();
+
+        session()->flash('success', 'Restoran Admin Berhasil Dihapus');
+        return back();
+    }
 }
