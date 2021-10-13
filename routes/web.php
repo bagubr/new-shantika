@@ -108,6 +108,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('order/update_jadwal/{order}', [OrderController::class, 'update_jadwal'])->name('order.update_jadwal');
     Route::put('order/cancelation/{order_detail}', [OrderController::class, 'cancelation'])->name('order.cancelation');
     Route::get('order/search', [OrderController::class, 'search'])->name('order.search');
+    Route::get('order/find/{code_order}', [OrderController::class, 'showByCodeOrder'])->name('order.show.code_order');
 
     Route::get('notification/{id}', [AdminNotificationController::class, 'show']);
 

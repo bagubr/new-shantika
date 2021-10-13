@@ -32,7 +32,9 @@ class RouteController extends Controller
             return $this->sendFailedResponse([], 'Akun agen keberangkatan anda dinonaktifkan, mohon coba agen yang lain');
         }
 
-        $routes = FleetRoute::with(['fleet_detail.fleet.layout', 'route.checkpoints.agency.city', 'route.checkpoints.agency.prices'])
+        $routes = FleetRoute::with(['fleet_detail.fleet.layout', 'route.checkpoints.agency.city', 'route.checkpoints.agency.prices'=>function($query) {
+            $query->orderBy('id', 'desc');
+        }])
         ->where('is_active', true)
         ->whereHas('fleet_detail', function($query) use ($request) {
             $query->where('time_classification_id', $request->time_classification_id);
@@ -54,6 +56,9 @@ class RouteController extends Controller
                     $subsubquery->where('area_id', '!=', $departure_agency->city->area_id);
                 });
             });
+        })
+        ->whereHas('prices', function($query) use ($date) {
+            $query->whereDate('start_at', '<=', $date)->whereDate('end_at', '>=', $date);
         })
         ->when(($request->time_classification_id), function ($que) use ($request, $departure_agency) {
             $que->whereHas('route.checkpoints', function ($query) use ($request, $departure_agency) {
