@@ -153,6 +153,10 @@ Route::group(['middleware' => ['auth']], function () {
     route::get('first_bulan', [DashboardController::class, 'first_bulan'])->name('first_bulan');
     // END OF DASHBOARD
 
+    // restaurant
+    route::post('restaurant/assing', [RestaurantController::class, 'assign_user'])->name('restaurant.assign_user');
+    // end of restaurant
+
     Route::resources([
         'fleet_detail' => FleetDetailController::class,
         'fleets' => FleetController::class,
@@ -179,7 +183,8 @@ Route::group(['middleware' => ['auth']], function () {
         'sketch' => SketchController::class,
         'fleet_route' => FleetRouteController::class,
         'status_penumpang' => StatusPenumpangController::class,
-        'agency_price'=> AgencyPriceController::class
+        'agency_price' => AgencyPriceController::class,
+        'restaurant' => RestaurantController::class,
     ]);
 
     // Lainnya
@@ -203,7 +208,6 @@ Route::group(['middleware' => ['auth']], function () {
             'bank_account' => BankAccountController::class,
             'admin' => AdminController::class,
             'role' => RoleController::class,
-            'restaurant' => RestaurantController::class,
         ]);
     });
 });
