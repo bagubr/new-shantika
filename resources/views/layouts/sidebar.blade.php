@@ -250,6 +250,16 @@
                     </a>
                 </li>
                 @endrole
+                <li class="nav-header">Restoran</li>
+                <li class="nav-item">
+                    <a href="{{route('restaurant.index')}}"
+                        class="nav-link {{Request::routeIs('restaurant.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-clock"></i>
+                        <p>
+                            Restoran
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-header">LAINNYA</li>
                 @role('superadmin')
                 <li class="nav-item {{Request::routeIs('admin.*','role.*') ? 'menu-open' : ''}}">

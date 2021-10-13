@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Restaurant\CreateRestaurantRequest;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
 
@@ -25,7 +26,7 @@ class RestaurantController extends Controller
      */
     public function create()
     {
-        //
+        return view('restaurant.create');
     }
 
     /**
@@ -34,9 +35,17 @@ class RestaurantController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRestaurantRequest $request)
     {
-        //
+        $data = $request->all();
+        if ($request->hasFile('image')) {
+            $image = $request->image->store('image', 'public');
+            $data['image'] = $image;
+        };
+
+        Restaurant::create($data);
+        session()->flash('success', 'Restoran Berhasil Ditambahkan');
+        return redirect(route('restaurant.index'));
     }
 
     /**

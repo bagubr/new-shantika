@@ -179,7 +179,8 @@ Route::group(['middleware' => ['auth']], function () {
         'sketch' => SketchController::class,
         'fleet_route' => FleetRouteController::class,
         'status_penumpang' => StatusPenumpangController::class,
-        'agency_price'=> AgencyPriceController::class
+        'agency_price' => AgencyPriceController::class,
+        'restaurant' => RestaurantController::class,
     ]);
 
     // Lainnya
@@ -203,7 +204,6 @@ Route::group(['middleware' => ['auth']], function () {
             'bank_account' => BankAccountController::class,
             'admin' => AdminController::class,
             'role' => RoleController::class,
-            'restaurant' => RestaurantController::class,
         ]);
     });
 });

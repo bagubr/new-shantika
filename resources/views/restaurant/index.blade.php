@@ -37,8 +37,9 @@ Restoran
                             <thead>
                                 <tr>
                                     <th>Nama</th>
-                                    <th>Deskripsi</th>
-                                    <th>Gambar</th>
+                                    <th>Address</th>
+                                    <th>Phone</th>
+                                    <th>Image</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -46,7 +47,8 @@ Restoran
                                 @foreach ($restaurants as $restaurant)
                                 <tr>
                                     <td>{{$restaurant->name}}</td>
-                                    <td>{!!Str::limit($restaurant->description, 100)!!}</td>
+                                    <td>{{$restaurant->address}}</td>
+                                    <td>{{$restaurant->phone}}</td>
                                     <td>
                                         <a href="{{$restaurant->image}}" data-toggle="lightbox">
                                             <img src="{{$restaurant->image}}" height="100px" alt="">
