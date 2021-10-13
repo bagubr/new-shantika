@@ -254,9 +254,18 @@
                 <li class="nav-item">
                     <a href="{{route('restaurant.index')}}"
                         class="nav-link {{Request::routeIs('restaurant.*') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-clock"></i>
+                        <i class="nav-icon fas fa-utensils"></i>
                         <p>
                             Restoran
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('restaurant_barcode.index')}}"
+                        class="nav-link {{Request::routeIs('restaurant_barcode.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-utensils"></i>
+                        <p>
+                            Scan Barcode Resto
                         </p>
                     </a>
                 </li>
