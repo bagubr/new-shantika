@@ -47,6 +47,7 @@ use App\Http\Controllers\SketchController;
 use App\Http\Controllers\StatusPenumpangController;
 use App\Http\Controllers\FleetDetailController;
 use App\Http\Controllers\FleetRoutePriceController;
+use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SketchLogController;
 use App\Jobs\Notification\TicketExchangedJob;
@@ -202,6 +203,7 @@ Route::group(['middleware' => ['auth']], function () {
             'bank_account' => BankAccountController::class,
             'admin' => AdminController::class,
             'role' => RoleController::class,
+            'restaurant' => RestaurantController::class,
         ]);
     });
 });
