@@ -7,6 +7,7 @@ use App\Http\Requests\Restaurant\CreateRestaurantRequest;
 use App\Models\Admin;
 use App\Models\Restaurant;
 use App\Models\RestaurantAdmin;
+use Google\Service\Dfareporting\Ad;
 use Illuminate\Http\Request;
 
 class RestaurantController extends Controller
@@ -72,7 +73,10 @@ class RestaurantController extends Controller
         $admins = Admin::whereHas('roles', function ($q) {
             $q->where('name', 'restaurant');
         })->whereDoesntHave('restaurant_admin')->get();
-        return view('restaurant.show', compact('restaurant', 'admins'));
+        $restaurant_admin = Admin::whereHas('restaurant_admin', function ($q) use ($restaurant) {
+            $q->where('restaurant_id', $restaurant->id);
+        })->get();
+        return view('restaurant.show', compact('restaurant', 'admins', 'restaurant_admin'));
     }
 
     /**

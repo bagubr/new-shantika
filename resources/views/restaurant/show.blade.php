@@ -115,10 +115,10 @@ Restoran
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($restaurant->admins as $r)
+                            @foreach ($restaurant_admin as $r)
                             <tr>
-                                <td>{{$r->admin->name}}</td>
-                                <td>{{$r->phone}}</td>
+                                <td>{{$r->name}}</td>
+                                <td>{{$r->restaurant_admin->phone}}</td>
                                 <td>
                                     <form action="{{route('restaurant.destroy_admin',$r->id)}}" class="d-inline"
                                         method="POST">
