@@ -19,6 +19,7 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column " data-widget="treeview" role="menu"
                 data-accordion="false">
+                @unlessrole('restaurant')
                 <li class="nav-item">
                     <a href="{{route('dashboard')}}" class="nav-link {{Request::routeIs('dashboard') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -88,6 +89,7 @@
                         </p>
                     </a>
                 </li>
+                @endunlessrole
                 @hasanyrole('superadmin|ticketing')
                 <li class="nav-header">OPERASIONAL TIKETING</li>
                 <li class="nav-item {{Request::routeIs('area.*','province.*','city.*') ? 'menu-open' : ''}}">
@@ -257,6 +259,15 @@
                         <i class="nav-icon fas fa-utensils"></i>
                         <p>
                             Restoran
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('resturant.show_restaurant_detail')}}"
+                        class="nav-link {{Request::routeIs('resturant.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-utensils"></i>
+                        <p>
+                            Restoran Detail
                         </p>
                     </a>
                 </li>

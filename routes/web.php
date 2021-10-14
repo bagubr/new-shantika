@@ -193,8 +193,7 @@ Route::group(['middleware' => ['auth']], function () {
         'fleet_route' => FleetRouteController::class,
         'status_penumpang' => StatusPenumpangController::class,
         'agency_price' => AgencyPriceController::class,
-        'restaurant' => RestaurantController::class,
-        'restaurant_barcode' => RestaurantBarcodeController::class,
+
     ]);
 
     // Lainnya
@@ -219,5 +218,12 @@ Route::group(['middleware' => ['auth']], function () {
             'admin' => AdminController::class,
             'role' => RoleController::class,
         ]);
+    });
+    Route::group(['middleware' => ['role:superadmin|restaurant']], function () {
+        Route::resources([
+            'restaurant' => RestaurantController::class,
+            'restaurant_barcode' => RestaurantBarcodeController::class,
+        ]);
+        Route::get('restaurant/detail/user', [RestaurantController::class, 'show_restaurant_detail'])->name('resturant.show_restaurant_detail');
     });
 });

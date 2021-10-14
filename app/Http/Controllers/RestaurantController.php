@@ -7,8 +7,9 @@ use App\Http\Requests\Restaurant\CreateRestaurantRequest;
 use App\Models\Admin;
 use App\Models\Restaurant;
 use App\Models\RestaurantAdmin;
-use Google\Service\Dfareporting\Ad;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RestaurantController extends Controller
 {
@@ -77,6 +78,13 @@ class RestaurantController extends Controller
             $q->where('restaurant_id', $restaurant->id);
         })->get();
         return view('restaurant.show', compact('restaurant', 'admins', 'restaurant_admin'));
+    }
+
+    public function show_restaurant_detail()
+    {
+        $user = Auth::user()->restaurant_admin->value('restaurant_id');
+        $restaurant = Restaurant::where('id', $user)->first();
+        return view('restaurant.show_user', compact('restaurant'));
     }
 
     /**
