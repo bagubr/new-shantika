@@ -43,7 +43,7 @@ Scan Barcode
                                     <label>Nama Pemesan</label>
                                     <input type="text" class="form-control" readonly name="order_code" id="name_order">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group d-none">
                                     <label>Order ID</label>
                                     <input type="text" class="form-control" readonly name="order_id" id="order_id"
                                         required>
