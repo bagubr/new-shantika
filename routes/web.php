@@ -217,11 +217,11 @@ Route::group(['middleware' => ['auth']], function () {
             'bank_account' => BankAccountController::class,
             'admin' => AdminController::class,
             'role' => RoleController::class,
+            'restaurant' => RestaurantController::class,
         ]);
     });
     Route::group(['middleware' => ['role:superadmin|restaurant']], function () {
         Route::resources([
-            'restaurant' => RestaurantController::class,
             'restaurant_barcode' => RestaurantBarcodeController::class,
         ]);
         Route::get('restaurant/detail/user', [RestaurantController::class, 'show_restaurant_detail'])->name('resturant.show_restaurant_detail');

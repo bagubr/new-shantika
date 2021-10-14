@@ -89,6 +89,16 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-header">Restoran</li>
+                <li class="nav-item">
+                    <a href="{{route('restaurant.index')}}"
+                        class="nav-link {{Request::routeIs('restaurant.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-utensils"></i>
+                        <p>
+                            Restoran
+                        </p>
+                    </a>
+                </li>
                 @endunlessrole
                 @hasanyrole('superadmin|ticketing')
                 <li class="nav-header">OPERASIONAL TIKETING</li>
@@ -253,15 +263,6 @@
                 </li>
                 @endrole
                 <li class="nav-header">Restoran</li>
-                <li class="nav-item">
-                    <a href="{{route('restaurant.index')}}"
-                        class="nav-link {{Request::routeIs('restaurant.*') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-utensils"></i>
-                        <p>
-                            Restoran
-                        </p>
-                    </a>
-                </li>
                 <li class="nav-item">
                     <a href="{{route('resturant.show_restaurant_detail')}}"
                         class="nav-link {{Request::routeIs('resturant.*') ? 'active' : ''}}">

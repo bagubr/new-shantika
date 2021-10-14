@@ -31,6 +31,23 @@ Scan Barcode
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="row">
+                            <div class="col-12">
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Nama</label>
+                                        <h5>{{$restaurant->name}}</h5>
+                                    </div>
+                                    <div class="col">
+                                        <label>Nomor HP</label>
+                                        <h5>{{$restaurant->phone}}</h5>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Alamat</label>
+                                    <h5>{{$restaurant->address}}</h5>
+                                </div>
+                            </div>
                             <div class="col-md-6">
                                 <div id="qr-reader" class="mx-auto"></div>
                             </div>

@@ -74,6 +74,36 @@ Restoran
                 </div>
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Detail</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" style="display: block;">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nama</th>
+                                <th>Address</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($restaurant->admins as $admin)
+                            <tr>
+                                <td>{{$admin->admin?->name}}</td>
+                                <td>{{$admin->phone}}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 @endsection

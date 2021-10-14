@@ -82,6 +82,7 @@ class RestaurantController extends Controller
 
     public function show_restaurant_detail()
     {
+        // dd(Auth::user()->getRoleNames()[0]);
         $user = Auth::user()->restaurant_admin->value('restaurant_id');
         $restaurant = Restaurant::where('id', $user)->first();
         return view('restaurant.show_user', compact('restaurant'));
