@@ -95,12 +95,14 @@ Scan Barcode
             url: "order/find/" + `NS${decodedText}`,
             dataType: 'json',
             success: function (data) {
-                console.log(data);
+                // console.log(data.order);
                 $("#name_order").val(data.order.order_detail[0].name);
                 $("#order_id").val(data.order.order_detail[0].id);
             },
             error: function (data) {
-                console.log(data);
+                toastr.error("Data Tidak Ditemukan")
+
+                console.log('Data Tidak Ditemukan');
             }
         });
     }

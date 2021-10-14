@@ -264,8 +264,8 @@
                 @endrole
                 <li class="nav-header">Restoran</li>
                 <li class="nav-item">
-                    <a href="{{route('resturant.show_restaurant_detail')}}"
-                        class="nav-link {{Request::routeIs('resturant.*') ? 'active' : ''}}">
+                    <a href="{{route('restaurant.show_restaurant_detail')}}"
+                        class="nav-link {{Request::routeIs('restaurant.show_restaurant_detail') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-utensils"></i>
                         <p>
                             Restoran Detail
@@ -275,9 +275,18 @@
                 <li class="nav-item">
                     <a href="{{route('restaurant_barcode.index')}}"
                         class="nav-link {{Request::routeIs('restaurant_barcode.*') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-utensils"></i>
+                        <i class="nav-icon fas fa-barcode"></i>
                         <p>
                             Scan Barcode Resto
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('restaurant.history_restaurant_detail')}}"
+                        class="nav-link {{Request::routeIs('restaurant.history_restaurant_detail') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-list-alt"></i>
+                        <p>
+                            Riwayat Pembelian
                         </p>
                     </a>
                 </li>

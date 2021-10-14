@@ -224,6 +224,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resources([
             'restaurant_barcode' => RestaurantBarcodeController::class,
         ]);
-        Route::get('restaurant/detail/user', [RestaurantController::class, 'show_restaurant_detail'])->name('resturant.show_restaurant_detail');
+        Route::get('restaurant/detail/user', [RestaurantController::class, 'show_restaurant_detail'])->name('restaurant.show_restaurant_detail');
+        Route::get('restaurant/history/user', [RestaurantController::class, 'history_restaurant_detail'])->name('restaurant.history_restaurant_detail');
     });
 });

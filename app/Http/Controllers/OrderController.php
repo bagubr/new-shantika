@@ -20,6 +20,7 @@ use App\Repositories\RoutesRepository;
 use App\Services\OrderService;
 use App\Utils\NotificationMessage;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -136,7 +137,12 @@ class OrderController extends Controller
     public function showByCodeOrder($code_order)
     {
         $order = Order::with('order_detail')->where('code_order', $code_order)->first();
-
+        if ($order == null) {
+            return response()->json(array(
+                'code'      =>  404,
+                'message'   =>  'Data Tidak Ditemukan'
+            ), 404);
+        }
         return $this->sendSuccessResponse([
             'order' => $order
         ]);

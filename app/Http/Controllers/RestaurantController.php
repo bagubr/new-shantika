@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Restaurant\AssignRestaurantUserRequest;
 use App\Http\Requests\Restaurant\CreateRestaurantRequest;
 use App\Models\Admin;
+use App\Models\FoodRedeemHistory;
 use App\Models\Restaurant;
 use App\Models\RestaurantAdmin;
 use App\Models\User;
@@ -86,6 +87,13 @@ class RestaurantController extends Controller
         $user = Auth::user()->restaurant_admin->value('restaurant_id');
         $restaurant = Restaurant::where('id', $user)->first();
         return view('restaurant.show_user', compact('restaurant'));
+    }
+
+    public function history_restaurant_detail()
+    {
+        $user = Auth::user()->restaurant_admin->value('restaurant_id');
+        $food_reddem_histories = FoodRedeemHistory::where('restaurant_id', $user)->get();
+        return view('restaurant.history_user', compact('food_reddem_histories'));
     }
 
     /**

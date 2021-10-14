@@ -24,7 +24,6 @@ class RestaurantBarcodeController extends Controller
     {
         $user = Auth::user()->restaurant_admin->value('restaurant_id');
         $restaurant = Restaurant::where('id', $user)->first();
-        // return view('restaurant.show_user', compact('restaurant'));
         return view('restaurant_barcode.index', compact('restaurant'));
     }
 
