@@ -262,6 +262,7 @@
                     </a>
                 </li>
                 @endrole
+                @role('restaurant')
                 <li class="nav-header">Restoran</li>
                 <li class="nav-item">
                     <a href="{{route('restaurant.show_restaurant_detail')}}"
@@ -290,6 +291,7 @@
                         </p>
                     </a>
                 </li>
+                @endrole
                 <li class="nav-header">LAINNYA</li>
                 @role('superadmin')
                 <li class="nav-item {{Request::routeIs('admin.*','role.*') ? 'menu-open' : ''}}">
