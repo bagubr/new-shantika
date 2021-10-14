@@ -47,6 +47,7 @@ use App\Http\Controllers\SketchController;
 use App\Http\Controllers\StatusPenumpangController;
 use App\Http\Controllers\FleetDetailController;
 use App\Http\Controllers\FleetRoutePriceController;
+use App\Http\Controllers\RestaurantBarcodeController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SketchLogController;
@@ -93,6 +94,10 @@ Route::get('/test', function () {
 
 Route::get('_/privacy_policy', [LoginController::class, 'privacyPolicy'])->name('_privacy_policy');
 Route::post('admin/store/fcm_token', [LoginController::class, 'storeFcmToken']);
+
+// restaurant
+Route::get('restaurant_barcode/search/code_order', [RestaurantBarcodeController::class, 'getOrderId'])->name('restaurant_barcode.getOrderId');
+// end of restaurant
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/', [Dashboard2Controller::class, 'index'])->name('dashboard');
@@ -152,12 +157,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('member/search', [MemberController::class, 'search'])->name('member.search');
 
     // DASHBOARD
-    route::get('first_bulan', [DashboardController::class, 'first_bulan'])->name('first_bulan');
+    Route::get('first_bulan', [DashboardController::class, 'first_bulan'])->name('first_bulan');
     // END OF DASHBOARD
 
     // restaurant
-    route::post('restaurant/assing', [RestaurantController::class, 'assign_user'])->name('restaurant.assign_user');
+    Route::post('restaurant/assign', [RestaurantController::class, 'assign_user'])->name('restaurant.assign_user');
+    Route::delete('restaurant/admin/delete/{restaurant_admin}', [RestaurantController::class, 'destroy_admin'])->name('restaurant.destroy_admin');
     // end of restaurant
+
 
     Route::resources([
         'fleet_detail' => FleetDetailController::class,
@@ -187,7 +194,7 @@ Route::group(['middleware' => ['auth']], function () {
         'status_penumpang' => StatusPenumpangController::class,
         'agency_price' => AgencyPriceController::class,
         'restaurant' => RestaurantController::class,
-        'food_redeem_history' => FoodRedeemHistory::class,
+        'restaurant_barcode' => RestaurantBarcodeController::class,
     ]);
 
     // Lainnya
