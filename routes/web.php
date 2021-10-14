@@ -53,6 +53,7 @@ use App\Http\Controllers\SketchLogController;
 use App\Jobs\Notification\TicketExchangedJob;
 use App\Jobs\PaymentAcceptedNotificationJob;
 use App\Models\Admin;
+use App\Models\FoodRedeemHistory;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Utils\NotificationMessage;
@@ -186,6 +187,7 @@ Route::group(['middleware' => ['auth']], function () {
         'status_penumpang' => StatusPenumpangController::class,
         'agency_price' => AgencyPriceController::class,
         'restaurant' => RestaurantController::class,
+        'food_redeem_history' => FoodRedeemHistory::class,
     ]);
 
     // Lainnya
