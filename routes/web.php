@@ -54,6 +54,7 @@ use App\Http\Controllers\SketchLogController;
 use App\Jobs\Notification\TicketExchangedJob;
 use App\Jobs\PaymentAcceptedNotificationJob;
 use App\Models\Admin;
+use App\Models\FoodRedeemHistory;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Utils\NotificationMessage;

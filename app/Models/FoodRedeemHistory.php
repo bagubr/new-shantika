@@ -10,11 +10,11 @@ class FoodRedeemHistory extends Model
     use HasFactory;
 
     protected $fillable = [
-        'order_id', 'restaurant_id'
+        'order_detail_id', 'restaurant_id'
     ];
 
-    public function order() {
-        return $this->belongsTo(Order::class);
+    public function order_detail() {
+        return $this->hasOne(OrderDetail::class);
     }
 
     public function restaurant() {
