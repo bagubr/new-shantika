@@ -95,16 +95,19 @@ Scan Barcode
             url: "order/find/" + `NS${decodedText}`,
             dataType: 'json',
             success: function (data) {
-                // console.log(data.order);
                 $("#name_order").val(data.order.order_detail[0].name);
                 $("#order_id").val(data.order.order_detail[0].id);
+                html5QrcodeScanner.clear()
             },
             error: function (data) {
                 toastr.error("Data Tidak Ditemukan")
 
                 console.log('Data Tidak Ditemukan');
             }
+        }).catch((err) => {
+            console.log(err);
         });
+
     }
     var html5QrcodeScanner = new Html5QrcodeScanner(
         "qr-reader", {
