@@ -37,8 +37,9 @@ Restoran
                             <thead>
                                 <tr>
                                     <th>Nama</th>
-                                    <th>Deskripsi</th>
-                                    <th>Gambar</th>
+                                    <th>Address</th>
+                                    <th>Phone</th>
+                                    <th>Image</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -46,13 +47,17 @@ Restoran
                                 @foreach ($restaurants as $restaurant)
                                 <tr>
                                     <td>{{$restaurant->name}}</td>
-                                    <td>{!!Str::limit($restaurant->description, 100)!!}</td>
+                                    <td>{{$restaurant->address}}</td>
+                                    <td>{{$restaurant->phone}}</td>
                                     <td>
                                         <a href="{{$restaurant->image}}" data-toggle="lightbox">
                                             <img src="{{$restaurant->image}}" height="100px" alt="">
                                         </a>
                                     </td>
-                                    <td><a href="{{route('restaurant.edit',$restaurant->id)}}"
+                                    <td>
+                                        <a href="{{route('restaurant.show', $restaurant->id)}}"
+                                            class="btn btn-primary btn-xs">Show</a>
+                                        <a href="{{route('restaurant.edit',$restaurant->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <a class="btn btn-danger btn-xs button-delete"
                                             data-id="{{$restaurant->id}}">Delete</a>

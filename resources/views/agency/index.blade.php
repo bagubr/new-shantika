@@ -69,6 +69,7 @@ Agen
                                     <th>Jam Pagi | Malam</th>
                                     <th>Status</th>
                                     <th>Avatar</th>
+                                    <th>Harga</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -100,6 +101,9 @@ Agen
                                         <a href="{{$agency->avatar_url}}" data-toggle="lightbox">
                                             <img src="{{$agency->avatar_url}}" style="height: 100px">
                                         </a>
+                                    </td>
+                                    <td>
+                                        {{ number_format(@$agency->prices[0]->price) ?: '-' }}
                                     </td>
                                     <td><a href="{{route('agency.edit',$agency->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>

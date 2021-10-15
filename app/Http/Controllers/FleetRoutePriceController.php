@@ -77,7 +77,7 @@ class FleetRoutePriceController extends Controller
             ], [
                 'end_at' => $request['end_at'],
                 'color' => $request['color'],
-                'price' => $request['price'],
+                'deviation_price' => $request['deviation_price'],
                 'note' => $request['note']
             ]);
         }

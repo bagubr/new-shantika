@@ -33,15 +33,17 @@ class LoginController extends Controller
     protected $redirectTo = '/';
 
 
-    public function storeFcmToken(Request $request) {
+    public function storeFcmToken(Request $request)
+    {
         Admin::find(Auth::user()->id)->update([
-            'fcm_token'=>$request->fcm_token
+            'fcm_token' => $request->fcm_token
         ]);
 
         return response([], 200);
     }
 
-    public function privacyPolicy() {
+    public function privacyPolicy()
+    {
         $privacy_policy = PrivacyPolicy::first();
         return view('privacy_policy', compact('privacy_policy'));
     }
