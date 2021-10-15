@@ -61,8 +61,7 @@ class RouteController extends BaseRouteController
                 });
             })
             ->whereHas('prices', function($query) use ($date) {
-                $query->whereDate('start_at', '<=', $date)->whereDate('end_at', '>=', $date)
-                ->orderBy('created_at', 'desc');
+                $query->whereDate('start_at', '<=', $date)->whereDate('end_at', '>=', $date)->orderBy('created_at', 'desc');
             })
             ->when(($request->time_classification_id), function ($que) use ($request, $departure_agency) {
                 $que->whereHas('route.checkpoints', function ($query) use ($request, $departure_agency) {
