@@ -253,7 +253,7 @@
     <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     @include('dashboard.statistic-tiket')
-    @include('dashboard.statistic-agent')
+    {{-- @include('dashboard.statistic-agent') --}}
     @include('dashboard.statistic-sum')
     <script>
         $(function() {
