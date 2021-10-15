@@ -148,7 +148,7 @@ Agen
                 <div class="card-body" style="display: block;">
                     <form action="{{route('agency_price.store')}}" method="post" class="row">
                         @csrf
-                        <input type="hidden" name="agency_id" value="{{$agency->id}}">
+                        <input type="hidden" name="agency_id" value="{{@$agency->id}}">
                         <div class="form-group col-4">
                             <label for="">Harga</label>
                             <input type="number" name="price" class="form-control" id="">
@@ -170,6 +170,7 @@ Agen
                             </tr>
                         </thead>
                         <tbody>
+                            @if(!empty($agency))
                             @foreach($agency->prices as $price)
                             <tr>
                                 <td>Rp. {{number_format($price->price)}}</td>
@@ -183,6 +184,7 @@ Agen
                                 </td>
                             </tr>
                             @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>
