@@ -140,7 +140,7 @@ Harga Rute Armada
                 @foreach($fleet_route_prices as $fleet_route_price) {
                     title: '{{$fleet_route_price->fleet_route?->fleet_detail?->fleet?->name}}/{{$fleet_route_price->fleet_route?->fleet_detail?->fleet?->fleetclass?->name}}({{$fleet_route_price->fleet_route?->fleet_detail?->nickname}})',
                     start: '{{$fleet_route_price->start_at}}',
-                    description : 'Rp. {{number_format($fleet_route_price->price)}} | {{$fleet_route_price->note}}',
+                    description : 'Rp. {{number_format($fleet_route_price->deviation_price)}} | {{$fleet_route_price->note}}',
                     end: '{{$fleet_route_price->end_at}}',
                     color: '{{$fleet_route_price->color}}'
                 },
