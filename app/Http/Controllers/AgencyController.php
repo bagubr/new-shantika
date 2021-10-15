@@ -20,7 +20,9 @@ class AgencyController extends Controller
      */
     public function index()
     {
-        $agencies   = Agency::orderBy('id')->get();
+        $agencies = Agency::with(['prices'=>function($query) {
+            $query->whereDate('start_at', '<=', date('Y-m-d'));
+        }])->orderBy('id')->get();;
         $statuses = Agency::status();
         $areas = Area::get();
         return view('agency.index', compact('agencies', 'statuses', 'areas'));

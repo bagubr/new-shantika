@@ -8,6 +8,7 @@ use App\Models\Agency;
 use App\Models\BlockedChair;
 use App\Models\Booking;
 use App\Models\Fleet;
+use App\Models\FleetRoutePrice;
 use App\Models\LayoutChair;
 use App\Models\Order;
 use App\Models\Layout;
@@ -30,14 +31,18 @@ class AvailableRoutesResource extends JsonResource
         $destination_agency_id = $request->agency_arrived_id ?? $request->agency_id;
         $agency_destiny = Agency::find($destination_agency_id); 
         $route = $this->route;
+        $price = $agency_destiny->city->area_id == 1 
+            ? $departure_agency->prices->sortByDesc('start_at')->first()->price 
+            : $agency_destiny->prices->sortByDesc('start_at')->first()->price;
+        $price = $this->prices[0]->true_deviation_price + $price;
         return [
             'id'                        => $this->id,
             'layout_id'                 => $this->fleet_detail->fleet->layout->id,
             'route_name'                => $route->name,
             'fleet_name'                => $this->fleet_detail->fleet->name ?? "",
             'fleet_class'               => $this->fleet_detail->fleet->fleetclass->name,
-            'departure_at'              => Agency::find($destination_agency_id)->agency_departure_times->first()->departure_at,
-            'price'                     => $this->price,
+            'departure_at'              => $agency_destiny->agency_departure_times->first()->departure_at,
+            'price'                     => $price,
             'chairs_available'          => $this->getChairsAvailable($request, $this->fleet_detail_id, $this->id, $this->fleet_detail->fleet->layout_id),
             'checkpoints'               => $this->when(count($route->checkpoints) >= 1, new CheckpointStartEndResource($route, $agency_destiny, $departure_agency)),
         ];

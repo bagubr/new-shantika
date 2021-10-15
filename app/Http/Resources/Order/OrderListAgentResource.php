@@ -32,7 +32,6 @@ class OrderListAgentResource extends JsonResource
         $fleet_detail = $fleet_route->fleet_detail;
         $fleet = $fleet_detail->fleet;
 
-        $checkpoint_max_index = count($checkpoints) - 1;
         $agency_destiny = $this->agency_destiny;
         $agent_start = $this->agency;
         return [

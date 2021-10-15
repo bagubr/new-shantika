@@ -30,8 +30,7 @@ class OrderService {
     use Response;
 
     public static function create(Order $data, $detail, $payment_type_id = null) {
-        $route = FleetRoute::find($data->fleet_route_id)
-            ?? (new self)->sendFailedResponse([], 'Rute perjalanan tidak ditemukan');
+        FleetRoute::find($data->fleet_route_id) ?? (new self)->sendFailedResponse([], 'Rute perjalanan tidak ditemukan');
         $order_exists = OrderRepository::isOrderUnavailable($data->fleet_route_id, $data->reserve_at, $detail->layout_chair_id, $data->time_classification_id);
         $booking_exists = BookingRepository::isBooked($data->fleet_route_id, $data->user_id, $detail->layout_chair_id, $data->reserve_at, $data->time_classification_id);
         if($order_exists) {
@@ -41,11 +40,19 @@ class OrderService {
             (new self)->sendFailedResponse([], "Maaf, kursi anda telah dibooking terlebih dahulu oleh orang lain");
         }
         $setting = Setting::first();
-        $ticket_price = $route->price - $data->fleet_route->fleet_detail->fleet->fleetclass->price_food;
+
+        $price = $data->agency_destiny->city->area_id == 1
+            ? $data->agency->prices->sortByDesc('start_at')->first()->price
+            : $data->agency_destiny->prices->sortByDesc('start_at')->first()->price;
+        $price = $data->fleet_route->prices[0]->true_deviation_price + $price;
+        if(empty($price)) (new self)->sendFailedResponse([], 'Maaf, harga nya sepertinya sedang kami ubah, silahkan cek beberapa saat lagi');
+
+        $ticket_price = $price - $data->fleet_route->fleet_detail->fleet->fleetclass->price_food;
         $ticket_price_with_food = $detail->is_feed
-            ? $route->price * count($detail->layout_chair_id)
+            ? $price * count($detail->layout_chair_id)
             : $ticket_price * count($detail->layout_chair_id) + $setting->default_food_price * count($detail->layout_chair_id);
         $data->price = $ticket_price_with_food;
+        
         if($detail->is_travel){
             $price_travel = $setting->travel * count($detail->layout_chair_id);
             $data->price += $price_travel;
@@ -60,6 +67,7 @@ class OrderService {
         if(!$data->expired_at) {
             $data->expired_at = self::getExpiredAt();
         }
+        
         $order = Order::create($data->toArray());
         if(!$data->code_order && !$order->code_order) {
             $order->code_order = self::generateCodeOrder($order->id);

@@ -33,6 +33,10 @@ class Agency extends Model
         return $status;
     }
 
+    public function prices() {
+        return $this->hasMany(AgencyPrice::class);
+    }
+
     public function agent_departure()
     {
         return $this->hasOne(AgencyDepartureTime::class);

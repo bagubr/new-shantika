@@ -35,8 +35,8 @@ class RouteController extends BaseRouteController
             return $this->sendFailedResponse([], 'Akun agen anda dinonaktifkan, segera lakukan setoran atau kontak admin');
         }
 
-        $routes = FleetRoute::with(['fleet_detail.fleet.layout', 'route.checkpoints.agency.city', 'route.checkpoints'=>function($query) {
-                $query->orderBy('order', 'asc');
+        $routes = FleetRoute::with(['fleet_detail.fleet.layout', 'route.checkpoints.agency.city', 'route.checkpoints.agency.prices'=>function($query) {
+              $query->orderBy('id', 'desc');
             }])
             ->where('is_active', true)
             ->whereHas('fleet_detail', function($query) use ($request) {
@@ -45,11 +45,14 @@ class RouteController extends BaseRouteController
             ->whereHas('fleet_detail.fleet', function ($query) use ($request) {
                 $query->where('fleet_class_id', $request->fleet_class_id);
             })
-            ->whereHas('route.checkpoints', function ($query) use ($destination_agency, $departure_agency) {
-                $query->where(function($subquery) use ($destination_agency) {
-                    $subquery->where('agency_id', $destination_agency->id)->whereHas('agency', function($subsubquery) {
-                        $subsubquery->where('is_active', true);
-                    });
+            ->whereHas('route.checkpoints', function ($query) use ($date, $destination_agency, $departure_agency) {
+                $query->where(function($subquery) use ($date, $destination_agency) {
+                    $subquery->where('agency_id', $destination_agency->id)
+                        ->whereHas('agency', function($subsubquery) use ($date) {
+                            $subsubquery->where('is_active', true)->whereHas('prices', function($subsubquery) use ($date) {
+                                $subsubquery->where('start_at', '<=', $date);
+                            });
+                        });
                 });
                 $query->where(function($subquery) use ($departure_agency) {
                     $subquery->whereHas('agency.city', function ($subsubquery) use ($departure_agency) {
@@ -57,8 +60,8 @@ class RouteController extends BaseRouteController
                     });
                 });
             })
-            ->whereHas('prices', function(Builder $query) use ($date) {
-                 $query->where('start_at', '<=', $date)->where('end_at', '>=', $date);
+            ->whereHas('prices', function($query) use ($date) {
+                $query->whereDate('start_at', '<=', $date)->whereDate('end_at', '>=', $date);
             })
             ->when(($request->time_classification_id), function ($que) use ($request, $departure_agency) {
                 $que->whereHas('route.checkpoints', function ($query) use ($request, $departure_agency) {

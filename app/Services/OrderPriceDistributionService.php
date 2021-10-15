@@ -30,9 +30,13 @@ class OrderPriceDistributionService {
             'for_member'=>0,
             'for_agent'=>0,
             'total_deposit'=>0,
-            'ticket_only'=>($order->fleet_route?->price * count($order_details)) - ($price_food * count($order_details)),
+            'ticket_only'=>($order->price) - ($price_food * count($order_details)),
+            'ticket_price'=>$order->agency_destiny?->city?->area_id == 1 
+                ? $order->agency->prices->sortByDesc('start_at')->first()->price
+                : $order->agency_destiny->prices->sortByDesc('start_at')->first()->price, 
             'food'=>0
         ];
+        $total_price['ticket_price'] += $order->fleet_route->prices[0]->true_deviation_price;
         $total_price['for_agent'] = $total_price['ticket_only'] * $setting->commision;
         
         foreach($order_details as $order_detail) {

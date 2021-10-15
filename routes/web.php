@@ -5,6 +5,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminNotificationController;
 use App\Http\Controllers\AgencyController;
+use App\Http\Controllers\AgencyPriceController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Auth\LoginController;
@@ -46,11 +47,14 @@ use App\Http\Controllers\SketchController;
 use App\Http\Controllers\StatusPenumpangController;
 use App\Http\Controllers\FleetDetailController;
 use App\Http\Controllers\FleetRoutePriceController;
+use App\Http\Controllers\RestaurantBarcodeController;
+use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SketchLogController;
 use App\Jobs\Notification\TicketExchangedJob;
 use App\Jobs\PaymentAcceptedNotificationJob;
 use App\Models\Admin;
+use App\Models\FoodRedeemHistory;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Utils\NotificationMessage;
@@ -91,6 +95,10 @@ Route::get('/test', function () {
 Route::get('_/privacy_policy', [LoginController::class, 'privacyPolicy'])->name('_privacy_policy');
 Route::post('admin/store/fcm_token', [LoginController::class, 'storeFcmToken']);
 
+// restaurant
+Route::get('restaurant_barcode/search/code_order', [RestaurantBarcodeController::class, 'getOrderId'])->name('restaurant_barcode.getOrderId');
+// end of restaurant
+
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/', [Dashboard2Controller::class, 'index'])->name('dashboard');
     Route::post('dashboard/dashboard', [Dashboard2Controller::class, 'statistic'])->name('dashboard.statistic');
@@ -101,6 +109,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('order/update_jadwal/{order}', [OrderController::class, 'update_jadwal'])->name('order.update_jadwal');
     Route::put('order/cancelation/{order_detail}', [OrderController::class, 'cancelation'])->name('order.cancelation');
     Route::get('order/search', [OrderController::class, 'search'])->name('order.search');
+    Route::get('order/find/{code_order}', [OrderController::class, 'showByCodeOrder'])->name('order.show.code_order');
 
     Route::get('notification/{id}', [AdminNotificationController::class, 'show']);
 
@@ -148,8 +157,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('member/search', [MemberController::class, 'search'])->name('member.search');
 
     // DASHBOARD
-    route::get('first_bulan', [DashboardController::class, 'first_bulan'])->name('first_bulan');
+    Route::get('first_bulan', [DashboardController::class, 'first_bulan'])->name('first_bulan');
     // END OF DASHBOARD
+
+    // restaurant
+    Route::post('restaurant/assign', [RestaurantController::class, 'assign_user'])->name('restaurant.assign_user');
+    Route::delete('restaurant/admin/delete/{restaurant_admin}', [RestaurantController::class, 'destroy_admin'])->name('restaurant.destroy_admin');
+    // end of restaurant
+
 
     Route::resources([
         'fleet_detail' => FleetDetailController::class,
@@ -177,6 +192,8 @@ Route::group(['middleware' => ['auth']], function () {
         'sketch' => SketchController::class,
         'fleet_route' => FleetRouteController::class,
         'status_penumpang' => StatusPenumpangController::class,
+        'agency_price' => AgencyPriceController::class,
+
     ]);
 
     // Lainnya
@@ -200,6 +217,14 @@ Route::group(['middleware' => ['auth']], function () {
             'bank_account' => BankAccountController::class,
             'admin' => AdminController::class,
             'role' => RoleController::class,
+            'restaurant' => RestaurantController::class,
         ]);
+    });
+    Route::group(['middleware' => ['role:superadmin|restaurant']], function () {
+        Route::resources([
+            'restaurant_barcode' => RestaurantBarcodeController::class,
+        ]);
+        Route::get('restaurant/detail/user', [RestaurantController::class, 'show_restaurant_detail'])->name('restaurant.show_restaurant_detail');
+        Route::get('restaurant/history/user', [RestaurantController::class, 'history_restaurant_detail'])->name('restaurant.history_restaurant_detail');
     });
 });

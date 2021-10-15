@@ -16,7 +16,7 @@ class OrderController extends Controller
         $setting = Setting::first();
         $price_food = $fleet_route->fleet_detail?->fleet?->fleetclass?->price_food;
 
-        $price_ticket = $fleet_route->price - $price_food;
+        $price_ticket = $request->price_ticket - $price_food;
         
         $data = [
             'total_food'=>$request->is_food 
@@ -27,7 +27,7 @@ class OrderController extends Controller
         ];
 
         $price_with_food = $request->is_food 
-            ? $fleet_route->price * $request->seat_count
+            ? $request->price_ticket * $request->seat_count
             : ($price_ticket * $request->seat_count) + (($price_food - $setting->default_food_price) * $request->seat_count); 
         
         $data = array_merge($data, [

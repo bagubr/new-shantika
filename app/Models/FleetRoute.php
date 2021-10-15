@@ -23,7 +23,7 @@ class FleetRoute extends Model
     protected $table = 'fleet_routes';
 
     protected $fillable = [
-        'fleet_detail_id', 'route_id', 'price', 'is_active'
+        'fleet_detail_id', 'route_id', 'is_active'
     ];
 
     protected $hidden = [
@@ -50,6 +50,6 @@ class FleetRoute extends Model
     }
 
     public function prices() {
-        return $this->hasMany(FleetRoutePrice::class);
+        return $this->hasMany(FleetRoutePrice::class)->orderBy('created_at', 'desc');
     }
 }

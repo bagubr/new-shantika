@@ -19,6 +19,7 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column " data-widget="treeview" role="menu"
                 data-accordion="false">
+                @unlessrole('restaurant')
                 <li class="nav-item">
                     <a href="{{route('dashboard')}}" class="nav-link {{Request::routeIs('dashboard') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -88,6 +89,17 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-header">Restoran</li>
+                <li class="nav-item">
+                    <a href="{{route('restaurant.index')}}"
+                        class="nav-link {{Request::routeIs('restaurant.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-utensils"></i>
+                        <p>
+                            Restoran
+                        </p>
+                    </a>
+                </li>
+                @endunlessrole
                 @hasanyrole('superadmin|ticketing')
                 <li class="nav-header">OPERASIONAL TIKETING</li>
                 <li class="nav-item {{Request::routeIs('area.*','province.*','city.*') ? 'menu-open' : ''}}">
@@ -250,6 +262,34 @@
                     </a>
                 </li>
                 @endrole
+                <li class="nav-header">Restoran</li>
+                <li class="nav-item">
+                    <a href="{{route('restaurant.show_restaurant_detail')}}"
+                        class="nav-link {{Request::routeIs('restaurant.show_restaurant_detail') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-utensils"></i>
+                        <p>
+                            Restoran Detail
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('restaurant_barcode.index')}}"
+                        class="nav-link {{Request::routeIs('restaurant_barcode.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-barcode"></i>
+                        <p>
+                            Scan Barcode Resto
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('restaurant.history_restaurant_detail')}}"
+                        class="nav-link {{Request::routeIs('restaurant.history_restaurant_detail') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-list-alt"></i>
+                        <p>
+                            Riwayat Pembelian
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-header">LAINNYA</li>
                 @role('superadmin')
                 <li class="nav-item {{Request::routeIs('admin.*','role.*') ? 'menu-open' : ''}}">
