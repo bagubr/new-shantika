@@ -72,6 +72,7 @@ class RouteController extends BaseRouteController
                     });
                 });
             })
+            ->orderBy('created_at', 'desc')
             ->get();
     
         foreach ($routes as $route) {
