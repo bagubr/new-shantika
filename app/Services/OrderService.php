@@ -44,7 +44,7 @@ class OrderService {
         $price = $data->agency_destiny->city->area_id == 1
             ? $data->agency->prices->sortByDesc('start_at')->first()->price
             : $data->agency_destiny->prices->sortByDesc('start_at')->first()->price;
-        $price = $data->fleet_route->prices()->orderBy('created_at', 'desc')->true_deviation_price + $price;
+        $price = $data->fleet_route->prices()->orderBy('created_at', 'desc')->first()->true_deviation_price + $price;
         if(empty($price)) (new self)->sendFailedResponse([], 'Maaf, harga nya sepertinya sedang kami ubah, silahkan cek beberapa saat lagi');
 
         $ticket_price = $price - $data->fleet_route->fleet_detail->fleet->fleetclass->price_food;
