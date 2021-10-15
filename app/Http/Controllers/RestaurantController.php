@@ -91,7 +91,8 @@ class RestaurantController extends Controller
     public function history_restaurant()
     {
         $food_reddem_histories = FoodRedeemHistory::all();
-        return view('restaurant.history', compact('food_reddem_histories'));
+        $restaurants = Restaurant::all();
+        return view('restaurant.history', compact('food_reddem_histories', 'restaurants'));
     }
     public function history_restaurant_detail()
     {
