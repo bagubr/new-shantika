@@ -99,6 +99,15 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{route('r.history_restaurant')}}"
+                        class="nav-link {{Request::routeIs('r.history_restaurant') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-list-alt"></i>
+                        <p>
+                            Riwayat Kupon Restoran
+                        </p>
+                    </a>
+                </li>
                 @endunlessrole
                 @hasanyrole('superadmin|ticketing')
                 <li class="nav-header">OPERASIONAL TIKETING</li>
@@ -287,7 +296,7 @@
                         class="nav-link {{Request::routeIs('restaurant.history_restaurant_detail') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-list-alt"></i>
                         <p>
-                            Riwayat Pembelian
+                            Riwayat Kupon Restoran
                         </p>
                     </a>
                 </li>

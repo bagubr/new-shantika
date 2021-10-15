@@ -27,6 +27,9 @@ Riwayat Pembelian
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Table Riwayat Pembelian</h3>
+                        <div class="text-right">
+                            <a href="{{route('restaurant.create')}}" class="btn btn-primary btn-sm">Tambah</a>
+                        </div>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
