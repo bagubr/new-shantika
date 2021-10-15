@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Riwayat Pembelian
+Riwayat Kupon Makan
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->
@@ -8,12 +8,12 @@ Riwayat Pembelian
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Riwayat Pembelian</h1>
+                <h1 class="m-0">Riwayat Kupon Makan</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Riwayat Pembelian</li>
+                    <li class="breadcrumb-item active">Riwayat Kupon Makan</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -23,10 +23,36 @@ Riwayat Pembelian
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12">
+            <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Riwayat Pembelian</h3>
+                        <h3 class="card-title">Cari Restoran</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="">
+                            <div class="form-group">
+                                <label>Restorant</label>
+                                <select name="restaurant_id" class="form-control select2">
+                                    <option value="">Pilih Restoran</option>
+                                    @foreach ($restaurants as $restaurant)
+                                    <option value="{{$restaurant->id}}">{{$restaurant->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-success">Cari</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Table Riwayat Kupon Makan</h3>
+                        <div class="text-right">
+                            <a href="{{route('restaurant.create')}}" class="btn btn-primary btn-sm">Tambah</a>
+                        </div>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -47,9 +73,7 @@ Riwayat Pembelian
                     </div>
                     <!-- /.card-body -->
                 </div>
-                <!-- /.card -->
             </div>
-            <!-- /.col -->
         </div>
     </div>
 </div>
