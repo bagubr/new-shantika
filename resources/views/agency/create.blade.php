@@ -170,6 +170,7 @@ Agen
                             </tr>
                         </thead>
                         <tbody>
+                            @if(!empty($agency))
                             @foreach($agency->prices as $price)
                             <tr>
                                 <td>Rp. {{number_format($price->price)}}</td>
@@ -183,6 +184,7 @@ Agen
                                 </td>
                             </tr>
                             @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>
