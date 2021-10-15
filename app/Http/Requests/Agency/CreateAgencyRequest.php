@@ -24,7 +24,7 @@ class CreateAgencyRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:agencies,name',
+            'name' => 'required',
             'city_id' => 'required|exists:cities,id',
             'code' => 'required',
             'address' => 'required',
