@@ -51,9 +51,9 @@ class RestaurantBarcodeController extends Controller
      */
     public function store(Request $request)
     {
-        // $data = $request->validate([
-        //     'code_order' => 'nullable'
-        // ]);
+        $data = $request->validate([
+            'code_order' => 'required'
+        ]);
         // $code_order = explode('|', $data['code_order']);
         $data['code_order'] = $request->code_order;
         $data['layout_chair_name'] = $request->layout_chair_name;
