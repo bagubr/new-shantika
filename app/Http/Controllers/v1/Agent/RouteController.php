@@ -19,10 +19,6 @@ class RouteController extends BaseRouteController
 {
     public function getAvailableRoutes(ApiGetAvailableRouteRequest $request)
     {
-        $max_date = date('Y-m-d', strtotime("+30 days"));
-        if ($request->date > $max_date) {
-            $this->sendFailedResponse([], 'Kamu tidak bisa memesan untuk tanggal lebih dari ' . $max_date);
-        }
         $date = $request->date;
         $user = UserRepository::findByToken($request->bearerToken());
         $departure_agency = AgencyRepository::findWithCity($user->agencies->agency_id);
