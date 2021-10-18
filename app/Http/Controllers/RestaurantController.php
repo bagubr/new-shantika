@@ -88,7 +88,12 @@ class RestaurantController extends Controller
         $restaurant = Restaurant::where('id', $user)->first();
         return view('restaurant.show_user', compact('restaurant'));
     }
-
+    public function history_restaurant()
+    {
+        $food_reddem_histories = FoodRedeemHistory::all();
+        $restaurants = Restaurant::all();
+        return view('restaurant.history', compact('food_reddem_histories', 'restaurants'));
+    }
     public function history_restaurant_detail()
     {
         $user = Auth::user()->restaurant_admin->value('restaurant_id');

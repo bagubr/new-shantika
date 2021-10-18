@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\OrderPriceDistribution;
+use App\Models\OutcomeDetail;
 // use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Illuminate\Http\Request;
@@ -32,16 +33,10 @@ class SetoranExport implements FromView, ShouldAutoSize
                     $sq->where('fleet_detail_id', $fleet_detail_id);
                 });
             });
-            $outcome_details = $outcome_details->whereHas('outcome', function ($q) use ($fleet_detail_id) {
-                $q->where('fleet_detail_id', $fleet_detail_id);
-            });
         }
         if (!empty($date_search)) {
             $order_price_distributions = $order_price_distributions->whereHas('order', function ($q) use ($date_search) {
                 $q->where('reserve_at', $date_search)->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
-            });
-            $outcome_details = $outcome_details->whereHas('outcome', function ($q) use ($date_search) {
-                $q->where('reported_at', $date_search);
             });
         }
 

@@ -88,11 +88,12 @@ Scan Barcode
 <script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>
 <script>
     function onScanSuccess(decodedText, decodedResult) {
-        console.log(`Code scanned = ${decodedText}`);
-        $("#code_order").val(`NS${decodedText}`);
+        const str = `${decodedText}`;
+        const slug = str.split('|');
+        $("#code_order").val(`${decodedText}`);
         $.ajax({
             type: "GET",
-            url: "order/find/" + `NS${decodedText}`,
+            url: "order/find/" + slug[0],
             dataType: 'json',
             success: function (data) {
                 $("#name_order").val(data.order.order_detail[0].name);
@@ -101,8 +102,6 @@ Scan Barcode
             },
             error: function (data) {
                 toastr.error("Data Tidak Ditemukan")
-
-                console.log('Data Tidak Ditemukan');
             }
         }).catch((err) => {
             console.log(err);

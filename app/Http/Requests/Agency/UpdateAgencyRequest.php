@@ -24,7 +24,7 @@ class UpdateAgencyRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:agencies,name,' . $this->agency->id,
+            'name' => 'required',
             'city_id' => 'required|exists:cities,id',
             'code' => 'required',
             'address' => 'required',

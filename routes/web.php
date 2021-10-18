@@ -219,6 +219,7 @@ Route::group(['middleware' => ['auth']], function () {
             'role' => RoleController::class,
             'restaurant' => RestaurantController::class,
         ]);
+        Route::get('restaurant/history/all', [RestaurantController::class, 'history_restaurant'])->name('r.history_restaurant');
     });
     Route::group(['middleware' => ['role:superadmin|restaurant']], function () {
         Route::resources([

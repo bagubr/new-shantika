@@ -105,10 +105,11 @@ User Agent
                                     <td>{{$user_agent->agencies?->agent?->city?->area?->name}}</td>
                                     <td>{{$user_agent->phone}}</td>
                                     <td>
-                                        <a href="{{route('agency.edit',$user_agent->agencies?->agent->id)}}"
-                                            target="_blank">
+                                        @if (!empty($user_agent->agencies?->agent?->id))
+                                        <a href="{{route('agency.edit',$user_agent->agencies?->agent?->id)}}">
                                             {{$user_agent->agencies?->agent?->name}}/{{$user_agent->agencies?->agent?->city?->name}}
                                         </a>
+                                        @endif
                                     </td>
                                     <td>{{$user_agent->email}}</td>
                                     <td>
@@ -139,13 +140,12 @@ User Agent
                                         <a href="{{route('user_agent.edit',$user_agent->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         {{-- <form action="{{route('user_agent.destroy',$user_agent->id)}}"
-                                        class="d-inline"
-                                        method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-danger btn-xs"
-                                            onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
-                                            type="submit">Delete</button>
+                                            class="d-inline" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger btn-xs"
+                                                onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                                type="submit">Delete</button>
                                         </form> --}}
                                     </td>
                                 </tr>

@@ -23,11 +23,7 @@ class BookingController extends Controller
 {
     public function booking(ApiBookingRequest $request) {
         $booking = [];
-        DB::beginTransaction();        
-        $max_date = date('Y-m-d', strtotime("+30 days"));
-        if($request->booking_at > $max_date) {
-            $this->sendFailedResponse([], 'Kamu tidak bisa memesan untuk tanggal lebih dari '.$max_date);
-        }
+        DB::beginTransaction();
         $user = UserRepository::findByToken($request->bearerToken());
         $is_exist = BookingRepository::isBooked($request->fleet_route_id, $user->id, $request->layout_chair_id, $request->booking_at);
         if($is_exist) {

@@ -73,7 +73,7 @@ Harga Rute Armada
                                     <th>Nama</th>
                                     <th>Rute</th>
                                     <th>Tanggal</th>
-                                    <th>Harga</th>
+                                    <th>Perubahan Harga</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -86,7 +86,7 @@ Harga Rute Armada
                                     </td>
                                     <td>{{$fleet_route_price->fleet_route?->route?->name}}</td>
                                     <td>{{$fleet_route_price->start_at}} - {{$fleet_route_price->end_at}}</td>
-                                    <td>Rp. {{number_format($fleet_route_price->price,2)}}</td>
+                                    <td>Rp. {{number_format($fleet_route_price->deviation_price,2)}}</td>
                                     <td><a href="{{route('fleet_route_prices.edit',$fleet_route_price->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('fleet_route_prices.destroy',$fleet_route_price->id)}}"
@@ -140,7 +140,7 @@ Harga Rute Armada
                 @foreach($fleet_route_prices as $fleet_route_price) {
                     title: '{{$fleet_route_price->fleet_route?->fleet_detail?->fleet?->name}}/{{$fleet_route_price->fleet_route?->fleet_detail?->fleet?->fleetclass?->name}}({{$fleet_route_price->fleet_route?->fleet_detail?->nickname}})',
                     start: '{{$fleet_route_price->start_at}}',
-                    description : 'Rp. {{number_format($fleet_route_price->price)}} | {{$fleet_route_price->note}}',
+                    description : 'Rp. {{number_format($fleet_route_price->deviation_price)}} | {{$fleet_route_price->note}}',
                     end: '{{$fleet_route_price->end_at}}',
                     color: '{{$fleet_route_price->color}}'
                 },
