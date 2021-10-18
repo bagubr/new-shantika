@@ -194,7 +194,7 @@ Setoran
                                     </td>
                                     <td>Rp.{{number_format($order_price_distribution->ticket_price)}}
                                     </td>
-                                    <td>Rp.{{number_format($order_price_distribution->for_agent)}}
+                                    <td>Rp.{{number_format(abs($order_price_distribution->for_agent))}}
                                     </td>
                                     <td>Rp. {{number_format($order_price_distribution->for_owner)}}</td>
                                     <td>Rp. {{number_format($order_price_distribution->for_food)}}</td>
