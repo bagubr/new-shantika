@@ -51,7 +51,7 @@
                 </a>
                 @endif
             </td>
-            <td data-col="7">Rp. {{number_format($order_price_distribution->order?->distribution?->ticket_price)}}
+            <td data-col="7">
             </td>
             <td data-col="8">Rp.
                 {{number_format($order_price_distribution->order?->fleet_route?->price * $order_price_distribution->order?->order_detail?->count())}}
