@@ -52,22 +52,32 @@ Scan Barcode
                                 <div id="qr-reader" class="mx-auto"></div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Kode Order</label>
-                                    <input type="text" class="form-control" readonly name="order_code" id="code_order">
-                                </div>
-                                <div class="form-group">
-                                    <label>Nama Pemesan</label>
-                                    <input type="text" class="form-control" readonly name="order_code" id="name_order">
-                                </div>
-                                <div class="form-group d-none">
-                                    <label>Order ID</label>
-                                    <input type="text" class="form-control" readonly name="order_id" id="order_id"
-                                        required>
-                                </div>
-                                <div class="text-right">
-                                    <input type="submit" value="Konfirmasi" class="btn btn-success">
-                                </div>
+                                <form action="{{route('restaurant_barcode.store',)}}" method="post">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label>Kode Order</label>
+                                        <input type="text" class="form-control" readonly name="code_order"
+                                            id="code_order">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Nama Pemesan</label>
+                                        <input type="text" class="form-control" readonly name="order_code"
+                                            id="name_order">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Nomor Kursi</label>
+                                        <input type="text" class="form-control" readonly name="layout_chair_name"
+                                            id="layout_chair_name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Order ID</label>
+                                        <input type="text" class="form-control" readonly name="order_id" id="order_id"
+                                            required>
+                                    </div>
+                                    <div class="text-right">
+                                        <input type="submit" value="Konfirmasi" class="btn btn-success">
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -90,7 +100,8 @@ Scan Barcode
     function onScanSuccess(decodedText, decodedResult) {
         const str = `${decodedText}`;
         const slug = str.split('|');
-        $("#code_order").val(`${decodedText}`);
+        $("#code_order").val(slug[0]);
+        $("#layout_chair_name").val(slug[1]);
         $.ajax({
             type: "GET",
             url: "order/find/" + slug[0],
