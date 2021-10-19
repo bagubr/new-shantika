@@ -42,8 +42,8 @@ class OrderService {
         $setting = Setting::first();
 
         $price = $data->agency_destiny->city->area_id == 1
-            ? $data->agency->prices->sortByDesc('start_at')->first()->price
-            : $data->agency_destiny->prices->sortByDesc('start_at')->first()->price;
+            ? $data->agency->prices->sortByDesc('created_at')->first()->price
+            : $data->agency_destiny->prices->sortByDesc('created_at')->first()->price;
         $price = $data->fleet_route->prices()
             ->whereDate('start_at', '<=', $data->reserve_at)
             ->whereDate('end_at', '>=', $data->reserve_at)
