@@ -54,26 +54,28 @@ class RestaurantBarcodeController extends Controller
         $data = $request->validate([
             'code_order' => 'required'
         ]);
-        $code_order = explode('|', $data['code_order']);
-        $data['code_order'] = $code_order[0];
-        $data['layout_chair_name'] = $code_order[1];
+        // $code_order = explode('|', $data['code_order']);
+        $data['code_order'] = $request->code_order;
+        $data['layout_chair_name'] = $request->layout_chair_name;
 
         $order = OrderRepository::findByCodeOrder($data['code_order']);
-        $redeems = FoodRedeemHistory::where('order_id', $order->id)->get();
+        $redeems = FoodRedeemHistory::where('order_detail_id', $order->order_detail[0]->id)->get();
         $order_detail = OrderDetail::whereHas('chair', function ($query) use ($data) {
-            $query->where('name', 'ilike', "'%" . $data['layour_chair_name'] . "%'");
+            $query->where('name', 'ilike', '%' . $data['layout_chair_name'] . '%');
         })->first() ?? $this->sendFailedResponse([], 'Data order tidak ditemukan');
         $ticket_count = count($order->order_detail);
+        $redeem_count = count($redeems);
         $auth = Auth::user();
-        $restaurant_admin = @RestaurantAdmin::where('admin_id', $auth->id)->first()->restaurant_id;
+        $restaurant_admin = RestaurantAdmin::where('admin_id', $auth->id)->first()->restaurant_id;
         if (empty($order)) $this->sendFailedResponse([], 'Kode order tidak ditemukan');
-        if ($redeems >= $ticket_count) $this->sendFailedResponse([], 'Anda sudah meredeem kode order ini sebanyak jumlah tiket anda');
+        if ($redeem_count >= $ticket_count) $this->sendFailedResponse([], 'Anda sudah meredeem kode order ini sebanyak jumlah tiket anda');
         if (empty($restaurant_admin)) $this->sendFailedResponse([], 'ID Anda tidak ditemukan');
 
         $history = FoodRedeemHistory::create([
             'order_detail_id' => $order_detail->id,
-            'restaurant_id' => $restaurant_admin->restaurant_id
+            'restaurant_id' => $restaurant_admin
         ]);
+
 
         return $this->sendSuccessResponse([
             'history' => $history
