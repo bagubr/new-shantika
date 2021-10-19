@@ -32,7 +32,7 @@ class OrderPriceDistributionService {
             'total_deposit'=>0,
             'ticket_only'=>$order_details[0]->is_feed 
                 ? ($order->price) - ($price_food * count($order_details)) 
-                : ($order->price),
+                : $order->price,
             'ticket_price'=>$order->price, 
             'food'=>0
         ];
@@ -47,9 +47,15 @@ class OrderPriceDistributionService {
             }
             if($order_detail->is_travel) {
                 $total_price['for_travel'] += $setting->travel;
+            } else {
+                $total_price['ticket_only'] -= $setting->travel;
+                $total_price['ticket_price'] -= $setting->travel;
             }
             if($order_detail->is_member) {
                 $total_price['for_member'] -= $setting->member;
+            } else {
+                $total_price['ticket_only'] += $setting->member;
+                $total_price['ticket_price'] += $setting->member;
             }
         }
 
