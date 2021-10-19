@@ -26,8 +26,12 @@ class OrderPriceDistributionService {
         $price_food = $order->fleet_route?->fleet_detail?->fleet?->fleetclass?->price_food;
         $total_price = [
             'for_food'=>0,
-            'for_travel'=>0,
-            'for_member'=>0,
+            'for_travel'=>$order_details[0]->is_travel
+                ? $setting->travel
+                : 0,
+            'for_member'=>$order_detail[0]->is_member
+                ? $setting->member
+                : 0,
             'for_agent'=>0,
             'total_deposit'=>0,
             'ticket_only'=>$order_details[0]->is_feed 
@@ -44,18 +48,6 @@ class OrderPriceDistributionService {
                 $total_price['food'] += $price_food;
             } else {
                 $total_price['food'] += $price_food - $setting->default_food_price;
-            }
-            if($order_detail->is_travel) {
-                $total_price['for_travel'] += $setting->travel;
-            } else {
-                $total_price['ticket_only'] -= $setting->travel;
-                $total_price['ticket_price'] -= $setting->travel;
-            }
-            if($order_detail->is_member) {
-                $total_price['for_member'] -= $setting->member;
-            } else {
-                $total_price['ticket_only'] += $setting->member;
-                $total_price['ticket_price'] += $setting->member;
             }
         }
 
