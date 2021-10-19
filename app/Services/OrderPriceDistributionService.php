@@ -29,7 +29,7 @@ class OrderPriceDistributionService {
             'for_travel'=>$order_details[0]->is_travel
                 ? $setting->travel
                 : 0,
-            'for_member'=>$order_detail[0]->is_member
+            'for_member'=>$order_details[0]->is_member
                 ? $setting->member
                 : 0,
             'for_agent'=>0,
