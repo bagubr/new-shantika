@@ -40,8 +40,6 @@ class OrderPriceDistributionService {
             'ticket_price'=>$order->price, 
             'food'=>0
         ];
-        $total_price['for_agent'] = $total_price['ticket_only'] * $setting->commision;
-        
         foreach($order_details as $order_detail) {
             if($order_detail->is_feed) {
                 $total_price['for_food'] +=  $price_food;
@@ -50,7 +48,9 @@ class OrderPriceDistributionService {
                 $total_price['food'] += $price_food - $setting->default_food_price;
             }
         }
+        $total_price['ticket_only'] = $total_price['ticket_only'] - $total_price['for_travel'] - abs($total_price['for_member']);
 
+        $total_price['for_agent'] = $total_price['ticket_only'] * $setting->commision;
         $is_agent = UserRepository::findUserIsAgent($order->user_id);
         if(!$is_agent && $order->status == Order::STATUS1) {
             $total_price['for_agent'] = 0;
