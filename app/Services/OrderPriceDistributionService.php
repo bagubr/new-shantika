@@ -40,6 +40,7 @@ class OrderPriceDistributionService {
         ->whereDate('end_at', '>=', $order->reserve_at)
         ->orderBy('id', 'desc')
         ->first()->true_deviation_price;
+
         $total_price['for_agent'] = $total_price['ticket_only'] * $setting->commision;
         
         foreach($order_details as $order_detail) {
@@ -56,6 +57,8 @@ class OrderPriceDistributionService {
                 $total_price['for_member'] -= $setting->member;
             }
         }
+
+        $total_price['ticket_price']
 
         $is_agent = UserRepository::findUserIsAgent($order->user_id);
         if(!$is_agent && $order->status == Order::STATUS1) {

@@ -34,11 +34,11 @@ class AvailableRoutesResource extends JsonResource
         $price = $agency_destiny->city->area_id == 1 
             ? $departure_agency->prices->sortByDesc('created_at')->first()->price 
             : $agency_destiny->prices->sortByDesc('created_at')->first()->price;
-        $price = $this->prices()
+        $price += $this->prices()
         ->whereDate('start_at', '<=', $request->date)
         ->whereDate('end_at', '>=', $request->date)
         ->orderBy('id', 'desc')
-        ->first()->true_deviation_price + $price;
+        ->first()->true_deviation_price;
         return [
             'id'                        => $this->id,
             'layout_id'                 => $this->fleet_detail->fleet->layout->id,

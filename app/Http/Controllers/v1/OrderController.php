@@ -28,10 +28,10 @@ class OrderController extends Controller
 
         $price_with_food = $request->is_food 
             ? $request->price_ticket * $request->seat_count
-            : ($request->price_ticket * $request->seat_count) - ($price_food * $request->seat_count); 
+            : ($price_ticket * $request->seat_count) + (($price_food - $setting->default_food_price) * $request->seat_count); 
         
         $data = array_merge($data, [
-            'price_ticket'=>$price_with_food,
+            'price_ticket'=>$price_ticket,
             'total_price'=>$price_with_food + $data['total_travel'] + $data['total_member']
         ]);
 
