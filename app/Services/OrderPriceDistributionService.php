@@ -42,6 +42,7 @@ class OrderPriceDistributionService {
                 $total_price['for_food'] +=  $price_food;
                 $total_price['food'] += $price_food;
             } else {
+                $total_price['ticket_only'] -= $setting->default_food_price;
                 $total_price['food'] += $price_food - $setting->default_food_price;
             }
             if($order_detail->is_travel) {
