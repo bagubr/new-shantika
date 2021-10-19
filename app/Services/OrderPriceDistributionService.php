@@ -40,8 +40,7 @@ class OrderPriceDistributionService {
             ->whereDate('start_at', '<=', $order->reserve_at)
             ->whereDate('end_at', '>=', $order->reserve_at)
             ->orderBy('id', 'desc')
-            ->first()->true_deviation_price
-            ->true_deviation_price;
+            ->first()->true_deviation_price;
         $total_price['for_agent'] = $total_price['ticket_only'] * $setting->commision;
         
         foreach($order_details as $order_detail) {
