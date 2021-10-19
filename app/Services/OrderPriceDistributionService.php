@@ -56,7 +56,6 @@ class OrderPriceDistributionService {
         ->whereDate('end_at', '>=', $order->reserve_at)
         ->orderBy('id', 'desc')
         ->first()->true_deviation_price;
-        $total_price['ticket_price'] -= $total_price['food'];        
         
         $total_price['for_agent'] = $total_price['ticket_only'] * $setting->commision;
 
