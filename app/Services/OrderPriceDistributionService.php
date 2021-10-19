@@ -58,7 +58,7 @@ class OrderPriceDistributionService {
             }
         }
 
-        $total_price['ticket_price']
+        $total_price['ticket_price'] -= $total_price['food'];
 
         $is_agent = UserRepository::findUserIsAgent($order->user_id);
         if(!$is_agent && $order->status == Order::STATUS1) {
