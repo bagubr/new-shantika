@@ -48,7 +48,7 @@ class OrderPriceDistributionService {
         }
         $total_price['ticket_only'] = $total_price['ticket_only'] - $total_price['for_travel'] - abs($total_price['for_member']);
 
-        $total_price['for_agent'] = $total_price['for_deposit'] - $total_price['food'] * $setting->commision;
+        $total_price['for_agent'] = ($for_deposit - $total_price['food']) * $setting->commision;
         $is_agent = UserRepository::findUserIsAgent($order->user_id);
         if(!$is_agent && $order->status == Order::STATUS1) {
             $total_price['for_agent'] = 0;
