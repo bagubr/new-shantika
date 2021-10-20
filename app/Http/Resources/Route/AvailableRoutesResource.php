@@ -37,7 +37,8 @@ class AvailableRoutesResource extends JsonResource
         ->prices()
         ->where('area_id', $agency_destiny->city->area_id)
         ->whereDate('start_at', '<=', $request->date)
-        ->orderBy('start_at', 'desc')
+        ->whereDate('end_at', '>=', $request->date)
+        ->orderBy('created_at', 'desc')
         ->first()->price;
         if(empty($fleet_class_price)) {
             $price = $agency_destiny->city->area_id == 1 
