@@ -42,8 +42,8 @@ class OrderService {
         $setting = Setting::first();
 
         $price = $data->agency_destiny->city->area_id == 1
-            ? $data->agency->prices->sortByDesc('start_at')->first()->price
-            : $data->agency_destiny->prices->sortByDesc('start_at')->first()->price;
+            ? $data->agency->prices->sortByDesc('created_at')->first()->price
+            : $data->agency_destiny->prices->sortByDesc('created_at')->first()->price;
         $price = $data->fleet_route->prices()
             ->whereDate('start_at', '<=', $data->reserve_at)
             ->whereDate('end_at', '>=', $data->reserve_at)
@@ -51,10 +51,9 @@ class OrderService {
             ->first()->true_deviation_price + $price;
         if(empty($price)) (new self)->sendFailedResponse([], 'Maaf, harga nya sepertinya sedang kami ubah, silahkan cek beberapa saat lagi');
 
-        $ticket_price = $price - $data->fleet_route->fleet_detail->fleet->fleetclass->price_food;
         $ticket_price_with_food = $detail->is_feed
             ? $price * count($detail->layout_chair_id)
-            : $ticket_price * count($detail->layout_chair_id) + $setting->default_food_price * count($detail->layout_chair_id);
+            : ($price - $setting->default_food_price) * count($detail->layout_chair_id);
         $data->price = $ticket_price_with_food;
         
         if($detail->is_travel){
@@ -80,7 +79,7 @@ class OrderService {
         if($detail->code_booking) {
             BookingService::deleteByCodeBooking($detail->code_booking);
         }
-        self::createDetail($order, $detail->layout_chair_id, $detail);
+        self::createDetail($order, $detail->layout_chair_id, $detail, $price);
         $order = Order::find($order->id);
         self::sendNotification($order);
         return $order;
@@ -108,7 +107,7 @@ class OrderService {
         NewOrderNotification::dispatch($admin_notification, Admin::whereNotNull('fcm_token')->pluck('fcm_token'), true);
     }
 
-    public static function createDetail($order, $layout_chairs, $detail) {
+    public static function createDetail($order, $layout_chairs, $detail, $price) {
         $order_details = [];
         $blocked_chairs = BlockedChair::where('fleet_route_id', $order->fleet_route_id)->pluck('layout_chair_id')->toArray();
         foreach($layout_chairs as $layout_chair_id) {
@@ -126,7 +125,7 @@ class OrderService {
                 'is_member'         => $detail->is_member
             ]);
         }
-        $distrib = OrderPriceDistributionService::createByOrderDetail($order, $order_details);
+        $distrib = OrderPriceDistributionService::createByOrderDetail($order, $order_details, $price);
     }
 
     public static function getInvoice(Payment|int|null $payment = null) {
@@ -152,7 +151,7 @@ class OrderService {
             'status'=>Order::STATUS5,
             'exchanged_at'=>date('Y-m-d H:i:s')
         ]);
-        $total_price = OrderPriceDistributionService::calculateDistribution($order, $order->order_detail);
+        $total_price = OrderPriceDistributionService::calculateDistribution($order, $order->order_detail, $order->distribution->ticket_only);
         $order->distribution()->update([
             'for_agent'=>$total_price['for_agent'],
             'for_owner'=>$total_price['for_owner'],

@@ -10,8 +10,8 @@ use App\Repositories\UserRepository;
 use function PHPSTORM_META\map;
 
 class OrderPriceDistributionService {
-    public static function createByOrderDetail(Order $order, array $order_details) {
-        $total_price = self::calculateDistribution($order, $order_details);
+    public static function createByOrderDetail(Order $order, array $order_details, $price) {
+        $total_price = self::calculateDistribution($order, $order_details, $price);
 
         $price_distribution = OrderPriceDistribution::create(array_merge($total_price, [
             'order_id'=>$order->id,
@@ -21,24 +21,25 @@ class OrderPriceDistributionService {
         return $price_distribution;
     }
 
-    public static function calculateDistribution($order, $order_details) {
+    public static function calculateDistribution($order, $order_details, $price) {
         $setting = Setting::first();
         $price_food = $order->fleet_route?->fleet_detail?->fleet?->fleetclass?->price_food;
         $total_price = [
             'for_food'=>0,
-            'for_travel'=>0,
-            'for_member'=>0,
+            'for_travel'=>$order_details[0]->is_travel
+                ? $setting->travel
+                : 0,
+            'for_member'=>$order_details[0]->is_member
+                ? $setting->member
+                : 0,
             'for_agent'=>0,
             'total_deposit'=>0,
-            'ticket_only'=>($order->price) - ($price_food * count($order_details)),
-            'ticket_price'=>$order->agency_destiny?->city?->area_id == 1 
-                ? $order->agency->prices->sortByDesc('start_at')->first()->price
-                : $order->agency_destiny->prices->sortByDesc('start_at')->first()->price, 
+            'ticket_only'=>$order_details[0]->is_feed 
+                ? ($order->price) - ($price_food * count($order_details)) 
+                : $order->price,
+            'ticket_price'=>$order->price, 
             'food'=>0
         ];
-        $total_price['ticket_price'] += $order->fleet_route->prices[0]->true_deviation_price;
-        $total_price['for_agent'] = $total_price['ticket_only'] * $setting->commision;
-        
         foreach($order_details as $order_detail) {
             if($order_detail->is_feed) {
                 $total_price['for_food'] +=  $price_food;
@@ -46,14 +47,10 @@ class OrderPriceDistributionService {
             } else {
                 $total_price['food'] += $price_food - $setting->default_food_price;
             }
-            if($order_detail->is_travel) {
-                $total_price['for_travel'] += $setting->travel;
-            }
-            if($order_detail->is_member) {
-                $total_price['for_member'] -= $setting->member;
-            }
         }
+        $total_price['ticket_only'] = $total_price['ticket_only'] - $total_price['for_travel'] - abs($total_price['for_member']);
 
+        $total_price['for_agent'] = $total_price['ticket_only'] * $setting->commision;
         $is_agent = UserRepository::findUserIsAgent($order->user_id);
         if(!$is_agent && $order->status == Order::STATUS1) {
             $total_price['for_agent'] = 0;
