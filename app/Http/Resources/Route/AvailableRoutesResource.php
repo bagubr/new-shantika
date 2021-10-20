@@ -46,7 +46,12 @@ class AvailableRoutesResource extends JsonResource
         } else {
             $price = $fleet_class_price;
         }
-        $price += $this->prices[0]->true_deviation_price;
+        $price += $this->prices()
+            ->whereDate('start_at', '<=', $request->date)
+            ->whereDate('end_at', '>=', $request->date)
+            ->orderBy('created_at', 'desc')
+            ->first()
+            ->true_deviation_price;
 
         return [
             'id'                        => $this->id,
