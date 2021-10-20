@@ -61,7 +61,7 @@ class OrderPriceDistributionService {
             $total_price['for_owner'] = $total_price['ticket_only'] - $total_price['for_travel'] - (-1 * $total_price['for_member']) - (-1 * $total_price['for_agent']);
             $total_price['for_owner_with_food'] = $total_price['ticket_only'] + $total_price['food'] - $total_price['for_travel'] - (-1 * $total_price['for_member']) - (-1 * $total_price['for_agent']);
             $total_price['for_owner_gross'] = $total_price['ticket_only'] + $total_price['food'] + $total_price['for_travel'] - (-1 * $total_price['for_member']) - (-1 * $total_price['for_agent']);           
-            $total_price['total_deposit'] = $for_deposit - $price_food + $total_price['food'];
+            $total_price['total_deposit'] = $total_price['for_agent'] + $total_price['food'];
         }
 
         if($order->agency->city->area_id == 2) {
