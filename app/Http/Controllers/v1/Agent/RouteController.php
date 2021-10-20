@@ -33,7 +33,7 @@ class RouteController extends BaseRouteController
 
         $routes = FleetRoute::with(['fleet_detail.fleet.layout', 'route.checkpoints.agency.city', 'route.checkpoints.agency.prices'=>function($query) {
               $query->orderBy('id', 'desc');
-            }])
+            }, 'fleet_detail.fleet.fleetclass.prices'])
             ->where('is_active', true)
             ->whereHas('fleet_detail', function($query) use ($request) {
                 $query->where('time_classification_id', $request->time_classification_id);

@@ -40,22 +40,14 @@ class OrderService {
             (new self)->sendFailedResponse([], "Maaf, kursi anda telah dibooking terlebih dahulu oleh orang lain");
         }
         $setting = Setting::first();
-
-        $price = $data->agency_destiny->city->area_id == 1
-            ? $data->agency->prices->sortByDesc('created_at')->first()->price
-            : $data->agency_destiny->prices->sortByDesc('created_at')->first()->price;
-        $price = $data->fleet_route->prices()
-            ->whereDate('start_at', '<=', $data->reserve_at)
-            ->whereDate('end_at', '>=', $data->reserve_at)
-            ->orderBy('id', 'desc')
-            ->first()->true_deviation_price + $price;
-        if(empty($price)) (new self)->sendFailedResponse([], 'Maaf, harga nya sepertinya sedang kami ubah, silahkan cek beberapa saat lagi');
-
+        
+        $price = $for_deposit = self::getPrice($data);
+        $price = +$data->fleet_route->prices[0]->true_deviation_price;
         $ticket_price_with_food = $detail->is_feed
             ? $price * count($detail->layout_chair_id)
             : ($price - $setting->default_food_price) * count($detail->layout_chair_id);
         $data->price = $ticket_price_with_food;
-        
+
         if($detail->is_travel){
             $price_travel = $setting->travel * count($detail->layout_chair_id);
             $data->price += $price_travel;
@@ -64,26 +56,35 @@ class OrderService {
             $price_member = $setting->member * count($detail->layout_chair_id);
             $data->price -= $price_member;
         }
-        if(!$data->code_order) {
-            $data->code_order = '';
-        }
-        if(!$data->expired_at) {
-            $data->expired_at = self::getExpiredAt();
-        }
+        if(!$data->code_order) $data->code_order = self::generateCodeOrder($data->id);
+        if(!$data->expired_at) $data->expired_at = self::getExpiredAt();
         
         $order = Order::create($data->toArray());
-        if(!$data->code_order && !$order->code_order) {
-            $order->code_order = self::generateCodeOrder($order->id);
-            $order->save();
-        }
-        if($detail->code_booking) {
-            BookingService::deleteByCodeBooking($detail->code_booking);
-        }
-        self::createDetail($order, $detail->layout_chair_id, $detail, $price);
-        $order = Order::find($order->id);
+        
+        if($detail->code_booking) BookingService::deleteByCodeBooking($detail->code_booking);
+
+        self::createDetail($order, $detail->layout_chair_id, $detail, $for_deposit);
         self::sendNotification($order);
+        
         return $order;
     } 
+
+    private static function getPrice(Order $data) {
+        if($data->fleet_route->fleet_detail->fleet->fleetclass->prices->isEmpty()) {
+            $price = $data->agency_destiny->city->area_id == 1
+                ? $data->agency->prices->sortByDesc('start_at')->first()->price
+                : $data->agency_destiny->prices->sortByDesc('start_at')->first()->price;
+        } else {
+            $price = $data->fleet_route->fleet_detail
+                ->fleet->fleetclass
+                ->prices()
+                ->where('area_id', $data->agency_destiny->city->area_id)
+                ->orderBy('start_at', 'desc')->first()->price;
+        }
+        if(empty($price)) (new self)->sendFailedResponse([], 'Maaf, harga nya sepertinya sedang kami ubah, silahkan cek beberapa saat lagi');
+
+        return $price;
+    }
 
     private static function sendNotification($order) {
         $message = NotificationMessage::successfullySendingTicket();

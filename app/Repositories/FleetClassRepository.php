@@ -8,7 +8,7 @@ class FleetClassRepository
 {
     public static function all()
     {
-        return FleetClass::all();
+        return FleetClass::with('prices')->get();
     }
     public static function deleteId($id)
     {

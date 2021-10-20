@@ -17,11 +17,11 @@ class OrderController extends Controller
         $price_food = $fleet_route->fleet_detail?->fleet?->fleetclass?->price_food;
 
         $price_ticket = $request->price_ticket - $price_food;
-        
+
         $data = [
             'total_food'=>$request->is_food 
-                ? $price_food * $request->seat_count 
-                : 0,
+            ? $price_food * $request->seat_count 
+            : 0,
             'total_travel'=>$request->is_travel ? $setting->travel * $request->seat_count : 0,
             'total_member'=>$request->is_member ? -($setting->member) * $request->seat_count : 0
         ];

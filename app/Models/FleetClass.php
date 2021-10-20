@@ -19,4 +19,8 @@ class FleetClass extends Model
     public function fleets() {
         return $this->hasMany(Fleet::class, 'fleet_class_id', 'id');
     }
+
+    public function prices() {
+        return $this->hasMany(FleetClassPrice::class);
+    }
 }
