@@ -41,8 +41,9 @@ class OrderService {
         }
         $setting = Setting::first();
         
-        $price = $for_deposit = self::getPrice($data);
+        $price  = self::getPrice($data);
         $price += $data->fleet_route->prices[0]->true_deviation_price;
+        $for_deposit = $price;
         $ticket_price_with_food = $detail->is_feed
             ? $price * count($detail->layout_chair_id)
             : ($price - $setting->default_food_price) * count($detail->layout_chair_id);
