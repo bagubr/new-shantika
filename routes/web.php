@@ -20,6 +20,7 @@ use App\Http\Controllers\Dashboard2Controller;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FleetClassController;
+use App\Http\Controllers\FleetClassPriceController;
 use App\Http\Controllers\FleetController;
 use App\Http\Controllers\FleetRouteController;
 use App\Http\Controllers\InformationController;
@@ -170,6 +171,7 @@ Route::group(['middleware' => ['auth']], function () {
         'fleet_detail' => FleetDetailController::class,
         'fleets' => FleetController::class,
         'fleetclass' => FleetClassController::class,
+        'fleet_class_price'=>FleetClassPriceController::class,
         'fleet_route_prices' => FleetRoutePriceController::class,
         'layouts' => LayoutController::class,
         'routes' => RoutesController::class,

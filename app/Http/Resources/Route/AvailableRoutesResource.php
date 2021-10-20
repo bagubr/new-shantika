@@ -31,14 +31,21 @@ class AvailableRoutesResource extends JsonResource
         $destination_agency_id = $request->agency_arrived_id ?? $request->agency_id;
         $agency_destiny = Agency::find($destination_agency_id); 
         $route = $this->route;
-        $price = $agency_destiny->city->area_id == 1 
-            ? $departure_agency->prices->sortByDesc('created_at')->first()->price 
-            : $agency_destiny->prices->sortByDesc('created_at')->first()->price;
-        $price += $this->prices()
-        ->whereDate('start_at', '<=', $request->date)
-        ->whereDate('end_at', '>=', $request->date)
-        ->orderBy('id', 'desc')
-        ->first()->true_deviation_price;
+    
+        $price = 0;
+        $fleet_class_price = @$this->fleet_detail->fleet->fleetclass
+        ->prices()
+        ->where('area_id', $agency_destiny->city->area_id)
+        ->orderBy('start_at', 'desc')->first()->price;
+        if(empty($fleet_class_price)) {
+            $price = $agency_destiny->city->area_id == 1 
+            ? $departure_agency->prices->sortByDesc('start_at')->first()->price 
+            : $agency_destiny->prices->sortByDesc('start_at')->first()->price;
+        } else {
+            $price = $fleet_class_price;
+        }
+        $price += $this->prices[0]->true_deviation_price;
+
         return [
             'id'                        => $this->id,
             'layout_id'                 => $this->fleet_detail->fleet->layout->id,

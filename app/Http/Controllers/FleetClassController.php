@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateFleetClassRequest;
 use App\Http\Requests\FleetClass\UpdateFleetClassRequest;
+use App\Models\Area;
 use App\Models\FleetClass;
+use App\Models\FleetClassPrice;
 use App\Repositories\FleetClassRepository;
 use Illuminate\Http\Request;
 
@@ -63,7 +65,8 @@ class FleetClassController extends Controller
      */
     public function edit(FleetClass $fleetclass)
     {
-        return view('fleetclass.create', compact('fleetclass'));
+        $areas = Area::all();
+        return view('fleetclass.create', compact('fleetclass', 'areas'));
     }
 
     /**

@@ -7,8 +7,6 @@ use App\Models\OrderPriceDistribution;
 use App\Models\Setting;
 use App\Repositories\UserRepository;
 
-use function PHPSTORM_META\map;
-
 class OrderPriceDistributionService {
     public static function createByOrderDetail(Order $order, array $order_details, $price) {
         $total_price = self::calculateDistribution($order, $order_details, $price);
@@ -21,16 +19,16 @@ class OrderPriceDistributionService {
         return $price_distribution;
     }
 
-    public static function calculateDistribution($order, $order_details, $price) {
+    public static function calculateDistribution($order, $order_details, $for_deposit) {
         $setting = Setting::first();
         $price_food = $order->fleet_route?->fleet_detail?->fleet?->fleetclass?->price_food;
         $total_price = [
             'for_food'=>0,
             'for_travel'=>$order_details[0]->is_travel
-                ? $setting->travel
+                ? $setting->travel * count($order_details)
                 : 0,
             'for_member'=>$order_details[0]->is_member
-                ? $setting->member
+                ? $setting->member * count($order_details)
                 : 0,
             'for_agent'=>0,
             'total_deposit'=>0,
@@ -50,7 +48,7 @@ class OrderPriceDistributionService {
         }
         $total_price['ticket_only'] = $total_price['ticket_only'] - $total_price['for_travel'] - abs($total_price['for_member']);
 
-        $total_price['for_agent'] = $total_price['ticket_only'] * $setting->commision;
+        $total_price['for_agent'] = $total_price['for_deposit'] - $total_price['food'] * $setting->commision;
         $is_agent = UserRepository::findUserIsAgent($order->user_id);
         if(!$is_agent && $order->status == Order::STATUS1) {
             $total_price['for_agent'] = 0;
@@ -64,6 +62,10 @@ class OrderPriceDistributionService {
             $total_price['for_owner_with_food'] = $total_price['ticket_only'] + $total_price['food'] - $total_price['for_travel'] - (-1 * $total_price['for_member']) - (-1 * $total_price['for_agent']);
             $total_price['for_owner_gross'] = $total_price['ticket_only'] + $total_price['food'] + $total_price['for_travel'] - (-1 * $total_price['for_member']) - (-1 * $total_price['for_agent']);           
             $total_price['total_deposit'] = $total_price['for_owner_gross'];
+        }
+
+        if($order->agency->city->area_id == 2) {
+            $total_price['for_food'] = 0;
         }
 
         return $total_price;
