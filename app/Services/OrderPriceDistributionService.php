@@ -10,8 +10,8 @@ use App\Repositories\UserRepository;
 use function PHPSTORM_META\map;
 
 class OrderPriceDistributionService {
-    public static function createByOrderDetail(Order $order, array $order_details) {
-        $total_price = self::calculateDistribution($order, $order_details);
+    public static function createByOrderDetail(Order $order, array $order_details, $price) {
+        $total_price = self::calculateDistribution($order, $order_details, $price);
 
         $price_distribution = OrderPriceDistribution::create(array_merge($total_price, [
             'order_id'=>$order->id,
@@ -21,7 +21,7 @@ class OrderPriceDistributionService {
         return $price_distribution;
     }
 
-    public static function calculateDistribution($order, $order_details) {
+    public static function calculateDistribution($order, $order_details, $price) {
         $setting = Setting::first();
         $price_food = $order->fleet_route?->fleet_detail?->fleet?->fleetclass?->price_food;
         $total_price = [
