@@ -81,7 +81,9 @@ class OrderService {
                 ->fleet->fleetclass
                 ->prices()
                 ->where('area_id', $data->agency_destiny->city->area_id)
-                ->orderBy('start_at', 'desc')->first()->price;
+                ->whereDate('start_at', $data->reserve_at)
+                ->orderBy('start_at', 'desc')
+                ->first()->price;
         }
         if(empty($price)) (new self)->sendFailedResponse([], 'Maaf, harga nya sepertinya sedang kami ubah, silahkan cek beberapa saat lagi');
 

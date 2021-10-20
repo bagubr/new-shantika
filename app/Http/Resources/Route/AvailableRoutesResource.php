@@ -36,7 +36,9 @@ class AvailableRoutesResource extends JsonResource
         $fleet_class_price = @$this->fleet_detail->fleet->fleetclass
         ->prices()
         ->where('area_id', $agency_destiny->city->area_id)
-        ->orderBy('start_at', 'desc')->first()->price;
+        ->whereDate('start_at', '<=', $request->date)
+        ->orderBy('start_at', 'desc')
+        ->first()->price;
         if(empty($fleet_class_price)) {
             $price = $agency_destiny->city->area_id == 1 
             ? $departure_agency->prices->sortByDesc('start_at')->first()->price 
