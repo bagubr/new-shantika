@@ -60,6 +60,7 @@ class OrderService {
         if(!$data->expired_at) $data->expired_at = self::getExpiredAt();
         
         $order = Order::create($data->toArray());
+        $order->refresh();
         
         if($detail->code_booking) BookingService::deleteByCodeBooking($detail->code_booking);
 

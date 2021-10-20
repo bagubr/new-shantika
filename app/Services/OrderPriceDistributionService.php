@@ -33,7 +33,7 @@ class OrderPriceDistributionService {
             'for_agent'=>0,
             'total_deposit'=>0,
             'ticket_only'=>$order_details[0]->is_feed 
-                ? ($order->price) - ($price_food * count($order_details)) 
+                ? $order->price - ($price_food * count($order_details)) 
                 : $order->price,
             'ticket_price'=>$order->price, 
             'food'=>0
