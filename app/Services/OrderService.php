@@ -81,7 +81,7 @@ class OrderService {
                 ->fleet->fleetclass
                 ->prices()
                 ->where('area_id', $data->agency_destiny->city->area_id)
-                ->whereDate('start_at', $data->reserve_at)
+                ->whereDate('start_at', '<=', $data->reserve_at)
                 ->orderBy('start_at', 'desc')
                 ->first()->price;
         }
