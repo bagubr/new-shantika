@@ -23,26 +23,24 @@ class OrderPriceDistributionService {
         $setting = Setting::first();
         $price_food = $order->fleet_route?->fleet_detail?->fleet?->fleetclass?->price_food;
 
-        $total_price['ticket_only'] = $order_details[0]->is_feed
-        ? $order->price * count($order_details)
-        : ($order->price - $setting->default_food_price) * count($order_details);
         $total_price['ticket_price'] = $order->price;
         $total_price['for_food'] = (
             $order_details[0]->is_feed
             ? $price_food * count($order_details)
             : 0
         );
-        $total_price['for_food'] = $order->agency->city->area_id == 2 ?: 0;
+        $total_price['for_food'] = $order->agency->city->area_id == 2 ? 0 : $price_food;
         $total_price['for_travel'] = (
             $order_details[0]->is_travel
-                ? $setting->travel * count($order_details)
-                : 0
+            ? $setting->travel * count($order_details)
+            : 0
         );
         $total_price['for_member'] = (
             $order_details[0]->is_travel
-                ? $setting->travel * count($order_details)
-                : 0
+            ? $setting->travel * count($order_details)
+            : 0
         );
+        $total_price['ticket_only'] = ($order->price / count($order_details)) - abs($total_price['for_food'] / count($order_details)) - abs($total_price['for_travel'] / count($order_details)) - abs($total_price['for_member'] / count($order_details));
         $total_price['for_agent'] = -1 * (
             (($for_deposit - $price_food) * count($order_details)) * $setting->commision
         );
