@@ -23,12 +23,14 @@ class OrderPriceDistributionService {
         $setting = Setting::first();
         $price_food = $order->fleet_route?->fleet_detail?->fleet?->fleetclass?->price_food;
 
-        $total_price['ticket_only'] = $for_deposit;
+        $total_price['ticket_only'] = $order_details[0]->is_feed
+        ? $order->price * count($order_details)
+        : ($order->price - $setting->default_food_price) * count($order_details);
         $total_price['ticket_price'] = $order->price;
         $total_price['for_food'] = (
             $order_details[0]->is_feed
-                ? $price_food * count($order_details)
-                : 0
+            ? $price_food * count($order_details)
+            : 0
         );
         $total_price['for_food'] = $order->agency->city->area_id == 2 ?: 0;
         $total_price['for_travel'] = (
