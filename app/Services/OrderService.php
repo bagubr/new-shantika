@@ -42,7 +42,11 @@ class OrderService {
         $setting = Setting::first();
         
         $price  = self::getPrice($data);
-        $price += $data->fleet_route->prices[0]->true_deviation_price;
+        $price += $data->fleet_route->prices()->whereDate('start_at', '<=', $data->reserve_at)
+        ->whereDate('end_at', '>=', $data->reserve_at)
+        ->orderBy('created_at', 'desc')
+        ->first()
+        ->true_deviation_price;
         $for_deposit = $price;
         $ticket_price_with_food = $detail->is_feed
             ? $price * count($detail->layout_chair_id)
