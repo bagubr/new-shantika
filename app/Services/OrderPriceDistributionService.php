@@ -39,8 +39,8 @@ class OrderPriceDistributionService {
                 : 0
         );
         $total_price['for_member'] = (
-            $order_details[0]->is_travel
-                ? $setting->travel * count($order_details)
+            $order_details[0]->is_member
+                ? $setting->member * count($order_details)
                 : 0
         );
         $total_price['for_agent'] = -1 * (
