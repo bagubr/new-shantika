@@ -134,7 +134,7 @@ class OrderService {
                 'is_member'         => $detail->is_member
             ]);
         }
-        $distrib = OrderPriceDistributionService::createByOrderDetail($order, $order_details, $price);
+        OrderPriceDistributionService::createByOrderDetail($order, $order_details, $price);
     }
 
     public static function getInvoice(Payment|int|null $payment = null) {
@@ -160,12 +160,14 @@ class OrderService {
             'status'=>Order::STATUS5,
             'exchanged_at'=>date('Y-m-d H:i:s')
         ]);
-        $total_price = OrderPriceDistributionService::calculateDistribution($order, $order->order_detail, $order->distribution->ticket_only);
+        $for_deposit = (new self)->getPrice($order);
+        $total_price = OrderPriceDistributionService::calculateDistribution($order, $order->order_detail, $for_deposit);
         $order->distribution()->update([
             'for_agent'=>$total_price['for_agent'],
             'for_owner'=>$total_price['for_owner'],
             'for_owner_with_food'=>$total_price['for_owner_with_food'],
-            'for_owner_gross'=>$total_price['for_owner_gross']
+            'for_owner_gross'=>$total_price['for_owner_gross'],
+            'total_deposit'=>$total_price['for_deposit']
         ]);
         DB::commit();
         $order->refresh();
