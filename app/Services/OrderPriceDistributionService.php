@@ -51,8 +51,8 @@ class OrderPriceDistributionService {
                 $order_details[0]->is_feed ? $total_price['for_food'] : $total_price['for_food'] - ($setting->default_food_price * count($order_details))
             ) 
         );
-        $total_price['for_owner'] = $total_price['total_deposit'];
-        $total_price['for_owner_with_food'] = $total_price['total_deposit'];
+        $total_price['for_owner'] = $total_price['total_deposit'] - abs($total_price['for_travel']) - abs($total_price['for_member']);
+        $total_price['for_owner_with_food'] = $total_price['total_deposit'] - abs($total_price['for_travel']) - abs($total_price['for_member']);
         $total_price['for_owner_gross'] = $total_price['total_deposit'];           
 
         $is_agent = UserRepository::findUserIsAgent($order->user_id);
