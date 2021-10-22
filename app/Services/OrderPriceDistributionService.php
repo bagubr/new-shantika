@@ -47,7 +47,7 @@ class OrderPriceDistributionService {
             (($for_deposit - $price_food) * count($order_details)) * $setting->commision
         );
         $total_price['total_deposit'] = (
-            (($for_deposit  * count($order_details)) - ($price_food * count($order_details))) + abs($total_price['for_travel']) - abs($total_price['for_member']) - abs($total_price['for_agent']) + (
+            (($for_deposit  * count($order_details)) - ($order_details[0]->is_feed ? $price_food * count($order_details) : 0)) + abs($total_price['for_travel']) - abs($total_price['for_member']) - abs($total_price['for_agent']) + (
                 $order_details[0]->is_feed ? $total_price['for_food'] : $total_price['for_food'] - ($setting->default_food_price * count($order_details))
             ) 
         );
