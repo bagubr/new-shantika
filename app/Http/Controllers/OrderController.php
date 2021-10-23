@@ -244,6 +244,7 @@ class OrderController extends Controller
                 'code' => 1
             ], 200);
         }
+        
         if (count($order_detail->order->order_detail) > 1) {
             $order_detail->order()->update([
                 'status' => Order::STATUS4,
@@ -262,7 +263,6 @@ class OrderController extends Controller
                 'to_time_classification_id' => $order->time_classification_id,
                 'type' => SketchLog::TYPE2
             ]);
-            $order_detail->delete();
             OrderService::revertPrice($order_detail);
         } else {
             $order_detail->order()->update([
