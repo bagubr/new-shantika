@@ -138,10 +138,11 @@ Scan Barcode
             },
             error: function (data) {
                 toastr.error("Data Tidak Ditemukan")
+                html5QrcodeScanner.render(onScanSuccess);
             }
         }).catch((err) => {
             console.log(err);
-        });
+        });4
 
     }
     var html5QrcodeScanner = new Html5QrcodeScanner(

@@ -48,7 +48,6 @@ Restoran
                     <hr>
                     <div class="row">
                         <div class="col-md-6">
-
                             <div class="form-group">
                                 <label>Bank</label>
                                 <h5>{{$restaurant->bank_name}}</h5>
@@ -89,7 +88,7 @@ Restoran
                         <thead>
                             <tr>
                                 <th>Nama</th>
-                                <th>Address</th>
+                                <th>Nomor HP</th>
                             </tr>
                         </thead>
                         <tbody>

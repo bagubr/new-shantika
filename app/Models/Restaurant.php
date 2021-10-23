@@ -22,7 +22,8 @@ class Restaurant extends Model
     }
     public function admins()
     {
-        return $this->hasMany(RestaurantAdmin::class, 'admin_id', 'id');
+        return $this->hasMany(RestaurantAdmin::class, 'restaurant_id', 'id');
+        // return $this->hasMany(RestaurantAdmin::class, 'admin_id', 'id');
     }
     public function food_reddem_histories()
     {
