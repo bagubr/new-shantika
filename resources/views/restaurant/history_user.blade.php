@@ -34,11 +34,14 @@ Riwayat Pembelian
                             <thead>
                                 <tr>
                                     <th>Restoran</th>
+                                    <th>Nama</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($food_reddem_histories as $food_reddem_history)
                                 <tr>
+                                    <td>{{$food_reddem_history->created_at}}</td>
+                                    <td>{{$food_reddem_history->restaurant?->name}}</td>
                                     <td>{{$food_reddem_history->restaurant?->name}}</td>
                                 </tr>
                                 @endforeach
