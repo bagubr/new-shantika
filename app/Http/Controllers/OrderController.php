@@ -246,6 +246,7 @@ class OrderController extends Controller
         }
         if (count($order_detail->order->order_detail) > 1) {
             $order_detail->order()->update([
+                'status' => Order::STATUS4,
                 'cancelation_reason' => $request->cancelation_reason
             ]);
             SketchLog::create([
