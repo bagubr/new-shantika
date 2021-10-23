@@ -265,7 +265,7 @@ class OrderController extends Controller
             $order_detail->delete();
             OrderService::revertPrice($order_detail);
         } else {
-            $order_detail->order->update([
+            $order_detail->order()->update([
                 'status' => Order::STATUS4,
                 'cancelation_reason' => $request->cancelation_reason
             ]);
