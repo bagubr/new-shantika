@@ -414,8 +414,12 @@ Sketch
                             'Content-Type': 'application/json',
                             'X-CSRF-TOKEN': '{{csrf_token()}}'
                         }
-                    }).then(res => res.json()).then(res => {
-                        window.location.reload()
+                    }).then(res => res.json())
+                    .then(res => {
+                        // window.location.reload()
+                    })
+                    .catch(() => {
+                        console.log(1)
                     })
                 }
             },
