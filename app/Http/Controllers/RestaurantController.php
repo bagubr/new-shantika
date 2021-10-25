@@ -9,6 +9,7 @@ use App\Models\FoodRedeemHistory;
 use App\Models\Restaurant;
 use App\Models\RestaurantAdmin;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -95,12 +96,24 @@ class RestaurantController extends Controller
     }
     public function history_restaurant_search(Request $request)
     {
+        $time = Carbon::now()->toDateString();
         $restaurant_id = $request->restaurant_id;
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
         $restaurants = Restaurant::get();
         $food_reddem_histories = FoodRedeemHistory::query();
 
         if (!empty($restaurant_id)) {
             $food_reddem_histories = $food_reddem_histories->where('restaurant_id', $restaurant_id);
+        }
+        if (!empty($start_date) || !empty($end_date)) {
+            if (empty($start_date)) {
+                $food_reddem_histories = $food_reddem_histories->whereDate('created_at', '<=', $end_date);
+            } else if (empty($end_date)) {
+                $food_reddem_histories = $food_reddem_histories->whereDate('created_at', '>=', $start_date);
+            } else {
+                $food_reddem_histories = $food_reddem_histories->whereDate('created_at', '>=', $start_date)->whereDate('created_at', '<=', $end_date);
+            }
         }
         $test     = $request->flash();
         $food_reddem_histories   = $food_reddem_histories->get();

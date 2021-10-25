@@ -12,6 +12,8 @@ class FoodRedeemHistory extends Model
     protected $fillable = [
         'order_detail_id', 'restaurant_id'
     ];
+    protected $appends = ['price_food'];
+
 
     public function order_detail()
     {
@@ -21,5 +23,9 @@ class FoodRedeemHistory extends Model
     public function restaurant()
     {
         return $this->belongsTo(Restaurant::class);
+    }
+    public function getPriceFoodAttribute()
+    {
+        return $this->order_detail?->order?->fleet_route?->fleet_detail?->fleet?->fleetclass?->price_food;
     }
 }

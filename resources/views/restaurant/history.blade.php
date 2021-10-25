@@ -43,6 +43,17 @@ Riwayat Kupon Makan
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Tanggal Awal</label>
+                                    <input type="date" class="form-control" value="{{old('start_date')}}"
+                                        name="start_date">
+                                </div>
+                                <div class="col">
+                                    <label>Tanggal Akhir</label>
+                                    <input type="date" class="form-control" value="{{old('end_date')}}" name="end_date">
+                                </div>
+                            </div>
                             <div class="text-right">
                                 <button type="submit" class="btn btn-success">Cari</button>
                             </div>
@@ -51,7 +62,17 @@ Riwayat Kupon Makan
                 </div>
             </div>
             <div class="col-md-8">
-
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>{{number_format($food_reddem_histories->pluck('price_food')->sum())}} <sup
+                                style="font-size: 20px">Rupiah</sup>
+                        </h3>
+                        <p>Total Yang Harus Dibayar</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                </div>
             </div>
             <div class="col-md-12">
                 <div class="card">

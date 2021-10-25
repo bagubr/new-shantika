@@ -12,6 +12,8 @@ class Restaurant extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = ['name', 'address', 'phone', 'image', 'bank_name', 'bank_owner', 'bank_account', 'lat', 'long'];
+
+
     public function getImageAttribute($value)
     {
         return url('storage/' . $value);
@@ -23,10 +25,13 @@ class Restaurant extends Model
     public function admins()
     {
         return $this->hasMany(RestaurantAdmin::class, 'restaurant_id', 'id');
-        // return $this->hasMany(RestaurantAdmin::class, 'admin_id', 'id');
     }
     public function food_reddem_histories()
     {
         return $this->hasMany(FoodRedeemHistory::class, 'restaurant_id', 'id');
+    }
+    public function order_details()
+    {
+        return $this->hasManyThrough(FoodRedeemHistory::class, OrderDetail::class);
     }
 }
