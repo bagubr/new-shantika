@@ -148,6 +148,7 @@ Setoran
                             <thead>
                                 <tr>
                                     <th>Tanggal</th>
+                                    <th>Aplikasi Agen</th>
                                     <th>Kode Order</th>
                                     <th>Armada</th>
                                     <th>Agen</th>
@@ -169,6 +170,7 @@ Setoran
                                 @foreach ($order_price_distributions as $order_price_distribution)
                                 <tr>
                                     <td>{{date('Y-m-d',strtotime($order_price_distribution->order?->reserve_at))}}</td>
+                                    <td>{{empty($order->user->agencies) ? 'Ya' : 'Tidak'}}</td>
                                     <td>
                                         @if ($order_price_distribution->order)
                                         <a href="{{route('order.show',$order_price_distribution->order?->id)}}">
@@ -279,26 +281,26 @@ Setoran
             "buttons": [{
                     "extend": 'pdf',
                     "exportOptions": {
-                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13]
+                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13,14]
                     }
                 },
                 {
                     "extend": 'csv',
                     "exportOptions": {
-                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13]
+                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13,14]
                     }
 
                 },
                 {
                     "extend": 'excel',
                     "exportOptions": {
-                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13]
+                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13,14]
                     }
                 },
                 {
                     "extend": 'print',
                     "exportOptions": {
-                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13]
+                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13,14]
                     }
                 }
             ],
