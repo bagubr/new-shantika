@@ -166,12 +166,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('restaurant/assign', [RestaurantController::class, 'assign_user'])->name('restaurant.assign_user');
     Route::delete('restaurant/admin/delete/{restaurant_admin}', [RestaurantController::class, 'destroy_admin'])->name('restaurant.destroy_admin');
     // end of restaurant
-    
+
     Route::resources([
         'fleet_detail' => FleetDetailController::class,
         'fleets' => FleetController::class,
         'fleetclass' => FleetClassController::class,
-        'fleet_class_price'=>FleetClassPriceController::class,
+        'fleet_class_price' => FleetClassPriceController::class,
         'fleet_route_prices' => FleetRoutePriceController::class,
         'layouts' => LayoutController::class,
         'routes' => RoutesController::class,
