@@ -61,10 +61,13 @@ class OrderService {
             $price_member = $setting->member * count($detail->layout_chair_id);
             $data->price -= $price_member;
         }
-        if(!$data->code_order) $data->code_order = self::generateCodeOrder($data->id);
         if(!$data->expired_at) $data->expired_at = self::getExpiredAt();
         
         $order = Order::create($data->toArray());
+        if(!$data->code_order) $data->code_order = self::generateCodeOrder($data->id);
+        $order->update([
+            'code_order'=>$data->code_order
+        ]);
         $order->refresh();
         
         if($detail->code_booking) BookingService::deleteByCodeBooking($detail->code_booking);
