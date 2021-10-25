@@ -69,14 +69,14 @@ Restoran
                             <div class="col">
                                 <div class="form-group">
                                     <label>Koordinat Latitude</label>
-                                    <input class="form-control" type="text" id="lat" name="lat" readonly
+                                    <input class="form-control" type="text" id="lat" name="lat"
                                         value="{{isset($restaurant) ? $restaurant->lat : ''}}">
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label>Koordinat Longtitude</label>
-                                    <input class="form-control" type="text" id="lng" name="long" readonly
+                                    <input class="form-control" type="text" id="lng" name="long"
                                         value="{{isset($restaurant) ? $restaurant->long : ''}}">
                                 </div>
                             </div>

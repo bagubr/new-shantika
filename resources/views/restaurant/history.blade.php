@@ -47,6 +47,9 @@ Riwayat Kupon Makan
                 </div>
             </div>
             <div class="col-md-8">
+
+            </div>
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Table Riwayat Kupon Makan</h3>
@@ -57,9 +60,10 @@ Riwayat Kupon Makan
                             <thead>
                                 <tr>
                                     <th>Tanggal</th>
-                                    <th>Restoran</th>
-                                    <th>Nama</th>
+                                    <th>Nama Restoran</th>
+                                    <th>Kode Transaksi</th>
                                     <th>Armada</th>
+                                    <th>Harga Makanan</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -67,8 +71,11 @@ Riwayat Kupon Makan
                                 <tr>
                                     <td>{{$food_reddem_history->created_at}}</td>
                                     <td>{{$food_reddem_history->restaurant?->name}}</td>
-                                    <td>{{$food_reddem_history->order_detail?->name}}</td>
+                                    <td>{{$food_reddem_history->order_detail?->order?->code_order}}</td>
                                     <td>{{$food_reddem_history->order_detail?->order?->fleet_route?->fleet_detail?->fleet?->name}}
+                                    <td>Rp.
+                                        {{number_format($food_reddem_history->order_detail?->order?->fleet_route?->fleet_detail?->fleet?->fleetclass?->price_food)}}
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>

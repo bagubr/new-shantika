@@ -83,9 +83,8 @@ class RestaurantController extends Controller
 
     public function show_restaurant_detail()
     {
-        // dd(Auth::user()->getRoleNames()[0]);
-        $user = Auth::user()->restaurant_admin->value('restaurant_id');
-        $restaurant = Restaurant::where('id', $user)->first();
+        $user = Auth::user()->restaurant_admin;
+        $restaurant = Restaurant::where('id', $user->restaurant_id)->first();
         return view('restaurant.show_user', compact('restaurant'));
     }
     public function history_restaurant()
@@ -96,8 +95,8 @@ class RestaurantController extends Controller
     }
     public function history_restaurant_detail()
     {
-        $user = Auth::user()->restaurant_admin->value('restaurant_id');
-        $food_reddem_histories = FoodRedeemHistory::where('restaurant_id', $user)->get();
+        $user = Auth::user()->restaurant_admin;
+        $food_reddem_histories = FoodRedeemHistory::where('restaurant_id', $user->restaurant_id)->get();
         return view('restaurant.history_user', compact('food_reddem_histories'));
     }
 
