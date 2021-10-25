@@ -50,24 +50,25 @@ Riwayat Kupon Makan
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Table Riwayat Kupon Makan</h3>
-                        <div class="text-right">
-                            <a href="{{route('restaurant.create')}}" class="btn btn-primary btn-sm">Tambah</a>
-                        </div>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
+                                    <th>Tanggal</th>
                                     <th>Restoran</th>
-                                    <th>Waktu</th>
+                                    <th>Nama</th>
+                                    <th>Armada</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($food_reddem_histories as $food_reddem_history)
                                 <tr>
-                                    <td>{{$food_reddem_history->restaurant?->name}}</td>
                                     <td>{{$food_reddem_history->created_at}}</td>
+                                    <td>{{$food_reddem_history->restaurant?->name}}</td>
+                                    <td>{{$food_reddem_history->order_detail?->name}}</td>
+                                    <td>{{$food_reddem_history->order_detail?->order?->fleet_route?->fleet_detail?->fleet?->name}}
                                 </tr>
                                 @endforeach
                             </tbody>
