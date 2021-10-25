@@ -73,7 +73,7 @@ class RestaurantBarcodeController extends Controller
 
         if (empty($order)) $this->sendFailedResponse([], 'Kode order tidak ditemukan');
         if (!empty($redeems) && $order_detail->id == $redeems->order_detail_id) {
-            $this->sendFailedResponse([], 'Anda sudah meredeem kode ini');
+            $this->sendFailedResponse([], 'Anda sudah menggunakan kupon makan ini');
         }
         if (empty($restaurant_admin)) $this->sendFailedResponse([], 'ID Anda tidak ditemukan');
 

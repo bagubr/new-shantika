@@ -36,6 +36,7 @@ Riwayat Pembelian
                                     <th>Tanggal</th>
                                     <th>Restoran</th>
                                     <th>Nama</th>
+                                    <th>Armada</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -44,6 +45,8 @@ Riwayat Pembelian
                                     <td>{{$food_reddem_history->created_at}}</td>
                                     <td>{{$food_reddem_history->restaurant?->name}}</td>
                                     <td>{{$food_reddem_history->order_detail?->name}}</td>
+                                    <td>{{$food_reddem_history->order_detail?->order?->fleet_route?->fleet_detail?->fleet?->name}}
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
