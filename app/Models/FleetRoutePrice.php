@@ -23,8 +23,23 @@ class FleetRoutePrice extends Model
     ];
 
     protected $appends = [
-        'true_deviation_price'
+        'true_deviation_price', 'status'
     ];
+
+    public function getStatusAttribute() {
+        switch ($this->attributes['color']) {
+            case 'red':
+                return 'Down';
+                break;
+            case 'green':
+                return 'Up';
+            case 'blue':
+                return 'Normal';
+            default:
+                throw new Error('Undefined deviation price color');
+                break;
+        }
+    }
 
     public function getTrueDeviationPriceAttribute() {
         switch ($this->attributes['color']) {
