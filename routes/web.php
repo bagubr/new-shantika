@@ -166,16 +166,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('restaurant/assign', [RestaurantController::class, 'assign_user'])->name('restaurant.assign_user');
     Route::delete('restaurant/admin/delete/{restaurant_admin}', [RestaurantController::class, 'destroy_admin'])->name('restaurant.destroy_admin');
     // end of restaurant
-
-    Route::get('fix', function() {
-        $orders = Order::all();
-        foreach($orders as $order) {
-            $order->update([
-                'code_order' => OrderService::generateCodeOrder($order->id) 
-            ]);
-        }
-        return response(['aaa']);
-    });
+    
     Route::resources([
         'fleet_detail' => FleetDetailController::class,
         'fleets' => FleetController::class,
