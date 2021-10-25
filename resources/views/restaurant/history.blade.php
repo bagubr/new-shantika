@@ -86,6 +86,7 @@ Riwayat Kupon Makan
                                 <tr>
                                     <th>Tanggal</th>
                                     <th>Nama Restoran</th>
+                                    <th>Nama Pemesan</th>
                                     <th>Kode Transaksi</th>
                                     <th>Armada</th>
                                     <th>Harga Makanan</th>
@@ -96,6 +97,7 @@ Riwayat Kupon Makan
                                 <tr>
                                     <td>{{$food_reddem_history->created_at}}</td>
                                     <td>{{$food_reddem_history->restaurant?->name}}</td>
+                                    <td>{{$food_reddem_history->order_detail?->name}}</td>
                                     <td>{{$food_reddem_history->order_detail?->order?->code_order}}</td>
                                     <td>{{$food_reddem_history->order_detail?->order?->fleet_route?->fleet_detail?->fleet?->name}}
                                     <td>Rp.
@@ -116,9 +118,39 @@ Riwayat Kupon Makan
 @push('script')
 <script>
     $(function () {
-      $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $("#example1").DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "buttons": [
+                {
+                    "extend": 'pdf',
+                    "exportOptions": {
+                        "columns": [0,1, 2, 3,4,5]
+                    }
+                },
+                {
+                    "extend": 'csv',
+                    "exportOptions": {
+                        "columns": [0,1, 2, 3,4,5]
+                    }
+
+                },
+                {
+                    "extend": 'excel',
+                    "exportOptions": {
+                        "columns": [0,1, 2, 3,4,5]
+                    }
+                },
+                {
+                    "extend": 'print',
+                    "exportOptions": {
+                        "columns": [0,1, 2, 3,4,5]
+                    }
+                }
+            ],
+            "dom": 'Bfrtip',
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
 </script>
 @endpush
