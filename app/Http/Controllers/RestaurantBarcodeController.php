@@ -54,13 +54,10 @@ class RestaurantBarcodeController extends Controller
         $data = $request->validate([
             'code_order' => 'required',
         ]);
-        // $code_order = explode('|', $data['code_order']);
         $data['code_order'] = $request->code_order;
         $data['layout_chair_name'] = $request->layout_chair_name;
 
-        // $order = OrderRepository::findByCodeOrder($data['code_order']);
         $order = Order::where('code_order', $data['code_order'])->first();
-        // $redeems = FoodRedeemHistory::where('order_detail_id', $order->order_detail->first()->id)->get();
 
         $order_detail = OrderDetail::where('order_id', $order->id)->whereHas('chair', function ($query) use ($data) {
             $query->where('name', 'ilike', '%' . $data['layout_chair_name'] . '%');
