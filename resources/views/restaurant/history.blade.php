@@ -54,7 +54,7 @@ Riwayat Kupon Makan
                                     <input type="date" class="form-control" value="{{old('end_date')}}" name="end_date">
                                 </div>
                             </div>
-                            <div class="text-right">
+                            <div class="text-right mt-3">
                                 <button type="submit" class="btn btn-success">Cari</button>
                             </div>
                         </form>
