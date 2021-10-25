@@ -106,14 +106,14 @@ Agen
                             <div class="col">
                                 <div class="form-group">
                                     <label>Koordinat Latitude</label>
-                                    <input class="form-control" type="text" id="lat" name="lat" readonly
+                                    <input class="form-control" type="text" id="lat" name="lat"
                                         value="{{isset($agency) ? $agency->lat : ''}}">
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label>Koordinat Longtitude</label>
-                                    <input class="form-control" type="text" id="lng" name="lng" readonly
+                                    <input class="form-control" type="text" id="lng" name="lng"
                                         value="{{isset($agency) ? $agency->lng : ''}}">
                                 </div>
                             </div>
