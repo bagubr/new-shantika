@@ -31,7 +31,7 @@ Riwayat Kupon Makan
                     <div class="card-body">
                         <form action="">
                             <div class="form-group">
-                                <label>Restorant</label>
+                                <label>Restoran</label>
                                 <select name="restaurant_id" class="form-control select2">
                                     <option value="">Pilih Restoran</option>
                                     @foreach ($restaurants as $restaurant)
@@ -60,12 +60,14 @@ Riwayat Kupon Makan
                             <thead>
                                 <tr>
                                     <th>Restoran</th>
+                                    <th>Waktu</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($food_reddem_histories as $food_reddem_history)
                                 <tr>
                                     <td>{{$food_reddem_history->restaurant?->name}}</td>
+                                    <td>{{$food_reddem_history->created_at}}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
