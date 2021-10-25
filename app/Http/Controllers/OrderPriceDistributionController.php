@@ -26,7 +26,7 @@ class OrderPriceDistributionController extends Controller
         $agencies = Agency::get();
         $fleet_details = FleetDetail::has('fleet_route')->get();
 
-        $order_price_distributions = OrderPriceDistribution::wherehas('order', function ($q) {
+        $order_price_distributions = OrderPriceDistribution::with(['order.agency', 'order.user'])->wherehas('order', function ($q) {
             $q->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED'])->orderBy('reserve_at', 'DESC');
         })->get();
 
