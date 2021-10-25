@@ -170,8 +170,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('fix', function() {
         $orders = Order::all();
         foreach($orders as $order) {
-            $order->code_order = OrderService::generateCodeOrder($order->id);
-            $order->save();
+            $order->update([
+                'code_order' => OrderService::generateCodeOrder($order->id) 
+            ]);
         }
     });
     Route::resources([
