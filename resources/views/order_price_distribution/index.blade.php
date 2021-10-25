@@ -144,10 +144,11 @@ Setoran
                     <!-- /.card-header -->
                     <div class="card-body">
                         <!-- <a class="btn btn-success btn-sm d-inline" href="{{route('order_price_distribution.export')}}">Export Excel</a> -->
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table id="example1" class="table table-bordered table-striped table-responsive">
                             <thead>
                                 <tr>
                                     <th>Tanggal</th>
+                                    <th>Aplikasi Agen</th>
                                     <th>Kode Order</th>
                                     <th>Armada</th>
                                     <th>Agen</th>
@@ -161,6 +162,10 @@ Setoran
                                     <th class="none">Travel</th>
                                     <th class="none">Member</th>
                                     <th class="none">Agent</th>
+                                    <th>Nama Pemesan</th>
+                                    <th>Nomor Telfon</th>
+                                    <th>Nama Agen Keberangkatan</th>
+                                    <th>Telfon Agen Keberangkatan</th>
                                     {{-- <th>Deposit</th> --}}
                                     <th>Aksi</th>
                                 </tr>
@@ -169,6 +174,7 @@ Setoran
                                 @foreach ($order_price_distributions as $order_price_distribution)
                                 <tr>
                                     <td>{{date('Y-m-d',strtotime($order_price_distribution->order?->reserve_at))}}</td>
+                                    <td>{{empty($order->user->agencies) ? 'Ya' : 'Tidak'}}</td>
                                     <td>
                                         @if ($order_price_distribution->order)
                                         <a href="{{route('order.show',$order_price_distribution->order?->id)}}">
@@ -201,6 +207,18 @@ Setoran
                                     <td>Rp. {{number_format($order_price_distribution->for_travel)}}</td>
                                     <td>Rp. {{number_format($order_price_distribution->for_member)}}</td>
                                     <td>Rp. {{number_format($order_price_distribution->for_agent)}}</td>
+                                    <td>
+                                        {{$order_price_distribution->order->user->name}}
+                                    </td>
+                                    <td>
+                                        {{$order_price_distribution->order->user->phone}}
+                                    </td>
+                                    <td>
+                                        {{$order_price_distribution->order->agency?->name}}
+                                    </td>
+                                    <td>
+                                        {{$order_price_distribution->order->agency?->phone}}
+                                    </td>
                                     <td>
                                         <a href="{{route('order.show',$order_price_distribution->order?->id)}}"
                                             class="btn btn-primary btn-xs">Detail</a>
@@ -279,26 +297,26 @@ Setoran
             "buttons": [{
                     "extend": 'pdf',
                     "exportOptions": {
-                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13]
+                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
                     }
                 },
                 {
                     "extend": 'csv',
                     "exportOptions": {
-                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13]
+                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
                     }
 
                 },
                 {
                     "extend": 'excel',
                     "exportOptions": {
-                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13]
+                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
                     }
                 },
                 {
                     "extend": 'print',
                     "exportOptions": {
-                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13]
+                        "columns": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
                     }
                 }
             ],

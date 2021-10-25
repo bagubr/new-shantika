@@ -39,6 +39,9 @@ User
                                     <th>Nama</th>
                                     <th>Nomor HP</th>
                                     <th>Email</th>
+                                    <th>TTL</th>
+                                    <th>Alamat</th>
+                                    <th>Gender</th>
                                     <th>Status</th>
                                     <th>Image</th>
                                     <th>Aksi</th>
@@ -50,6 +53,9 @@ User
                                     <td>{{$user->name}}</td>
                                     <td>{{$user->phone}}</td>
                                     <td>{{$user->email}}</td>
+                                    <td>{{$user->birth_place ?? '-'}}, {{date('l d F Y', strtotime($user->birth))}}</td>
+                                    <td>{{$user->address ?? '-'}}</td>
+                                    <td>{{$user->gender ?? '-'}}</td>
                                     @if ($user->is_active == 1)
                                     <td data-toggle="modal" data-target="#exampleModal{{$user->id}}"
                                         class="text-success text-bold pointer">
@@ -136,7 +142,35 @@ User
     $(function () {
       $("#example1").DataTable({
         "responsive": true, "lengthChange": false, "autoWidth": false,
+        "buttons": [
+                {
+                    "extend": 'pdf',
+                    "exportOptions": {
+                        "columns": [0,1, 2, 3, 4, 5, 6]
+                    }
+                },
+                {
+                    "extend": 'csv',
+                    "exportOptions": {
+                        "columns": [0,1, 2, 3, 4, 5, 6]
+                    }
+
+                },
+                {
+                    "extend": 'excel',
+                    "exportOptions": {
+                        "columns": [0,1, 2, 3, 4, 5, 6]
+                    }
+                },
+                {
+                    "extend": 'print',
+                    "exportOptions": {
+                        "columns": [0,1, 2, 3, 4, 5, 6]
+                    }
+                }
+            ],
+            "dom": 'Bfrtip',
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
-</script>
+    </script>
 @endpush

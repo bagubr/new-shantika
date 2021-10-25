@@ -65,8 +65,9 @@ class OrderService {
         if(!$data->expired_at) $data->expired_at = self::getExpiredAt();
         
         $order = Order::create($data->toArray());
+        $code_order = self::generateCodeOrder($order->id);
         $order->update([
-            'code_order'=>$data->code_order
+            'code_order'=>$code_order
         ]);
         $order->refresh();
         
