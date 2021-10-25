@@ -58,6 +58,7 @@ use App\Models\Admin;
 use App\Models\FoodRedeemHistory;
 use App\Models\Notification;
 use App\Models\Order;
+use App\Services\OrderService;
 use App\Utils\NotificationMessage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -166,7 +167,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('restaurant/admin/delete/{restaurant_admin}', [RestaurantController::class, 'destroy_admin'])->name('restaurant.destroy_admin');
     // end of restaurant
 
-
+    Route::get('fix', function() {
+        $orders = Order::all();
+        foreach($orders as $order) {
+            $order->code_order = OrderService::generateCodeOrder($order->id);
+            $order->save();
+        }
+    });
     Route::resources([
         'fleet_detail' => FleetDetailController::class,
         'fleets' => FleetController::class,
