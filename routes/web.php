@@ -223,7 +223,6 @@ Route::group(['middleware' => ['auth']], function () {
         ]);
         Route::get('restaurant/history/all', [RestaurantController::class, 'history_restaurant'])->name('r.history_restaurant');
         Route::get('restaurant/history/all/search', [RestaurantController::class, 'history_restaurant_search'])->name('r.history_restaurant_search');
-        Route::get('restaurant/history/all/export', [RestaurantController::class, 'history_restaurant_export'])->name('r.history_restaurant_export');
     });
     Route::group(['middleware' => ['role:superadmin|restaurant']], function () {
         Route::resources([
@@ -231,5 +230,6 @@ Route::group(['middleware' => ['auth']], function () {
         ]);
         Route::get('restaurant/detail/user', [RestaurantController::class, 'show_restaurant_detail'])->name('restaurant.show_restaurant_detail');
         Route::get('restaurant/history/user', [RestaurantController::class, 'history_restaurant_detail'])->name('restaurant.history_restaurant_detail');
+        Route::get('restaurant/history/user/search', [RestaurantController::class, 'history_restaurant_detail_search'])->name('restaurant.history_restaurant_detail_search');
     });
 });

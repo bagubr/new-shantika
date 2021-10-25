@@ -96,7 +96,6 @@ class RestaurantController extends Controller
     }
     public function history_restaurant_search(Request $request)
     {
-        $time = Carbon::now()->toDateString();
         $restaurant_id = $request->restaurant_id;
         $start_date = $request->start_date;
         $end_date = $request->end_date;
@@ -130,6 +129,31 @@ class RestaurantController extends Controller
     {
         $user = Auth::user()->restaurant_admin;
         $food_reddem_histories = FoodRedeemHistory::where('restaurant_id', $user->restaurant_id)->get();
+        return view('restaurant.history_user', compact('food_reddem_histories'));
+    }
+    public function history_restaurant_detail_search(Request $request)
+    {
+        $user = Auth::user()->restaurant_admin;
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $food_reddem_histories = FoodRedeemHistory::query();
+
+        if (!empty($start_date) || !empty($end_date)) {
+            if (empty($start_date)) {
+                $food_reddem_histories = $food_reddem_histories->whereDate('created_at', '<=', $end_date);
+            } else if (empty($end_date)) {
+                $food_reddem_histories = $food_reddem_histories->whereDate('created_at', '>=', $start_date);
+            } else {
+                $food_reddem_histories = $food_reddem_histories->whereDate('created_at', '>=', $start_date)->whereDate('created_at', '<=', $end_date);
+            }
+        }
+        $test     = $request->flash();
+        $food_reddem_histories   = $food_reddem_histories->where('restaurant_id', $user->restaurant_id)->get();
+        if (!$food_reddem_histories->isEmpty()) {
+            session()->flash('success', 'Data Berhasil Ditemukan');
+        } else {
+            session()->flash('error', 'Tidak Ada Data Ditemukan');
+        }
         return view('restaurant.history_user', compact('food_reddem_histories'));
     }
 
