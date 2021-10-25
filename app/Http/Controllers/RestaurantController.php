@@ -93,6 +93,26 @@ class RestaurantController extends Controller
         $restaurants = Restaurant::all();
         return view('restaurant.history', compact('food_reddem_histories', 'restaurants'));
     }
+    public function history_restaurant_search(Request $request)
+    {
+        $restaurant_id = $request->restaurant_id;
+        $restaurants = Restaurant::get();
+        $food_reddem_histories = FoodRedeemHistory::query();
+
+        if (!empty($restaurant_id)) {
+            $food_reddem_histories = $food_reddem_histories->where('restaurant_id', $restaurant_id);
+        }
+        $test     = $request->flash();
+        $food_reddem_histories   = $food_reddem_histories->get();
+        if (!$food_reddem_histories->isEmpty()) {
+            session()->flash('success', 'Data Berhasil Ditemukan');
+        } else {
+            session()->flash('error', 'Tidak Ada Data Ditemukan');
+        }
+        // $food_reddem_histories = FoodRedeemHistory::all();
+        // $restaurants = Restaurant::all();
+        return view('restaurant.history', compact('food_reddem_histories', 'restaurants'));
+    }
     public function history_restaurant_detail()
     {
         $user = Auth::user()->restaurant_admin;

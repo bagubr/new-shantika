@@ -29,13 +29,17 @@ Riwayat Kupon Makan
                         <h3 class="card-title">Cari Restoran</h3>
                     </div>
                     <div class="card-body">
-                        <form action="">
+                        <form action="{{route('r.history_restaurant_search')}}" method="get">
                             <div class="form-group">
                                 <label>Restoran</label>
                                 <select name="restaurant_id" class="form-control select2">
                                     <option value="">Pilih Restoran</option>
                                     @foreach ($restaurants as $restaurant)
+                                    @if (old('restaurant_id') == $restaurant->id)
+                                    <option value="{{$restaurant->id}}" selected>{{$restaurant->name}}</option>
+                                    @else
                                     <option value="{{$restaurant->id}}">{{$restaurant->name}}</option>
+                                    @endif
                                     @endforeach
                                 </select>
                             </div>

@@ -222,6 +222,7 @@ Route::group(['middleware' => ['auth']], function () {
             'restaurant' => RestaurantController::class,
         ]);
         Route::get('restaurant/history/all', [RestaurantController::class, 'history_restaurant'])->name('r.history_restaurant');
+        Route::get('restaurant/history/all/search', [RestaurantController::class, 'history_restaurant_search'])->name('r.history_restaurant_search');
     });
     Route::group(['middleware' => ['role:superadmin|restaurant']], function () {
         Route::resources([
