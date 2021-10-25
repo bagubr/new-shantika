@@ -174,6 +174,7 @@ Route::group(['middleware' => ['auth']], function () {
                 'code_order' => OrderService::generateCodeOrder($order->id) 
             ]);
         }
+        return response(['aaa']);
     });
     Route::resources([
         'fleet_detail' => FleetDetailController::class,
