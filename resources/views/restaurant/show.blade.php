@@ -120,8 +120,8 @@ Restoran
                                 <td>{{$r->name}}</td>
                                 <td>{{$r->restaurant_admin->phone}}</td>
                                 <td>
-                                    <form action="{{route('restaurant.destroy_admin',$r->id)}}" class="d-inline"
-                                        method="POST">
+                                    <form action="{{route('restaurant.destroy_admin',$r->restaurant_admin?->id)}}"
+                                        class="d-inline" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-danger btn-xs"
