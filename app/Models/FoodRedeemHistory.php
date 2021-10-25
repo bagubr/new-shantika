@@ -13,11 +13,13 @@ class FoodRedeemHistory extends Model
         'order_detail_id', 'restaurant_id'
     ];
 
-    public function order_detail() {
-        return $this->hasOne(OrderDetail::class);
+    public function order_detail()
+    {
+        return $this->hasOne(OrderDetail::class, "id", "order_detail_id");
     }
 
-    public function restaurant() {
+    public function restaurant()
+    {
         return $this->belongsTo(Restaurant::class);
     }
 }

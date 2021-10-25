@@ -118,7 +118,8 @@ Scan Barcode
                     type: "POST",
                     url: "restaurant_barcode",
                     data: {
-                        code_order: slug[0]
+                        code_order: slug[0],
+                        layout_chair_name: slug[1]
                     },
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -126,25 +127,29 @@ Scan Barcode
                     success: function (data) {
                         if (data.code == 400) {
                             toastr.error(data.message)
+                        console.log(data)
                             html5QrcodeScanner.render(onScanSuccess);
                         } else {
                             toastr.success(data.message)
+                        console.log(data)
                             html5QrcodeScanner.render(onScanSuccess);
                         }
                     },
                     error: function (data) {
                         toastr.error(data.message)
+                        console.log(data)
                         html5QrcodeScanner.render(onScanSuccess);
                     }
                 });
             },
             error: function (data) {
                 toastr.error("Data Tidak Ditemukan")
+                console.log(data)
                 html5QrcodeScanner.render(onScanSuccess);
             }
         }).catch((err) => {
             console.log(err);
-        });4
+        });
 
     }
     var html5QrcodeScanner = new Html5QrcodeScanner(
@@ -157,6 +162,7 @@ Scan Barcode
 <script>
     $("#check_manually").click(function (e) {
         const str = $("#code_order").val();
+        const layout = $("#layout_chair_name").val();
         $.ajax({
             type: "GET",
             url: "order/find/" + str,
@@ -168,7 +174,8 @@ Scan Barcode
                     type: "POST",
                     url: "restaurant_barcode",
                     data: {
-                        code_order: slug[0]
+                        code_order: str,
+                        layout_chair_name: layout
                     },
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -179,14 +186,17 @@ Scan Barcode
                         } else {
                             toastr.success(data.message)
                         }
+                        console.log(data)
                     },
                     error: function (data) {
                         toastr.error(data.message)
+                        console.log(data)
                     }
                 });
             },
             error: function (data) {
                 toastr.error("Data Tidak Ditemukan")
+                console.log(data)
             }
         }).catch((err) => {
             console.log(err);

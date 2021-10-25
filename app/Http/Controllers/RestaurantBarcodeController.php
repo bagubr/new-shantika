@@ -52,23 +52,29 @@ class RestaurantBarcodeController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'code_order' => 'required'
+            'code_order' => 'required',
         ]);
         // $code_order = explode('|', $data['code_order']);
         $data['code_order'] = $request->code_order;
         $data['layout_chair_name'] = $request->layout_chair_name;
 
-        $order = OrderRepository::findByCodeOrder($data['code_order']);
-        $redeems = FoodRedeemHistory::where('order_detail_id', $order->order_detail[0]->id)->get();
-        $order_detail = OrderDetail::whereHas('chair', function ($query) use ($data) {
+        // $order = OrderRepository::findByCodeOrder($data['code_order']);
+        $order = Order::where('code_order', $data['code_order'])->first();
+        // $redeems = FoodRedeemHistory::where('order_detail_id', $order->order_detail->first()->id)->get();
+
+        $order_detail = OrderDetail::where('order_id', $order->id)->whereHas('chair', function ($query) use ($data) {
             $query->where('name', 'ilike', '%' . $data['layout_chair_name'] . '%');
         })->first() ?? $this->sendFailedResponse([], 'Data order tidak ditemukan');
-        $ticket_count = count($order->order_detail);
-        $redeem_count = count($redeems);
+
+        $redeems = FoodRedeemHistory::where('order_detail_id', $order_detail->id)->first();
+
         $auth = Auth::user();
         $restaurant_admin = RestaurantAdmin::where('admin_id', $auth->id)->first()->restaurant_id;
+
         if (empty($order)) $this->sendFailedResponse([], 'Kode order tidak ditemukan');
-        if ($redeem_count >= $ticket_count) $this->sendFailedResponse([], 'Anda sudah meredeem kode order ini sebanyak jumlah tiket anda');
+        if (!empty($redeems) && $order_detail->id == $redeems->order_detail_id) {
+            $this->sendFailedResponse([], 'Anda sudah meredeem kode ini');
+        }
         if (empty($restaurant_admin)) $this->sendFailedResponse([], 'ID Anda tidak ditemukan');
 
         $history = FoodRedeemHistory::create([
@@ -78,7 +84,7 @@ class RestaurantBarcodeController extends Controller
 
 
         return $this->sendSuccessResponse([
-            'history' => $history
+            'history' => $history,
         ]);
     }
 
