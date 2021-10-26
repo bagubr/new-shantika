@@ -80,8 +80,14 @@ Armada
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <a href="{{route('fleets.show',$fleet->id)}}"
                                             class="btn btn-info btn-xs">Show</a>
-                                        <a class="btn btn-danger btn-xs button-delete"
-                                            data-id="{{$fleet->id}}">Delete</a>
+                                        <form action="{{route('fleets.destroy',$fleet->id)}}" class="d-inline"
+                                            method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger btn-xs"
+                                                onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                                type="submit">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                                 @endforeach
