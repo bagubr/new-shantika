@@ -368,7 +368,7 @@ Route::group(['middleware' => ['auth']], function () {
     //sketch
     Route::get('sketch', [SketchController::class, 'index'])->name('sketch.index');
     Route::post('sketch', [SketchController::class, 'store'])->name('sketch.store');
-    Route::get('sketch/{sketch}', [SketchController::class, 'show'])->name('sketch.show');
+    // Route::get('sketch/{sketch}', [SketchController::class, 'show'])->name('sketch.show');
     Route::put('sketch/{sketch}', [SketchController::class, 'update'])->name('sketch.update');
     Route::get('sketch/orders', [SketchController::class, 'getDeparturingOrders']);
     Route::get('sketch/orders/detail', [SketchController::class, 'getAvailibilityChairs']);
