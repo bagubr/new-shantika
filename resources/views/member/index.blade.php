@@ -35,9 +35,12 @@ Member
                                 <label>Import</label>
                                 <input type="file" class="form-control" name="file">
                             </div>
+                            @unlessrole('owner')
+
                             <div class="text-right">
                                 <button class="btn btn-primary" type="submit">Import</button>
                             </div>
+                            @endunlessrole
                         </form>
                     </div>
                 </div>
@@ -90,6 +93,7 @@ Member
                                     <td>{{$member->name}}</td>
                                     <td>{{$member->phone}}</td>
                                     <td>
+                                        @unlessrole('owner')
                                         <a href="{{route('member.edit',$member->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('member.destroy',$member->id)}}" class="d-inline"
@@ -100,6 +104,7 @@ Member
                                                 onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
                                                 type="submit">Delete</button>
                                         </form>
+                                        @endunlessrole
                                     </td>
                                 </tr>
                                 @endforeach

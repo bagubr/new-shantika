@@ -27,9 +27,12 @@ Waktu
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Table Waktu</h3>
+                        @unlessrole('owner')
+
                         <div class="text-right">
                             <a href="{{route('time_classification.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
+                        @endunlessrole
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -46,7 +49,10 @@ Waktu
                                 <tr>
                                     <td>{{$time_classification->name}}</td>
                                     <td>{{$time_classification->time_start}} - {{$time_classification->time_end}}</td>
-                                    <td><a href="{{route('time_classification.edit',$time_classification->id)}}"
+                                    <td>
+                                        @unlessrole('owner')
+
+                                        <a href="{{route('time_classification.edit',$time_classification->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('time_classification.destroy',$time_classification->id)}}"
                                             class="d-inline" method="POST">
@@ -56,6 +62,7 @@ Waktu
                                                 onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
                                                 type="submit">Delete</button>
                                         </form>
+                                        @endunlessrole
                                     </td>
                                 </tr>
                                 @endforeach

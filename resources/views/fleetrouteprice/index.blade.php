@@ -62,9 +62,11 @@ Harga Rute Armada
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Table</h3>
+                        @unlessrole('owner')
                         <div class="text-right">
                             <a href="{{route('fleet_route_prices.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
+                        @endunlessrole
                     </div>
                     <div class="card-body">
                         <table id="example1" class="table table-bordered table-striped">
@@ -89,7 +91,10 @@ Harga Rute Armada
                                     <td>{{$fleet_route_price->start_at}} - {{$fleet_route_price->end_at}}</td>
                                     <td>Rp. {{number_format($fleet_route_price->deviation_price,2)}}</td>
                                     <td>{{$fleet_route_price->status}}</td>
-                                    <td><a href="{{route('fleet_route_prices.edit',$fleet_route_price->id)}}"
+                                    <td>
+                                        @unlessrole('owner')
+
+                                        <a href="{{route('fleet_route_prices.edit',$fleet_route_price->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('fleet_route_prices.destroy',$fleet_route_price->id)}}"
                                             class="d-inline" method="POST">
@@ -98,6 +103,7 @@ Harga Rute Armada
                                             <button class="btn btn-danger btn-xs"
                                                 onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
                                                 type="submit">Delete</button>
+                                            @endunlessrole
                                         </form>
                                     </td>
                                 </tr>

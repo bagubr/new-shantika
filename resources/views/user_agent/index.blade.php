@@ -79,9 +79,11 @@ User Agent
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Table User Agent</h3>
+                        @unlessrole('owner')
                         <div class="text-right">
                             <a href="{{route('user_agent.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
+                        @endunlessrole
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -137,8 +139,10 @@ User Agent
                                             class="btn btn-primary btn-xs" target="_blank">
                                             Detail
                                         </a>
+                                        @unlessrole('owner')
                                         <a href="{{route('user_agent.edit',$user_agent->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
+                                        @endunlessrole
                                         {{-- <form action="{{route('user_agent.destroy',$user_agent->id)}}"
                                             class="d-inline" method="POST">
                                             @csrf
