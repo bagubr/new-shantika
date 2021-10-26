@@ -90,6 +90,7 @@
                     </a>
                 </li>
                 <li class="nav-header">Restoran</li>
+                @hasanyrole('superadmin')
                 <li class="nav-item">
                     <a href="{{route('restaurant.index')}}"
                         class="nav-link {{Request::routeIs('restaurant.*') ? 'active' : ''}}">
@@ -99,6 +100,7 @@
                         </p>
                     </a>
                 </li>
+                @endrole
                 <li class="nav-item">
                     <a href="{{route('r.history_restaurant')}}"
                         class="nav-link {{Request::routeIs('r.history_restaurant') ? 'active' : ''}}">

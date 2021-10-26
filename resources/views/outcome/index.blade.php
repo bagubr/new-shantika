@@ -27,11 +27,13 @@ Pengeluaran
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Table Pengeluaran</h3>
+                        @unlessrole('owner')
                         <div class="text-right">
                             <a href="{{route('outcome_type.create')}}" class="btn btn-outline-warning btn-sm">Tambah
                                 Tipe Pengeluaran</a>
                             <a href="{{route('outcome.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
+                        @endunlessrole
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -59,7 +61,8 @@ Pengeluaran
                                     <td>Rp. {{number_format($outcome->sum_pengeluaran,2)}}</td>
                                     <td>Rp. {{number_format($outcome->sum_total_pendapatan_bersih,2)}}</td>
                                     <td>
-                                        <a class="btn btn-success btn-xs" href="{{route('outcome.export',$outcome->id)}}">Export Excel</a>
+                                        <a class="btn btn-success btn-xs"
+                                            href="{{route('outcome.export',$outcome->id)}}">Export Excel</a>
                                         <a href="{{route('outcome.show',$outcome->id)}}"
                                             class="btn btn-info btn-xs">Show</a>
                                         <form action="{{route('outcome.destroy',$outcome->id)}}" class="d-inline"
@@ -100,9 +103,11 @@ Pengeluaran
                         </form>
                         <div class="chart">
                             <center>
-                                <i class="fas fa-arrow-left change-statistic-previous" data-digit="{{$data['digit']??0}}"></i>
+                                <i class="fas fa-arrow-left change-statistic-previous"
+                                    data-digit="{{$data['digit']??0}}"></i>
                                 <label class="label">{{$data['title']}}</label>
-                                <i class="fas fa-arrow-right change-statistic-now" data-digit="{{$data['digit']??0}}"></i>
+                                <i class="fas fa-arrow-right change-statistic-now"
+                                    data-digit="{{$data['digit']??0}}"></i>
                             </center>
                             <canvas id="barChart"
                                 style="min-height: 250px; height: 500px; max-height: 500px; max-width: 100%;"></canvas>
