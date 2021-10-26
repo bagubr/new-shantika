@@ -111,292 +111,297 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('notification/{id}', [AdminNotificationController::class, 'show']);
 
+    // crud
+    Route::group(['middleware' => ['role:superadmin|keuangan|restaurant|ticketing']], function () {
+        Route::get('fleets/create', [FleetController::class, 'create'])->name('fleets.create');
+        Route::get('fleets/{fleets}/edit', [FleetController::class, 'edit'])->name('fleets.edit');
+        Route::delete('fleets/{fleets}', [FleetController::class, 'destroy'])->name('fleets.destroy');
+        Route::get('fleetclass/create', [FleetClassController::class, 'create'])->name('fleetclass.create');
+        Route::get('fleetclass/{fleetclass}/edit', [FleetClassController::class, 'edit'])->name('fleetclass.edit');
+        Route::delete('fleetclass/{fleetclass}', [FleetClassController::class, 'destroy'])->name('fleetclass.destroy');
+        Route::get('layouts/create', [LayoutController::class, 'create'])->name('layouts.create');
+        Route::get('layouts/{layouts}/edit', [LayoutController::class, 'edit'])->name('layouts.edit');
+        Route::delete('layouts/{layouts}', [LayoutController::class, 'destroy'])->name('layouts.destroy');
+        Route::get('fleet_class_price/create', [FleetClassPriceController::class, 'create'])->name('fleet_class_price.create');
+        Route::get('fleet_class_price/{fleet_class_price}/edit', [FleetClassPriceController::class, 'edit'])->name('fleet_class_price.edit');
+        Route::delete('fleet_class_price/{fleet_class_price}', [FleetClassPriceController::class, 'destroy'])->name('fleet_class_price.destroy');
+        Route::get('fleet_route_prices/create', [FleetRoutePriceController::class, 'create'])->name('fleet_route_prices.create');
+        Route::get('fleet_route_prices/{fleet_route_prices}/edit', [FleetRoutePriceController::class, 'edit'])->name('fleet_route_prices.edit');
+        Route::delete('fleet_route_prices/{fleet_route_prices}', [FleetRoutePriceController::class, 'destroy'])->name('fleet_route_prices.destroy');
+        Route::get('routes/create', [RoutesController::class, 'create'])->name('routes.create');
+        Route::get('routes/{routes}/edit', [RoutesController::class, 'edit'])->name('routes.edit');
+        Route::delete('routes/{routes}', [RoutesController::class, 'destroy'])->name('routes.destroy');
+        Route::get('agency/create', [AgencyController::class, 'create'])->name('agency.create');
+        Route::get('agency/{agency}/edit', [AgencyController::class, 'edit'])->name('agency.edit');
+        Route::delete('agency/{agency}', [AgencyController::class, 'destroy'])->name('agency.destroy');
+        Route::get('checkpoint/create', [CheckpointController::class, 'create'])->name('checkpoint.create');
+        Route::get('checkpoint/{checkpoint}/edit', [CheckpointController::class, 'edit'])->name('checkpoint.edit');
+        Route::delete('checkpoint/{checkpoint}', [CheckpointController::class, 'destroy'])->name('checkpoint.destroy');
+        Route::get('agency_price/create', [AgencyPriceController::class, 'create'])->name('agency_price.create');
+        Route::get('agency_price/{agency_price}/edit', [AgencyPriceController::class, 'edit'])->name('agency_price.edit');
+        Route::delete('agency_price/{agency_price}', [AgencyPriceController::class, 'destroy'])->name('agency_price.destroy');
+        Route::get('status_penumpang/create', [StatusPenumpangController::class, 'create'])->name('status_penumpang.create');
+        Route::get('status_penumpang/{status_penumpang}/edit', [StatusPenumpangController::class, 'edit'])->name('status_penumpang.edit');
+        Route::delete('status_penumpang/{status_penumpang}', [StatusPenumpangController::class, 'destroy'])->name('status_penumpang.destroy');
+        Route::get('fleet_route/create', [FleetRouteController::class, 'create'])->name('fleet_route.create');
+        Route::get('fleet_route/{fleet_route}/edit', [FleetRouteController::class, 'edit'])->name('fleet_route.edit');
+        Route::delete('fleet_route/{fleet_route}', [FleetRouteController::class, 'destroy'])->name('fleet_route.destroy');
+        Route::get('fleet_route/blocked_chair/{fleet_route}', [FleetRouteController::class, 'blockedChairs'])->name('fleet_route.blocked_chair');
+        Route::put('fleet_route/block_chair/{fleet_route}/{layout_chair_id}', [FleetRouteController::class, 'updateBlockedChairs']);
+        Route::get('sketch/create', [SketchController::class, 'create'])->name('sketch.create');
+        Route::get('sketch/{sketch}/edit', [SketchController::class, 'edit'])->name('sketch.edit');
+        Route::delete('sketch/{sketch}', [SketchController::class, 'destroy'])->name('sketch.destroy');
+        Route::get('outcome/create', [OutcomeController::class, 'create'])->name('outcome.create');
+        Route::get('outcome_type/create', [OutcomeController::class, 'createType'])->name('outcome_type.create');
+        Route::get('outcome/{outcome}/edit', [OutcomeController::class, 'edit'])->name('outcome.edit');
+        Route::delete('outcome/{outcome}', [OutcomeController::class, 'destroy'])->name('outcome.destroy');
+        Route::post('outcome_type', [OutcomeController::class, 'storeType'])->name('outcome_type.store');
+        Route::delete('outcome_type/{id}', [OutcomeController::class, 'destroyType'])->name('outcome_type.destroy');
+        Route::get('order_price_distribution/create', [OrderPriceDistributionController::class, 'create'])->name('order_price_distribution.create');
+        Route::get('order_price_distribution/{order_price_distribution}/edit', [OrderPriceDistributionController::class, 'edit'])->name('order_price_distribution.edit');
+        Route::delete('order_price_distribution/{order_price_distribution}', [OrderPriceDistributionController::class, 'destroy'])->name('order_price_distribution.destroy');
+        Route::get('member/create', [MemberController::class, 'create'])->name('member.create');
+        Route::get('member/{member}/edit', [MemberController::class, 'edit'])->name('member.edit');
+        Route::delete('member/{member}', [MemberController::class, 'destroy'])->name('member.destroy');
+        Route::post('member/import', [MemberController::class, 'import'])->name('member.import');
+        Route::get('order/create', [OrderController::class, 'create'])->name('order.create');
+        Route::get('order/{order}/edit', [OrderController::class, 'edit'])->name('order.edit');
+        Route::delete('order/{order}', [OrderController::class, 'destroy'])->name('order.destroy');
+        Route::put('order/update_jadwal/{order}', [OrderController::class, 'update_jadwal'])->name('order.update_jadwal');
+        Route::put('order/cancelation/{order_detail}', [OrderController::class, 'cancelation'])->name('order.cancelation');
+        Route::get('time_classification/create', [TimeClassificationController::class, 'create'])->name('time_classification.create');
+        Route::delete('time_classification/{time_classification}', [TimeClassificationController::class, 'destroy'])->name('time_classification.destroy');
+        Route::get('time_classification/{time_classification}/edit', [TimeClassificationController::class, 'edit'])->name('time_classification.edit');
+        Route::get('payment/create', [PaymentController::class, 'create'])->name('payment.create');
+        Route::get('payment/{payment}/edit', [PaymentController::class, 'edit'])->name('payment.edit');
+        Route::delete('payment/{payment}', [PaymentController::class, 'destroy'])->name('payment.destroy');
+        Route::get('city/create', [CityController::class, 'create'])->name('city.create');
+        Route::get('city/{city}/edit', [CityController::class, 'edit'])->name('city.edit');
+        Route::delete('city/{city}', [CityController::class, 'destroy'])->name('city.destroy');
+        Route::get('province/create', [ProvinceController::class, 'create'])->name('province.create');
+        Route::get('province/{province}/edit', [ProvinceController::class, 'edit'])->name('province.edit');
+        Route::delete('province/{province}', [ProvinceController::class, 'destroy'])->name('province.destroy');
+        Route::get('area/create', [AreaController::class, 'create'])->name('area.create');
+        Route::get('area/{area}/edit', [AreaController::class, 'edit'])->name('area.edit');
+        Route::delete('area/{area}', [AreaController::class, 'destroy'])->name('area.destroy');
+        Route::get('payment_type/create', [PaymentTypeController::class, 'create'])->name('payment_type.create');
+        Route::get('payment_type/{payment_type}/edit', [PaymentTypeController::class, 'edit'])->name('payment_type.edit');
+        Route::delete('payment_type/{payment_type}', [PaymentTypeController::class, 'destroy'])->name('payment_type.destroy');
+        Route::get('user_agent/create', [UserAgentController::class, 'create'])->name('user_agent.create');
+        Route::get('user_agent/{user_agent}/edit', [UserAgentController::class, 'edit'])->name('user_agent.edit');
+        Route::delete('user_agent/{user_agent}', [UserAgentController::class, 'destroy'])->name('user_agent.destroy');
+        Route::get('user/create', [UserController::class, 'create'])->name('user.create');
+        Route::get('user/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
+        Route::delete('user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+    });
+
+    // end of crud
+
     // fleet
     Route::get('fleets', [FleetController::class, 'index'])->name('fleets.index');
-    Route::get('fleets/create', [FleetController::class, 'create'])->name('fleets.create');
     Route::post('fleets', [FleetController::class, 'store'])->name('fleets.store');
     Route::get('fleets/{fleets}', [FleetClassController::class, 'show'])->name('fleets.show');
-    Route::get('fleets/{fleets}/edit', [FleetController::class, 'edit'])->name('fleets.edit');
     Route::put('fleets/{fleets}', [FleetController::class, 'update'])->name('fleets.update');
-    Route::delete('fleets/{fleets}', [FleetController::class, 'destroy'])->name('fleets.destroy');
     // end of fleet
 
     // fleetclass
     Route::get('fleetclass', [FleetClassController::class, 'index'])->name('fleetclass.index');
-    Route::get('fleetclass/create', [FleetClassController::class, 'create'])->name('fleetclass.create');
     Route::post('fleetclass', [FleetClassController::class, 'store'])->name('fleetclass.store');
     Route::get('fleetclass/{fleetclass}', [FleetClassController::class, 'show'])->name('fleetclass.show');
-    Route::get('fleetclass/{fleetclass}/edit', [FleetClassController::class, 'edit'])->name('fleetclass.edit');
     Route::put('fleetclass/{fleetclass}', [FleetClassController::class, 'update'])->name('fleetclass.update');
-    Route::delete('fleetclass/{fleetclass}', [FleetClassController::class, 'destroy'])->name('fleetclass.destroy');
     // end of fleetclass
 
     //layouts
     Route::get('layouts', [LayoutController::class, 'index'])->name('layouts.index');
-    Route::get('layouts/create', [LayoutController::class, 'create'])->name('layouts.create');
     Route::post('layouts', [LayoutController::class, 'store'])->name('layouts.store');
     Route::get('layouts/{layouts}', [LayoutController::class, 'show'])->name('layouts.show');
-    Route::get('layouts/{layouts}/edit', [LayoutController::class, 'edit'])->name('layouts.edit');
     Route::put('layouts/{layouts}', [LayoutController::class, 'update'])->name('layouts.update');
-    Route::delete('layouts/{layouts}', [LayoutController::class, 'destroy'])->name('layouts.destroy');
     //end of layouts
 
     //fleet_detail
+    Route::put('fleet_detail/{fleet_detail}', [FleetDetailController::class, 'update'])->name('fleet_detail.update');
     Route::get('fleet_detail', [FleetDetailController::class, 'index'])->name('fleet_detail.index');
-    Route::get('fleet_detail/create', [FleetDetailController::class, 'create'])->name('fleet_detail.create');
     Route::post('fleet_detail', [FleetDetailController::class, 'store'])->name('fleet_detail.store');
     Route::get('fleet_detail/{fleet_detail}', [FleetDetailController::class, 'show'])->name('fleet_detail.show');
-    Route::get('fleet_detail/{fleet_detail}/edit', [FleetDetailController::class, 'edit'])->name('fleet_detail.edit');
-    Route::put('fleet_detail/{fleet_detail}', [FleetDetailController::class, 'update'])->name('fleet_detail.update');
-    Route::delete('fleet_detail/{fleet_detail}', [FleetDetailController::class, 'destroy'])->name('fleet_detail.destroy');
     //end of fleet_detail
 
     //fleet_class_price
     Route::get('fleet_class_price', [FleetClassPriceController::class, 'index'])->name('fleet_class_price.index');
-    Route::get('fleet_class_price/create', [FleetClassPriceController::class, 'create'])->name('fleet_class_price.create');
     Route::post('fleet_class_price', [FleetClassPriceController::class, 'store'])->name('fleet_class_price.store');
     Route::get('fleet_class_price/{fleet_class_price}', [FleetClassPriceController::class, 'show'])->name('fleet_class_price.show');
-    Route::get('fleet_class_price/{fleet_class_price}/edit', [FleetClassPriceController::class, 'edit'])->name('fleet_class_price.edit');
     Route::put('fleet_class_price/{fleet_class_price}', [FleetClassPriceController::class, 'update'])->name('fleet_class_price.update');
-    Route::delete('fleet_class_price/{fleet_class_price}', [FleetClassPriceController::class, 'destroy'])->name('fleet_class_price.destroy');
     //end of fleet_class_price
 
     //fleet_route_prices
     Route::get('fleet_route_prices', [FleetRoutePriceController::class, 'index'])->name('fleet_route_prices.index');
-    Route::get('fleet_route_prices/create', [FleetRoutePriceController::class, 'create'])->name('fleet_route_prices.create');
     Route::post('fleet_route_prices', [FleetRoutePriceController::class, 'store'])->name('fleet_route_prices.store');
     Route::get('fleet_route_prices/{fleet_route_prices}', [FleetRoutePriceController::class, 'show'])->name('fleet_route_prices.show');
-    Route::get('fleet_route_prices/{fleet_route_prices}/edit', [FleetRoutePriceController::class, 'edit'])->name('fleet_route_prices.edit');
     Route::put('fleet_route_prices/{fleet_route_prices}', [FleetRoutePriceController::class, 'update'])->name('fleet_route_prices.update');
-    Route::delete('fleet_route_prices/{fleet_route_prices}', [FleetRoutePriceController::class, 'destroy'])->name('fleet_route_prices.destroy');
     Route::get('fleet_route_prices/search', [FleetRoutePriceController::class, 'search'])->name('fleet_route_prices.search');
-
     //end of fleet_route_prices
 
     //routes
     Route::get('routes', [RoutesController::class, 'index'])->name('routes.index');
-    Route::get('routes/create', [RoutesController::class, 'create'])->name('routes.create');
     Route::post('routes', [RoutesController::class, 'store'])->name('routes.store');
     Route::get('routes/{routes}', [RoutesController::class, 'show'])->name('routes.show');
-    Route::get('routes/{routes}/edit', [RoutesController::class, 'edit'])->name('routes.edit');
     Route::put('routes/{routes}', [RoutesController::class, 'update'])->name('routes.update');
-    Route::delete('routes/{routes}', [RoutesController::class, 'destroy'])->name('routes.destroy');
     Route::get('routes/search', [RoutesController::class, 'search'])->name('routes.search');
     Route::post('routes/fleet/store/', [RoutesController::class, 'store_fleet'])->name('route.fleet.store');
     //end of routes
 
     //agency
     Route::get('agency', [AgencyController::class, 'index'])->name('agency.index');
-    Route::get('agency/create', [AgencyController::class, 'create'])->name('agency.create');
     Route::post('agency', [AgencyController::class, 'store'])->name('agency.store');
     Route::get('agency/{agency}', [AgencyController::class, 'show'])->name('agency.show');
-    Route::get('agency/{agency}/edit', [AgencyController::class, 'edit'])->name('agency.edit');
     Route::put('agency/{agency}', [AgencyController::class, 'update'])->name('agency.update');
-    Route::delete('agency/{agency}', [AgencyController::class, 'destroy'])->name('agency.destroy');
     Route::get('agency/all', [AgencyController::class, 'get_agency'])->name('agency.get_agency');
     Route::get('agency/search', [AgencyController::class, 'search'])->name('agency.search');
     Route::put('agency/update_status/{agency}', [AgencyController::class, 'update_status'])->name('agency.update_status');
     //end of agency
 
     //checkpoint
+
     Route::get('checkpoint', [CheckpointController::class, 'index'])->name('checkpoint.index');
-    Route::get('checkpoint/create', [CheckpointController::class, 'create'])->name('checkpoint.create');
     Route::post('checkpoint', [CheckpointController::class, 'store'])->name('checkpoint.store');
     Route::get('checkpoint/{checkpoint}', [CheckpointController::class, 'show'])->name('checkpoint.show');
-    Route::get('checkpoint/{checkpoint}/edit', [CheckpointController::class, 'edit'])->name('checkpoint.edit');
     Route::put('checkpoint/{checkpoint}', [CheckpointController::class, 'update'])->name('checkpoint.update');
-    Route::delete('checkpoint/{checkpoint}', [CheckpointController::class, 'destroy'])->name('checkpoint.destroy');
     //end of checkpoint
 
     //user
     Route::get('user', [UserController::class, 'index'])->name('user.index');
-    Route::get('user/create', [UserController::class, 'create'])->name('user.create');
     Route::post('user', [UserController::class, 'store'])->name('user.store');
     Route::get('user/{user}', [UserController::class, 'show'])->name('user.show');
-    Route::get('user/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
     Route::put('user/{user}', [UserController::class, 'update'])->name('user.update');
-    Route::delete('user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
     Route::put('user/update_status/{user}', [UserController::class, 'update_status'])->name('user.update_status');
     //end of user
 
     //user_agent
     Route::get('user_agent', [UserAgentController::class, 'index'])->name('user_agent.index');
-    Route::get('user_agent/create', [UserAgentController::class, 'create'])->name('user_agent.create');
     Route::post('user_agent', [UserAgentController::class, 'store'])->name('user_agent.store');
     Route::get('user_agent/{user_agent}', [UserAgentController::class, 'show'])->name('user_agent.show');
-    Route::get('user_agent/{user_agent}/edit', [UserAgentController::class, 'edit'])->name('user_agent.edit');
     Route::put('user_agent/{user_agent}', [UserAgentController::class, 'update'])->name('user_agent.update');
-    Route::delete('user_agent/{user_agent}', [UserAgentController::class, 'destroy'])->name('user_agent.destroy');
     Route::get('user_agent/search', [UserAgentController::class, 'search'])->name('user_agent.search');
     Route::put('user_agent/update_status/{user_agent}', [UserAgentController::class, 'update_status'])->name('user_agent.update_status');
     //end of user_agent
 
     //time_classification
     Route::get('time_classification', [TimeClassificationController::class, 'index'])->name('time_classification.index');
-    Route::get('time_classification/create', [TimeClassificationController::class, 'create'])->name('time_classification.create');
     Route::post('time_classification', [TimeClassificationController::class, 'store'])->name('time_classification.store');
     Route::get('time_classification/{time_classification}', [TimeClassificationController::class, 'show'])->name('time_classification.show');
-    Route::get('time_classification/{time_classification}/edit', [TimeClassificationController::class, 'edit'])->name('time_classification.edit');
     Route::put('time_classification/{time_classification}', [TimeClassificationController::class, 'update'])->name('time_classification.update');
-    Route::delete('time_classification/{time_classification}', [TimeClassificationController::class, 'destroy'])->name('time_classification.destroy');
     //end of time_classification
 
     //payment
+
     Route::get('payment', [PaymentController::class, 'index'])->name('payment.index');
-    Route::get('payment/create', [PaymentController::class, 'create'])->name('payment.create');
     Route::post('payment', [PaymentController::class, 'store'])->name('payment.store');
     Route::get('payment/{payment}', [PaymentController::class, 'show'])->name('payment.show');
-    Route::get('payment/{payment}/edit', [PaymentController::class, 'edit'])->name('payment.edit');
     Route::put('payment/{payment}', [PaymentController::class, 'update'])->name('payment.update');
-    Route::delete('payment/{payment}', [PaymentController::class, 'destroy'])->name('payment.destroy');
     //end of payment
 
     //payment_type
     Route::get('payment_type', [PaymentTypeController::class, 'index'])->name('payment_type.index');
-    Route::get('payment_type/create', [PaymentTypeController::class, 'create'])->name('payment_type.create');
     Route::post('payment_type', [PaymentTypeController::class, 'store'])->name('payment_type.store');
     Route::get('payment_type/{payment_type}', [PaymentTypeController::class, 'show'])->name('payment_type.show');
-    Route::get('payment_type/{payment_type}/edit', [PaymentTypeController::class, 'edit'])->name('payment_type.edit');
     Route::put('payment_type/{payment_type}', [PaymentTypeController::class, 'update'])->name('payment_type.update');
-    Route::delete('payment_type/{payment_type}', [PaymentTypeController::class, 'destroy'])->name('payment_type.destroy');
     //end of payment_type
 
     //area
     Route::get('area', [AreaController::class, 'index'])->name('area.index');
-    Route::get('area/create', [AreaController::class, 'create'])->name('area.create');
     Route::post('area', [AreaController::class, 'store'])->name('area.store');
     Route::get('area/{area}', [AreaController::class, 'show'])->name('area.show');
-    Route::get('area/{area}/edit', [AreaController::class, 'edit'])->name('area.edit');
     Route::put('area/{area}', [AreaController::class, 'update'])->name('area.update');
-    Route::delete('area/{area}', [AreaController::class, 'destroy'])->name('area.destroy');
     //end of area
 
     //province
     Route::get('province', [ProvinceController::class, 'index'])->name('province.index');
-    Route::get('province/create', [ProvinceController::class, 'create'])->name('province.create');
     Route::post('province', [ProvinceController::class, 'store'])->name('province.store');
     Route::get('province/{province}', [ProvinceController::class, 'show'])->name('province.show');
-    Route::get('province/{province}/edit', [ProvinceController::class, 'edit'])->name('province.edit');
     Route::put('province/{province}', [ProvinceController::class, 'update'])->name('province.update');
-    Route::delete('province/{province}', [ProvinceController::class, 'destroy'])->name('province.destroy');
     //end of province
 
     //city
     Route::get('city', [CityController::class, 'index'])->name('city.index');
-    Route::get('city/create', [CityController::class, 'create'])->name('city.create');
     Route::post('city', [CityController::class, 'store'])->name('city.store');
     Route::get('city/{city}', [CityController::class, 'show'])->name('city.show');
-    Route::get('city/{city}/edit', [CityController::class, 'edit'])->name('city.edit');
     Route::put('city/{city}', [CityController::class, 'update'])->name('city.update');
-    Route::delete('city/{city}', [CityController::class, 'destroy'])->name('city.destroy');
     //end of city
 
     //order
     Route::get('order', [OrderController::class, 'index'])->name('order.index');
-    Route::get('order/create', [OrderController::class, 'create'])->name('order.create');
     Route::post('order', [OrderController::class, 'store'])->name('order.store');
     Route::get('order/{order}', [OrderController::class, 'show'])->name('order.show');
-    Route::get('order/{order}/edit', [OrderController::class, 'edit'])->name('order.edit');
     Route::put('order/{order}', [OrderController::class, 'update'])->name('order.update');
-    Route::delete('order/{order}', [OrderController::class, 'destroy'])->name('order.destroy');
 
-    Route::put('order/update_jadwal/{order}', [OrderController::class, 'update_jadwal'])->name('order.update_jadwal');
-    Route::put('order/cancelation/{order_detail}', [OrderController::class, 'cancelation'])->name('order.cancelation');
     Route::get('order/search', [OrderController::class, 'search'])->name('order.search');
     Route::get('order/find/{code_order}', [OrderController::class, 'showByCodeOrder'])->name('order.show.code_order');
     //end of order
 
     //member
     Route::get('member', [MemberController::class, 'index'])->name('member.index');
-    Route::get('member/create', [MemberController::class, 'create'])->name('member.create');
     Route::post('member', [MemberController::class, 'store'])->name('member.store');
     Route::get('member/{member}', [MemberController::class, 'show'])->name('member.show');
-    Route::get('member/{member}/edit', [MemberController::class, 'edit'])->name('member.edit');
     Route::put('member/{member}', [MemberController::class, 'update'])->name('member.update');
-    Route::delete('member/{member}', [MemberController::class, 'destroy'])->name('member.destroy');
-    Route::post('member/import', [MemberController::class, 'import'])->name('member.import');
     Route::get('member/search', [MemberController::class, 'search'])->name('member.search');
     //end of member
 
     //order_price_distribution
+
     Route::get('order_price_distribution', [OrderPriceDistributionController::class, 'index'])->name('order_price_distribution.index');
-    Route::get('order_price_distribution/create', [OrderPriceDistributionController::class, 'create'])->name('order_price_distribution.create');
     Route::post('order_price_distribution', [OrderPriceDistributionController::class, 'store'])->name('order_price_distribution.store');
     Route::get('order_price_distribution/{order_price_distribution}', [OrderPriceDistributionController::class, 'show'])->name('order_price_distribution.show');
-    Route::get('order_price_distribution/{order_price_distribution}/edit', [OrderPriceDistributionController::class, 'edit'])->name('order_price_distribution.edit');
     Route::put('order_price_distribution/{order_price_distribution}', [OrderPriceDistributionController::class, 'update'])->name('order_price_distribution.update');
-    Route::delete('order_price_distribution/{order_price_distribution}', [OrderPriceDistributionController::class, 'destroy'])->name('order_price_distribution.destroy');
     Route::get('order_price_distribution/search', [OrderPriceDistributionController::class, 'search'])->name('order_price_distribution.search');
     Route::get('order_price_distribution/export', [OrderPriceDistributionController::class, 'export'])->name('order_price_distribution.export');
     //end of order_price_distribution
 
     //outcome
     Route::get('outcome', [OutcomeController::class, 'index'])->name('outcome.index');
-    Route::get('outcome/create', [OutcomeController::class, 'create'])->name('outcome.create');
     Route::post('outcome', [OutcomeController::class, 'store'])->name('outcome.store');
     Route::get('outcome/{outcome}', [OutcomeController::class, 'show'])->name('outcome.show');
-    Route::get('outcome/{outcome}/edit', [OutcomeController::class, 'edit'])->name('outcome.edit');
     Route::put('outcome/{outcome}', [OutcomeController::class, 'update'])->name('outcome.update');
-    Route::delete('outcome/{outcome}', [OutcomeController::class, 'destroy'])->name('outcome.destroy');
-
     Route::post('outcome/statistic', [OutcomeController::class, 'statistic'])->name('outcome_statistic');
     Route::get('outcome/search', [OutcomeController::class, 'search'])->name('outcome.search');
     Route::get('outcome/export/{id}', [OutcomeController::class, 'export'])->name('outcome.export');
-    Route::get('outcome_type/create', [OutcomeController::class, 'createType'])->name('outcome_type.create');
-    Route::get('outcome/export/{id}', [OutcomeController::class, 'export'])->name('outcome.export');
-    Route::post('outcome_type', [OutcomeController::class, 'storeType'])->name('outcome_type.store');
-    Route::delete('outcome_type/{id}', [OutcomeController::class, 'destroyType'])->name('outcome_type.destroy');
     //end of outcome
 
     //sketch
     Route::get('sketch', [SketchController::class, 'index'])->name('sketch.index');
-    Route::get('sketch/create', [SketchController::class, 'create'])->name('sketch.create');
     Route::post('sketch', [SketchController::class, 'store'])->name('sketch.store');
     Route::get('sketch/{sketch}', [SketchController::class, 'show'])->name('sketch.show');
-    Route::get('sketch/{sketch}/edit', [SketchController::class, 'edit'])->name('sketch.edit');
     Route::put('sketch/{sketch}', [SketchController::class, 'update'])->name('sketch.update');
-    Route::delete('sketch/{sketch}', [SketchController::class, 'destroy'])->name('sketch.destroy');
     Route::get('sketch/orders', [SketchController::class, 'getDeparturingOrders']);
     Route::get('sketch/orders/detail', [SketchController::class, 'getAvailibilityChairs']);
     Route::get('sketch/export', [SketchController::class, 'export']);
-    Route::get('sketch/log', [SketchLogController::class, 'index']);
     Route::post('sketch/store', [SketchController::class, 'store']);
+    Route::get('sketch/log', [SketchLogController::class, 'index']);
     //end of sketch
 
     //fleet_route
+
     Route::get('fleet_route', [FleetRouteController::class, 'index'])->name('fleet_route.index');
-    Route::get('fleet_route/create', [FleetRouteController::class, 'create'])->name('fleet_route.create');
     Route::post('fleet_route', [FleetRouteController::class, 'store'])->name('fleet_route.store');
     Route::get('fleet_route/{fleet_route}', [FleetRouteController::class, 'show'])->name('fleet_route.show');
-    Route::get('fleet_route/{fleet_route}/edit', [FleetRouteController::class, 'edit'])->name('fleet_route.edit');
     Route::put('fleet_route/{fleet_route}', [FleetRouteController::class, 'update'])->name('fleet_route.update');
-    Route::delete('fleet_route/{fleet_route}', [FleetRouteController::class, 'destroy'])->name('fleet_route.destroy');
     Route::get('fleet_route/search', [FleetRouteController::class, 'search'])->name('fleet_route.search');
-    Route::get('fleet_route/blocked_chair/{fleet_route}', [FleetRouteController::class, 'blockedChairs'])->name('fleet_route.blocked_chair');
-    Route::put('fleet_route/block_chair/{fleet_route}/{layout_chair_id}', [FleetRouteController::class, 'updateBlockedChairs']);
     Route::put('fleet_route/update_status/{fleet_route}', [FleetRouteController::class, 'update_status'])->name('fleet_route.update_status');
     //end of fleet_route
 
     //status_penumpang
+
     Route::get('status_penumpang', [StatusPenumpangController::class, 'index'])->name('status_penumpang.index');
-    Route::get('status_penumpang/create', [StatusPenumpangController::class, 'create'])->name('status_penumpang.create');
     Route::post('status_penumpang', [StatusPenumpangController::class, 'store'])->name('status_penumpang.store');
     Route::get('status_penumpang/{status_penumpang}', [StatusPenumpangController::class, 'show'])->name('status_penumpang.show');
-    Route::get('status_penumpang/{status_penumpang}/edit', [StatusPenumpangController::class, 'edit'])->name('status_penumpang.edit');
     Route::put('status_penumpang/{status_penumpang}', [StatusPenumpangController::class, 'update'])->name('status_penumpang.update');
-    Route::delete('status_penumpang/{status_penumpang}', [StatusPenumpangController::class, 'destroy'])->name('status_penumpang.destroy');
     Route::get('status_penumpang/search', [StatusPenumpangController::class, 'search'])->name('status_penumpang.search');
     Route::get('status_penumpang/export/', [StatusPenumpangController::class, 'export'])->name('status_penumpang.export');
     //end of status_penumpang
 
     //agency_price
     Route::get('agency_price', [AgencyPriceController::class, 'index'])->name('agency_price.index');
-    Route::get('agency_price/create', [AgencyPriceController::class, 'create'])->name('agency_price.create');
     Route::post('agency_price', [AgencyPriceController::class, 'store'])->name('agency_price.store');
     Route::get('agency_price/{agency_price}', [AgencyPriceController::class, 'show'])->name('agency_price.show');
-    Route::get('agency_price/{agency_price}/edit', [AgencyPriceController::class, 'edit'])->name('agency_price.edit');
     Route::put('agency_price/{agency_price}', [AgencyPriceController::class, 'update'])->name('agency_price.update');
-    Route::delete('agency_price/{agency_price}', [AgencyPriceController::class, 'destroy'])->name('agency_price.destroy');
     //end of agency_price
 
     Route::group(['middleware' => ['role:superadmin']], function () {
