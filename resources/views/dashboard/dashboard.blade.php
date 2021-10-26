@@ -233,10 +233,18 @@ Dashboard
                         <label>Bulan</label>
                         <select name="month" class="form-control change-statistic-area" id="">
                             <option value selected>--PILIH BULAN--</option>
-                            @for($x=date('m', strtotime('-'.date('m', strtotime('-1 month')).' month'));$x<=12;$x++)
-                                <option value="{{ date('m', strtotime(" $x month")) }}">{{ date('F', strtotime("$x
-                                month")) }}</option>
-                                @endfor
+                            <option value="01">Januari</option>
+                            <option value="02">Februari</option>
+                            <option value="03">Maret</option>
+                            <option value="04">April</option>
+                            <option value="05">Mei</option>
+                            <option value="06">Juni</option>
+                            <option value="07">Juli</option>
+                            <option value="08">Agustus</option>
+                            <option value="09">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
                         </select>
                     </div>
                 </div>
