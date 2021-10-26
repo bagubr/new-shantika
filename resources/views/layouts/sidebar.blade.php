@@ -109,7 +109,7 @@
                     </a>
                 </li>
                 @endunlessrole
-                @hasanyrole('superadmin|ticketing')
+                @hasanyrole('superadmin|ticketing|owner')
                 <li class="nav-header">OPERASIONAL TIKETING</li>
                 <li class="nav-item {{Request::routeIs('area.*','province.*','city.*') ? 'menu-open' : ''}}">
                     <a href="#" class="nav-link {{Request::routeIs('area.*','province.*','city.*') ? 'active' : ''}}">
