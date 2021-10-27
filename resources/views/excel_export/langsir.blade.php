@@ -6,7 +6,7 @@
     <thead>
         <tr>
             <th>Armada</th>
-            <th>{{\App\Models\FleetRoute::find($fleet_route_id)->fleet_detail?->fleet?->name}}</th>
+            <th>{{\App\Models\FleetRoute::find($fleet_route_id)?->fleet_detail?->fleet?->name}}</th>
         </tr>
         <tr>
             <th>Tanggal</th>
@@ -31,14 +31,14 @@
     <tbody>
         {{-- @foreach($agencies as $agency) --}}
         @foreach($langsir as $order_detail)
-        @if($order_detail->order->agency->id == $order_detail->order->departure_agency_id)
+        @if($order_detail->order?->agency?->id == $order_detail->order?->departure_agency_id)
         <tr>
             <td width="5%">{{$loop->iteration}}</td>
-            <td>{{$order_detail->order->agency->name}}</td>
+            <td>{{$order_detail->order?->agency?->name}}</td>
             {{-- <td>{{$agency->name}}</td> --}}
-            <td width="20%">({{$order_detail->chair->name}}),</td>
-            <td width="20%">{{ $order_detail->name }},</td>
-            <td width="20%">{{ $order_detail->order->agency_destiny->name }}</td>
+            <td width="20%">({{$order_detail->chair?->name}}),</td>
+            <td width="20%">{{ $order_detail?->name }},</td>
+            <td width="20%">{{ $order_detail->order?->agency_destiny?->name }}</td>
         </tr>
         @endif
         {{-- @endforeach --}}
