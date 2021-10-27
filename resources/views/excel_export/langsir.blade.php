@@ -1,3 +1,13 @@
+<style>
+    .header th {
+        font-size: 20px
+    }
+
+    .header td {
+        font-size: 30px
+    }
+</style>
+
 <head>
     <title>Export Sketch Langsir</title>
 </head>
@@ -20,7 +30,7 @@
 </table>
 <table border="1">
     <thead>
-        <tr>
+        <tr class="header">
             <th>NO</th>
             <th>AGEN</th>
             <th>NOMOR BANGKU</th>
@@ -32,7 +42,7 @@
         {{-- @foreach($agencies as $agency) --}}
         @foreach($langsir as $order_detail)
         @if($order_detail->order?->agency?->id == $order_detail->order?->departure_agency_id)
-        <tr>
+        <tr class="header">
             <td width="5%">{{$loop->iteration}}</td>
             <td>{{$order_detail->order?->agency?->name}}</td>
             {{-- <td>{{$agency->name}}</td> --}}
@@ -45,7 +55,7 @@
         @endforeach
         <tr>
             <th>Bangku Kosong</th>
-            <th colspan="4">
+            <th colspan="4" style="font-size: 20px">
                 @php
                 $layout_chair_exists = $order_detail->with(['chairs'=>function($query) {
                 $query->orderBy('index', 'asc');
