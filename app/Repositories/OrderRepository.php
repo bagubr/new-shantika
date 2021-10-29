@@ -124,7 +124,6 @@ class OrderRepository
             ->withCount(['distribution as total_deposit_fleet_route' => function($query) {
                 $query->select(DB::raw('sum(total_deposit)'));
             }])
-            ->distinct('fleet_route_id')
             ->whereDate('reserve_at', $date)
             ->orderBy('fleet_route_id', 'asc')
             // ->select()
