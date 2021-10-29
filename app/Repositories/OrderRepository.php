@@ -122,12 +122,12 @@ class OrderRepository
             })
             ->with(['fleet_route.fleet_detail.fleet'])
             ->withSum(['distribution as total_deposit_fleet_route' => function($query) use ($user) {
-                $query->where(function($subquery) use ($user) {
+                $query->whereHas('order', function($subquery) use ($user) {
                     $subquery->where('departure_agency_id', $user->agencies?->agent?->id)
                         ->whereHas('user.agencies')
                         ->whereIn('status', [Order::STATUS3]);
                 })
-                ->orWhere(function($subquery) use ($user) {
+                ->orWhereHas('order', function($subquery) use ($user) {
                     $subquery->where('departure_agency_id', $user->agencies?->agent?->id)
                     ->whereDoesntHave('user.agencies')
                     ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
