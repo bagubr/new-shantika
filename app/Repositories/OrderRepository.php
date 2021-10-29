@@ -125,7 +125,7 @@ class OrderRepository
             ->orderBy('fleet_route_id', 'asc')
             ->select()
             ->addSelect(
-                DB::raw("(select sum(total_deposit) from order_price_distributions opd left outer join orders o on o.id = opd.order_id where o.fleet_route_id = orders.fleet_route_id and o.reserve_at::text ilike '%$date%' and o.departure_agency_id = $agency_id) as total_deposit_fleet_route"))
+                DB::raw("(select sum(total_deposit) from order_price_distributions odp where odp.order_id = orders.id) as total_deposit_fleet_route"))
             ->get();
         return @$order;
     }
