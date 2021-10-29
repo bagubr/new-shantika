@@ -18,7 +18,6 @@ class DetailTodayPossibleCustomerResource extends JsonResource
     public function toArray($request)
     {
         $order = $this->order;
-        Log::info($order);
         $distribution = $order->distribution;
         return [
             'customer_name'=>$order->order_detail[0]->name,
