@@ -121,10 +121,13 @@ class OrderRepository
                 });
             })
             ->with(['fleet_route.fleet_detail.fleet'])
-            ->withCount(['distribution as total_deposit'])
+            ->withCount(['distribution as total_deposit'=> function($query) use ($agency_id, $date) {
+                $query->selectRaw('sum(total_deposit)');
+            }])
             ->distinct('fleet_route_id')
             ->whereDate('reserve_at', $date)
             ->orderBy('fleet_route_id', 'asc')
+            ->select()
             ->get();
             // ->groupBy('fleet_route.fleet_detail.fleet_id')
             // ->all();
