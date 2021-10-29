@@ -59,9 +59,9 @@ class OrderDetailRepository
                     ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
                 });
             })
-            ->whereDate('reserve_at', $date);
+            ->whereDate('reserve_at', $date)
+            ->orderBy('fleet_route_id');
         })
-        ->orderBy('order_id', 'desc')
         ->orderBy('layout_chair_id', 'asc')
         ->get();
         return $user_order;
