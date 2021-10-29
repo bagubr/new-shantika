@@ -25,7 +25,7 @@ class OrderListSetoranAgentResource extends JsonResource
             'fleet_name'=>$this->fleet_route?->fleet_detail?->fleet?->name,
             'fleet_id'=>$this->fleet_route?->fleet_detail?->fleet_id,
             'chairs_count'=>count($chairs),
-            'deposit'=>abs($this->total_deposit_fleet_route),
+            'deposit'=>$this->total_deposit_fleet_route,
             'checkpoints'=> new CheckpointStartEndResource($this->fleet_route?->route, $agent_destination, $agent_start)
         ];
     }
