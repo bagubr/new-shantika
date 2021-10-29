@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Http\Resources\Order\OrderListCustomerResource;
 use App\Models\OrderDetail;
+use App\Models\OrderPriceDistribution;
 use App\Models\User;
 
 class OrderRepository
@@ -123,10 +124,34 @@ class OrderRepository
             ->with(['fleet_route.fleet_detail.fleet'])
             ->whereDate('reserve_at', $date)
             ->orderBy('fleet_route_id', 'asc')
-            ->select()
-            ->addSelect(
-                DB::raw("(select sum(total_deposit) from order_price_distributions odp where odp.order_id = orders.id) as total_deposit_fleet_route"))
-            ->get();
+            ->addSelect([
+                'total_deposit_fleet_route'=>OrderPriceDistribution::selectRaw('sum(total_deposit)')
+                    ->leftJoin('orders as o', 'o.id', 'order_price_distributions.order_id')
+                    ->leftJoin('fleet_routes', 'fleet_routes.id', 'o.fleet_route_id')
+                    ->whereColumn([['o.reserve_at', 'orders.reserve_at'], ['o.fleet_route_id', 'orders.fleet_route_id']])
+                    ->whereHas('order', function($query) use ($user) {
+                        $query->where(function($subquery) use ($user) {
+                            $subquery->where('departure_agency_id', $user->agencies?->agent?->id)
+                                ->whereHas('user.agencies')
+                                ->whereIn('status', [Order::STATUS3]);
+                        })
+                        ->orWhere(function($subquery) use ($user) {
+                            $subquery->where('departure_agency_id', $user->agencies?->agent?->id)
+                            ->whereDoesntHave('user.agencies')
+                            ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
+                        });
+                    })
+            ])
+            // ->select()
+            // ->addSelect(
+            //     DB::raw("(select sum(total_deposit) from order_price_distributions odp
+            //         left join orders o on o.id = odp.order_id
+            //         left join fleet_routes on o.fleet_route_id = fleet_routes.id
+            //         where o.fleet_route_id = orders.fleet_route_id
+            //         and o.reserve_at = orders.reserve_at 
+            //     ) as total_deposit_fleet_route")
+            // )
+            ->cursor();
         return @$order;
     }
 
