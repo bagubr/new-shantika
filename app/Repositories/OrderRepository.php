@@ -109,7 +109,7 @@ class OrderRepository
         $date = date('Y-m-d', strtotime($date));
 
         $order = Order::where(function($query) use ($user) {
-            $query->where(function($subquery) use ($user) {
+                $query->where(function($subquery) use ($user) {
                     $subquery->where('departure_agency_id', $user->agencies?->agent?->id)
                         ->whereHas('user.agencies')
                         ->whereIn('status', [Order::STATUS3]);
@@ -121,12 +121,12 @@ class OrderRepository
                 });
             })
             ->with(['fleet_route.fleet_detail.fleet'])
-            ->withCount(['distribution as total_deposit_fleet_route' => function($query) {
-                $query->select(DB::raw('sum(total_deposit)'));
-            }])
             ->distinct('fleet_route_id')
             ->whereDate('reserve_at', $date)
             ->orderBy('fleet_route_id', 'asc')
+            ->withCount(['distribution as total_deposit_fleet_route' => function($query) {
+                $query->select(DB::raw('sum(total_deposit)'));
+            }])
             // ->select()
             // ->addSelect(DB::raw("(select sum(total_deposit) from order_price_distributions opd left join orders o on o.id = opd.order_id where o.fleet_route_id = orders.fleet_route_id and o.reserve_at::text ilike '%$date%' and o.departure_agency_id = $agency_id) as total_deposit_fleet_route"))
             ->get();
