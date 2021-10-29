@@ -5,6 +5,7 @@ namespace App\Http\Resources\OrderDetail;
 use App\Http\Resources\Checkpoint\CustomerTakenRouteResource;
 use App\Http\Resources\CheckpointStartEndResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Log;
 
 class DetailTodayPossibleCustomerResource extends JsonResource
 {
@@ -17,6 +18,7 @@ class DetailTodayPossibleCustomerResource extends JsonResource
     public function toArray($request)
     {
         $order = $this->order;
+        Log::info($order);
         $distribution = $order->distribution;
         return [
             'customer_name'=>$order->order_detail[0]->name,
