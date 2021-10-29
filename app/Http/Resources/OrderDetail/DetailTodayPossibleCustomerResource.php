@@ -27,7 +27,7 @@ class DetailTodayPossibleCustomerResource extends JsonResource
             'departure_at'=>$order->agency->agency_departure_times->where('time_classification_id', $this->order->time_classification_id)->first()->departure_at,
             'chairs'=>$order->order_detail()->with('chair')->get()->pluck('chair.name')->values(),
             'where_bought_ticket'=>$this->getWhereTicketBought($order),
-            'checkpoints'=>new CustomerTakenRouteResource($order),
+            'checkpoints' => new CheckpointStartEndResource($order->fleet_route->route, $order->agency_destiny, $order->agency),
             'price'=>$distribution->ticket_only,
             'id_member'=>$order->id_member,
             'travel'=>$distribution->for_travel,
