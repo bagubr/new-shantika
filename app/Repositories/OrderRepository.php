@@ -121,13 +121,11 @@ class OrderRepository
                 });
             })
             ->with(['fleet_route.fleet_detail.fleet'])
-            ->withCount(['distribution as total_deposit_fleet_route' => function($query) {
-                $query->select(DB::raw('sum(total_deposit)'));
-            }])
             ->whereDate('reserve_at', $date)
             ->orderBy('fleet_route_id', 'asc')
-            // ->select()
-            // ->addSelect(DB::raw("(select sum(total_deposit) from order_price_distributions opd left join orders o on o.id = opd.order_id where o.fleet_route_id = orders.fleet_route_id and o.reserve_at::text ilike '%$date%' and o.departure_agency_id = $agency_id) as total_deposit_fleet_route"))
+            ->select()
+            ->addSelect(
+                DB::raw("(select sum(total_deposit) from order_price_distributions opd left outer join orders o on o.id = opd.order_id where o.fleet_route_id = orders.fleet_route_id and o.reserve_at::text ilike '%$date%' and o.departure_agency_id = $agency_id) as total_deposit_fleet_route"))
             ->get();
         return @$order;
     }
