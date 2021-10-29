@@ -45,7 +45,9 @@ class OrderDetailRepository
     }
 
     public static function getAllByAgencyId(User $user, $date) {
-        $user_order =  OrderDetail::with(['order.distribution', 'chair'])->whereHas('order', function($query) use ($user, $date) {
+        $user_order =  OrderDetail::with(['order'=>function($query) {
+            $query->orderBy('fleet_route_id');
+        }, 'chair'])->whereHas('order', function($query) use ($user, $date) {
             $agency_id = $user->agencies->agency_id;
             $query->where(function($q) use ($agency_id) {
                 $q->where(function($subsubquery) use ($agency_id) {
@@ -59,8 +61,7 @@ class OrderDetailRepository
                     ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
                 });
             })
-            ->whereDate('reserve_at', $date)
-            ->orderBy('fleet_route_id');
+            ->whereDate('reserve_at', $date);
         })
         ->orderBy('layout_chair_id', 'asc')
         ->get();
