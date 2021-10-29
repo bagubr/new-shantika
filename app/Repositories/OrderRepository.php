@@ -125,7 +125,7 @@ class OrderRepository
             ->whereDate('reserve_at', $date)
             ->orderBy('fleet_route_id', 'asc')
             ->select()
-            ->addSelect(DB::raw("(select sum(total_deposit) from order_price_distributions opd left join orders o on o.id = opd.order_id left join fleet_routes on o.fleet_route_id = fleet_routes.id left join fleet_details on fleet_details.id = fleet_routes.fleet_detail_id where o.reserve_at::text ilike '%$date%' and o.departure_agency_id = $agency_id) as total_deposit_fleet_route"))
+            ->addSelect(DB::raw("(select sum(total_deposit) from order_price_distributions opd left join orders o on o.id = opd.order_id left join fleet_routes on o.fleet_route_id = fleet_routes.id left join fleet_details on fleet_details.id = fleet_routes.fleet_detail_id where o.reserve_at::text ilike '%$date%' and o.departure_agency_id = $agency_id group by fleet_details.fleet_id) as total_deposit_fleet_route"))
             ->get();
             // ->groupBy('fleet_route.fleet_detail.fleet_id')
             // ->all();
