@@ -61,6 +61,9 @@ class OrderDetailRepository
             })
             ->whereDate('reserve_at', $date);
         })
+        ->join('orders', 'orders.id', '=', 'order_details.order_id')
+        ->select('orders_details.*')
+        ->orderBy('orders.fleet_route_id')
         ->orderBy('layout_chair_id', 'asc')
         ->get();
         return $user_order;
