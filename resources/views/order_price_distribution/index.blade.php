@@ -212,10 +212,10 @@ Setoran
                                     <td>Rp. {{number_format($order_price_distribution->for_member)}}</td>
                                     <td>Rp. {{number_format($order_price_distribution->for_agent)}}</td>
                                     <td>
-                                        {{$order_price_distribution->order->user->name}}
+                                        {{@$order_price_distribution->order->order_detail[0]->name}}
                                     </td>
                                     <td>
-                                        {{$order_price_distribution->order->user->phone}}
+                                        {{@$order_price_distribution->order->order_detail[0]->phone}}
                                     </td>
                                     <td>
                                         {{$order_price_distribution->order->agency?->name}}
