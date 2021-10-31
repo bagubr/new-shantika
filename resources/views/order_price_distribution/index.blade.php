@@ -189,7 +189,11 @@ Setoran
                                         {{$order_price_distribution->order?->order_detail?->count()}}
 
                                     </td>
-                                    <td>@if ($order_price_distribution->order?->order_detail)@foreach ($order_price_distribution->order?->order_detail as $order_detail){{$order_detail->chair?->name}}@if (!$loop->last)/@endif @endforeach @endif</td>
+                                    <td>@if ($order_price_distribution->order?->order_detail)
+                                        @foreach($order_price_distribution->order?->order_detail as
+                                        $order_detail)
+                                        {{$order_detail->chair?->name}}@if (!$loop->last)/@endif
+                                        @endforeach @endif</td>
                                     <td>
                                         @if ($order_price_distribution->order?->fleet_route)
                                         <a
@@ -208,10 +212,10 @@ Setoran
                                     <td>Rp. {{number_format($order_price_distribution->for_member)}}</td>
                                     <td>Rp. {{number_format($order_price_distribution->for_agent)}}</td>
                                     <td>
-                                        {{$order_price_distribution->order->user->name}}
+                                        {{@$order_price_distribution->order->order_detail[0]->name}}
                                     </td>
                                     <td>
-                                        {{$order_price_distribution->order->user->phone}}
+                                        {{@$order_price_distribution->order->order_detail[0]->phone}}
                                     </td>
                                     <td>
                                         {{$order_price_distribution->order->agency?->name}}
@@ -222,6 +226,7 @@ Setoran
                                     <td>
                                         <a href="{{route('order.show',$order_price_distribution->order?->id)}}"
                                             class="btn btn-primary btn-xs">Detail</a>
+                                        @unlessrole('owner')
                                         <form
                                             action="{{route('order_price_distribution.destroy',$order_price_distribution->id)}}"
                                             class="d-inline" method="POST">
@@ -231,6 +236,7 @@ Setoran
                                                 onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
                                                 type="submit">Delete</button>
                                         </form>
+                                        @endunlessrole
                                     </td>
                                 </tr>
                                 @endforeach

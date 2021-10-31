@@ -165,6 +165,8 @@ Route::group(['middleware' => ['auth']], function () {
     // restaurant
     Route::post('restaurant/assign', [RestaurantController::class, 'assign_user'])->name('restaurant.assign_user');
     Route::delete('restaurant/admin/delete/{restaurant_admin}', [RestaurantController::class, 'destroy_admin'])->name('restaurant.destroy_admin');
+    Route::get('restaurant/history/all', [RestaurantController::class, 'history_restaurant'])->name('r.history_restaurant');
+    Route::get('restaurant/history/all/search', [RestaurantController::class, 'history_restaurant_search'])->name('r.history_restaurant_search');
     // end of restaurant
 
     Route::resources([
@@ -221,8 +223,6 @@ Route::group(['middleware' => ['auth']], function () {
             'role' => RoleController::class,
             'restaurant' => RestaurantController::class,
         ]);
-        Route::get('restaurant/history/all', [RestaurantController::class, 'history_restaurant'])->name('r.history_restaurant');
-        Route::get('restaurant/history/all/search', [RestaurantController::class, 'history_restaurant_search'])->name('r.history_restaurant_search');
     });
     Route::group(['middleware' => ['role:superadmin|restaurant']], function () {
         Route::resources([

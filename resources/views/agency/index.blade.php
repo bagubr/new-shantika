@@ -52,7 +52,9 @@ Agen
                     <div class="card-header">
                         <h3 class="card-title">Table Agen</h3>
                         <div class="text-right">
+                            @unlessrole('owner')
                             <a href="{{route('agency.create')}}" class="btn btn-primary btn-sm">Tambah</a>
+                            @endunlessrole
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -105,10 +107,13 @@ Agen
                                     <td>
                                         {{ number_format(@$agency->prices[0]->price) ?: '-' }}
                                     </td>
-                                    <td><a href="{{route('agency.edit',$agency->id)}}"
+                                    <td>
+                                        @unlessrole('owner')
+                                        <a href="{{route('agency.edit',$agency->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <a class="btn btn-danger btn-xs button-delete"
                                             data-id="{{$agency->id}}">Delete</a>
+                                        @endunlessrole
                                     </td>
                                 </tr>
                                 <div class="modal fade" id="exampleModal{{$agency->id}}" tabindex="-1" role="dialog"

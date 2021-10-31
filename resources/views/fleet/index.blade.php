@@ -31,7 +31,10 @@ Armada
                     <div class="card-header">
                         <h3 class="card-title">Table Armada</h3>
                         <div class="text-right">
+                            @unlessrole('owner')
+
                             <a href="{{route('fleets.create')}}" class="btn btn-primary btn-sm">Tambah</a>
+                            @endunlessrole
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -76,12 +79,22 @@ Armada
                                         @endif
                                     </td>
                                     <td>
+                                        @unlessrole('owner')
                                         <a href="{{route('fleets.edit',$fleet->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
+                                        @endunlessrole
                                         <a href="{{route('fleets.show',$fleet->id)}}"
                                             class="btn btn-info btn-xs">Show</a>
-                                        <a class="btn btn-danger btn-xs button-delete"
-                                            data-id="{{$fleet->id}}">Delete</a>
+                                        @unlessrole('owner')
+                                        <form action="{{route('fleets.destroy',$fleet->id)}}" class="d-inline"
+                                            method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger btn-xs"
+                                                onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                                type="submit">Delete</button>
+                                        </form>
+                                        @endunlessrole
                                     </td>
                                 </tr>
                                 @endforeach

@@ -29,48 +29,49 @@ Tipe Pembayaran
                         <h3 class="card-title">Table Tipe Pembayaran</h3>
                         {{-- <div class="text-right">
                             <a href="{{route('payment_type.create')}}" class="btn btn-primary btn-sm">Tambah</a>
-                    </div> --}}
+                        </div> --}}
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nama</th>
+                                    <th>Deskripsi</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($payment_types as $payment_type)
+                                <tr>
+                                    <td>{{$payment_type->name}}</td>
+                                    <td>{{Str::limit($payment_type->description, 100, '...')}}</td>
+                                    <td>
+                                        @unlessrole('owner')
+                                        <a href="{{route('payment_type.edit',$payment_type->id)}}"
+                                            class="btn btn-warning btn-xs">Edit</a>
+                                        @endunlessrole
+                                        {{-- <form action="{{route('payment_type.destroy',$payment_type->id)}}"
+                                            class="d-inline" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger btn-xs"
+                                                onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                                type="submit">Delete</button>
+                                        </form> --}}
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
                 </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>Nama</th>
-                                <th>Deskripsi</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($payment_types as $payment_type)
-                            <tr>
-                                <td>{{$payment_type->name}}</td>
-                                <td>{{Str::limit($payment_type->description, 100, '...')}}</td>
-                                <td>
-                                    <a href="{{route('payment_type.edit',$payment_type->id)}}"
-                                        class="btn btn-warning btn-xs">Edit</a>
-                                    {{-- <form action="{{route('payment_type.destroy',$payment_type->id)}}"
-                                    class="d-inline"
-                                    method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-danger btn-xs"
-                                        onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
-                                        type="submit">Delete</button>
-                                    </form> --}}
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.card-body -->
+                <!-- /.card -->
             </div>
-            <!-- /.card -->
+            <!-- /.col -->
         </div>
-        <!-- /.col -->
     </div>
-</div>
 </div>
 @endsection
 @push('script')

@@ -27,9 +27,12 @@ Kelas Armada
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Table Kelas Armada</h3>
+                        @unlessrole('owner')
+
                         <div class="text-right">
                             <a href="{{route('fleetclass.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
+                        @endunlessrole
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -46,10 +49,14 @@ Kelas Armada
                                 <tr>
                                     <td>{{$fleetclass->name}}</td>
                                     <td>Rp. {{number_format($fleetclass->price_food)}}</td>
-                                    <td><a href="{{route('fleetclass.edit',$fleetclass->id)}}"
+                                    <td>
+                                        @unlessrole('owner')
+
+                                        <a href="{{route('fleetclass.edit',$fleetclass->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <a class="btn btn-danger btn-xs button-delete"
                                             data-id="{{$fleetclass->id}}">Delete</a>
+                                        @endunlessrole
                                     </td>
                                 </tr>
                                 @endforeach

@@ -28,7 +28,9 @@ Layout
                     <div class="card-header">
                         <h3 class="card-title">Table Layout</h3>
                         <div class="text-right">
+                            @unlessrole('owner')
                             <a href="{{route('layouts.create')}}" class="btn btn-primary btn-sm">Tambah</a>
+                            @endunlessrole
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -47,6 +49,8 @@ Layout
                                     <td>{{$layout->name}}</td>
                                     <td>{{$layout->note}}</td>
                                     <td>
+                                        @unlessrole('owner')
+
                                         <a href="{{route('layouts.edit',$layout->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('layouts.destroy',$layout->id)}}" class="d-inline"
@@ -57,6 +61,7 @@ Layout
                                                 onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
                                                 type="submit">Delete</button>
                                         </form>
+                                        @endunlessrole
                                     </td>
                                 </tr>
                                 @endforeach

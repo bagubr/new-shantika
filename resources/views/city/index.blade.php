@@ -27,9 +27,12 @@ Kota
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Table Kota</h3>
+                        @unlessrole('owner')
+
                         <div class="text-right">
                             <a href="{{route('city.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
+                        @endunlessrole
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -49,10 +52,14 @@ Kota
                                     <td>{{$city->province?->name}}</td>
                                     <td>{{$city->area?->name}}</td>
                                     <td>
+                                        @unlessrole('owner')
+
                                         <a href="{{route('city.edit',$city->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <a class="btn btn-danger btn-xs button-delete"
                                             data-id="{{$city->id}}">Delete</a>
+                                        @endunlessrole
+
                                     </td>
                                 </tr>
                                 @endforeach

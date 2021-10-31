@@ -108,6 +108,7 @@ Sketch Log
                             <thead>
                                 <tr>
                                     <th>Admin</th>
+                                    <th>Kode Order</th>
                                     <th>Waktu Perubahan</th>
                                     <th>Nama Pembeli</th>
                                     <th>Agen Keberangkatan</th>
@@ -122,12 +123,13 @@ Sketch Log
                                 @foreach ($logs as $log)
                                 <tr>
                                     <td>{{$log->admin?->name}}</td>
+                                    <td>{{$log->order->code_order}}</td>
                                     <td>{{date('d M Y H:i:s', strtotime($log->created_at))}}</td>
                                     <td>{{$log->order->order_detail[0]->name}}</td>
                                     <td>{{$log->order->agency->name}}</td>
                                     <td>
-                                        {{$log->from_fleet_route->fleet_detail->fleet->name}} ->
-                                        {{$log->to_fleet_route->fleet_detail->fleet->name}}
+                                        {{$log->from_fleet_route?->fleet_detail?->fleet->name}} ->
+                                        {{$log->to_fleet_route?->fleet_detail?->fleet->name}}
                                     </td>
                                     <td>
                                         {{$log->from_layout_chair->name}} -> 

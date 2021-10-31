@@ -48,7 +48,7 @@ class LayoutService {
             $item->is_booking = $booking->where('layout_chair_id', $item->id)->isNotEmpty();
             $item->is_unavailable = $unavailable->filter(function($e) use ($item) {
                 return $e->order_detail->where('layout_chair_id', $item->id)->isNotEmpty();
-            })->isNotEmpty();
+            })->isNotEmpty() || BlockedChair::where('fleet_route_id', $fleet_route->id)->where('layout_chair_id', $item->id)->exists();
             if($item->is_booking) {
                 $item->booking_detail = $booking->filter(function($value) use ($item) {
                     return $value->layout_chair_id == $item->id;
