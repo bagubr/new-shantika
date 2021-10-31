@@ -123,7 +123,7 @@ Sketch Log
                                 @foreach ($logs as $log)
                                 <tr>
                                     <td>{{$log->admin?->name}}</td>
-                                    <td>{{$log->code_order}}</td>
+                                    <td>{{$log->order->code_order}}</td>
                                     <td>{{date('d M Y H:i:s', strtotime($log->created_at))}}</td>
                                     <td>{{$log->order->order_detail[0]->name}}</td>
                                     <td>{{$log->order->agency->name}}</td>
