@@ -126,8 +126,8 @@ Sketch Log
                                     <td>{{$log->order->order_detail[0]->name}}</td>
                                     <td>{{$log->order->agency->name}}</td>
                                     <td>
-                                        {{$log->from_fleet_route->fleet_detail->fleet->name}} ->
-                                        {{$log->to_fleet_route->fleet_detail->fleet->name}}
+                                        {{$log->from_fleet_route?->fleet_detail?->fleet->name}} ->
+                                        {{$log->to_fleet_route?->fleet_detail?->fleet->name}}
                                     </td>
                                     <td>
                                         {{$log->from_layout_chair->name}} -> 
