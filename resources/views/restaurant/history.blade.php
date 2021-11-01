@@ -88,6 +88,7 @@ Riwayat Kupon Makan
                                     <th>Nama Restoran</th>
                                     <th>Nama Pemesan</th>
                                     <th>Kode Transaksi</th>
+                                    <th>Nomor Kursi</th>
                                     <th>Armada</th>
                                     <th>Harga Makanan</th>
                                 </tr>
@@ -99,6 +100,7 @@ Riwayat Kupon Makan
                                     <td>{{$food_reddem_history->restaurant?->name}}</td>
                                     <td>{{$food_reddem_history->order_detail?->name}}</td>
                                     <td>{{$food_reddem_history->order_detail?->order?->code_order}}</td>
+                                    <td>{{$food_reddem_history->order_detail?->chair?->name}}</td>
                                     <td>{{$food_reddem_history->order_detail?->order?->fleet_route?->fleet_detail?->fleet?->name}}
                                     <td>Rp.
                                         {{number_format($food_reddem_history->order_detail?->order?->fleet_route?->fleet_detail?->fleet?->fleetclass?->price_food)}}
