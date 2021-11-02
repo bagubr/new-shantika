@@ -198,55 +198,19 @@ class OrderService {
     }
 
     public static function revertPrice(OrderDetail $order_detail) {
-        $setting = Setting::first();
         $order_detail->load(['order.distribution']);
         $order = $order_detail->order;
-        $distrib = $order->distribution;
         $order_details = $order->order_detail;
 
-        $data = [
-            'for_food'=>$distrib->for_food,
-            'for_agent'=>$distrib->for_agent,
-            'for_travel'=>$distrib->for_travel,
-            'for_owner'=>$distrib->for_owner,
-            'ticket_only'=>$distrib->ticket_only,
-            'for_owner_with_food'=> $distrib->for_food_with_owner,  
-            'price'=>$order->price,
-        ];
-        $one_ticket = $distrib->ticket_only / count($order_details);
-        $data['ticket_only'] = $data['ticket_only'] - $one_ticket;
-
-        $food_price = $distrib->for_food / count($order_details);
-        if($order_detail->is_feed) {
-            $data['for_food'] -= $food_price;
-            $data['for_owner_with_food'] -= $food_price;
-            $data['price'] -= $food_price;
-        } else {
-            $data['for_food'] -= ($food_price + $setting->default_food_price);
-            $data['for_owner_with_food'] -= ($food_price + $setting->default_food_price);
-            $data['price'] -= ($food_price + $setting->default_food_price);
-        }
-        if($order_detail->is_travel) {
-            $travel_price = $distrib->for_travel / count($order_details);
-            $data['for_travel'] -= $travel_price;
-            $data['for_owner'] -= $travel_price;
-            $data['for_owner_with_food'] -= $travel_price;
-            $data['price'] -= $travel_price;
-        }
-        if($order_detail->is_member) {
-            $member_price = $distrib->for_member / count($order_details);
-            $data['for_member'] += $member_price;
-            $data['for_owner'] -= $member_price;
-            $data['for_owner_with_food'] -= $member_price;
-            $data['price'] += $member_price;
-        }
-
         try {
-            $order_detail->order()->update($data);
-            $order_detail->order->distribution()->update($data);
+            $order_detail_count = count($order_details);
+            $order_detail_div = $order->order_detail()->where('id', '!=', $order_detail->id)->get();
+            
+            $reverted_price = OrderPriceDistributionService::calculateDistribution($order, $order_detail_div, $order->distribution->ticket_only);
+            $order->distribution()->update($reverted_price);
 
             return true;
-        } catch(Exception $e) {
+        } catch (\Throwable $th) {
             return false;
         }
     }
