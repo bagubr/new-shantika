@@ -90,7 +90,6 @@ class SketchController extends Controller
 
         DB::beginTransaction();
         try {
-            throw new Exception('Kursi telah diorder');
             $detail = [];
             foreach ($froms as $key => $value) {
                 $detail[$key] = OrderDetail::with('order')->whereHas('order', function ($query) use ($request) {
