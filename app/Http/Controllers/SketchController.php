@@ -90,6 +90,7 @@ class SketchController extends Controller
 
         DB::beginTransaction();
         try {
+            throw new Exception('Kursi telah diorder');
             $detail = [];
             foreach ($froms as $key => $value) {
                 $detail[$key] = OrderDetail::with('order')->whereHas('order', function ($query) use ($request) {
@@ -100,7 +101,7 @@ class SketchController extends Controller
 
                 $is_exist = OrderRepository::isOrderUnavailable($request['second_fleet_route_id'], $request->data['to_date'], $tos[$key]['id'], $request->data['to_time_classification_id']);
                 $is_exist = $is_exist || BookingRepository::isBooked($request['second_fleet_route_id'], $detail[$key]->order->user_id, $tos[$key]['id'], $request->data['to_date'], $request->data['to_time_classification_id']);
-                if($is_exist) throw new Exception('The chair already ordered'); 
+                if($is_exist) throw new Exception('Kursi telah diorder'); 
 
                 $detail[$key]->update([
                     'layout_chair_id' => $tos[$key]['id']
