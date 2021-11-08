@@ -206,7 +206,7 @@ Setoran
                                     </td>
                                     <td>Rp.{{number_format(abs($order_price_distribution->for_agent))}}
                                     </td>
-                                    <td>Rp. {{number_format($order_price_distribution->for_deposit)}}</td>
+                                    <td>Rp. {{number_format($order_price_distribution->total_deposit)}}</td>
                                     <td>Rp. {{number_format($order_price_distribution->for_food)}}</td>
                                     <td>Rp. {{number_format($order_price_distribution->for_travel)}}</td>
                                     <td>Rp. {{number_format($order_price_distribution->for_member)}}</td>
