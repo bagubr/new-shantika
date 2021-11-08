@@ -140,7 +140,7 @@ class SketchController extends Controller
             Log::info($t);
             return response([], 500);
         }
-        // DB::commit();
+        DB::commit();
         session()->flash('success', 'Kursi penumpang berhasil diubah');
         return response([$froms, $tos], 200);
     }
