@@ -125,7 +125,7 @@ Setoran
                     <div class="col-md-12">
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h3><sup style="font-size: 20px">Rp</sup> {{number_format($count_pendapatan_bersih)}}
+                                <h3><sup style="font-size: 20px">Rp</sup> {{number_format($count_pendapatan_bersih - $count_outcome)}} 
                                 </h3>
                                 <p>Total Pendapatan Bersih</p>
                             </div>
