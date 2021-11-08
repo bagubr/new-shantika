@@ -98,8 +98,8 @@ class SketchController extends Controller
                         ->where('time_classification_id', $request->data['from_time_classification_id']);
                 })->where('layout_chair_id', $value['id'])->first();
 
-                $is_exist = OrderRepository::isOrderUnavailable($request['second_fleet_route_id'], $request->data['to_date'], $tos[$key]['id'], $request->data['to_time_classification_id']);
-                $is_exist = $is_exist || BookingRepository::isBooked($request['second_fleet_route_id'], $detail[$key]->order->user_id, $tos[$key]['id'], $request->data['to_date'], $request->data['to_time_classification_id']);
+                $is_exist = OrderRepository::isOrderUnavailable($request['second_fleet_route_id'], date('Y-m-d', strtotime($request->data['to_date'])), $tos[$key]['id'], $request->data['to_time_classification_id']);
+                $is_exist = $is_exist || BookingRepository::isBooked($request['second_fleet_route_id'], $detail[$key]->order->user_id, $tos[$key]['id'], date('Y-m-d', strtotime($request->data['to_date'])), $request->data['to_time_classification_id']);
                 if($is_exist) throw new Exception('Kursi telah diorder'); 
 
                 $detail[$key]->update([
