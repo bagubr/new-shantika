@@ -27,17 +27,17 @@ class OrderListAgentResource extends JsonResource
         }
 
         $fleet_route = $this->fleet_route;
-        $route = $fleet_route->route;
-        $checkpoints = $route->checkpoints;
-        $fleet_detail = $fleet_route->fleet_detail;
-        $fleet = $fleet_detail->fleet;
+        $route = $fleet_route?->route;
+        $checkpoints = $route?->checkpoints;
+        $fleet_detail = $fleet_route?->fleet_detail;
+        $fleet = $fleet_detail?->fleet;
 
         $agency_destiny = $this->agency_destiny;
         $agent_start = $this->agency;
         return [
             'id'                        => $this->id,
             'layout_chair_id'           => $this->getLayoutChairId(),
-            'fleet_route_id'            => $fleet_route->id,
+            'fleet_route_id'            => $fleet_route?->id,
             'code'                      => $this->code,
             'name_fleet'                => $fleet?->name,
             'fleet_class'               => $fleet?->fleetclass?->name,
