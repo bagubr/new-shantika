@@ -27,7 +27,7 @@ class OrderListAgentResource extends JsonResource
         }
 
         $fleet_route = $this->fleet_route;
-        $route = $fleet_route?->route;
+        $route = $this->fleet_route()->withTrashed()->route;
         $checkpoints = $route?->checkpoints;
         $fleet_detail = $fleet_route?->fleet_detail;
         $fleet = $fleet_detail?->fleet;
