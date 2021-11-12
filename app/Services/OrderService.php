@@ -64,6 +64,11 @@ class OrderService {
         if(!$data->code_order) $data->code_order = self::generateCodeOrder($data->id);
         if(!$data->expired_at) $data->expired_at = self::getExpiredAt();
         
+        //CHARGE CUTOMER
+        if(empty($data->user->agencies)) {
+            $data->price += $setting->xendit_charge;
+        }
+
         $order = Order::create($data->toArray());
         $code_order = self::generateCodeOrder($order->id);
         $order->update([
