@@ -32,7 +32,7 @@ class OrderController extends Controller
             : ($price_ticket * $request->seat_count) + (($price_food - $setting->default_food_price) * $request->seat_count); 
         
         $xendit_charge = function() use ($request, $setting) : int {
-            if(UserRepository::findByToken($request->bearerToken())?->agencies == null) {
+            if(UserRepository::findByToken($request->bearerToken())?->agencies) {
                 return $setting->xendit_charge;
             }
             return 0;
