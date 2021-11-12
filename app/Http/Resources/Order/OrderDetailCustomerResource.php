@@ -44,6 +44,7 @@ class OrderDetailCustomerResource extends JsonResource
             'price_feed' => $this->getPriceFeed($this),
             'id_member' => $this->id_member,
             'payment_type' => $this->payment?->payment_type?->name,
+            'xendit_charge'=>$this->distribution->payment_charge,
             'price' => $this->price,
             'review' => $this->review ?? (object) [],
         ];
