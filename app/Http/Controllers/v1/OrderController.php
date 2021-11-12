@@ -39,7 +39,7 @@ class OrderController extends Controller
         };
 
         $data = array_merge($data, [
-            'price_ticket'  => $price_ticket,
+            'price_ticket'  => $price_ticket + $xendit_charge(),
             'total_price'   => $price_with_food + $data['total_travel'] + $data['total_member'] + $xendit_charge(),
             'xendit_charge' => $xendit_charge()
         ]);
