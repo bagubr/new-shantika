@@ -176,7 +176,7 @@ class OrderService {
             'for_owner'=>$total_price['for_owner'],
             'for_owner_with_food'=>$total_price['for_owner_with_food'],
             'for_owner_gross'=>$total_price['for_owner_gross'],
-            'total_deposit'=>$total_price['for_deposit']
+            'total_deposit'=>$total_price['total_deposit']
         ]);
         DB::commit();
         $order->refresh();
