@@ -11,6 +11,6 @@
     </a>
 @endforeach
 
-<a class="dropdown-item text-lightblue" href="">
+{{-- <a class="dropdown-item text-lightblue" href="">
     Lihat Semua...
-</a>
+</a> --}}
