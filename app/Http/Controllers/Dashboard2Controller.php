@@ -11,6 +11,7 @@ use App\Models\OrderPriceDistribution;
 use App\Models\Route;
 use App\Models\User;
 use App\Models\Area;
+use App\Models\OutcomeDetail;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Builder;
@@ -31,7 +32,7 @@ class Dashboard2Controller extends Controller
     {
         $total_order = Order::all()->count();
         $count_user = User::doesntHave('agencies')->count();
-        $orders_money = Order::whereIn('status', Order::STATUS_BOUGHT)->sum('price');
+        $orders_money = Order::whereIn('status', Order::STATUS_BOUGHT)->sum('price') - OutcomeDetail::sum('amount');
         
         $data = $this->statistic($request);
         $data['digit'] = 0;

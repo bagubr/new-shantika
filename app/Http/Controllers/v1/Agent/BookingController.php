@@ -25,11 +25,11 @@ class BookingController extends Controller
         $booking = [];
         DB::beginTransaction();
         $user = UserRepository::findByToken($request->bearerToken());
-        $is_exist = BookingRepository::isBooked($request->fleet_route_id, $user->id, $request->layout_chair_id, $request->booking_at);
+        $is_exist = BookingRepository::isBooked($request->fleet_route_id, $user->id, $request->layout_chair_id, $request->booking_at, $request->time_classification_id);
         if($is_exist) {
             return $this->sendFailedResponse([], 'Maaf kursi ini sudah dibooking');
         }
-        $is_exist = OrderRepository::isOrderUnavailable($request->fleet_route_id, $request->booking_at, $request->layout_chair_id);
+        $is_exist = OrderRepository::isOrderUnavailable($request->fleet_route_id, $request->booking_at, $request->layout_chair_id, $request->time_classification_id);
         if($is_exist) {
             return $this->sendFailedResponse([], "Maaf kursi ini sudah dipesan");
         }

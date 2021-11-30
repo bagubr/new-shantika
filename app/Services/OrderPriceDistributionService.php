@@ -25,6 +25,9 @@ class OrderPriceDistributionService {
 
         $total_price['ticket_only'] = $for_deposit;
         $total_price['ticket_price'] = $order->price;
+
+        if(empty($order->user->agencies)) $total_price['ticket_price'] -= $setting->xendit_charge; 
+
         $total_price['for_food'] = (
             $order_details[0]->is_feed
             ? $price_food * count($order_details)
@@ -57,6 +60,7 @@ class OrderPriceDistributionService {
 
         $is_agent = UserRepository::findUserIsAgent($order->user_id);
         if(!$is_agent && $order->status == Order::STATUS1) {
+            $total_price['charge'] = $setting->xendit_charge;
             $total_price['for_agent'] = 0;
             $total_price['for_owner'] = 0;
             $total_price['for_owner_with_food'] = 0;

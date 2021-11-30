@@ -16,7 +16,7 @@ class OrderListSetoranAgentResource extends JsonResource
      */
     public function toArray($request)
     {
-        $chairs = OrderDetailRepository::findForPriceDistributionByUserAndDateAndFleet($this->user_id,$this->reserve_at, $this->fleet_route?->fleet_detail?->fleet_id);
+        $chairs = OrderDetailRepository::findForPriceDistributionByUserAndDateAndFleet($this->user_id,$request->date, $this->fleet_route?->fleet_detail?->fleet_id);
 
         $agent_destination = $this->agency_destiny;
         $agent_start = $this->agency;
