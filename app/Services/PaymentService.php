@@ -19,7 +19,7 @@ use App\Utils\Response;
 class PaymentService {
     use Response;
     public static function createOrderPayment(Order $order, $payment_type_id = null) {
-        $expired_duration = self::getExpiredDuration(Setting::find(1)->time_expired);
+        $expired_duration = self::getExpiredDuration(Setting::find(1)->time_expired, $order->reserve_at);
         if($payment_type_id == null) {
             $payment_type_id  = PaymentType::first()->id;
         }
@@ -145,11 +145,11 @@ class PaymentService {
         return $payment;
     }
 
-    public static function getExpiredDuration($time)
+    public static function getExpiredDuration($time, $reserve_at)
     {
         $hour = date("H", strtotime($time));
         $minute = date("i", strtotime($time));
-        $date = new Datetime();
+        $date = new Datetime($reserve_at);
         $date1 = $date->format('Y-m-d H:i:s');
         $date2 = $date->setTime($hour, $minute)->format('Y-m-d H:i:s');
         $start = new DateTime($date1);
