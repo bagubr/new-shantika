@@ -45,7 +45,7 @@ class OrderPriceDistributionController extends Controller
             $q->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
         })->get()->count();
         $count_ticket       = Order::whereIn('status', ['PAID', 'EXCHANGED', 'FINISHED'])->pluck('price')->sum();
-        $count_pendapatan_bersih = $count_income_clean - $count_outcome;
+        $count_pendapatan_bersih = $count_income - $count_outcome;
         return view('order_price_distribution.index', compact('count_ticket', 'order_price_distributions', 'count_seat', 'agencies', 'outcome_details', 'fleet_routes', 'count_income', 'count_outcome', 'count_pendapatan_bersih', 'fleet_details', 'total_deposit'));
     }
     public function search(Request $request)

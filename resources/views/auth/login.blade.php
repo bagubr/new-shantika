@@ -60,7 +60,7 @@ Login
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        <div class="col-4 p-0 hold-transition login-page">
+        <div class="col-md-4 p-0 hold-transition login-page">
             <div class="login-logo">
                 <img class="img-fluid" src="{{asset('img/Logo-new-shantika-app (2).png')}}" alt="" style="height:100px">
             </div>
@@ -139,7 +139,7 @@ Login
                 </div>
             </div>
         </div>
-        <div class="col-8 p-0" id="animate-area">
+        <div class="col-md-8 p-0" id="animate-area">
         </div>
     </div>
 </div>

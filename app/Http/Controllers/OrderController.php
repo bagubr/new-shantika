@@ -247,9 +247,13 @@ class OrderController extends Controller
 
         if (count($order_detail->order->order_detail) > 1) {
             $order_detail->order()->update([
-                'status' => Order::STATUS4,
                 'cancelation_reason' => $request->cancelation_reason
             ]);
+            $is_reverting = OrderService::revertPrice($order_detail, $order);
+            if(!$is_reverting) return response([
+                'code' => 0
+            ], 500);
+            $order_detail->delete();
             SketchLog::create([
                 'admin_id' => Auth::user()->id,
                 'order_id' => $order_detail->order_id,

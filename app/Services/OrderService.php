@@ -26,61 +26,69 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class OrderService {
+class OrderService
+{
     use Response;
 
-    public static function create(Order $data, $detail, $payment_type_id = null) {
+    public static function create(Order $data, $detail, $payment_type_id = null)
+    {
         FleetRoute::find($data->fleet_route_id) ?? (new self)->sendFailedResponse([], 'Rute perjalanan tidak ditemukan');
         $order_exists = OrderRepository::isOrderUnavailable($data->fleet_route_id, $data->reserve_at, $detail->layout_chair_id, $data->time_classification_id);
         $booking_exists = BookingRepository::isBooked($data->fleet_route_id, $data->user_id, $detail->layout_chair_id, $data->reserve_at, $data->time_classification_id);
-        if($order_exists) {
+        if ($order_exists) {
             (new self)->sendFailedResponse([], 'Maaf, kursi sudah dibeli oleh orang lain, silahkan pilih kursi lain');
         }
-        if($booking_exists) {
+        if ($booking_exists) {
             (new self)->sendFailedResponse([], "Maaf, kursi anda telah dibooking terlebih dahulu oleh orang lain");
         }
         $setting = Setting::first();
-        
+
         $price  = self::getPrice($data);
         $price += $data->fleet_route->prices()->whereDate('start_at', '<=', $data->reserve_at)
-        ->whereDate('end_at', '>=', $data->reserve_at)
-        ->orderBy('created_at', 'desc')
-        ->first()
-        ->true_deviation_price;
+            ->whereDate('end_at', '>=', $data->reserve_at)
+            ->orderBy('created_at', 'desc')
+            ->first()
+            ->true_deviation_price;
         $for_deposit = $price;
         $ticket_price_with_food = $detail->is_feed
             ? $price * count($detail->layout_chair_id)
             : ($price - $setting->default_food_price) * count($detail->layout_chair_id);
         $data->price = $ticket_price_with_food;
 
-        if($detail->is_travel){
+        if ($detail->is_travel) {
             $price_travel = $setting->travel * count($detail->layout_chair_id);
             $data->price += $price_travel;
         }
-        if($detail->is_member){
+        if ($detail->is_member) {
             $price_member = $setting->member * count($detail->layout_chair_id);
             $data->price -= $price_member;
         }
-        if(!$data->code_order) $data->code_order = self::generateCodeOrder($data->id);
-        if(!$data->expired_at) $data->expired_at = self::getExpiredAt();
-        
+        if (!$data->code_order) $data->code_order = self::generateCodeOrder($data->id);
+        if (!$data->expired_at) $data->expired_at = self::getExpiredAt();
+
+        //CHARGE CUTOMER
+        if (empty($data->user->agencies)) {
+            $data->price += $setting->xendit_charge;
+        }
+
         $order = Order::create($data->toArray());
         $code_order = self::generateCodeOrder($order->id);
         $order->update([
-            'code_order'=>$code_order
+            'code_order' => $code_order
         ]);
         $order->refresh();
-        
-        if($detail->code_booking) BookingService::deleteByCodeBooking($detail->code_booking);
+
+        if ($detail->code_booking) BookingService::deleteByCodeBooking($detail->code_booking);
 
         self::createDetail($order, $detail->layout_chair_id, $detail, $for_deposit);
         self::sendNotification($order);
-        
-        return $order;
-    } 
 
-    private static function getPrice(Order $data) {
-        if($data->fleet_route->fleet_detail->fleet->fleetclass->prices->isEmpty()) {
+        return $order;
+    }
+
+    private static function getPrice(Order $data)
+    {
+        if ($data->fleet_route->fleet_detail->fleet->fleetclass->prices->isEmpty()) {
             $price = $data->agency_destiny->city->area_id == 1
                 ? $data->agency->prices->sortByDesc('start_at')->first()->price
                 : $data->agency_destiny->prices->sortByDesc('start_at')->first()->price;
@@ -93,12 +101,13 @@ class OrderService {
                 ->orderBy('start_at', 'desc')
                 ->first()->price;
         }
-        if(empty($price)) (new self)->sendFailedResponse([], 'Maaf, harga nya sepertinya sedang kami ubah, silahkan cek beberapa saat lagi');
+        if (empty($price)) (new self)->sendFailedResponse([], 'Maaf, harga nya sepertinya sedang kami ubah, silahkan cek beberapa saat lagi');
 
         return $price;
     }
 
-    private static function sendNotification($order) {
+    private static function sendNotification($order)
+    {
         $message = NotificationMessage::successfullySendingTicket();
         $notification = Notification::build(
             $message[0],
@@ -114,17 +123,24 @@ class OrderService {
             Notification::TYPE1,
             $order->id
         );
-        if(empty($order->user?->agencies)) {
+        AdminNotification::create([
+            'title' => $message[0],
+            'body' => $message[1],
+            'type' => Notification::TYPE1,
+            "reference_id" => $order->id,
+        ]);
+        if (empty($order->user?->agencies)) {
             SendingNotification::dispatch($notification, $order->user?->fcm_token, false);
         }
         NewOrderNotification::dispatch($admin_notification, Admin::whereNotNull('fcm_token')->pluck('fcm_token'), true);
     }
 
-    public static function createDetail($order, $layout_chairs, $detail, $price) {
+    public static function createDetail($order, $layout_chairs, $detail, $price)
+    {
         $order_details = [];
         $blocked_chairs = BlockedChair::where('fleet_route_id', $order->fleet_route_id)->pluck('layout_chair_id')->toArray();
-        foreach($layout_chairs as $layout_chair_id) {
-            if(in_array($layout_chair_id, $blocked_chairs)) {
+        foreach ($layout_chairs as $layout_chair_id) {
+            if (in_array($layout_chair_id, $blocked_chairs)) {
                 (new self)->sendFailedResponse([], 'Kursi ada yang sudah diblokir, silahkan refresh dan pilih kembali');
             }
             $order_details[] = OrderDetail::create([
@@ -141,37 +157,39 @@ class OrderService {
         OrderPriceDistributionService::createByOrderDetail($order, $order_details, $price);
     }
 
-    public static function getInvoice(Payment|int|null $payment = null) {
-        if(empty($payment)) {
+    public static function getInvoice(Payment|int|null $payment = null)
+    {
+        if (empty($payment)) {
             return '';
         }
-        if($payment instanceof int) {
+        if ($payment instanceof int) {
             $payment = Payment::find($payment);
         }
-        
+
         return @PaymentService::getSecretAttribute($payment) ?? "";
     }
 
-    public static function exchangeTicket(Order &$order, $agency_id) {
-        if(@$order->departure_agency_id != $agency_id) {
+    public static function exchangeTicket(Order &$order, $agency_id)
+    {
+        if (@$order->departure_agency_id != $agency_id) {
             (new self)->sendFailedResponse([], 'Maaf, anda hanya dapat menukarkan tiket di agen keberangkatan tiket');
         }
-        if($order->status != Order::STATUS3) {
+        if ($order->status != Order::STATUS3) {
             (new self)->sendFailedResponse([], 'Maaf, penumpang / customer harus membayar terlebih dahulu');
         }
         DB::beginTransaction();
         $order->update([
-            'status'=>Order::STATUS5,
-            'exchanged_at'=>date('Y-m-d H:i:s')
+            'status' => Order::STATUS5,
+            'exchanged_at' => date('Y-m-d H:i:s')
         ]);
         $for_deposit = (new self)->getPrice($order);
         $total_price = OrderPriceDistributionService::calculateDistribution($order, $order->order_detail, $for_deposit);
         $order->distribution()->update([
-            'for_agent'=>$total_price['for_agent'],
-            'for_owner'=>$total_price['for_owner'],
-            'for_owner_with_food'=>$total_price['for_owner_with_food'],
-            'for_owner_gross'=>$total_price['for_owner_gross'],
-            'total_deposit'=>$total_price['for_deposit']
+            'for_agent' => $total_price['for_agent'],
+            'for_owner' => $total_price['for_owner'],
+            'for_owner_with_food' => $total_price['for_owner_with_food'],
+            'for_owner_gross' => $total_price['for_owner_gross'],
+            'total_deposit' => $total_price['total_deposit']
         ]);
         DB::commit();
         $order->refresh();
@@ -180,82 +198,50 @@ class OrderService {
         return $order;
     }
 
-    public static function updateStatus(Order|int $order, $status) {
-        if(is_int($order)) {
+    public static function updateStatus(Order|int $order, $status)
+    {
+        if (is_int($order)) {
             $order = Order::find($order);
         }
 
         $order->update([
-            'status'=>$status,
+            'status' => $status,
         ]);
 
         $order->payment()->update([
-            'status'=>$status
+            'status' => $status
         ]);
         $order->refresh();
 
         return $order;
     }
 
-    public static function revertPrice(OrderDetail $order_detail) {
-        $setting = Setting::first();
+    public static function revertPrice(OrderDetail $order_detail)
+    {
         $order_detail->load(['order.distribution']);
         $order = $order_detail->order;
-        $distrib = $order->distribution;
         $order_details = $order->order_detail;
 
-        $data = [
-            'for_food'=>$distrib->for_food,
-            'for_agent'=>$distrib->for_agent,
-            'for_travel'=>$distrib->for_travel,
-            'for_owner'=>$distrib->for_owner,
-            'ticket_only'=>$distrib->ticket_only,
-            'for_owner_with_food'=> $distrib->for_food_with_owner,  
-            'price'=>$order->price,
-        ];
-        $one_ticket = $distrib->ticket_only / count($order_details);
-        $data['ticket_only'] = $data['ticket_only'] - $one_ticket;
-
-        $food_price = $distrib->for_food / count($order_details);
-        if($order_detail->is_feed) {
-            $data['for_food'] -= $food_price;
-            $data['for_owner_with_food'] -= $food_price;
-            $data['price'] -= $food_price;
-        } else {
-            $data['for_food'] -= ($food_price + $setting->default_food_price);
-            $data['for_owner_with_food'] -= ($food_price + $setting->default_food_price);
-            $data['price'] -= ($food_price + $setting->default_food_price);
-        }
-        if($order_detail->is_travel) {
-            $travel_price = $distrib->for_travel / count($order_details);
-            $data['for_travel'] -= $travel_price;
-            $data['for_owner'] -= $travel_price;
-            $data['for_owner_with_food'] -= $travel_price;
-            $data['price'] -= $travel_price;
-        }
-        if($order_detail->is_member) {
-            $member_price = $distrib->for_member / count($order_details);
-            $data['for_member'] += $member_price;
-            $data['for_owner'] -= $member_price;
-            $data['for_owner_with_food'] -= $member_price;
-            $data['price'] += $member_price;
-        }
-
         try {
-            $order_detail->order()->update($data);
-            $order_detail->order->distribution()->update($data);
+            $order_detail_count = count($order_details);
+            $order_detail_div = $order->order_detail()->where('id', '!=', $order_detail->id)->get();
+
+            $reverted_price = OrderPriceDistributionService::calculateDistribution($order, $order_detail_div, $order->distribution->ticket_only);
+            $order->distribution()->update($reverted_price);
 
             return true;
-        } catch(Exception $e) {
+        } catch (\Throwable $th) {
             return false;
         }
     }
 
-    public static function generateCodeOrder($id) {
-        return 'NS'.str_pad($id, 8, '0', STR_PAD_LEFT);
+    public static function generateCodeOrder($id)
+    {
+        return 'NS' . str_pad($id, 8, '0', STR_PAD_LEFT);
     }
 
-    public static function getExpiredAt() {
+    public static function getExpiredAt()
+    {
         return date('Y-m-d H:i:s', strtotime("+1 day"));
     }
 }

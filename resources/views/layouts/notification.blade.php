@@ -1,7 +1,8 @@
 @inject('notification', 'App\Repositories\AdminNotificationRepository')
 @foreach($notification::all() as $item)
-    <a class="dropdown-item" href="{{url('notification/'.$item->id)}}" target="_blank">
-        {{$item->title}} · 
+{{-- <a class="dropdown-item" href="{{url('notification/'.$item->id)}}" target="_blank"> --}}
+    <a href="#" class="dropdown-item">
+        {{$item->title}} ·
         <small class="text-secondary font-italic">{{date('d M Y H:i', strtotime($item->created_at))}}</small> ·
         <small class="text-secondary font-italic">{{ $item->type }}</small>
         <br>
@@ -9,8 +10,9 @@
             {{strlen($item->body) > 150 ? substr($item->body,0, 150)."..." : $item->body }}
         </span>
     </a>
+    {{-- </a> --}}
 @endforeach
 
-<a class="dropdown-item text-lightblue" href="">
+{{-- <a class="dropdown-item text-lightblue" href="">
     Lihat Semua...
-</a>
+</a> --}}

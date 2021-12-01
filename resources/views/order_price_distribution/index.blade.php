@@ -125,7 +125,7 @@ Setoran
                     <div class="col-md-12">
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h3><sup style="font-size: 20px">Rp</sup> {{number_format($count_pendapatan_bersih)}}
+                                <h3><sup style="font-size: 20px">Rp</sup> {{number_format($count_pendapatan_bersih)}} 
                                 </h3>
                                 <p>Total Pendapatan Bersih</p>
                             </div>
@@ -206,7 +206,7 @@ Setoran
                                     </td>
                                     <td>Rp.{{number_format(abs($order_price_distribution->for_agent))}}
                                     </td>
-                                    <td>Rp. {{number_format($order_price_distribution->for_owner)}}</td>
+                                    <td>Rp. {{number_format($order_price_distribution->total_deposit)}}</td>
                                     <td>Rp. {{number_format($order_price_distribution->for_food)}}</td>
                                     <td>Rp. {{number_format($order_price_distribution->for_travel)}}</td>
                                     <td>Rp. {{number_format($order_price_distribution->for_member)}}</td>

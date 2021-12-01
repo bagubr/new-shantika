@@ -195,7 +195,7 @@ class OrderRepository
     public static function isOrderUnavailable($fleet_route_id, $date, $layout_chair_id, $time_classification_id = null)
     {
         return Order::where('fleet_route_id', $fleet_route_id)
-            ->where('reserve_at', 'ilike', '%' . $date . '%')
+            ->whereDate('reserve_at', date('Y-m-d', strtotime($date)))
             ->whereHas('order_detail', function ($query) use ($layout_chair_id) {
                 $query->whereIn('layout_chair_id', is_array($layout_chair_id) ? $layout_chair_id : [$layout_chair_id]);
             })

@@ -7,6 +7,7 @@ use App\Http\Requests\Api\ApiCalculateDiscountRequest;
 use App\Models\FleetRoute;
 use App\Models\Route;
 use App\Models\Setting;
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -30,9 +31,17 @@ class OrderController extends Controller
             ? $request->price_ticket * $request->seat_count
             : ($price_ticket * $request->seat_count) + (($price_food - $setting->default_food_price) * $request->seat_count); 
         
+        $xendit_charge = function() use ($request, $setting) : int {
+            if(empty(UserRepository::findByToken($request->bearerToken())?->agencies)) {
+                return $setting->xendit_charge;
+            }
+            return 0;
+        };
+
         $data = array_merge($data, [
-            'price_ticket'=>$price_ticket,
-            'total_price'=>$price_with_food + $data['total_travel'] + $data['total_member']
+            'price_ticket'  => $price_ticket + $xendit_charge(),
+            'total_price'   => $price_with_food + $data['total_travel'] + $data['total_member'] + $xendit_charge(),
+            'xendit_charge' => $xendit_charge()
         ]);
 
         return $this->successResponse($data);
