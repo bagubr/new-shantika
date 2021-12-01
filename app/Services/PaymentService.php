@@ -9,24 +9,33 @@ use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\PaymentType;
+use App\Models\Setting;
 use App\Utils\Image;
 use App\Utils\NotificationMessage;
 use DateTime;
 use Xendit\Xendit;
+use App\Utils\Response;
 
 class PaymentService {
+    use Response;
     public static function createOrderPayment(Order $order, $payment_type_id = null) {
+        $expired_duration = self::getExpiredDuration(Setting::find(1)->time_expired);
         if($payment_type_id == null) {
             $payment_type_id  = PaymentType::first()->id;
         }
+
+        if($expired_duration < 0) {
+            (new self)->sendFailedResponse([], 'Waktu Pemesanan sudah terlewati');
+        }
         
         if(empty($payment_type_id) || $payment_type_id == 2) {
+            $date = time()+$expired_duration;
             $invoice = Payment::create([
                 'order_id'=>$order->id,
                 'payment_type_id'=>$payment_type_id,
                 'status'=>Payment::STATUS1,
                 'secret_key'=>md5(date('Ymdhis')).uniqid(),
-                'expired_at'=>date('Y-m-d H:i:s', strtotime('+3 hours'))
+                'expired_at'=>date('Y-m-d H:i:s', $date)
             ]);
         } else {
             Xendit::setApiKey(env('API_KEY_XENDIT'));
@@ -35,6 +44,7 @@ class PaymentService {
                 'payer_email'=>$order->order_detail[0]->email,
                 'description'=>'Pembayaran Tiket Armada',
                 'amount'=>$order->price,
+                'expired_duration' => $expired_duration
             ];
             $invoice = \Xendit\Invoice::create($payload);
             $invoice = Payment::create([
@@ -133,6 +143,19 @@ class PaymentService {
         }
 
         return $payment;
+    }
+
+    public static function getExpiredDuration($time)
+    {
+        $hour = date("H", strtotime($time));
+        $minute = date("i", strtotime($time));
+        $date = new Datetime();
+        $date1 = $date->format('Y-m-d H:i:s');
+        $date2 = $date->setTime($hour, $minute)->format('Y-m-d H:i:s');
+        $start = new DateTime($date1);
+        $end = new DateTime($date2);
+        $interval = $end->getTimestamp() - $start->getTimestamp();
+        return $interval;
     }
 }
         
