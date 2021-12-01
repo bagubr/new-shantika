@@ -34,6 +34,7 @@ Menu Pengguna
                             <thead>
                                 <tr>
                                     <th>Nama</th>
+                                    <th>Link</th>
                                     <th>Icon</th>
                                     <th>Urutan</th>
                                     <th>Aksi</th>
@@ -43,6 +44,7 @@ Menu Pengguna
                                 @foreach ($customer_menus as $customer_menu)
                                 <tr>
                                     <td>{{$customer_menu->name}}</td>
+                                    <td>{{$customer_menu->value}}</td>
                                     <td>
                                         <a href="{{$customer_menu->icon}}" data-toggle="lightbox">
                                             <img src="{{isset($customer_menu) ? $customer_menu->icon : ''}}"

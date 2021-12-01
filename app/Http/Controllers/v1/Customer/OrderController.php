@@ -70,7 +70,6 @@ class OrderController extends Controller
     public function createPayment($order_id, $payment_type_id)
     {
         $order = Order::find($order_id);
-        // Jika customer
         $payment = PaymentService::createOrderPayment($order, $payment_type_id);
     }
     

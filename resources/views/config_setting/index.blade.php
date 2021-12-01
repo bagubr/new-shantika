@@ -54,6 +54,16 @@ Pengaturan Global
                             <input type="integer" class="form-control" name="commision"
                                 value="{{$config_setting_commision}}">
                         </div>
+                        <div class="form-group">
+                            <label>Xendit Charge (Rp)</label>
+                            <input type="integer" class="form-control" name="xendit_charge"
+                                value="{{$config_setting->xendit_charge}}">
+                        </div>
+                        <div class="form-group">
+                            <label>Set Time Expired (Hours)</label>
+                            <input type="time" class="form-control" name="time_expired"
+                                value="{{$config_setting->time_expired}}">
+                        </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
