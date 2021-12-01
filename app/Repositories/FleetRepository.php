@@ -11,9 +11,14 @@ class FleetRepository
         return Fleet::get();
     }
 
-    public static function allWithRoute($search = '')
+    public static function allWithRoute($search = '', $fleet_class_id = null)
     {
-        $fleet = Fleet::where('name', 'ilike', '%'.$search.'%')->get();
+        $fleet = Fleet::where('name', 'ilike', '%'.$search.'%')
+        ->when($fleet_class_id, function ($query) use ($fleet_class_id)
+        {
+            $query->where('fleet_class_id', $fleet_class_id);
+        })
+        ->get();
         return InformationFleetResource::collection($fleet);
     }
 

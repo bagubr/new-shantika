@@ -12,7 +12,7 @@ class FleetController extends Controller
     public function index(Request $request)
     {
         $this->sendSuccessResponse([
-            'fleet'=>FleetRepository::allWithRoute($request->search)
+            'fleet'=>FleetRepository::allWithRoute($request->search, $request->fleet_class_id)
         ]);
     }
     
