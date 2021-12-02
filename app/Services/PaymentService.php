@@ -147,14 +147,22 @@ class PaymentService {
 
     public static function getExpiredDuration($time, $reserve_at)
     {
-        $hour = date("H", strtotime($time));
-        $minute = date("i", strtotime($time));
-        $date = new Datetime($reserve_at);
-        $date1 = $date->format('Y-m-d H:i:s');
-        $date2 = $date->setTime($hour, $minute)->format('Y-m-d H:i:s');
-        $start = new DateTime($date1);
-        $end = new DateTime($date2);
-        $interval = $end->getTimestamp() - $start->getTimestamp();
+        // Menentukan Expired dari menentukan jam dan menit pada hari reservesi
+        // $hour = date("H", strtotime($time));
+        // $minute = date("i", strtotime($time));
+        // $date = new Datetime($reserve_at);
+        // $date1 = $date->format('Y-m-d H:i:s');
+        // $date2 = $date->setTime($hour, $minute)->format('Y-m-d H:i:s');
+        // $start = new DateTime($date1);
+        // $end = new DateTime($date2);
+        // $interval = $end->getTimestamp() - $start->getTimestamp();
+        // return $interval;
+        // $time = '02:02';
+
+        // Menentukan Expired dari penambahan jam dan menit
+        $time2_arr = [];
+        $time2_arr = explode(":", $time);
+        $interval = ($time2_arr[0] * 60 * 60) + ($time2_arr[1] * 60 );
         return $interval;
     }
 }
