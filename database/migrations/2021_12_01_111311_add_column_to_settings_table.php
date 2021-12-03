@@ -14,7 +14,7 @@ class AddColumnToSettingsTable extends Migration
     public function up()
     {
         Schema::table('settings', function (Blueprint $table) {
-            $table->time('time_expired')->default('13:00');
+            $table->time('time_expired')->default('02:00');
         });
     }
     

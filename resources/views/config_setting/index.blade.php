@@ -60,7 +60,7 @@ Pengaturan Global
                                 value="{{$config_setting->xendit_charge}}">
                         </div>
                         <div class="form-group">
-                            <label>Set Time Expired (Hours)</label>
+                            <label>Set Time Expired (Hours:Minute)</label>
                             <input type="time" class="form-control" name="time_expired"
                                 value="{{$config_setting->time_expired}}">
                         </div>
