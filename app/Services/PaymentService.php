@@ -44,7 +44,7 @@ class PaymentService {
                 'payer_email'=>$order->order_detail[0]->email,
                 'description'=>'Pembayaran Tiket Armada',
                 'amount'=>$order->price,
-                'expired_duration' => $expired_duration
+                'invoice_duration' => $expired_duration
             ];
             $invoice = \Xendit\Invoice::create($payload);
             $invoice = Payment::create([
