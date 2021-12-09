@@ -34,9 +34,11 @@ Sketch
                     </div>
                     <div class="form-group">
                         <label>Pilih Shift</label>
-                        <select v-model="firstLayout.timeClassificationId" name="time_classification" class="form-control" id="">
+                        <select v-model="firstLayout.timeClassificationId" name="time_classification"
+                            class="form-control" id="">
                             <option value="" selected>--PILIH--</option>
-                            <option v-for="time_classification in data.timeClassifications" :key="time_classification.id" :value="time_classification.id">
+                            <option v-for="time_classification in data.timeClassifications"
+                                :key="time_classification.id" :value="time_classification.id">
                                 @{{time_classification.name}}
                             </option>
                         </select>
@@ -45,7 +47,8 @@ Sketch
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="">Tanggal</label>
-                        <vuejs-datepicker v-model="firstLayout.date" input-class="form-control bg-white" format="yyyy-MM-dd"/>
+                        <vuejs-datepicker v-model="firstLayout.date" input-class="form-control bg-white"
+                            format="yyyy-MM-dd" />
                     </div>
                 </div>
             </div>
@@ -154,7 +157,8 @@ Sketch
                 searchOrders() {
                     let params = new URLSearchParams({
                         ...this.filter,
-                        date: new Date(this.firstLayout.date).toDateString()
+                        date: new Date(this.firstLayout.date).toDateString(),
+                        time_classification_id: this.firstLayout.timeClassificationId
                     })
                     fetch("{{url('/')}}/sketch/orders?"+params).then(res => res.json()).then(res => {
                         this.result.orders = res.orders
