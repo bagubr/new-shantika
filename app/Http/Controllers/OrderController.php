@@ -33,17 +33,17 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $orders = Order::all();
-        $routes = Route::all();
-        $fleet_details = FleetDetail::has('fleet_route')->get();
-        $agent = ['AGENT', 'UMUM'];
-        $agencies = Agency::orderBy('name', 'asc')->get();
-        $status = ['PENDING', 'EXCHANGED', 'PAID', 'CANCELED', 'EXPIRED', 'WAITING_CONFIRMATION'];
-        return view('order.index', compact('orders', 'routes', 'status', 'agent', 'fleet_details', 'agencies'));
-    }
-    public function search(Request $request)
+    // public function index()
+    // {
+    //     $orders = Order::all();
+    //     $routes = Route::all();
+    //     $fleet_details = FleetDetail::has('fleet_route')->get();
+    //     $agent = ['AGENT', 'UMUM'];
+    //     $agencies = Agency::orderBy('name', 'asc')->get();
+    //     $status = ['PENDING', 'EXCHANGED', 'PAID', 'CANCELED', 'EXPIRED', 'WAITING_CONFIRMATION'];
+    //     return view('order.index', compact('orders', 'routes', 'status', 'agent', 'fleet_details', 'agencies'));
+    // }
+    public function index(Request $request)
     {
         $name_search = $request->name;
         $routes_search = $request->route_id;
@@ -104,7 +104,7 @@ class OrderController extends Controller
             $orders = $orders->where('reserve_at', '>=', $date_from_search);
         }
         $test = $request->flash();
-        $orders = $orders->orderBy('id', 'desc')->get();
+        $orders = $orders->orderBy('id', 'desc')->paginate(10);
         if (!$orders->isEmpty()) {
             session()->flash('success', 'Data Order Berhasil Ditemukan');
         } else {

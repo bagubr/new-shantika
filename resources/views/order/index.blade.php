@@ -34,7 +34,7 @@ Pemesanan
                         </div>
                     </div>
                     <div class="card-body">
-                        <form action="{{route('order.search')}}" method="GET">
+                        <form action="" method="GET">
                             <div class="form-row">
                                 <div class="col">
                                     <div class="form-group">
@@ -172,7 +172,7 @@ Pemesanan
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped table-responsive">
                             <thead>
                                 <tr>
                                     <th>Pemesan</th>
@@ -239,14 +239,23 @@ Pemesanan
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="row">
+                            <div class="mr-auto">
+                                <div>
+                                    {{$orders->appends(Request::all())->links() }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        @endsection
-        @push('script')
-        <script>
-            $(function () {
+    </div>
+</div>
+@endsection
+{{-- @push('script')
+<script>
+    $(function () {
         $("#example1").DataTable({
             "responsive": true,
             "lengthChange": false,
@@ -256,5 +265,5 @@ Pemesanan
             ],
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
-        </script>
-        @endpush
+</script>
+@endpush --}}
