@@ -43,10 +43,18 @@ Sketch Log
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="">Nama Admin</label>
-                                                <select class="form-control" name="admin_id" id="">
+                                                <select class="form-control select2" name="admin_id" id="">
                                                     <option value="" selected>--PILIH ADMIN--</option>
                                                     @foreach ($admins as $admin)
-                                                    <option value="{{$admin->id}}">{{$admin->name}}</option>
+                                                    @if (old('admin_id') == $admin->id)
+                                                    <option value="{{$admin->id}}" selected>
+                                                        {{$admin->name}}
+                                                    </option>
+                                                    @else
+                                                    <option value="{{$admin->id}}">
+                                                        {{$admin->name}}
+                                                    </option>
+                                                    @endif
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -54,10 +62,18 @@ Sketch Log
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="">Agen Keberangkatan</label>
-                                                <select class="form-control" name="agency_id" id="">
+                                                <select class="form-control select2" name="agency_id" id="">
                                                     <option value="" selected>--PILIH AGEN--</option>
                                                     @foreach ($agencies as $agency)
-                                                    <option value="{{$agency->id}}">{{$agency->name}}</option>
+                                                    @if (old('agency_id') == $agency->id)
+                                                    <option value="{{$agency->id}}" selected>
+                                                        {{$agency->name}}
+                                                    </option>
+                                                    @else
+                                                    <option value="{{$agency->id}}">
+                                                        {{$agency->name}}
+                                                    </option>
+                                                    @endif
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -65,10 +81,18 @@ Sketch Log
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label for="">Dari Armada</label>
-                                                <select class="form-control" name="from_fleet_id" id="">
+                                                <select class="form-control select2" name="from_fleet_id" id="">
                                                     <option value="" selected>--PILIH ARMADA--</option>
-                                                    @foreach($fleets as $fleet)
-                                                    <option value="{{$fleet->id}}">{{$fleet->name}}</option>
+                                                    @foreach ($fleets as $fleet)
+                                                    @if (old('from_fleet_id') == $fleet->id)
+                                                    <option value="{{$fleet->id}}" selected>
+                                                        {{$fleet->name}}
+                                                    </option>
+                                                    @else
+                                                    <option value="{{$fleet->id}}">
+                                                        {{$fleet->name}}
+                                                    </option>
+                                                    @endif
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -76,10 +100,18 @@ Sketch Log
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label for="">Ke Armada</label>
-                                                <select class="form-control" name="to_fleet_id" id="">
+                                                <select class="form-control select2" name="to_fleet_id" id="">
                                                     <option value="" selected>--PILIH ARMADA--</option>
-                                                    @foreach($fleets as $fleet)
-                                                    <option value="{{$fleet->id}}">{{$fleet->name}}</option>
+                                                    @foreach ($fleets as $fleet)
+                                                    @if (old('to_fleet_id') == $fleet->id)
+                                                    <option value="{{$fleet->id}}" selected>
+                                                        {{$fleet->name}}
+                                                    </option>
+                                                    @else
+                                                    <option value="{{$fleet->id}}">
+                                                        {{$fleet->name}}
+                                                    </option>
+                                                    @endif
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -87,14 +119,13 @@ Sketch Log
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label for="">Dari Tanggal</label>
-                                                <input type="datetime-local" name="from_date" class="form-control"
-                                                    id="">
+                                                <input type="date" name="from_date" class="form-control" value="{{old('from_date')}}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label for="">Ke Tanggal</label>
-                                                <input type="datetime-local" name="to_date" class="form-control" id="">
+                                                <input type="date" name="to_date" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-12">
