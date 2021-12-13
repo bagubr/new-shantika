@@ -38,8 +38,7 @@ Sketch Log
                                 <h3 class="card-title">Filter</h3>
                             </div>
                             <div class="card-body">
-                                <form action="" method="GET">
-                                    @csrf
+                                <form action="">
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group">
@@ -47,7 +46,7 @@ Sketch Log
                                                 <select class="form-control" name="admin_id" id="">
                                                     <option value="" selected>--PILIH ADMIN--</option>
                                                     @foreach ($admins as $admin)
-                                                        <option value="{{$admin->id}}">{{$admin->name}}</option>
+                                                    <option value="{{$admin->id}}">{{$admin->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -58,7 +57,7 @@ Sketch Log
                                                 <select class="form-control" name="agency_id" id="">
                                                     <option value="" selected>--PILIH AGEN--</option>
                                                     @foreach ($agencies as $agency)
-                                                        <option value="{{$agency->id}}">{{$agency->name}}</option>
+                                                    <option value="{{$agency->id}}">{{$agency->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -69,7 +68,7 @@ Sketch Log
                                                 <select class="form-control" name="from_fleet_id" id="">
                                                     <option value="" selected>--PILIH ARMADA--</option>
                                                     @foreach($fleets as $fleet)
-                                                        <option value="{{$fleet->id}}">{{$fleet->name}}</option>
+                                                    <option value="{{$fleet->id}}">{{$fleet->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -80,7 +79,7 @@ Sketch Log
                                                 <select class="form-control" name="to_fleet_id" id="">
                                                     <option value="" selected>--PILIH ARMADA--</option>
                                                     @foreach($fleets as $fleet)
-                                                        <option value="{{$fleet->id}}">{{$fleet->name}}</option>
+                                                    <option value="{{$fleet->id}}">{{$fleet->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -88,7 +87,8 @@ Sketch Log
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label for="">Dari Tanggal</label>
-                                                <input type="datetime-local" name="from_date" class="form-control" id="">
+                                                <input type="datetime-local" name="from_date" class="form-control"
+                                                    id="">
                                             </div>
                                         </div>
                                         <div class="col-6">
@@ -104,7 +104,7 @@ Sketch Log
                                 </form>
                             </div>
                         </div>
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped table-responsive">
                             <thead>
                                 <tr>
                                     <th>Admin</th>
@@ -132,14 +132,14 @@ Sketch Log
                                         {{$log->to_fleet_route?->fleet_detail?->fleet->name}}
                                     </td>
                                     <td>
-                                        {{$log->from_layout_chair->name}} -> 
+                                        {{$log->from_layout_chair->name}} ->
                                         {{$log->to_layout_chair->name}}
                                     </td>
                                     <td>{{date('d M Y H:i:s', strtotime($log->from_date))}} ->
                                         {{date('d M Y H:i:s', strtotime($log->to_date))}}
                                     </td>
                                     <td>
-                                        {{$log->from_time_classification->name}} -> 
+                                        {{$log->from_time_classification->name}} ->
                                         {{$log->to_time_classification->name}}
                                     </td>
                                     <td>
@@ -149,6 +149,13 @@ Sketch Log
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="row">
+                            <div class="mr-auto">
+                                <div>
+                                    {{$logs->appends(Request::all())->links() }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -159,12 +166,3 @@ Sketch Log
     </div>
 </div>
 @endsection
-@push('script')
-<script>
-    $(function () {
-      $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false, "order": [[1, "desc"]]
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(1)');
-    });
-</script>
-@endpush
