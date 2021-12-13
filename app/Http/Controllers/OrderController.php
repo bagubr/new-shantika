@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\SendingNotification;
+use App\Exports\OrdersExport;
 use App\Http\Requests\Order\OrderCancelationRequest;
 use App\Http\Requests\Order\UpdateOrderReserveAtRequest;
 use App\Models\Agency;
@@ -25,6 +26,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OrderController extends Controller
 {
@@ -33,16 +35,6 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    // public function index()
-    // {
-    //     $orders = Order::all();
-    //     $routes = Route::all();
-    //     $fleet_details = FleetDetail::has('fleet_route')->get();
-    //     $agent = ['AGENT', 'UMUM'];
-    //     $agencies = Agency::orderBy('name', 'asc')->get();
-    //     $status = ['PENDING', 'EXCHANGED', 'PAID', 'CANCELED', 'EXPIRED', 'WAITING_CONFIRMATION'];
-    //     return view('order.index', compact('orders', 'routes', 'status', 'agent', 'fleet_details', 'agencies'));
-    // }
     public function index(Request $request)
     {
         $name_search = $request->name;
@@ -111,6 +103,10 @@ class OrderController extends Controller
             session()->flash('error', 'Tidak Ada Data Ditemukan');
         }
         return view('order.index', compact('orders', 'routes', 'status', 'test', 'agent', 'fleet_details', 'agencies'));
+    }
+    public function export()
+    {
+        return Excel::download(new OrdersExport, 'orders.xlsx');
     }
 
     /**
@@ -250,7 +246,7 @@ class OrderController extends Controller
                 'cancelation_reason' => $request->cancelation_reason
             ]);
             $is_reverting = OrderService::revertPrice($order_detail, $order);
-            if(!$is_reverting) return response([
+            if (!$is_reverting) return response([
                 'code' => 0
             ], 500);
             $order_detail->delete();

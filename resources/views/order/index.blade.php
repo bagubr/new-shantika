@@ -172,7 +172,7 @@ Pemesanan
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <div class="btn btn-success">Export Excel</div>
+                        <a href="{{route('order.export')}}" target="_blank" class="btn btn-success">Export Excel</a>
                         <table class="table table-bordered table-striped table-responsive">
                             <thead>
                                 <tr>
