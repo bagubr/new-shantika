@@ -17,8 +17,8 @@ class SetoranExport implements FromView, ShouldAutoSize
         $this->request  = $request;
     }
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function view(): View
     {
         $fleet_detail_id = $this->request->fleet_detail_id;

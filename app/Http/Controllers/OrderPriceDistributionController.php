@@ -89,7 +89,7 @@ class OrderPriceDistributionController extends Controller
     }
     public function export(Request $request)
     {
-        return Excel::download(new SetoranExport($request), date('dmYHis').'.xlsx');
+        return Excel::download(new SetoranExport($request), 'setoran_' . date('dmYHis') . '.xlsx');
     }
     /**
      * Show the form for creating a new resource.

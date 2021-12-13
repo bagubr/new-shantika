@@ -143,7 +143,11 @@ Setoran
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <!-- <a class="btn btn-success btn-sm d-inline" href="{{route('order_price_distribution.export')}}">Export Excel</a> -->
+                        <form action="{{route('order_price_distribution.export')}}">
+                            <button type="submit" class="btn btn-success">Export Excel</button>
+                            {{-- <a class="btn btn-success btn-sm d-inline"
+                                href="{{route('order_price_distribution.export')}}">Export Excel</a> --}}
+                        </form>
                         <table class="table table-bordered table-striped table-responsive">
                             <thead>
                                 <tr>

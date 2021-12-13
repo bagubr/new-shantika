@@ -132,7 +132,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('user_agent/update_status/{user_agent}', [UserAgentController::class, 'update_status'])->name('user_agent.update_status');
     Route::put('user/update_status/{user}', [UserController::class, 'update_status'])->name('user.update_status');
 
-    Route::get('order_price_distribution/search', [OrderPriceDistributionController::class, 'search'])->name('order_price_distribution.search');
     Route::get('order_price_distribution/export', [OrderPriceDistributionController::class, 'export'])->name('order_price_distribution.export');
 
     Route::get('fleet_route_prices/search', [FleetRoutePriceController::class, 'search'])->name('fleet_route_prices.search');
