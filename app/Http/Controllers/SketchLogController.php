@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SketchLogsExport;
 use App\Models\Admin;
 use App\Models\Agency;
 use App\Models\Fleet;
 use App\Models\FleetRoute;
 use App\Models\SketchLog;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SketchLogController extends Controller
 {
@@ -41,5 +43,9 @@ class SketchLogController extends Controller
             'agencies' => Agency::select('id', 'name')->get(),
             'logs' => $logs
         ]);
+    }
+    public function export()
+    {
+        return Excel::download(new SketchLogsExport(), 'riwayat_sketch_' . date('dmYHis') . '.xlsx');
     }
 }

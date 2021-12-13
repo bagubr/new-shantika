@@ -151,6 +151,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('sketch/orders/detail', [SketchController::class, 'getAvailibilityChairs']);
     Route::get('sketch/export', [SketchController::class, 'export']);
     Route::get('sketch/log', [SketchLogController::class, 'index']);
+    Route::get('sketch/log/export', [SketchLogController::class, 'export'])->name('sketch_log.export');
     Route::post('sketch/store', [SketchController::class, 'store']);
 
     Route::post('routes/fleet/store/', [RoutesController::class, 'store_fleet'])->name('route.fleet.store');

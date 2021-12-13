@@ -119,13 +119,15 @@ Sketch Log
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label for="">Dari Tanggal</label>
-                                                <input type="date" name="from_date" class="form-control" value="{{old('from_date')}}">
+                                                <input type="date" name="from_date" class="form-control"
+                                                    value="{{old('from_date')}}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label for="">Ke Tanggal</label>
-                                                <input type="date" name="to_date" class="form-control">
+                                                <input type="date" name="to_date" class="form-control"
+                                                    value="{{old('to_date')}}">
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -135,6 +137,7 @@ Sketch Log
                                 </form>
                             </div>
                         </div>
+                        <a href="{{route('sketch_log.export')}}" target="_blank" class="btn btn-success">Export Excel</a>
                         <table class="table table-bordered table-striped table-responsive">
                             <thead>
                                 <tr>
