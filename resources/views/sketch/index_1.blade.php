@@ -77,6 +77,7 @@ Sketch
                                 <b>@{{order.fleet_route?.fleet_detail?.fleet?.name}}</b>
                                 <br>
                                 <p>@{{order.time_classification.name}}</p>
+                                <p>@{{data.date_now}}</p>
                                 <span>@{{order.fleet_route?.fleet_detail?.fleet?.fleetclass?.name}}</span>
                                 <br>
                                 <p style="font-size: 15px;">@{{order.fleet_route?.route?.name}}</p>
@@ -124,6 +125,7 @@ Sketch
                 data: {
                     areas: {!! $areas !!},
                     timeClassifications: {!! $time_classifications !!},
+                    date_now: "",
                 },
                 filter: {
                     area_id: {!! $areas->first()->id !!}
@@ -162,6 +164,7 @@ Sketch
                     })
                     fetch("{{url('/')}}/sketch/orders?"+params).then(res => res.json()).then(res => {
                         this.result.orders = res.orders
+                        this.data.date_now = new Date(this.firstLayout.date).toDateString()
                     })
                 },
                 search_orders() {
