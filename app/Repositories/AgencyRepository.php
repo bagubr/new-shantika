@@ -9,10 +9,6 @@ class AgencyRepository
     public static function all($request = null)
     {
         return Agency::with('users:users.id,users.phone')
-        ->when(($request->city_id), function ($query) use ($request)
-        {
-            $query->where('city_id', $request->city_id);
-        })
         ->when($request, function ($query) use ($request) {
             $query->where('name', 'ilike', '%' . $request->search . '%')
                 ->orWhereHas('city', function ($subquery) use ($request) {
