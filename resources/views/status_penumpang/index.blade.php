@@ -25,15 +25,14 @@ Status Penumpang
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <form action="{{route('status_penumpang.search')}}" method="get">
-                        @csrf
+                    <form action="" method="get">
                         <div class="card-body">
                             <div class="form-group">
                                 <label>Pilih Area</label>
                                 <select name="area_id" class="form-control">
                                     <option value="">--PILIH AREA--</option>
                                     @foreach ($areas as $area)
-                                    @if (old('area_id'))
+                                    @if (old('area_id') == $area->id)
                                     <option value="{{$area->id}}" selected>{{$area->name}}</option>
                                     @else
                                     <option value="{{$area->id}}">{{$area->name}}</option>
@@ -58,12 +57,12 @@ Status Penumpang
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped table-responsive">
                             <thead>
                                 <tr>
                                     <th>Tanggal</th>
                                     <th>Kode Order</th>
-                                    <th>Area</th>
+                                    <th>Area Keberangkatan</th>
                                     <th>Rute Armada</th>
                                     <th>Akun</th>
                                     <th>Nama</th>
@@ -82,7 +81,7 @@ Status Penumpang
                                             {{$order->code_order}}
                                         </a>
                                     </td>
-                                    <td>{{$order->fleet_route?->route?->checkpoints[0]?->agency?->city?->area?->name}}
+                                    <td>{{$order->agency->city->area->name ?? ""}}
                                     </td>
                                     <td>
                                         @if ($order->fleet_route)
@@ -127,6 +126,13 @@ Status Penumpang
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="row">
+                            <div class="mr-auto">
+                                <div>
+                                    {{$orders->appends(Request::all())->links() }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>
