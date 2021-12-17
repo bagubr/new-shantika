@@ -22,7 +22,7 @@ class AuthController extends Controller
         if(!empty($request['uuid']) && $user->uuid != $request['uuid']) {    
             $this->sendSuccessResponse([], $message = "Oops! Uuid doesn't match", $code = 401);
         }
-        if(UserRepository::findUserIsAgent($user->id) && $request->type == 'AGENT') {
+        if(UserRepository::findUserIsAgent($user->id) && $request->type != 'CUSTOMER') {
             $this->sendSuccessResponse([
                 'user' => $user,
                 'token'=>$user->token,
