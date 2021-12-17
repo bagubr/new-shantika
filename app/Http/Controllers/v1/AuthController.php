@@ -16,7 +16,6 @@ class AuthController extends Controller
     public function checkUuid(Request $request)
     {
         $user = $this->getUser($request->type, $request->phone);
-
         if(empty($user)){
             $this->sendSuccessResponse([], $message = "Sepertinya akun anda belum terdaftar", $code = 401);
         }
@@ -42,10 +41,11 @@ class AuthController extends Controller
     private function getUser($type, $phone) {
         if($type == 'AGENT') {
             $user = UserRepository::findAgentByPhone($phone);
-        } else {
+        } elseif ($type == 'CUSTOMER') {
             $user = UserRepository::findCostumerByPhone($phone);
+        } else {
+            $user = UserRepository::findAgentByPhone($phone);
         }
-
         return $user;
     }
 }
