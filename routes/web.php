@@ -111,6 +111,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('order/update_jadwal/{order}', [OrderController::class, 'update_jadwal'])->name('order.update_jadwal');
     Route::put('order/cancelation/{order_detail}', [OrderController::class, 'cancelation'])->name('order.cancelation');
     Route::get('order/search', [OrderController::class, 'search'])->name('order.search');
+    Route::get('order/export', [OrderController::class, 'export'])->name('order.export');
     Route::get('order/find/{code_order}', [OrderController::class, 'showByCodeOrder'])->name('order.show.code_order');
 
     Route::get('notification/{id}', [AdminNotificationController::class, 'show']);
@@ -132,7 +133,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::put('user_agent/update_status/{user_agent}', [UserAgentController::class, 'update_status'])->name('user_agent.update_status');
     Route::put('user/update_status/{user}', [UserController::class, 'update_status'])->name('user.update_status');
 
-    Route::get('order_price_distribution/search', [OrderPriceDistributionController::class, 'search'])->name('order_price_distribution.search');
     Route::get('order_price_distribution/export', [OrderPriceDistributionController::class, 'export'])->name('order_price_distribution.export');
 
     Route::get('fleet_route_prices/search', [FleetRoutePriceController::class, 'search'])->name('fleet_route_prices.search');
@@ -151,6 +151,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('sketch/orders/detail', [SketchController::class, 'getAvailibilityChairs']);
     Route::get('sketch/export', [SketchController::class, 'export']);
     Route::get('sketch/log', [SketchLogController::class, 'index']);
+    Route::get('sketch/log/export', [SketchLogController::class, 'export'])->name('sketch_log.export');
     Route::post('sketch/store', [SketchController::class, 'store']);
 
     Route::post('routes/fleet/store/', [RoutesController::class, 'store_fleet'])->name('route.fleet.store');
@@ -165,6 +166,8 @@ Route::group(['middleware' => ['auth']], function () {
     // restaurant
     Route::post('restaurant/assign', [RestaurantController::class, 'assign_user'])->name('restaurant.assign_user');
     Route::delete('restaurant/admin/delete/{restaurant_admin}', [RestaurantController::class, 'destroy_admin'])->name('restaurant.destroy_admin');
+    Route::get('restaurant/history/all', [RestaurantController::class, 'history_restaurant'])->name('r.history_restaurant');
+    Route::get('restaurant/history/all/search', [RestaurantController::class, 'history_restaurant_search'])->name('r.history_restaurant_search');
     // end of restaurant
 
     Route::resources([
@@ -221,8 +224,6 @@ Route::group(['middleware' => ['auth']], function () {
             'role' => RoleController::class,
             'restaurant' => RestaurantController::class,
         ]);
-        Route::get('restaurant/history/all', [RestaurantController::class, 'history_restaurant'])->name('r.history_restaurant');
-        Route::get('restaurant/history/all/search', [RestaurantController::class, 'history_restaurant_search'])->name('r.history_restaurant_search');
     });
     Route::group(['middleware' => ['role:superadmin|restaurant']], function () {
         Route::resources([

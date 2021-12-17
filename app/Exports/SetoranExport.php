@@ -17,13 +17,14 @@ class SetoranExport implements FromView, ShouldAutoSize
         $this->request  = $request;
     }
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function view(): View
     {
-        $fleet_detail_id = $this->request->fleet_detail_id;
-        $date_search = $this->request->date_search;
-        $agency_id = $this->request->agency_id;
+        parse_str(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_QUERY), $queries);
+        $fleet_detail_id = $queries['fleet_detail_id'];
+        $date_search = $queries['date_search'];
+        $agency_id = $queries['agency_id'];
 
         $order_price_distributions = OrderPriceDistribution::query();
 

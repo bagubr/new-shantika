@@ -28,7 +28,9 @@ User
                     <div class="card-header">
                         <h3 class="card-title">Table User</h3>
                         <div class="text-right">
+                            @unlessrole('owner')
                             <a href="{{route('user.create')}}" class="btn btn-primary btn-sm">Tambah</a>
+                            @endunlessrole
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -77,15 +79,17 @@ User
                                         @endif
                                     </td>
                                     <td>
+                                        @unlessrole('owner')
                                         <a href="{{route('user.edit',$user->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
+                                        @endunlessrole
                                         {{-- <form action="{{route('user.destroy',$user->id)}}" class="d-inline"
-                                        method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-danger btn-xs"
-                                            onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
-                                            type="submit">Delete</button>
+                                            method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger btn-xs"
+                                                onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                                type="submit">Delete</button>
                                         </form> --}}
                                     </td>
                                 </tr>
@@ -172,5 +176,5 @@ User
             "dom": 'Bfrtip',
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
-    </script>
+</script>
 @endpush

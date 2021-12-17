@@ -38,16 +38,23 @@ Sketch Log
                                 <h3 class="card-title">Filter</h3>
                             </div>
                             <div class="card-body">
-                                <form action="" method="GET">
-                                    @csrf
+                                <form action="">
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="">Nama Admin</label>
-                                                <select class="form-control" name="admin_id" id="">
+                                                <select class="form-control select2" name="admin_id" id="">
                                                     <option value="" selected>--PILIH ADMIN--</option>
                                                     @foreach ($admins as $admin)
-                                                        <option value="{{$admin->id}}">{{$admin->name}}</option>
+                                                    @if (old('admin_id') == $admin->id)
+                                                    <option value="{{$admin->id}}" selected>
+                                                        {{$admin->name}}
+                                                    </option>
+                                                    @else
+                                                    <option value="{{$admin->id}}">
+                                                        {{$admin->name}}
+                                                    </option>
+                                                    @endif
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -55,10 +62,18 @@ Sketch Log
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <label for="">Agen Keberangkatan</label>
-                                                <select class="form-control" name="agency_id" id="">
+                                                <select class="form-control select2" name="agency_id" id="">
                                                     <option value="" selected>--PILIH AGEN--</option>
                                                     @foreach ($agencies as $agency)
-                                                        <option value="{{$agency->id}}">{{$agency->name}}</option>
+                                                    @if (old('agency_id') == $agency->id)
+                                                    <option value="{{$agency->id}}" selected>
+                                                        {{$agency->name}}
+                                                    </option>
+                                                    @else
+                                                    <option value="{{$agency->id}}">
+                                                        {{$agency->name}}
+                                                    </option>
+                                                    @endif
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -66,10 +81,18 @@ Sketch Log
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label for="">Dari Armada</label>
-                                                <select class="form-control" name="from_fleet_id" id="">
+                                                <select class="form-control select2" name="from_fleet_id" id="">
                                                     <option value="" selected>--PILIH ARMADA--</option>
-                                                    @foreach($fleets as $fleet)
-                                                        <option value="{{$fleet->id}}">{{$fleet->name}}</option>
+                                                    @foreach ($fleets as $fleet)
+                                                    @if (old('from_fleet_id') == $fleet->id)
+                                                    <option value="{{$fleet->id}}" selected>
+                                                        {{$fleet->name}}
+                                                    </option>
+                                                    @else
+                                                    <option value="{{$fleet->id}}">
+                                                        {{$fleet->name}}
+                                                    </option>
+                                                    @endif
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -77,10 +100,18 @@ Sketch Log
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label for="">Ke Armada</label>
-                                                <select class="form-control" name="to_fleet_id" id="">
+                                                <select class="form-control select2" name="to_fleet_id" id="">
                                                     <option value="" selected>--PILIH ARMADA--</option>
-                                                    @foreach($fleets as $fleet)
-                                                        <option value="{{$fleet->id}}">{{$fleet->name}}</option>
+                                                    @foreach ($fleets as $fleet)
+                                                    @if (old('to_fleet_id') == $fleet->id)
+                                                    <option value="{{$fleet->id}}" selected>
+                                                        {{$fleet->name}}
+                                                    </option>
+                                                    @else
+                                                    <option value="{{$fleet->id}}">
+                                                        {{$fleet->name}}
+                                                    </option>
+                                                    @endif
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -88,13 +119,15 @@ Sketch Log
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label for="">Dari Tanggal</label>
-                                                <input type="datetime-local" name="from_date" class="form-control" id="">
+                                                <input type="date" name="from_date" class="form-control"
+                                                    value="{{old('from_date')}}">
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label for="">Ke Tanggal</label>
-                                                <input type="datetime-local" name="to_date" class="form-control" id="">
+                                                <input type="date" name="to_date" class="form-control"
+                                                    value="{{old('to_date')}}">
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -104,10 +137,12 @@ Sketch Log
                                 </form>
                             </div>
                         </div>
-                        <table id="example1" class="table table-bordered table-striped">
+                        <a href="{{route('sketch_log.export')}}" target="_blank" class="btn btn-success">Export Excel</a>
+                        <table class="table table-bordered table-striped table-responsive">
                             <thead>
                                 <tr>
                                     <th>Admin</th>
+                                    <th>Kode Order</th>
                                     <th>Waktu Perubahan</th>
                                     <th>Nama Pembeli</th>
                                     <th>Agen Keberangkatan</th>
@@ -122,22 +157,23 @@ Sketch Log
                                 @foreach ($logs as $log)
                                 <tr>
                                     <td>{{$log->admin?->name}}</td>
+                                    <td>{{$log->order->code_order}}</td>
                                     <td>{{date('d M Y H:i:s', strtotime($log->created_at))}}</td>
                                     <td>{{$log->order->order_detail[0]->name}}</td>
                                     <td>{{$log->order->agency->name}}</td>
                                     <td>
-                                        {{$log->from_fleet_route->fleet_detail->fleet->name}} ->
-                                        {{$log->to_fleet_route->fleet_detail->fleet->name}}
+                                        {{$log->from_fleet_route?->fleet_detail?->fleet->name}} ->
+                                        {{$log->to_fleet_route?->fleet_detail?->fleet->name}}
                                     </td>
                                     <td>
-                                        {{$log->from_layout_chair->name}} -> 
+                                        {{$log->from_layout_chair->name}} ->
                                         {{$log->to_layout_chair->name}}
                                     </td>
                                     <td>{{date('d M Y H:i:s', strtotime($log->from_date))}} ->
                                         {{date('d M Y H:i:s', strtotime($log->to_date))}}
                                     </td>
                                     <td>
-                                        {{$log->from_time_classification->name}} -> 
+                                        {{$log->from_time_classification->name}} ->
                                         {{$log->to_time_classification->name}}
                                     </td>
                                     <td>
@@ -147,6 +183,13 @@ Sketch Log
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="row">
+                            <div class="mr-auto">
+                                <div>
+                                    {{$logs->appends(Request::all())->links() }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -157,12 +200,3 @@ Sketch Log
     </div>
 </div>
 @endsection
-@push('script')
-<script>
-    $(function () {
-      $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false, "order": [[1, "desc"]]
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(1)');
-    });
-</script>
-@endpush

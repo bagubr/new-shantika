@@ -151,7 +151,9 @@ Pesanan
                     <div class="text-right">
                         @if ($order->payment?->status == 'WAITING_CONFIRMATION' || $order->payment?->status ==
                         'PENDING')
+                        @unlessrole('owner')
                         <a href="{{route('payment.edit',$order->payment?->id)}}" class="btn btn-primary">Ubah Status</a>
+                        @endunlessrole
                         @endif
                     </div>
                     @elseif ($order->payment?->payment_type?->id == 1 )
@@ -264,9 +266,11 @@ Pesanan
                             <label>Masukkan Password Akun Anda</label>
                             <input type="password" name="password" class="form-control" required>
                         </div>
+                        @unlessrole('owner')
                         <div class="text-right">
                             <input type="submit" class="btn btn-primary" value="Ubah Tanggal">
                         </div>
+                        @endunlessrole
                     </form>
                 </div>
             </div>
@@ -347,6 +351,8 @@ Pesanan
                                     @endif
                                 </td>
                                 <td> @if (!$order_price_distributions->deposited_at)
+                                    @unlessrole('owner')
+
                                     <form
                                         action="{{route('order_price_distribution.update', $order_price_distributions->id)}}"
                                         class="d-inline" method="POST">
@@ -357,15 +363,16 @@ Pesanan
                                             type="submit">Deposit
                                             Sekarang</button>
                                     </form>
+                                    @endunlessrole
                                     @endif
                                     {{-- <form
                                         action="{{route('order_price_distribution.destroy',$order_price_distributions->id)}}"
-                                    class="d-inline" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="badge badge-danger"
-                                        onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
-                                        type="submit">Delete</button>
+                                        class="d-inline" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="badge badge-danger"
+                                            onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                            type="submit">Delete</button>
                                     </form> --}}
                                 </td>
 

@@ -25,7 +25,7 @@ Setoran
         <div class="row">
             <div class="col-4">
                 <div class="card">
-                    <form action="{{route('order_price_distribution.search')}}" method="get">
+                    <form action="">
                         <div class="card-body">
                             <div class="form-group">
                                 <label>Pilih Tanggal</label>
@@ -143,8 +143,10 @@ Setoran
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <!-- <a class="btn btn-success btn-sm d-inline" href="{{route('order_price_distribution.export')}}">Export Excel</a> -->
-                        <table id="example1" class="table table-bordered table-striped table-responsive">
+
+                        <a class="btn btn-success btn-sm d-inline" href="{{route('order_price_distribution.export')}}"
+                            target="_blank">Export Excel</a>
+                        <table class="table table-bordered table-striped table-responsive">
                             <thead>
                                 <tr>
                                     <th>Tanggal</th>
@@ -189,7 +191,11 @@ Setoran
                                         {{$order_price_distribution->order?->order_detail?->count()}}
 
                                     </td>
-                                    <td>@if ($order_price_distribution->order?->order_detail)@foreach ($order_price_distribution->order?->order_detail as $order_detail){{$order_detail->chair?->name}}@if (!$loop->last)/@endif @endforeach @endif</td>
+                                    <td>@if ($order_price_distribution->order?->order_detail)
+                                        @foreach($order_price_distribution->order?->order_detail as
+                                        $order_detail)
+                                        {{$order_detail->chair?->name}}@if (!$loop->last)/@endif
+                                        @endforeach @endif</td>
                                     <td>
                                         @if ($order_price_distribution->order?->fleet_route)
                                         <a
@@ -202,16 +208,16 @@ Setoran
                                     </td>
                                     <td>Rp.{{number_format(abs($order_price_distribution->for_agent))}}
                                     </td>
-                                    <td>Rp. {{number_format($order_price_distribution->for_owner)}}</td>
+                                    <td>Rp. {{number_format($order_price_distribution->total_deposit)}}</td>
                                     <td>Rp. {{number_format($order_price_distribution->for_food)}}</td>
                                     <td>Rp. {{number_format($order_price_distribution->for_travel)}}</td>
                                     <td>Rp. {{number_format($order_price_distribution->for_member)}}</td>
                                     <td>Rp. {{number_format($order_price_distribution->for_agent)}}</td>
                                     <td>
-                                        {{$order_price_distribution->order->user->name}}
+                                        {{@$order_price_distribution->order->order_detail[0]->name}}
                                     </td>
                                     <td>
-                                        {{$order_price_distribution->order->user->phone}}
+                                        {{@$order_price_distribution->order->order_detail[0]->phone}}
                                     </td>
                                     <td>
                                         {{$order_price_distribution->order->agency?->name}}
@@ -222,6 +228,7 @@ Setoran
                                     <td>
                                         <a href="{{route('order.show',$order_price_distribution->order?->id)}}"
                                             class="btn btn-primary btn-xs">Detail</a>
+                                        @unlessrole('owner')
                                         <form
                                             action="{{route('order_price_distribution.destroy',$order_price_distribution->id)}}"
                                             class="d-inline" method="POST">
@@ -231,11 +238,19 @@ Setoran
                                                 onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
                                                 type="submit">Delete</button>
                                         </form>
+                                        @endunlessrole
                                     </td>
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="row">
+                            <div class="mr-auto">
+                                <div>
+                                    {{$order_price_distributions->appends(Request::all())->links() }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>

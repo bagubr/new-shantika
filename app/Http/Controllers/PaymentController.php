@@ -94,7 +94,7 @@ class PaymentController extends Controller
             'status' => $request->status,
         ]);
         if ($request->status == Order::STATUS3) {
-            $total_price = OrderPriceDistributionService::calculateDistribution($order_id, $order_id->order_detail);
+            $total_price = OrderPriceDistributionService::calculateDistribution($order_id, $order_id->order_detail, $order_id->distribution->ticket_only);
             $order_id->distribution()->update([
                 'for_agent'=>$total_price['for_agent'],
                 'for_owner'=>$total_price['for_owner'],

@@ -27,9 +27,11 @@ Provinsi
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Table Provinsi</h3>
+                        @unlessrole('owner')
                         <div class="text-right">
                             <a href="{{route('province.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
+                        @endunlessrole
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -45,6 +47,8 @@ Provinsi
                                 <tr>
                                     <td>{{$province->name}}</td>
                                     <td>
+                                        @unlessrole('owner')
+
                                         <a href="{{route('province.edit',$province->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         <form action="{{route('province.destroy',$province->id)}}" class="d-inline"
@@ -55,6 +59,7 @@ Provinsi
                                                 onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
                                                 type="submit">Delete</button>
                                         </form>
+                                        @endunlessrole
                                     </td>
                                 </tr>
                                 @endforeach

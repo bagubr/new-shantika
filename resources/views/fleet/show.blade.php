@@ -112,7 +112,7 @@ Armada
                                 <label for="">Shift</label>
                                 <select name="time_classification_id" class="form-control">
                                     @foreach($time_classifications as $item)
-                                        <option value="{{$item->id}}">{{$item->name}}</option>
+                                    <option value="{{$item->id}}">{{$item->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -130,8 +130,10 @@ Armada
                                 </select>
                             </div>
                         </div>
+                        @unlessrole('owner')
                         <button type="button" name="add" id="add" class="btn btn-success d-inline">Add More</button>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
+                        @endunlessrole
                     </form>
                 </div>
                 <!-- /.card-body -->
@@ -165,6 +167,8 @@ Armada
                                 <td>{{$fleet_detail->plate_number}}</td>
                                 <td>{{$fleet_detail->time_classification?->name ?? '-'}}</td>
                                 <td>
+                                    @unlessrole('owner')
+
                                     <a href="{{route('fleet_detail.edit',$fleet_detail->id)}}"
                                         class="btn btn-warning btn-xs">Edit</a>
                                     <form action="{{route('fleet_detail.destroy',$fleet_detail->id)}}" class="d-inline"
@@ -174,6 +178,7 @@ Armada
                                         <button class="btn btn-danger btn-xs"
                                             onclick="return confirm('Apakah Anda yakin akan menghapus data armada??')"
                                             type="submit">Delete</button>
+                                        @endunlessrole
                                     </form>
                                 </td>
                             </tr>

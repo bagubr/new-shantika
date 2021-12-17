@@ -97,6 +97,7 @@ class OrderController extends Controller
 
     public function showListSetoran(Request $request) {
         $orders = OrderRepository::getBoughtRouteByAgencyByDate($request->bearerToken(), $request->date);
+        $orders = $orders->unique('fleet_route_id')->all();
         return $this->sendSuccessResponse([
             'orders'=> $orders ? OrderListSetoranAgentResource::collection($orders) : []
         ]);

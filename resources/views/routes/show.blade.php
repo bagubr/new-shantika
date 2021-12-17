@@ -73,9 +73,12 @@ Route
                                 @endforeach
                             </select>
                         </div>
+                        @unlessrole('owner')
+
                         <div class="text-right">
                             <button class="btn btn-success" type="submit">Tambah Data</button>
                         </div>
+                        @endunlessrole
                     </form>
                 </div>
                 <!-- /.card-body -->
@@ -118,6 +121,8 @@ Route
                                 </td>
                                 @endif
                                 <td>
+                                    @unlessrole('owner')
+
                                     <a data-toggle="modal" data-target="#exampleModal{{$route_fleet->id}}"
                                         class="btn btn-warning btn-xs">Edit</a>
                                     <form action="{{route('fleet_route.destroy',$route_fleet->id)}}" class="d-inline"
@@ -128,6 +133,7 @@ Route
                                             onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
                                             type="submit">Delete</button>
                                     </form>
+                                    @endunlessrole
                                 </td>
                             </tr>
                             <div class="modal fade" id="exampleModal{{$route_fleet->id}}" tabindex="-1" role="dialog"
@@ -201,7 +207,10 @@ Route
                             <label>Urutan</label>
                             <input required type="number" min="1" class="form-control" name="order">
                         </div>
+                        @unlessrole('owner')
+
                         <input type="submit" value="Submit" class="btn btn-success float-right">
+                        @endunlessrole
                     </form>
                 </div>
                 <!-- /.card-body -->
@@ -236,6 +245,8 @@ Route
                                         href="{{route('agency.edit',$checkpoint->agency_id)}}">{{$checkpoint->agency?->city?->name}}/{{$checkpoint->agency?->name}}</a>
                                 </td>
                                 <td>
+                                    @unlessrole('owner')
+
                                     <form action="{{route('checkpoint.destroy',$checkpoint->id)}}" class="d-inline"
                                         method="POST">
                                         @csrf
@@ -244,6 +255,7 @@ Route
                                             onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
                                             type="submit">Delete</button>
                                     </form>
+                                    @endunlessrole
                                 </td>
                             </tr>
                             @endforeach

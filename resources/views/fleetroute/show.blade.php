@@ -70,7 +70,10 @@ Rute Armada
                                 @endforeach
                             </select>
                         </div>
+                        @unlessrole('owner')
+
                         <input type="submit" value="Ubah" class="btn btn-success float-right">
+                        @endunlessrole
                     </form>
                 </div>
             </div>
@@ -126,6 +129,8 @@ Rute Armada
                                 <td>
                                     <a href="{{route('order.show',$order->id)}}" target="_blank"
                                         class="btn btn-primary btn-xs">Detail</a>
+                                    @unlessrole('owner')
+
                                     <form action="{{route('order.destroy',$order->id)}}" class="d-inline" method="POST">
                                         @csrf
                                         @method('DELETE')
@@ -133,6 +138,7 @@ Rute Armada
                                             onclick="return confirm('Apakah Anda yakin akan menghapus data order?')"
                                             type="submit">Delete</button>
                                     </form>
+                                    @endunlessrole
                                 </td>
                             </tr>
                             @endforeach

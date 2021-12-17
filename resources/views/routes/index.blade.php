@@ -55,9 +55,12 @@ Route
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Table Route</h3>
+                        @unlessrole('owner')
+
                         <div class="text-right">
                             <a href="{{route('routes.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
+                        @endunlessrole
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -82,15 +85,18 @@ Route
                                         <a class="btn btn-primary btn-xs" href="{{route('routes.show',$route->id)}}"
                                             target="_blank">Detail</a>
                                         {{-- <form action="{{route('routes.destroy',$route->id)}}" class="d-inline"
-                                        method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-danger btn-xs"
-                                            onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
-                                            type="submit">Delete</button>
+                                            method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger btn-xs"
+                                                onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                                type="submit">Delete</button>
                                         </form> --}}
+                                        @unlessrole('owner')
+
                                         <a class="btn btn-danger btn-xs button-delete"
                                             data-id="{{$route->id}}">Delete</a>
+                                        @endunlessrole
                                     </td>
                                 </tr>
                                 @endforeach

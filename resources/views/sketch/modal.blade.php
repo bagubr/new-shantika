@@ -215,10 +215,13 @@
                         </div>
                     </div>
                 </div>
+                @unlessrole('owner')
+
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-danger" @click="reset()">Reset</button>
                     <button type="button" class="btn btn-primary" @click="submit()">Save</button>
                 </div>
+                @endunlessrole
             </div>
         </div>
     </div>

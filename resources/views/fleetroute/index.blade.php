@@ -118,12 +118,18 @@ Armada Rute
                                         {{$fleet_route->blocked_chairs_count}}
                                     </td>
                                     <td>
+                                        @unlessrole('owner')
+
                                         <a href="{{route('fleet_route.blocked_chair', $fleet_route->id)}}"
                                             target="_blank" class="btn btn-primary btn-xs">Kursi Diblock</a>
+                                        @endunlessrole
                                         <a href="{{route('fleet_route.show',$fleet_route->id)}}"
                                             class="btn btn-primary btn-xs">Detail</a>
+                                        @unlessrole('owner')
+
                                         <a class="btn btn-danger btn-xs button-delete"
                                             data-id="{{$fleet_route->id}}">Delete</a>
+                                        @endunlessrole
                                     </td>
                                 </tr>
                                 <div class="modal fade" id="exampleModal{{$fleet_route->id}}" tabindex="-1"

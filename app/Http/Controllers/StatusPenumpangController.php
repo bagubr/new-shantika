@@ -15,33 +15,27 @@ class StatusPenumpangController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $areas = Area::get();
-        $orders = Order::all();
-        return view('status_penumpang.index', compact('orders', 'areas'));
-    }
-    public function export()
-    {
-        return Excel::download(new OrdersExport, 'orders.xlsx');
-    }
-    public function search(Request $request)
+    public function index(Request $request)
     {
         $area_id = $request->area_id;
         $areas = Area::get();
         $orders = Order::with('fleet_route.route')->when($area_id, function ($q) use ($area_id) {
-            $q->whereHas('fleet_route.route', function ($z) use ($area_id) {
-                $z->whereHas('departure_city.area', function ($y) use ($area_id) {
-                    $y->where('id', $area_id);
-                });
+            $q->whereHas('agency.city', function ($sq) use ($area_id) {
+                $sq->where('area_id', $area_id);
             });
-        })->get();
+        })->paginate(10);
+        $test = $request->flash();
+
         if (!$orders->isEmpty()) {
             session()->flash('success', 'Data Order Berhasil Ditemukan');
         } else {
             session()->flash('error', 'Tidak Ada Data Ditemukan');
         }
-        return view('status_penumpang.index', compact('orders', 'areas'));
+        return view('status_penumpang.index', compact('orders', 'areas', 'test'));
+    }
+    public function export()
+    {
+        return Excel::download(new OrdersExport, 'orders.xlsx');
     }
 
     /**
