@@ -13,7 +13,7 @@ use App\Repositories\UserRepository;
 class AgencyController extends Controller
 {
     public function index(Request $request) {
-        $agency = AgencyRepository::all($request->search);
+        $agency = AgencyRepository::allByCity($request);
         $this->sendSuccessResponse([
             'agencies'=> AgencyWithAddressTelpResource::collection($agency)
         ]);

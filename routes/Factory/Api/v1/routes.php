@@ -16,6 +16,7 @@ Route::group([
 
     Route::get('facility', 'FacilityController@index');
     Route::get('cities', 'CityController@index');
+    Route::get('cities_all','CityController@indexAll');
     Route::get('agencies', 'AgencyController@index');
     Route::get('agency_city', 'AgencyController@getWithCity');
     Route::get('layouts', 'LayoutController@index');

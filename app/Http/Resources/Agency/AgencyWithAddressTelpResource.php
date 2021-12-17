@@ -26,7 +26,9 @@ class AgencyWithAddressTelpResource extends JsonResource
             'phone'=>array_merge((array) $this->phone, @$this->userAgent?->pluck('user.phone')?->toArray() ?? []),
             'agency_avatar'=>$this->avatar_url,
             'agency_lat'=> $this->lat,
-            'agency_lng'=> $this->lng
+            'agency_lng'=> $this->lng,
+            'morning_time'=> $this->morning_time,
+            'night_time'=> $this->night_time,
         ];
     }
 }

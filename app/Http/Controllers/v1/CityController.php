@@ -24,4 +24,11 @@ class CityController extends Controller
             })->get()
         ]);
     }
+
+    public function indexAll() {
+        
+        return $this->sendSuccessResponse([
+            'cities'=>City::orderBy('name')->get()
+        ]);
+    }
 }
