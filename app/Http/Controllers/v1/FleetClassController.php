@@ -55,18 +55,12 @@ class FleetClassController extends Controller
                         and cities.area_id = ?
                         and cities.deleted_at is null
                     )
-                    and exists (
-                        select * from agency_depature_times
-                        where agency_departure_times.agency_id = agencies.id
-                        and agency_departure_times.depature_at > ?
-                        and agency_departure_times.departure_at < ? 
-                    )
                 )
                 and fleet_routes.deleted_at is null
             )
             and fleet_classes.deleted_at is null
         ");
-        $query->execute([$request->time_classification_id, $request->date, $request->date, $agency->id, $agency->city->area_id, $time->time_start, $time->time_end]);
+        $query->execute([$request->time_classification_id, $request->date, $request->date, $agency->id, $agency->city->area_id]);
 
         $result = [];
         while($row=$query->fetch(\PDO::FETCH_OBJ)) {
