@@ -16,7 +16,7 @@ class AuthController extends Controller
     public function checkUuid(Request $request)
     {
         $user = $this->getUser($request->type, $request->phone);
-
+        
         if(empty($user)){
             $this->sendSuccessResponse([], $message = "Sepertinya akun anda belum terdaftar", $code = 401);
         }
