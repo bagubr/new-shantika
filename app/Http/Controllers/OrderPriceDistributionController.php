@@ -20,35 +20,7 @@ class OrderPriceDistributionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $fleet_routes = FleetRoute::get();
-        $agencies = Agency::get();
-        $fleet_details = FleetDetail::has('fleet_route')->get();
-
-        $order_price_distributions = OrderPriceDistribution::with(['order.agency', 'order.user'])->wherehas('order', function ($q) {
-            $q->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED'])->orderBy('reserve_at', 'DESC');
-        })->get();
-
-        $outcome_details    = OutcomeDetail::all();
-        $total_deposit = OrderPriceDistribution::whereHas('order', function ($q) {
-            $q->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
-        })->pluck('total_deposit')->sum();
-        $count_income       = OrderPriceDistribution::whereHas('order', function ($q) {
-            $q->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
-        })->pluck('for_owner_gross')->sum();
-        $count_income_clean = OrderPriceDistribution::whereHas('order', function ($q) {
-            $q->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
-        })->pluck('for_owner')->sum();
-        $count_outcome      = OutcomeDetail::pluck('amount')->sum();
-        $count_seat         = OrderDetail::whereHas('order', function ($q) {
-            $q->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
-        })->get()->count();
-        $count_ticket       = Order::whereIn('status', ['PAID', 'EXCHANGED', 'FINISHED'])->pluck('price')->sum();
-        $count_pendapatan_bersih = $count_income - $count_outcome;
-        return view('order_price_distribution.index', compact('count_ticket', 'order_price_distributions', 'count_seat', 'agencies', 'outcome_details', 'fleet_routes', 'count_income', 'count_outcome', 'count_pendapatan_bersih', 'fleet_details', 'total_deposit'));
-    }
-    public function search(Request $request)
+    public function index(Request $request)
     {
         $date_search        = $request->date_search;
         $fleet_detail_id    = $request->fleet_detail_id;
@@ -105,7 +77,7 @@ class OrderPriceDistributionController extends Controller
 
         $test = $request->flash();
         $outcome_details            = $outcome_details->get();
-        $order_price_distributions  = $order_price_distributions->get();
+        $order_price_distributions  = $order_price_distributions->paginate(10);
 
         $total_deposit              = $order_price_distributions->pluck('total_deposit')->sum();
         $count_income               = $order_price_distributions->pluck('for_owner')->sum() + $order_price_distributions->pluck('for_food')->sum();
@@ -115,10 +87,12 @@ class OrderPriceDistributionController extends Controller
         $count_ticket               = $tiket_price->pluck('price')->sum();
         return view('order_price_distribution.index', compact('count_ticket', 'order_price_distributions', 'test', 'fleet_details', 'outcome_details', 'fleet_routes', 'count_income', 'agencies', 'count_outcome', 'count_pendapatan_bersih', 'count_seat', 'total_deposit'));
     }
-
     public function export(Request $request)
     {
-        return Excel::download(new SetoranExport($request), date('dmYHis').'.xlsx');
+        parse_str(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_QUERY), $queries);
+        $fleet_detail_id = $queries['fleet_detail_id'];
+        // dd($queries['fleet_detail_id']);
+        return Excel::download(new SetoranExport($request), 'setoran_' . date('dmYHis') . '.xlsx');
     }
     /**
      * Show the form for creating a new resource.

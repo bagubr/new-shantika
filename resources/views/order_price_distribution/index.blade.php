@@ -25,7 +25,7 @@ Setoran
         <div class="row">
             <div class="col-4">
                 <div class="card">
-                    <form action="{{route('order_price_distribution.search')}}" method="get">
+                    <form action="">
                         <div class="card-body">
                             <div class="form-group">
                                 <label>Pilih Tanggal</label>
@@ -125,7 +125,7 @@ Setoran
                     <div class="col-md-12">
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h3><sup style="font-size: 20px">Rp</sup> {{number_format($count_pendapatan_bersih)}} 
+                                <h3><sup style="font-size: 20px">Rp</sup> {{number_format($count_pendapatan_bersih)}}
                                 </h3>
                                 <p>Total Pendapatan Bersih</p>
                             </div>
@@ -143,8 +143,10 @@ Setoran
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <!-- <a class="btn btn-success btn-sm d-inline" href="{{route('order_price_distribution.export')}}">Export Excel</a> -->
-                        <table id="example1" class="table table-bordered table-striped table-responsive">
+
+                        <a class="btn btn-success btn-sm d-inline" href="{{route('order_price_distribution.export')}}"
+                            target="_blank">Export Excel</a>
+                        <table class="table table-bordered table-striped table-responsive">
                             <thead>
                                 <tr>
                                     <th>Tanggal</th>
@@ -242,6 +244,13 @@ Setoran
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="row">
+                            <div class="mr-auto">
+                                <div>
+                                    {{$order_price_distributions->appends(Request::all())->links() }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>
