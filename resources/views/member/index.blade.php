@@ -33,7 +33,7 @@ Member
                             @csrf
                             <div class="form-group">
                                 <label>Import</label>
-                                <input type="file" class="form-control" name="file">
+                                <input type="file" class="form-control" required name="file">
                             </div>
                             @unlessrole('owner')
 
