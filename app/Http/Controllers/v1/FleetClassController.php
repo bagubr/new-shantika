@@ -22,13 +22,13 @@ class FleetClassController extends Controller
 
     public function available(ApiAvailableFleetClassRequest $request) {
         $agency = Agency::find($request->agency_id);
-        $time = TimeClassification::find($request->time_classification_id);
+
         $pdo = DB::getPdo();
         $query=$pdo->prepare("
             select fleet_classes.id, fleet_classes.name, fleet_classes.price_food from fleet_classes
             where exists (
-                select * from fleet_details 
-                left join fleets on fleet_details.fleet_id = fleets.id 
+                select * from fleet_details
+                left join fleets on fleet_details.fleet_id = fleets.id
                 where fleets.fleet_class_id = fleet_classes.id
                 and fleet_details.time_classification_id = ?
                 and fleet_details.deleted_at is null
@@ -64,7 +64,7 @@ class FleetClassController extends Controller
 
         $result = [];
         while($row=$query->fetch(\PDO::FETCH_OBJ)) {
-            $result[] = $row;                
+            $result[] = $row;
         }
 
         return $this->sendSuccessResponse([

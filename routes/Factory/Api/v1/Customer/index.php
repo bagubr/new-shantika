@@ -24,6 +24,7 @@ Route::group([
     });
     Route::get('agencies','AgencyController@getAllAgen');
     Route::get('fleet_lists','FleetController@index');
+    Route::get('fleet_class','FleetClassController@index');
     Route::get('fleet_detail/{id}','FleetController@show');
     
     Route::group([

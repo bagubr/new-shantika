@@ -288,12 +288,14 @@ Sketch
                         let index = this.getCurrentIndexByRowCol(row, col, 1)
                         chair = this.secondLayout.data.chairs.filter((e, i) =>  i == index)[0]
                     }
-
                     if (chair.is_unavailable) {
                         if(chair.is_selected) {
                             return "btn bg-teal"
                         } else if (chair.is_switched) {
                             return "btn bg-green"
+                        }
+                        if(!chair.user){
+                            return "btn bg-purple"
                         }
                         return "btn btn-danger"
                     } else if (chair.is_booking) {

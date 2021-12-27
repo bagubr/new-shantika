@@ -78,7 +78,7 @@ class CustomerMenuController extends Controller
      */
     public function update(UpdateCustomerMenuRequest $request, CustomerMenu $customer_menu)
     {
-        $data = $request->only(['name', 'order']);
+        $data = $request->only(['name', 'order', 'value']);
         if ($request->hasFile('icon')) {
             $icon = $request->icon->store('icon', 'public');
             $customer_menu->deleteImage();

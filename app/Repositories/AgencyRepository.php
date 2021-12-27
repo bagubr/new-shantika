@@ -6,14 +6,29 @@ use App\Models\Agency;
 
 class AgencyRepository
 {
-    public static function all($search = null)
+    public static function all($request = null)
     {
-        return Agency::with('users:users.id,users.phone')->when($search, function ($query) use ($search) {
-            $query->where('name', 'ilike', '%' . $search . '%')
-                ->orWhereHas('city', function ($subquery) use ($search) {
-                    $subquery->where('name', 'ilike', '%' . $search . '%');
+        return Agency::with('users:users.id,users.phone')
+        ->when($request, function ($query) use ($request) {
+            $query->where('name', 'ilike', '%' . $request->search . '%')
+                ->orWhereHas('city', function ($subquery) use ($request) {
+                    $subquery->where('name', 'ilike', '%' . $request->search . '%');
                 });
-        })->orderBy('id', 'desc')->get();
+        })
+        ->orderBy('id', 'desc')->get();
+    }
+
+    public static function allByCity($request = null)
+    {
+        return Agency::with('users:users.id,users.phone')
+        ->when(($request->city_id), function ($query) use ($request)
+        {
+            $query->where('city_id', $request->city_id);
+        })
+        ->when($request, function ($query) use ($request) {
+            $query->where('name', 'ilike', '%' . $request->search . '%');
+        })
+        ->orderBy('id', 'desc')->get();
     }
 
     public static function findWithCity($id) {
