@@ -245,7 +245,7 @@ Setoran
                             </tbody>
                         </table>
                         <div class="row">
-                            <div class="mr-auto">
+                            <div class="ml-auto">
                                 <div>
                                     {{$order_price_distributions->appends(Request::all())->links() }}
                                 </div>

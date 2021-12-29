@@ -7,6 +7,7 @@ use App\Jobs\PaymentAcceptedNotificationJob;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\PaymentType;
 use App\Repositories\PaymentTypeRepository;
 use App\Services\OrderPriceDistributionService;
 use App\Utils\NotificationMessage;
@@ -20,10 +21,22 @@ class PaymentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $payments = Payment::all();
-        return view('payment.index', compact('payments'));
+        $status = $request->status;
+        $payment_type_id = $request->payment_type_id;
+
+        $payment_types = PaymentType::all();
+        $payments = Payment::when($status, function ($q) use ($status) {
+            $q->where('status', $status);
+        })->when($payment_type_id, function ($q) use ($payment_type_id) {
+            $q->where('payment_type_id', $payment_type_id);
+        })->orderBy('id', 'desc')->paginate(10);
+
+        $statuses = [Payment::STATUS1, Payment::STATUS2, Payment::STATUS3];
+        $test = $request->flash();
+
+        return view('payment.index', compact('payments', 'payment_types', 'statuses', 'test'));
     }
 
     /**
@@ -96,10 +109,10 @@ class PaymentController extends Controller
         if ($request->status == Order::STATUS3) {
             $total_price = OrderPriceDistributionService::calculateDistribution($order_id, $order_id->order_detail, $order_id->distribution->ticket_only);
             $order_id->distribution()->update([
-                'for_agent'=>$total_price['for_agent'],
-                'for_owner'=>$total_price['for_owner'],
-                'for_owner_with_food'=>$total_price['for_owner_with_food'],
-                'for_owner_gross'=>$total_price['for_owner_gross']
+                'for_agent' => $total_price['for_agent'],
+                'for_owner' => $total_price['for_owner'],
+                'for_owner_with_food' => $total_price['for_owner_with_food'],
+                'for_owner_gross' => $total_price['for_owner_gross']
             ]);
             $payload = NotificationMessage::paymentSuccess($order_id->code_order);
             $notification = Notification::build(

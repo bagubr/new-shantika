@@ -241,7 +241,7 @@ Pemesanan
                             </tbody>
                         </table>
                         <div class="row">
-                            <div class="mr-auto">
+                            <div class="ml-auto">
                                 <div>
                                     {{$orders->appends(Request::all())->links() }}
                                 </div>
