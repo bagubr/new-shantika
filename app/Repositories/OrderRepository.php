@@ -84,19 +84,19 @@ class OrderRepository
     {
         $agency_id = UserRepository::findByToken($token)?->agencies?->agent?->id;
 
-        return Order::where(function($query) use ($agency_id) {
-                $query->where(function($subquery) use ($agency_id) {
-                    $subquery->where('departure_agency_id', $agency_id)
-                        ->whereHas('user.agencies')
-                        ->whereIn('status', [Order::STATUS3]);
-                })
-                ->orWhere(function($subquery) use ($agency_id) {
-                    $subquery->where('departure_agency_id', $agency_id)
-                    ->whereDoesntHave('user.agencies')
-                    ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
-                });
+        return Order::where(function ($query) use ($agency_id) {
+            $query->where(function ($subquery) use ($agency_id) {
+                $subquery->where('departure_agency_id', $agency_id)
+                    ->whereHas('user.agencies')
+                    ->whereIn('status', [Order::STATUS3]);
             })
-            ->when($is_distinct, function($query) {
+                ->orWhere(function ($subquery) use ($agency_id) {
+                    $subquery->where('departure_agency_id', $agency_id)
+                        ->whereDoesntHave('user.agencies')
+                        ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
+                });
+        })
+            ->when($is_distinct, function ($query) {
                 $query->distinct('fleet_route_id');
             })
             ->whereDate('reserve_at', $date)
@@ -109,37 +109,37 @@ class OrderRepository
         $agency_id = $user->agencies?->agency_id;
         $date = date('Y-m-d', strtotime($date));
 
-        $order = Order::where(function($query) use ($user) {
-                $query->where(function($subquery) use ($user) {
-                    $subquery->where('departure_agency_id', $user->agencies?->agent?->id)
-                        ->whereHas('user.agencies')
-                        ->whereIn('status', [Order::STATUS3]);
-                })
-                ->orWhere(function($subquery) use ($user) {
-                    $subquery->where('departure_agency_id', $user->agencies?->agent?->id)
-                    ->whereDoesntHave('user.agencies')
-                    ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
-                });
+        $order = Order::where(function ($query) use ($user) {
+            $query->where(function ($subquery) use ($user) {
+                $subquery->where('departure_agency_id', $user->agencies?->agent?->id)
+                    ->whereHas('user.agencies')
+                    ->whereIn('status', [Order::STATUS3]);
             })
+                ->orWhere(function ($subquery) use ($user) {
+                    $subquery->where('departure_agency_id', $user->agencies?->agent?->id)
+                        ->whereDoesntHave('user.agencies')
+                        ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
+                });
+        })
             ->with(['fleet_route.fleet_detail.fleet'])
             ->whereDate('reserve_at', $date)
             ->orderBy('fleet_route_id', 'asc')
             ->addSelect([
-                'total_deposit_fleet_route'=>OrderPriceDistribution::selectRaw('sum(total_deposit)')
+                'total_deposit_fleet_route' => OrderPriceDistribution::selectRaw('sum(total_deposit)')
                     ->leftJoin('orders as o', 'o.id', 'order_price_distributions.order_id')
                     ->leftJoin('fleet_routes', 'fleet_routes.id', 'o.fleet_route_id')
                     ->whereColumn([['o.reserve_at', 'orders.reserve_at'], ['o.fleet_route_id', 'orders.fleet_route_id']])
-                    ->whereHas('order', function($query) use ($user) {
-                        $query->where(function($subquery) use ($user) {
+                    ->whereHas('order', function ($query) use ($user) {
+                        $query->where(function ($subquery) use ($user) {
                             $subquery->where('departure_agency_id', $user->agencies?->agent?->id)
                                 ->whereHas('user.agencies')
                                 ->whereIn('status', [Order::STATUS3]);
                         })
-                        ->orWhere(function($subquery) use ($user) {
-                            $subquery->where('departure_agency_id', $user->agencies?->agent?->id)
-                            ->whereDoesntHave('user.agencies')
-                            ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
-                        });
+                            ->orWhere(function ($subquery) use ($user) {
+                                $subquery->where('departure_agency_id', $user->agencies?->agent?->id)
+                                    ->whereDoesntHave('user.agencies')
+                                    ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
+                            });
                     })
             ])
             // ->select()
@@ -157,12 +157,26 @@ class OrderRepository
 
     public static function getAtDateByFleetRouteId($date, $fleet_route_id)
     {
-        return Order::with(['order_detail', 'user.agencies.agent', 'agency', 'agency_destiny'])->where(function ($query) use ($date) {
-            $query->whereIn('status', Order::STATUS_BOUGHT)
-                ->whereDate('reserve_at', $date);
+        return Order::with(['order_detail', 'user.agencies.agent', 'agency', 'agency_destiny'])->whereHas('user.agencies')
+            ->where(function ($query) use ($date) {
+                $query->whereIn('status', Order::STATUS_BOUGHT)
+                    ->whereDate('reserve_at', $date);
             })
             ->where('fleet_route_id', $fleet_route_id)
             ->get();
+    }
+
+    public static function getAtDateByFleetRouteIdCustomer($date, $fleet_route_id)
+    {
+
+        $order = Order::with(['order_detail', 'user', 'agency', 'agency_destiny'])
+            ->whereDoesntHave('user.agencies')->where(function ($query) use ($date) {
+                $query->whereIn('status', Order::STATUS_PAID_CUST)
+                    ->whereDate('reserve_at', $date);
+            })
+            ->where('fleet_route_id', $fleet_route_id)
+            ->get();
+        return $order;
     }
 
     public static function findForPriceDistributionByDateAndFleet($user_id, $date, $fleet_id, $time_classification_id = null)
@@ -173,20 +187,20 @@ class OrderRepository
             ->whereHas('fleet_route.fleet_detail', function ($query) use ($fleet_id) {
                 $query->where('fleet_id', $fleet_id);
             })
-            ->when($time_classification_id, function($query) use ($time_classification_id) {
+            ->when($time_classification_id, function ($query) use ($time_classification_id) {
                 $query->where('time_classification_id', $time_classification_id);
             })
-            ->where(function($query) use ($agency_id) {
-                $query->where(function($subquery) use ($agency_id) {
+            ->where(function ($query) use ($agency_id) {
+                $query->where(function ($subquery) use ($agency_id) {
                     $subquery->where('departure_agency_id', $agency_id)
                         ->whereHas('user.agencies')
                         ->whereIn('status', [Order::STATUS3]);
                 })
-                ->orWhere(function($subquery) use ($agency_id) {
-                    $subquery->where('departure_agency_id', $agency_id)
-                    ->whereDoesntHave('user.agencies')
-                    ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
-                });
+                    ->orWhere(function ($subquery) use ($agency_id) {
+                        $subquery->where('departure_agency_id', $agency_id)
+                            ->whereDoesntHave('user.agencies')
+                            ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
+                    });
             })
             ->get();
         return $order;
@@ -199,7 +213,7 @@ class OrderRepository
             ->whereHas('order_detail', function ($query) use ($layout_chair_id) {
                 $query->whereIn('layout_chair_id', is_array($layout_chair_id) ? $layout_chair_id : [$layout_chair_id]);
             })
-            ->when($time_classification_id, function($query) use ($time_classification_id) {
+            ->when($time_classification_id, function ($query) use ($time_classification_id) {
                 $query->where('time_classification_id', $time_classification_id);
             })
             ->whereIn('status', Order::STATUS_BOUGHT)
@@ -208,7 +222,7 @@ class OrderRepository
 
     public static function getAtDateAndRoute($date, $route)
     {
-        if(!$route || $route == 'WITH_TYPE'){
+        if (!$route || $route == 'WITH_TYPE') {
             return [];
         }
         return Order::where(function ($query) use ($date, $route) {
@@ -220,22 +234,21 @@ class OrderRepository
 
     public static function getAtDateAndFleet($date, $fleet)
     {
-        if(!$fleet || $fleet == 'WITH_TYPE'){
+        if (!$fleet || $fleet == 'WITH_TYPE') {
             return [];
         }
         return Order::where(function ($query) use ($date, $fleet) {
             $query->where('status', Order::STATUS3);
             $query->whereDate('reserve_at', $date);
-            $query->whereHas('route', function ($q) use ($fleet)
-            {
+            $query->whereHas('route', function ($q) use ($fleet) {
                 $q->whereFleetId($fleet);
             });
         })->get();
     }
-    
+
     public static function getAtDateAndFleetRoute($date, $fleet_route)
     {
-        if(!$fleet_route || $fleet_route == 'WITH_TYPE'){
+        if (!$fleet_route || $fleet_route == 'WITH_TYPE') {
             return [];
         }
         return Order::where(function ($query) use ($date, $fleet_route) {
@@ -247,14 +260,13 @@ class OrderRepository
 
     public static function getAtDateAndFleetDetail($date, $fleet_detail)
     {
-        if(!$fleet_detail || $fleet_detail == 'WITH_TYPE'){
+        if (!$fleet_detail || $fleet_detail == 'WITH_TYPE') {
             return [];
         }
         return Order::where(function ($query) use ($date, $fleet_detail) {
             $query->where('status', Order::STATUS3);
             $query->whereDate('reserve_at', $date);
-            $query->whereHas('fleet_route', function ($q) use ($fleet_detail)
-            {
+            $query->whereHas('fleet_route', function ($q) use ($fleet_detail) {
                 $q->whereFleetDetailId($fleet_detail);
             });
         })->get();

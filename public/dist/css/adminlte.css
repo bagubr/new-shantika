@@ -46633,6 +46633,25 @@ blockquote.quote-gray-dark h6 {
   border-color: #1c7430;
   color: #fff;
 }
+.bg-purple {
+  background-color: #800080 !important;
+}
+
+.bg-purple,
+.bg-purple > a {
+  color: #fff !important;
+}
+
+.bg-purple.btn:hover {
+  border-color: #1e7e34;
+  color: #ececec;
+}
+
+.bg-purple.btn:not(:disabled):not(.disabled):active, .bg-purple.btn:not(:disabled):not(.disabled).active, .bg-purple.btn:active, .bg-green.btn.active {
+  background-color: #1e7e34 !important;
+  border-color: #1c7430;
+  color: #fff;
+}
 
 .bg-teal {
   background-color: #20c997 !important;
