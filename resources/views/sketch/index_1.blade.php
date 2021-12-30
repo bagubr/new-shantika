@@ -296,13 +296,7 @@ Sketch
                         }
                         return "btn btn-danger"
                     } else if (chair.is_unavailable_customer){
-                        if(chair.is_selected) {
-                            return "btn bg-teal"
-                        } else if (chair.is_switched) {
-                            return "btn bg-green"
-                        }else{
-                            return "btn bg-purple"
-                        }
+                        return "btn bg-purple"
                     } else if (chair.is_booking) {
                         return "btn bg-orange"
                     } else if(chair.is_door) {
@@ -347,11 +341,11 @@ Sketch
                 dropSelectedSeat(row,col,which) {
                     this.whichLayout(which)
                     let index = this.getCurrentIndexByRowCol(row, col)
-                    if(!this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable) {
-                        if (this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable_customer) {
+                    if(this.secondLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable) {
+                        if (this.secondLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable_customer) {
                             return alert("Maaf Kursi Yang Anda Pilih Adalah Kursi Customer");
                         }
-                        return alert("Pilih kursi yang sudah dibeli!");
+                        return alert("Pilih kursi yang belum dibeli!");
                     }
                     let value = this.firstLayout.data.chairs.filter(e => e.is_selected == true)[0]
                     this.firstLayout.data.chairs.filter(e => e.is_selected  == true)[0].is_switched = true
