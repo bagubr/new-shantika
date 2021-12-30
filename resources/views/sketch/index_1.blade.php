@@ -294,9 +294,6 @@ Sketch
                         } else if (chair.is_switched) {
                             return "btn bg-green"
                         }
-                        if(!chair.user){
-                            return "btn bg-purple"
-                        }
                         return "btn btn-danger"
                     } else if (chair.is_booking) {
                         return "btn bg-orange"
