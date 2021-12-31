@@ -16,43 +16,45 @@ use DateTime;
 use Xendit\Xendit;
 use App\Utils\Response;
 
-class PaymentService {
+class PaymentService
+{
     use Response;
-    public static function createOrderPayment(Order $order, $payment_type_id = null) {
+    public static function createOrderPayment(Order $order, $payment_type_id = null)
+    {
         $expired_duration = self::getExpiredDuration(Setting::find(1)->time_expired, $order->reserve_at);
-        if($payment_type_id == null) {
+        if ($payment_type_id == null) {
             $payment_type_id  = PaymentType::first()->id;
         }
 
-        if($expired_duration < 0) {
+        if ($expired_duration < 0) {
             (new self)->sendFailedResponse([], 'Waktu Pemesanan sudah terlewati');
         }
-        
-        if(empty($payment_type_id) || $payment_type_id == 2) {
-            $date = time()+$expired_duration;
+
+        if (empty($payment_type_id) || $payment_type_id == 2) {
+            $date = time() + $expired_duration;
             $invoice = Payment::create([
-                'order_id'=>$order->id,
-                'payment_type_id'=>$payment_type_id,
-                'status'=>Payment::STATUS1,
-                'secret_key'=>md5(date('Ymdhis')).uniqid(),
-                'expired_at'=>date('Y-m-d H:i:s', $date)
+                'order_id' => $order->id,
+                'payment_type_id' => $payment_type_id,
+                'status' => Payment::STATUS1,
+                'secret_key' => md5(date('Ymdhis')) . uniqid(),
+                'expired_at' => date('Y-m-d H:i:s', $date)
             ]);
         } else {
             Xendit::setApiKey(env('API_KEY_XENDIT'));
             $payload = [
-                'external_id'=>$order->id.uniqid(),
-                'payer_email'=>$order->order_detail[0]->email,
-                'description'=>'Pembayaran Tiket Armada',
-                'amount'=>$order->price,
+                'external_id' => $order->id . uniqid(),
+                'payer_email' => 'devnewshantika@gmail.com',
+                'description' => 'Pembayaran Tiket Armada',
+                'amount' => $order->price,
                 'invoice_duration' => $expired_duration
             ];
             $invoice = \Xendit\Invoice::create($payload);
             $invoice = Payment::create([
-                'order_id'=>$order->id,
-                'payment_type_id'=>$payment_type_id,
-                'status'=>Payment::STATUS1,
-                'secret_key'=>$invoice['id'],
-                'expired_at'=>date('Y-m-d H:i:s', strtotime($invoice['expiry_date']))
+                'order_id' => $order->id,
+                'payment_type_id' => $payment_type_id,
+                'status' => Payment::STATUS1,
+                'secret_key' => $invoice['id'],
+                'expired_at' => date('Y-m-d H:i:s', strtotime($invoice['expiry_date']))
             ]);
             $invoice['xendit'] = self::getSecretAttribute($invoice);
         }
@@ -62,8 +64,9 @@ class PaymentService {
         return $invoice;
     }
 
-    public static function sendNotificationAlmostExpiry($invoice) {
-        if($invoice->order->status != Order::STATUS1) {
+    public static function sendNotificationAlmostExpiry($invoice)
+    {
+        if ($invoice->order->status != Order::STATUS1) {
             return;
         }
 
@@ -82,8 +85,9 @@ class PaymentService {
             ->delay(now()->addMinutes(5));
     }
 
-    public static function getSecretAttribute(Payment $payment) {
-        if($payment->payment_type_id == 1) {
+    public static function getSecretAttribute(Payment $payment)
+    {
+        if ($payment->payment_type_id == 1) {
             Xendit::setApiKey(env('API_KEY_XENDIT'));
             return \Xendit\Invoice::retrieve($payment->secret_key)['invoice_url'];
         } else {
@@ -91,46 +95,49 @@ class PaymentService {
         }
     }
 
-    public static function uploadProof(Order $order, $file) {
+    public static function uploadProof(Order $order, $file)
+    {
         Image::uploadFile($file, 'proof_order');
 
         $order->payment()->update([
-            'proof'=>$file
+            'proof' => $file
         ]);
-        OrderService::updateStatus($order,Order::STATUS6);
+        OrderService::updateStatus($order, Order::STATUS6);
         $order->refresh();
 
         return $order;
     }
 
-    public static function updateStatus(Payment|int $payment, $status) {
-        if(is_int($payment)) {
+    public static function updateStatus(Payment|int $payment, $status)
+    {
+        if (is_int($payment)) {
             $payment = Payment::find($payment);
         }
 
         $payment->update([
-            'status'=>$status
+            'status' => $status
         ]);
 
         $payment->order()->update([
-            'status'=>$status
+            'status' => $status
         ]);
         $payment->refresh();
 
         return $payment;
     }
 
-    public static function receiveCallback(Payment $payment, $status) {
+    public static function receiveCallback(Payment $payment, $status)
+    {
         $payment->update([
-            'status'=>$status,
-            'paid_at'=> date('Y-m-d H:i:s'),
+            'status' => $status,
+            'paid_at' => date('Y-m-d H:i:s'),
         ]);
         $payment->order()->update([
-            'status'=>$status
+            'status' => $status
         ]);
         $payment->refresh();
-        
-        if($status == Order::STATUS3) {
+
+        if ($status == Order::STATUS3) {
             $message = NotificationMessage::paymentSuccess();
             $notification = Notification::build(
                 $message[0],
@@ -162,8 +169,7 @@ class PaymentService {
         // Menentukan Expired dari penambahan jam dan menit
         $time2_arr = [];
         $time2_arr = explode(":", $time);
-        $interval = ($time2_arr[0] * 60 * 60) + ($time2_arr[1] * 60 );
+        $interval = ($time2_arr[0] * 60 * 60) + ($time2_arr[1] * 60);
         return $interval;
     }
 }
-        
