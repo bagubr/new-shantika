@@ -265,6 +265,13 @@ Sketch
                             return `<p class="text-nowrap">${chair.name} | ${chair.code || ''}</p>`
                         }
                         return `<p class="text-nowrap">${chair.name} | ${chair.code || ''}</p>`
+                    } else if (chair.is_unavailable_customer){
+                        if(chair.is_selected) {
+                            return `<p class="text-nowrap">${chair.name} | ${chair.code || ''}</p>`
+                        } else if (chair.is_switched) {
+                            return `<p class="text-nowrap">${chair.name} | ${chair.code || ''}</p>`
+                        }
+                        return `<p class="text-nowrap">${chair.name} | ${chair.code || ''}</p>`
                     } else if (chair.is_booking) {
                         return `<p class="text-nowrap">${chair.name} | ${chair.code || ''}</p>`
                     } else if(chair.is_door) {
