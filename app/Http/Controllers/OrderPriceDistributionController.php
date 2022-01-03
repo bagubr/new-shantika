@@ -90,7 +90,7 @@ class OrderPriceDistributionController extends Controller
     public function export(Request $request)
     {
         parse_str(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_QUERY), $queries);
-        $fleet_detail_id = $queries['fleet_detail_id'];
+        // $fleet_detail_id = $queries['fleet_detail_id'];
         // dd($queries['fleet_detail_id']);
         return Excel::download(new SetoranExport($request), 'setoran_' . date('dmYHis') . '.xlsx');
     }
