@@ -38,6 +38,7 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $name_search = $request->name;
+        $name_non_search = $request->name_non_search;
         $routes_search = $request->route_id;
         $status_search = $request->status;
         $status_agent = $request->agent;
@@ -70,22 +71,30 @@ class OrderController extends Controller
         if (!empty($status_search)) {
             $orders = $orders->where('status', $status_search);
         }
+        if (!empty($name_search)) {
+            $orders = $orders->whereHas('user', function ($q) use ($name_search) {
+                $q->where('name', 'ilike', '%' . $name_search . '%');
+            });
+        }
+        if (!empty($name_non_search)) {
+            $orders = $orders->whereHas('order_detail', function ($q) use ($name_non_search) {
+                $q->where('name', 'ilike', '%' . $name_non_search . '%');
+            });
+        }
         if (!empty($status_agent)) {
             if ($status_agent == 'AGENT') {
                 $orders = $orders->whereHas('user', function ($q) {
                     $q->has('agencies');
                 });
             } elseif ($status_agent == 'UMUM') {
-                $orders = $orders->whereHas('user', function ($y) {
-                    $y->doesntHave('agencies');
-                })->orWhereDoesntHave('user');
+                if (empty($name_non_search)) {
+                    $orders = $orders->whereDoesntHave('user');
+                }else if(empty($name_search)){
+                    $orders = $orders->whereDoesntHave('user.agencies');
+                }
             }
         }
-        if (!empty($name_search)) {
-            $orders = $orders->whereHas('user', function ($q) use ($name_search) {
-                $q->where('name', 'ilike', '%' . $name_search . '%');
-            });
-        }
+
         if (!empty($code_order_search)) {
             $orders = $orders->where('code_order', 'like', '%' . $code_order_search . '%');
         }

@@ -45,6 +45,13 @@ Pemesanan
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
+                                        <label>Cari Nama Non Akun</label>
+                                        <input type="text" name="name_non_search" class="form-control" value="{{old('name_non_search')}}"
+                                            placeholder="Cari Nama Non Akun">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
                                         <label>Cari Kode Order</label>
                                         <input type="text" name="code_order" class="form-control"
                                             value="{{old('code_order')}}" placeholder="Cari Kode Order">
