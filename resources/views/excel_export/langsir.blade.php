@@ -35,6 +35,7 @@
             <th>AGEN</th>
             <th>NOMOR BANGKU</th>
             <th>NAMA PENUMPANG </th>
+            <th>STATUS</th>
             <th>TUJUAN</th>
         </tr>
     </thead>
@@ -46,13 +47,14 @@
             <td>{{$order_detail->order?->agency?->name}}</td>
             <td width="20%">({{$order_detail->chair?->name}}),</td>
             <td width="20%">{{ $order_detail?->name }},</td>
+            <td width="20%">{{ $order_detail?->order?->status }}</td>
             <td width="20%">{{ $order_detail->order?->agency_destiny?->name }}</td>
         </tr>
         @endif
         @endforeach
         <tr>
             <th>Bangku Kosong</th>
-            <th colspan="4" style="font-size: 20px">
+            <th colspan="5" style="font-size: 20px">
                 @php
                 $layout_chair_exists = \App\Models\LayoutChair::whereIn('id', $langsir->pluck('layout_chair_id')->toArray())->pluck('id')->toArray(); 
                 $layout_chair = \App\Models\LayoutChair::whereLayoutId(\App\Models\FleetRoute::find($fleet_route_id)->fleet_detail?->fleet?->layout_id)->orderBy('index','asc')->get()->pluck('id');
