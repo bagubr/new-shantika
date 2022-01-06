@@ -19,7 +19,7 @@ class Order extends Model
     const STATUS_BOUGHT = [self::STATUS1, self::STATUS3, self::STATUS5, self::STATUS6, self::STATUS8];
     const STATUS_NOT_PAID_CUST = [self::STATUS1];
     const STATUS_WAITING_CUST = [self::STATUS6];
-    const STATUS_PAID_CUST = [self::STATUS3, self::STATUS8];
+    const STATUS_PAID_CUST = [self::STATUS3, self::STATUS5, self::STATUS8];
 
     use HasFactory;
     protected $fillable = [
