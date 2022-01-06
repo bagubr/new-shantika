@@ -178,6 +178,30 @@ class OrderRepository
             ->get();
         return $order;
     }
+    public static function getAtDateByFleetRouteNotPaidIdCustomer($date, $fleet_route_id)
+    {
+
+        $order = Order::with(['order_detail', 'user', 'agency', 'agency_destiny'])
+            ->whereDoesntHave('user.agencies')->where(function ($query) use ($date) {
+                $query->whereIn('status', Order::STATUS_NOT_PAID_CUST)
+                    ->whereDate('reserve_at', $date);
+            })
+            ->where('fleet_route_id', $fleet_route_id)
+            ->get();
+        return $order;
+    }
+    public static function getAtDateByFleetRouteWaitingIdCustomer($date, $fleet_route_id)
+    {
+
+        $order = Order::with(['order_detail', 'user', 'agency', 'agency_destiny'])
+            ->whereDoesntHave('user.agencies')->where(function ($query) use ($date) {
+                $query->whereIn('status', Order::STATUS_WAITING_CUST)
+                    ->whereDate('reserve_at', $date);
+            })
+            ->where('fleet_route_id', $fleet_route_id)
+            ->get();
+        return $order;
+    }
 
     public static function findForPriceDistributionByDateAndFleet($user_id, $date, $fleet_id, $time_classification_id = null)
     {

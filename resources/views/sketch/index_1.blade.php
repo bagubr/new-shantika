@@ -2,6 +2,27 @@
 @section('title')
 Sketch
 @endsection
+@push('css')
+<style>
+    .bg-chocolate {
+        background-color: #603415 !important;
+    }
+
+    .bg-chocolate,
+    .bg-chocolate>a {
+        color: #fff !important;
+    }
+
+    .bg-chocolate-light {
+        background-color: #ff6a00 !important;
+    }
+
+    .bg-chocolate-light,
+    .bg-chocolate-light>a {
+        color: #fff !important;
+    }
+</style>
+@endpush
 @section('content')
 <div class="content-header">
     <div class="container-fluid">
@@ -304,6 +325,10 @@ Sketch
                         return "btn btn-danger"
                     } else if (chair.is_unavailable_customer){
                         return "btn bg-purple"
+                    } else if (chair.is_unavailable_not_paid_customer){
+                        return "btn bg-chocolate"
+                    } else if (chair.is_unavailable_waiting_customer){
+                        return "btn bg-chocolate-light"
                     } else if (chair.is_booking) {
                         return "btn bg-orange"
                     } else if(chair.is_door) {

@@ -159,7 +159,7 @@ class SketchController extends Controller
         $date = $request->date;
         $fleet_route_id = $request->fleet_route_id;
         $data['langsir'] = OrderDetail::whereHas('order', function ($q) use ($date, $area_id, $fleet_route_id) {
-            $q->whereIn('status', Order::STATUS_BOUGHT)
+            $q->whereIn('status', Order::STATUS_PAID_CUST)
                 ->when($date, function ($query) use ($date) {
                     $query->whereDate('reserve_at', $date);
                 })
