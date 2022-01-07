@@ -174,7 +174,7 @@ class OrderService
         if (@$order->departure_agency_id != $agency_id) {
             (new self)->sendFailedResponse([], 'Maaf, anda hanya dapat menukarkan tiket di agen keberangkatan tiket');
         }
-        if ($order->status != Order::STATUS3) {
+        if ($order->status != Order::STATUS_PAID_CUST) {
             (new self)->sendFailedResponse([], 'Maaf, penumpang / customer harus membayar terlebih dahulu');
         }
         DB::beginTransaction();
