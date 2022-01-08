@@ -84,9 +84,9 @@ class TicketExchangedJob implements ShouldQueue
         Log::info($this->order->order_detail->pluck('chair.name')->toArray());
         
         $order_detail = $this->order->order_detail[0];
-        Mail::send('_emails.exchange', $data, function($message) use ($order_detail,$payload) {
-            $message->to($order_detail->email, $order_detail->name)->subject('Berhasil Menukarkan Tiket');
-            $message->from(env('MAIL_USERNAME'), $payload[0]);
-        });    
+        // Mail::send('_emails.exchange', $data, function($message) use ($order_detail,$payload) {
+        //     $message->to($order_detail->email, $order_detail->name)->subject('Berhasil Menukarkan Tiket');
+        //     $message->from(env('MAIL_USERNAME'), $payload[0]);
+        // });    
     }
 }
