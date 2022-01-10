@@ -36,7 +36,7 @@ class PaymentController extends Controller
             $orders = Order::with('payment')->where('status', Order::STATUS1)->whereHas('payment', function ($q) {
                 $q->where('payment_type_id', 2);
             })->where('expired_at', '<', Carbon::now())->get();
-            if (empty($orders)) {
+            if ($orders->count() <= 0) {
                 return $this->sendFailedResponse([], 'Data Tidak Ditemukan');
             }
 
