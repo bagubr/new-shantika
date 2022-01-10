@@ -31,25 +31,25 @@ class PaymentController extends Controller
     public function ChangeOrderStatus()
     {
 
-        $order = Order::with('payment')->where('status', Order::STATUS1)->whereHas('payment', function ($q) {
-            $q->where('payment_type_id', 2);
-        })->where('expired_at', '<', Carbon::now())->first();
-        if (empty($order)) {
-            return $this->sendFailedResponse([], 'Data Tidak Ditemukan');
-        }
-        $payment = Payment::where('order_id', $order->id)->first();
-
         DB::beginTransaction();
-        $order->update([
-            'status' => Order::STATUS2,
-            'cancelation_reason' => 'Waktu Pembayaran Telah Habis'
-
-        ]);
-        $payment->update([
-            'status' => Payment::STATUS2,
-            'cancelation_reason' => 'Waktu Pembayaran Telah Habis'
-        ]);
         try {
+            $order = Order::with('payment')->where('status', Order::STATUS1)->whereHas('payment', function ($q) {
+                $q->where('payment_type_id', 2);
+            })->where('expired_at', '<', Carbon::now())->get();
+            if (empty($order)) {
+                return $this->sendFailedResponse([], 'Data Tidak Ditemukan');
+            }
+            $payment = Payment::whereIn('order_id', $order->pluck('id'))->get();
+            
+            $order->update([
+                'status' => Order::STATUS2,
+                'cancelation_reason' => 'Waktu Pembayaran Telah Habis'
+                
+            ]);
+            $payment->update([
+                'status' => Payment::STATUS2,
+                'cancelation_reason' => 'Waktu Pembayaran Telah Habis'
+            ]);
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollback();
