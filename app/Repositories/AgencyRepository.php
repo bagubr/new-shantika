@@ -27,7 +27,7 @@ class AgencyRepository
         })
         ->when($request, function ($query) use ($request) {
             $query->where('name', 'ilike', '%' . $request->search . '%');
-        })
+        })->where('is_active', true)
         ->orderBy('id', 'desc')->get();
     }
 
