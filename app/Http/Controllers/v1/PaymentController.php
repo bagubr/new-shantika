@@ -46,7 +46,7 @@ class PaymentController extends Controller
 
         ]);
         $payment->update([
-            'status' => Payment::STATUS3,
+            'status' => Payment::STATUS2,
             'cancelation_reason' => 'Waktu Pembayaran Telah Habis'
         ]);
         try {
