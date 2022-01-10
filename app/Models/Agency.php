@@ -33,7 +33,8 @@ class Agency extends Model
         return $status;
     }
 
-    public function prices() {
+    public function prices()
+    {
         return $this->hasMany(AgencyPrice::class);
     }
 
@@ -52,11 +53,12 @@ class Agency extends Model
     }
     public function getMorningTimeAttribute()
     {
-        return $this->agency_departure_times()?->where('time_classification_id', 1)?->first()?->departure_at;
+        return 'Pagi ' . $this->agency_departure_times()?->where('time_classification_id', 1)
+            ?->first()?->departure_at . ' WIB'; 
     }
     public function getNightTimeAttribute()
     {
-        return $this->agency_departure_times()?->where('time_classification_id', 2)?->first()?->departure_at;
+        return 'Malam ' . $this->agency_departure_times()?->where('time_classification_id', 2)?->first()?->departure_at . ' WIB';
     }
     public function getCityNameAttribute()
     {
@@ -80,10 +82,12 @@ class Agency extends Model
     {
         Storage::disk('public')->delete($this->attributes['avatar']);
     }
-    public function orders() {
+    public function orders()
+    {
         return $this->hasMany(Order::class, 'departure_agency_id', 'id');
     }
-    public function order_details() {
+    public function order_details()
+    {
         return $this->hasManyThrough(OrderDetail::class, Order::class, 'departure_agency_id', 'order_id', 'id', 'id');
     }
 }
