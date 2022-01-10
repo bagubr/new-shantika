@@ -53,12 +53,14 @@ class Agency extends Model
     }
     public function getMorningTimeAttribute()
     {
-        return 'Pagi ' . $this->agency_departure_times()?->where('time_classification_id', 1)
-            ?->first()?->departure_at . ' WIB'; 
+        $departure_at = $this->agency_departure_times()?->where('time_classification_id', 1)
+            ?->first()?->departure_at;
+        return 'Pagi ' . date('H:i', strtotime($departure_at)) . ' WIB';
     }
     public function getNightTimeAttribute()
     {
-        return 'Malam ' . $this->agency_departure_times()?->where('time_classification_id', 2)?->first()?->departure_at . ' WIB';
+        $departure_at = $this->agency_departure_times()?->where('time_classification_id', 2)?->first()?->departure_at;
+        return 'Malam ' .  date('H:i', strtotime($departure_at)) . ' WIB';
     }
     public function getCityNameAttribute()
     {
