@@ -33,23 +33,25 @@ class PaymentController extends Controller
 
         DB::beginTransaction();
         // try {
-        $order = Order::with('payment')->where('status', Order::STATUS1)->whereHas('payment', function ($q) {
+        $orders = Order::with('payment')->where('status', Order::STATUS1)->whereHas('payment', function ($q) {
             $q->where('payment_type_id', 2);
         })->where('expired_at', '<', Carbon::now())->get();
-        if (empty($order)) {
+        if (empty($orders)) {
             return $this->sendFailedResponse([], 'Data Tidak Ditemukan');
         }
-        $payment = Payment::whereIn('order_id', $order->pluck('id'))->get();
-
-        $order->update([
-            'status' => Order::STATUS2,
-            'cancelation_reason' => 'Waktu Pembayaran Telah Habis'
-
-        ]);
-        $payment->update([
-            'status' => Payment::STATUS2,
-            'cancelation_reason' => 'Waktu Pembayaran Telah Habis'
-        ]);
+        
+        foreach ($orders as $order) {
+            $payment = Payment::where('order_id', $order->id)->first();
+            $order->update([
+                'status' => Order::STATUS2,
+                'cancelation_reason' => 'Waktu Pembayaran Telah Habis'
+    
+            ]);
+            $payment->update([
+                'status' => Payment::STATUS2,
+                'cancelation_reason' => 'Waktu Pembayaran Telah Habis'
+            ]);
+        }
         // DB::commit();
         return $this->sendSuccessResponse([
             'order' => $order
