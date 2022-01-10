@@ -20,7 +20,7 @@ class AgencyController extends Controller
      */
     public function index()
     {
-        $agencies = Agency::where('is_active', true)->with(['prices' => function ($query) {
+        $agencies = Agency::with(['prices'=>function($query) {
             $query->whereDate('start_at', '<=', date('Y-m-d'));
         }])->orderBy('id')->get();;
         $statuses = Agency::status();
