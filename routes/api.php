@@ -18,6 +18,7 @@ Route::prefix('_callback')
     ->namespace('App\Http\Controllers\v1')
     ->group(function() {
         Route::post('xendit', 'PaymentController@callbackXendit');
+        Route::get('change_order_status', 'PaymentController@ChangeOrderStatus');
     });
 
 

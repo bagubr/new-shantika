@@ -3,14 +3,18 @@
 namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Payment;
 use App\Repositories\PaymentRepository;
 use App\Services\PaymentService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
-    public function callbackXendit(Request $request) {
+    public function callbackXendit(Request $request)
+    {
         // if($request->header('X-CALLBACK-TOKEN') != env('HEADER_XENDIT')) {
         //     abort(404);
         // }
@@ -18,9 +22,42 @@ class PaymentController extends Controller
         $payment = PaymentRepository::findBySecret($request->id);
 
         $payment = PaymentService::receiveCallback($payment, $request->status);
-        
+
         return $this->sendSuccessResponse([
-            'payment'=>$payment
+            'payment' => $payment
         ]);
+    }
+
+    public function ChangeOrderStatus()
+    {
+
+        $order = Order::with('payment')->where('status', Order::STATUS1)->whereHas('payment', function ($q) {
+            $q->where('payment_type_id', 2);
+        })->where('expired_at', '<', Carbon::now())->first();
+        if (empty($order)) {
+            return $this->sendFailedResponse([], 'Data Tidak Ditemukan');
+        }
+        $payment = Payment::where('order_id', $order->id)->first();
+
+        DB::beginTransaction();
+        $order->update([
+            'status' => Order::STATUS2,
+            'cancelation_reason' => 'Waktu Pembayaran Telah Habis'
+
+        ]);
+        $payment->update([
+            'status' => Payment::STATUS3,
+            'cancelation_reason' => 'Waktu Pembayaran Telah Habis'
+        ]);
+        try {
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollback();
+        }
+
+
+        return $this->sendSuccessResponse([
+            'order' => $order
+        ], 'Data Pembayaran Berhasil Di Update');
     }
 }
