@@ -62,6 +62,7 @@ use App\Services\OrderService;
 use App\Utils\NotificationMessage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -92,6 +93,15 @@ Route::get('/test', function () {
         $order_id->user_id
     );
     PaymentAcceptedNotificationJob::dispatchAfterResponse($notification, $order_id->user?->fcm_token, true);
+});
+
+Route::get('/test/emial', function () {
+    // return env('MAIL_USERNAME');
+    Mail::send('_emails.test', [], function($message) {
+        $message->to('satriotol69@gmail.com', 'Satrio')->subject('Berhasil Menukarkan Tiket Test');
+        $message->from(env('MAIL_USERNAME'), 'Bagu');
+    });
+    return 'Alhamdulillah iso ngirim email';
 });
 
 Route::get('_/privacy_policy', [LoginController::class, 'privacyPolicy'])->name('_privacy_policy');
