@@ -316,12 +316,11 @@ Sketch
                         let index = this.getCurrentIndexByRowCol(row, col, 1)
                         chair = this.secondLayout.data.chairs.filter((e, i) =>  i == index)[0]
                     }
-                    if (chair.is_unavailable) {
-                        if(chair.is_selected) {
-                            return "btn bg-teal"
-                        } else if (chair.is_switched) {
-                            return "btn bg-green"
-                        }
+                    if(chair.is_selected) {
+                        return "btn bg-teal"
+                    } else if (chair.is_switched) {
+                        return "btn bg-green"
+                    } else if (chair.is_unavailable) {
                         return "btn btn-danger"
                     } else if (chair.is_unavailable_customer){
                         return "btn bg-purple"
@@ -357,10 +356,7 @@ Sketch
                 selectSeat(row,col,which) {
                     this.whichLayout(which)
                     let index = this.getCurrentIndexByRowCol(row, col,which)
-                    if(!this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable) {
-                        if (this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable_customer) {
-                            return alert("Maaf Kursi Yang Anda Pilih Adalah Kursi Customer");
-                        }
+                    if(!this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable && !this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable_customer) {
                         return alert("Pilih kursi yang sudah dibeli!");
                     }
                     if(this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected != true) {
@@ -374,10 +370,10 @@ Sketch
                     this.whichLayout(which)
                     let index = this.getCurrentIndexByRowCol(row, col)
                     if(this.secondLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable) {
-                        if (this.secondLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable_customer) {
-                            return alert("Maaf Kursi Yang Anda Pilih Adalah Kursi Customer");
-                        }
                         return alert("Pilih kursi yang belum dibeli!");
+                    }
+                    if (this.secondLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable_customer) {
+                        return alert("Maaf Kursi Yang Anda Pilih Adalah Kursi Customer");
                     }
                     let value = this.firstLayout.data.chairs.filter(e => e.is_selected == true)[0]
                     this.firstLayout.data.chairs.filter(e => e.is_selected  == true)[0].is_switched = true
