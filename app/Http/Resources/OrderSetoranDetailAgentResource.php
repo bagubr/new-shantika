@@ -29,7 +29,7 @@ class OrderSetoranDetailAgentResource extends JsonResource
             'commision'=>abs($this->sum("distribution.for_agent")),
             'earning'=>$this->sum('distribution.for_owner'),
             'checkpoint_destination'=>new CheckpointResource($this[0]->fleet_route->route?->checkpoints()->where('agency_id', $this[0]->destination_agency_id)->first()),
-            'price_sum'=>$this->sum('price') - $this->sum('distribution.for_travel') - $this->sum('distribution.charge'),
+            'price_sum'=>$this->getTotalTruePrice($this->pluck('order_detail')),
             'member_count'=>$coll_table_chairs->where('is_member', '==', 'Member')->count(),
             'travel_count'=>$coll_table_chairs->where('is_travel', '==', 'Travel')->count(),
             'food_price_sum'=>$this->sum('distribution.for_food'),
@@ -53,6 +53,17 @@ class OrderSetoranDetailAgentResource extends JsonResource
             }
         }
         
+        return $arr;
+    }
+
+    private function getTotalTruePrice($details)
+    {
+        $arr = 0;
+        foreach($details as $detail) {
+            foreach($detail as $order_detail) {
+                $arr += $order_detail->order->distribution->ticket_only;
+            }
+        }   
         return $arr;
     }
 
