@@ -60,7 +60,6 @@ class OrderDetailAgentResource extends JsonResource
             'price_feed'                =>$price_feed,
             'id_member'                 =>$this->id_member,
             'price'                     =>$distribution?->ticket_only,
-            // 'total_price'               =>$distribution->ticket_price,
             'total_price'               =>$this->price,
             'commision'                 =>$distribution?->for_agent,
             'review'                    =>$this->review
