@@ -23,9 +23,10 @@ class AuthController extends Controller
             $this->sendSuccessResponse([], $message = "Oops! Uuid doesn't match", $code = 401);
         }
         if(UserRepository::findUserIsAgent($user->id) && $request->type != 'CUSTOMER') {
+            $user_token = UserToken::where('user_id', $user->id)->where('user_agent', $request->userAgent())->first();
             $this->sendSuccessResponse([
                 'user' => $user,
-                'token'=>$user->token,
+                'token'=>$user_token->token,
             ], $message = "Uuid Matched !!!", $code = 200);
         }
         $user_token = UserToken::where('user_id', $user->id)->where('user_agent', $request->userAgent())->first();
@@ -34,7 +35,7 @@ class AuthController extends Controller
         }
         $this->sendSuccessResponse([
             'user' => $user,
-            'token'=>$user_token->token,
+            'token'=>   $user_token->token,
         ], $message = "Uuid Matched !!!", $code = 200);
     }
 
