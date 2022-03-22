@@ -52,6 +52,7 @@ use App\Http\Controllers\RestaurantBarcodeController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SketchLogController;
+use App\Http\Controllers\TimeChangeRouteController;
 use App\Jobs\Notification\TicketExchangedJob;
 use App\Jobs\PaymentAcceptedNotificationJob;
 use App\Models\Admin;
@@ -181,6 +182,7 @@ Route::group(['middleware' => ['auth']], function () {
     // end of restaurant
 
     Route::resources([
+        'time_change_route' => TimeChangeRouteController::class,
         'fleet_detail' => FleetDetailController::class,
         'fleets' => FleetController::class,
         'fleetclass' => FleetClassController::class,

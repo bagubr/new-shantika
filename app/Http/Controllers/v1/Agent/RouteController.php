@@ -23,6 +23,7 @@ class RouteController extends BaseRouteController
         $user = UserRepository::findByToken($request->bearerToken());
         $departure_agency = AgencyRepository::findWithCity($user->agencies->agency_id);
         $destination_agency = AgencyRepository::findWithCity($request->agency_id);
+        $time_classification_id = $request->time_classification_id;
 
         if (empty($destination_agency->is_active)) {
             return $this->sendFailedResponse([], 'Agen tujuan tidak aktif, mohon coba agen yang lain');
@@ -66,6 +67,11 @@ class RouteController extends BaseRouteController
                     $query->whereHas('agency.agent_departure', function($subquery) use ($time_start, $time_end, $departure_agency) {
                         $subquery->where('departure_at', '>', $time_start)->orWhere('departure_at', '<', $time_end);
                     });
+                });
+                $que->orWhereHas('time_change_route', function ($que2) use ($request)
+                {
+                    $que2->whereDate('date', $request->date);
+                    $que2->where('time_classification_id', $request->time_classification_id);
                 });
             })
             ->get();

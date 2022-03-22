@@ -264,6 +264,15 @@
                     </ul>
                 </li>
                 <li class="nav-item">
+                    <a href="{{route('time_change_route.index')}}"
+                        class="nav-link {{Request::routeIs('time_change_route.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-solid fa-clock-rotate-left"></i>
+                        <p>
+                            Perubahan Waktu
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{route('time_classification.index')}}"
                         class="nav-link {{Request::routeIs('time_classification.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-clock"></i>
