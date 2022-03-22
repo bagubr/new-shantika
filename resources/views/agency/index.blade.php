@@ -40,6 +40,10 @@ Agen
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label>Search</label>
+                                <input type="text" name="search" id="search" class="form-control">
+                            </div>
                         </div>
                         <div class="text-right m-2">
                             <button class="btn btn-success" type="submit">Cari</button>
@@ -68,7 +72,7 @@ Agen
                                     <th>Area</th>
                                     <th>Alamat</th>
                                     <th>No. Telepon</th>
-                                    <th>Jam Pagi | Malam</th>
+                                    <th>Jam {{ implode(' | ', \App\Models\TimeClassification::name()->toArray()) }}</th>
                                     <th>Status</th>
                                     <th>Avatar</th>
                                     <th>Harga</th>
@@ -85,8 +89,9 @@ Agen
                                     <td>{{$agency->address}}</td>
                                     <td>{{$agency->phone ?? '-'}}</td>
                                     <td>
-                                        {{$agency->morning_time}} |
-                                        {{$agency->night_time}}
+                                        @foreach($agency->time_group as $value)
+                                        {{$value}} |
+                                        @endforeach
                                     </td>
                                     @if ($agency->is_active == 1)
                                     <td data-toggle="modal" data-target="#exampleModal{{$agency->id}}"
@@ -154,6 +159,7 @@ Agen
                                 @endforeach
                             </tbody>
                         </table>
+                        {{$agencies->links("pagination::bootstrap-4")}}
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -169,7 +175,7 @@ Agen
 <script>
     $(function () {
       $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
+        "searching": false, "responsive": true, "lengthChange": false, "autoWidth": false,
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
 </script>

@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Http\Resources\Agency\AgencyWithAddressTelpResource;
 use App\Http\Resources\Agency\AgencyWithCityResource;
 use App\Models\BlockedChair;
 use App\Models\Booking;
