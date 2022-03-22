@@ -266,7 +266,7 @@
                 <li class="nav-item">
                     <a href="{{route('time_change_route.index')}}"
                         class="nav-link {{Request::routeIs('time_change_route.*') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-solid fa-clock-rotate-left"></i>
+                        <i class="nav-icon fas fa-clock"></i>
                         <p>
                             Perubahan Waktu
                         </p>
