@@ -62,7 +62,7 @@ class RouteController extends BaseRouteController
             })
             ->when($departure_agency->city->area_id == 2, function ($que) use ($departure_agency)
             {
-                $que->whereHas('agency_route', function ($query) use ($departure_agency)
+                $que->whereHas('fleet_detail.agency_fleet', function ($query) use ($departure_agency)
                 {
                     $query->where('agency_id', $departure_agency->id);
                 });

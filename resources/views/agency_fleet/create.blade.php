@@ -1,18 +1,18 @@
 @extends('layouts.main')
 @section('title')
-Rute Agen
+Armada Agen
 @endsection
 @section('content')
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Rute Agen Form</h1>
+                <h1>Armada Agen Form</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Rute Agen</li>
+                    <li class="breadcrumb-item active">Armada Agen</li>
                 </ol>
             </div>
         </div>
@@ -32,11 +32,11 @@ Rute Agen
                 </div>
                 <div class="card-body" style="display: block;">
                     @include('partials.error')
-                    <form action="@isset($agency_route)
-                        {{route('agency_route.update', $agency_route->id)}}
-                    @endisset @empty($agency_route) {{route('agency_route.store')}} @endempty" method="POST">
+                    <form action="@isset($agency_fleet)
+                        {{route('agency_fleet.update', $agency_fleet->id)}}
+                    @endisset @empty($agency_fleet) {{route('agency_fleet.store')}} @endempty" method="POST">
                         @csrf
-                        @isset($agency_route)
+                        @isset($agency_fleet)
                         @method('PUT')
                         @endisset
                         <div class="form-group">
@@ -45,8 +45,8 @@ Rute Agen
                                 <option value="">Pilih Agent</option>
                                 @foreach ($agencies as $agency)
                                 <option value="{{$agency->id}}" 
-                                    @isset($agency_route) 
-                                        @if ($agency->id == $agency_route->agency_id) selected
+                                    @isset($agency_fleet) 
+                                        @if ($agency->id == $agency_fleet->agency_id) selected
                                         @endif
                                     @endisset>{{$agency->city->name}}/{{$agency->name}}
                                 </option>
@@ -54,15 +54,15 @@ Rute Agen
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Rute</label><span class="text-danger">*</span>
-                            <select name="route_id" class="form-control select2" id="">
-                                <option value="">Pilih Rute</option>
-                                @foreach ($routes as $route)
-                                <option value="{{$route->id}}" 
-                                    @isset($agency_route) 
-                                        @if ($route->id == $agency_route->route_id) selected
+                            <label>Armada</label><span class="text-danger">*</span>
+                            <select name="fleet_id" class="form-control select2" id="">
+                                <option value="">Pilih Armada</option>
+                                @foreach ($fleets as $fleet)
+                                <option value="{{$fleet->id}}" 
+                                    @isset($agency_fleet) 
+                                        @if ($fleet->id == $agency_fleet->fleet_id) selected
                                         @endif
-                                    @endisset>{{$route->name}}
+                                    @endisset>{{$fleet->name}}
                                 </option>
                                 @endforeach
                             </select>

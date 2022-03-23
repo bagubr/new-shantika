@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAgencyRoutesTable extends Migration
+class CreateAgencyFleetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateAgencyRoutesTable extends Migration
      */
     public function up()
     {
-        Schema::create('agency_routes', function (Blueprint $table) {
+        Schema::create('agency_fleets', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('agency_id');
-            $table->unsignedBigInteger('route_id');
+            $table->unsignedBigInteger('fleet_id');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateAgencyRoutesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('agency_routes');
+        Schema::dropIfExists('agency_fleets');
     }
 }

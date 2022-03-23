@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Agency;
+use App\Models\AgencyFleet;
+use App\Models\Fleet;
+use App\Models\Route;
+use Illuminate\Http\Request;
+
+class AgencyFleetController extends Controller
+{
+    public function index()
+    {
+        $agency_fleets = AgencyFleet::get();
+        return view('agency_fleet.index', compact('agency_fleets'));
+    }
+
+    public function create()
+    {
+        $agencies = Agency::whereHas('city.area', function ($query)
+        {
+            $query->where('id', 2);
+        })->get();
+        $fleets = Fleet::get();
+        return view('agency_fleet.create', compact('agencies', 'fleets'));
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->all();
+        $agency_fleet = AgencyFleet::where('agency_id', $request->agency_id)->where('fleet_id', $request->fleet_id)->first();
+        if($agency_fleet){
+            session()->flash('error', 'Data sudah Ditambahkan');
+        }else{
+            AgencyFleet::create($data);
+            session()->flash('success', 'Data Berhasil Ditambahkan');
+        }
+        return redirect(route('agency_fleet.index'));
+    }
+
+    public function edit(AgencyFleet $agency_fleet)
+    {
+        $agencies = Agency::whereHas('city.area', function ($query)
+        {
+            $query->where('id', 2);
+        })->get();
+        $fleets = Fleet::get();
+        return view('agency_fleet.create', compact('agency_fleet', 'agencies', 'fleets'));
+    }
+
+    public function update(Request $request, AgencyFleet $agency_fleet)
+    {
+        $data = $request->all();
+        $agency_fleet->update($data);
+        session()->flash('success', 'Data Berhasil Dirubah');
+        return redirect(route('agency_fleet.index'));
+    }
+
+    public function destroy(AgencyFleet $agency_fleet)
+    {
+        $agency_fleet->delete();
+        session()->flash('success', 'Data Berhasil Dihapus');
+        return redirect(route('agency_fleet.index'));
+    }
+}

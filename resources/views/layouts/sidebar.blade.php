@@ -194,13 +194,6 @@
                                 <p>Rute Armada</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{route('agency_route.index')}}"
-                                class="nav-link {{Request::routeIs('agency_route.*') ? 'active' : ''}}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Rute Agen</p>
-                            </a>
-                        </li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -233,6 +226,13 @@
                                 class="nav-link {{Request::routeIs('user_agent.*') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Akun Agen</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('agency_fleet.index')}}"
+                                class="nav-link {{Request::routeIs('agency_fleet.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Armada Agen</p>
                             </a>
                         </li>
                     </ul>

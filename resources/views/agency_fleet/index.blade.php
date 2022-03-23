@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Rute Agen
+Armada Agen
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->
@@ -8,12 +8,12 @@ Rute Agen
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Rute Agen</h1>
+                <h1 class="m-0">Armada Agen</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Rute Agen</li>
+                    <li class="breadcrumb-item active">Armada Agen</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -26,9 +26,9 @@ Rute Agen
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Rute Agen</h3>
+                        <h3 class="card-title">Table Armada Agen</h3>
                         <div class="text-right">
-                            <a href="{{route('agency_route.create')}}" class="btn btn-primary btn-sm">Tambah</a>
+                            <a href="{{route('agency_fleet.create')}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -37,24 +37,24 @@ Rute Agen
                             <thead>
                                 <tr>
                                     <th>Agen</th>
-                                    <th>Rute</th>
+                                    <th>Armada</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($agency_routes as $agency_route)
+                                @foreach ($agency_fleets as $agency_fleet)
                                 <tr>
-                                    <td>{{$agency_route->agency->name}}</td>
-                                    <td>{{$agency_route->route->name}}</td>
+                                    <td>{{$agency_fleet->agency->name}}</td>
+                                    <td>{{$agency_fleet->fleet->name}}</td>
                                     <td>
-                                        <a href="{{route('agency_route.edit',$agency_route->id)}}"
+                                        <a href="{{route('agency_fleet.edit',$agency_fleet->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
-                                        <form action="{{route('agency_route.destroy',$agency_route->id)}}" class="d-inline"
+                                        <form action="{{route('agency_fleet.destroy',$agency_fleet->id)}}" class="d-inline"
                                             method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger btn-xs"
-                                                onclick="return confirm('Apakah Anda yakin akan menghapus data agency_route?')"
+                                                onclick="return confirm('Apakah Anda yakin akan menghapus data agency_fleet?')"
                                                 type="submit">Delete</button>
                                         </form>
                                     </td>

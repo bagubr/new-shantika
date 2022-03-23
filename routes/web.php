@@ -5,8 +5,8 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminNotificationController;
 use App\Http\Controllers\AgencyController;
+use App\Http\Controllers\AgencyFleetController;
 use App\Http\Controllers\AgencyPriceController;
-use App\Http\Controllers\AgencyRouteController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Auth\LoginController;
@@ -183,7 +183,7 @@ Route::group(['middleware' => ['auth']], function () {
     // end of restaurant
 
     Route::resources([
-        'agency_route' => AgencyRouteController::class,
+        'agency_fleet' => AgencyFleetController::class,
         'time_change_route' => TimeChangeRouteController::class,
         'fleet_detail' => FleetDetailController::class,
         'fleets' => FleetController::class,

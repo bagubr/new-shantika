@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AgencyRoute extends Model
+class AgencyFleet extends Model
 {
     use HasFactory;
     protected $fillable = [
         'agency_id',
-        'route_id'
+        'fleet_id'
     ];
 
     public function agency()
@@ -18,8 +18,8 @@ class AgencyRoute extends Model
         return $this->belongsTo(Agency::class, 'agency_id', 'id');
     }
 
-    public function route()
+    public function fleet()
     {
-        return $this->belongsTo(Route::class, 'route_id', 'id');
+        return $this->belongsTo(Fleet::class, 'fleet_id', 'id');
     }
 }
