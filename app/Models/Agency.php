@@ -20,6 +20,7 @@ class Agency extends Model
     protected $appends = [
         'avatar_url',
         'city_name',
+        'area_name',
         'morning_time',
         'night_time',
         'time_group'
@@ -57,7 +58,7 @@ class Agency extends Model
 
     public function city()
     {
-        return $this->belongsTo(City::class, 'city_id', 'id')->withTrashed();
+        return $this->belongsTo(City::class, 'city_id', 'id');
     }
     public function agency_departure_times()
     {
@@ -74,10 +75,17 @@ class Agency extends Model
         $departure_at = $this->agency_departure_times()?->where('time_classification_id', 2)?->first()?->departure_at;
         return 'Malam ' .  date('H:i', strtotime($departure_at)) . ' WIB';
     }
+
     public function getCityNameAttribute()
     {
         return $this->city()?->first()?->name;
     }
+
+    public function getAreaNameAttribute()
+    {
+        return $this->city()?->first()?->area()?->first()?->name;
+    }
+
     public function userAgent()
     {
         return $this->hasMany(UserAgent::class, 'agency_id');

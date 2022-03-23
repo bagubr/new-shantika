@@ -42,9 +42,10 @@ class AgencyController extends Controller
                 $q->where('area_id', $area_id);
             });
         }
-        $agencies = $agencies->with(['city' => function ($query) use ($search)
+        $agencies = $agencies
+        ->with(['city' => function ($query) use ($search, $area_id)
         {
-            $query->where('name', 'ilike', '%'.$search.'%');
+            $query->where('area_id', $area_id);
         }])
         ->where('name', 'ilike', '%'.$search.'%')
         ->orWhere('code', 'ilike', '%'.$search.'%')
@@ -54,7 +55,7 @@ class AgencyController extends Controller
         $test       = $request->flash();
         $agencies   = $agencies->orderBy('id')->paginate(10);
 
-        return view('agency.index', compact('agencies', 'statuses', 'test', 'areas'));
+        return view('agency.index', compact('agencies', 'statuses', 'test', 'areas', 'search'));
     }
     public function get_agency(Request $request)
     {

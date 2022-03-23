@@ -42,7 +42,7 @@ Agen
                             </div>
                             <div class="form-group">
                                 <label>Search</label>
-                                <input type="text" name="search" id="search" class="form-control">
+                                <input type="text" name="search" id="search" class="form-control" value="{{ @$search }}">
                             </div>
                         </div>
                         <div class="text-right m-2">
@@ -84,8 +84,8 @@ Agen
                                 <tr>
                                     <td>{{$agency->name}}</td>
                                     <td>{{$agency->code}}</td>
-                                    <td>{{$agency->city?->name}}</td>
-                                    <td>{{$agency->city?->area?->name}}</td>
+                                    <td>{{$agency->city_name}}</td>
+                                    <td>{{$agency->area_name}}</td>
                                     <td>{{$agency->address}}</td>
                                     <td>{{$agency->phone ?? '-'}}</td>
                                     <td>
@@ -159,7 +159,7 @@ Agen
                                 @endforeach
                             </tbody>
                         </table>
-                        {{$agencies->links("pagination::bootstrap-4")}}
+                        {{$agencies->appends(request()->query())->links("pagination::bootstrap-4")}}
                     </div>
                     <!-- /.card-body -->
                 </div>
