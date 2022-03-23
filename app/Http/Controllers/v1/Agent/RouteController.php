@@ -60,18 +60,25 @@ class RouteController extends BaseRouteController
             ->whereHas('prices', function($query) use ($date) {
                 $query->whereDate('start_at', '<=', $date)->whereDate('end_at', '>=', $date);
             })
-            ->when(($request->time_classification_id), function ($que) use ($request, $departure_agency) {
-                $que->whereHas('route.checkpoints', function ($query) use ($request, $departure_agency) {
-                    $time_start = TimeClassification::find($request->time_classification_id)->time_start;
-                    $time_end = TimeClassification::find($request->time_classification_id)->time_end;
-                    $query->whereHas('agency.agent_departure', function($subquery) use ($time_start, $time_end, $departure_agency) {
+            ->when($departure_agency->city->area_id == 2, function ($que) use ($departure_agency)
+            {
+                $que->whereHas('agency_route', function ($query) use ($departure_agency)
+                {
+                    $query->where('agency_id', $departure_agency->id);
+                });
+            })
+            ->when(($time_classification_id), function ($que) use ($date, $time_classification_id) {
+                $que->whereHas('route.checkpoints', function ($query) use ($time_classification_id) {
+                    $time_start = TimeClassification::find($time_classification_id)->time_start;
+                    $time_end = TimeClassification::find($time_classification_id)->time_end;
+                    $query->whereHas('agency.agent_departure', function($subquery) use ($time_start, $time_end) {
                         $subquery->where('departure_at', '>', $time_start)->orWhere('departure_at', '<', $time_end);
                     });
                 });
-                $que->orWhereHas('time_change_route', function ($que2) use ($request)
+                $que->orWhereHas('time_change_route', function ($que2) use ($date, $time_classification_id)
                 {
-                    $que2->whereDate('date', $request->date);
-                    $que2->where('time_classification_id', $request->time_classification_id);
+                    $que2->whereDate('date', $date);
+                    $que2->where('time_classification_id', $time_classification_id);
                 });
             })
             ->get();

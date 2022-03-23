@@ -30,6 +30,11 @@ class FleetRoute extends Model
         'created_at', 'updated_at'
     ];
 
+    public function agency_route()
+    {
+        return $this->hasMany(AgencyRoute::class, 'route_id', 'route_id');
+    }
+
     public function fleet_detail()
     {
         return $this->belongsTo(FleetDetail::class, 'fleet_detail_id', 'id')->withTrashed();

@@ -194,6 +194,13 @@
                                 <p>Rute Armada</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{route('agency_route.index')}}"
+                                class="nav-link {{Request::routeIs('agency_route.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Rute Agen</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item">
