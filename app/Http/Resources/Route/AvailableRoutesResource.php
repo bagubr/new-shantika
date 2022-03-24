@@ -39,11 +39,11 @@ class AvailableRoutesResource extends JsonResource
         ->whereDate('start_at', '<=', $request->date)
         ->orderBy('created_at', 'desc')
         ->first()->price;
-        if(empty($fleet_class_price)) {
-            $price = $agency_destiny->city->area_id == 1 
-            ? $departure_agency->prices->sortByDesc('start_at')->first()->price 
-            : $agency_destiny->prices->sortByDesc('start_at')->first()->price;
-        } else {
+        if($agency_destiny->city->area_id == 1){
+            $price = $agency_destiny->prices->sortByDesc('start_at')->first()->price;
+        }elseif($agency_destiny->city->area_id == 2){
+            $price = $departure_agency->prices->sortByDesc('start_at')->first()->price;
+        }else{
             $price = $fleet_class_price;
         }
         $price += $this->prices()
