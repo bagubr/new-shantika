@@ -58,7 +58,7 @@ class User extends Authenticatable
     }
     public function membership()
     {
-        return $this->belongsTo(Membership::class, 'id', 'user_id');
+        return $this->hasOne(Membership::class, 'user_id', 'id');
     }
 
     public function token()
@@ -70,4 +70,5 @@ class User extends Authenticatable
     {
         return $this->name . ' (' . $this->agencies?->agent?->name . ')' ?? '';
     }
+
 }
