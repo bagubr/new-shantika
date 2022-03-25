@@ -20,8 +20,10 @@ class Agency extends Model
     protected $appends = [
         'avatar_url',
         'city_name',
+        'area_name',
         'morning_time',
-        'night_time'
+        'night_time',
+        'time_group'
     ];
 
     public static function status()
@@ -31,6 +33,17 @@ class Agency extends Model
             1 => 'Aktif',
         ];
         return $status;
+    }
+
+    public function getTimeGroupAttribute()
+    {
+        $time = TimeClassification::orderBy('id')->get()->map(function ($item) {
+            $departure_at = $this->agency_departure_times()?->where('time_classification_id', $item->id)
+            ?->first()?->departure_at;
+            $item2 = $item->name.' '. date('H:i', strtotime($departure_at)) . ' WIB';
+            return $item2;
+        });
+        return $time;
     }
 
     public function prices()
@@ -62,10 +75,17 @@ class Agency extends Model
         $departure_at = $this->agency_departure_times()?->where('time_classification_id', 2)?->first()?->departure_at;
         return 'Malam ' .  date('H:i', strtotime($departure_at)) . ' WIB';
     }
+
     public function getCityNameAttribute()
     {
         return $this->city()?->first()?->name;
     }
+
+    public function getAreaNameAttribute()
+    {
+        return $this->city()?->first()?->area()?->first()?->name;
+    }
+
     public function userAgent()
     {
         return $this->hasMany(UserAgent::class, 'agency_id');

@@ -7,6 +7,7 @@ use App\Http\Requests\Agency\UpdateAgencyRequest;
 use App\Models\Agency;
 use App\Models\AgencyDepartureTime;
 use App\Models\Area;
+use App\Models\TimeClassification;
 use App\Repositories\AgencyRepository;
 use App\Repositories\CityRepository;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class AgencyController extends Controller
     {
         $agencies = Agency::with(['prices'=>function($query) {
             $query->whereDate('start_at', '<=', date('Y-m-d'));
-        }])->orderBy('id')->get();;
+        }])->orderBy('id')->paginate(10);
         $statuses = Agency::status();
         $areas = Area::get();
         return view('agency.index', compact('agencies', 'statuses', 'areas'));
@@ -30,25 +31,31 @@ class AgencyController extends Controller
     public function search(Request $request)
     {
         $area_id  = $request->area_id;
+        $search  = $request->search;
         $agencies   = Agency::query();
         $statuses = Agency::status();
         $areas = Area::get();
-
-
+        
+        
         if (!empty($area_id)) {
             $agencies = $agencies->whereHas('city', function ($q) use ($area_id) {
                 $q->where('area_id', $area_id);
             });
         }
+        $agencies = $agencies
+        ->with(['city' => function ($query) use ($search, $area_id)
+        {
+            $query->where('area_id', $area_id);
+        }])
+        ->where('name', 'ilike', '%'.$search.'%')
+        ->orWhere('code', 'ilike', '%'.$search.'%')
+        ->orWhere('phone', 'ilike', '%'.$search.'%')
+        ->orWhere('address', 'ilike', '%'.$search.'%');
+        
         $test       = $request->flash();
-        $agencies   = $agencies->get();
+        $agencies   = $agencies->orderBy('id')->paginate(10);
 
-        if (!$agencies->isEmpty()) {
-            session()->flash('success', 'Data Order Berhasil Ditemukan');
-        } else {
-            session()->flash('error', 'Tidak Ada Data Ditemukan');
-        }
-        return view('agency.index', compact('agencies', 'statuses', 'test', 'areas'));
+        return view('agency.index', compact('agencies', 'statuses', 'test', 'areas', 'search'));
     }
     public function get_agency(Request $request)
     {
@@ -73,7 +80,8 @@ class AgencyController extends Controller
     public function create()
     {
         $cities = CityRepository::all();
-        return view('agency.create', compact('cities'));
+        $time_classifications = TimeClassification::orderBy('id')->get();
+        return view('agency.create', compact('cities', 'time_classifications'));
     }
 
     /**
@@ -90,16 +98,14 @@ class AgencyController extends Controller
             $data['avatar'] = $request->avatar->store('avatar', 'public');
         }
         $agency = Agency::create($data);
-        AgencyDepartureTime::create([
-            'agency_id'                 => $agency->id,
-            'departure_at'              => $request->departure_at,
-            'time_classification_id'    => 1
-        ]);
-        AgencyDepartureTime::create([
-            'agency_id'                 => $agency->id,
-            'departure_at'              => $request->departure_at1,
-            'time_classification_id'    => 2
-        ]);
+        $time_classifications = TimeClassification::orderBy('id')->get();
+        foreach ($request->departure_at as $key => $value) {
+            AgencyDepartureTime::create([
+                'agency_id'                 => $agency->id,
+                'departure_at'              => $value,
+                'time_classification_id'    => $time_classifications[$key]->id
+            ]);
+        }
         session()->flash('success', 'Agency Berhasil Ditambahkan');
         return redirect(route('agency.index'));
     }
@@ -124,9 +130,11 @@ class AgencyController extends Controller
     public function edit(Agency $agency)
     {
         $cities = CityRepository::all();
-        $agency_departure = AgencyDepartureTime::where('agency_id', $agency->id)->where('time_classification_id', 1)->first();
-        $agency_departure1 = AgencyDepartureTime::where('agency_id', $agency->id)->where('time_classification_id', 2)->first();
-        return view('agency.create', compact('agency', 'cities', 'agency_departure', 'agency_departure1'));
+        $time_classifications = TimeClassification::orderBy('id')->get();
+        foreach ($time_classifications as $key => $value) {
+            $time_classifications[$key]->agency_departure = AgencyDepartureTime::where('agency_id', $agency->id)->where('time_classification_id', $value->id)->get();
+        }
+        return view('agency.create', compact('agency', 'cities', 'time_classifications'));
     }
 
     /**
@@ -139,26 +147,25 @@ class AgencyController extends Controller
     public function update(UpdateAgencyRequest $request, Agency $agency)
     {
         $data = $request->all();
+        // dd($data);
         if ($request->hasFile('avatar')) {
             $avatar = $request->avatar->store('avatar', 'public');
             $agency->deleteAvatar();
             $data['avatar'] = $avatar;
         };
-
-        $agency_departure = AgencyDepartureTime::where('agency_id', $agency->id)->where('time_classification_id', 1)->first();
-        $agency_departure1 = AgencyDepartureTime::where('agency_id', $agency->id)->where('time_classification_id', 2)->first();
+        $time_classifications = TimeClassification::orderBy('id')->get();
         $agency->update($data);
-        $agency_departure->update([
-            'agency_id'     => $agency->id,
-            'departure_at'  => $request->departure_at,
-        ]);
-        $agency_departure1->update([
-            'agency_id'     => $agency->id,
-            'departure_at'  => $request->departure_at1,
-        ]);
+        foreach ($time_classifications as $key => $value) {
+            $agency_departure = AgencyDepartureTime::where('agency_id', $agency->id)->where('time_classification_id', $value->id)->first();
+            $agency_departure->update([
+                'departure_at' => $data['departure_at'][$key]
+            ]);
+            
+        }
         session()->flash('success', 'Agency Berhasil Diperbarui');
         return redirect(route('agency.index'));
     }
+    
     public function update_status(Request $request, Agency $agency)
     {
         $agency->update([
