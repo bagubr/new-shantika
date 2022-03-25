@@ -228,6 +228,13 @@
                                 <p>Akun Agen</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{route('agency_fleet.index')}}"
+                                class="nav-link {{Request::routeIs('agency_fleet.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Armada Agen</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item {{Request::routeIs('user.*','status_penumpang.*','member.*') ? 'menu-open' : ''}}">
@@ -262,6 +269,15 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('time_change_route.index')}}"
+                        class="nav-link {{Request::routeIs('time_change_route.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-clock"></i>
+                        <p>
+                            Perubahan Waktu
+                        </p>
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{route('time_classification.index')}}"

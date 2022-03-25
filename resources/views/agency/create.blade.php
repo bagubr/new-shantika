@@ -74,20 +74,20 @@ Agen
                             </select>
                         </div>
                         <div class="form-row">
+                            @foreach($time_classifications as $key => $time_classification)
                             <div class="col">
                                 <div class="form-group">
-                                    <label>Jam Keberangkatan Pagi</label>
-                                    <input type="time" class="form-control" name="departure_at" required
-                                        value="{{isset($agency) ? $agency_departure->departure_at : ''}}">
+                                    <label>Jam Keberangkatan {{ $time_classification->name }}</label>
+                                    @if($time_classification->agency_departure)
+                                        @foreach($time_classification->agency_departure as $agency_departure)
+                                            <input type="time" class="form-control" name="departure_at[]" required value="{{isset($agency) ? $agency_departure->departure_at : ''}}">
+                                        @endforeach
+                                    @else
+                                        <input type="time" class="form-control" name="departure_at[]" required value="{{isset($agency) ? $agency_departure->departure_at : ''}}">
+                                    @endif
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <label>Jam Keberangkatan Malam</label>
-                                    <input type="time" class="form-control" name="departure_at1"
-                                        value="{{isset($agency) ? $agency_departure1->departure_at : ''}}" required>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                         <div class="form-group">
                             <label>No. Telepon</label>
@@ -135,6 +135,7 @@ Agen
             </div>
             <!-- /.card -->
         </div>
+        @isset($agency)
         <div class="col-md-6">
             <div class="card card-primary">
                 <div class="card-header">
@@ -191,6 +192,7 @@ Agen
                 <!-- /.card-body -->
             </div>
         </div>
+        @endisset
     </div>
 </section>
 @endsection
