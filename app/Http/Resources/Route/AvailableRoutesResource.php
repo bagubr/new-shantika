@@ -2,20 +2,14 @@
 
 namespace App\Http\Resources\Route;
 
-use App\Http\Resources\CheckpointResource;
 use App\Http\Resources\CheckpointStartEndResource;
 use App\Models\Agency;
 use App\Models\BlockedChair;
-use App\Models\Booking;
-use App\Models\Fleet;
-use App\Models\FleetRoutePrice;
-use App\Models\LayoutChair;
 use App\Models\Order;
 use App\Models\Layout;
 use App\Models\OrderDetail;
 use App\Repositories\AgencyRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class AvailableRoutesResource extends JsonResource
 {
@@ -39,11 +33,13 @@ class AvailableRoutesResource extends JsonResource
         ->whereDate('start_at', '<=', $request->date)
         ->orderBy('created_at', 'desc')
         ->first()->price;
-        if(empty($fleet_class_price)) {
-            $price = $agency_destiny->city->area_id == 1 
-            ? $departure_agency->prices->sortByDesc('start_at')->first()->price 
-            : $agency_destiny->prices->sortByDesc('start_at')->first()->price;
-        } else {
+        // JAWA
+        if($agency_destiny->city->area_id == 1){
+            $price = $departure_agency->prices->sortByDesc('start_at')->first()->price;
+        // JABODETABEK
+        }elseif($agency_destiny->city->area_id == 2){
+            $price = $agency_destiny->prices->sortByDesc('start_at')->first()->price;
+        }else{
             $price = $fleet_class_price;
         }
         $price += $this->prices()
