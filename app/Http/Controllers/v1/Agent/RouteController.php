@@ -43,7 +43,7 @@ class RouteController extends BaseRouteController
                     $subquery->where('agency_id', $destination_agency->id)
                         ->whereHas('agency', function($subsubquery) use ($date, $departure_agency) {
                             $subsubquery->where('is_active', true)
-                            ->when($departure_agency->city->area_id == 1, function ($subsubsubquery, $date) 
+                            ->when($departure_agency->city->area_id == 1, function ($subsubsubquery) use ($date)
                             {
                                 $subsubsubquery->whereHas('prices', function($subsubsubsubquery) use ($date) {
                                     $subsubsubsubquery->where('start_at', '<=', $date);
