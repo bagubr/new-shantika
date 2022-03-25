@@ -4,6 +4,11 @@ Sketch
 @endsection
 @push('css')
 <style>
+    .sticky {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+    }
     .bg-chocolate {
         background-color: #603415 !important;
     }
@@ -39,9 +44,9 @@ Sketch
         </div>
     </div>
 </div>
-<div class="content" id="app-sketch">
-    <div class="container-fluid">
-        <div class="card">
+<div class="content" id="app-sketch" v-scroll="onScroll">
+    <div class="container-fluid" >
+        <div class="card sticky "  style="z-index: 1000" >
             <div class="row p-2">
                 <div class="col-md-12">
                     <div class="form-group">
@@ -174,7 +179,8 @@ Sketch
                     isShowInGrid: true,
                     fleet: {},
                     data: {}
-                }
+                },
+
             },
             methods: {
                 searchOrders() {
@@ -258,7 +264,7 @@ Sketch
                         this.secondLayout.fleet = res.fleet
                     }).finally(() => {
                         this.secondLayout.isLoading = false
-                    }) 
+                    })
                 },
                 getCurrentIndexByRowCol(row, col, which) {
                     if(which == 0) {
@@ -269,7 +275,7 @@ Sketch
                 },
                 loadText(row, col, which) {
                     this.whichLayout(which);
-                    
+
                     let chair;
                     if(which == 0) {
                         let index = this.getCurrentIndexByRowCol(row, col, 0)
@@ -307,7 +313,7 @@ Sketch
                 },
                 loadClass(row, col, which) {
                     this.whichLayout(which);
-                
+
                     let chair;
                     if(which == 0) {
                         let index = this.getCurrentIndexByRowCol(row, col, 0)
