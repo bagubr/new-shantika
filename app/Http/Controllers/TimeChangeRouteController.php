@@ -26,12 +26,11 @@ class TimeChangeRouteController extends Controller
     
     public function store(Request $request)
     {
-        // $user = Order::with('user')->whereHas('user', function ($query)
-        // {
-        //     $query->whereNotNull('fcm_token');
-        // })->whereDate('reserve_at', $request->date)->where('fleet_route_id' ,$request->fleet_route_id)->get();
-        // dd($user);
-        // dd($request->time_classification_id);
+        $time_change = TimeChangeRoute::whereDate('date', $request->date)->where('fleet_route_id' ,$request->fleet_route_id)->where('time_classification_id', $request->time_classification_id)->first();
+        if($time_change){
+            session()->flash('error', 'Data sudah ada');
+            return redirect(route('time_change_route.index'));
+        }
         TimeChangeService::create($request->all());
         session()->flash('success', 'Waktu Berhasil Ditambahkan');
         return redirect(route('time_change_route.index'));

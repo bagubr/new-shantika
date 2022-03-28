@@ -58,7 +58,7 @@ Waktu
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger btn-xs"
-                                                onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                                onclick="return confirm('Apakah Anda Yakin Menghapus Data Ini (Hal ini tidak akan mengembalikan Proses yang terjadi)?? ')"
                                                 type="submit">Delete</button>
                                         </form>
                                     </td>

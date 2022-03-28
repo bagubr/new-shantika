@@ -83,7 +83,7 @@ Time Change
                             </div>
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
-                        <input type="submit" value="Submit" class="btn btn-success float-right">
+                        <input onclick="return confirm('Apakah Anda Yakin (Proses yang terjadi tidak dapat di kembalikan)?? ')" type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
                 </div>
                 <!-- /.card-body -->
