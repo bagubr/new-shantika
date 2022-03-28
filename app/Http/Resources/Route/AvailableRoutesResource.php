@@ -8,6 +8,7 @@ use App\Models\BlockedChair;
 use App\Models\Order;
 use App\Models\Layout;
 use App\Models\OrderDetail;
+use App\Models\TimeChangeRoute;
 use App\Repositories\AgencyRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -49,17 +50,20 @@ class AvailableRoutesResource extends JsonResource
             ->first()
             ->true_deviation_price??0;
 
-        return [
-            'id'                        => $this->id,
-            'layout_id'                 => $this->fleet_detail->fleet->layout->id,
-            'route_name'                => $route->name,
-            'fleet_name'                => $this->fleet_detail->fleet->name ?? "",
-            'fleet_class'               => $this->fleet_detail->fleet->fleetclass->name,
-            'departure_at'              => $agency_destiny->agency_departure_times->first()->departure_at,
-            'price'                     => $price,
-            'chairs_available'          => $this->getChairsAvailable($request, $this->fleet_detail_id, $this->id, $this->fleet_detail->fleet->layout_id),
-            'checkpoints'               => $this->when(count($route->checkpoints) >= 1, new CheckpointStartEndResource($route, $agency_destiny, $departure_agency)),
-        ];
+        $time_change = TimeChangeRoute::whereDate('date', $request->date)->where('fleet_route_id', $this->id)->where('time_classification_id', '!=', $this->fleet_detail->time_classification_id)->first();
+        if(empty($time_change)){
+            return [
+                'id'                        => $this->id,
+                'layout_id'                 => $this->fleet_detail->fleet->layout->id,
+                'route_name'                => $route->name,
+                'fleet_name'                => $this->fleet_detail->fleet->name ?? "",
+                'fleet_class'               => $this->fleet_detail->fleet->fleetclass->name,
+                'departure_at'              => $agency_destiny->agency_departure_times->first()->departure_at,
+                'price'                     => $price,
+                'chairs_available'          => $this->getChairsAvailable($request, $this->fleet_detail_id, $this->id, $this->fleet_detail->fleet->layout_id),
+                'checkpoints'               => $this->when(count($route->checkpoints) >= 1, new CheckpointStartEndResource($route, $agency_destiny, $departure_agency)),
+            ];
+        }
     }
 
     private function getChairsAvailable($request, $fleet_detail_id, $fleet_route_id, $layout_id) {
