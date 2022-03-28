@@ -24,6 +24,10 @@ class SouvenirRepository {
         {
             return 0;
         }
+        if((int) $SR->getSouvenirQuantity($data['souvenir_id']) < $data['quantity'])
+        {
+            return 0;
+        }
         $SR->Souvenir()->find($data['souvenir_id'])->decrement('quantity', $data['quantity']);
         $pointUsed = $data['quantity'] * (int) $SR->getSouvenirPricePoint($data['souvenir_id']);
         $result = [
@@ -67,6 +71,11 @@ class SouvenirRepository {
     public function getSouvenirPricePoint($id)
     {
         return $this->Souvenir()->where('id', $id)->first()->point;
+    }
+
+    public function getSouvenirQuantity($id)
+    {
+        return $this->Souvenir()->where('id', $id)->first()->quantity;
     }
 
     public static function getListSouvenir()
