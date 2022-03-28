@@ -96,7 +96,7 @@ Armada Rute
                                         ({{$fleet_route->fleet_detail?->nickname}})
                                     </td>
                                     <td>
-                                        {{$fleet_route->route?->checkpoints[0]?->agency?->city?->area?->name}}
+                                        {{@$fleet_route->route?->checkpoints[0]?->agency?->city?->area?->name}}
                                     </td>
                                     <td>
                                         <a href="{{route('routes.show',$fleet_route->route_id)}}">

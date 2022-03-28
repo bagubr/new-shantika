@@ -40,6 +40,11 @@ class FleetRoute extends Model
         return $this->belongsTo(Route::class, 'route_id', 'id');
     }
 
+    public function time_change_route()
+    {
+        return $this->belongsTo(TimeChangeRoute::class, 'id', 'fleet_route_id');
+    }
+
     public function orders()
     {
         return $this->hasMany(Order::class, 'fleet_route_id', 'id');

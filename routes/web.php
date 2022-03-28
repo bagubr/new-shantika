@@ -5,6 +5,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminNotificationController;
 use App\Http\Controllers\AgencyController;
+use App\Http\Controllers\AgencyFleetController;
 use App\Http\Controllers\AgencyPriceController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\ArticleController;
@@ -52,6 +53,7 @@ use App\Http\Controllers\RestaurantBarcodeController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SketchLogController;
+use App\Http\Controllers\TimeChangeRouteController;
 use App\Jobs\Notification\TicketExchangedJob;
 use App\Jobs\PaymentAcceptedNotificationJob;
 use App\Models\Admin;
@@ -181,6 +183,8 @@ Route::group(['middleware' => ['auth']], function () {
     // end of restaurant
 
     Route::resources([
+        'agency_fleet' => AgencyFleetController::class,
+        'time_change_route' => TimeChangeRouteController::class,
         'fleet_detail' => FleetDetailController::class,
         'fleets' => FleetController::class,
         'fleetclass' => FleetClassController::class,
