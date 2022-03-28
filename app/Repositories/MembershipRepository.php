@@ -27,16 +27,19 @@ class MembershipRepository {
         ];
     }
 
-    public function getUser()
-    {
-        return User::find($this->idRequest);
-    }
 
     public static function createMembership($id)
     {
         $membership = Membership::create(['user_id' => $id]);
         MembershipPoint::create(['membership_id' => $membership->id, 'value' => 0, 'status' => 'create']);
         return MembershipRepository::getHome($id);
+    }
+
+    public function incrementPoint($data)
+    {
+        $data['status'] = 'redeem';
+        return $this->MembershipPoint()
+            ->create($data);
     }
 
     public function getMembershipId()
@@ -49,10 +52,6 @@ class MembershipRepository {
         return $this->getUser()->membership->sum_point;
     }
 
-    public function MembershipPoint()
-    {
-        return new MembershipPoint;
-    }
 
     public function getPointHistory($id)
     {
@@ -71,10 +70,6 @@ class MembershipRepository {
         return $this->getUser()->membership->code_member;
     }
 
-    public function SouvenirRepository()
-    {
-        return new SouvenirRepository;
-    }
 
     public function getRedeemHistory()
     {
@@ -95,5 +90,20 @@ class MembershipRepository {
     public function getName()
     {
         return $this->getUser()->name;
+    }
+
+    public function getUser()
+    {
+        return User::find($this->idRequest);
+    }
+
+    public function MembershipPoint()
+    {
+        return new MembershipPoint;
+    }
+
+    public function SouvenirRepository()
+    {
+        return new SouvenirRepository;
     }
 }
