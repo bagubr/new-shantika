@@ -15,7 +15,7 @@ class MembershipPointFactory extends Factory
     {
         $status = rand(0,1);
         return [
-            'membership_id' => 17216,
+            'membership_id' => 17219,
             'value' => $status ? 10000 : 1000,
             'status' => $status ? 'purchase' : 'redeem'
         ];
