@@ -5,6 +5,7 @@ namespace App\Http\Controllers\v1;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\Setting;
 use App\Repositories\MembershipRepository;
 use App\Repositories\PaymentRepository;
 use App\Services\PaymentService;
@@ -33,7 +34,7 @@ class PaymentController extends Controller
 
         $this->MembershipRep->incrementPoint([
             'membership_id' => $this->MembershipRep->getUser($payment->order->user_id)->membership->id,
-            'value' => 10
+            'value' => Setting::find(1)->point_purchase
         ]);
 
         return $this->sendSuccessResponse([

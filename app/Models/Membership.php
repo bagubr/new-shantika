@@ -19,7 +19,7 @@ class Membership extends Model
     }
 
     protected $fillable = [
-        'agency_id', 'code_member', 'user_id'
+        'agency_id', 'code_member', 'user_id', 'sum_point'
     ];
 
     protected $appends = [
