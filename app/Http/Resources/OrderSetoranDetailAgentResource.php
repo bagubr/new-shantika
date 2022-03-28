@@ -52,7 +52,7 @@ class OrderSetoranDetailAgentResource extends JsonResource
                 ];
             }
         }
-        
+
         return $arr;
     }
 
@@ -63,7 +63,7 @@ class OrderSetoranDetailAgentResource extends JsonResource
             foreach($detail as $order_detail) {
                 $arr += $order_detail->order->distribution->ticket_only;
             }
-        }   
+        }
         return $arr;
     }
 

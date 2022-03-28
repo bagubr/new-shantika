@@ -5,6 +5,8 @@ namespace App\Http\Controllers\v1;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\Setting;
+use App\Repositories\MembershipRepository;
 use App\Repositories\PaymentRepository;
 use App\Services\PaymentService;
 use Carbon\Carbon;
@@ -13,6 +15,13 @@ use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
+    protected $MembershipRep;
+
+    public function __construct()
+    {
+        $this->MembershipRep = new MembershipRepository;
+    }
+
     public function callbackXendit(Request $request)
     {
         // if($request->header('X-CALLBACK-TOKEN') != env('HEADER_XENDIT')) {
@@ -22,6 +31,11 @@ class PaymentController extends Controller
         $payment = PaymentRepository::findBySecret($request->id);
 
         $payment = PaymentService::receiveCallback($payment, $request->status);
+
+        $this->MembershipRep->incrementPoint([
+            'membership_id' => $this->MembershipRep->getUser($payment->order->user_id)->membership->id,
+            'value' => Setting::find(1)->point_purchase
+        ]);
 
         return $this->sendSuccessResponse([
             'payment' => $payment

@@ -8,6 +8,7 @@ use App\Models\BlockedChair;
 use App\Models\Order;
 use App\Models\Layout;
 use App\Models\OrderDetail;
+use App\Models\TimeChangeRoute;
 use App\Repositories\AgencyRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 
