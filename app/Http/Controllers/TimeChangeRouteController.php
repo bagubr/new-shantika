@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\FleetRoute;
+use App\Models\Order;
 use App\Models\TimeChangeRoute;
 use App\Models\TimeClassification;
+use App\Services\TimeChangeService;
 use Illuminate\Http\Request;
 
 class TimeChangeRouteController extends Controller
@@ -21,10 +23,16 @@ class TimeChangeRouteController extends Controller
         $time_classifications = TimeClassification::all();
         return view('time_change.create', compact('fleet_routes', 'time_classifications'));
     }
-
+    
     public function store(Request $request)
     {
-        TimeChangeRoute::create($request->all());
+        // $user = Order::with('user')->whereHas('user', function ($query)
+        // {
+        //     $query->whereNotNull('fcm_token');
+        // })->whereDate('reserve_at', $request->date)->where('fleet_route_id' ,$request->fleet_route_id)->get();
+        // dd($user);
+        // dd($request->time_classification_id);
+        TimeChangeService::create($request->all());
         session()->flash('success', 'Waktu Berhasil Ditambahkan');
         return redirect(route('time_change_route.index'));
     }

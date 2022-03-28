@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Agen
+Harga Agen
 @endsection
 @push('css')
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
@@ -17,12 +17,12 @@ Agen
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Agen Form</h1>
+                <h1>Harga Agen Form</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Agen</li>
+                    <li class="breadcrumb-item active">Harga Agen</li>
                 </ol>
             </div>
         </div>
@@ -30,124 +30,11 @@ Agen
 </section>
 <section class="content">
     <div class="row">
-        <div class="col-md-6">
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">Form</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="card-body" style="display: block;">
-                    @include('partials.error')
-                    <form action="@isset($agency)
-                        {{route('agency.update', $agency->id)}}
-                    @endisset @empty($agency) {{route('agency.store')}} @endempty" method="POST"
-                        enctype="multipart/form-data">
-                        @csrf
-                        @isset($agency)
-                        @method('PUT')
-                        @endisset
-                        <div class="form-group">
-                            <label for="inputName">Nama Agen</label>
-                            <input type="text" id="inputName" class="form-control" name="name"
-                                placeholder="Masukkan Nama" required value="{{isset($agency) ? $agency->name : ''}}">
-                        </div>
-                        <div class="form-group">
-                            <label for="inputName">Kode Agen</label>
-                            <input type="text" id="inputName" class="form-control" name="code"
-                                placeholder="Masukkan Kode" required value="{{isset($agency) ? $agency->code : ''}}">
-                        </div>
-                        <div class="form-group">
-                            <label>Kota</label>
-                            <select class="form-control select2" name="city_id" style="width: 100%;" required>
-                                <option value="">Pilih Kota</option>
-                                @foreach ($cities as $city)
-                                <option value="{{$city->id}}" @isset($agency) @if ($city->id ===
-                                    $agency->city_id)
-                                    selected
-                                    @endif @endisset>{{$city->name}}
-                                </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-row">
-                            @foreach($time_classifications as $key => $time_classification)
-                            <div class="col">
-                                <div class="form-group">
-                                    <label>Jam Keberangkatan {{ $time_classification->name }}</label>
-                                    @if($time_classification->agency_departure)
-                                        @foreach($time_classification->agency_departure as $agency_departure)
-                                            <input type="time" class="form-control" name="departure_at[]" required value="{{isset($agency) ? $agency_departure->departure_at : ''}}">
-                                        @endforeach
-                                    @else
-                                        <input type="time" class="form-control" name="departure_at[]" required value="{{isset($agency) ? $agency_departure->departure_at : ''}}">
-                                    @endif
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                        <div class="form-group">
-                            <label>No. Telepon</label>
-                            <input type="tel" name="phone" class="form-control" placeholder="Masukkan Nomor Telp" id=""
-                                value="{{isset($agency) ? $agency->phone : ''}}" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Alamat</label>
-                            <input type="text" name="address" class="form-control" placeholder="Masukkan Alamat" id=""
-                                value="{{isset($agency) ? $agency->address : ''}}" required>
-                        </div>
-                        <div class="form-group">
-                            <div id="mapid"></div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label>Koordinat Latitude</label>
-                                    <input class="form-control" type="text" id="lat" name="lat"
-                                        value="{{isset($agency) ? $agency->lat : ''}}">
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <label>Koordinat Longtitude</label>
-                                    <input class="form-control" type="text" id="lng" name="lng"
-                                        value="{{isset($agency) ? $agency->lng : ''}}">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Avatar</label>
-                            <input type="file" class="form-control" name="avatar" accept="image/*">
-                            @isset($agency)
-                            <a href="{{$agency->avatar_url}}" data-toggle="lightbox">
-                                <img src="{{$agency->avatar_url}}" style="height: 100px">
-                            </a>
-                            @endisset
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" name="is_agen"class="form-check-input" id="" value="{{isset($agency) ? $agency->is_agent : ''}}">
-                            <label class="form-check-label">&nbsp; Agen ?</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="" name="is_route" value="{{isset($agency) ? $agency->is_route : ''}}">
-                            <label class="form-check-label">&nbsp; Rute ?</label>
-                        </div>
-                        <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
-                        <input type="submit" value="Submit" class="btn btn-success float-right">
-                    </form>
-                </div>
-                <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-        </div>
         @isset($agency)
         <div class="col-md-6">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Harga Tujuan Agen</h3>
+                    <h3 class="card-title">Harga Tiket Sebagai Agen Keberangkatan</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -160,11 +47,11 @@ Agen
                         <input type="hidden" name="agency_id" value="{{@$agency->id}}">
                         <div class="form-group col-4">
                             <label for="">Harga</label>
-                            <input type="number" name="price" class="form-control" id="">
+                            <input type="number" name="agency_price" class="form-control" id="">
                         </div>
                         <div class="form-group col-4">
                             <label for="">Mulai Dari</label>
-                            <input type="datetime-local" name="start_at" class="form-control" id="">
+                            <input type="datetime-local" name="start_at_agency" class="form-control" id="">
                         </div>
                         <div class="form-group col-4 align-self-center">
                             <button type="submit" class="btn btn-success w-100">Submit</button>
@@ -180,12 +67,68 @@ Agen
                         </thead>
                         <tbody>
                             @if(!empty($agency))
-                            @foreach($agency->prices as $price)
+                            @foreach($agency_price as $price)
                             <tr>
                                 <td>Rp. {{number_format($price->price)}}</td>
                                 <td>{{date('d F Y', strtotime($price->start_at))}}</td>
                                 <td>
                                     <form action="{{route('agency_price.destroy', $price->id)}}" method="POST">
+                                        @method('delete')
+                                        @csrf
+                                        <button type="submit" class="badge badge-danger border-0">Hapus</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Harga Tiket Sebagai Rute</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" style="display: block;">
+                    <form action="{{route('route_price.store')}}" method="post" class="row">
+                        @csrf
+                        <input type="hidden" name="agency_id" value="{{@$agency->id}}">
+                        <div class="form-group col-4">
+                            <label for="">Harga</label>
+                            <input type="number" name="route_price" class="form-control" id="">
+                        </div>
+                        <div class="form-group col-4">
+                            <label for="">Mulai Dari</label>
+                            <input type="datetime-local" name="start_at_route" class="form-control" id="">
+                        </div>
+                        <div class="form-group col-4 align-self-center">
+                            <button type="submit" class="btn btn-success w-100">Submit</button>
+                        </div>
+                    </form>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Harga</th>
+                                <th>Mulai Tanggal</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(!empty($agency))
+                            @foreach($route_price as $price)
+                            <tr>
+                                <td>Rp. {{number_format($price->price)}}</td>
+                                <td>{{date('d F Y', strtotime($price->start_at))}}</td>
+                                <td>
+                                    <form action="{{route('route_price.destroy', $price->id)}}" method="POST">
                                         @method('delete')
                                         @csrf
                                         <button type="submit" class="badge badge-danger border-0">Hapus</button>

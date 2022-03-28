@@ -88,4 +88,9 @@ class NotificationMessage {
         }
         return $split[0];
     }
+
+    public static function timeChange($data)
+    {
+        return ['Perhatian! Perubahan rute keberangkatan', 'Maaf Perjalanan anda telah berganti menjadi keberangkatan '. $data->time_classification->name];
+    }
 }

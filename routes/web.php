@@ -212,8 +212,9 @@ Route::group(['middleware' => ['auth']], function () {
         'fleet_route' => FleetRouteController::class,
         'status_penumpang' => StatusPenumpangController::class,
         'agency_price' => AgencyPriceController::class,
-
     ]);
+    Route::post('route_price', [AgencyPriceController::class, 'storeRoute'])->name('route_price.store');
+    Route::delete('route_price/{id}', [AgencyPriceController::class, 'destroyRoute'])->name('route_price.destroy');
 
     // Lainnya
 

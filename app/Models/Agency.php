@@ -14,7 +14,7 @@ class Agency extends Model
     protected $table = 'agencies';
 
     protected $fillable = [
-        'name', 'code', 'city_id', 'lat', 'lng', 'address', 'avatar', 'is_active', 'phone'
+        'name', 'code', 'city_id', 'lat', 'lng', 'address', 'avatar', 'is_active', 'phone', 'is_agent', 'is_route'
     ];
 
     protected $appends = [
@@ -39,7 +39,7 @@ class Agency extends Model
     {
         $time = TimeClassification::orderBy('id')->get()->map(function ($item) {
             $departure_at = $this->agency_departure_times()?->where('time_classification_id', $item->id)
-            ?->first()?->departure_at;
+            ?->orderBy('id')->first()?->departure_at;
             $item2 = $item->name.' '. date('H:i', strtotime($departure_at)) . ' WIB';
             return $item2;
         });
@@ -67,12 +67,12 @@ class Agency extends Model
     public function getMorningTimeAttribute()
     {
         $departure_at = $this->agency_departure_times()?->where('time_classification_id', 1)
-            ?->first()?->departure_at;
+            ?->orderBy('id')->first()?->departure_at;
         return 'Pagi ' . date('H:i', strtotime($departure_at)) . ' WIB';
     }
     public function getNightTimeAttribute()
     {
-        $departure_at = $this->agency_departure_times()?->where('time_classification_id', 2)?->first()?->departure_at;
+        $departure_at = $this->agency_departure_times()?->where('time_classification_id', 2)?->orderBy('id')->first()?->departure_at;
         return 'Malam ' .  date('H:i', strtotime($departure_at)) . ' WIB';
     }
 
