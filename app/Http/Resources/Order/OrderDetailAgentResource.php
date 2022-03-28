@@ -38,7 +38,7 @@ class OrderDetailAgentResource extends JsonResource
         $price_feed = $distribution?->for_food;
         $price_travel = $distribution?->for_travel;
         $price_member = $distribution?->for_member;
-        
+
         return [
             'id'                        =>$this->id,
             'code_order'                =>$this->code_order ?? $this->code_booking,

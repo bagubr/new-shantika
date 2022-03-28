@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\v1\Customer\MembershipController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -21,17 +22,22 @@ Route::group([
         Route::get('tiket', 'OrderController@tiket');
         Route::post('review_list','ReviewController@index');
         Route::post('review','ReviewController@create');
+        Route::get('membership', [MembershipController::class, 'index']);
+        Route::get('membership/pointhistory', [MembershipController::class, 'pointHistory']);
+        Route::get('souvenir', [MembershipController::class, 'listSouvenir']);
+        Route::post('souvenir/redeem', [MembershipController::class, 'redeem']);
+        Route::get('souvenir/{id}', [MembershipController::class, 'showSouvenir']);
     });
     Route::get('agencies','AgencyController@getAllAgen');
     Route::get('fleet_lists','FleetController@index');
     Route::get('fleet_class','FleetClassController@index');
     Route::get('fleet_detail/{id}','FleetController@show');
-    
+
     Route::group([
         'middleware'=>'api.auth.user'
     ], function() {
-        
-        
+
+
         Route::group(['namespace' => 'Customer'], function() {
             Route::get('test','TestimonialController@index');
             Route::get('profile', 'UserController@show');
