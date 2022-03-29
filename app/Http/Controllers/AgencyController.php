@@ -150,7 +150,6 @@ class AgencyController extends Controller
     public function update(UpdateAgencyRequest $request, Agency $agency)
     {
         $data = $request->all();
-        // dd($data);
         if ($request->hasFile('avatar')) {
             $avatar = $request->avatar->store('avatar', 'public');
             $agency->deleteAvatar();
@@ -163,7 +162,6 @@ class AgencyController extends Controller
             $agency_departure->update([
                 'departure_at' => $data['departure_at'][$key]
             ]);
-            
         }
         session()->flash('success', 'Agency Berhasil Diperbarui');
         return redirect(route('agency.index'));
