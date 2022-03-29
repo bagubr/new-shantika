@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\FleetRoute;
+use App\Models\Order;
 use App\Models\TimeChangeRoute;
 use App\Models\TimeClassification;
+use App\Services\TimeChangeService;
 use Illuminate\Http\Request;
 
 class TimeChangeRouteController extends Controller
@@ -21,10 +23,15 @@ class TimeChangeRouteController extends Controller
         $time_classifications = TimeClassification::all();
         return view('time_change.create', compact('fleet_routes', 'time_classifications'));
     }
-
+    
     public function store(Request $request)
     {
-        TimeChangeRoute::create($request->all());
+        $time_change = TimeChangeRoute::whereDate('date', $request->date)->where('fleet_route_id' ,$request->fleet_route_id)->where('time_classification_id', $request->time_classification_id)->first();
+        if($time_change){
+            session()->flash('error', 'Data sudah ada');
+            return redirect(route('time_change_route.index'));
+        }
+        TimeChangeService::create($request->all());
         session()->flash('success', 'Waktu Berhasil Ditambahkan');
         return redirect(route('time_change_route.index'));
     }
@@ -39,7 +46,8 @@ class TimeChangeRouteController extends Controller
     public function update(Request $request, TimeChangeRoute $time_change_route)
     {
         $data = $request->all();
-        $time_change_route->update($data);
+        // $time_change_route->update($data);
+        TimeChangeService::update($time_change_route, $data);
 
         session()->flash('success', 'Waktu Berhasil Dirubah');
         return redirect(route('time_change.index'));

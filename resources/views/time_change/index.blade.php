@@ -51,14 +51,14 @@ Waktu
                                     <td>{{$time_change_route->time_classification->name}}</td>
                                     <td>{{$time_change_route->date}}</td>
                                     <td>
-                                        <a href="{{route('time_change_route.edit',$time_change_route->id)}}"
-                                            class="btn btn-warning btn-xs">Edit</a>
+                                        {{-- <a href="{{route('time_change_route.edit',$time_change_route->id)}}"
+                                            class="btn btn-warning btn-xs">Edit</a> --}}
                                         <form action="{{route('time_change_route.destroy',$time_change_route->id)}}"
                                             class="d-inline" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger btn-xs"
-                                                onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                                onclick="return confirm('Apakah Anda Yakin Menghapus Data Ini (Hal ini tidak akan mengembalikan Proses yang sudah terjadi)?? ')"
                                                 type="submit">Delete</button>
                                         </form>
                                     </td>

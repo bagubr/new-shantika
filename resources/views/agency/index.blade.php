@@ -76,6 +76,8 @@ Agen
                                     <th>Status</th>
                                     <th>Avatar</th>
                                     <th>Harga</th>
+                                    <th>Agent</th>
+                                    <th>Rute</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -112,10 +114,22 @@ Agen
                                     <td>
                                         {{ number_format(@$agency->prices[0]->price) ?: '-' }}
                                     </td>
+                                    @if($agency->is_agent)
+                                        <td>Ya</td>
+                                    @else
+                                        <td>Tidak Tidak</td>
+                                    @endif
+                                    @if($agency->is_route)
+                                        <td>Ya</td>
+                                    @else
+                                        <td>Tidak</td>
+                                    @endif
                                     <td>
                                         @unlessrole('owner')
                                         <a href="{{route('agency.edit',$agency->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
+                                        <a href="{{route('agency_price.show',$agency->id)}}"
+                                            class="btn btn-primary btn-xs">Edit Harga</a>
                                         <a class="btn btn-danger btn-xs button-delete"
                                             data-id="{{$agency->id}}">Delete</a>
                                         @endunlessrole

@@ -135,7 +135,7 @@ class AgencyController extends Controller
         $cities = CityRepository::all();
         $time_classifications = TimeClassification::orderBy('id')->get();
         foreach ($time_classifications as $key => $value) {
-            $time_classifications[$key]->agency_departure = AgencyDepartureTime::where('agency_id', $agency->id)->where('time_classification_id', $value->id)->get();
+            $time_classifications[$key]->agency_departure = AgencyDepartureTime::where('agency_id', $agency->id)->where('time_classification_id', $value->id)->orderBy('id')->limit(1)->get();
         }
         return view('agency.create', compact('agency', 'cities', 'time_classifications'));
     }
