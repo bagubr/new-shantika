@@ -68,6 +68,13 @@ class RouteController extends BaseRouteController
                         $subquery->where('departure_at', '>', $time_start)->orWhere('departure_at', '<', $time_end);
                     });
                 });
+                $que->whereDoesntHave('time_change_route', function ($que2) use ( $time_classification_id)
+                {
+                    $que2->whereHas('fleet_route.fleet_detail', function ($que4) use ($time_classification_id)
+                    {
+                        $que4->where('time_classification_id', $time_classification_id);
+                    });
+                });
                 $que->orWhereHas('time_change_route', function ($que2) use ($date, $time_classification_id)
                 {
                     $que2->whereDate('date', $date);
