@@ -19,6 +19,7 @@ class RouteController extends BaseRouteController
         $departure_agency = AgencyRepository::findWithCity($user->agencies->agency_id);
         $destination_agency = AgencyRepository::findWithCity($request->agency_id);
         $time_classification_id = $request->time_classification_id;
+        $fleet_class_id = $request->fleet_class_id;
 
         if (empty($destination_agency->is_active)) {
             return $this->sendFailedResponse([], 'Agen tujuan tidak aktif, mohon coba agen yang lain');
@@ -60,7 +61,7 @@ class RouteController extends BaseRouteController
             ->whereHas('prices', function($query) use ($date) {
                 $query->whereDate('start_at', '<=', $date)->whereDate('end_at', '>=', $date);
             })
-            ->when(($time_classification_id), function ($que) use ($date, $time_classification_id) {
+            ->when(($time_classification_id), function ($que) use ($date, $time_classification_id, $fleet_class_id) {
                 $que->whereHas('route.checkpoints', function ($query) use ($time_classification_id) {
                     $time_start = TimeClassification::find($time_classification_id)->time_start;
                     $time_end = TimeClassification::find($time_classification_id)->time_end;
@@ -75,10 +76,14 @@ class RouteController extends BaseRouteController
                         $que4->where('time_classification_id', $time_classification_id);
                     });
                 });
-                $que->orWhereHas('time_change_route', function ($que2) use ($date, $time_classification_id)
+                $que->orWhereHas('time_change_route', function ($que2) use ($date, $time_classification_id, $fleet_class_id)
                 {
                     $que2->whereDate('date', $date);
                     $que2->where('time_classification_id', $time_classification_id);
+                    $que2->whereHas('fleet_route.fleet_detail.fleet', function ($que4) use ($time_classification_id, $fleet_class_id)
+                    {
+                        $que4->where('fleet_class_id', $fleet_class_id);
+                    });
                 });
             })
             ->get();
