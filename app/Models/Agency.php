@@ -112,4 +112,9 @@ class Agency extends Model
     {
         return $this->hasManyThrough(OrderDetail::class, Order::class, 'departure_agency_id', 'order_id', 'id', 'id');
     }
+
+    public function agency_fleet()
+    {
+        return $this->hasMany(AgencyFleet::class, 'agency_id', 'id');
+    }
 }

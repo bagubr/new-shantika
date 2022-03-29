@@ -50,4 +50,9 @@ class Fleet extends Model
     {
         Storage::disk('public')->delete($this->attributes['image']);
     }
+
+    public function agency_fleet()
+    {
+        return $this->hasMany(AgencyFleet::class, 'fleet_id', 'id');
+    }
 }

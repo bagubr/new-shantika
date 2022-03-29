@@ -28,7 +28,7 @@ Armada Agen
                     <div class="card-header">
                         <h3 class="card-title">Table Armada Agen</h3>
                         <div class="text-right">
-                            <a href="{{route('agency_fleet.create')}}" class="btn btn-primary btn-sm">Tambah</a>
+                            {{-- <a href="{{route('agency_fleet.create')}}" class="btn btn-primary btn-sm">Tambah</a> --}}
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -36,27 +36,19 @@ Armada Agen
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Agen</th>
                                     <th>Armada</th>
+                                    <th>Agen</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($agency_fleets as $agency_fleet)
+                                @foreach ($fleets as $fleet)
                                 <tr>
-                                    <td>{{$agency_fleet->agency->name}}</td>
-                                    <td>{{$agency_fleet->fleet->name}}</td>
+                                    <td>{{$fleet->name}}</td>
+                                    <td>{{implode(', ',$fleet->agency_fleet->pluck('agency.name')->toArray())}}</td>
                                     <td>
-                                        <a href="{{route('agency_fleet.edit',$agency_fleet->id)}}"
-                                            class="btn btn-warning btn-xs">Edit</a>
-                                        <form action="{{route('agency_fleet.destroy',$agency_fleet->id)}}" class="d-inline"
-                                            method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger btn-xs"
-                                                onclick="return confirm('Apakah Anda yakin akan menghapus data agency_fleet?')"
-                                                type="submit">Delete</button>
-                                        </form>
+                                        <a href="{{route('agency_fleet.edit',$fleet->id)}}"
+                                            class="btn btn-warning btn-xs">Tambah Agent</a>
                                     </td>
                                 </tr>
                                 @endforeach

@@ -12,8 +12,8 @@ class AgencyFleetController extends Controller
 {
     public function index()
     {
-        $agency_fleets = AgencyFleet::get();
-        return view('agency_fleet.index', compact('agency_fleets'));
+        $fleets = Fleet::get();
+        return view('agency_fleet.index', compact('fleets'));
     }
 
     public function create()
@@ -36,17 +36,23 @@ class AgencyFleetController extends Controller
             AgencyFleet::create($data);
             session()->flash('success', 'Data Berhasil Ditambahkan');
         }
-        return redirect(route('agency_fleet.index'));
+        return redirect()->back();
     }
 
-    public function edit(AgencyFleet $agency_fleet)
+    public function edit($id)
     {
+        $fleet = Fleet::find($id);
         $agencies = Agency::whereHas('city.area', function ($query)
         {
             $query->where('id', 2);
-        })->get();
-        $fleets = Fleet::get();
-        return view('agency_fleet.create', compact('agency_fleet', 'agencies', 'fleets'));
+        })
+        ->whereDoesntHave('agency_fleet', function ($query) use ($id)
+        {
+            $query->where('fleet_id', $id);
+        })
+        ->get();
+        $agency_fleets = AgencyFleet::where('fleet_id', $id)->get();
+        return view('agency_fleet.create', compact('agency_fleets', 'agencies', 'fleet'));
     }
 
     public function update(Request $request, AgencyFleet $agency_fleet)
