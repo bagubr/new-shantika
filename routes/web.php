@@ -53,6 +53,7 @@ use App\Http\Controllers\RestaurantBarcodeController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SketchLogController;
+use App\Http\Controllers\SouvenirController;
 use App\Http\Controllers\TimeChangeRouteController;
 use App\Jobs\Notification\TicketExchangedJob;
 use App\Jobs\PaymentAcceptedNotificationJob;
@@ -214,6 +215,8 @@ Route::group(['middleware' => ['auth']], function () {
         'agency_price' => AgencyPriceController::class,
 
     ]);
+
+    Route::resource('souvenir',SouvenirController::class)->parameter('souvenir', 'id');
 
     // Lainnya
 

@@ -128,4 +128,12 @@ class MembershipController extends Controller
         $data = SouvenirRepository::showSouvenir($id)->toArray();
         return $this->sendSuccessResponse(['data' => $data], 'Berhasil Menampilkan Data Souvenir');
     }
+
+    public function detailRedeem($id)
+    {
+        $SR = new SouvenirRepository;
+        $data = $SR->getRedeemDetailHistory($id);
+
+        return $this->sendSuccessResponse(['data' => $data], 'Berhasil Menampilkan Detail Redeem Souvenir');
+    }
 }

@@ -11,13 +11,27 @@ class SouvenirRedeem extends Model
 
     protected $fillable = ['quantity', 'point_used', 'status', 'membership_id', 'souvenir_id'];
 
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i:s',
+        'updated_at' => 'datetime:Y-m-d H:i:s'
+    ];
+
+    protected $appends = [
+        'souvenir'
+    ];
+
+    public function GetSouvenirAttribute()
+    {
+        return $this->souvenir()->first()->name;
+    }
+
     public function membership()
     {
-        return $this->belongsTo(Membership::class, 'id', 'membership_id');
+        return $this->belongsTo(Membership::class, 'membership_id', 'id');
     }
 
     public function souvenir()
     {
-        return $this->belongsTo(Souvenir::class, 'id', 'souvenir_id');
+        return $this->belongsTo(Souvenir::class, 'souvenir_id', 'id');
     }
 }

@@ -15,8 +15,13 @@ class MembershipPoint extends Model
         'status'
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i:s',
+        'updated_at' => 'datetime:Y-m-d H:i:s'
+    ];
+
     public function membership()
     {
-        return $this->belongsTo(Membership::class, 'id', 'membership_id');
+        return $this->belongsTo(Membership::class, 'membership_id', 'id');
     }
 }
