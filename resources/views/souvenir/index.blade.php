@@ -25,7 +25,7 @@
                 <a href="{{route('souvenir.create')}}" class="btn btn-primary mb-2">Buat Souvenir Baru</a>
             </div>
             <div class="col-md-12">
-                <table class="table table-striped">
+                <table class="table table-striped text-center">
                     <thead>
                         <th>No</th>
                         <th>Gambar</th>
@@ -39,8 +39,8 @@
                         @foreach($data as $each)
                         <tr>
                             <td>{{ ($data ->currentpage()-1) * $data ->perpage() + $loop->index + 1 }}</td>
-                            <td><img src='{{url("storage/".$each->image_name)}}'
-                                    class="img-rounded w-50 img-thumbnail" />
+                            <td><img src='{{url("storage/".$each->image_name)}}' style="max-width: 200px;"
+                                    class="img-rounded img-thumbnail" />
                             </td>
                             <td>{{$each->name}}</td>
                             <td>{{$each->description}}</td>
@@ -48,9 +48,9 @@
                             <td>{{$each->quantity}}</td>
                             <td>
                                 <div class="row justify-content-center">
-                                    <a href="{{route('souvenir.edit', ['souvenir' => $each->id])}}"
-                                        class="btn btn-primary col mx-1 my-1">Edit</a>
-                                    <input id="{{$each->id}}" class="btn btn-danger button-delete col mx-1 my-1"
+                                    <a href="{{route('souvenir.edit', ['id' => $each->id])}}"
+                                        class="btn btn-primary col-md-4 mx-1 my-1">Edit</a>
+                                    <input id="{{$each->id}}" class="btn btn-danger button-delete col-md-4 mx-1 my-1"
                                         value="Delete">
                                 </div>
                             </td>
