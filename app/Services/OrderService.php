@@ -22,6 +22,7 @@ use App\Repositories\OrderRepository;
 use App\Utils\Response;
 use App\Repositories\UserRepository;
 use App\Utils\NotificationMessage;
+use App\Utils\PriceTiket;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -43,12 +44,7 @@ class OrderService
         }
         $setting = Setting::first();
 
-        $price  = self::getPrice($data);
-        $price += $data->fleet_route->prices()->whereDate('start_at', '<=', $data->reserve_at)
-            ->whereDate('end_at', '>=', $data->reserve_at)
-            ->orderBy('created_at', 'desc')
-            ->first()
-            ->true_deviation_price;
+        $price  = PriceTiket::priceTiket(FleetRoute::find($data->fleet_route_id), Agency::find($data->departure_agency_id), Agency::find($data->destination_agency_id), $data->reserve_at);
         $for_deposit = $price;
         $ticket_price_with_food = $detail->is_feed
             ? $price * count($detail->layout_chair_id)
@@ -84,26 +80,6 @@ class OrderService
         self::sendNotification($order);
 
         return $order;
-    }
-
-    private static function getPrice(Order $data)
-    {
-        if ($data->fleet_route->fleet_detail->fleet->fleetclass->prices->isEmpty()) {
-            $price = $data->agency_destiny->city->area_id == 1
-                ? $data->agency->prices->sortByDesc('start_at')->first()->price
-                : $data->agency_destiny->prices->sortByDesc('start_at')->first()->price;
-        } else {
-            $price = $data->fleet_route->fleet_detail
-                ->fleet->fleetclass
-                ->prices()
-                ->where('area_id', $data->agency_destiny->city->area_id)
-                ->whereDate('start_at', '<=', $data->reserve_at)
-                ->orderBy('start_at', 'desc')
-                ->first()->price;
-        }
-        if (empty($price)) (new self)->sendFailedResponse([], 'Maaf, harga nya sepertinya sedang kami ubah, silahkan cek beberapa saat lagi');
-
-        return $price;
     }
 
     private static function sendNotification($order)
@@ -182,7 +158,7 @@ class OrderService
             'status' => Order::STATUS5,
             'exchanged_at' => date('Y-m-d H:i:s')
         ]);
-        $for_deposit = (new self)->getPrice($order);
+        $for_deposit = PriceTiket::priceTiket(FleetRoute::find($order->fleet_route_id), Agency::find($order->departure_agency_id), Agency::find($order->destination_agency_id), $order->reserve_at);
         $total_price = OrderPriceDistributionService::calculateDistribution($order, $order->order_detail, $for_deposit);
         $order->distribution()->update([
             'for_agent' => $total_price['for_agent'],
