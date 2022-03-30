@@ -9,7 +9,7 @@ class SouvenirRedeem extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['quantity', 'point_used', 'status', 'membership_id', 'souvenir_id'];
+    protected $fillable = ['quantity', 'point_used', 'status', 'membership_id', 'souvenir_id', 'note'];
 
     protected $casts = [
         'created_at' => 'datetime:Y-m-d H:i:s',
