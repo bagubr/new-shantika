@@ -17,10 +17,10 @@ class SouvenirRedeem extends Model
     ];
 
     protected $appends = [
-        'souvenir'
+        'souvenir_name'
     ];
 
-    public function GetSouvenirAttribute()
+    public function GetSouvenirNameAttribute()
     {
         return $this->souvenir()->first()->name;
     }
