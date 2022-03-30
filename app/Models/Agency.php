@@ -23,7 +23,9 @@ class Agency extends Model
         'area_name',
         'morning_time',
         'night_time',
-        'time_group'
+        'time_group',
+        'price_agency',
+        'price_route',
     ];
 
     public static function status()
@@ -46,9 +48,29 @@ class Agency extends Model
         return $time;
     }
 
+    public function getPriceAgencyAttribute()
+    {
+        return $this->agency_prices()->whereDate('start_at', '<=',date(now()))->orderBy('start_at', 'desc')->orderBy('id', 'desc')->first()?->price??0;
+    }
+
+    public function getPriceRouteAttribute()
+    {
+        return $this->route_prices()->whereDate('start_at', '<=',date(now()))->orderBy('start_at', 'desc')->orderBy('id', 'desc')->first()?->price??0;
+    }
+
     public function prices()
     {
         return $this->hasMany(AgencyPrice::class);
+    }
+
+    public function agency_prices()
+    {
+        return $this->hasMany(AgencyPrice::class);
+    }
+
+    public function route_prices()
+    {
+        return $this->hasMany(RoutePrice::class);
     }
 
     public function agent_departure()
