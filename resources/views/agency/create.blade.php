@@ -30,7 +30,7 @@ Agen
 </section>
 <section class="content">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col">
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Form</h3>
@@ -127,13 +127,22 @@ Agen
                             </a>
                             @endisset
                         </div>
-                        <div class="form-check">
-                            <input type="checkbox" name="is_agen"class="form-check-input" id="" value="{{isset($agency) ? $agency->is_agent : ''}}">
-                            <label class="form-check-label">&nbsp; Agen ?</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="" name="is_route" value="{{isset($agency) ? $agency->is_route : ''}}">
-                            <label class="form-check-label">&nbsp; Rute ?</label>
+
+                        <div class="form-row">
+                            <div class="form-group col">
+                                <label>Agen</label>
+                                <div class="form-check">
+                                    <input class="form-control" type="checkbox" class="form-check-input" id="checkbox-agent"  {{(isset($agency) && $agency->is_agent) ? 'checked' : ''}} value="{{isset($agency)?$agency->is_agent: 0}}">
+                                    <input id="checkbox-value-agent" type="hidden" name="is_agent">
+                                </div>
+                            </div>
+                            <div class="form-group col">
+                                <label>Rute Pemberhentian</label>
+                                <div class="form-check">
+                                    <input class="form-control" type="checkbox" class="form-check-input" id="checkbox-route"  {{(isset($agency) && $agency->is_route) ? 'checked' : ''}} value="{{isset($agency)?$agency->is_route: 0}}">
+                                    <input id="checkbox-value-route" type="hidden" name="is_route">
+                                </div>
+                            </div>
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
@@ -143,68 +152,34 @@ Agen
             </div>
             <!-- /.card -->
         </div>
-        @isset($agency)
-        <div class="col-md-6">
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">Harga Tujuan Agen</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="card-body" style="display: block;">
-                    <form action="{{route('agency_price.store')}}" method="post" class="row">
-                        @csrf
-                        <input type="hidden" name="agency_id" value="{{@$agency->id}}">
-                        <div class="form-group col-4">
-                            <label for="">Harga</label>
-                            <input type="number" name="price" class="form-control" id="">
-                        </div>
-                        <div class="form-group col-4">
-                            <label for="">Mulai Dari</label>
-                            <input type="datetime-local" name="start_at" class="form-control" id="">
-                        </div>
-                        <div class="form-group col-4 align-self-center">
-                            <button type="submit" class="btn btn-success w-100">Submit</button>
-                        </div>
-                    </form>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Harga</th>
-                                <th>Mulai Tanggal</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if(!empty($agency))
-                            @foreach($agency->prices as $price)
-                            <tr>
-                                <td>Rp. {{number_format($price->price)}}</td>
-                                <td>{{date('d F Y', strtotime($price->start_at))}}</td>
-                                <td>
-                                    <form action="{{route('agency_price.destroy', $price->id)}}" method="POST">
-                                        @method('delete')
-                                        @csrf
-                                        <button type="submit" class="badge badge-danger border-0">Hapus</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            @endforeach
-                            @endif
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.card-body -->
-            </div>
-        </div>
-        @endisset
     </div>
 </section>
 @endsection
 @push('script')
+<script>
+    $('#checkbox-value-route').val($('#checkbox-route').val());
+
+    $("#checkbox-route").on('change', function() {
+    if ($(this).is(':checked')) {
+        $(this).val(1);
+    } else {
+        $(this).val(0);
+    }
+    $('#checkbox-value-route').val($('#checkbox-route').val());
+    });
+</script>
+<script>
+    $('#checkbox-value-agent').val($('#checkbox-agent').val());
+
+    $("#checkbox-agent").on('change', function() {
+    if ($(this).is(':checked')) {
+        $(this).val(1);
+    } else {
+        $(this).val(0);
+    }
+    $('#checkbox-value-agent').val($('#checkbox-agent').val());
+    });
+</script>
 <script>
     $(function () {
         $('.select2').select2()

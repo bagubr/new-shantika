@@ -51,7 +51,7 @@ Harga Agen
                         </div>
                         <div class="form-group col-4">
                             <label for="">Mulai Dari</label>
-                            <input type="datetime-local" name="start_at_agency" class="form-control" id="">
+                            <input type="date" name="start_at_agency" class="form-control" id="">
                         </div>
                         <div class="form-group col-4 align-self-center">
                             <button type="submit" class="btn btn-success w-100">Submit</button>
@@ -107,7 +107,7 @@ Harga Agen
                         </div>
                         <div class="form-group col-4">
                             <label for="">Mulai Dari</label>
-                            <input type="datetime-local" name="start_at_route" class="form-control" id="">
+                            <input type="date" name="start_at_route" class="form-control" id="">
                         </div>
                         <div class="form-group col-4 align-self-center">
                             <button type="submit" class="btn btn-success w-100">Submit</button>

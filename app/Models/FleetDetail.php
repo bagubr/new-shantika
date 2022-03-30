@@ -13,11 +13,6 @@ class FleetDetail extends Model
         'fleet_id', 'time_classification_id', 'plate_number', 'nickname'
     ];
 
-    public function agency_fleet()
-    {
-        return $this->hasMany(AgencyFleet::class, 'fleet_id', 'fleet_id');
-    }
-
     public function fleet()
     {
         return $this->belongsTo(Fleet::class, 'fleet_id');

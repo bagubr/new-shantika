@@ -20,7 +20,7 @@ Armada Agen
 </section>
 <section class="content">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col">
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Form</h3>
@@ -32,44 +32,82 @@ Armada Agen
                 </div>
                 <div class="card-body" style="display: block;">
                     @include('partials.error')
-                    <form action="@isset($agency_fleet)
-                        {{route('agency_fleet.update', $agency_fleet->id)}}
-                    @endisset @empty($agency_fleet) {{route('agency_fleet.store')}} @endempty" method="POST">
+                    <form action="{{route('agency_fleet.store')}}" method="POST">
                         @csrf
-                        @isset($agency_fleet)
-                        @method('PUT')
-                        @endisset
-                        <div class="form-group">
-                            <label>Agent</label><span class="text-danger">*</span>
-                            <select name="agency_id" class="form-control select2" id="">
-                                <option value="">Pilih Agent</option>
-                                @foreach ($agencies as $agency)
-                                <option value="{{$agency->id}}" 
-                                    @isset($agency_fleet) 
-                                        @if ($agency->id == $agency_fleet->agency_id) selected
-                                        @endif
-                                    @endisset>{{$agency->city->name}}/{{$agency->name}}
-                                </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Armada</label><span class="text-danger">*</span>
-                            <select name="fleet_id" class="form-control select2" id="">
-                                <option value="">Pilih Armada</option>
-                                @foreach ($fleets as $fleet)
-                                <option value="{{$fleet->id}}" 
-                                    @isset($agency_fleet) 
-                                        @if ($fleet->id == $agency_fleet->fleet_id) selected
-                                        @endif
-                                    @endisset>{{$fleet->name}}
-                                </option>
-                                @endforeach
-                            </select>
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <input type="hidden" name="fleet_id" id="" value="{{ $fleet->id }}">
+                                    <label>Armada</label><span class="text-danger">*</span>
+                                    <input type="text" name="fleet_name" id="" value="{{ $fleet->name }}" disabled class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Agent</label><span class="text-danger">*</span>
+                                    <select name="agency_id" class="form-control select2" id="" required>
+                                        <option value="">Pilih Agent</option>
+                                        @foreach ($agencies as $agency)
+                                        <option value="{{$agency->id}}">{{$agency->city->name}}/{{$agency->name}}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Table</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" style="display: block;">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Table Agen</h3>
+                                <div class="text-right">
+                                </div>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Agen</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($agency_fleets as $agency_fleet)
+                                        <tr>
+                                            <td>{{$agency_fleet->agency->name}}</td>
+                                            <td>    
+                                                <form action="{{route('agency_fleet.destroy', $agency_fleet->id)}}" class="d-inline"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-danger btn-xs"
+                                                        onclick="return confirm('Apakah Anda yakin akan menghapus data ini?')"
+                                                        type="submit">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -86,5 +124,50 @@ Armada Agen
         theme: 'bootstrap4'
     })
 
+</script>
+<script>
+$(document).ready(function () {
+    $.ajax({
+        url: "/agency/all",
+        type: "get",
+        success: function (response) {
+            $("#addRow").removeClass("d-none");
+            $("#refresh").removeClass("d-none");
+            var options;
+            $.each(response.agencies, function (index, value) {
+                options = options + '<option value="' + value.id + '">' + '(' + value.city_name + ') ' + value.name + '</option>';
+            });
+            var skillhtml = '<select class="form-control select2" name="agency_id[]" required>' + options + '</select>';
+            $("#container").html(skillhtml);
+
+
+            $("#addRow").click(function (value) {
+                var html = '';
+                html += '<div id="inputFormRow">';
+                html += '<div class="input-group mb-3">';
+                html += '<select name="agency_id[]" class="form-control myselect" required>';
+                html += options + '<option value="' + value.id + '">' + '(' + value.city_name + ') ' + value.name + '</option>';
+                html += '<select>';
+                html += '<div class="input-group-append">';
+                html += '<button id="removeRow" type="button" class="btn btn-danger">Hapus</button>';
+                html += '</div>';
+                html += '</div>';
+                $('#container2').append(html);
+                if ($('.myselect').length > 0) {
+                    $('.myselect').select2();
+                };
+            });
+            $(document).on('click', '#removeRow', function () {
+                $(this).closest('#inputFormRow').remove();
+            });
+            if ($('.select2').length > 0) {
+                $('.select2').select2();
+            };
+        },
+        error: function (xhr) {
+            console.log(xhr)
+        }
+    });
+});
 </script>
 @endpush

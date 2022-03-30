@@ -5,11 +5,13 @@ namespace App\Http\Resources\Route;
 use App\Http\Resources\CheckpointStartEndResource;
 use App\Models\Agency;
 use App\Models\BlockedChair;
+use App\Models\FleetRoute;
 use App\Models\Order;
 use App\Models\Layout;
 use App\Models\OrderDetail;
 use App\Models\TimeChangeRoute;
 use App\Repositories\AgencyRepository;
+use App\Utils\PriceTiket;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AvailableRoutesResource extends JsonResource
@@ -26,29 +28,8 @@ class AvailableRoutesResource extends JsonResource
         $destination_agency_id = $request->agency_arrived_id ?? $request->agency_id;
         $agency_destiny = Agency::find($destination_agency_id); 
         $route = $this->route;
-    
-        $price = 0;
-        $fleet_class_price = @$this->fleet_detail->fleet->fleetclass
-        ->prices()
-        ->where('area_id', $agency_destiny->city->area_id)
-        ->whereDate('start_at', '<=', $request->date)
-        ->orderBy('created_at', 'desc')
-        ->first()->price;
-        // JAWA
-        if($agency_destiny->city->area_id == 1){
-            $price = $departure_agency->prices->sortByDesc('start_at')->first()->price;
-        // JABODETABEK
-        }elseif($agency_destiny->city->area_id == 2){
-            $price = $agency_destiny->prices->sortByDesc('start_at')->first()->price;
-        }else{
-            $price = $fleet_class_price;
-        }
-        $price += @$this->prices()
-            ->whereDate('start_at', '<=', $request->date)
-            ->whereDate('end_at', '>=', $request->date)
-            ->orderBy('created_at', 'desc')
-            ->first()
-            ->true_deviation_price??0;
+        
+        $price = PriceTiket::priceTiket(FleetRoute::find($this->id), $departure_agency, $agency_destiny, $request->date);
 
         return [
             'id'                        => $this->id,

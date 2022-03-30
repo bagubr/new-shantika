@@ -75,7 +75,8 @@ Agen
                                     <th>Jam {{ implode(' | ', \App\Models\TimeClassification::name()->toArray()) }}</th>
                                     <th>Status</th>
                                     <th>Avatar</th>
-                                    <th>Harga</th>
+                                    <th>Harga Sbg Agent</th>
+                                    <th>Harga Sbg Rute</th>
                                     <th>Agent</th>
                                     <th>Rute</th>
                                     <th>Aksi</th>
@@ -91,9 +92,7 @@ Agen
                                     <td>{{$agency->address}}</td>
                                     <td>{{$agency->phone ?? '-'}}</td>
                                     <td>
-                                        @foreach($agency->time_group as $value)
-                                        {{$value}} |
-                                        @endforeach
+                                        {{ implode(' | ', $agency->time_group->toArray()) }}
                                     </td>
                                     @if ($agency->is_active == 1)
                                     <td data-toggle="modal" data-target="#exampleModal{{$agency->id}}"
@@ -112,7 +111,10 @@ Agen
                                         </a>
                                     </td>
                                     <td>
-                                        {{ number_format(@$agency->prices[0]->price) ?: '-' }}
+                                        {{ number_format(@$agency->price_agency) ?: 'Belum di set' }}
+                                    </td>
+                                    <td>
+                                        {{ number_format(@$agency->price_route) ?: 'Belum di set' }}
                                     </td>
                                     @if($agency->is_agent)
                                         <td>Ya</td>

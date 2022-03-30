@@ -41,6 +41,8 @@ Kelas Armada
                                 <tr>
                                     <th>Nama</th>
                                     <th>Harga Makanan</th>
+                                    <th>Harga Jawa Kelas Armada</th>
+                                    <th>Harga Jabodetabek Kelas Armada</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -49,6 +51,8 @@ Kelas Armada
                                 <tr>
                                     <td>{{$fleetclass->name}}</td>
                                     <td>Rp. {{number_format($fleetclass->price_food)}}</td>
+                                    <td>Rp. {{number_format($fleetclass->price_fleet_class1)}}</td>
+                                    <td>Rp. {{number_format($fleetclass->price_fleet_class2)}}</td>
                                     <td>
                                         @unlessrole('owner')
 
