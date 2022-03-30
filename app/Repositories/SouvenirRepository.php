@@ -70,7 +70,7 @@ class SouvenirRepository {
 
     public function getRedeemDetailHistory($id)
     {
-        return $this->SouvenirRedeem()->with('souvenir')->whereId($id)->get();
+        return $this->SouvenirRedeem()->with('souvenir')->whereId($id)->first();
     }
 
     public function getSouvenirPricePoint($id)
