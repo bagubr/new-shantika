@@ -90,8 +90,8 @@ Member
                                 @foreach ($members as $member)
                                 <tr>
                                     <td>{{$member->code_member}}</td>
-                                    <td>{{$member->name}}</td>
-                                    <td>{{$member->phone}}</td>
+                                    <td>{{$member->user->name ?? ''}}</td>
+                                    <td>{{$member->user->phone ?? ''}}</td>
                                     <td>
                                         @unlessrole('owner')
                                         <a href="{{route('member.edit',$member->id)}}"

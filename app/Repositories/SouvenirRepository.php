@@ -68,6 +68,11 @@ class SouvenirRepository {
         return $this->SouvenirRedeem()->where('membership_id', $id)->get();
     }
 
+    public function getRedeemDetailHistory($id)
+    {
+        return $this->SouvenirRedeem()->with('souvenir')->whereId($id)->get();
+    }
+
     public function getSouvenirPricePoint($id)
     {
         return $this->Souvenir()->where('id', $id)->first()->point;

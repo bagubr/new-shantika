@@ -29,7 +29,9 @@ class Membership extends Model
     ];
 
     protected $casts = [
-        'code_member' => CodeMember::class
+        'code_member' => CodeMember::class,
+        'created_at' => 'datetime:Y-m-d H:i:s',
+        'updated_at' => 'datetime:Y-m-d H:i:s'
     ];
 
     public function agency()
@@ -39,7 +41,7 @@ class Membership extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'id', 'user_id');
+        return $this->belongsTo(User::class,'user_id', 'id' );
     }
 
     public function membership_point()

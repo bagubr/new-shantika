@@ -22,7 +22,7 @@ class MemberController extends Controller
      */
     public function index()
     {
-        $members = Membership::orderBy('id', 'DESC')->paginate(10);
+        $members = Membership::with('user')->orderBy('user_id', 'ASC')->paginate(10);
         return view('member.index', compact('members'));
     }
     public function search(Request $request)

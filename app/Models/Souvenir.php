@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Souvenir extends Model
 {
@@ -17,8 +18,18 @@ class Souvenir extends Model
         'quantity'
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i:s',
+        'updated_at' => 'datetime:Y-m-d H:i:s'
+    ];
+
     public function souvenir_redeem()
     {
         return $this->hasMany(SouvenirRedeem::class, 'souvenir_id', 'id');
+    }
+
+    public function deleteImage()
+    {
+        Storage::disk('public')->delete($this->attributes['image_name']);
     }
 }
