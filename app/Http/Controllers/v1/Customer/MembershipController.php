@@ -82,7 +82,6 @@ class MembershipController extends Controller
         $rules = [
             'souvenir_id' => 'required',
             'quantity' => 'required',
-            'status' => 'required'
         ];
         $data = $request->all();
         $validate = Validator::make($data, $rules);
@@ -91,8 +90,9 @@ class MembershipController extends Controller
                 'souvenir_id' => $request->souvenir_id,
                 'membership_id' => $user->membership->id,
                 'quantity' => $request->quantity,
-                'status' => $request->status
+                'status' => 'WAITING'
             ];
+
             $create = SouvenirRepository::Reedem($data);
             if($create){
                 return $this->sendSuccessResponse(['data' => $create], 'Berhasil redeem souvenir');

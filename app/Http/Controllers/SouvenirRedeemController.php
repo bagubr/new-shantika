@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\SouvenirRedeem;
+use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class SouvenirRedeemController extends Controller
 {
@@ -14,8 +16,8 @@ class SouvenirRedeemController extends Controller
      */
     public function index()
     {
-        $data = SouvenirRedeem::paginate();
-        return view();
+        $data = SouvenirRedeem::with('membership.user:id,name')->paginate(10);
+        return view('souvenir_redeem.index', compact('data'));
     }
 
     /**
@@ -47,7 +49,9 @@ class SouvenirRedeemController extends Controller
      */
     public function show(SouvenirRedeem $souvenirRedeem)
     {
-        //
+        SouvenirRedeem::whereHas('membership', function($q){
+            $q->where('id', '!=', 0);
+        })->get();
     }
 
     /**
@@ -58,7 +62,8 @@ class SouvenirRedeemController extends Controller
      */
     public function edit(SouvenirRedeem $souvenirRedeem)
     {
-        //
+        $data = $souvenirRedeem;
+        return view('souvenir_redeem.edit', compact('data'));
     }
 
     /**
@@ -70,7 +75,18 @@ class SouvenirRedeemController extends Controller
      */
     public function update(Request $request, SouvenirRedeem $souvenirRedeem)
     {
-        //
+        $data = $request->all();
+        $rules = [
+            'status' => 'required',
+            'note' => 'sometimes'
+        ];
+        Validator::make($data, $rules);
+        try{
+            $souvenirRedeem->update($data);
+            return redirect()->route('souvenir_redeem.index');
+        }catch(QueryException $e){
+            return redirect()->route('souvenir_redeem.index');
+        }
     }
 
     /**
