@@ -25,7 +25,7 @@
                 <div class="card">
                     <div class="card-header">Merubah Souvenir</div>
                     <div class="card-body">
-                        <form action="{{route('souvenir.update', ['souvenir' => $data->id])}}" method="post"
+                        <form action="{{route('souvenir.update', ['id' => $data->id])}}" method="post"
                             enctype="multipart/form-data">
                             @csrf
                             @method('PUT')

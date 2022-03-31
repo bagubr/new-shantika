@@ -54,6 +54,7 @@ use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SketchLogController;
 use App\Http\Controllers\SouvenirController;
+use App\Http\Controllers\SouvenirRedeemController;
 use App\Http\Controllers\TimeChangeRouteController;
 use App\Jobs\Notification\TicketExchangedJob;
 use App\Jobs\PaymentAcceptedNotificationJob;
@@ -209,6 +210,7 @@ Route::group(['middleware' => ['auth']], function () {
         'member' => MemberController::class,
         'order_price_distribution' => OrderPriceDistributionController::class,
         'outcome' => OutcomeController::class,
+        'souvenir_redeem' => SouvenirRedeemController::class,
         'sketch' => SketchController::class,
         'fleet_route' => FleetRouteController::class,
         'status_penumpang' => StatusPenumpangController::class,

@@ -237,9 +237,10 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item {{Request::routeIs('user.*','status_penumpang.*','member.*') ? 'menu-open' : ''}}">
+                <li
+                    class="nav-item {{Request::routeIs('user.*','status_penumpang.*','souvenir.*','souvenir_redeem.*','member.*') ? 'menu-open' : ''}}">
                     <a href="#"
-                        class="nav-link {{Request::routeIs('user.*','status_penumpang.*','member.*') ? 'active' : ''}}">
+                        class="nav-link {{Request::routeIs('user.*','status_penumpang.*','souvenir.*','souvenir_redeem.*','member.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Penumpang
@@ -266,6 +267,20 @@
                                 class="nav-link {{Request::routeIs('member.*') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Member</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('souvenir.index')}}"
+                                class="nav-link {{Request::routeIs('souvenir.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Daftar Souvenir</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('souvenir_redeem.index')}}"
+                                class="nav-link {{Request::routeIs('souvenir_redeem.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Souvenir Redeem</p>
                             </a>
                         </li>
                     </ul>
