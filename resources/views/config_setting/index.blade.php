@@ -64,6 +64,11 @@ Pengaturan Global
                             <input type="time" class="form-control" name="time_expired"
                                 value="{{$config_setting->time_expired}}">
                         </div>
+                        <div class="form-group">
+                            <label>Get Point After Purchase</label>
+                            <input type="integer" class="form-control" name="point_purchase"
+                                value="{{$config_setting->point_purchase}}">
+                        </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
