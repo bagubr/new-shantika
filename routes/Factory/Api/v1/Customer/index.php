@@ -26,7 +26,7 @@ Route::group([
         Route::get('membership/pointhistory', [MembershipController::class, 'pointHistory']);
         Route::get('souvenir', [MembershipController::class, 'listSouvenir']);
         Route::post('souvenir/redeem', [MembershipController::class, 'redeem']);
-        Route::get('souvenir/redeem/{id}/detail', [MembershipController::class, 'detailRedeem']);
+	 Route::get('souvenir/redeem/{id}/detail', [MembershipController::class, 'detailRedeem']);
         Route::get('souvenir/{id}', [MembershipController::class, 'showSouvenir']);
     });
     Route::get('agencies','AgencyController@getAllAgen');
