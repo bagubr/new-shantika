@@ -44,7 +44,7 @@
                             <td>{{ $each->souvenir_name }}</td>
                             <td>{{ $each->quantity }}</td>
                             <td class="row justify-content-center"><span
-                                    class="col w-50 text-center badge bg-{{ $each->status == 'WAITING' ? 'success' : ($each->status == 'ON PROCESS' ? 'warning' : ($each->status == 'DELIVERED' ? 'success' : 'danger'))}}">
+                                    class="col w-50 text-center badge bg-{{ $each->status == 'WAITING' ? 'success' : ($each->status == 'ON PROCESS' ? 'warning' : ($each->status == 'DELIVERED' ? 'info' : 'danger'))}}">
                                     {{ $each->status }}
                                 </span>
                             </td>
