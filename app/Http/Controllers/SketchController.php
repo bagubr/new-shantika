@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\LangsirExport;
 use App\Models\AdminNotification;
+use App\Models\Fleet;
 use App\Models\SketchLog;
 use App\Models\TimeClassification;
 use App\Repositories\BookingRepository;
@@ -36,9 +37,11 @@ class SketchController extends Controller
     {
         $areas = Area::get();
         $time_classifications = TimeClassification::all();
+        $fleets = Fleet::all();
         return view('sketch.index_1', [
             'areas' => $areas,
-            'time_classifications' => $time_classifications
+            'time_classifications' => $time_classifications,
+            'fleets' => $fleets,
         ]);
     }
 
@@ -47,6 +50,7 @@ class SketchController extends Controller
         $date = $request->date ?? date('Y-m-d');
         $area_id = $request->area_id;
         $time_classification_id = $request->time_classification_id;
+        $fleet_id = $request->fleet_id;
         $orders = Order::select('*')
             ->whereIn('status', Order::STATUS_BOUGHT)
             ->with('fleet_route.fleet_detail.fleet.fleetclass', 'fleet_route.route')

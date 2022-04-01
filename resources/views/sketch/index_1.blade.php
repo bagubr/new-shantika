@@ -69,6 +69,13 @@ Sketch
                             </option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label>Pilih Armada</label>
+                        <v-select v-model="firstLayout.fleetId"
+                        input-class="form-control" id="" :options="">
+                            <option value="selected">--PILIH--</option>
+                        </v-select>
+                    </div>
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
@@ -141,17 +148,23 @@ Sketch
 {{-- <script src="https://cdn.jsdelivr.net/npm/vue@2"></script> --}}
 
 <script src="https://unpkg.com/vuejs-datepicker"></script>
+
+<script src="https://unpkg.com/vue-select@latest"></script>
+<link rel="stylesheet" href="https://unpkg.com/vue-select@latest/dist/vue-select.css">
+
 <script>
     var app = new Vue({
             el: '#app-sketch',
             components: {
-                vuejsDatepicker
+                vuejsDatepicker,
+                vSelect,
             },
             data: {
                 csrf_token: '{{ csrf_token() }}',
                 data: {
                     areas: {!! $areas !!},
                     timeClassifications: {!! $time_classifications !!},
+                    fleets: {!! $fleets !!},
                     date_now: "",
                 },
                 filter: {
