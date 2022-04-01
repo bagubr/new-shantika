@@ -20,8 +20,6 @@ class RouteController extends BaseRouteController
         $destination_agency = AgencyRepository::findWithCity($request->agency_id);
         $time_classification_id = $request->time_classification_id;
         $fleet_class_id = $request->fleet_class_id;
-        // dd($departure_agency);
-        // dd($destination_agency);
 
         if (empty($destination_agency->is_active)) {
             return $this->sendFailedResponse([], 'Agen tujuan tidak aktif, mohon coba agen yang lain');
@@ -29,14 +27,9 @@ class RouteController extends BaseRouteController
         if (empty($departure_agency->is_active)) {
             return $this->sendFailedResponse([], 'Akun agen anda dinonaktifkan, segera lakukan setoran atau kontak admin');
         }
-
         $routes = FleetRoute::with(['fleet_detail.fleet.layout', 'route.checkpoints.agency.city', 'route.checkpoints.agency.prices'=>function($query) {
             $query->orderBy('id', 'desc');
-          }, 'fleet_detail.fleet.fleetclass.prices', 'prices', 'fleet_detail'])
-            // ->whereHas('fleet_detail.fleet.agency_fleet', function ($query) use ($departure_agency)
-            // {
-            //     $query->where('agency_id', $departure_agency->id);
-            // })
+          }, 'fleet_detail.fleet.fleetclass.prices', 'prices', 'fleet_detail', 'fleet_detail.fleet.agency_fleet'])
                 ->where('is_active', true)
                 ->whereHas('fleet_detail', function($query) use ($time_classification_id, $fleet_class_id) {
                     $query->where('time_classification_id', $time_classification_id);
@@ -72,7 +65,7 @@ class RouteController extends BaseRouteController
                             $subquery->where('departure_at', '>', $time_start)->orWhere('departure_at', '<', $time_end);
                         });
                     });
-                })->whereDoesntHave('time_change_route', function ($que2) use ( $time_classification_id)
+                })->whereDoesntHave('time_change_route', function ($que2) use ( $time_classification_id, $departure_agency)
                 {
                     $que2->whereHas('fleet_route.fleet_detail', function ($que4) use ($time_classification_id)
                     {
@@ -94,6 +87,10 @@ class RouteController extends BaseRouteController
                         });
                     })
                     ->orWhereDate('date', '!=', $date);
+                    $que2->whereHas('fleet_route.fleet_detail.fleet.agency_fleet', function ($query) use ($departure_agency)
+                    {
+                        $query->where('agency_id', $departure_agency->id);
+                    })->orDoesnthave('fleet_route.fleet_detail.fleet.agency_fleet');
                 })
                 ->get();
         foreach ($routes as $route) {
