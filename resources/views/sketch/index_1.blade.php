@@ -79,6 +79,7 @@ Sketch
                 </div>
             </div>
             <div class="text-right m-2">
+                <label>@{{ orders.length }}</label>
                 <a class="btn btn-primary" href="{{url('sketch/log')}}">Riwayat Sketch</a>
                 <button @click="searchOrders()" class="btn btn-success" type="submit">Cari</button>
             </div>
