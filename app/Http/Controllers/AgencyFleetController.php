@@ -42,11 +42,7 @@ class AgencyFleetController extends Controller
     public function edit($id)
     {
         $fleet = Fleet::find($id);
-        $agencies = Agency::whereHas('city.area', function ($query)
-        {
-            $query->where('id', 2);
-        })
-        ->whereDoesntHave('agency_fleet', function ($query) use ($id)
+        $agencies = Agency::whereDoesntHave('agency_fleet', function ($query) use ($id)
         {
             $query->where('fleet_id', $id);
         })
@@ -67,6 +63,6 @@ class AgencyFleetController extends Controller
     {
         $agency_fleet->delete();
         session()->flash('success', 'Data Berhasil Dihapus');
-        return redirect(route('agency_fleet.index'));
+        return redirect()->back();
     }
 }
