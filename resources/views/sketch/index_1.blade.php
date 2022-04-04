@@ -5,10 +5,12 @@ Sketch
 @push('css')
 <style>
     .sticky {
-    position: -webkit-sticky; /* Safari */
-    position: sticky;
-    top: 0;
+        position: -webkit-sticky;
+        /* Safari */
+        position: sticky;
+        top: 0;
     }
+
     .bg-chocolate {
         background-color: #603415 !important;
     }
@@ -45,8 +47,8 @@ Sketch
     </div>
 </div>
 <div class="content" id="app-sketch" v-scroll="onScroll">
-    <div class="container-fluid" >
-        <div class="card sticky "  style="z-index: 1000" >
+    <div class="container-fluid">
+        <div class="card sticky " style="z-index: 1000">
             <div class="row p-2">
                 <div class="col-md-12">
                     <div class="form-group">
@@ -68,6 +70,14 @@ Sketch
                                 @{{time_classification.name}}
                             </option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Pilih Armada</label>
+                        {{-- <v-select v-model="firstLayout.fleetId" input-class="form-control" id="" :options=""> --}}
+                            <v-select label="name" :reduce="(option) => option.id" :options="data.fleets"
+                                input-class="form-control" id="">
+                                <option value="selected">--PILIH--</option>
+                            </v-select>
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -141,17 +151,24 @@ Sketch
 {{-- <script src="https://cdn.jsdelivr.net/npm/vue@2"></script> --}}
 
 <script src="https://unpkg.com/vuejs-datepicker"></script>
+
+<script src="https://unpkg.com/vue-select@3.0.0"></script>
+<link rel="stylesheet" href="https://unpkg.com/vue-select@3.0.0/dist/vue-select.css">
+
 <script>
+    Vue.component('v-select', VueSelect.VueSelect)
     var app = new Vue({
             el: '#app-sketch',
             components: {
-                vuejsDatepicker
+                vuejsDatepicker,
+                // vSelect,
             },
             data: {
                 csrf_token: '{{ csrf_token() }}',
                 data: {
                     areas: {!! $areas !!},
                     timeClassifications: {!! $time_classifications !!},
+                    fleets: {!! $fleets !!},
                     date_now: "",
                 },
                 filter: {
@@ -472,5 +489,6 @@ Sketch
                 this.searchOrders()
             }
         });
+    // app.components('v-select', VueSelect.VueSelect);
 </script>
 @endpush
