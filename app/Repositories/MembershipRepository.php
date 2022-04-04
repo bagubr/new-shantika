@@ -64,7 +64,7 @@ class MembershipRepository {
 
     public function getPointHistory($id)
     {
-        return $this->MembershipPoint()->where('membership_id', $id)->OrderBy('created_at', 'desc')->get();
+        return $this->MembershipPoint()->where('membership_id', $id)->where('status', '!=', 'create')->OrderBy('created_at', 'desc')->get();
     }
 
     public function getCodeMember()
