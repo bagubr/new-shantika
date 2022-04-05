@@ -46,7 +46,6 @@ class TimeChangeRouteController extends Controller
     public function update(Request $request, TimeChangeRoute $time_change_route)
     {
         $data = $request->all();
-        // $time_change_route->update($data);
         TimeChangeService::update($time_change_route, $data);
 
         session()->flash('success', 'Waktu Berhasil Dirubah');

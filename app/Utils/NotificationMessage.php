@@ -93,4 +93,14 @@ class NotificationMessage {
     {
         return ['Perhatian! Perubahan rute keberangkatan', 'Maaf Perjalanan anda telah berganti menjadi keberangkatan '. $data->time_classification->name];
     }
+
+    public static function promo($data)
+    {
+        if($data->is_public){
+            return ['Ada promo baru nih untuk kamu pelanggan setia New Shantika', 'Buruan cek sebelum kehabisan Syarat dan Ketentuan Berlaku'];
+        }
+        return [
+            'Hai '.$data->user->name.' ada promo baru nih spesial buat kamu', 'Buruan cek sebelum kehabisan Syarat dan Ketentuan Berlaku'
+        ];
+    }
 }
