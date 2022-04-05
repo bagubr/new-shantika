@@ -156,10 +156,12 @@ class AgencyController extends Controller
             $data['avatar'] = $avatar;
         };
         $time_classifications = TimeClassification::orderBy('id')->get();
-        $agency->update($data);
         foreach ($time_classifications as $key => $value) {
-            $agency_departure = AgencyDepartureTime::where('agency_id', $agency->id)->where('time_classification_id', $value->id)->first();
-            $agency_departure->update([
+            AgencyDepartureTime::updateOrCreate([
+                'agency_id'=> $agency->id,
+                'time_classification_id'=> $value->id
+            ],
+            [
                 'departure_at' => $data['departure_at'][$key]
             ]);
         }

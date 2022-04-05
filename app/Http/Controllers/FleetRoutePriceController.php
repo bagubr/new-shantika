@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FleetRoutePrice\CreateFleetRoutePriceRequest;
+use App\Models\Area;
 use App\Models\Fleet;
 use App\Models\FleetDetail;
 use App\Models\FleetRoute;
@@ -20,14 +21,14 @@ class FleetRoutePriceController extends Controller
     {
         $fleet_route_prices = FleetRoutePrice::all();
         $fleets = Fleet::all();
-
-        return view('fleetrouteprice.index', compact('fleet_route_prices', 'fleets'));
+        return view('fleetrouteprice.index', compact('fleet_route_prices', 'fleets', 'areas'));
     }
 
     public function search(Request $request)
     {
         $fleet_route_id = $request->fleet_route_id;
         $date_search = $request->date_search;
+        $area_id = $request->area_id;
 
         $fleet_route_prices = FleetRoutePrice::query();
 
@@ -36,19 +37,24 @@ class FleetRoutePriceController extends Controller
                 $q->where('fleet_id', $fleet_route_id);
             });
         }
+        if (!empty($area_id)) {
+            $fleet_route_prices = $fleet_route_prices->whereHas('fleet_route.route.checkpoints.agency.city', function ($q) use ($area_id) {
+                $q->where('area_id', $area_id);
+            });;
+        }
         if (!empty($date_search)) {
             $fleet_route_prices = $fleet_route_prices->where('start_at', '<=', $date_search)->where('end_at', '>=', $date_search);
         }
-        $test                   = $request->flash();
         $fleet_route_prices     = $fleet_route_prices->get();
         $fleets = Fleet::all();
+        $areas = Area::all();
 
         if (!$fleet_route_prices->isEmpty()) {
             session()->flash('success', 'Data Berhasil Ditemukan');
         } else {
             session()->flash('error', 'Tidak Ada Data Ditemukan');
         }
-        return view('fleetrouteprice.index', compact('fleet_route_prices', 'test', 'fleets'));
+        return view('fleetrouteprice.index', compact('fleet_route_prices', 'fleets', 'areas', 'area_id', 'fleet_route_id', 'date_search'));
     }
 
     /**
