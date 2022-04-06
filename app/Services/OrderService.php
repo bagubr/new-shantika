@@ -19,6 +19,7 @@ use App\Models\Route;
 use App\Models\Setting;
 use App\Repositories\BookingRepository;
 use App\Repositories\OrderRepository;
+use App\Repositories\PromoRepository;
 use App\Utils\Response;
 use App\Repositories\UserRepository;
 use App\Utils\NotificationMessage;
@@ -45,6 +46,17 @@ class OrderService
         $setting = Setting::first();
 
         $price  = PriceTiket::priceTiket(FleetRoute::find($data->fleet_route_id), Agency::find($data->departure_agency_id), Agency::find($data->destination_agency_id), $data->reserve_at);
+
+        if (isset($data->promo_id) && $data->promo_id) {
+            $promo_exists = PromoRepository::isExist($data->promo_id);
+            if(!$promo_exists){
+                (new self)->sendFailedResponse([], 'Maaf, promo tidak di temukan atau sudah habis');
+            }
+            $percentage = $promo_exists->percentage_discount/100;
+            $discount = ceil($percentage * $price);
+            $data->nominal_discount = ($discount > $promo_exists->maximum_discount)?$promo_exists->maximum_discount:$discount;
+            $price -= $data->nominal->discount;
+        }
         $for_deposit = $price;
         $ticket_price_with_food = $detail->is_feed
             ? $price * count($detail->layout_chair_id)
