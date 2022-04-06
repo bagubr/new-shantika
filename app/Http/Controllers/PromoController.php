@@ -31,9 +31,6 @@ class PromoController extends Controller
             $data['is_public'] = true;
             unset($data['user_id']);
         }
-        if(empty($data['start_at']) && empty($data['end_at'])){
-            $data['is_scheduless'] = true;
-        }
         PromoService::create($data);
         session()->flash('success', 'Promo Berhasil Ditambahkan');
         return redirect(route('promo.index'));
@@ -59,9 +56,6 @@ class PromoController extends Controller
         if(empty($data['user_id'])){
             $data['is_public'] = true;
             unset($data['user_id']);
-        }
-        if(empty($data['start_at']) && empty($data['end_at'])){
-            $data['is_scheduless'] = true;
         }
         $promo->update($data);
         session()->flash('success', 'Promo Berhasil Diubah');
