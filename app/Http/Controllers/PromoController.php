@@ -47,7 +47,11 @@ class PromoController extends Controller
 
     public function update(Request $request, Promo $promo)
     {
-        
+        if ($request->hasFile('image')) {
+            $image = $request->image->store('promo', 'public');
+            $promo->deleteImage();
+            $data['image'] = $image;
+        };
         $data = $request->all();
         if(empty($data['quota'])){
             $data['is_quotaless'] = true;

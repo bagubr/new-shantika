@@ -48,6 +48,7 @@ Route::group([
 
             Route::post('exchange_ticket', 'OrderController@exchange');
             Route::post('exchange_ticket/confirm', 'OrderController@exchangeConfirm');
+            Route::get('promo', 'PromoController@index');
         });
     });
 });

@@ -38,9 +38,13 @@ Promo
                                 <tr>
                                     <th>Nama</th>
                                     <th>Code</th>
+                                    <th>Deskripsi</th>
+                                    <th>Potongan Persen</th>
+                                    <th>Potongan Maximum (yang diperoleh)</th>
                                     <th>User</th>
                                     <th>Start - End</th>
                                     <th>Quota</th>
+                                    <th>Image</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -49,6 +53,9 @@ Promo
                                 <tr>
                                     <td>{{$promo->name}}</td>
                                     <td>{{$promo->code}}</td>
+                                    <td>{{ $promo->description }}</td>
+                                    <td>{{ $promo->percentage_discount }} %</td>
+                                    <td>{{ $promo->maximum_discount }}</td>
                                     @if($promo->is_public)
                                     <td>Global</td>
                                     @else
@@ -66,6 +73,11 @@ Promo
                                         @else
                                         {{ $promo->quota }}
                                         @endif
+                                    </td>
+                                    <td>
+                                        <a href="{{$promo->image}}" data-toggle="lightbox">
+                                            <img src="{{$promo->image}}" height="100px" alt="">
+                                        </a>
                                     </td>
                                     <td>
                                         <a href="{{route('promo.edit',$promo->id)}}"

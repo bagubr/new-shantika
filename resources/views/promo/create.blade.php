@@ -34,7 +34,7 @@ Promo
                     @include('partials.error')
                     <form action="@isset($promo)
                         {{route('promo.update', $promo->id)}}
-                    @endisset @empty($promo) {{route('promo.store')}} @endempty" method="POST">
+                    @endisset @empty($promo) {{route('promo.store')}} @endempty" method="POST" enctype="multipart/form-data">
                         @csrf
                         @isset($promo)
                         @method('PUT')
@@ -47,7 +47,24 @@ Promo
                         <div class="form-group">
                             <label>Kode</label>
                             <input type="text" class="form-control" name="code" placeholder="Masukkan Kode"
-                                value="{{isset($promo) ? $promo->code : ''}}">
+                                value="{{isset($promo) ? $promo->code : ''}}" required>
+                                <button class="btn btn-outline-primary btn-xs" onclick="">Generate Code</button>
+                        </div>
+                        <div class="form-group">
+                            <label>Deskripsi</label>
+                            <textarea type="text" class="form-control" name="description" placeholder="Masukkan Deskripsi">{{isset($promo) ? $promo->description : ''}}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Gambar</label>
+                            <input type="file" class="form-control" name="image" accept="image/*">
+                            <small class="text-danger"><i class="fas fa-info-circle"></i> Pastikan ukuran gambar 445x236(72)dpi, agar hasil maksimal</small>
+                            <br>
+                            @isset($promo)
+                            <a href="{{$promo->image}}" data-toggle="lightbox">
+                                <img src="{{isset($promo) ? $promo->image : ''}}" class="img-thumbnail"
+                                    style="height: 100px" alt="">
+                            </a>
+                            @endisset
                         </div>
                         <div class="form-group">
                             <label>Kuota</label>
@@ -81,6 +98,18 @@ Promo
                             </div>
                             <small class="text-danger d-none" id="refresh"><i class="fas fa-info-circle"></i> Dapat di Kosongkan jika ingin tidak ada batasan waktu</small>
                         </div>
+                        <div class="form-group">
+                            <label>Diskon</label>
+                            <input type="number" class="form-control" name="percentage_discount" placeholder="Masukkan Diskon %"
+                                value="{{isset($promo) ? $promo->percentage_discount : ''}}" required>
+                            <small class="text-danger d-none" id="refresh"><i class="fas fa-info-circle"></i> Berupa percentase</small>
+                        </div>
+                        <div class="form-group">
+                            <label>Max Diskon</label>
+                            <input type="number" class="form-control" name="maximum_discount" placeholder="Masukkan Maximal Diskon"
+                                value="{{isset($promo) ? $promo->maximum_discount : ''}}">
+                            <small class="text-danger d-none" id="refresh"><i class="fas fa-info-circle"></i> Kosongkan jika tidak di beri maximum</small>
+                        </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
@@ -92,6 +121,24 @@ Promo
 @endsection
 @push('script')
 <script src="{{asset('plugins/summernote/summernote-bs4.min.js')}}"></script>
+<script>
+
+function generateCode() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 5; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
+}
+
+$(function(){
+    $('.btnGenerate', on)
+})
+
+console.log(generateCode());
+</script>
 <script>
     $(function () {
         $('.select2').select2()

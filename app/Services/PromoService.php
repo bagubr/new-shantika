@@ -12,6 +12,7 @@ class PromoService {
 
     public static function create($data)
     {
+        $data['image'] = $data['image']->store('promo', 'public');
         $promo = Promo::create($data);
         $message = NotificationMessage::promo($promo);
 

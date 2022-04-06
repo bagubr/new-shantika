@@ -123,7 +123,7 @@ User Agen
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="{{route('fleet_route.show',$order->fleet_route?->id)}}">
+                                    <a href="@{{route('fleet_route.show',$order->fleet_route?->id)}}">
                                         {{$order->fleet_route?->route?->name}}/{{$order->fleet_route?->fleet?->name}}
                                     </a>
                                 </td>

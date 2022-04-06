@@ -4,12 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Promo extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name', 'code', 'user_id', 'start_at', 'end_at', 'quota', 'is_public', 'is_scheduless', 'is_quotaless'
+        'name', 
+        'code', 
+        'user_id', 
+        'start_at', 
+        'end_at', 
+        'quota', 
+        'is_public', 
+        'is_quotaless',
+        'description',
+        'image',
+        'percentage_discount',
+        'maximum_discount',
     ];
 
     public function user()
@@ -20,5 +32,10 @@ class Promo extends Model
     public function promo_histories()
     {
         return $this->hasMany(PromoHistory::class);
+    }
+
+    public function deleteImage()
+    {
+        Storage::disk('public')->delete($this->attributes['image']);
     }
 }

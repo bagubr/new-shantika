@@ -17,12 +17,15 @@ class CreatePromosTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('code')->unique();
+            $table->string('description')->default('');
+            $table->string('image')->default('');
+            $table->tinyInteger('percentage_discount');
+            $table->integer('maximum_discount');
             $table->date('start_at')->nullable();
             $table->date('end_at')->nullable();
             $table->bigInteger('quota')->nullable();
             $table->unsignedBigInteger('route_id')->nullable();
             $table->boolean('is_public')->default(false);
-            $table->boolean('is_scheduless')->default(false);
             $table->boolean('is_quotaless')->default(false);
             $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
