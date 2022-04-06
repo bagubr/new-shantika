@@ -15,6 +15,7 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\OrderPriceDistribution;
 use App\Models\Payment;
+use App\Models\PromoHistory;
 use App\Models\Route;
 use App\Models\Setting;
 use App\Repositories\BookingRepository;
@@ -48,14 +49,14 @@ class OrderService
         $price  = PriceTiket::priceTiket(FleetRoute::find($data->fleet_route_id), Agency::find($data->departure_agency_id), Agency::find($data->destination_agency_id), $data->reserve_at);
 
         if (isset($data->promo_id) && $data->promo_id) {
-            $promo_exists = PromoRepository::isExist($data->promo_id);
+            $promo_exists = PromoRepository::getById($data->promo_id);
             if(!$promo_exists){
                 (new self)->sendFailedResponse([], 'Maaf, promo tidak di temukan atau sudah habis');
             }
             $percentage = $promo_exists->percentage_discount/100;
             $discount = ceil($percentage * $price);
             $data->nominal_discount = ($discount > $promo_exists->maximum_discount)?$promo_exists->maximum_discount:$discount;
-            $price -= $data->nominal->discount;
+            $price -= $data->nominal_discount;
         }
         $for_deposit = $price;
         $ticket_price_with_food = $detail->is_feed
@@ -79,6 +80,7 @@ class OrderService
             $data->price += $setting->xendit_charge;
         }
 
+        PromoHistory::create($data->only('user_id', 'promo_id'));
         $order = Order::create($data->toArray());
         $code_order = self::generateCodeOrder($order->id);
         $order->update([
