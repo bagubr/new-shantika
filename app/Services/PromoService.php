@@ -16,13 +16,14 @@ class PromoService {
         $promo = Promo::create($data);
         $message = NotificationMessage::promo($promo);
 
-        $notification = Notification::build($message[0], $message[1], Notification::TYPE7, $promo->id, $promo->user_id);
-        if($data['is_public']){
+        if(isset($data['is_public']) && $data['is_public']){
+            $notification = Notification::build($message[0], $message[1], Notification::TYPE7, $promo->id);
             SendingNotificationToTopic::dispatch($notification, Notification::TOPIC1, true, [
                 'reference_id'=>(string) $promo->id,
                 'type'=>Notification::TYPE7
             ]);
         }else{
+            $notification = Notification::build($message[0], $message[1], Notification::TYPE7, $promo->id, $promo->user_id);
             SendingNotification::dispatch($notification, $promo->user->fcm_token, true);
         }
     }

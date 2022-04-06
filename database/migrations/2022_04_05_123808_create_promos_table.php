@@ -29,6 +29,7 @@ class CreatePromosTable extends Migration
             $table->boolean('is_quotaless')->default(false);
             $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -46,9 +46,9 @@ Promo
                         </div>
                         <div class="form-group">
                             <label>Kode</label>
-                            <input type="text" class="form-control" name="code" placeholder="Masukkan Kode"
+                            <input type="text" id="code" class="form-control" name="code" placeholder="Masukkan Kode"
                                 value="{{isset($promo) ? $promo->code : ''}}" required>
-                                <button class="btn btn-outline-primary btn-xs" onclick="">Generate Code</button>
+                                <a class="btn btn-outline-primary btn-xs mt-2" onclick="changeValue()">Generate Code</a>
                         </div>
                         <div class="form-group">
                             <label>Deskripsi</label>
@@ -101,7 +101,7 @@ Promo
                         <div class="form-group">
                             <label>Diskon</label>
                             <input type="number" class="form-control" name="percentage_discount" placeholder="Masukkan Diskon %"
-                                value="{{isset($promo) ? $promo->percentage_discount : ''}}" required>
+                                value="{{isset($promo) ? $promo->percentage_discount : ''}}" required min="1" max="100">
                             <small class="text-danger d-none" id="refresh"><i class="fas fa-info-circle"></i> Berupa percentase</small>
                         </div>
                         <div class="form-group">
@@ -125,19 +125,17 @@ Promo
 
 function generateCode() {
   var text = "";
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-  for (var i = 0; i < 5; i++)
+    for (var i = 0; i < 5; i++)
     text += possible.charAt(Math.floor(Math.random() * possible.length));
 
-  return text;
+    return text;
 }
 
-$(function(){
-    $('.btnGenerate', on)
-})
-
-console.log(generateCode());
+function changeValue(){
+    document.getElementById('code').value=generateCode();
+}
 </script>
 <script>
     $(function () {
