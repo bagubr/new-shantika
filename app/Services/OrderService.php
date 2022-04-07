@@ -49,14 +49,12 @@ class OrderService
         $price  = PriceTiket::priceTiket(FleetRoute::find($data->fleet_route_id), Agency::find($data->departure_agency_id), Agency::find($data->destination_agency_id), $data->reserve_at);
 
         if (isset($data->promo_id) && $data->promo_id) {
-            $promo_exists = PromoRepository::getById($data->promo_id);
+            $promo_exists = PromoRepository::isAvailable($data->promo_id, $data->user_id);
             if(!$promo_exists){
                 (new self)->sendFailedResponse([], 'Maaf, promo tidak di temukan atau sudah habis');
             }
-            $percentage = $promo_exists->percentage_discount/100;
-            $discount = ceil($percentage * $price);
-            $data->nominal_discount = ($discount > $promo_exists->maximum_discount)?$promo_exists->maximum_discount:$discount;
-            $price -= $data->nominal_discount;
+            $promo = PromoRepository::getWithNominalDiscount($price, $data->promo_id);
+            $price -= $promo->nominal_discount;
         }
         $for_deposit = $price;
         $ticket_price_with_food = $detail->is_feed

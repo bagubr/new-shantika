@@ -45,6 +45,7 @@ Route::group([
 
     Route::get('bank_account', 'BankAccountController@index');
     Route::get('promo', 'PromoController@index');
+    Route::get('promo/{id}', 'PromoController@getById');
 
     Route::group([], base_path('routes/Factory/Api/v1/Agen/index.php'));
     Route::group([], base_path('routes/Factory/Api/v1/Customer/index.php'));
