@@ -21,6 +21,7 @@ class FleetRoutePriceController extends Controller
     {
         $fleet_route_prices = FleetRoutePrice::all();
         $fleets = Fleet::all();
+        $areas = Area::all();
         return view('fleetrouteprice.index', compact('fleet_route_prices', 'fleets', 'areas'));
     }
 
