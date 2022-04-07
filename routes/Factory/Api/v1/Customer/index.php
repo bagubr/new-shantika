@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\v1\Customer\MembershipController;
+use App\Http\Controllers\v1\Customer\PromoController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -28,6 +29,7 @@ Route::group([
         Route::post('souvenir/redeem', [MembershipController::class, 'redeem']);
         Route::get('souvenir/redeem/{id}/detail', [MembershipController::class, 'detailRedeem']);
         Route::get('souvenir/{id}', [MembershipController::class, 'showSouvenir']);
+        Route::get('promo', [PromoController::class, 'index']);
     });
     Route::get('agencies','AgencyController@getAllAgen');
     Route::get('fleet_lists','FleetController@index');

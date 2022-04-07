@@ -49,6 +49,7 @@ use App\Http\Controllers\SketchController;
 use App\Http\Controllers\StatusPenumpangController;
 use App\Http\Controllers\FleetDetailController;
 use App\Http\Controllers\FleetRoutePriceController;
+use App\Http\Controllers\PromoController;
 use App\Http\Controllers\RestaurantBarcodeController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\RoleController;
@@ -211,6 +212,7 @@ Route::group(['middleware' => ['auth']], function () {
         'order_price_distribution' => OrderPriceDistributionController::class,
         'outcome' => OutcomeController::class,
         'souvenir_redeem' => SouvenirRedeemController::class,
+        'promo' => PromoController::class,
         'sketch' => SketchController::class,
         'fleet_route' => FleetRouteController::class,
         'status_penumpang' => StatusPenumpangController::class,

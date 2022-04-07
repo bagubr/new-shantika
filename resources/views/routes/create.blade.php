@@ -55,8 +55,9 @@ Route
                             <label>Pilih Tujuan</label>
                             <select name="area_id" class="form-control myselect" id="area_id">
                                 <option value="">--PILIH TUJUAN--</option>
-                                <option value="1">JAWA</option>
-                                <option value="2">JABODETABEK</option>
+                                @foreach(\App\Models\Area::get() as $area)
+                                <option value="{{ $area->id }}">{{ $area->name }}</option>
+                                @endforeach
                             </select>
                             <small class="text-danger d-none" id="refresh"><i class="fas fa-info-circle"></i> Refresh
                                 halaman
