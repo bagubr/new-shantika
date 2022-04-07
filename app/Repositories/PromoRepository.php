@@ -22,9 +22,11 @@ class PromoRepository {
     public static function getWithNominalDiscount($price = null, $promo_id)
     {
       $promo = Promo::find($promo_id);
-      $percentage = $promo->percentage_discount/100;
-      $discount = ceil($percentage * $price);
-      $promo->nominal_discount = ($discount > $promo->maximum_discount)?$promo->maximum_discount:$discount;
+      if($price){
+        $percentage = $promo->percentage_discount/100;
+        $discount = ceil($percentage * $price);
+        $promo->nominal_discount = ($discount > $promo->maximum_discount)?$promo->maximum_discount:$discount;
+      }
       return $promo;
     }
 }
