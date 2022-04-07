@@ -14,9 +14,6 @@ class AddAndDropToMemberships extends Migration
     public function up()
     {
         Schema::table('memberships', function (Blueprint $table) {
-            $table->dropColumn('address');
-            $table->dropColumn('phone');
-            $table->dropColumn('name');
             $table->string('user_id')->nullable();
             $table->bigInteger('sum_point')->default(0);
         });
@@ -30,9 +27,6 @@ class AddAndDropToMemberships extends Migration
     public function down()
     {
         Schema::table('memberships', function (Blueprint $table) {
-            $table->string('address')->nullable();
-            $table->string('name')->nullable();
-            $table->string('phone')->nullable();
             $table->dropColumn('user_id');
             $table->dropColumn('sum_point');
         });

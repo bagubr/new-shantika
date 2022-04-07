@@ -19,11 +19,10 @@ class Membership extends Model
     }
 
     protected $fillable = [
-        'agency_id', 'code_member', 'user_id', 'sum_point'
+        'agency_id', 'code_member', 'user_id', 'sum_point', 'name', 'phone', 'address'
     ];
 
     protected $appends = [
-        // 'sum_point',
         'sum_point_in',
         'sum_point_out'
     ];
@@ -48,11 +47,6 @@ class Membership extends Model
     {
         return $this->hasMany(MembershipPoint::class, 'membership_id', 'id');
     }
-
-    // public function getSumPointAttribute()
-    // {
-    //     return $this->membership_point()->sum('value');
-    // }
 
     public function getSumPointInAttribute()
     {

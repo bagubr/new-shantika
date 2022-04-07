@@ -83,6 +83,7 @@ Member
                                     <th>Kode Member</th>
                                     <th>Name</th>
                                     <th>Nomor Hp</th>
+                                    <th>Point</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -90,8 +91,9 @@ Member
                                 @foreach ($members as $member)
                                 <tr>
                                     <td>{{$member->code_member}}</td>
-                                    <td>{{$member->user->name ?? ''}}</td>
-                                    <td>{{$member->user->phone ?? ''}}</td>
+                                    <td>{{$member->user->name ?? 'TIDAK DI KAITKAN APLIKASI'}}</td>
+                                    <td>{{$member->user->phone ?? 'TIDAK DI KAITKAN APLIKASI'}}</td>
+                                    <td>{{$member->sum_point ?? 0}}</td>
                                     <td>
                                         @unlessrole('owner')
                                         <a href="{{route('member.edit',$member->id)}}"
