@@ -49,6 +49,7 @@ class TimeChangeService {
     {
         foreach ($user as $key => $value) {
             $message = NotificationMessage::timeChange($time_change);
+            // TODO ubah time_change->id menjadi order id
             $notification = Notification::build($message[0], $message[1], Notification::TYPE6, $time_change->id, $key);   
             SendingNotification::dispatch($notification, $value, true);
         }

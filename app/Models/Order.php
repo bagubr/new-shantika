@@ -37,6 +37,8 @@ class Order extends Model
         'destination_agency_id',
         'departure_agency_id',
         'cancelation_reason',
+        'nominal_discount',
+        'promo_id'
     ];
     protected $appends = [
         'area_name',
@@ -91,8 +93,14 @@ class Order extends Model
     {
         return $this->hasOne(Review::class, 'order_id', 'id');
     }
+    
     public function getAreaNameAttribute()
     {
         return $this->fleet_route?->route?->departure_city?->area?->id;
+    }
+
+    public function promo()
+    {
+        return $this->belongsTo(Promo::class, 'promo_id');
     }
 }
