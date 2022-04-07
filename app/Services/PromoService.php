@@ -17,8 +17,13 @@ class PromoService {
         $message = NotificationMessage::promo($promo);
 
         if(isset($data['is_public']) && $data['is_public']){
-            $notification = Notification::build($message[0], $message[1], Notification::TYPE7, $promo->id);
-            SendingNotificationToTopic::dispatch($notification, Notification::TOPIC1, true, [
+            $notification = new Notification([
+                'title'=>$message[0],
+                'body'=>$message[1],
+                'reference_id'=>$promo->id,
+                'type'=>Notification::TYPE7
+            ]);
+            SendingNotificationToTopic::dispatch($notification, Notification::TOPIC1, false, [
                 'reference_id'=>(string) $promo->id,
                 'type'=>Notification::TYPE7
             ]);

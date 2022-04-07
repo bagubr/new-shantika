@@ -27,7 +27,7 @@ class PromoController extends Controller
         if(empty($data['quota'])){
             $data['is_quotaless'] = true;
         }
-        if(empty($data['user_id'])){
+        if(empty($data['user_id']) || !$data['user_id']){
             $data['is_public'] = true;
             unset($data['user_id']);
         }
