@@ -19,7 +19,12 @@ class CityController extends Controller
         }
         
         $this->sendSuccessResponse([
-            'cities'=>City::orderBy('name')->when($agency, function($query) use ($agency) {
+            'cities'=>City::orderBy('name')
+            ->when($request->area_id, function ($query) use ($request)
+            {
+                $query->where('area_id', $request->area_id);
+            })
+            ->when($agency, function($query) use ($agency) {
                 $query->where('area_id',"!=",$agency->city->area_id);
             })->get()
         ]);
