@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Agency;
 use App\Models\AgencyFleet;
+use App\Models\Area;
 use App\Models\Fleet;
 use App\Models\Route;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ class AgencyFleetController extends Controller
     public function index()
     {
         $fleets = Fleet::get();
+        $areas = Area::all();
         return view('agency_fleet.index', compact('fleets'));
     }
 

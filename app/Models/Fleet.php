@@ -13,15 +13,20 @@ class Fleet extends Model
     protected $table = 'fleets';
     protected $fillable = ['name', 'description', 'fleet_class_id', 'image', 'layout_id', 'images'];
 
+    protected $appends = [
+        'fleet_units',
+        'route_fleets'
+    ];
+
     public function layout()
     {
         return $this->hasOne(Layout::class, 'id', 'layout_id');
     }
 
-    public function fleet_routes()
-    {
-        return $this->hasMany(FleetRoute::class, 'fleet_id', 'id');
-    }
+    // public function fleet_routes()
+    // {
+    //     return $this->hasMany(FleetRoute::class, 'fleet_id', 'id');
+    // }
 
     public function fleetclass()
     {
@@ -54,5 +59,15 @@ class Fleet extends Model
     public function agency_fleet()
     {
         return $this->hasMany(AgencyFleet::class, 'fleet_id', 'id');
+    }
+
+    public function getFleetUnitAttribute()
+    {
+        return $this->fleet_detail()->get()->pluck('nickname', 'plate_number');
+    }
+
+    public function getRouteFleetsAttribute()
+    {
+        return Checkpoint::whereIn('route_id', Route::whereIn('id', FleetRoute::whereIn('fleet_detail_id', $this->fleet_detail()->get()->pluck('id'))->get()->pluck('route_id'))->get()->pluck('id'))->first()->agency?->city?->area?->name??'';
     }
 }

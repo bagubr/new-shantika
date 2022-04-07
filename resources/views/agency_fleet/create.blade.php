@@ -51,6 +51,14 @@ Armada Agen
                                         @endforeach
                                     </select>
                                 </div>
+                                <div class="form-group col-4">
+                                    <label for="">Mulai Dari</label>
+                                    <input type="date" name="start_at" class="form-control" id="">
+                                </div>
+                                <div class="form-group col-4">
+                                    <label for="">Selesai</label>
+                                    <input type="date" name="end_at" class="form-control" id="">
+                                </div>
                             </div>
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
@@ -83,6 +91,8 @@ Armada Agen
                                     <thead>
                                         <tr>
                                             <th>Agen</th>
+                                            <th>Start</th>
+                                            <th>End</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -90,6 +100,8 @@ Armada Agen
                                         @foreach ($agency_fleets as $agency_fleet)
                                         <tr>
                                             <td>{{$agency_fleet->agency->name}}</td>
+                                            <td>{{ date('Y-m-d', strtotime($agency_fleet->start_at)) }}</td>
+                                            <td>{{ date('Y-m-d', strtotime($agency_fleet->end_at)) }}</td>
                                             <td>    
                                                 <form action="{{route('agency_fleet.destroy', $agency_fleet->id)}}" class="d-inline"
                                                     method="POST">

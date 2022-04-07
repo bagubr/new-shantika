@@ -37,7 +37,7 @@ Harga Rute Armada
                                 <select name="fleet_route_id" class="form-control select2">
                                     <option value="">Pilih Armada</option>
                                     @foreach ($fleets as $fleet)
-                                    @if (old('fleet_route_id') == $fleet->id)
+                                    @if (@$fleet_route_id == $fleet->id)
                                     <option value="{{$fleet->id}}" selected>
                                         {{$fleet->name}}/{{$fleet->fleetclass?->name}}
                                     </option>
@@ -51,7 +51,20 @@ Harga Rute Armada
                             </div>
                             <div class="form-group">
                                 <label>Tanggal</label>
-                                <input type="date" class="form-control" name="date_search" value="{{old('date') }}">
+                                <input type="date" class="form-control" name="date_search" value="{{@$date_search }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Cari Area</label>
+                                <select name="area_id" class="form-control">
+                                    <option value="">--PILIH AREA--</option>
+                                    @foreach ($areas as $area)
+                                    @if (@$area_id == $area->id)
+                                    <option value="{{$area->id}}" selected>{{$area->name}}</option>
+                                    @else
+                                    <option value="{{$area->id}}">{{$area->name}}</option>
+                                    @endif
+                                    @endforeach
+                                </select>
                             </div>
                             <input type="submit" value="Cari" class="btn btn-success float-right">
                         </form>

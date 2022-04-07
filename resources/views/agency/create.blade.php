@@ -78,12 +78,12 @@ Agen
                             <div class="col">
                                 <div class="form-group">
                                     <label>Jam Keberangkatan {{ $time_classification->name }}</label>
-                                    @if($time_classification->agency_departure)
+                                    @if(count($time_classification->agency_departure) > 0)
                                         @foreach($time_classification->agency_departure as $agency_departure)
                                             <input type="time" class="form-control" name="departure_at[]" required value="{{isset($agency) ? $agency_departure->departure_at : ''}}">
                                         @endforeach
                                     @else
-                                        <input type="time" class="form-control" name="departure_at[]" required value="{{isset($agency) ? $agency_departure->departure_at : ''}}">
+                                        <input type="time" class="form-control" name="departure_at[]" required value="{{isset($agency) ?: ''}}">
                                     @endif
                                 </div>
                             </div>

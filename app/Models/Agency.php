@@ -43,7 +43,7 @@ class Agency extends Model
             $departure_at = $this->agency_departure_times()?->where('time_classification_id', $item->id)
             ?->orderBy('id')->first()?->departure_at;
             $item2 = $item->name.' '. date('H:i', strtotime($departure_at)) . ' WIB';
-            return $item2;
+            return (!$departure_at)?$item->name.' --:-- WIB':$item2;
         });
         return $time;
     }

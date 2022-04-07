@@ -37,6 +37,8 @@ Armada Agen
                             <thead>
                                 <tr>
                                     <th>Armada</th>
+                                    <th>Unit Armada</th>
+                                    <th>Area</th>
                                     <th>Agen</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -45,6 +47,16 @@ Armada Agen
                                 @foreach ($fleets as $fleet)
                                 <tr>
                                     <td>{{$fleet->name}}</td>
+                                    <td>
+                                        @foreach ($fleet->fleet_detail as $detail)
+                                        <li>
+                                            {{$detail->nickname}} ({{$detail->plate_number}})
+                                        </li>
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        {{ ($fleet->route_fleets)?:'BELUM ADA' }}
+                                    </td>
                                     <td>{{implode(', ',$fleet->agency_fleet->pluck('agency.name')->toArray())}}</td>
                                     <td>
                                         <a href="{{route('agency_fleet.edit',$fleet->id)}}"
