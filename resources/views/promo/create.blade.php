@@ -79,7 +79,7 @@ Promo
                                 <option value="{{ $key }}">{{ $name }}</option>
                                 @endforeach
                             </select>
-                            <small class="text-danger d-none" id="refresh"><i class="fas fa-info-circle"></i> Dapat di Kosongkan jika ingin ditujukan ke semua user</small>
+                            <small class="text-danger" id="refresh"><i class="fas fa-info-circle"></i> Dapat di Kosongkan jika ingin ditujukan ke semua user</small>
                         </div>
                         <div class="form-row">
                             <div class="col">
@@ -96,19 +96,18 @@ Promo
                                         value="{{isset($promo) ? $promo->end_at : ''}}">
                                 </div>
                             </div>
-                            <small class="text-danger d-none" id="refresh"><i class="fas fa-info-circle"></i> Dapat di Kosongkan jika ingin tidak ada batasan waktu</small>
                         </div>
                         <div class="form-group">
                             <label>Diskon</label>
                             <input type="number" class="form-control" name="percentage_discount" placeholder="Masukkan Diskon %"
                                 value="{{isset($promo) ? $promo->percentage_discount : ''}}" required min="1" max="100">
-                            <small class="text-danger d-none" id="refresh"><i class="fas fa-info-circle"></i> Berupa percentase</small>
+                            <small class="text-danger" id="refresh"><i class="fas fa-info-circle"></i> Berupa percentase</small>
                         </div>
                         <div class="form-group">
                             <label>Max Diskon</label>
                             <input type="number" class="form-control" name="maximum_discount" placeholder="Masukkan Maximal Diskon"
                                 value="{{isset($promo) ? $promo->maximum_discount : ''}}">
-                            <small class="text-danger d-none" id="refresh"><i class="fas fa-info-circle"></i> Kosongkan jika tidak di beri maximum</small>
+                            <small class="text-danger" id="refresh"><i class="fas fa-info-circle"></i> Kosongkan jika tidak di beri maximum</small>
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
