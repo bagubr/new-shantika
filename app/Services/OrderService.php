@@ -55,6 +55,7 @@ class OrderService
             }
             $promo = PromoRepository::getWithNominalDiscount($price, $data->promo_id);
             $price -= $promo->nominal_discount;
+            PromoHistory::create($data->only('user_id', 'promo_id'));
         }
         $for_deposit = $price;
         $ticket_price_with_food = $detail->is_feed
@@ -77,8 +78,6 @@ class OrderService
         if (empty($data->user->agencies)) {
             $data->price += $setting->xendit_charge;
         }
-
-        PromoHistory::create($data->only('user_id', 'promo_id'));
         $order = Order::create($data->toArray());
         $code_order = self::generateCodeOrder($order->id);
         $order->update([
