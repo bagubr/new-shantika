@@ -10,6 +10,7 @@ use App\Repositories\TestimonialRepository;
 use App\Repositories\CustomerMenuRepository;
 use App\Repositories\UserRepository;
 use App\Services\UserService;
+use App\Repositories\PromoRepository;
 
 class HomeController extends Controller
 {
@@ -19,6 +20,7 @@ class HomeController extends Controller
         $data['artikel'] = ArticleRepository::getAll();
         $data['testimonial'] = TestimonialRepository::getAll();
         $data['customer_menu'] = CustomerMenuRepository::getAll();
+        $data['promo'] = PromoRepository::get($request);
         if(!empty($request->token)){
             $user = UserRepository::findByToken($request->bearerToken());
             if(!$user->is_active) {
