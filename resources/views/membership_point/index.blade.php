@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Member
+Membership Point History
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->
@@ -8,12 +8,12 @@ Member
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Member</h1>
+                <h1 class="m-0">Membership Point History</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Member</li>
+                    <li class="breadcrumb-item active">Membership Point History</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -26,9 +26,10 @@ Member
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Member</h3>
+                        <h3 class="card-title">Table Membership Point History </h3>
+                        <h3 class="card-title">{{ $membership_points[0]->membership->user->name }}</h3>
                         <div class="text-right">
-                            <a href="{{route('membership_point.create')}}" class="btn btn-primary btn-sm">Tambah Point</a>
+                            <a href="{{route('membership_point.create', ['membership_id' => $membership_points[0]->membership_id])}}" class="btn btn-primary btn-sm">Tambah/Kurang Point</a>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -36,51 +37,27 @@ Member
                         <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Kode</th>
-                                    <th>Kode Member</th>
-                                    <th>Name</th>
-                                    <th>Nomor Hp</th>
-                                    <th>Name Aplikasi</th>
-                                    <th>Nomor Hp Aplikasi</th>
-                                    <th>Point</th>
-                                    <th>Aksi</th>
+                                    <th>Nominal</th>
+                                    <th>Status</th>
+                                    <th>Keterangan</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($members as $member)
+                                @foreach ($membership_points as $membership_point)
                                 <tr>
-                                    <td>{{$member->code_member}}</td>
-                                    <td>{{$member->code_member_stk}}</td>
-                                    <td>{{$member->name ?? ''}}</td>
-                                    <td>{{$member->phone ?? ''}}</td>
-                                    <td>{{$member->user->name ?? 'TIDAK DI KAITKAN APLIKASI'}}</td>
-                                    <td>{{$member->user->phone ?? 'TIDAK DI KAITKAN APLIKASI'}}</td>
-                                    <td>{{$member->sum_point ?? 0}}</td>
-                                    <td>
-                                        @unlessrole('owner')
-                                        <a href="{{route('member.edit',$member->id)}}"
-                                            class="btn btn-warning btn-xs">Edit</a>
-                                        @if($member->user->id)
-                                        <a href="{{route('member.history',$member->id)}}"
-                                            class="btn btn-outline-primary btn-xs">History Point</a>
-                                        @endif
-                                        <form action="{{route('member.destroy',$member->id)}}" class="d-inline"
-                                            method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger btn-xs"
-                                                onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
-                                                type="submit">Delete</button>
-                                        </form>
-                                        @endunlessrole
-                                    </td>
+                                    <td>{{$membership_point->value}}</td>
+                                    <td>{{$membership_point->status ?? ''}}</td>
+                                    @if($membership_point->status == 'create')
+                                    <td>Initial History Point</td>
+                                    @elseif($membership_point->status == 'purchase')
+                                    <td>Penambahan Point</td>
+                                    @else
+                                    <td>Pengurangan Point</td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                        <div class="text-right">
-                            {{$members->links()}}
-                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>

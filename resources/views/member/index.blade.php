@@ -105,7 +105,7 @@ Member
                                         @unlessrole('owner')
                                         <a href="{{route('member.edit',$member->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
-                                        @if($member->user->id)
+                                        @if($member->user?->id)
                                         <a href="{{route('membership_point.index', ['membership_id' => $member->id])}}"
                                             class="btn btn-outline-primary btn-xs">History Point</a>
                                         @endif
