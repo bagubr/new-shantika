@@ -33,7 +33,7 @@ class CityController extends Controller
     public function indexAll() {
         
         return $this->sendSuccessResponse([
-            'cities'=>City::orderBy('name')->get()
+            'cities'=>City::withCount('agent')->orderBy('name')->get()
         ]);
     }
 }
