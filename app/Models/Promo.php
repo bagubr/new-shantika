@@ -35,6 +35,11 @@ class Promo extends Model
         return $this->hasMany(PromoHistory::class);
     }
 
+    public function getImageAttribute($value)
+    {
+        return url('storage/' . $value);
+    }
+
     public function deleteImage()
     {
         Storage::disk('public')->delete($this->attributes['image']);
