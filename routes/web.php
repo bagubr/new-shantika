@@ -49,6 +49,7 @@ use App\Http\Controllers\SketchController;
 use App\Http\Controllers\StatusPenumpangController;
 use App\Http\Controllers\FleetDetailController;
 use App\Http\Controllers\FleetRoutePriceController;
+use App\Http\Controllers\MembershipPointController;
 use App\Http\Controllers\PromoController;
 use App\Http\Controllers\RestaurantBarcodeController;
 use App\Http\Controllers\RestaurantController;
@@ -217,6 +218,7 @@ Route::group(['middleware' => ['auth']], function () {
         'fleet_route' => FleetRouteController::class,
         'status_penumpang' => StatusPenumpangController::class,
         'agency_price' => AgencyPriceController::class,
+        'membership_point' => MembershipPointController::class
     ]);
     Route::post('route_price', [AgencyPriceController::class, 'storeRoute'])->name('route_price.store');
     Route::delete('route_price/{id}', [AgencyPriceController::class, 'destroyRoute'])->name('route_price.destroy');

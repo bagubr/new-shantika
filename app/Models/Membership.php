@@ -24,11 +24,11 @@ class Membership extends Model
 
     protected $appends = [
         'sum_point_in',
-        'sum_point_out'
+        'sum_point_out',
+        'code_member_stk'
     ];
 
     protected $casts = [
-        'code_member' => CodeMember::class,
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s'
     ];
@@ -46,6 +46,11 @@ class Membership extends Model
     public function membership_point()
     {
         return $this->hasMany(MembershipPoint::class, 'membership_id', 'id');
+    }
+
+    public function getCodeMemberStkAttribute()
+    {
+        return 'SNTK' . sprintf('%08d', $this->code_member);
     }
 
     public function getSumPointInAttribute()

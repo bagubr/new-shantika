@@ -23,57 +23,12 @@ Member
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Import Member</h3>
-                    </div>
-                    <div class="card-body">
-                        <form action="{{url('member/import')}}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <div class="form-group">
-                                <label>Import</label>
-                                <input type="file" class="form-control" required name="file">
-                            </div>
-                            @unlessrole('owner')
-
-                            <div class="text-right">
-                                <button class="btn btn-primary" type="submit">Import</button>
-                            </div>
-                            @endunlessrole
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Cari Member</h3>
-                    </div>
-                    <div class="card-body">
-                        <form action="{{route('member.search')}}" method="get">
-                            <div class="form-group">
-                                <label>Nama</label>
-                                <input type="text" class="form-control" name="name" value="{{ @$name }}">
-                            </div>
-                            <div class="form-group">
-                                <label>Kode</label>
-                                <input type="text" class="form-control" name="code_member" value="{{ @$code_member }}">
-                            </div>
-                            <div class="text-right">
-                                <button class="btn btn-success" type="submit">Cari</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Table Member</h3>
                         <div class="text-right">
-                            <a href="{{route('member.create')}}" class="btn btn-primary btn-sm">Tambah</a>
-                            <a href="#" class="btn btn-outline-primary btn-sm">Duplikasi Data Member {{ $duplicate_member }}</a>
+                            <a href="{{route('membership_point.create')}}" class="btn btn-primary btn-sm">Tambah Point</a>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -106,7 +61,7 @@ Member
                                         <a href="{{route('member.edit',$member->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         @if($member->user->id)
-                                        <a href="{{route('membership_point.index', ['membership_id' => $member->id])}}"
+                                        <a href="{{route('member.history',$member->id)}}"
                                             class="btn btn-outline-primary btn-xs">History Point</a>
                                         @endif
                                         <form action="{{route('member.destroy',$member->id)}}" class="d-inline"

@@ -22,11 +22,17 @@ class MemberController extends Controller
      */
     public function index()
     {
+        $member = Membership::all();
+        $unique_member = $member->unique(['code_member']);
+        $duplicate_member = $member->diff($unique_member)->count();
         $members = Membership::with('user')->orderBy('user_id', 'ASC')->paginate(10);
-        return view('member.index', compact('members'));
+        return view('member.index', compact('members', 'duplicate_member'));
     }
     public function search(Request $request)
     {
+        $member = Membership::all();
+        $unique_member = $member->unique(['code_member']);
+        $duplicate_member = $member->diff($unique_member)->count();
         $members = Membership::query();
         $name = $request->name;
         $code_member = $request->code_member;
@@ -35,16 +41,16 @@ class MemberController extends Controller
             $members = $members->where('name', 'ilike', '%' . $name . '%');
         }
         if (!empty($code_member)) {
-            $members = $members->where('code_member', $code_member);
+            $members = $members->orWhere('code_member', 'ilike', '%' . $code_member. '%');
         }
 
-        $members = $members->orderBy('id', 'DESC')->paginate();
+        $members = $members->orderBy('id', 'DESC')->paginate(10);
         if (!$members->isEmpty()) {
             session()->flash('success', 'Data Member Berhasil Ditemukan');
         } else {
             session()->flash('error', 'Tidak Ada Data Ditemukan');
         }
-        return view('member.index', compact('members'));
+        return view('member.index', compact('members', 'code_member', 'name', 'duplicate_member'));
     }
 
     /**

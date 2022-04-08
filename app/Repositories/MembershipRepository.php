@@ -69,7 +69,7 @@ class MembershipRepository {
 
     public function getCodeMember()
     {
-        return $this->getUser()->membership->code_member;
+        return $this->getUser()->membership->code_member_stk;
     }
 
 
