@@ -55,6 +55,7 @@ class OrderService
             }
             $promo = PromoRepository::getWithNominalDiscount($price, $data->promo_id);
             $price -= $promo->nominal_discount;
+            $data->nominal_discount = $promo->nominal_discount;
             PromoHistory::create($data->only('user_id', 'promo_id'));
         }
         $for_deposit = $price;
