@@ -7,17 +7,10 @@ use App\Models\AgencyFleet;
 use App\Models\AgencyFleetPermanent;
 use App\Models\Area;
 use App\Models\Fleet;
-use App\Models\Route;
 use Illuminate\Http\Request;
 
-class AgencyFleetController extends Controller
+class AgencyFleetPermanentController extends Controller
 {
-    public function index()
-    {
-        $fleets = Fleet::get();
-        $areas = Area::all();
-        return view('agency_fleet.index', compact('fleets'));
-    }
 
     public function create()
     {
@@ -26,21 +19,21 @@ class AgencyFleetController extends Controller
             $query->where('id', 2);
         })->get();
         $fleets = Fleet::get();
-        return view('agency_fleet.create', compact('agencies', 'fleets'));
+        return view('agency_fleet.create-permanent', compact('agencies', 'fleets'));
     }
 
     public function store(Request $request)
     {
         $data = $request->all();
-        $agency_fleet = AgencyFleet::where('agency_id', $request->agency_id)->where('fleet_id', $request->fleet_id)->first();
         $agency_fleet_permanent = AgencyFleetPermanent::where('agency_id', $request->agency_id)->where('fleet_id', $request->fleet_id)->first();
-        if($agency_fleet_permanent){
+        $agency_fleet = AgencyFleet::where('agency_id', $request->agency_id)->where('fleet_id', $request->fleet_id)->first();
+        if($agency_fleet){
             session()->flash('error', 'Data sudah Ditambahkan');
         }else{
-            if($agency_fleet){
+            if($agency_fleet_permanent){
                 session()->flash('error', 'Data sudah Ditambahkan');
             }else{
-                AgencyFleet::create($data);
+                AgencyFleetPermanent::create($data);
                 session()->flash('success', 'Data Berhasil Ditambahkan');
             }
         }
@@ -59,21 +52,21 @@ class AgencyFleetController extends Controller
             $query->where('fleet_id', $id);
         })
         ->get();
-        $agency_fleets = AgencyFleet::where('fleet_id', $id)->get();
-        return view('agency_fleet.create', compact('agency_fleets', 'agencies', 'fleet'));
+        $agency_fleet_permanents = AgencyFleetPermanent::where('fleet_id', $id)->get();
+        return view('agency_fleet.create-permanent', compact('agency_fleet_permanents', 'agencies', 'fleet'));
     }
 
-    public function update(Request $request, AgencyFleet $agency_fleet)
+    public function update(Request $request, AgencyFleetPermanent $agency_fleet_permanent)
     {
         $data = $request->all();
-        $agency_fleet->update($data);
+        $agency_fleet_permanent->update($data);
         session()->flash('success', 'Data Berhasil Dirubah');
         return redirect(route('agency_fleet.index'));
     }
 
-    public function destroy(AgencyFleet $agency_fleet)
+    public function destroy(AgencyFleetPermanent $agency_fleet_permanent)
     {
-        $agency_fleet->delete();
+        $agency_fleet_permanent->delete();
         session()->flash('success', 'Data Berhasil Dihapus');
         return redirect()->back();
     }

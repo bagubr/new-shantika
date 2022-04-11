@@ -61,6 +61,11 @@ class Fleet extends Model
         return $this->hasMany(AgencyFleet::class, 'fleet_id', 'id');
     }
 
+    public function agency_fleet_permanent()
+    {
+        return $this->hasMany(AgencyFleetPermanent::class, 'fleet_id', 'id');
+    }
+
     public function getFleetUnitsAttribute()
     {
         return $this->fleet_detail()->get()->pluck('nickname', 'plate_number');
