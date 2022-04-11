@@ -43,7 +43,14 @@ class PromoRepository {
             });
         })
         ->orderBy('id', 'desc')
-        ->get();
+        ->get()->filter(function ($item)
+        {
+            if($item->promo_histories_count < $item->quota){
+                return $item;
+            }else{
+                return false;
+            }
+        })->values();
     }
 
     public static function getWithNominalDiscount($price = null, $promo_id)
