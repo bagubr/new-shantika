@@ -14,7 +14,7 @@ class AddColumnToSettings extends Migration
     public function up()
     {
         Schema::table('settings', function (Blueprint $table) {
-            $table->bigInteger('point_purchase')->deafult(0);
+            $table->bigInteger('point_purchase')->default(0);
         });
     }
 
