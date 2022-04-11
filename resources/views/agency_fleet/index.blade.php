@@ -59,8 +59,10 @@ Armada Agen
                                     </td>
                                     <td>{{implode(', ',$fleet->agency_fleet->pluck('agency.name')->toArray())}}</td>
                                     <td>
+                                        <a href="{{route('agency_fleet_permanent.edit',$fleet->id)}}"
+                                            class="btn btn-warning btn-xs">Tambah Agent Permanent</a>
                                         <a href="{{route('agency_fleet.edit',$fleet->id)}}"
-                                            class="btn btn-warning btn-xs">Tambah Agent</a>
+                                            class="btn btn-warning btn-xs">Tambah Agent Temporary</a>
                                     </td>
                                 </tr>
                                 @endforeach

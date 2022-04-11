@@ -1,18 +1,18 @@
 @extends('layouts.main')
 @section('title')
-Armada Agen Temporary
+Armada Agen Permanent
 @endsection
 @section('content')
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Armada Agen Temporary Form</h1>
+                <h1>Armada Agen Permanent Form</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Armada Agen Temporary</li>
+                    <li class="breadcrumb-item active">Armada Agen Permanent</li>
                 </ol>
             </div>
         </div>
@@ -32,7 +32,7 @@ Armada Agen Temporary
                 </div>
                 <div class="card-body" style="display: block;">
                     @include('partials.error')
-                    <form action="{{route('agency_fleet.store')}}" method="POST">
+                    <form action="{{route('agency_fleet_permanent.store')}}" method="POST">
                         @csrf
                         <div class="form-row">
                             <div class="col">
@@ -50,14 +50,6 @@ Armada Agen Temporary
                                         </option>
                                         @endforeach
                                     </select>
-                                </div>
-                                <div class="form-group col-4">
-                                    <label for="">Mulai Dari</label>
-                                    <input type="date" name="start_at" class="form-control" id="">
-                                </div>
-                                <div class="form-group col-4">
-                                    <label for="">Selesai</label>
-                                    <input type="date" name="end_at" class="form-control" id="">
                                 </div>
                             </div>
                         </div>
@@ -91,19 +83,15 @@ Armada Agen Temporary
                                     <thead>
                                         <tr>
                                             <th>Agen</th>
-                                            <th>Start</th>
-                                            <th>End</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($agency_fleets as $agency_fleet)
+                                        @foreach ($agency_fleet_permanents as $agency_fleet_permanent)
                                         <tr>
-                                            <td>{{$agency_fleet->agency->name}}</td>
-                                            <td>{{ date('Y-m-d', strtotime($agency_fleet->start_at)) }}</td>
-                                            <td>{{ date('Y-m-d', strtotime($agency_fleet->end_at)) }}</td>
+                                            <td>{{$agency_fleet_permanent->agency->name}}</td>
                                             <td>    
-                                                <form action="{{route('agency_fleet.destroy', $agency_fleet->id)}}" class="d-inline"
+                                                <form action="{{route('agency_fleet_permanent.destroy', $agency_fleet_permanent->id)}}" class="d-inline"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')

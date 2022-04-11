@@ -139,4 +139,9 @@ class Agency extends Model
     {
         return $this->hasMany(AgencyFleet::class, 'agency_id', 'id');
     }
+
+    public function agency_fleet_permanent()
+    {
+        return $this->hasMany(AgencyFleetPermanent::class, 'agency_id', 'id');
+    }
 }

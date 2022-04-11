@@ -99,6 +99,14 @@ class RouteController extends BaseRouteController
                         });
                     $que->orDoesnthave('fleet_detail.fleet.agency_fleet');
                 })
+                ->where(function ($que) use($departure_agency)
+                {
+                    $que->whereHas('fleet_detail.fleet.agency_fleet_permanent', function ($query) use ($departure_agency)
+                        {
+                            $query->where('agency_id', $departure_agency->id);
+                        });
+                    $que->orDoesnthave('fleet_detail.fleet.agency_fleet_permanent');
+                })
         ->get();
         foreach ($routes as $route) {
             $found = false;

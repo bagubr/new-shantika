@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminNotificationController;
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\AgencyFleetController;
+use App\Http\Controllers\AgencyFleetPermanentController;
 use App\Http\Controllers\AgencyPriceController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\ArticleController;
@@ -188,6 +189,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resources([
         'agency_fleet' => AgencyFleetController::class,
+        'agency_fleet_permanent' => AgencyFleetPermanentController::class,
         'time_change_route' => TimeChangeRouteController::class,
         'fleet_detail' => FleetDetailController::class,
         'fleets' => FleetController::class,
