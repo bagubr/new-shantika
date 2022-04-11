@@ -39,7 +39,8 @@ Armada Agen
                                     <th>Armada</th>
                                     <th>Unit Armada</th>
                                     <th>Area</th>
-                                    <th>Agen</th>
+                                    <th>Agen Permanen</th>
+                                    <th>Agen Temporer</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -57,12 +58,22 @@ Armada Agen
                                     <td>
                                         {{ ($fleet->route_fleets)?:'BELUM ADA' }}
                                     </td>
-                                    <td>{{implode(', ',$fleet->agency_fleet->pluck('agency.name')->toArray())}}</td>
+                                    <td>{{implode(', ',$fleet->agency_fleet_permanent->pluck('agency.name')->toArray())}}</td>
+                                    <td>{!! implode(', ',$fleet->agency_fleet->transform(function ($item)
+                                        {
+                                            if(strtotime($item->start_at) <= strtotime(date('Y-m-d')) && strtotime($item->end_at) >= strtotime(date('Y-m-d'))){
+                                                return $item->agency->name;
+                                            }else{
+                                                return '<del>'.$item->agency->name.'</del>';
+                                            }
+                                    })->toArray()) !!}</td>
                                     <td>
-                                        <a href="{{route('agency_fleet_permanent.edit',$fleet->id)}}"
-                                            class="btn btn-warning btn-xs">Tambah Agent Permanent</a>
+                                        <a href="
+                                        {{-- {{route('agency_fleet_permanent.edit',$fleet->id)}} --}}
+                                        "
+                                            class="btn btn-primary btn-xs" class="disabled-link">Tambah Agent Permanent (Belum Selesai)</a>
                                         <a href="{{route('agency_fleet.edit',$fleet->id)}}"
-                                            class="btn btn-warning btn-xs">Tambah Agent Temporary</a>
+                                            class="btn btn-outline-primary btn-xs">Tambah Agent Temporary</a>
                                     </td>
                                 </tr>
                                 @endforeach
