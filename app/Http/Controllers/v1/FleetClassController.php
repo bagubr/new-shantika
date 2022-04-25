@@ -9,6 +9,7 @@ use App\Models\FleetClass;
 use App\Models\TimeClassification;
 use App\Repositories\AgencyRepository;
 use App\Repositories\TimeClassificationRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -27,6 +28,10 @@ class FleetClassController extends Controller
         $date = $request->date;
         $agency_id = $request->agency_id;
         $agency_departure = Agency::find($agency_departure_id);
+        if(!$agency_departure){
+            $user = UserRepository::findByToken($request->bearerToken());
+            $agency_departure = AgencyRepository::findWithCity($user->agencies->agency_id);
+        }
         $agency = Agency::find($agency_id);
         $fleet_class = FleetClass::has('fleets.fleet_detail.fleet_route.prices')->select('id', 'name', 'price_food')
         ->whereHas('fleets.fleet_detail', function ($query) use ($time_classification_id, $date, $agency_id, $agency, $agency_departure)
