@@ -24,27 +24,21 @@ class FleetClassController extends Controller
     public function available(ApiAvailableFleetClassRequest $request) {
 
         $time_classification_id = $request->time_classification_id;
-        $agency_departure_id = $request->agency_departure_id;
         $date = $request->date;
         $agency_id = $request->agency_id;
-        $agency_departure = Agency::find($agency_departure_id);
-        if(!$agency_departure){
-            $user = UserRepository::findByToken($request->bearerToken());
-            $agency_departure = AgencyRepository::findWithCity($user->agencies->agency_id);
-        }
         $agency = Agency::find($agency_id);
         $fleet_class = FleetClass::has('fleets.fleet_detail.fleet_route.prices')->select('id', 'name', 'price_food')
-        ->whereHas('fleets.fleet_detail', function ($query) use ($time_classification_id, $date, $agency_id, $agency, $agency_departure)
+        ->whereHas('fleets.fleet_detail', function ($query) use ($time_classification_id, $date, $agency_id, $agency)
         {
             $query->where('time_classification_id', $time_classification_id);
-            $query->whereHas('fleet_route', function ($query) use ($date, $agency_id, $agency, $agency_departure, $time_classification_id)
+            $query->whereHas('fleet_route', function ($query) use ($date, $agency_id, $agency, $time_classification_id)
             {
                 $query->where('is_active', true);
                 $query->whereHas('prices', function ($query) use ($date)
                 {
                     $query->whereDate('start_at', '<=', $date)->whereDate('end_at', '>=', $date);
                 });
-                $query->whereHas('route.checkpoints', function ($query) use ($agency_id, $agency, $agency_departure, $time_classification_id)
+                $query->whereHas('route.checkpoints', function ($query) use ($agency_id, $agency, $time_classification_id)
                 {
                     $time_start = TimeClassification::find($time_classification_id)->time_start;
                     $time_end = TimeClassification::find($time_classification_id)->time_end;
@@ -52,13 +46,12 @@ class FleetClassController extends Controller
                         $subquery->where('departure_at', '>', $time_start)->orWhere('departure_at', '<', $time_end);
                     });
                     $query->where('agency_id', $agency_id);
-                    $query->whereHas('agency', function ($query) use ($agency, $agency_departure)
+                    $query->whereHas('agency', function ($query) use ($agency)
                     {
                         $query->where('is_active', true);
-                        $query->whereHas('city.area', function ($query) use ($agency, $agency_departure)
+                        $query->whereHas('city.area', function ($query) use ($agency)
                         {
                             $query->where('id', $agency->city->area_id);
-                            $query->where('id', '!=', $agency_departure->city->area_id);
                         });
                     });
                 });

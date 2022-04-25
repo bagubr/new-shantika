@@ -21,11 +21,6 @@ class Route extends Model
         'created_at', 'updated_at', 'deleted_at'
     ];
 
-
-    public function foo() {
-        return "hellowold";
-    }
-
     public function fleet_detail()
     {
         return $this->hasManyThrough(Fleet::class, FleetRoute::class, 'fleet_id', 'id');
@@ -44,5 +39,15 @@ class Route extends Model
     public function order_detail()
     {
         return $this->hasManyThrough(OrderDetail::class, Order::class);
+    }
+
+    public function agency_route()
+    {
+        return $this->hasMany(AgencyRoute::class, 'route_id', 'id');
+    }
+
+    public function agency_route_permanent()
+    {
+        return $this->hasMany(AgencyRoutePermanent::class, 'route_id', 'id');
     }
 }
