@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Harga Rute Armada
+Jadwal Rute {{$area->name}}
 @endsection
 @push('css')
 <link rel="stylesheet" href="{{asset('plugins/fullcalendar/main.css')}}">
@@ -11,12 +11,12 @@ Harga Rute Armada
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Harga Rute Armada</h1>
+                <h1 class="m-0">Jadwal Rute {{$area->name}}</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Harga Rute Armada</li>
+                    <li class="breadcrumb-item active">Jadwal Rute {{$area->name}}</li>
                 </ol>
             </div>
         </div>
@@ -28,10 +28,10 @@ Harga Rute Armada
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Cari Harga Rute Armada</h3>
+                        <h3 class="card-title">Cari Jadwal Rute {{$area->name}}</h3>
                     </div>
                     <div class="card-body">
-                        <form action="{{route('fleet_route_prices.search')}}" method="get">
+                        <form action="{{route('fleet_route_prices.index')}}" method="get">
                             <div class="form-group">
                                 <label>Armada</label>
                                 <select name="fleet_route_id" class="form-control select2">
@@ -55,7 +55,7 @@ Harga Rute Armada
                             </div>
                             <div class="form-group">
                                 <label>Cari Area</label>
-                                <select name="area_id" class="form-control">
+                                <select name="area_id" class="form-control" disabled>
                                     <option value="">--PILIH AREA--</option>
                                     @foreach ($areas as $area)
                                     @if (@$area_id == $area->id)
@@ -77,7 +77,7 @@ Harga Rute Armada
                         <h3 class="card-title">Table</h3>
                         @unlessrole('owner')
                         <div class="text-right">
-                            <a href="{{route('fleet_route_prices.create')}}" class="btn btn-primary btn-sm">Tambah</a>
+                            <a href="{{route('fleet_route_prices.create', ['area_id' => $area_id])}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
                         @endunlessrole
                     </div>
@@ -86,6 +86,7 @@ Harga Rute Armada
                             <thead>
                                 <tr>
                                     <th>Nama</th>
+                                    <th>Area</th>
                                     <th>Rute</th>
                                     <th>Tanggal</th>
                                     <th>Perubahan Harga</th>
@@ -100,6 +101,7 @@ Harga Rute Armada
                                         {{$fleet_route_price->fleet_route?->fleet_detail?->fleet?->name}}/{{$fleet_route_price->fleet_route?->fleet_detail?->fleet?->fleetclass?->name}}
                                         ({{$fleet_route_price->fleet_route?->fleet_detail?->nickname}})
                                     </td>
+                                    <td>{{$fleet_route_price->fleet_route?->route?->checkpoints[0]?->agency?->city?->area?->name??'BELUM_ADA'}}</td>
                                     <td>{{$fleet_route_price->fleet_route?->route?->name}}</td>
                                     <td>{{$fleet_route_price->start_at}} - {{$fleet_route_price->end_at}}</td>
                                     <td>Rp. {{number_format($fleet_route_price->deviation_price,2)}}</td>
