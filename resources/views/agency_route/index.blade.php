@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-Armada Agen
+Rute Agen
 @endsection
 @section('content')
 <!-- Content Header (Page header) -->
@@ -8,12 +8,12 @@ Armada Agen
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Armada Agen</h1>
+                <h1 class="m-0">Rute Agen</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Armada Agen</li>
+                    <li class="breadcrumb-item active">Rute Agen</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -23,12 +23,40 @@ Armada Agen
 <div class="content">
     <div class="container-fluid">
         <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <form action="{{route('agency_route.index')}}" method="get">
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Cari Area</label>
+                                        <select name="area_id" class="form-control">
+                                            <option value="">--PILIH AREA--</option>
+                                            @foreach ($areas as $area)
+                                            @if ($area_id == $area->id)
+                                            <option value="{{$area->id}}" selected>{{$area->name}}</option>
+                                            @else
+                                            <option value="{{$area->id}}">{{$area->name}}</option>
+                                            @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right m-2">
+                            <button class="btn btn-success" type="submit">Cari</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Armada Agen</h3>
+                        <h3 class="card-title">Table Rute Agen</h3>
                         <div class="text-right">
-                            {{-- <a href="{{route('agency_fleet.create')}}" class="btn btn-primary btn-sm">Tambah</a> --}}
+                            {{-- <a href="{{route('agency_route.create')}}" class="btn btn-primary btn-sm">Tambah</a> --}}
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -36,8 +64,7 @@ Armada Agen
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Armada</th>
-                                    <th>Unit Armada</th>
+                                    <th>Rute</th>
                                     <th>Area</th>
                                     <th>Agen Permanen</th>
                                     <th>Agen Temporer</th>
@@ -45,21 +72,18 @@ Armada Agen
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($fleets as $fleet)
+                                @foreach ($routes as $route)
                                 <tr>
-                                    <td>{{$fleet->name}}</td>
+                                    <td>{{$route->name}}</td>
                                     <td>
-                                        @foreach ($fleet->fleet_detail as $detail)
-                                        <li>
-                                            {{$detail->nickname}} ({{$detail->plate_number}})
-                                        </li>
-                                        @endforeach
+                                        @if ($route->checkpoints->count() > 0)
+                                        {{$route->checkpoints[0]?->agency?->city?->area?->name}}
+                                        @else
+                                        BELUM ADA
+                                        @endif
                                     </td>
-                                    <td>
-                                        {{ ($fleet->route_fleets)?:'BELUM ADA' }}
-                                    </td>
-                                    <td>{{implode(', ',$fleet->agency_fleet_permanent->pluck('agency.name')->toArray())}}</td>
-                                    <td>{!! implode(', ',$fleet->agency_fleet->transform(function ($item)
+                                    <td>{{implode(', ',$route->agency_route_permanent->pluck('agency.name')->toArray())}}</td>
+                                    <td>{!! implode(', ',$route->agency_route->transform(function ($item)
                                         {
                                             if(strtotime($item->start_at) <= strtotime(date('Y-m-d')) && strtotime($item->end_at) >= strtotime(date('Y-m-d'))){
                                                 return $item->agency->name;
@@ -68,8 +92,8 @@ Armada Agen
                                             }
                                     })->toArray()) !!}</td>
                                     <td>
-                                        <a href="{{route('agency_fleet_permanent.edit',$fleet->id)}}"class="btn btn-primary btn-xs" class="disabled-link">Tambah Agent Permanent</a>
-                                        <a href="{{route('agency_fleet.edit',$fleet->id)}}"
+                                        <a href="{{route('agency_route_permanent.edit',$route->id)}}"class="btn btn-primary btn-xs" class="disabled-link">Tambah Agent Permanent</a>
+                                        <a href="{{route('agency_route.edit',$route->id)}}"
                                             class="btn btn-outline-primary btn-xs">Tambah Agent Temporary</a>
                                     </td>
                                 </tr>

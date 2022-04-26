@@ -138,9 +138,9 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item {{Request::routeIs('fleets.*','fleetclass.*','layouts.*') ? 'menu-open' : ''}}">
+                <li class="nav-item {{Request::routeIs('fleets.*','fleetclass.*','layouts.*', 'agency_fleet.*') ? 'menu-open' : ''}}">
                     <a href="#"
-                        class="nav-link {{Request::routeIs('fleets.*','fleetclass.*','layouts.*') ? 'active' : ''}}">
+                        class="nav-link {{Request::routeIs('fleets.*','fleetclass.*','layouts.*', 'agency_fleet.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-bus"></i>
                         <p>
                             Armada
@@ -169,10 +169,17 @@
                                 <p>Layout Armada</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{route('agency_fleet.index')}}"
+                                class="nav-link {{Request::routeIs('agency_fleet.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Armada Tertentu</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
-                <li class="nav-item {{Request::routeIs('routes.*','fleet_route.*') ? 'menu-open' : ''}}">
-                    <a href="#" class="nav-link {{Request::routeIs('routes.*','fleet_route.*') ? 'active' : ''}}">
+                <li class="nav-item {{Request::routeIs('routes.*','fleet_route.*', 'agency_route.*') ? 'menu-open' : ''}}">
+                    <a href="#" class="nav-link {{Request::routeIs('routes.*','fleet_route.*', 'agency_route.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-route"></i>
                         <p>
                             Rute
@@ -192,6 +199,13 @@
                                 class="nav-link {{Request::routeIs('fleet_route.*') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Rute Armada</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('agency_route.index')}}"
+                                class="nav-link {{Request::routeIs('agency_route.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Rute Tertentu</p>
                             </a>
                         </li>
                     </ul>
@@ -226,13 +240,6 @@
                                 class="nav-link {{Request::routeIs('user_agent.*') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Akun Agen</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('agency_fleet.index')}}"
-                                class="nav-link {{Request::routeIs('agency_fleet.*') ? 'active' : ''}}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Armada Agen</p>
                             </a>
                         </li>
                     </ul>
