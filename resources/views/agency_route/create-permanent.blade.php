@@ -1,18 +1,18 @@
 @extends('layouts.main')
 @section('title')
-Armada Agen Permanent
+Rute Agen Permanent
 @endsection
 @section('content')
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Armada Agen Permanent Form</h1>
+                <h1>Rute Agen Permanent Form</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Armada Agen Permanent</li>
+                    <li class="breadcrumb-item active">Rute Agen Permanent</li>
                 </ol>
             </div>
         </div>
@@ -32,14 +32,14 @@ Armada Agen Permanent
                 </div>
                 <div class="card-body" style="display: block;">
                     @include('partials.error')
-                    <form action="{{route('agency_fleet_permanent.store')}}" method="POST">
+                    <form action="{{route('agency_route_permanent.store')}}" method="POST">
                         @csrf
                         <div class="form-row">
                             <div class="col">
                                 <div class="form-group">
-                                    <input type="hidden" name="fleet_id" id="" value="{{ $fleet->id }}">
-                                    <label>Armada</label><span class="text-danger">*</span>
-                                    <input type="text" name="fleet_name" id="" value="{{ $fleet->name }}" disabled class="form-control">
+                                    <input type="hidden" name="route_id" id="" value="{{ $route->id }}">
+                                    <label>Rute</label><span class="text-danger">*</span>
+                                    <input type="text" name="route_name" id="" value="{{ $route->name }}" disabled class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>Agent</label><span class="text-danger">*</span>
@@ -53,7 +53,7 @@ Armada Agen Permanent
                                 </div>
                             </div>
                         </div>
-                        <a href="{{route('agency_fleet.index')}}" class="btn btn-secondary">Batal</a>
+                        <a href="{{route('agency_route.index', ['area_id' => $route->checkpoints[0]?->agency?->city?->area?->id])}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
                 </div>
@@ -87,11 +87,11 @@ Armada Agen Permanent
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($agency_fleet_permanents as $agency_fleet_permanent)
+                                        @foreach ($agency_route_permanents as $agency_route_permanent)
                                         <tr>
-                                            <td>{{$agency_fleet_permanent->agency->name}}</td>
+                                            <td>{{$agency_route_permanent->agency->name}}</td>
                                             <td>    
-                                                <form action="{{route('agency_fleet_permanent.destroy', $agency_fleet_permanent->id)}}" class="d-inline"
+                                                <form action="{{route('agency_route_permanent.destroy', $agency_route_permanent->id)}}" class="d-inline"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')

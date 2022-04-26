@@ -9,6 +9,7 @@ use App\Http\Controllers\AgencyFleetController;
 use App\Http\Controllers\AgencyFleetPermanentController;
 use App\Http\Controllers\AgencyPriceController;
 use App\Http\Controllers\AgencyRouteController;
+use App\Http\Controllers\AgencyRoutePermanentController;
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Auth\LoginController;
@@ -189,7 +190,7 @@ Route::group(['middleware' => ['auth']], function () {
     // end of restaurant
 
     Route::resources([
-        'agency_route_permanent' => AgencyRouteController::class,
+        'agency_route_permanent' => AgencyRoutePermanentController::class,
         'agency_route' => AgencyRouteController::class,
         'agency_fleet' => AgencyFleetController::class,
         'agency_fleet_permanent' => AgencyFleetPermanentController::class,
