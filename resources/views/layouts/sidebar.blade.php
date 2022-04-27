@@ -178,8 +178,8 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item {{Request::routeIs('routes.*','fleet_route.*', 'agency_route.*') ? 'menu-open' : ''}}">
-                    <a href="#" class="nav-link {{Request::routeIs('routes.*','fleet_route.*', 'agency_route.*') ? 'active' : ''}}">
+                <li class="nav-item {{Request::routeIs('routes.*','fleet_route.*', 'agency_route.*', 'fleet_route_prices.*') ? 'menu-open' : ''}}">
+                    <a href="#" class="nav-link {{Request::routeIs('routes.*','fleet_route.*', 'agency_route.*', 'fleet_route_prices.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-route"></i>
                         <p>
                             Rute
@@ -201,6 +201,17 @@
                                 <p>Rute Armada</p>
                             </a>
                         </li>
+                        @foreach (\App\Models\Area::get() as $area)
+                        <li class="nav-item">
+                            <a href="{{route('fleet_route_prices.index', ['area_id' => $area->id])}}"
+                                class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Jadwal {{$area->name}}
+                                </p>
+                            </a>
+                        </li>
+                        @endforeach
                         <li class="nav-item">
                             <a href="{{route('agency_route.index')}}"
                                 class="nav-link {{Request::routeIs('agency_route.*') ? 'active' : ''}}">
@@ -209,15 +220,6 @@
                             </a>
                         </li>
                     </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="{{route('fleet_route_prices.index')}}"
-                        class="nav-link {{Request::routeIs('fleet_route_prices.*') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-dollar-sign"></i>
-                        <p>
-                            Harga Rute Armada
-                        </p>
-                    </a>
                 </li>
                 <li class=" nav-item {{Request::routeIs('agency.*','user_agent.*') ? 'menu-open' : ''}}">
                     <a href="#" class="nav-link {{Request::routeIs('agency.*','user_agent.*') ? 'active' : ''}}">

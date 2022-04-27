@@ -1,18 +1,18 @@
 @extends('layouts.main')
 @section('title')
-Harga Rute Armada
+Jadwal Rute {{$area->name}}
 @endsection
 @section('content')
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Harga Rute Armada Form</h1>
+                <h1>Jadwal Rute {{$area->name}} Form</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item active">Harga Rute Armada</li>
+                    <li class="breadcrumb-item active">Jadwal Rute {{$area->name}}</li>
                 </ol>
             </div>
         </div>
@@ -34,7 +34,7 @@ Harga Rute Armada
                     @include('partials.error')
                     <form action="@isset($fleet_route_price)
                         {{route('fleet_route_prices.update', $fleet_route_price->id)}}
-                    @endisset @empty($fleet_route_price) {{route('fleet_route_prices.store')}} @endempty"
+                    @endisset @empty($fleet_route_price) {{route('fleet_route_prices.store', ['area_id' => @request()->area_id])}} @endempty"
                         method="POST">
                         @csrf
                         @isset($fleet_route_price)

@@ -26,6 +26,7 @@ class RouteController extends BaseRouteController
         if (empty($departure_agency->is_active)) {
             return $this->sendFailedResponse([], 'Akun agen anda dinonaktifkan, segera lakukan setoran atau kontak admin');
         }
+
         $routes = FleetRoute::with(['fleet_detail.fleet.layout', 'route.checkpoints.agency.city', 'route.checkpoints.agency.prices'=>function($query) {
             $query->orderBy('id', 'desc');
           }, 'fleet_detail.fleet.fleetclass.prices', 'prices', 'fleet_detail', 'fleet_detail.fleet.agency_fleet'], 'route.agency_route')
@@ -125,6 +126,7 @@ class RouteController extends BaseRouteController
                     });
                 })
         ->get();
+        
         foreach ($routes as $route) {
             $found = false;
             $checkpoints = $route->route->checkpoints->filter(function ($item, $key) use ($request, &$route, &$found) {

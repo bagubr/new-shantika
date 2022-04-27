@@ -51,45 +51,44 @@ Sketch
         <div class="card sticky " style="z-index: 1000">
             <div class="row p-2">
                 <div class="col-md-12">
-                    <div class="form-group">
-                        <label>Pilih Area</label>
-                        <select v-model="filter.area_id" name="area_id" class="form-control" id="">
-                            <option value="" selected>--PILIH--</option>
-                            <option v-for="area in data.areas" :key="area.id" :value="area.id">
-                                @{{area.name}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Pilih Shift</label>
-                        <select v-model="firstLayout.timeClassificationId" name="time_classification"
-                            class="form-control" id="">
-                            <option value="" selected>--PILIH--</option>
-                            <option v-for="time_classification in data.timeClassifications"
-                                :key="time_classification.id" :value="time_classification.id">
-                                @{{time_classification.name}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Pilih Armada</label>
-                        {{-- <v-select v-model="firstLayout.fleetId" input-class="form-control" id="" :options=""> --}}
-                            <v-select label="name" :reduce="(option) => option.id" :options="data.fleets"
-                                input-class="form-control" id="">
-                                <option value="selected">--PILIH--</option>
-                            </v-select>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="">Tanggal</label>
-                        <vuejs-datepicker v-model="firstLayout.date" input-class="form-control bg-white"
-                            format="yyyy-MM-dd" />
+                    <div class="row">
+                        <div class="form-group col-3">
+                            <label>Pilih Area</label>
+                            <select v-model="filter.area_id" name="area_id" class="form-control" id="">
+                                <option value="" selected>--PILIH--</option>
+                                <option v-for="area in data.areas" :key="area.id" :value="area.id">
+                                    @{{area.name}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group col-3">
+                            <label>Pilih Shift</label>
+                            <select v-model="firstLayout.timeClassificationId" name="time_classification"
+                                class="form-control" id="">
+                                <option value="" selected>--PILIH--</option>
+                                <option v-for="time_classification in data.timeClassifications"
+                                    :key="time_classification.id" :value="time_classification.id">
+                                    @{{time_classification.name}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group col-3">
+                            <label>Pilih Armada</label>
+                                <v-select label="name" v-model="filter.fleet_id" :reduce="(option) => option.id" :options="data.fleets"
+                                    input-class="form-control" id="">
+                                    <option value="selected">--PILIH--</option>
+                                </v-select>
+                        </div>
+                        <div class="form-group col-3">
+                            <label for="">Tanggal</label>
+                            <vuejs-datepicker v-model="firstLayout.date" input-class="form-control bg-white"
+                                    format="yyyy-MM-dd" />
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="text-right m-2">
-                <a class="btn btn-outline-primary">Jumlah Keberangkatan @{{ result.orders.length }}</a>
+                <a class="btn btn-outline-primary">Jumlah Keberangkatan @{{ result.fleet_id }}</a>
                 <a class="btn btn-primary" href="{{url('sketch/log')}}">Riwayat Sketch</a>
                 <button @click="searchOrders()" class="btn btn-success" type="submit">Cari</button>
             </div>
@@ -100,6 +99,11 @@ Sketch
                     <h3>
                         Data tidak di temukan
                     </h3>
+                    <div v-if="result.isLoading" class="w-100 row justify-content-center">
+                        <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_Stt1R6.json"
+                            background="transparent" speed="1" style="width: 100px; height: 100px;" loop
+                            autoplay></lottie-player>
+                    </div>
                 </div>
             </div>
             <div v-for="order in result.orders" class="col-12 col-sm-6 col-lg-4 col-xl-3 pt-2 pb-2">
@@ -160,8 +164,7 @@ Sketch
     var app = new Vue({
             el: '#app-sketch',
             components: {
-                vuejsDatepicker,
-                // vSelect,
+                vuejsDatepicker
             },
             data: {
                 csrf_token: '{{ csrf_token() }}',
@@ -172,9 +175,11 @@ Sketch
                     date_now: "",
                 },
                 filter: {
-                    area_id: {!! $areas->first()->id !!}
+                    area_id: {!! $areas->first()->id !!},
+                    fleet_id:""
                 },
                 result: {
+                    isLoading: false,
                     orders: [],
                     _orders: []
                 },
@@ -202,6 +207,8 @@ Sketch
             },
             methods: {
                 searchOrders() {
+                    this.result.isLoading = true
+                    this.result.orders = []
                     let params = new URLSearchParams({
                         ...this.filter,
                         date: new Date(this.firstLayout.date).toDateString(),
@@ -210,6 +217,7 @@ Sketch
                     fetch("{{url('/')}}/sketch/orders?"+params).then(res => res.json()).then(res => {
                         this.result.orders = res.orders
                         this.data.date_now = new Date(this.firstLayout.date).toDateString()
+                        this.result.isLoading = false
                     })
                 },
                 search_orders() {
