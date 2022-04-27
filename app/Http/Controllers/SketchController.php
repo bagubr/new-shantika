@@ -65,6 +65,11 @@ class SketchController extends Controller
                     });
                 });
             })
+            ->when($fleet_id && $fleet_id != 'null', function ($query) use ($fleet_id) {
+                $query->whereHas('fleet_route.fleet_detail.fleet', function ($subquery) use ($fleet_id) {
+                    $subquery->where('id', $fleet_id);
+                });
+            })
             ->when($request->time_classification_id, function ($query) use ($time_classification_id) {
                 $query->where('time_classification_id', $time_classification_id);
             })
