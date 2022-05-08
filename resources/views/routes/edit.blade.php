@@ -43,15 +43,56 @@ Route
                         <input type="text" class="form-control"
                             value="{{$route->checkpoints[0]?->agency?->city?->area?->name ?? ''}}" disabled>
                     </div>
+                    <div class="mt-3">
+                        <a href="{{route('routes.index', ['area_id' => $route->checkpoints[0]?->agency?->city?->area?->id])}}" class="btn btn-secondary">Kembali</a>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>
             <!-- /.card -->
         </div>
-        <div class="col-md-12">
-            <div class="card card-primary">
+        <div class="col-md-5">
+            <div class="card card-warning">
                 <div class="card-header">
-                    <h3 class="card-title">Checkpoint</h3>
+                    <h3 class="card-title">Line Form</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" style="display: block;">
+                    <form action="{{route('checkpoint.store')}}" method="POST">
+                        @csrf
+                        <input type="hidden" value="{{$route->id}}" name="route_id">
+                        <div class="form-group">
+                            <label>Agen</label>
+                            <select required class="form-control select2" name="agency_id" style="width: 100%;">
+                                <option value="">Pilih Agen</option>
+                                @foreach ($agencies as $agency)
+                                <option value="{{$agency->id}}">
+                                    {{$agency->city->name}}/{{$agency->name}}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Urutan</label>
+                            <input required type="number" min="1" class="form-control" name="order">
+                        </div>
+                        @unlessrole('owner')
+
+                        <input type="submit" value="Submit" class="btn btn-success float-right">
+                        @endunlessrole
+                    </form>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="card card-warning">
+                <div class="card-header">
+                    <h3 class="card-title">Line</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -66,6 +107,7 @@ Route
                             <tr>
                                 <th>Urutan</th>
                                 <th>Agen</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -74,6 +116,19 @@ Route
                                 <td>{{$checkpoint->order}}</td>
                                 <td><a
                                         href="{{route('agency.edit',$checkpoint->agency_id)}}">{{$checkpoint->agency?->city?->name}}/{{$checkpoint->agency?->name}}</a>
+                                </td>
+                                <td>
+                                    @unlessrole('owner')
+
+                                    <form action="{{route('checkpoint.destroy',$checkpoint->id)}}" class="d-inline"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger btn-xs"
+                                            onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                            type="submit">Delete</button>
+                                    </form>
+                                    @endunlessrole
                                 </td>
                             </tr>
                             @endforeach

@@ -188,6 +188,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('restaurant/history/all', [RestaurantController::class, 'history_restaurant'])->name('r.history_restaurant');
     Route::get('restaurant/history/all/search', [RestaurantController::class, 'history_restaurant_search'])->name('r.history_restaurant_search');
     // end of restaurant
+    Route::get('routes/duplicate/{route}', [RoutesController::class, 'duplicate'])->name('routes.duplicate');
 
     Route::resources([
         'agency_route_permanent' => AgencyRoutePermanentController::class,

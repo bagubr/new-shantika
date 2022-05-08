@@ -20,6 +20,10 @@ class Checkpoint extends Model
         'name_agent',
     ];
 
+    protected $attributes = [
+        'order' => 1
+    ];
+
     public function getNameCityAttribute()
     {
         return $this->agency()->first()?->city()->first()?->name;
