@@ -26,7 +26,7 @@ class MembershipController extends Controller
         }else{
             $data = MembershipRepository::createMembership($user->id);
         }
-        $data['user_id'] = $user->id;
+        $data['data']['code_member'] = implode("|", [$data['data']['code_member'], $user->id]);
         return $this->sendSuccessResponse($data, 'Berhasil Menampilkan Data');
     }
 

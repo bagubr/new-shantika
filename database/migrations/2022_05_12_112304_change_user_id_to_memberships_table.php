@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMembershipHistoriesTable extends Migration
+class ChangeUserIdToMembershipsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateMembershipHistoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('membership_histories', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('customer_id');
-            $table->unsignedBigInteger('agency_id');
-            $table->timestamps();
+        Schema::table('memberships', function (Blueprint $table) {
+            $table->bigInteger('user_id')->change();
         });
     }
 
@@ -28,6 +25,8 @@ class CreateMembershipHistoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('membership_histories');
+        Schema::table('memberships', function (Blueprint $table) {
+            //
+        });
     }
 }

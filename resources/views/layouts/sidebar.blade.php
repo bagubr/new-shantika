@@ -247,9 +247,43 @@
                     </ul>
                 </li>
                 <li
-                    class="nav-item {{Request::routeIs('user.*','status_penumpang.*','souvenir.*','souvenir_redeem.*','member.*') ? 'menu-open' : ''}}">
+                    class="nav-item {{Request::routeIs('membership_histories.*', 'member.*', 'promo.*') ? 'menu-open' : ''}}">
                     <a href="#"
-                        class="nav-link {{Request::routeIs('user.*','status_penumpang.*','souvenir.*','souvenir_redeem.*','member.*') ? 'active' : ''}}">
+                        class="nav-link {{Request::routeIs('membership_histories.*', 'member.*', 'promo.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Membership dan Promo
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('member.index')}}"
+                                class="nav-link {{Request::routeIs('member.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Membership</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('membership_histories.index')}}"
+                                class="nav-link {{Request::routeIs('membership_histories.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Membership History</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('promo.index')}}"
+                                class="nav-link {{Request::routeIs('promo.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Promo</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li
+                    class="nav-item {{Request::routeIs('user.*','status_penumpang.*','souvenir.*','souvenir_redeem.*') ? 'menu-open' : ''}}">
+                    <a href="#"
+                        class="nav-link {{Request::routeIs('user.*','status_penumpang.*','souvenir.*','souvenir_redeem.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Penumpang
@@ -272,13 +306,6 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('member.index')}}"
-                                class="nav-link {{Request::routeIs('member.*') ? 'active' : ''}}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Member</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a href="{{route('souvenir.index')}}"
                                 class="nav-link {{Request::routeIs('souvenir.*') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
@@ -290,13 +317,6 @@
                                 class="nav-link {{Request::routeIs('souvenir_redeem.*') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Souvenir Redeem</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('promo.index')}}"
-                                class="nav-link {{Request::routeIs('promo.*') ? 'active' : ''}}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Promo</p>
                             </a>
                         </li>
                     </ul>

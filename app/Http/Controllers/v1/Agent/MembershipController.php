@@ -11,12 +11,13 @@ class MembershipController extends Controller
 {
     public function getData(Request $request)
     {
-        $membership =  Membership::where('code_member', $request->code_member)->where('user_id', $request->user_id)->first();
+        $data = explode("|", $request->code_member);
+        $membership =  Membership::where('code_member', $data[0])->where('user_id', $data[1])->first();
         
         if(!$membership){
             return $this->failedResponse([], 'Data Member tidak di temukan');
         }
-        $membership['email'] = User::find($request->user_id)->email;
+        $membership['email'] = User::find($data[1])->email;
         return $this->sendSuccessResponse([
             'data'=> $membership,
         ]);

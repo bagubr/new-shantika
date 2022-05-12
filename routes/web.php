@@ -52,6 +52,7 @@ use App\Http\Controllers\SketchController;
 use App\Http\Controllers\StatusPenumpangController;
 use App\Http\Controllers\FleetDetailController;
 use App\Http\Controllers\FleetRoutePriceController;
+use App\Http\Controllers\MembershipHistoryController;
 use App\Http\Controllers\MembershipPointController;
 use App\Http\Controllers\PromoController;
 use App\Http\Controllers\RestaurantBarcodeController;
@@ -177,6 +178,9 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::post('member/import', [MemberController::class, 'import'])->name('member.import');
     Route::get('member/search', [MemberController::class, 'search'])->name('member.search');
+    // History Membership
+    Route::get('membership_histories', [MembershipHistoryController::class, 'index'])->name('membership_histories.index');
+    Route::post('membership_histories/export', [MembershipHistoryController::class, 'export'])->name('membership_histories.export');
 
     // DASHBOARD
     Route::get('first_bulan', [DashboardController::class, 'first_bulan'])->name('first_bulan');
