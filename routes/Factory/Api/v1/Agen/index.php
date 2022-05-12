@@ -49,6 +49,7 @@ Route::group([
             Route::post('exchange_ticket', 'OrderController@exchange');
             Route::post('exchange_ticket/confirm', 'OrderController@exchangeConfirm');
             Route::get('promo', 'PromoController@index');
+            Route::get('scan_qr_code', 'MembershipController@getData');
         });
     });
 });

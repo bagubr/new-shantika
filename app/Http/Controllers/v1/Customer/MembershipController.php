@@ -23,11 +23,11 @@ class MembershipController extends Controller
             ?? $this->sendFailedResponse([], 'Anda sepertinya perlu login ulang / anda perlu regis ulang');
         if (isset($user->membership->id)) {
             $data = MembershipRepository::getHome($user->id);
-            return $this->sendSuccessResponse($data, 'Berhasil Menampilkan Data Home');
         }else{
             $data = MembershipRepository::createMembership($user->id);
-            return $this->sendSuccessResponse($data, 'Berhasil Menampilkan Data Home');
         }
+        $data['user_id'] = $user->id;
+        return $this->sendSuccessResponse($data, 'Berhasil Menampilkan Data');
     }
 
     /**
