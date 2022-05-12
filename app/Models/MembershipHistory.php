@@ -24,6 +24,6 @@ class MembershipHistory extends Model
 
     public function membership()
     {
-        return $this->belongsTo(Membership::class, 'user_id', 'customer_id');
+        return $this->hasOne(Membership::class, 'user_id', 'customer_id');
     }
 }

@@ -20,7 +20,8 @@ class MembershipRepository {
                 'name' => $data->getName(),
                 'phone' => $data->getPhone(),
                 'point' => $data->getPoint(),
-                'code_member' => $data->getCodeMember()
+                'code_member' => $data->getCodeMember(),
+                'code' => $data->getCode()
             ],
             'redeem_history' => $data->getRedeemHistory(),
             'list_souvenir' => $data->getListSouvenir()
@@ -70,6 +71,11 @@ class MembershipRepository {
     public function getCodeMember()
     {
         return $this->getUser()->membership->code_member_stk;
+    }
+
+    public function getCode()
+    {
+        return $this->getUser()->membership->code_member;
     }
 
 
