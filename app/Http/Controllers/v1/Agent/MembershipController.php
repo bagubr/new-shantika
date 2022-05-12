@@ -17,6 +17,7 @@ class MembershipController extends Controller
         if(!$membership){
             return $this->failedResponse([], 'Data Member tidak di temukan');
         }
+        $user['code_member'] = $membership->code_member;
         $user['name'] = User::find($data[1])->name;
         $user['phone'] = User::find($data[1])->phone;
         $user['email'] = User::find($data[1])->email;
