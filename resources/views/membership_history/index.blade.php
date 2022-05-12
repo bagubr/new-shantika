@@ -32,7 +32,7 @@ Membership History
                         <form action="{{route('membership_histories.index')}}" method="get">
                             <div class="form-group">
                                 <label>Date</label>
-                                <input type="date" class="form-control" name="created_at" value="{{old('created_at')}}">
+                                <input type="date" class="form-control" name="created_at" value="{{@$created_at}}">
                             </div>
                             <div class="text-right">
                                 <button class="btn btn-success" type="submit">Cari</button>
@@ -44,12 +44,12 @@ Membership History
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <form action="{{url('membership_histories.export')}}" method="POST">
+                        <form action="{{route('membership_histories.index')}}">
                             @csrf
                             @unlessrole('owner')
 
                             <div class="text-right">
-                                <button class="btn btn-primary" type="submit">Export</button>
+                                <button class="btn btn-primary" type="submit" name="export" value="1">Export</button>
                             </div>
                             @endunlessrole
                         </form>

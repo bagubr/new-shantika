@@ -16,6 +16,7 @@ class MembershipHistoryController extends Controller
      */
     public function index(Request $request)
     {
+        $created_at = $request->created_at;
         $membership_histories = MembershipHistory::when($request->created_at, function ($query) use ($request)
         {
             $query->whereDate('created_at', $request->created_at);
@@ -23,6 +24,6 @@ class MembershipHistoryController extends Controller
         if($request->export){
             return Excel::download(new MembershipHistoryExport($request), 'membership_histories.xlsx');
         }
-        return view('membership_history.index', compact('membership_histories'));
+        return view('membership_history.index', compact('membership_histories', 'created_at'));
     }
 }
