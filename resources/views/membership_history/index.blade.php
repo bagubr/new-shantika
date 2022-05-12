@@ -50,6 +50,7 @@ Membership History
 
                             <div class="text-right">
                                 <button class="btn btn-primary" type="submit" name="export" value="1">Export</button>
+                                <a href="#" class="btn btn-outline-primary btn-sm">Total Data Membership History {{ $total }}</a>
                             </div>
                             @endunlessrole
                         </form>
@@ -77,6 +78,9 @@ Membership History
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="text-right">
+                            {{$membership_histories->links()}}
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>

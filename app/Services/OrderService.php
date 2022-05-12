@@ -10,6 +10,7 @@ use App\Models\AdminNotification;
 use App\Models\Agency;
 use App\Models\BlockedChair;
 use App\Models\FleetRoute;
+use App\Models\MembershipHistory;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\OrderDetail;
@@ -18,6 +19,7 @@ use App\Models\Payment;
 use App\Models\PromoHistory;
 use App\Models\Route;
 use App\Models\Setting;
+use App\Models\User;
 use App\Repositories\BookingRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\PromoRepository;
@@ -69,6 +71,7 @@ class OrderService
             $data->price += $price_travel;
         }
         if ($detail->is_member) {
+            // self::createHistory($data->user_id);
             $price_member = $setting->member * count($detail->layout_chair_id);
             $data->price -= $price_member;
         }
@@ -220,6 +223,17 @@ class OrderService
             return true;
         } catch (\Throwable $th) {
             return false;
+        }
+    }
+
+    public static function createHistory($user_id)
+    {
+        $user = User::whereDoesntHave('agencies')->where('id', $user_id)->first();
+        if($user){
+            MembershipHistory::create([
+                'customer_id'   => $user->id,
+                'agency_id'     => $user->id
+            ]);
         }
     }
 
