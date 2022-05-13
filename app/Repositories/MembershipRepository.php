@@ -31,7 +31,12 @@ class MembershipRepository {
 
     public static function createMembership($id)
     {
-        $membership = Membership::create(['user_id' => $id]);
+        $membership = Membership::create([
+            'user_id' => $id,
+            'name' => User::find($id)->name, 
+            'phone' => User::find($id)->phone, 
+            'address' => User::find($id)->address
+        ]);
         MembershipPoint::create(['membership_id' => $membership->id, 'value' => 0, 'status' => 'create']);
         return MembershipRepository::getHome($id);
     }

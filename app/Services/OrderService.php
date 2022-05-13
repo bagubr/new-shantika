@@ -71,7 +71,7 @@ class OrderService
             $data->price += $price_travel;
         }
         if ($detail->is_member) {
-            // self::createHistory($data->user_id);
+            self::createHistory($data->user_id);
             $price_member = $setting->member * count($detail->layout_chair_id);
             $data->price -= $price_member;
         }
@@ -228,7 +228,7 @@ class OrderService
 
     public static function createHistory($user_id)
     {
-        $user = User::whereDoesntHave('agencies')->where('id', $user_id)->first();
+        $user = User::whereHas('agencies')->where('id', $user_id)->first();
         if($user){
             MembershipHistory::create([
                 'customer_id'   => $user->id,

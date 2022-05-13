@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Exports\MembershipHistoryExport;
+use App\Models\Membership;
 use App\Models\MembershipHistory;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class MembershipHistoryController extends Controller

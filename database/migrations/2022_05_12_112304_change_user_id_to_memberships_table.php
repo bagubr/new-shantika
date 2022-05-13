@@ -15,6 +15,7 @@ class ChangeUserIdToMembershipsTable extends Migration
     {
         Schema::table('memberships', function (Blueprint $table) {
             $table->bigInteger('user_id')->change();
+            $table->bigInteger('code_member')->change();
         });
     }
 
