@@ -28,15 +28,21 @@ class MembershipRepository {
         ];
     }
 
+    public static function create($user_id)
+    {
+        $membership = Membership::create([
+            'user_id' => $user_id,
+            'name' => User::find($user_id)->name, 
+            'phone' => User::find($user_id)->phone, 
+            'address' => User::find($user_id)->address
+        ]);
+        return $membership;
+    }
+
 
     public static function createMembership($id)
     {
-        $membership = Membership::create([
-            'user_id' => $id,
-            'name' => User::find($id)->name, 
-            'phone' => User::find($id)->phone, 
-            'address' => User::find($id)->address
-        ]);
+        $membership = self::create($id);
         MembershipPoint::create(['membership_id' => $membership->id, 'value' => 0, 'status' => 'create']);
         return MembershipRepository::getHome($id);
     }

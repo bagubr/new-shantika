@@ -19,8 +19,8 @@ class UserService {
     public static function register(array $data, array $order_id = []) {
         Image::uploadFile($data['avatar'], 'avatar');
         $user = User::create($data);
-        $membership = MembershipRepository::createMembership($user->id);
-        MembershipPoint::create(['membership_id' => $membership['id'], 'value' => 0, 'status' => 'create']);
+        $membership = MembershipRepository::create($user->id);
+        MembershipPoint::create(['membership_id' => $membership->id, 'value' => 0, 'status' => 'create']);
         // compile order sebelum login jadi riwayat
         if($order_id && !empty($order_id)){
             Order::whereIn('id', $order_id)->update([
