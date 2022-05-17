@@ -40,7 +40,7 @@
                         <tr>
                             <td>{{ ($data ->currentpage()-1) * $data ->perpage() + $loop->index + 1
                                 }}</td>
-                            <td>{{ $each->membership->user->name ?? '' }}</td>
+                            <td>{{ $each->membership->id ?? '' }}</td>
                             <td>{{ $each->souvenir_name }}</td>
                             <td>{{ $each->quantity }}</td>
                             <td class="row justify-content-center"><span
