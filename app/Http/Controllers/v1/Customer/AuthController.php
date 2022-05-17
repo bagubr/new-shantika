@@ -10,6 +10,7 @@ use App\Repositories\UserRepository;
 use App\Services\AuthService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends BaseAuthController
 {
@@ -33,7 +34,14 @@ class AuthController extends BaseAuthController
     }
 
     public function registerCustomer(ApiRegisterCustomerRequest $request) {
-        $user = UserService::register($request->all(), $request->order_id??[]);
+        DB::beginTransaction();
+        try {
+            $user = UserService::register($request->all(), $request->order_id??[]);
+            DB::commit();
+        } catch (\Throwable $th) {
+            return $this->failedResponse([], 'Something error , please try again latter');
+            DB::rollBack();
+        }
         return $this->sendSuccessResponse([
             'user'=>$user,
             'token'=>$user->token??''

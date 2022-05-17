@@ -58,7 +58,7 @@ class OrderController extends Controller
         ]);
         $request['is_travel'] = false;
         $request['is_feed'] = true;
-        $order = OrderService::create($order, $request, $request->payment_type_id);
+        $order = OrderService::create($order, $request);
 
         $this->createPayment($order->id, $request->payment_type_id);
         DB::commit();

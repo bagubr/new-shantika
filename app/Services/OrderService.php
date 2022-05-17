@@ -10,6 +10,7 @@ use App\Models\AdminNotification;
 use App\Models\Agency;
 use App\Models\BlockedChair;
 use App\Models\FleetRoute;
+use App\Models\Membership;
 use App\Models\MembershipHistory;
 use App\Models\Notification;
 use App\Models\Order;
@@ -35,7 +36,7 @@ class OrderService
 {
     use Response;
 
-    public static function create(Order $data, $detail, $payment_type_id = null)
+    public static function create(Order $data, $detail)
     {
         FleetRoute::find($data->fleet_route_id) ?? (new self)->sendFailedResponse([], 'Rute perjalanan tidak ditemukan');
         $order_exists = OrderRepository::isOrderUnavailable($data->fleet_route_id, $data->reserve_at, $detail->layout_chair_id, $data->time_classification_id);
@@ -71,7 +72,7 @@ class OrderService
             $data->price += $price_travel;
         }
         if ($detail->is_member) {
-            self::createHistory($data->user_id);
+            self::createHistory($data->user_id, $detail->id_member);
             $price_member = $setting->member * count($detail->layout_chair_id);
             $data->price -= $price_member;
         }
@@ -226,14 +227,17 @@ class OrderService
         }
     }
 
-    public static function createHistory($user_id)
+    public static function createHistory($user_id, $id_member)
     {
         $user = User::whereHas('agencies')->where('id', $user_id)->first();
-        if($user){
-            MembershipHistory::create([
-                'customer_id'   => $user->id,
-                'agency_id'     => $user->id
-            ]);
+        if($id_member){
+            $membership = Membership::where('code_member', $id_member)->where('user_id', '!=', null)->first();
+            if(!$membership){
+                (new self)->sendFailedResponse([], 'Maaf user member tidak tersedia');
+            }
+            if($user){
+                MembershipHistory::create(['agency_id'=> $user->id,'customer_id'=> $membership->user_id]);
+            }
         }
     }
 
