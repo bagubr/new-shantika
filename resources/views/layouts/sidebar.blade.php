@@ -204,7 +204,9 @@
                         @foreach (\App\Models\Area::get() as $area)
                         <li class="nav-item">
                             <a href="{{route('fleet_route_prices.index', ['area_id' => $area->id])}}"
-                                class="nav-link">
+                                class="nav-link @if ($area->id == request()->area_id)
+                                    active
+                                @endif">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>
                                     Jadwal {{$area->name}}

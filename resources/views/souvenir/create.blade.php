@@ -21,7 +21,7 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row justify-content-left">
-            <div class="col-md-6">
+            <div class="col">
                 <div class="card">
                     <div class="card-header">Menambahkan Souvenir Baru</div>
                     <div class="card-body">
@@ -29,27 +29,27 @@
                             @csrf
                             <div class="form-group mb-3">
                                 <label for="name">Masukan Nama Souvenir</label>
-                                <input type="text" class="form-control" name="name" id="name">
+                                <input type="text" class="form-control" name="name" id="name" required>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="description">Masukan Deskripsi Souvenir</label>
                                 <textarea name="description" class="form-control" id="description" cols="30"
-                                    rows="2"></textarea>
+                                    rows="2" required></textarea>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="point">Masukan batas minimum point untuk menukarkan</label>
-                                <input type="number" class="form-control" name="point" id="point">
+                                <input type="number" class="form-control" name="point" id="point" required>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="quantity">Kuantitas Souvenir</label>
-                                <input type="number" class="form-control" name="quantity" id="quantity">
+                                <input type="number" class="form-control" name="quantity" id="quantity" required>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="image_name">Gambar Souvenir</label>
                                 <input type="file" class="form-control-file" name="image_name" id="image_name"
-                                    accept=".jpg,.jpeg,.png">
+                                    accept=".jpg,.jpeg,.png" required>
                             </div>
-                            <div class="row justify-content-center">
+                            <div class="row float-right">
                                 <input type="submit" value="Tambahkan Souvenir" class="btn btn-primary">
                             </div>
                         </form>

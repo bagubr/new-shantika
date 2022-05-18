@@ -11,13 +11,15 @@ class MembershipPointController extends Controller
     public function index(Request $request)
     {
         $membership_id = $request->membership_id;
+        $membership = Membership::findOrFail($membership_id);
 
         $membership_points = MembershipPoint::when($membership_id, function ($query) use ($membership_id)
         {
             $query->where('membership_id', $membership_id);
         })
+        ->where('status', '!=', 'create')
         ->get();
-        return view('membership_point.index', compact('membership_points'));
+        return view('membership_point.index', compact('membership_points', 'membership'));
     }
 
     public function show($id)

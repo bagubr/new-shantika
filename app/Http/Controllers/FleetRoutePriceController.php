@@ -24,22 +24,20 @@ class FleetRoutePriceController extends Controller
         $area_id = $request->area_id;
 
 
-        $fleet_route_prices = FleetRoutePrice::query();
-
-        if (!empty($fleet_route_id)) {
-            $fleet_route_prices = $fleet_route_prices->whereHas('fleet_route.fleet_detail', function ($q) use ($fleet_route_id) {
+        $fleet_route_prices = FleetRoutePrice::when($fleet_route_id, function ($query) use ($fleet_route_id)
+        {
+            $query->whereHas('fleet_route.fleet_detail', function ($q) use ($fleet_route_id) {
                 $q->where('fleet_id', $fleet_route_id);
             });
-        }
-        if (!empty($area_id)) {
-            $fleet_route_prices = $fleet_route_prices->whereHas('fleet_route.route.checkpoints.agency.city', function ($q) use ($area_id) {
+        })->when($area_id, function ($query) use ($area_id)
+        {
+            $query->whereHas('fleet_route.route.checkpoints.agency.city', function ($q) use ($area_id) {
                 $q->where('area_id', $area_id);
             });
-        }
-        if (!empty($date_search)) {
-            $fleet_route_prices = $fleet_route_prices->where('start_at', '<=', $date_search)->where('end_at', '>=', $date_search);
-        }
-        $fleet_route_prices     = $fleet_route_prices->get();
+        })->when($date_search, function ($query) use ($date_search)
+        {
+            $query->where('start_at', '<=', $date_search)->where('end_at', '>=', $date_search);
+        })->get();
         $fleets = Fleet::all();
         $areas = Area::all();
         $area = Area::find($area_id);
@@ -104,8 +102,10 @@ class FleetRoutePriceController extends Controller
      */
     public function edit(FleetRoutePrice $fleet_route_price)
     {
+        $area_id = $fleet_route_price->fleet_route->route->checkpoints[0]->agency->city->area_id;
+        $area = Area::find($area_id);
         $fleet_routes = FleetRoute::all();
-        return view('fleetrouteprice.create', compact('fleet_route_price', 'fleet_routes'));
+        return view('fleetrouteprice.create', compact('fleet_route_price', 'fleet_routes', 'area', 'area_id'));
     }
 
     /**

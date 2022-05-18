@@ -26,10 +26,9 @@ Membership Point History
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Membership Point History </h3>
-                        <h3 class="card-title">{{ $membership_points[0]->membership->user->name }}</h3>
+                        <h3 class="card-title">Table Membership Point History {{ $membership->user->name }}</h3>
                         <div class="text-right">
-                            <a href="{{route('membership_point.create', ['membership_id' => $membership_points[0]->membership_id])}}" class="btn btn-primary btn-sm">Tambah/Kurang Point</a>
+                            <a href="{{route('membership_point.create', ['membership_id' => $membership->id])}}" class="btn btn-primary btn-sm">Tambah/Kurang Point</a>
                         </div>
                     </div>
                     <!-- /.card-header -->

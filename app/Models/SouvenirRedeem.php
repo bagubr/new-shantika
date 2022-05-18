@@ -22,7 +22,7 @@ class SouvenirRedeem extends Model
 
     public function GetSouvenirNameAttribute()
     {
-        return $this->souvenir()->first()->name;
+        return $this->souvenir()?->first()?->name??'';
     }
 
     public function membership()

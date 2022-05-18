@@ -85,7 +85,7 @@ Armada
         <div class="col-md-6">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Detail Armada </h3>
+                    <h3 class="card-title">Tambah Unit Armada </h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -100,12 +100,12 @@ Armada
                         <div id="dynamic_field">
                             <div class="form-group">
                                 <label for="inputName">Nama Julukan</label>
-                                <input type="text" id="inputName" class="form-control" name="nickname[]"
+                                <input type="text" id="inputName" class="form-control" name="nickname"
                                     placeholder="Masukkan Nama Julukan">
                             </div>
                             <div class="form-group">
                                 <label for="inputName">Nomor Plat</label>
-                                <input type="text" id="inputName" class="form-control" name="plate_number[]"
+                                <input type="text" id="inputName" class="form-control" name="plate_number"
                                     placeholder="Masukkan Nomor Plat">
                             </div>
                             <div class="form-group">
@@ -118,7 +118,7 @@ Armada
                             </div>
                             <div class="form-group">
                                 <label>Armada</label>
-                                <select class="form-control select2" name="fleet_id[]" style="width: 100%;" disabled>
+                                <select class="form-control select2" name="fleet_id" style="width: 100%;" disabled>
                                     <option value="">Pilih Armada</option>
                                     @foreach ($fleets as $fleet_now)
                                     <option value="{{$fleet_now->id}}" @isset($fleet) @if ($fleet_now->id ===
@@ -131,7 +131,6 @@ Armada
                             </div>
                         </div>
                         @unlessrole('owner')
-                        <button type="button" name="add" id="add" class="btn btn-success d-inline">Add More</button>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                         @endunlessrole
                     </form>
@@ -145,7 +144,7 @@ Armada
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Table Detail Armada</h3>
+                    <h3 class="card-title">Table Unit Armada</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">

@@ -11,9 +11,9 @@ use App\Models\Fleet;
 use App\Models\FleetRoute;
 use App\Models\Layout;
 use App\Models\Order;
+use App\Models\Route;
 use App\Repositories\FleetRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 
 class FleetRouteController extends Controller
 {
@@ -22,46 +22,35 @@ class FleetRouteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $fleet_routes = FleetRoute::withCount('blocked_chairs')->get();
-        $fleets = FleetRepository::all();
-        $statuses = Agency::status();
-        $areas = Area::get();
-        return view('fleetroute.index', compact('fleet_routes', 'statuses', 'areas', 'fleets'));
-    }
-
-    public function search(Request $request)
+    public function index(Request $request)
     {
         $area_id = $request->area_id;
         $fleet_id = $request->fleet_id;
 
-        $areas = Area::get();
-        $fleet_routes = FleetRoute::query();
-        $fleets = FleetRepository::all();
-
-        if (!empty($area_id)) {
-            $fleet_routes = $fleet_routes->whereHas('route.checkpoints', function ($q) use ($area_id) {
+        $fleet_routes = FleetRoute::when($area_id, function ($query) use ($area_id)
+        {
+            $query->whereHas('route.checkpoints', function ($q) use ($area_id) {
                 $q->whereHas('agency.city', function ($sq) use ($area_id) {
                     $sq->where('area_id', '!=', $area_id);
                 });
             });
-        }
-        if (!empty($fleet_id)) {
-            $fleet_routes = $fleet_routes->whereHas('fleet_detail.fleet', function ($q) use ($fleet_id) {
+        })->when($fleet_id, function ($query) use ($fleet_id)
+        {
+            $query->whereHas('fleet_detail.fleet', function ($q) use ($fleet_id) {
                 $q->where('fleet_id', $fleet_id);
             });
-        }
-        $test           = $request->flash();
-        $fleet_routes   = $fleet_routes->get();
-
+        })->withCount('blocked_chairs')->orderBy('id', 'desc')->paginate(10);
+        
+        $areas = Area::get();
         $statuses = Agency::status();
-        if (!$fleet_routes->isEmpty()) {
-            session()->flash('success', 'Data Berhasil Ditemukan');
-        } else {
-            session()->flash('error', 'Tidak Ada Data Ditemukan');
-        }
-        return view('fleetroute.index', compact('fleet_routes', 'statuses', 'areas', 'test', 'fleets'));
+        $fleets = FleetRepository::all();
+
+        return view('fleetroute.index', compact('fleet_routes', 'statuses', 'areas', 'fleets', 'area_id', 'fleet_id'));
+    }
+
+    public function search(Request $request)
+    {
+
     }
 
     /**
@@ -71,7 +60,10 @@ class FleetRouteController extends Controller
      */
     public function create()
     {
-        //
+        $routes = Route::all();
+        $fleets = Fleet::all();
+        $statuses = Agency::status();
+        return view('fleetroute.create', compact('fleets', 'routes', 'statuses'));
     }
 
     /**
@@ -83,6 +75,8 @@ class FleetRouteController extends Controller
     public function store(CreateFleetRouteRequest $request)
     {
         $data = $request->all();
+        FleetRoute::create($data);
+        return redirect()->route('fleet_route.index')->with('success', 'Data berhasil ditambahkan');
     }
 
     /**
@@ -93,7 +87,7 @@ class FleetRouteController extends Controller
      */
     public function show(FleetRoute $fleet_route)
     {
-        $orders = Order::where('fleet_route_id', $fleet_route->id)->get();
+        $orders = Order::where('fleet_route_id', $fleet_route->id)->paginate(10);
         $statuses = Agency::status();
         return view('fleetroute.show', compact('fleet_route', 'statuses', 'orders'));
     }

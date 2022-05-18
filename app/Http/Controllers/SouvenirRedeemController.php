@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Membership;
+use App\Models\Setting;
 use App\Models\SouvenirRedeem;
+use App\Repositories\MembershipRepository;
 use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -16,8 +19,8 @@ class SouvenirRedeemController extends Controller
      */
     public function index()
     {
-        $data = SouvenirRedeem::with('membership.user:id,name')->paginate(10);
-        return view('souvenir_redeem.index', compact('data'));
+        $souvenir_reedems = SouvenirRedeem::with('membership.user')->paginate(10);
+        return view('souvenir_redeem.index', compact('souvenir_reedems'));
     }
 
     /**
@@ -81,6 +84,12 @@ class SouvenirRedeemController extends Controller
             'note' => 'sometimes'
         ];
         Validator::make($data, $rules);
+        if($data['status'] == 'DECLINED'){
+            MembershipRepository::incrementPoint([
+                'membership_id' => $souvenirRedeem->membership_id,
+                'value' => $souvenirRedeem->point_used
+            ]);
+        }
         try{
             $souvenirRedeem->update($data);
             return redirect()->route('souvenir_redeem.index');

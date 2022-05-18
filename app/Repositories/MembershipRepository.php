@@ -47,20 +47,18 @@ class MembershipRepository {
         return MembershipRepository::getHome($id);
     }
 
-    public function incrementPoint($data)
+    public static function incrementPoint($data)
     {
-        $this->Membership()->increment('sum_point', $data['value']);
+        (new self)->Membership()->increment('sum_point', $data['value']);
         $data['status'] = 'purchase';
-        return $this->MembershipPoint()
-            ->create($data);
+        return (new self)->MembershipPoint()->create($data);
     }
 
     public function decrementPoint($data)
     {
         $this->Membership()->decrement('sum_point', $data['value']);
         $data['status'] = 'redeem';
-        return $this->MembershipPoint()
-            ->create($data);
+        return $this->MembershipPoint()->create($data);
     }
 
     public function getMembershipId()
