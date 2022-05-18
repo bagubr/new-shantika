@@ -103,7 +103,7 @@ Status Penumpang
                                         Tanpa Akun
                                         @endif
                                     </td>
-                                    <td>{{$order->order_detail[0]->name}}</td>
+                                    <td>{{@$order->order_detail[0]->name}}</td>
                                     <td>
                                         @if ($order->payment)
                                         {{$order->payment?->payment_type->name}}
