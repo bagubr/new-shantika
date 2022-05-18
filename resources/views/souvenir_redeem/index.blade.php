@@ -20,11 +20,8 @@
 <!-- /.content-header -->
 <div class="content">
     <div class="container-fluid">
-        <div class="row">
-            {{-- <div class="col-6">
-                <a href="{{route('souvenir.create')}}" class="btn btn-primary mb-2">Buat Souvenir Baru</a>
-            </div> --}}
-            <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
                 <table class="table table-striped text-center">
                     <thead>
                         <th>No</th>
@@ -36,28 +33,30 @@
                         <th>Action</th>
                     </thead>
                     <tbody>
-                        @foreach($data as $each)
+                        @foreach($souvenir_reedems as $souvenir_reedem)
                         <tr>
-                            <td>{{ ($data ->currentpage()-1) * $data ->perpage() + $loop->index + 1
-                                }}</td>
-                            <td>{{ $each->membership->id ?? '' }}</td>
-                            <td>{{ $each->souvenir_name }}</td>
-                            <td>{{ $each->quantity }}</td>
+                            <td width="5%">{{$loop->iteration}}</td>
+                            <td>{{ $souvenir_reedem->membership->user->name ?? '' }}</td>
+                            <td>{{ $souvenir_reedem->souvenir_name }}</td>
+                            <td>{{ $souvenir_reedem->quantity }}</td>
                             <td class="row justify-content-center"><span
-                                    class="col w-50 text-center badge bg-{{ $each->status == 'WAITING' ? 'success' : ($each->status == 'ON PROCESS' ? 'warning' : ($each->status == 'DELIVERED' ? 'info' : 'danger'))}}">
-                                    {{ $each->status }}
+                                    class="col w-50 text-center badge bg-{{ $souvenir_reedem->status == 'WAITING' ? 'success' : ($souvenir_reedem->status == 'ON PROCESS' ? 'warning' : ($souvenir_reedem->status == 'DELIVERED' ? 'info' : 'danger'))}}">
+                                    {{ $souvenir_reedem->status }}
                                 </span>
                             </td>
-                            <td>{{ $each->note ?? '' }}</td>
+                            <td>{{ $souvenir_reedem->note ?? '' }}</td>
                             <td>
-                                <a href="{{ route('souvenir_redeem.edit', ['souvenir_redeem' => $each->id]) }}"
-                                    class="btn btn-primary shadow border">Update Status</a>
+                                <a href="{{ route('souvenir_redeem.edit', ['souvenir_redeem' => $souvenir_reedem->id]) }}"
+                                    class="btn btn-primary btn-xs">Update</a>
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
-                {{$data -> links("pagination::bootstrap-4")}}
+                <br>
+                <div class="float-right">
+                    {{$souvenir_reedems->appends(Request::all())->links() }}
+                </div>
             </div>
         </div>
     </div>

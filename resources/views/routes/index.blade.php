@@ -59,7 +59,7 @@ Route
                         <div class="text-right">
                         @foreach (\App\Models\Area::get() as $area)
                             <a href="{{route('routes.create', ['area_id' => $area->id])}}" class="btn btn-primary btn-sm">Tambah Rute {{$area->name}}</a>
-                            @endforeach
+                        @endforeach
                         </div>
                         @endunlessrole
                     </div>

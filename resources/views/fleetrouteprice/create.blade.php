@@ -60,7 +60,7 @@ Jadwal Rute {{$area->name}}
                             <label>Rute Armada</label>
                             <select id="" class="select2 form-control" @empty($fleet_route_price) multiple
                                 name="fleet_route_id[]" @endempty @isset($fleet_route_price) name="fleet_route_id"
-                                @endisset required>
+                                @endisset required @isset($fleet_route_price) disabled @endisset>
                                 @foreach ($fleet_routes as $fleet_route)
                                 <option value="{{$fleet_route->id}}" @isset($fleet_route_price) @if($fleet_route_price->
                                     fleet_route_id == $fleet_route->id)

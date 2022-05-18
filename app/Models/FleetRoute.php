@@ -35,6 +35,11 @@ class FleetRoute extends Model
         return $this->belongsTo(FleetDetail::class, 'fleet_detail_id', 'id')->withTrashed();
     }
 
+    public function fleet_detail_without_trash()
+    {
+        return $this->belongsTo(FleetDetail::class, 'fleet_detail_id', 'id');
+    }
+
     public function route()
     {
         return $this->belongsTo(Route::class, 'route_id', 'id');

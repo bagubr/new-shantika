@@ -28,7 +28,7 @@ Armada Rute
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <form action="{{route('fleet_route.search')}}" method="get">
+                    <form action="{{route('fleet_route.index')}}" method="get">
                         <div class="card-body">
                             <div class="form-row">
                                 <div class="col">
@@ -37,7 +37,7 @@ Armada Rute
                                         <select name="area_id" class="form-control">
                                             <option value="">--PILIH AREA--</option>
                                             @foreach ($areas as $area)
-                                            @if (old('area_id') == $area->id)
+                                            @if ($area_id == $area->id)
                                             <option value="{{$area->id}}" selected>{{$area->name}}</option>
                                             @else
                                             <option value="{{$area->id}}">{{$area->name}}</option>
@@ -52,7 +52,7 @@ Armada Rute
                                         <select name="fleet_id" class="form-control select2">
                                             <option value="">--PILIH ARMADA--</option>
                                             @foreach ($fleets as $fleet)
-                                            @if (old('fleet_id') == $fleet->id)
+                                            @if ($fleet_id == $fleet->id)
                                             <option value="{{$fleet->id}}" selected>
                                                 {{$fleet->name}}/{{$fleet->fleetclass?->name}}</option>
                                             @else
@@ -76,6 +76,7 @@ Armada Rute
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Table Armada Rute</h3>
+                        <a href="{{route('fleet_route.create')}}" class="btn btn-primary btn-sm float-right">Tambah Armada Rute</a>
                     </div>
                     <div class="card-body">
                         <table id="example1" class="table table-bordered table-striped">
@@ -92,8 +93,17 @@ Armada Rute
                             <tbody>
                                 @foreach ($fleet_routes as $fleet_route)
                                 <tr>
-                                    <td>{{$fleet_route->fleet_detail?->fleet?->name}}/{{$fleet_route->fleet_detail?->fleet?->fleetclass?->name}}
-                                        ({{$fleet_route->fleet_detail?->nickname}})
+                                    <td>
+                                        {{$fleet_route->fleet_detail?->fleet?->name}}/{{$fleet_route->fleet_detail?->fleet?->fleetclass?->name}}
+                                    @if ($fleet_route->fleet_detail_without_trash)
+                                            ({{$fleet_route->fleet_detail?->nickname}}) 
+                                            <a href="{{route('fleet_detail.edit',$fleet_route->fleet_detail?->id)}}" class="float-right" target="_blank"><i class="fas fa-edit"></i></a>
+                                        @else
+                                            <strike>
+                                                ({{$fleet_route->fleet_detail?->nickname}}) 
+                                            </strike>
+                                            <a href="" class="float-right" target="_blank"><i class="fas fa-trash" style="color: red"></i></a>
+                                        @endif
                                     </td>
                                     <td>
                                         {{@$fleet_route->route?->checkpoints[0]?->agency?->city?->area?->name}}
@@ -171,6 +181,9 @@ Armada Rute
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="float-right">
+                            {{$fleet_routes->appends(Request::all())->links() }}
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -183,16 +196,16 @@ Armada Rute
 @endsection
 @push('script')
 <script>
-    $(function () {
-      $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    });
-</script>
-<script>
     if ($('.select2').length > 0) {
         $('.select2').select2();
     };
+</script>
+<script>
+    $(function () {
+      $("#example1").DataTable({
+        "responsive": true, "lengthChange": false, "autoWidth": false, "paging":false
+      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
 </script>
 <script>
     $(document).on('click', '.button-delete', function (e) {

@@ -22,6 +22,7 @@ use App\Models\Route;
 use App\Models\Setting;
 use App\Models\User;
 use App\Repositories\BookingRepository;
+use App\Repositories\MembershipRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\PromoRepository;
 use App\Utils\Response;
@@ -236,7 +237,15 @@ class OrderService
                 (new self)->sendFailedResponse([], 'Maaf user member tidak tersedia');
             }
             if($user){
-                MembershipHistory::create(['agency_id'=> $user->id,'customer_id'=> $membership->user_id]);
+                try {
+                    MembershipRepository::incrementPoint([
+                        'membership_id' => $membership->id,
+                        'value' => Setting::find(1)->point_purchase
+                    ]);
+                    MembershipHistory::create(['agency_id'=> $user->id,'customer_id'=> $membership->user_id]);
+                } catch (\Throwable $th) {
+        
+                }
             }
         }
     }

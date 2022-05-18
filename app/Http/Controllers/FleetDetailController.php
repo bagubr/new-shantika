@@ -19,22 +19,12 @@ class FleetDetailController extends Controller
     {
         $data = $this->validate($request, [
             'fleet_id'                  => 'required|exists:fleets,id',
-            'plate_number'              => 'required|array',
-            'nickname'                  => 'required|array',
+            'plate_number'              => 'required|string',
+            'nickname'                  => 'required|string',
             'time_classification_id'    => 'required',
-            'plate_number.*'            => 'required|string',
-            'nickname.*'                => 'required|string',
         ]);
-        for ($i=0; $i < count($data['plate_number']); $i++) { 
-            $fleet_detail = [
-                'fleet_id' => $data['fleet_id'],
-                'plate_number' => $data['plate_number'][$i],
-                'time_classification_id'=>$data['time_classification_id'][$i],
-                'nickname' => $data['nickname'][$i],
-            ];
-            FleetDetail::create($fleet_detail);
-        }
-        return redirect()->back()->with('success', 'Data berhasil di tambahkan');
+        FleetDetail::create($data);
+        return redirect()->route('fleets.index')->with('success', 'Data berhasil di tambahkan');
     }
     
     public function update(Request $request, $id)
@@ -55,14 +45,15 @@ class FleetDetailController extends Controller
         $fleet_detail = FleetDetail::find($id);
         $time_classifications = TimeClassification::get();
         $fleets = Fleet::orderBy('id', 'desc')->get();
-        return view('fleet.edit_fleet_detail', compact('fleet_detail', 'fleets', 'time_classifications'));
+        return view('fleet_detail.edit', compact('fleet_detail', 'fleets', 'time_classifications'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        $fleet = Fleet::orderBy('id', 'desc')->get();
+        $fleets = Fleet::orderBy('id', 'desc')->get();
         $time_classifications = TimeClassification::get();
-        return view('fleet_detail', compact('fleet'));
+        $fleet_id = $request->fleet_id;
+        return view('fleet_detail.create', compact('fleets', 'time_classifications', 'fleet_id'));
     }
 
     public function destroy($id)
