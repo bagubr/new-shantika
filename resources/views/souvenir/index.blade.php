@@ -29,9 +29,9 @@
                     <thead>
                         <th>Gambar</th>
                         <th>Nama</th>
-                        <th>Description</th>
-                        <th>Point</th>
-                        <th>Quantity</th>
+                        <th>Deskripsi</th>
+                        <th>Poin</th>
+                        <th>Kuota</th>
                         <th>Action</th>
                     </thead>
                     <tbody>

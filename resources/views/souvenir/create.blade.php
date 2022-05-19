@@ -41,7 +41,7 @@
                                 <input type="number" class="form-control" name="point" id="point" required>
                             </div>
                             <div class="form-group mb-3">
-                                <label for="quantity">Kuantitas Souvenir</label>
+                                <label for="quantity">Kuota</label>
                                 <input type="number" class="form-control" name="quantity" id="quantity" required>
                             </div>
                             <div class="form-group mb-3">

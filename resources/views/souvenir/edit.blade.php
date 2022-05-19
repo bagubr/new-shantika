@@ -44,7 +44,7 @@
                                     id="point">
                             </div>
                             <div class="form-group mb-3">
-                                <label for="quantity">Kuantitas Souvenir yang diberikan</label>
+                                <label for="quantity">Kuota</label>
                                 <input type="text" class="form-control" value="{{ $data->quantity }}" name="quantity"
                                     id="quantity">
                             </div>

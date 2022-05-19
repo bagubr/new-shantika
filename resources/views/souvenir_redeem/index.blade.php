@@ -37,6 +37,7 @@
                             <td>{{ $souvenir_reedem->membership->user->name ?? '' }}</td>
                             <td>{{ $souvenir_reedem->souvenir_name }}</td>
                             <td>{{ $souvenir_reedem->quantity }}</td>
+                            <td>{{ $souvenir_reedem->message }}</td>
                             <td class="row justify-content-center"><span
                                     class="col w-50 text-center badge bg-{{ $souvenir_reedem->status == 'WAITING' ? 'success' : ($souvenir_reedem->status == 'ON PROCESS' ? 'warning' : ($souvenir_reedem->status == 'DELIVERED' ? 'info' : 'danger'))}}">
                                     {{ $souvenir_reedem->status }}
