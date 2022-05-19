@@ -17,7 +17,8 @@ class MembershipPoint extends Model
     protected $fillable = [
         'membership_id',
         'value',
-        'status'
+        'status',
+        'message'
     ];
 
     protected $casts = [

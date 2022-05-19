@@ -27,7 +27,6 @@
             <div class="card-body">
                 <table class="table table-striped text-center">
                     <thead>
-                        <th>No</th>
                         <th>Gambar</th>
                         <th>Nama</th>
                         <th>Description</th>
@@ -38,7 +37,6 @@
                     <tbody>
                         @foreach($souvenirs as $souvenir)
                         <tr>
-                            <td width="5%">{{$loop->iteration}}</td>
                             <td><img src='{{url("storage/".$souvenir->image_name)}}' style="max-width: 200px;"
                                     class="img-rounded img-thumbnail" />
                             </td>

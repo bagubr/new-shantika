@@ -129,7 +129,8 @@ class PaymentController extends Controller
             if($membership){
                 MembershipRepository::incrementPoint([
                     'membership_id' => $membership->id,
-                    'value' => Setting::find(1)->point_purchase
+                    'value' => Setting::find(1)->point_purchase,
+                    'message' => 'Pembelian Tiket'
                 ]);
             }
             PaymentAcceptedNotificationJob::dispatchAfterResponse($notification, $order_id->user?->fcm_token, true);

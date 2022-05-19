@@ -24,7 +24,6 @@
             <div class="card-body">
                 <table class="table table-striped text-center">
                     <thead>
-                        <th>No</th>
                         <th>Nama Member</th>
                         <th>Nama Souvenir</th>
                         <th>Jumlah Tukar</th>
@@ -35,7 +34,6 @@
                     <tbody>
                         @foreach($souvenir_reedems as $souvenir_reedem)
                         <tr>
-                            <td width="5%">{{$loop->iteration}}</td>
                             <td>{{ $souvenir_reedem->membership->user->name ?? '' }}</td>
                             <td>{{ $souvenir_reedem->souvenir_name }}</td>
                             <td>{{ $souvenir_reedem->quantity }}</td>
