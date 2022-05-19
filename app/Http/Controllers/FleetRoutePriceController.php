@@ -120,8 +120,9 @@ class FleetRoutePriceController extends Controller
     {
         $data = $request->all();
         $fleet_route_price->update($data);
+        $fleet_route_price->refresh();
         session()->flash('success', 'Harga Rute Armada Berhasil Diubah');
-        return redirect(route('fleet_route_prices.index'));
+        return redirect(route('fleet_route_prices.index', ['area_id' => $fleet_route_price->fleet_route->route->checkpoints[0]->agency->city->area_id]));
     }
 
     /**
