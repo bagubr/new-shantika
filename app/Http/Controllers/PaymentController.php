@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Payment\UpdatePaymentRequest;
 use App\Jobs\PaymentAcceptedNotificationJob;
+use App\Models\Membership;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\PaymentType;
+use App\Models\Setting;
+use App\Repositories\MembershipRepository;
 use App\Repositories\PaymentTypeRepository;
 use App\Services\OrderPriceDistributionService;
 use App\Utils\NotificationMessage;
@@ -122,6 +125,13 @@ class PaymentController extends Controller
                 $order_id->id,
                 $order_id->user_id
             );
+            $membership = Membership::where('user_id', $order_id->user_id)->first();
+            if($membership){
+                MembershipRepository::incrementPoint([
+                    'membership_id' => $membership->id,
+                    'value' => Setting::find(1)->point_purchase
+                ]);
+            }
             PaymentAcceptedNotificationJob::dispatchAfterResponse($notification, $order_id->user?->fcm_token, true);
         } else if ($request->status == Order::STATUS7) {
             $payload = NotificationMessage::paymentDeclined($order_id->code_order, $order_id->payment->proof_decline_reason);
