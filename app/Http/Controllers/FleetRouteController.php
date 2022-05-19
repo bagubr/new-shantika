@@ -8,6 +8,7 @@ use App\Models\Agency;
 use App\Models\Area;
 use App\Models\BlockedChair;
 use App\Models\Fleet;
+use App\Models\FleetDetail;
 use App\Models\FleetRoute;
 use App\Models\Layout;
 use App\Models\Order;
@@ -61,9 +62,9 @@ class FleetRouteController extends Controller
     public function create()
     {
         $routes = Route::all();
-        $fleets = Fleet::all();
+        $fleet_details = FleetDetail::all();
         $statuses = Agency::status();
-        return view('fleetroute.create', compact('fleets', 'routes', 'statuses'));
+        return view('fleetroute.create', compact('fleet_details', 'routes', 'statuses'));
     }
 
     /**

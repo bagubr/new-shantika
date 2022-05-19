@@ -56,8 +56,8 @@ Rute Armada
                                     <label>Armada</label>
                                     <select name="fleet_detail_id" class="form-control select2" required>
                                         <option value="">PILIH</option>
-                                        @foreach ($fleets as $fleet)
-                                            <option value="{{$fleet->id}}">{{$fleet->name}}</option>
+                                        @foreach ($fleet_details as $fleet_detail)
+                                            <option value="{{$fleet_detail->id}}">{{$fleet_detail->fleet?->name??''}} ({{$fleet_detail->nickname}}) / {{$fleet_detail->plate_number}}</option>
                                         @endforeach
                                     </select>
                                 </div>

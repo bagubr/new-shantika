@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FleetRoutePrice\CreateFleetRoutePriceRequest;
+use App\Http\Requests\FleetRoutePrice\UpdateFleetRoutePriceRequest;
 use App\Models\Area;
 use App\Models\Fleet;
 use App\Models\FleetDetail;
@@ -115,7 +116,7 @@ class FleetRoutePriceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CreateFleetRoutePriceRequest $request, FleetRoutePrice $fleet_route_price)
+    public function update(UpdateFleetRoutePriceRequest $request, FleetRoutePrice $fleet_route_price)
     {
         $data = $request->all();
         $fleet_route_price->update($data);
