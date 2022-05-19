@@ -85,7 +85,7 @@ class SouvenirRepository {
     public static function getListSouvenir()
     {
         $SR = new SouvenirRepository;
-        return $SR->Souvenir()->take(10)->get();
+        return $SR->Souvenir()->where('quantity', '>', 0)->take(10)->get();
     }
 
     public static function getFullListSouvenir()
