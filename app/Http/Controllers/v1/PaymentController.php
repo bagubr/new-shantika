@@ -29,7 +29,8 @@ class PaymentController extends Controller
             $user_id = $payment?->order?->id_member;
             MembershipRepository::incrementPoint([
                 'membership_id' => Membership::where('code_member', $user_id)->first()->id,
-                'value' => Setting::find(1)->point_purchase
+                'value' => Setting::find(1)->point_purchase,
+                'message' => 'Pembelian Tiket'
             ]);
         } catch (\Throwable $th) {
 

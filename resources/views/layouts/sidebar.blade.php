@@ -280,6 +280,20 @@
                                 <p>Promo</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{route('souvenir.index')}}"
+                                class="nav-link {{Request::routeIs('souvenir.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Daftar Souvenir</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('souvenir_redeem.index')}}"
+                                class="nav-link {{Request::routeIs('souvenir_redeem.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Souvenir Redeem</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li
@@ -305,20 +319,6 @@
                                 class="nav-link {{Request::routeIs('user.*') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Akun Penumpang</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('souvenir.index')}}"
-                                class="nav-link {{Request::routeIs('souvenir.*') ? 'active' : ''}}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Daftar Souvenir</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('souvenir_redeem.index')}}"
-                                class="nav-link {{Request::routeIs('souvenir_redeem.*') ? 'active' : ''}}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Souvenir Redeem</p>
                             </a>
                         </li>
                     </ul>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Membership;
 use App\Models\MembershipPoint;
+use App\Models\Setting;
+use App\Repositories\MembershipRepository;
 use Illuminate\Http\Request;
 
 class MembershipPointController extends Controller
@@ -42,10 +44,20 @@ class MembershipPointController extends Controller
             $member->update([
                 'sum_point' => $member->sum_point - $data['value']
             ]);
+            MembershipRepository::incrementPoint([
+                'membership_id' => $member->id,
+                'value' => Setting::find(1)->point_purchase,
+                'message' => 'Pengurangan Point'
+            ]);
             session()->flash('success', 'Point Berhasil di kurangi');
         }else{
             $member->update([
                 'sum_point' => $member->sum_point + $data['value']
+            ]);
+            MembershipRepository::incrementPoint([
+                'membership_id' => $member->id,
+                'value' => Setting::find(1)->point_purchase,
+                'message' => 'Penambahan Point'
             ]);
             session()->flash('success', 'Point Berhasil di tambahkan');
         }

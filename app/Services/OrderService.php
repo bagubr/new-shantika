@@ -240,7 +240,8 @@ class OrderService
                 try {
                     MembershipRepository::incrementPoint([
                         'membership_id' => $membership->id,
-                        'value' => Setting::find(1)->point_purchase
+                        'value' => Setting::find(1)->point_purchase,
+                        'message' => 'Pembelian Tiket'
                     ]);
                     MembershipHistory::create(['agency_id'=> $user->id,'customer_id'=> $membership->user_id]);
                 } catch (\Throwable $th) {

@@ -87,7 +87,8 @@ class SouvenirRedeemController extends Controller
         if($data['status'] == 'DECLINED'){
             MembershipRepository::incrementPoint([
                 'membership_id' => $souvenirRedeem->membership_id,
-                'value' => $souvenirRedeem->point_used
+                'value' => $souvenirRedeem->point_used,
+                'message' => 'Pengembalian Point'
             ]);
         }
         try{
