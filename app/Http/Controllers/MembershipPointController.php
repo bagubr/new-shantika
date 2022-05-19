@@ -38,25 +38,18 @@ class MembershipPointController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        MembershipPoint::create($data);
         $member = Membership::find($data['membership_id']);
         if($data['status'] == 'redeem'){
-            $member->update([
-                'sum_point' => $member->sum_point - $data['value']
-            ]);
             MembershipRepository::incrementPoint([
                 'membership_id' => $member->id,
-                'value' => Setting::find(1)->point_purchase,
+                'value' => $data['value'],
                 'message' => 'Pengurangan Point'
             ]);
             session()->flash('success', 'Point Berhasil di kurangi');
         }else{
-            $member->update([
-                'sum_point' => $member->sum_point + $data['value']
-            ]);
             MembershipRepository::incrementPoint([
                 'membership_id' => $member->id,
-                'value' => Setting::find(1)->point_purchase,
+                'value' => $data['value'],
                 'message' => 'Penambahan Point'
             ]);
             session()->flash('success', 'Point Berhasil di tambahkan');
