@@ -30,7 +30,7 @@ class SouvenirRepository {
         }
         $SR->Souvenir()->find($data['souvenir_id'])->decrement('quantity', $data['quantity']);
         $pointUsed = $data['quantity'] * (int) $SR->getSouvenirPricePoint($data['souvenir_id']);
-        $SR->MembershipRepository()->decrementPoint([
+        MembershipRepository::decrementPoint([
             'value' => $pointUsed,
             'membership_id' => $data['membership_id'],
             'message' => 'Penukaran Souvenir'

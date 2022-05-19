@@ -47,7 +47,7 @@ class MembershipPointController extends Controller
             ]);
             session()->flash('success', 'Point Berhasil di kurangi');
         }else{
-            MembershipRepository::incrementPoint([
+            MembershipRepository::decrementPoint([
                 'membership_id' => $member->id,
                 'value' => $data['value'],
                 'message' => 'Penambahan Point'

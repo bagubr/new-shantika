@@ -54,11 +54,11 @@ class MembershipRepository {
         return (new self)->MembershipPoint()->create($data);
     }
 
-    public function decrementPoint($data)
+    public static function decrementPoint($data)
     {
-        $this->Membership()->decrement('sum_point', $data['value']);
+        (new self)->Membership()->decrement('sum_point', $data['value']);
         $data['status'] = 'redeem';
-        return $this->MembershipPoint()->create($data);
+        return (new self)->MembershipPoint()->create($data);
     }
 
     public function getMembershipId()
