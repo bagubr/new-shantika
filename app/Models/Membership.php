@@ -54,7 +54,7 @@ class Membership extends Model
 
     public function getPointAttribute()
     {
-        return $this->point;
+        return $this->sum_point;
     }
 
     public function souvenir_redeem()
