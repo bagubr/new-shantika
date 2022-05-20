@@ -23,7 +23,8 @@ class Membership extends Model
     ];
 
     protected $appends = [
-        'code_member_stk'
+        'code_member_stk',
+        'point'
     ];
 
     protected $casts = [
@@ -49,6 +50,11 @@ class Membership extends Model
     public function getCodeMemberStkAttribute()
     {
         return 'SNTK' . sprintf('%08d', $this->code_member);
+    }
+
+    public function getPointAttribute()
+    {
+        return $this->point;
     }
 
     public function souvenir_redeem()
