@@ -8,6 +8,7 @@ use App\Repositories\SliderRepository;
 use App\Repositories\ArticleRepository;
 use App\Repositories\TestimonialRepository;
 use App\Repositories\CustomerMenuRepository;
+use App\Repositories\MembershipRepository;
 use App\Repositories\UserRepository;
 use App\Services\UserService;
 use App\Repositories\PromoRepository;
@@ -26,6 +27,7 @@ class HomeController extends Controller
             if(!$user->is_active) {
                 return $this->sendFailedResponse([], 'Maaf, akun anda tidak aktif');
             }       
+            $data['membership'] = MembershipRepository::getMember($user->membership->id);
             UserService::updateFcmToken($user, $request->token);
         }
         $this->sendSuccessResponse($data);

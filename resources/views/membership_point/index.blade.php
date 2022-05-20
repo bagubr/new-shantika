@@ -40,15 +40,20 @@ Membership Point History
                                     <th>Status</th>
                                     <th>Nominal</th>
                                     <th>Keterangan</th>
+                                    <th>Tanggal</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($membership_points as $membership_point)
                                 <tr>
-                                    <td>{{$membership_point->status}}</td>
-                                    <td>{{$membership_point->status_operator}}</td>
+                                    @if ($membership_point->status)
+                                    <td>Penambahan Point</td>
+                                    @else
+                                    <td>Pengurangan Point</td>
+                                    @endif
                                     <td>{{$membership_point->value}}</td>
                                     <td>{{$membership_point->message ?? ''}}</td>
+                                    <td>{{date('d-m-Y H:i:s', strtotime($membership_point->created_at))}}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
