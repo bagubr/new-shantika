@@ -15,16 +15,22 @@ class MembershipRepository {
     {
         $data = new MembershipRepository;
         $data->idRequest = $id;
-        return ['data' =>
-            [
-                'name' => $data->getName(),
-                'phone' => $data->getPhone(),
-                'point' => $data->getPoint(),
-                'code_member' => $data->getCodeMember(),
-                'code' => $data->getCode()
-            ],
-            'redeem_history' => $data->getRedeemHistory(),
-            'list_souvenir' => $data->getListSouvenir()
+        return ['data' => $data->getMember($id),
+        'redeem_history' => $data->getRedeemHistory(),
+        'list_souvenir' => $data->getListSouvenir()
+    ];
+}
+
+    public static function getMember($id)
+    {
+        $data = new MembershipRepository;
+        $data->idRequest = $id;
+        return [
+            'name' => $data->getName(),
+            'phone' => $data->getPhone(),
+            'point' => $data->getPoint(),
+            'code_member' => $data->getCodeMember(),
+            'code' => $data->getCode()
         ];
     }
 
@@ -43,21 +49,20 @@ class MembershipRepository {
     public static function createMembership($id)
     {
         $membership = self::create($id);
-        MembershipPoint::create(['membership_id' => $membership->id, 'value' => 0, 'status' => 'create']);
         return MembershipRepository::getHome($id);
     }
 
     public static function incrementPoint($data)
     {
         (new self)->Membership()->increment('sum_point', $data['value']);
-        $data['status'] = 'purchase';
+        $data['status'] = true;
         return (new self)->MembershipPoint()->create($data);
     }
-
+    
     public static function decrementPoint($data)
     {
         (new self)->Membership()->decrement('sum_point', $data['value']);
-        $data['status'] = 'redeem';
+        $data['status'] = false;
         return (new self)->MembershipPoint()->create($data);
     }
 
@@ -74,7 +79,7 @@ class MembershipRepository {
 
     public function getPointHistory($id)
     {
-        return $this->MembershipPoint()->where('membership_id', $id)->where('status', '!=', 'create')->OrderBy('created_at', 'desc')->get();
+        return $this->MembershipPoint()->where('membership_id', $id)->OrderBy('created_at', 'desc')->get();
     }
 
     public function getCodeMember()
