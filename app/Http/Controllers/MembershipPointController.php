@@ -19,7 +19,7 @@ class MembershipPointController extends Controller
         {
             $query->where('membership_id', $membership_id);
         })
-        ->where('status', '!=', 'create')
+        ->orderBy('id', 'desc')
         ->get();
         return view('membership_point.index', compact('membership_points', 'membership'));
     }
@@ -39,20 +39,24 @@ class MembershipPointController extends Controller
     {
         $data = $request->all();
         $member = Membership::find($data['membership_id']);
-        if($data['status'] == 'redeem'){
-            MembershipRepository::incrementPoint([
+        if($data['status'] == '0'){
+            MembershipRepository::decrementPoint([
                 'membership_id' => $member->id,
                 'value' => $data['value'],
                 'message' => 'Pengurangan Point'
             ]);
             session()->flash('success', 'Point Berhasil di kurangi');
         }else{
-            MembershipRepository::decrementPoint([
-                'membership_id' => $member->id,
-                'value' => $data['value'],
-                'message' => 'Penambahan Point'
-            ]);
-            session()->flash('success', 'Point Berhasil di tambahkan');
+            if($member->sum_point < 1){
+                session()->flash('success', 'Point Tidak cukup');
+            }else{
+                MembershipRepository::incrementPoint([
+                    'membership_id' => $member->id,
+                    'value' => $data['value'],
+                    'message' => 'Penambahan Point'
+                ]);
+                session()->flash('success', 'Point Berhasil di tambahkan');
+            }
         }
         return redirect(route('membership_point.index', ['membership_id' => $data['membership_id']]));
     }

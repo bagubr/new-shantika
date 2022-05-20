@@ -43,21 +43,18 @@ class MembershipRepository {
     public static function createMembership($id)
     {
         $membership = self::create($id);
-        MembershipPoint::create(['membership_id' => $membership->id, 'value' => 0, 'status' => 'create']);
         return MembershipRepository::getHome($id);
     }
 
     public static function incrementPoint($data)
     {
         (new self)->Membership()->increment('sum_point', $data['value']);
-        $data['status'] = 'purchase';
         return (new self)->MembershipPoint()->create($data);
     }
 
     public static function decrementPoint($data)
     {
         (new self)->Membership()->decrement('sum_point', $data['value']);
-        $data['status'] = 'redeem';
         return (new self)->MembershipPoint()->create($data);
     }
 
@@ -74,7 +71,7 @@ class MembershipRepository {
 
     public function getPointHistory($id)
     {
-        return $this->MembershipPoint()->where('membership_id', $id)->where('status', '!=', 'create')->OrderBy('created_at', 'desc')->get();
+        return $this->MembershipPoint()->where('membership_id', $id)->OrderBy('created_at', 'desc')->get();
     }
 
     public function getCodeMember()

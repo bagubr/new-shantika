@@ -28,6 +28,7 @@ Membership Point History
                     <div class="card-header">
                         <h3 class="card-title">Table Membership Point History {{ $membership->user->name }}</h3>
                         <div class="text-right">
+                            <a href="#" class="btn btn-outline-primary btn-sm">Total Point {{ $membership->sum_point }}</a>
                             <a href="{{route('membership_point.create', ['membership_id' => $membership->id])}}" class="btn btn-primary btn-sm">Tambah/Kurang Point</a>
                         </div>
                     </div>
@@ -36,23 +37,18 @@ Membership Point History
                         <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Nominal</th>
                                     <th>Status</th>
+                                    <th>Nominal</th>
                                     <th>Keterangan</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($membership_points as $membership_point)
                                 <tr>
+                                    <td>{{$membership_point->status}}</td>
+                                    <td>{{$membership_point->status_operator}}</td>
                                     <td>{{$membership_point->value}}</td>
-                                    <td>{{$membership_point->status ?? ''}}</td>
-                                    @if($membership_point->status == 'create')
-                                    <td>Initial History Point</td>
-                                    @elseif($membership_point->status == 'purchase')
-                                    <td>Penambahan Point</td>
-                                    @else
-                                    <td>Pengurangan Point</td>
-                                    @endif
+                                    <td>{{$membership_point->message ?? ''}}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

@@ -21,6 +21,10 @@ class MembershipPoint extends Model
         'message'
     ];
 
+    protected $appends = [
+        'status_operator'
+    ];
+
     protected $casts = [
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s'
