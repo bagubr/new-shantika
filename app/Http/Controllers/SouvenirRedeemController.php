@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Membership;
-use App\Models\Setting;
 use App\Models\SouvenirRedeem;
-use App\Repositories\MembershipRepository;
+use App\Services\MembershipService;
 use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -85,11 +84,7 @@ class SouvenirRedeemController extends Controller
         ];
         Validator::make($data, $rules);
         if($data['status'] == 'DECLINED'){
-            MembershipRepository::incrementPoint([
-                'membership_id' => $souvenirRedeem->membership_id,
-                'value' => $souvenirRedeem->point_used,
-                'message' => 'Pengembalian Point'
-            ]);
+            MembershipService::increment(Membership::find($souvenirRedeem->membership_id), $souvenirRedeem->point_used, 'Pengembalian Point');
         }
         try{
             $souvenirRedeem->update($data);
