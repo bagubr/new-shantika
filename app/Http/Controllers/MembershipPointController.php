@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Membership;
 use App\Models\MembershipPoint;
-use App\Models\Setting;
-use App\Repositories\MembershipRepository;
+use App\Services\MembershipService;
 use Illuminate\Http\Request;
 
 class MembershipPointController extends Controller
@@ -24,11 +23,6 @@ class MembershipPointController extends Controller
         return view('membership_point.index', compact('membership_points', 'membership'));
     }
 
-    public function show($id)
-    {
-        
-    }
-
     public function create(Request $request)
     {
         $membership_id = $request->membership_id;
@@ -40,21 +34,13 @@ class MembershipPointController extends Controller
         $data = $request->all();
         $member = Membership::find($data['membership_id']);
         if($data['status'] == '1'){
-            MembershipRepository::incrementPoint([
-                'membership_id' => $member->id,
-                'value' => $data['value'],
-                'message' => 'Penambahan Point'
-            ]);
+            MembershipService::increment($member, $data['value'], 'Penambahan Point');
             session()->flash('success', 'Point Berhasil di tambahkan');
         }else{
             if($member->sum_point < 1){
                 session()->flash('success', 'Point Tidak cukup');
             }else{
-                MembershipRepository::decrementPoint([
-                    'membership_id' => $member->id,
-                    'value' => $data['value'],
-                    'message' => 'Pengurangan Point'
-                ]);
+                MembershipService::decrement($member, $data['value'], 'Pengurangan Point');
                 session()->flash('success', 'Point Berhasil di kurangi');
             }
         }
