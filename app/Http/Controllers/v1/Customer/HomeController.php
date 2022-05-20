@@ -27,7 +27,7 @@ class HomeController extends Controller
             if(!$user->is_active) {
                 return $this->sendFailedResponse([], 'Maaf, akun anda tidak aktif');
             }       
-            $data['membership'] = MembershipRepository::getMember($user->membership->id);
+            $data['membership'] = MembershipRepository::getByUserId($user->id);
             UserService::updateFcmToken($user, $request->token);
         }
         $this->sendSuccessResponse($data);

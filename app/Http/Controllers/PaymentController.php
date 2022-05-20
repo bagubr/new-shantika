@@ -10,12 +10,11 @@ use App\Models\Order;
 use App\Models\Payment;
 use App\Models\PaymentType;
 use App\Models\Setting;
-use App\Repositories\MembershipRepository;
 use App\Repositories\PaymentTypeRepository;
+use App\Services\MembershipService;
 use App\Services\OrderPriceDistributionService;
 use App\Utils\NotificationMessage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 
 class PaymentController extends Controller
 {
@@ -127,11 +126,7 @@ class PaymentController extends Controller
             );
             $membership = Membership::where('user_id', $order_id->user_id)->first();
             if($membership){
-                MembershipRepository::incrementPoint([
-                    'membership_id' => $membership->id,
-                    'value' => Setting::find(1)->point_purchase,
-                    'message' => 'Pembelian Tiket'
-                ]);
+                MembershipService::increment($membership, Setting::find(1)->point_purchase, 'Pembelian Tiket');
             }
             PaymentAcceptedNotificationJob::dispatchAfterResponse($notification, $order_id->user?->fcm_token, true);
         } else if ($request->status == Order::STATUS7) {
