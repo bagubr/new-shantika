@@ -15,23 +15,17 @@ use App\Models\MembershipHistory;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\OrderDetail;
-use App\Models\OrderPriceDistribution;
 use App\Models\Payment;
 use App\Models\PromoHistory;
-use App\Models\Route;
 use App\Models\Setting;
 use App\Models\User;
 use App\Repositories\BookingRepository;
-use App\Repositories\MembershipRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\PromoRepository;
 use App\Utils\Response;
-use App\Repositories\UserRepository;
 use App\Utils\NotificationMessage;
 use App\Utils\PriceTiket;
-use Exception;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class OrderService
 {
@@ -238,11 +232,7 @@ class OrderService
             }
             if($user){
                 try {
-                    MembershipRepository::incrementPoint([
-                        'membership_id' => $membership->id,
-                        'value' => Setting::find(1)->point_purchase,
-                        'message' => 'Pembelian Tiket'
-                    ]);
+                    MembershipService::increment($membership, Setting::find(1)->point_purchase, 'Pembelian Tiket');
                     MembershipHistory::create(['agency_id'=> $user->id,'customer_id'=> $membership->user_id]);
                 } catch (\Throwable $th) {
         

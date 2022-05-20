@@ -7,8 +7,8 @@ use App\Models\Membership;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Setting;
-use App\Repositories\MembershipRepository;
 use App\Repositories\PaymentRepository;
+use App\Services\MembershipService;
 use App\Services\PaymentService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -26,12 +26,8 @@ class PaymentController extends Controller
 
         $payment = PaymentService::receiveCallback($payment, $request->status);
         try {
-            $user_id = $payment?->order?->id_member;
-            MembershipRepository::incrementPoint([
-                'membership_id' => Membership::where('code_member', $user_id)->first()->id,
-                'value' => Setting::find(1)->point_purchase,
-                'message' => 'Pembelian Tiket'
-            ]);
+            $code_member = $payment?->order?->id_member;
+            MembershipService::increment(Membership::where('code_member', $code_member)->first(), Setting::find(1)->point_purchase, 'Pembelian Tiket');
         } catch (\Throwable $th) {
 
         }
