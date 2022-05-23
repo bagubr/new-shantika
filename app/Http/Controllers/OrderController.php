@@ -258,7 +258,7 @@ class OrderController extends Controller
             if (!$is_reverting) return response([
                 'code' => 0
             ], 500);
-            $order_detail->delete();
+            // $order_detail->delete();
             SketchLog::create([
                 'admin_id' => Auth::user()->id,
                 'order_id' => $order_detail->order_id,

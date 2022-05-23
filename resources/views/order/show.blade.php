@@ -166,7 +166,7 @@ Pesanan
         <div class="col-md-5">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Detail Penumpang {{$order->order_detail[0]?->name}}</h3>
+                    <h3 class="card-title">Detail Penumpang {{$order?->order_detail[0]?->name??'Sudah di batalkan'}}</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -176,26 +176,31 @@ Pesanan
                 <div class="card-body" style="display: block;">
                     <div class="form-group">
                         <label>Nama Penumpang</label>
-                        <input type="text" class="form-control" name="name" value="{{$order->order_detail[0]?->name}}"
+                        <input type="text" class="form-control" name="name" value="{{$order?->order_detail[0]?->name??'Sudah di batalkan'}}"
                             disabled>
                     </div>
                     <div class="form-row">
                         <div class="col">
                             <div class="form-group">
                                 <label>Nomor Hp</label>
-                                <p>{{$order->order_detail[0]?->phone}}</p>
+                                <p>{{$order?->order_detail[0]?->phone??'Sudah di batalkan'}}</p>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label>Email</label>
-                                <p>{{$order->order_detail[0]?->email}}</p>
+                                <p>{{$order?->order_detail[0]?->email??'Sudah di batalkan'}}</p>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label>Nomor Kursi</label> <br>
                                 <div class="row">
+                                    @empty(!$order_details)
+                                    <div class="col mb-1">
+                                        Sudah di batalkan
+                                    </div>
+                                    @endempty
                                     @foreach ($order_details as $order_detail)
                                     <div class="col mb-1">
                                         <button
@@ -211,7 +216,7 @@ Pesanan
                             <div class="form-group">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox"
-                                        @if($order->order_detail[0]?->is_feed == 1)
+                                        @if($order?->order_detail[0]?->is_feed??0 == 1)
                                     checked
                                     @endif disabled="">
                                     <label class="form-check-label">Makan</label>
@@ -222,7 +227,7 @@ Pesanan
                             <div class="form-group">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox"
-                                        @if($order->order_detail[0]?->is_travel == 1)
+                                        @if($order?->order_detail[0]?->is_travel??0 == 1)
                                     checked
                                     @endif disabled="">
                                     <label class="form-check-label">Travel</label>
@@ -233,7 +238,7 @@ Pesanan
                             <div class="form-group">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox"
-                                        @if($order->order_detail[0]?->is_member == 1) checked
+                                        @if($order?->order_detail[0]?->is_member??0 == 1) checked
                                     @endif disabled="">
                                     <label class="form-check-label">Member</label>
                                 </div>
@@ -359,7 +364,7 @@ Pesanan
                                         @csrf
                                         @method('PUT')
                                         <button class="badge badge-primary"
-                                            onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                            onclick="return confirm('Apakah Anda Yakin ingin deposit??')"
                                             type="submit">Deposit
                                             Sekarang</button>
                                     </form>
