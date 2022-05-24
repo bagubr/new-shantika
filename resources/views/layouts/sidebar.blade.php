@@ -169,13 +169,16 @@
                                 <p>Layout Armada</p>
                             </a>
                         </li>
+                        
+                        @foreach (\App\Models\Area::get() as $area)
                         <li class="nav-item">
-                            <a href="{{route('agency_fleet.index')}}"
-                                class="nav-link {{Request::routeIs('agency_fleet.*') ? 'active' : ''}}">
+                            <a href="{{route('agency_fleet.index', ['area_id' => $area->id])}}"
+                                class="nav-link @if (Request::routeIs('agency_fleet*') && $area->id == request()->area_id) active @endif">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Armada Tertentu</p>
+                                <p>Armada {{$area->name}}</p>
                             </a>
                         </li>
+                        @endforeach
                     </ul>
                 </li>
                 <li class="nav-item {{Request::routeIs('routes.*','fleet_route.*', 'agency_route.*', 'fleet_route_prices.*') ? 'menu-open' : ''}}">
@@ -204,7 +207,7 @@
                         @foreach (\App\Models\Area::get() as $area)
                         <li class="nav-item">
                             <a href="{{route('fleet_route_prices.index', ['area_id' => $area->id])}}"
-                                class="nav-link @if ($area->id == request()->area_id)
+                                class="nav-link @if (Request::routeIs('fleet_route_prices*') && $area->id == request()->area_id)
                                     active
                                 @endif">
                                 <i class="far fa-circle nav-icon"></i>
@@ -213,14 +216,16 @@
                                 </p>
                             </a>
                         </li>
-                        @endforeach
                         <li class="nav-item">
-                            <a href="{{route('agency_route.index')}}"
-                                class="nav-link {{Request::routeIs('agency_route.*') ? 'active' : ''}}">
+                            <a href="{{route('agency_route.index', ['area_id' => $area->id])}}"
+                                class="nav-link @if (Request::routeIs('agency_route*') && $area->id == request()->area_id)
+                                active
+                            @endif">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Rute Tertentu</p>
+                                <p>Rute {{$area->name}}</p>
                             </a>
                         </li>
+                        @endforeach
                     </ul>
                 </li>
                 <li class=" nav-item {{Request::routeIs('agency.*','user_agent.*') ? 'menu-open' : ''}}">

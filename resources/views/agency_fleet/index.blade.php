@@ -8,7 +8,7 @@ Armada Agen
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Armada Agen</h1>
+                <h1 class="m-0">Armada Agen {{App\Models\Area::find(request()->area_id)->name}}</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -26,7 +26,7 @@ Armada Agen
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Armada Agen</h3>
+                        <h3 class="card-title">Table Armada Agen {{App\Models\Area::find(request()->area_id)->name}}</h3>
                         <div class="text-right">
                             {{-- <a href="{{route('agency_fleet.create')}}" class="btn btn-primary btn-sm">Tambah</a> --}}
                         </div>
@@ -38,7 +38,7 @@ Armada Agen
                                 <tr>
                                     <th>Armada</th>
                                     <th>Unit Armada</th>
-                                    <th>Area</th>
+                                    <th>Rute dan Area</th>
                                     <th>Agen Permanen</th>
                                     <th>Agen Temporer</th>
                                     <th>Aksi</th>
@@ -56,7 +56,16 @@ Armada Agen
                                         @endforeach
                                     </td>
                                     <td>
-                                        {{ ($fleet->route_fleets)?:'BELUM ADA' }}
+                                        @foreach ($fleet->fleet_detail as $detail)
+                                            @foreach ($detail->fleet_route??[] as $fleet_routes)
+                                            <li>
+                                                {{$fleet_routes->route?->name??''}}
+                                                (
+                                                    {{$fleet_routes->route?->checkpoints[0]?->agency?->city?->area?->name??'BELUM ADA'}}
+                                                    )
+                                                </li>
+                                            @endforeach
+                                        @endforeach
                                     </td>
                                     <td>{{implode(', ',$fleet->agency_fleet_permanent->pluck('agency.name')->toArray())}}</td>
                                     <td>{!! implode(', ',$fleet->agency_fleet->transform(function ($item)
@@ -90,7 +99,7 @@ Armada Agen
 <script>
     $(function () {
       $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
+        "responsive": true, "lengthChange": false, "autoWidth": false
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
 </script>

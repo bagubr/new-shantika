@@ -95,7 +95,7 @@ Armada Rute
                                 <tr>
                                     <td>
                                         {{$fleet_route->fleet_detail?->fleet?->name}}/{{$fleet_route->fleet_detail?->fleet?->fleetclass?->name}}
-                                    @if ($fleet_route->fleet_detail_without_trash)
+                                        @if ($fleet_route->fleet_detail_without_trash)
                                             ({{$fleet_route->fleet_detail?->nickname}}) 
                                             <a href="{{route('fleet_detail.edit',$fleet_route->fleet_detail?->id)}}" class="float-right" target="_blank"><i class="fas fa-edit"></i></a>
                                         @else
