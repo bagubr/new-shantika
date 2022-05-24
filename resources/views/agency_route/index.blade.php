@@ -42,6 +42,10 @@ Rute Agen
                                             @endforeach
                                         </select>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="">Nama Rute</label>
+                                        <input type="text" name="name" id="" value="{{@$name}}" class="form-control">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -64,6 +68,7 @@ Rute Agen
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
+                                    <th>Armada</th>
                                     <th>Rute</th>
                                     <th>Area</th>
                                     <th>Agen Permanen</th>
@@ -74,6 +79,13 @@ Rute Agen
                             <tbody>
                                 @foreach ($routes as $route)
                                 <tr>
+                                    <td>
+                                        @foreach ($route->fleet_details??[] as $fleet_detail)
+                                            {{$fleet_detail->fleet?->name}}
+                                            /{{$fleet_detail->fleet?->fleetclass?->name}}
+                                            ({{$fleet_detail->nickname}})
+                                        @endforeach
+                                    </td>
                                     <td>{{$route->name}}</td>
                                     <td>
                                         @if ($route->checkpoints->count() > 0)
@@ -100,6 +112,7 @@ Rute Agen
                                 @endforeach
                             </tbody>
                         </table>
+                        {{$routes->links()}}
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -110,12 +123,3 @@ Rute Agen
     </div>
 </div>
 @endsection
-@push('script')
-<script>
-    $(function () {
-      $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    });
-</script>
-@endpush

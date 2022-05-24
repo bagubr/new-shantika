@@ -26,6 +26,11 @@ class Route extends Model
         return $this->hasManyThrough(Fleet::class, FleetRoute::class, 'fleet_id', 'id');
     }
 
+    public function fleet_details()
+    {
+        return $this->belongsToMany(FleetDetail::class, 'fleet_routes', 'route_id', 'fleet_detail_id', 'id', 'id', 'fleet_detail');
+    }
+
     public function fleet_routes()
     {
         return $this->hasMany(FleetRoute::class);

@@ -12,9 +12,15 @@ use Illuminate\Http\Request;
 
 class AgencyFleetController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $fleets = Fleet::get();
+        $fleets = Fleet::when($request->area_id, function ($query) use ($request)
+        {
+            $query->whereHas('fleet_detail.fleet_route.route.checkpoints.agency.city', function ($query) use ($request)
+            {
+                $query->where('area_id', $request->area_id);
+            } );
+        })->get();
         $areas = Area::all();
         return view('agency_fleet.index', compact('fleets'));
     }

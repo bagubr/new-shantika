@@ -73,6 +73,11 @@ class Fleet extends Model
 
     public function getRouteFleetsAttribute()
     {
-        return Checkpoint::whereIn('route_id', Route::whereIn('id', FleetRoute::whereIn('fleet_detail_id', $this->fleet_detail()->get()->pluck('id'))->get()->pluck('route_id'))->get()->pluck('id'))->first()->agency?->city?->area?->name??'';
+        return  Checkpoint::whereIn('route_id', 
+                    Route::whereIn('id', 
+                        FleetRoute::whereIn('fleet_detail_id', $this->fleet_detail()->get()->pluck('id'))
+                    ->get()->pluck('route_id'))
+                ->get()->pluck('id'))
+                ->first()->agency?->city?->area?->name??'';
     }
 }

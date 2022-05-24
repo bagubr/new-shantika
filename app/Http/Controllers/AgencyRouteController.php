@@ -21,6 +21,7 @@ class AgencyRouteController extends Controller
     public function index(Request $request)
     {
         $area_id = $request->area_id;
+        $name = $request->name;
         $routes = Route::query();
         $areas = Area::all();
         if (!empty($area_id)) {
@@ -30,13 +31,16 @@ class AgencyRouteController extends Controller
                 });
             });
         }
-        $routes   = $routes->get();
+        if (!empty($name)) {
+            $routes = $routes->where('name', 'ilike', '%'.$name.'%');
+        }
+        $routes   = $routes->orderBy('id', 'desc')->paginate(10)->withQueryString();
         if (!$routes->isEmpty()) {
             session()->flash('success', 'Data Berhasil Ditemukan');
         } else {
             session()->flash('error', 'Tidak Ada Data Ditemukan');
         }
-        return view('agency_route.index', compact('routes', 'areas', 'area_id'));
+        return view('agency_route.index', compact('routes', 'areas', 'area_id', 'name'));
     }
 
     /**
