@@ -17,7 +17,6 @@ class MembershipController extends Controller
         $user = UserRepository::findByToken($request->bearerToken())
             ?? $this->sendFailedResponse([], 'Anda sepertinya perlu login ulang / anda perlu regis ulang');
         $data['data'] = MembershipRepository::getByUserId($user->id);
-        $data['data']['code_member_stk'] = 'SNTK' . sprintf('%08d', $data['data']['code_member']);
         $data['data']['code_member'] = implode("|", [$data['data']['code_member'], $user->id]);
         $data['redeem_history'] = SouvenirReedemRepository::getByUserId($data['data']['id']);
         $data['list_souvenir'] = SouvenirRepository::getListSouvenir();
