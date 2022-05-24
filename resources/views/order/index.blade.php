@@ -207,7 +207,7 @@ Pemesanan
                                             {{$order->user?->name}}
                                         </a>
                                         @else
-                                        {{$order->order_detail[0]->name}}
+                                        {{$order?->order_detail[0]?->name??''}}
                                         @endif
                                     </td>
                                     <td>{{$order->code_order}}</td>

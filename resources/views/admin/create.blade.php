@@ -54,11 +54,13 @@ Admin
                             <select name="role" class="form-control select2">
                                 <option value="">Pilih Role</option>
                                 @foreach ($roles as $role)
+                                @if ($role->id != 5)
                                 <option value="{{$role->name}}" @isset($admin) @if ($role->name ===
                                     $admin->roles[0]->name)
                                     selected
                                     @endif
                                     @endisset>{{$role->name}}</option>
+                                @endif
                                 @endforeach
                             </select>
                         </div>

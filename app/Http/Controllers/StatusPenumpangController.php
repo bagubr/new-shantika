@@ -17,21 +17,30 @@ class StatusPenumpangController extends Controller
      */
     public function index(Request $request)
     {
-        $area_id = $request->area_id;
+        $area_id = $request->area_id??'';
+        $reserve_at = $request->reserve_at??'';
+        $code_order = $request->code_order??'';
         $areas = Area::get();
-        $orders = Order::with('fleet_route.route')->when($area_id, function ($q) use ($area_id) {
+        $orders = Order::with('fleet_route.route')
+        ->when($area_id, function ($q) use ($area_id) {
             $q->whereHas('agency.city', function ($sq) use ($area_id) {
                 $sq->where('area_id', $area_id);
             });
-        })->paginate(10);
-        $test = $request->flash();
+        })
+        ->when($reserve_at, function ($q) use ($reserve_at) {
+            $q->whereDate('reserve_at', $reserve_at);
+        })
+        ->when($code_order, function ($q) use ($code_order) {
+            $q->where('code_order', $code_order);
+        })
+        ->paginate(10);
 
         if (!$orders->isEmpty()) {
             session()->flash('success', 'Data Order Berhasil Ditemukan');
         } else {
             session()->flash('error', 'Tidak Ada Data Ditemukan');
         }
-        return view('status_penumpang.index', compact('orders', 'areas', 'test'));
+        return view('status_penumpang.index', compact('orders', 'areas', 'reserve_at', 'area_id', 'code_order'));
     }
     public function export()
     {

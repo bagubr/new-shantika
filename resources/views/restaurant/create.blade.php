@@ -49,35 +49,69 @@ Restoran
                         @csrf
                         @isset($restaurant)
                         @method('PUT')
+                        <input type="hidden" name="restaurant_id" value="{{$restaurant->id}}">
                         @endisset
                         <div class="form-group">
                             <label>Nama Restoran</label>
+                            <small style="color: red">*</small>
                             <input type="text" class="form-control" name="name" placeholder="Masukkan Nama"
                                 value="{{isset($restaurant) ? $restaurant->name : ''}}" required>
                         </div>
                         <div class="form-group">
+                            <label>Username (untuk login)</label>
+                            <small style="color: red">*</small>
+                            <input type="text" class="form-control" name="username" placeholder="Masukkan Username"
+                                value="{{isset($restaurant) ? $restaurant->username : ''}}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <small style="color: red">*</small>
+                            <input type="email" class="form-control" name="email" placeholder="Masukkan Email"
+                                value="{{isset($restaurant) ? $restaurant->email : ''}}" required>
+                        </div>
+                        <div class="form-group">
                             <label>Phone</label>
+                            <small style="color: red">*</small>
                             <input type="text" class="form-control" name="phone" placeholder="Masukkan Nomor HP"
                                 value="{{isset($restaurant) ? $restaurant->phone : ''}}" required>
                         </div>
                         <div class="form-group">
                             <label>Alamat</label>
+                            <small style="color: red">*</small>
                             <input type="text" class="form-control" name="address" placeholder="Masukkan Alamat"
                                 value="{{isset($restaurant) ? $restaurant->address : ''}}" required>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Password</label>
+                                    <small style="color: red">*
+                                    @isset($restaurant) isi jika ingin di ubah @endisset
+                                    </small>
+                                    <input type="password" name="password" class="form-control">
+                                </div>
+                                <div class="col">
+                                    <label>Konfirmasi Password</label>
+                                    <small style="color: red">*</small>
+                                    <input type="password" name="password_confirmation" class="form-control">
+                                </div>
+                            </div>
                         </div>
                         <div class="form-row">
                             <div class="col">
                                 <div class="form-group">
                                     <label>Koordinat Latitude</label>
+                                    <small style="color: red">*</small>
                                     <input class="form-control" type="text" id="lat" name="lat"
-                                        value="{{isset($restaurant) ? $restaurant->lat : ''}}">
+                                    value="{{isset($restaurant) ? $restaurant->lat : ''}}" required>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label>Koordinat Longtitude</label>
+                                    <small style="color: red">*</small>
                                     <input class="form-control" type="text" id="lng" name="long"
-                                        value="{{isset($restaurant) ? $restaurant->long : ''}}">
+                                        value="{{isset($restaurant) ? $restaurant->long : ''}}" required>
                                 </div>
                             </div>
                         </div>
@@ -86,24 +120,28 @@ Restoran
                         </div>
                         <div class="form-group">
                             <label>Nama Bank</label>
+                            <small style="color: red">*</small>
                             <input type="text" class="form-control" name="bank_name" placeholder="Masukkan Nama Bank"
                                 value="{{isset($restaurant) ? $restaurant->bank_name : ''}}" required>
                         </div>
                         <div class="form-group">
                             <label>Nama Pemilik Bank</label>
+                            <small style="color: red">*</small>
                             <input type="text" class="form-control" name="bank_owner"
                                 placeholder="Masukkan Nama Pemilik Bank"
                                 value="{{isset($restaurant) ? $restaurant->bank_owner : ''}}" required>
                         </div>
                         <div class="form-group">
                             <label>Nomor Rekening</label>
+                            <small style="color: red">*</small>
                             <input type="number" class="form-control" name="bank_account"
                                 placeholder="Masukkan Nomor Rekening"
                                 value="{{isset($restaurant) ? $restaurant->bank_account : ''}}" required>
                         </div>
                         <div class="form-group">
                             <label>Gambar</label>
-                            <input type="file" name="image" class="form-control" accept="image/*">
+                            <small style="color: red">*</small>
+                            <input type="file" name="image" class="form-control" accept="image/*" required>
                             @isset($restaurant)
                             <a href="{{$restaurant->image}}" data-toggle="lightbox">
                                 <img src="{{$restaurant->image}}" style="height: 100px">
