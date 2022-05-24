@@ -87,7 +87,9 @@ class AdminController extends Controller
             $data['password']   = Hash::make($request['password']);
         }
         $admin->update($data);
-        $admin->syncRoles($request->role);
+        if($request->role){
+            $admin->syncRoles($request->role);
+        }
 
         session()->flash('success', 'Akun Berhasil Diubah');
         return redirect(route('admin.index'));

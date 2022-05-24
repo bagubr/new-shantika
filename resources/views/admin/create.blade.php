@@ -7,7 +7,7 @@ Admin
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Admin Form</h1>
+                <h1>Admin </h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -51,15 +51,13 @@ Admin
                         </div>
                         <div class="form-group">
                             <label>Role</label>
-                            <select name="role" class="form-control select2">
+                            <select name="role" class="form-control" required>
                                 <option value="">Pilih Role</option>
                                 @foreach ($roles as $role)
-                                @if ($role->id != 5)
-                                <option value="{{$role->name}}" @isset($admin) @if ($role->name ===
-                                    $admin->roles[0]->name)
-                                    selected
-                                    @endif
-                                    @endisset>{{$role->name}}</option>
+                                @if (isset($admin) )
+                                <option value="{{$role->name}}" {{($role->name == $admin->roles[0]->name)?'selected':''}}>{{$role->name}}</option>
+                                @elseif($role->id != 5)
+                                <option value="{{$role->name}}">{{$role->name}}</option>
                                 @endif
                                 @endforeach
                             </select>
@@ -68,8 +66,9 @@ Admin
                             <div class="form-row">
                                 <div class="col">
                                     <label>Password</label>
+                                    <small style="color: red">isi jika ingin di ubah</small>
                                     <input type="password" name="password" class="form-control" @empty($admin) required
-                                        @endempty>
+                                    @endempty>
                                 </div>
                                 <div class="col">
                                     <label>Konfirmasi Password</label>
@@ -79,7 +78,7 @@ Admin
                             </div>
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
-                        <input type="submit" value="Tambah" class="btn btn-success float-right">
+                        <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
                 </div>
                 <!-- /.card-body -->
