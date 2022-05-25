@@ -15,7 +15,8 @@ class SouvenirRedeem extends Model
         'status', 
         'membership_id', 
         'souvenir_id', 
-        'note'
+        'note',
+        'agency_id'
     ];
 
     const STATUS_DECLINE = 'DECLINE';
@@ -45,5 +46,10 @@ class SouvenirRedeem extends Model
     public function souvenir()
     {
         return $this->belongsTo(Souvenir::class, 'souvenir_id', 'id');
+    }
+
+    public function agency()
+    {
+        return $this->belongsTo(Agency::class, 'agency_id', 'id');
     }
 }

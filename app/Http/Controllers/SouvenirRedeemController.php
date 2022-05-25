@@ -18,8 +18,8 @@ class SouvenirRedeemController extends Controller
      */
     public function index()
     {
-        $souvenir_reedems = SouvenirRedeem::with('membership.user')->paginate(10);
-        return view('souvenir_redeem.index', compact('souvenir_reedems'));
+        $souvenir_redeems = SouvenirRedeem::with('membership.user')->paginate(10);
+        return view('souvenir_redeem.index', compact('souvenir_redeems'));
     }
 
     /**
