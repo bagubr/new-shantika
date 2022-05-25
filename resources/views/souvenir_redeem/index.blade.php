@@ -21,6 +21,32 @@
 <div class="content">
     <div class="container-fluid">
         <div class="card">
+            <div class="card-header">
+                Pencarian
+            </div>
+            <div class="card-body">
+                <form action="{{route('souvenir_redeem.index')}}" method="get">
+                <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Tanggal</label>
+                                <input type="date" class="form-control" name="created_at" value="{{@$created_at}}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Nama</label>
+                                <input type="text" class="form-control" name="name" value="{{@$name}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary btn-sm float-right">Cari</button>
+            </div>
+            </form>
+        </div>
+        <div class="card">
             <div class="card-body">
                 <table class="table table-striped text-center">
                     <thead>
@@ -28,15 +54,17 @@
                         <th>Agent Pengiriman Souvenir</th>
                         <th>Nama Souvenir</th>
                         <th>Jumlah Tukar</th>
+                        <th>Keterangan</th>
                         <th>Status</th>
                         <th>Catatan</th>
+                        <th>Tanggal Pengajuan</th>
                         <th>Action</th>
                     </thead>
                     <tbody>
                         @foreach($souvenir_redeems as $souvenir_redeem)
                         <tr>
                             <td>{{ $souvenir_redeem->membership->user->name ?? '' }}</td>
-                            <td>{{ ($souvenir_redeem->agency->city->name) $souvenir_redeem->agency->name}}</td>
+                            <td>({{$souvenir_redeem->agency->city->name??''}}){{ $souvenir_redeem->agency?->name??''}}</td>
                             <td>{{ $souvenir_redeem->souvenir_name }}</td>
                             <td>{{ $souvenir_redeem->quantity }}</td>
                             <td>{{ $souvenir_redeem->message }}</td>
@@ -46,6 +74,7 @@
                                 </span>
                             </td>
                             <td>{{ $souvenir_redeem->note ?? '' }}</td>
+                            <td>{{$souvenir_redeem->created_at}}</td>
                             <td>
                                 <a href="{{ route('souvenir_redeem.edit', ['souvenir_redeem' => $souvenir_redeem->id]) }}"
                                     class="btn btn-primary btn-xs">Update</a>

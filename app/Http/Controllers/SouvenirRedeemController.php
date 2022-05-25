@@ -17,10 +17,24 @@ class SouvenirRedeemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $souvenir_redeems = SouvenirRedeem::with('membership.user')->paginate(10);
-        return view('souvenir_redeem.index', compact('souvenir_redeems'));
+        $created_at = $request->created_at;
+        $name = $request->name;
+        $souvenir_redeems = SouvenirRedeem::with('membership.user')
+        ->when($created_at, function ($query) use ($created_at)
+        {
+            $query->whereDate('created_at', $created_at);
+        })
+        ->when($name, function ($query) use ($name)
+        {
+            $query->whereHas('membership.user', function ($query) use ($name)
+            {
+                $query->where('name','ilike', "%".$name."%");
+            });
+        })
+        ->orderBy('id', 'desc')->paginate(10)->withQueryString();
+        return view('souvenir_redeem.index', compact('souvenir_redeems', 'name', 'created_at'));
     }
 
     /**
