@@ -36,11 +36,11 @@ class MembershipService {
 
     public static function increment(Membership $membership, $point, $message = '')
     {
-        $membership->decrement('sum_point', $point);
+        $membership->increment('sum_point', $point);
         MembershipPoint::create([
             'membership_id' => $membership->id,
             'value' => $point,
-            'status' => 0,
+            'status' => 1,
             'message' => $message
         ]);
     }
