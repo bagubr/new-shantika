@@ -166,21 +166,31 @@ class OrderService
             (new self)->sendFailedResponse([], 'Maaf, penumpang / customer harus membayar terlebih dahulu');
         }
         DB::beginTransaction();
-        $order->update([
-            'status' => Order::STATUS5,
-            'exchanged_at' => date('Y-m-d H:i:s')
-        ]);
-        $for_deposit = PriceTiket::priceTiket(FleetRoute::find($order->fleet_route_id), Agency::find($order->departure_agency_id), Agency::find($order->destination_agency_id), $order->reserve_at);
-        $total_price = OrderPriceDistributionService::calculateDistribution($order, $order->order_detail, $for_deposit);
-        $order->distribution()->update([
-            'for_agent' => $total_price['for_agent'],
-            'for_owner' => $total_price['for_owner'],
-            'for_owner_with_food' => $total_price['for_owner_with_food'],
-            'for_owner_gross' => $total_price['for_owner_gross'],
-            'total_deposit' => $total_price['total_deposit']
-        ]);
-        DB::commit();
-        $order->refresh();
+        try {
+            $order->update([
+                'status' => Order::STATUS5,
+                'exchanged_at' => date('Y-m-d H:i:s')
+            ]);
+            $for_deposit = PriceTiket::priceTiket(FleetRoute::find($order->fleet_route_id), Agency::find($order->departure_agency_id), Agency::find($order->destination_agency_id), $order->reserve_at);
+            $total_price = OrderPriceDistributionService::calculateDistribution($order, $order->order_detail, $for_deposit);
+            $order->distribution()->update([
+                'for_agent' => $total_price['for_agent'],
+                'for_owner' => $total_price['for_owner'],
+                'for_owner_with_food' => $total_price['for_owner_with_food'],
+                'for_owner_gross' => $total_price['for_owner_gross'],
+                'total_deposit' => $total_price['total_deposit']
+            ]);
+            
+            $membership = Membership::where('user_id', $order->user_id)->first();
+            if($membership){
+                MembershipService::increment($membership, Setting::find(1)->point_purchase, 'Pembelian Tiket');
+            }
+            DB::commit();
+            $order->refresh();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            (new self)->sendFailedResponse([], 'Penukaran gagal di lakukan silahkan coba kembali');
+        }
 
         TicketExchangedJob::dispatch($order);
         return $order;
