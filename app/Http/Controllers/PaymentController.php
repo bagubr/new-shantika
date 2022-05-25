@@ -124,10 +124,6 @@ class PaymentController extends Controller
                 $order_id->id,
                 $order_id->user_id
             );
-            $membership = Membership::where('user_id', $order_id->user_id)->first();
-            if($membership){
-                MembershipService::increment($membership, Setting::find(1)->point_purchase, 'Pembelian Tiket');
-            }
             PaymentAcceptedNotificationJob::dispatchAfterResponse($notification, $order_id->user?->fcm_token, true);
         } else if ($request->status == Order::STATUS7) {
             $payload = NotificationMessage::paymentDeclined($order_id->code_order, $order_id->payment->proof_decline_reason);

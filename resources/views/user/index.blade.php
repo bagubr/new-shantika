@@ -79,6 +79,10 @@ User
                                         @endif
                                     </td>
                                     <td>
+                                        <a href="{{route('user.show',$user->id)}}"
+                                            class="btn btn-primary btn-xs" target="_blank">
+                                            Detail
+                                        </a>
                                         @unlessrole('owner')
                                         <a href="{{route('user.edit',$user->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>

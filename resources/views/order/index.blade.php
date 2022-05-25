@@ -199,11 +199,11 @@ Pemesanan
                                 <tr>
                                     <td>
                                         @if ($order->user?->agencies)
-                                        <a href="{{route('user_agent.show',$order->user?->id)}}">
+                                        <a href="{{route('user_agent.show',$order->user?->id)}}" target="_blank">
                                             {{$order->user?->name_agent}}
                                         </a>
                                         @elseif ($order->user)
-                                        <a href="{{route('user.edit',$order->user?->id)}}">
+                                        <a href="{{route('user.show',$order->user?->id)}}" target="_blank">
                                             {{$order->user?->name}}
                                         </a>
                                         @else
