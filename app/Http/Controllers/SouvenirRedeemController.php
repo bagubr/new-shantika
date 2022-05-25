@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Agency;
 use App\Models\Membership;
 use App\Models\SouvenirRedeem;
 use App\Services\MembershipService;
@@ -65,7 +66,8 @@ class SouvenirRedeemController extends Controller
     public function edit(SouvenirRedeem $souvenirRedeem)
     {
         $data = $souvenirRedeem;
-        return view('souvenir_redeem.edit', compact('data'));
+        $agencies = Agency::select('id', 'name')->all();
+        return view('souvenir_redeem.edit', compact('data', 'agencies'));
     }
 
     /**

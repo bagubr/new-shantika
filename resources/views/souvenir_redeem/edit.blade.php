@@ -39,6 +39,19 @@
                                 <input type="text" class="form-control" value="{{ $data->souvenir_name }}" id="point" disabled>
                             </div>
                             <div class="form-group mb-3">
+                                <label for="">Agent yang dipilih</label>
+                                <select name="agency_id" id="" required class="form-control select2">
+                                    <option value="">PILIH</option>
+                                    @foreach ($agencies as $agency)
+                                        <option value="{{$agency->id}} @isset($data)
+                                            @if ($agency->id == $data->agency_id)
+                                                selected
+                                            @endif
+                                        @endisset">{{$agency->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group mb-3">
                                 <label for="point">Jumlah</label>
                                 <input type="text" class="form-control" value="{{ $data->quantity }}" id="point" disabled>
                             </div>
