@@ -25,6 +25,7 @@
                 <table class="table table-striped text-center">
                     <thead>
                         <th>Nama Member</th>
+                        <th>Agent Pengiriman Souvenir</th>
                         <th>Nama Souvenir</th>
                         <th>Jumlah Tukar</th>
                         <th>Status</th>
@@ -32,20 +33,21 @@
                         <th>Action</th>
                     </thead>
                     <tbody>
-                        @foreach($souvenir_reedems as $souvenir_reedem)
+                        @foreach($souvenir_redeems as $souvenir_redeem)
                         <tr>
-                            <td>{{ $souvenir_reedem->membership->user->name ?? '' }}</td>
-                            <td>{{ $souvenir_reedem->souvenir_name }}</td>
-                            <td>{{ $souvenir_reedem->quantity }}</td>
-                            <td>{{ $souvenir_reedem->message }}</td>
+                            <td>{{ $souvenir_redeem->membership->user->name ?? '' }}</td>
+                            <td>{{ ($souvenir_redeem->agency->city->name) $souvenir_redeem->agency->name}}</td>
+                            <td>{{ $souvenir_redeem->souvenir_name }}</td>
+                            <td>{{ $souvenir_redeem->quantity }}</td>
+                            <td>{{ $souvenir_redeem->message }}</td>
                             <td class="row justify-content-center"><span
-                                    class="col w-50 text-center badge bg-{{ $souvenir_reedem->status == 'WAITING' ? 'success' : ($souvenir_reedem->status == 'ON PROCESS' ? 'warning' : ($souvenir_reedem->status == 'DELIVERED' ? 'info' : 'danger'))}}">
-                                    {{ $souvenir_reedem->status }}
+                                    class="col w-50 text-center badge bg-{{ $souvenir_redeem->status == 'WAITING' ? 'success' : ($souvenir_redeem->status == 'ON PROCESS' ? 'warning' : ($souvenir_redeem->status == 'DELIVERED' ? 'info' : 'danger'))}}">
+                                    {{ $souvenir_redeem->status }}
                                 </span>
                             </td>
-                            <td>{{ $souvenir_reedem->note ?? '' }}</td>
+                            <td>{{ $souvenir_redeem->note ?? '' }}</td>
                             <td>
-                                <a href="{{ route('souvenir_redeem.edit', ['souvenir_redeem' => $souvenir_reedem->id]) }}"
+                                <a href="{{ route('souvenir_redeem.edit', ['souvenir_redeem' => $souvenir_redeem->id]) }}"
                                     class="btn btn-primary btn-xs">Update</a>
                             </td>
                         </tr>
@@ -54,7 +56,7 @@
                 </table>
                 <br>
                 <div class="float-right">
-                    {{$souvenir_reedems->appends(Request::all())->links() }}
+                    {{$souvenir_redeems->appends(Request::all())->links() }}
                 </div>
             </div>
         </div>

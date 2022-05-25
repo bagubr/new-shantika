@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v1\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\RedeemSouvenirRequest;
 use App\Models\Souvenir;
 use App\Models\SouvenirRedeem;
 use App\Repositories\MembershipRepository;
@@ -21,10 +22,10 @@ class SouvenirController extends Controller
         ], 'Berhasil Menampilkan List Souvenir');
     }
 
-    public function Redeem(Request $request)
+    public function Redeem(RedeemSouvenirRequest $request)
     {
         $user = UserRepository::findByToken($request->bearerToken())
-        ?? $this->sendFailedResponse([], 'Anda sepertinya perlu login ulang / anda perlu regis ulang');
+        ?? $this->sendFailedResponse([], 'Anda sepertinya perlu login ulang / anda perlu registrasi dahulu');
         $data = $request->all();
 
         $data['status'] = SouvenirRedeem::STATUS_WAITING;
