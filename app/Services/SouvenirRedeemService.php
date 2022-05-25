@@ -24,7 +24,7 @@ class SouvenirRedeemService {
             (new self)->sendFailedResponse([], 'Kuota souvenir tidak tersedia');
         }
         $souvenir->decrement('quantity', $data['quantity']);
-        MembershipService::decrement($membership, $data['point_used']);
+        MembershipService::decrement($membership, $data['point_used'], 'Penggunaan Point Souvenir');
         return SouvenirRedeem::create($data);
     }
 }
