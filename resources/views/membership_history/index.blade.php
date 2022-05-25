@@ -49,7 +49,7 @@ Membership History
                             @unlessrole('owner')
 
                             <div class="text-right">
-                                <button class="btn btn-primary" type="submit" name="export" value="1">Export</button>
+                                <button class="btn btn-primary btn-sm" type="submit" name="export" value="1">Export</button>
                                 <a href="#" class="btn btn-outline-primary btn-sm">Total Data Membership History {{ $total }}</a>
                             </div>
                             @endunlessrole

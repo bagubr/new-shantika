@@ -26,6 +26,7 @@ use App\Utils\Response;
 use App\Utils\NotificationMessage;
 use App\Utils\PriceTiket;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class OrderService
 {
@@ -232,6 +233,7 @@ class OrderService
             }
             if($user){
                 try {
+                    Log::info('oke');
                     MembershipService::increment($membership, Setting::find(1)->point_purchase, 'Pembelian Tiket');
                     MembershipHistory::create(['agency_id'=> $user->id,'customer_id'=> $membership->user_id]);
                 } catch (\Throwable $th) {
