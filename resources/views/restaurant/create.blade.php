@@ -58,13 +58,13 @@ Restoran
                                 value="{{isset($restaurant) ? $restaurant->name : ''}}" required>
                         </div>
                         <div class="form-group">
-                            <label>Username (untuk login)</label>
+                            <label>Username Admin</label>
                             <small style="color: red">*</small>
                             <input type="text" class="form-control" name="username" placeholder="Masukkan Username"
                                 value="{{isset($restaurant) ? $restaurant->username : ''}}" required>
                         </div>
                         <div class="form-group">
-                            <label>Email</label>
+                            <label>Email Admin</label>
                             <small style="color: red">*</small>
                             <input type="email" class="form-control" name="email" placeholder="Masukkan Email"
                                 value="{{isset($restaurant) ? $restaurant->email : ''}}" required>
