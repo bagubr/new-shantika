@@ -112,7 +112,9 @@ Rute Agen
                                 @endforeach
                             </tbody>
                         </table>
-                        {{$routes->links()}}
+                        <div class="float-right mt-3">
+                            {{$routes->links()}}
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>
