@@ -115,9 +115,11 @@ Sketch
                                 <i class="fas fa-bus" style="font-size: 2.5em; color: Mediumslateblue;"></i>
                             </div>
                             <div class="col-md-9">
-                                <b>@{{order.fleet_route?.fleet_detail?.fleet?.name}}</b>
+                                <b>@{{order.fleet_route?.fleet_detail?.fleet?.name}} / @{{order.fleet_route?.fleet_detail?.nickname}} (@{{order.fleet_route?.fleet_detail?.plate_number}})</b>
+                                <a href="{{route('fleets.index')}}"><i class="fas fa-eyes"></i></a>
                                 <br>
                                 <p>@{{order.time_classification.name}}</p>
+                                <small>Co driver : @{{order.fleet_route?.fleet_detail?.co_driver}} <p class="edit-co-driver"></p></small>
                                 <p>@{{data.date_now}}</p>
                                 <span>@{{order.fleet_route?.fleet_detail?.fleet?.fleetclass?.name}}</span>
                                 <br>
@@ -181,7 +183,8 @@ Sketch
                 result: {
                     isLoading: false,
                     orders: [],
-                    _orders: []
+                    _orders: [],
+                    fleetDetailId:''
                 },
                 firstLayout: {
                     date: new Date().toDateString(),
@@ -206,6 +209,15 @@ Sketch
 
             },
             methods: {
+                EditCoDriver(order){
+                    fleetDetailId = order.fleet_route.fleet_detail_id
+                    this.$router.push({
+                        name:'fleet_detail.edit',
+                        params:{
+                            id:fleetDetailId
+                        }
+                    })
+                },
                 searchOrders() {
                     this.result.isLoading = true
                     this.result.orders = []
