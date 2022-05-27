@@ -69,6 +69,11 @@ class Order extends Model
         return $this->belongsTo(FleetRoute::class, 'fleet_route_id', 'id');
     }
 
+    public function fleet_route_with_trash()
+    {
+        return $this->belongsTo(FleetRoute::class, 'fleet_route_id', 'id')->withTrashed();
+    }
+
     public function order_detail()
     {
         return $this->hasMany(OrderDetail::class, 'order_id', 'id');

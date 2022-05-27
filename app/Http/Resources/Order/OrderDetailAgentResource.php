@@ -25,7 +25,7 @@ class OrderDetailAgentResource extends JsonResource
             $this->agency = $this->load('user.agencies.agent')->user->agencies->agent;
         }
 
-        $fleet_route = $this->fleet_route;
+        $fleet_route = $this->fleet_route_with_trash;
         $distribution = $this->distribution;
         $route = $fleet_route->route;
         $checkpoints = $route->checkpoints;
