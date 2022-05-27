@@ -56,7 +56,7 @@ Promo
                         </div>
                         <div class="form-group">
                             <label>Gambar</label>
-                            <input type="file" class="form-control" name="image" accept="image/*" required>
+                            <input type="file" class="form-control" name="image" accept="image/*" @if(!$promo) required @endif>
                             <small class="text-danger"><i class="fas fa-info-circle"></i> Pastikan ukuran gambar 445x236(72)dpi, agar hasil maksimal</small>
                             <br>
                             @isset($promo)
@@ -73,13 +73,30 @@ Promo
                         </div>
                         <div class="form-group">
                             <label>Pilih User</label>
+                            @if (isset($promo) && $promo->user)
+                                <form action="{{route('promo.update',$promo->id)}}" class="d-inline"
+                                    method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <input type="hidden" name="user_id" id="">
+                                    <input type="hidden" name="is_public" id="" value="1">
+                                    <button class="btn btn-danger btn-xs"
+                                        onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                        type="submit">Delete</button>
+                                </form>
+                            @endif
                             <select name="user_id" class="form-control select2" id="user_id">
                                 <option value="">--PILIH USER--</option>
                                 @foreach($users as $key => $name)
-                                <option value="{{ $key }}">{{ $name }}</option>
+                                <option value="{{ $key }}" @isset($promo->user) @if ($promo->user->id == $key)
+                                    selected                                    
+                                @endif
+                                @endisset>{{ $name }}</option>
                                 @endforeach
                             </select>
-                            <small class="text-danger" id="refresh"><i class="fas fa-info-circle"></i> Dapat di Kosongkan jika ingin ditujukan ke semua user</small>
+                            @if (!$promo)
+                                <small class="text-danger" id="refresh"><i class="fas fa-info-circle"></i> Dapat di Kosongkan jika ingin ditujukan ke semua user</small>
+                            @endif
                         </div>
                         <div class="form-row">
                             <div class="col">

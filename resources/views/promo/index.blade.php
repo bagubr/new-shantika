@@ -56,10 +56,10 @@ Promo
                                     <td>{{ $promo->description }}</td>
                                     <td>{{ $promo->percentage_discount }} %</td>
                                     <td>{{ $promo->maximum_discount }}</td>
-                                    @if($promo->is_public)
+                                    @if($promo->is_public && !$promo->user)
                                     <td>Global</td>
                                     @else
-                                    <td>{{ $promo->user->name }}</td>
+                                    <td>{{ $promo->user?->name??'' }}</td>
                                     @endif
                                     @if($promo->is_scheduless)
                                     <td>Tidak terjadwal</td>
