@@ -39,9 +39,11 @@ class RouteController extends BaseRouteController
                         {
                             $que->whereHas('agency_fleet', function ($query) use ($departure_agency, $date)
                                 {
-                                    $query->whereDate('start_at', '<=', $date)->whereDate('end_at', '>=', $date);
-                                    $query->where('agency_id', $departure_agency->id);
-                                    $query->orDoesnthave('agency_fleet');
+                                    $query->where(function ($query) use ($departure_agency, $date)
+                                    {
+                                        $query->whereDate('start_at', '<=', $date)->whereDate('end_at', '>=', $date);
+                                        $query->where('agency_id', $departure_agency->id);
+                                    });
                                 });
                             $que->orDoesnthave('agency_fleet');
                         });
