@@ -13,7 +13,7 @@ class PriceTiket {
             // if($price <= 0){
             if($agency_destiny->is_agent == true){
                 $price += @$agency_destiny->agency_prices->sortByDesc('start_at')->first()->price??0;
-            }else{
+            }elseif($departure_agency->is_route == true){
                 $price += @$agency_destiny->route_prices->sortByDesc('start_at')->first()->price??0;
             }
                 // $price += $fleet_route->fleet_detail->fleet->fleetclass->price_fleet_class1;
@@ -23,7 +23,7 @@ class PriceTiket {
             // if($price <= 0){
             if($departure_agency->is_agent == true){
                 $price += @$departure_agency->agency_prices->sortByDesc('start_at')->first()->price??0;
-            }else{
+            }elseif($departure_agency->is_route == true){
                 $price += @$departure_agency->route_prices->sortByDesc('start_at')->first()->price??0;
             }
                 // $price += $fleet_route->fleet_detail->fleet->fleetclass->price_fleet_class2;
