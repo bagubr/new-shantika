@@ -6,6 +6,7 @@ use App\Jobs\BookingExpiryReminderJob;
 use App\Models\Booking;
 use App\Models\Notification;
 use App\Models\Setting;
+use App\Notifications\BookingDelayNotification;
 use App\Repositories\BookingRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\ScheduleUnavailableBookingRepository;
@@ -58,6 +59,7 @@ class BookingService {
             "user_id"=>$booking->user_id
         ]);
         $expired_time = Setting::first()->booking_expired_duration;
+        // $booking->user->notify(new BookingDelayNotification($booking))->delay($delay);
         BookingExpiryReminderJob::dispatch($notification, $booking->user->fcm_token, false)->delay(now()->addMinutes($expired_time));
     }
 
