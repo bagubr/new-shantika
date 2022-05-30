@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 class OrderController extends Controller
 {
     public function calculateDiscount(ApiCalculateDiscountRequest $request) {
+        $user = UserRepository::findByToken($request->bearerToken());
         $fleet_route = FleetRoute::find($request->fleet_route_id);
         $setting = Setting::first();
         $price_food = ($request->is_food) ? $fleet_route->fleet_detail?->fleet?->fleetclass?->price_food * $request->seat_count : 0;
@@ -21,6 +22,10 @@ class OrderController extends Controller
 
         $price_ticket = $request->price_ticket - ($price_food / $request->seat_count) - ($total_travel / $request->seat_count) - ($total_member / $request->seat_count);
 
+        $price_food = @$user?->agencies?->agency?->city?->area_id == 2 
+         ? 0
+         : $price_food;
+
         $data = [
             'total_food'=> $price_food,
             'total_travel'=>$total_travel,
@@ -28,8 +33,8 @@ class OrderController extends Controller
         ];
         $price_with_food = $request->price_ticket * $request->seat_count;
         
-        $xendit_charge = function() use ($request, $setting) : int {
-            if(empty(UserRepository::findByToken($request->bearerToken())?->agencies)) {
+        $xendit_charge = function() use ($setting, $user) : int {
+            if(empty($user?->agencies)) {
                 return $setting->xendit_charge;
             }
             return 0;
