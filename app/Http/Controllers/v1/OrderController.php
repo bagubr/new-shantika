@@ -21,10 +21,9 @@ class OrderController extends Controller
         $total_member = $request->is_member ? -($setting->member) * $request->seat_count : 0;
 
         $price_ticket = $request->price_ticket - ($price_food / $request->seat_count) - ($total_travel / $request->seat_count) - ($total_member / $request->seat_count);
-
-        $price_food = @$user?->agencies?->agency?->city?->area_id == 2 
-         ? 0
-         : $price_food;
+        $price_food = @$user?->agencies?->agent?->city?->area_id == 2 
+        ? 0
+        : $price_food;
 
         $data = [
             'total_food'=> $price_food,
