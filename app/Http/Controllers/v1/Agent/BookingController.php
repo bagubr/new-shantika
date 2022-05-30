@@ -50,10 +50,10 @@ class BookingController extends Controller
                 ]);
                 $booking[] = BookingService::create($_booking);
             }
-            // DB::commit();
-            DB::rollBack();
+            DB::commit();
         } catch (\Throwable $th) {
             return $this->sendSuccessResponse([], 'Gagal melakukan booking, coba lagi nanti');
+            DB::rollBack();
         }
     
         return $this->sendSuccessResponse([
