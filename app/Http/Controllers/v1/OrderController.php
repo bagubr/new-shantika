@@ -26,10 +26,7 @@ class OrderController extends Controller
             'total_travel'=>$request->is_travel ? $setting->travel * $request->seat_count : 0,
             'total_member'=>$request->is_member ? -($setting->member) * $request->seat_count : 0
         ];
-
-        $price_with_food = $request->is_food 
-            ? $request->price_ticket * $request->seat_count
-            : ($price_ticket * $request->seat_count) + (($price_food - $setting->default_food_price) * $request->seat_count); 
+        $price_with_food = $request->price_ticket * $request->seat_count;
         
         $xendit_charge = function() use ($request, $setting) : int {
             if(empty(UserRepository::findByToken($request->bearerToken())?->agencies)) {
