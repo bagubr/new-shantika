@@ -7,7 +7,7 @@ Edit Detail Armada
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Edit Detail Armada Form</h1>
+                <h1>Edit Detail Armada For1m</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -46,6 +46,11 @@ Edit Detail Armada
                             <label for="inputName">Nomor Plat</label>
                             <input type="text" id="inputName" class="form-control" name="plate_number"
                                 placeholder="Masukkan Nomor Plat" value="{{$fleet_detail->plate_number}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputCoDriver">Co Driver</label>
+                            <input type="text" id="inputCoDriver" class="form-control" name="co_driver"
+                                placeholder="Masukkan Co Driver" value="{{$fleet_detail->co_driver}}">
                         </div>
                         <div class="form-group">
                             <label for="inputName">Shift</label>

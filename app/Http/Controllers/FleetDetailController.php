@@ -22,6 +22,7 @@ class FleetDetailController extends Controller
             'plate_number'              => 'required|string',
             'nickname'                  => 'required|string',
             'time_classification_id'    => 'required',
+            'co_driver'                 => 'string'
         ]);
         FleetDetail::create($data);
         return redirect()->route('fleets.index')->with('success', 'Data berhasil di tambahkan');
@@ -31,10 +32,11 @@ class FleetDetailController extends Controller
     {
         $fleet_detail = FleetDetail::find($id);
         $data = $this->validate($request, [
-        'fleet_id'                      => 'required|exists:fleets,id',
+            'fleet_id'                  => 'required|exists:fleets,id',
             'plate_number'              => 'required|string',
             'nickname'                  => 'required|string',
-            'time_classification_id'    => 'required'
+            'time_classification_id'    => 'required',
+            'co_driver'                 => 'string'
         ]);
         $fleet_detail->update($data);
         return redirect('fleets/'.$fleet_detail->fleet_id)->with('success', 'Data berhasil di update');

@@ -8,6 +8,7 @@ use App\Http\Resources\OrderDetailChairResource;
 use App\Models\Booking;
 use App\Repositories\AgencyDepartureTimeRepository;
 use App\Repositories\CheckpointRepository;
+use App\Utils\PriceTiket;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class OrderListAgentResource extends JsonResource
@@ -26,8 +27,8 @@ class OrderListAgentResource extends JsonResource
             $this->agency = $this->load('user.agencies.agent')->user?->agencies?->agent;
         }
 
-        $fleet_route = $this->fleet_route;
-        $route = $this->fleet_route()->withTrashed()->first()->route;
+        $fleet_route = $this->fleet_route_with_trash;
+        $route = $fleet_route->first()->route;
         $checkpoints = $route?->checkpoints;
         $fleet_detail = $fleet_route?->fleet_detail;
         $fleet = $fleet_detail?->fleet;
@@ -42,7 +43,7 @@ class OrderListAgentResource extends JsonResource
             'name_fleet'                => $fleet?->name ?? "",
             'fleet_class'               => $fleet?->fleetclass?->name ?? "",
             'chairs'                    => @OrderDetailChairResource::collection($this->order_detail),
-            'price'                     => $this->price,
+            'price'                     => PriceTiket::priceTiket($fleet_route, $agent_start, $agency_destiny, $this->reserve_at),
             'time_classification_id'    => $this->time_classification_id,
             'reserve_at'                => $this->reserve_at,
             'status'                    => $this->status,

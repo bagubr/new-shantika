@@ -109,6 +109,11 @@ Armada
                                     placeholder="Masukkan Nomor Plat">
                             </div>
                             <div class="form-group">
+                                <label for="inputCoDriver">Co Driver</label>
+                                <input type="text" id="inputCoDriver" class="form-control" name="co_driver" placeholder="Masukkan Co Driver"
+                                    value="{{isset($fleet) ? $fleet->co_driver : ''}}">
+                            </div>
+                            <div class="form-group">
                                 <label for="">Shift</label>
                                 <select name="time_classification_id" class="form-control">
                                     @foreach($time_classifications as $item)
@@ -154,6 +159,7 @@ Armada
                                 <th>Kode Armada</th>
                                 <th>Julukan Armada</th>
                                 <th>Plat Nomor</th>
+                                <th>Co Driver</th>
                                 <th>Shift</th>
                                 <th>Aksi</th>
                             </tr>
@@ -164,6 +170,7 @@ Armada
                                 <td>{{$fleet_detail->fleet->name}}</td>
                                 <td>{{$fleet_detail->nickname}}</td>
                                 <td>{{$fleet_detail->plate_number}}</td>
+                                <td>{{$fleet_detail->co_driver}}</td>
                                 <td>{{$fleet_detail->time_classification?->name ?? '-'}}</td>
                                 <td>
                                     @unlessrole('owner')

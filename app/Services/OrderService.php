@@ -22,6 +22,7 @@ use App\Models\User;
 use App\Repositories\BookingRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\PromoRepository;
+use App\Utils\CodeMember;
 use App\Utils\Response;
 use App\Utils\NotificationMessage;
 use App\Utils\PriceTiket;
@@ -237,13 +238,13 @@ class OrderService
     {
         $user = User::whereHas('agencies')->where('id', $user_id)->first();
         if($id_member){
-            $membership = Membership::where('code_member', $id_member)->where('user_id', '!=', null)->first();
+            $code_member = CodeMember::code($id_member);
+            $membership = Membership::where('code_member', $code_member)->where('user_id', '!=', null)->first();
             if(!$membership){
                 (new self)->sendFailedResponse([], 'Maaf user member tidak tersedia');
             }
             if($user){
                 try {
-                    Log::info('oke');
                     MembershipService::increment($membership, Setting::find(1)->point_purchase, 'Pembelian Tiket');
                     MembershipHistory::create(['agency_id'=> $user->id,'customer_id'=> $membership->user_id]);
                 } catch (\Throwable $th) {

@@ -175,7 +175,9 @@ Agen
                                 @endforeach
                             </tbody>
                         </table>
-                        {{$agencies->appends(request()->query())->links("pagination::bootstrap-4")}}
+                        <div class="float-right mt-3">
+                            {{$agencies->appends(request()->query())->links("pagination::bootstrap-4")}}
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -188,13 +190,6 @@ Agen
 </div>
 @endsection
 @push('script')
-<script>
-    $(function () {
-      $("#example1").DataTable({
-        "searching": false, "responsive": true, "lengthChange": false, "autoWidth": false,
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    });
-</script>
 <script>
     $(document).on('click', '.button-delete', function (e) {
         e.preventDefault();

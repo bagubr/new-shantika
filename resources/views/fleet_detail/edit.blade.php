@@ -48,6 +48,11 @@ Edit Detail Armada
                                 placeholder="Masukkan Nomor Plat" value="{{$fleet_detail->plate_number}}">
                         </div>
                         <div class="form-group">
+                            <label for="inputCoDriver">Co Driver</label>
+                            <input type="text" id="inputCoDriver" class="form-control" name="co_driver"
+                                placeholder="Masukkan Co Driver" value="{{$fleet_detail->co_driver}}">
+                        </div>
+                        <div class="form-group">
                             <label for="inputName">Shift</label>
                             <select name="time_classification_id" class="form-control" id="">
                                 @foreach ($time_classifications as $item)
