@@ -24,6 +24,15 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        SendingNotification::class => [
+            SendNotification::class
+        ],
+        SendingNotificationToTopic::class => [
+            SendNotificationToTopic::class
+        ],
+        SendingNotificationToAdmin::class => [
+            SendNotificationToAdmin::class
+        ]
     ];
 
     /**
@@ -33,19 +42,19 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Event::listen(
-            SendingNotification::class,
-            [SendNotification::class, 'handle']
-        );
+        // Event::listen(
+        //     SendingNotification::class,
+        //     [SendNotification::class, 'handle']
+        // );
 
-        Event::listen(
-            SendingNotificationToTopic::class,
-            [SendNotificationToTopic::class, 'handle']
-        );
+        // Event::listen(
+        //     SendingNotificationToTopic::class,
+        //     [SendNotificationToTopic::class, 'handle']
+        // );
 
-        Event::listen(
-            SendingNotificationToAdmin::class,
-            [SendNotificationToAdmin::class, 'handle']
-        );
+        // Event::listen(
+        //     SendingNotificationToAdmin::class,
+        //     [SendNotificationToAdmin::class, 'handle']
+        // );
     }
 }
