@@ -109,14 +109,14 @@ Member
                                         <a href="{{route('membership_point.index', ['membership_id' => $member->id])}}"
                                             class="btn btn-outline-primary btn-xs">History Point</a>
                                         @endif
-                                        <form action="{{route('member.destroy',$member->id)}}" class="d-inline"
+                                        {{-- <form action="{{route('member.destroy',$member->id)}}" class="d-inline"
                                             method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger btn-xs"
                                                 onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
                                                 type="submit">Delete</button>
-                                        </form>
+                                        </form> --}}
                                         @endunlessrole
                                     </td>
                                 </tr>
