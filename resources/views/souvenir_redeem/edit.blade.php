@@ -59,7 +59,7 @@
                                 <label for="status">Status</label>
                                 <select class="form-control" name="status" id="status"  @if ($data->status != "ON PROCESS" && $data->status != "WAITING") disabled @endif>
                                     <option value="WAITING" @if ($data->status == "WAITING") selected @endif>WAITING</option>
-                                    <option value="ON PROCESS" @if ($data->status == "ON PROCESS") selected @endif>ON PROCESS</option>
+                                    <option value="ON_PROCESS" @if ($data->status == "ON_PROCESS") selected @endif>ON PROCESS</option>
                                     <option value="DECLINED" @if ($data->status == "DECLINED") selected @endif>DECLINED</option>
                                     <option value="DELIVERED" @if ($data->status == "DELIVERED") selected @endif>DELIVERED</option>
                                 </select>

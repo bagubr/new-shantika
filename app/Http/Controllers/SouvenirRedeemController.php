@@ -80,7 +80,7 @@ class SouvenirRedeemController extends Controller
     public function edit(SouvenirRedeem $souvenirRedeem)
     {
         $data = $souvenirRedeem;
-        $agencies = Agency::select('id', 'name')->all();
+        $agencies = Agency::select('id', 'name')->get();
         return view('souvenir_redeem.edit', compact('data', 'agencies'));
     }
 

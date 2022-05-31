@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Request;
 
 class FleetClass extends Model
 {
@@ -29,6 +30,11 @@ class FleetClass extends Model
     public function getPriceFleetClass2Attribute()
     {
         return $this->prices()->where('area_id', 2)->whereDate('start_at', '<=',date(now()))->orderBy('id', 'desc')->first()?->price??0;
+    }
+
+    public function price_fleet_class($area_id)
+    {
+        return $this->prices()->where('area_id', $area_id)->whereDate('start_at', '<=',date(now()))->orderBy('id', 'desc')->first()?->price??0;
     }
 
     public function fleets() {

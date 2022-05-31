@@ -77,8 +77,8 @@ Armada Agen
                                             }
                                     })->toArray()) !!}</td>
                                     <td>
-                                        <a href="{{route('agency_fleet_permanent.edit',$fleet->id)}}"class="btn btn-primary btn-xs" class="disabled-link">Tambah Agent Permanent</a>
-                                        <a href="{{route('agency_fleet.edit',$fleet->id)}}"
+                                        <a href="{{route('agency_fleet_permanent.edit',[$fleet->id, 'area_id' => request()->area_id])}}"class="btn btn-primary btn-xs" class="disabled-link">Tambah Agent Permanent</a>
+                                        <a href="{{route('agency_fleet.edit',[$fleet->id, 'area_id' => request()->area_id])}}"
                                             class="btn btn-outline-primary btn-xs">Tambah Agent Temporary</a>
                                     </td>
                                 </tr>

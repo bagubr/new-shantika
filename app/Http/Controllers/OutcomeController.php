@@ -17,6 +17,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
+use function PHPUnit\Framework\isEmpty;
+
 class OutcomeController extends Controller
 {
     protected $params;
@@ -152,11 +154,19 @@ class OutcomeController extends Controller
         $fleet_details = FleetDetail::has('fleet_route')->get();
         $fleet_detail_id = $request->fleet_detail_id ?? '';
         $reported_at = $request->reported_at ?? '';
+        // dd($orders);
+        
+        if(count($orders) <= 0){
+            return redirect()->back()->with('error', 'Data tidak di temukan, silahkan pilih armada / tanggal lain');
+        }
         return view('outcome.create', compact('fleet_details', 'orders', 'fleet_detail_id', 'reported_at'));
     }
 
     public function store(Request $request)
     {
+        if(empty($request->fleet_detail_id)){
+            return redirect('outcome')->with('error', 'Silahkan pilih armada anda');
+        }
         if ($request->fleet_detail_id != 'WITH_TYPE' && $request->fleet_detail_id) {
             $exist = Outcome::whereDate('reported_at', $request->reported_at)->whereFleetDetailId($request->fleet_detail_id)->first();
             $order_price_distribution = OrderRepository::getAtDateAndFleetDetail($request->reported_at, $request->fleet_detail_id);
@@ -196,6 +206,7 @@ class OutcomeController extends Controller
         }
         DB::beginTransaction();
         try {
+            dd($data);
             $outcome = Outcome::create($data);
             foreach ($data['outcome_details'] as $key => $value) {
                 unset($data['fleet_detail_id'], $data['reported_at']);
