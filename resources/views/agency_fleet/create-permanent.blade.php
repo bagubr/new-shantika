@@ -53,7 +53,6 @@ Armada Agen Permanent
                                 </div>
                             </div>
                         </div>
-                        <a href="{{route('agency_fleet.index')}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
                 </div>
