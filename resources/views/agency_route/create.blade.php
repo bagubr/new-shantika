@@ -61,7 +61,7 @@ Rute Agen Temporary
                                 </div>
                             </div>
                         </div>
-                        <a href="{{route('agency_route.index')}}" class="btn btn-secondary">Batal</a>
+                        <a href="{{route('agency_route.index', ['area_id' => $route->checkpoints[0]?->agency?->city?->area?->id])}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
                 </div>

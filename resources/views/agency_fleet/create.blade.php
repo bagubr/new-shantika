@@ -32,7 +32,7 @@ Armada Agen Temporary
                 </div>
                 <div class="card-body" style="display: block;">
                     @include('partials.error')
-                    <form action="{{route('agency_fleet.store')}}" method="POST">
+                    <form action="{{route('agency_fleet.store', ['area_id' => request()->area_id])}}" method="POST">
                         @csrf
                         <div class="form-row">
                             <div class="col">
@@ -61,6 +61,7 @@ Armada Agen Temporary
                                 </div>
                             </div>
                         </div>
+                        <a href="{{route('agency_fleet.index', ['area_id' => request()->area_id])}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                     </form>
                 </div>
