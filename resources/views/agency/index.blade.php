@@ -119,7 +119,7 @@ Agen
                                     @if($agency->is_agent)
                                         <td>Ya</td>
                                     @else
-                                        <td>Tidak Tidak</td>
+                                        <td>Tidak</td>
                                     @endif
                                     @if($agency->is_route)
                                         <td>Ya</td>

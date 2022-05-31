@@ -165,6 +165,7 @@ class AgencyController extends Controller
                 'departure_at' => $data['departure_at'][$key]
             ]);
         }
+        $agency->update($data);
         session()->flash('success', 'Agency Berhasil Diperbarui');
         return redirect(route('agency.index'));
     }
