@@ -63,7 +63,7 @@ Agen
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table id="example1" class="table table-striped table-responsive">
                             <thead>
                                 <tr>
                                     <th>Nama</th>
@@ -190,6 +190,13 @@ Agen
 </div>
 @endsection
 @push('script')
+<script>
+    $(function () {
+      $("#example1").DataTable({
+        "responsive": true, "lengthChange": false, "autoWidth": false, "paging":false, "searching":false
+      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
+</script>
 <script>
     $(document).on('click', '.button-delete', function (e) {
         e.preventDefault();
