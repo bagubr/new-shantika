@@ -35,13 +35,13 @@ class AuthController extends BaseAuthController
 
     public function registerCustomer(ApiRegisterCustomerRequest $request) {
         DB::beginTransaction();
-        try {
+        // try {
             $user = UserService::register($request->all(), $request->order_id??[]);
-            DB::commit();
-        } catch (\Throwable $th) {
-            return $this->failedResponse([], 'Something error , please try again latter');
+            // DB::commit();
             DB::rollBack();
-        }
+        // } catch (\Throwable $th) {
+            // return $this->failedResponse([], 'Something error , please try again latter');
+        // }
         return $this->sendSuccessResponse([
             'user'=>$user,
             'token'=>$user->token??''

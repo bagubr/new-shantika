@@ -103,7 +103,7 @@ User Agen
                     </div>
                 </div>
                 <div class="card-body" style="display: block;">
-                    <table id="example1" class="table table-bordered table-striped">
+                    <table id="example1" class="table table-bordered table-striped table-responsive">
                         <thead>
                             <tr>
                                 <th>Kode Order</th>
