@@ -12,6 +12,7 @@ class FleetRouteRepositories {
             $query->orderBy('id', 'desc');
           }, 'fleet_detail.fleet.fleetclass.prices', 'prices', 'fleet_detail', 'fleet_detail.fleet.agency_fleet'], 'route.agency_route')
                 ->where('is_active', true)
+                ->has('fleet_detail_without_trash')
                 ->whereHas('fleet_detail', function($query) use ($time_classification_id, $fleet_class_id, $date, $departure_agency) {
                     $query->where('time_classification_id', $time_classification_id);
                     $query->whereHas('fleet', function ($subquery) use ($fleet_class_id, $date, $departure_agency)

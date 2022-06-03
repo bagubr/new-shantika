@@ -37,6 +37,7 @@ class AvailableRoutesResource extends JsonResource
             'route_name'                => $route->name,
             'fleet_name'                => $this->fleet_detail->fleet->name ?? "",
             'agency_route'              => $this->route->agency_route,
+            'agency_fleet'              => $this->fleet_detail->fleet->agency_fleet,
             'fleet_detail_time'         => $this->fleet_detail->time_classification->name ?? "",
             'fleet_class'               => $this->fleet_detail->fleet->fleetclass->name,
             'departure_at'              => $agency_destiny->agency_departure_times->first()->departure_at,

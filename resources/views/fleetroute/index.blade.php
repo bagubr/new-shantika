@@ -102,7 +102,7 @@ Armada Rute
                                             <strike>
                                                 ({{$fleet_route->fleet_detail?->nickname}}) 
                                             </strike>
-                                            <a href="" class="float-right" target="_blank"><i class="fas fa-trash" style="color: red"></i></a>
+                                            <a href="#" class="float-right"><i class="fas fa-trash" style="color: red"></i></a>
                                         @endif
                                     </td>
                                     <td>
