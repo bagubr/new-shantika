@@ -46,8 +46,12 @@ class AgencyFleetController extends Controller
             if($agency_fleet){
                 session()->flash('error', 'Data sudah Ditambahkan');
             }else{
-                AgencyFleet::create($data);
-                session()->flash('success', 'Data Berhasil Ditambahkan');
+                if(AgencyFleetPermanent::whereFleetId($request->fleet_id)->count() <= 0){
+                    session()->flash('error', 'Tambahkan setidaknya 1 agent permanent untuk menggunakan fitur temporary');
+                }else{
+                    AgencyFleet::create($data);
+                    session()->flash('success', 'Data Berhasil Ditambahkan');
+                }
             }
         }
         return redirect()->back();
