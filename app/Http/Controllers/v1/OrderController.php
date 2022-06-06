@@ -31,7 +31,7 @@ class OrderController extends Controller
             'total_travel'=>$total_travel,
             'total_member'=>$total_member
         ];
-        $price_with_food = $request->price_ticket * $request->seat_count;
+        $price_with_food = $price_ticket * $request->seat_count;
         
         $xendit_charge = function() use ($setting, $user) : int {
             if(empty($user?->agencies)) {
