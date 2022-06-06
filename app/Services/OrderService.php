@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Events\SendingNotification;
+use App\Http\Controllers\v1\OrderController;
 use App\Jobs\Admin\NewOrderNotification;
 use App\Jobs\Notification\TicketExchangedJob;
 use App\Models\Admin;
@@ -44,9 +45,9 @@ class OrderService
         if ($booking_exists) {
             (new self)->sendFailedResponse([], "Maaf, kursi anda telah dibooking terlebih dahulu oleh orang lain");
         }
-        $setting = Setting::first();
 
-        $price  = PriceTiket::priceTiket(FleetRoute::find($data->fleet_route_id), Agency::find($data->departure_agency_id), Agency::find($data->destination_agency_id), $data->reserve_at);
+        $price = $detail->total_price;
+        
 
         if (isset($data->promo_id) && $data->promo_id) {
             $promo_exists = PromoRepository::isAvailable($data->promo_id, $data->user_id);
@@ -54,32 +55,17 @@ class OrderService
                 (new self)->sendFailedResponse([], 'Maaf, promo tidak di temukan atau sudah habis');
             }
             $promo = PromoRepository::getWithNominalDiscount($price, $data->promo_id);
-            $price -= $promo->nominal_discount;
-            $data->nominal_discount = $promo->nominal_discount;
             PromoHistory::create($data->only('user_id', 'promo_id'));
+            $data->nominal_discount = $promo->nominal_discount;
         }
         $for_deposit = $price;
-        $ticket_price_with_food = $detail->is_feed
-            ? $price * count($detail->layout_chair_id)
-            : ($price - $setting->default_food_price) * count($detail->layout_chair_id);
-        $data->price = $ticket_price_with_food;
-
-        if ($detail->is_travel) {
-            $price_travel = $setting->travel * count($detail->layout_chair_id);
-            $data->price += $price_travel;
-        }
+        $data->price = $price;
         if ($detail->is_member) {
             self::createHistory($data->user_id, $detail->id_member);
-            $price_member = $setting->member * count($detail->layout_chair_id);
-            $data->price -= $price_member;
         }
         if (!$data->code_order) $data->code_order = self::generateCodeOrder($data->id);
         if (!$data->expired_at) $data->expired_at = self::getExpiredAt();
 
-        //CHARGE CUTOMER
-        if (empty($data->user->agencies)) {
-            $data->price += $setting->xendit_charge;
-        }
         $order = Order::create($data->toArray());
         $code_order = self::generateCodeOrder($order->id);
         $order->update([
