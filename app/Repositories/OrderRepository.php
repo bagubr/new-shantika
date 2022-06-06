@@ -71,7 +71,7 @@ class OrderRepository
             ->whereIn('status', [Order::STATUS5, Order::STATUS8])
             ->whereDate('reserve_at', date('Y-m-d H:i:s', strtotime($date)))
             ->union($agen_order)
-            ->get()->sortByDesc('created_at');
+            ->get();
         return $user_order;
     }
 
