@@ -31,16 +31,17 @@ class OrderController extends Controller
         // ? 0
         // : $price_food;
 
-        if(@$user->agencies){
-            $price_ticket += $price_food;
-        }
-
+        
         $data = [
             'total_food'=> $price_food,
             'total_travel'=>$total_travel,
             'total_member'=>$total_member
         ];
         $price_with_food = $price_ticket * $request->seat_count;
+
+        if(@$user->agencies){
+            $price_with_food += $price_food;
+        }
         
         $xendit_charge = function() use ($setting, $user) : int {
             if(empty($user?->agencies)) {
