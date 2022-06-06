@@ -62,7 +62,8 @@ class OrderDetailAgentResource extends JsonResource
             'price'                     =>$distribution?->ticket_only,
             'total_price'               =>$this->price,
             'commision'                 =>$distribution?->for_agent,
-            'review'                    =>$this->review
+            'review'                    =>$this->review,
+            'note'                    =>$this->note
         ];
     }
 
