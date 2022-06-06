@@ -52,6 +52,7 @@ class OrderRepository
             ->whereDate('booking_at', date('Y-m-d H:i:s', strtotime($date)))
             ->whereUserId($user->id)
             ->distinct('code_booking');
+        // dd($booking);
         $agen_order =  Order::select('id', 'fleet_route_id', 'user_id', 'reserve_at', 'status', 'code_order as code')
             ->addSelect(DB::raw("NULL as layout_chair_id"))
             ->addSelect('destination_agency_id', 'time_classification_id', 'departure_agency_id')
@@ -71,7 +72,7 @@ class OrderRepository
             ->whereIn('status', [Order::STATUS5, Order::STATUS8])
             ->whereDate('reserve_at', date('Y-m-d H:i:s', strtotime($date)))
             ->union($agen_order)
-            ->get();
+            ->get()->sortByDesc('id');
         return $user_order;
     }
 
