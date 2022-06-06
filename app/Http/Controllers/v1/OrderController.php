@@ -31,6 +31,10 @@ class OrderController extends Controller
         // ? 0
         // : $price_food;
 
+        if(@$user->agencies){
+            $price_ticket += $price_food;
+        }
+
         $data = [
             'total_food'=> $price_food,
             'total_travel'=>$total_travel,
