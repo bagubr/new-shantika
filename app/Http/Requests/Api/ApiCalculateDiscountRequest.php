@@ -20,8 +20,10 @@ class ApiCalculateDiscountRequest extends ApiRequest
             'is_travel'=>'required|boolean',
             'is_member'=>'required|boolean',
             'seat_count'=>'required|numeric',
-            'price_ticket'=>'required|numeric',
-            'fleet_route_id'=>'sometimes|required|numeric'
+            'fleet_route_id'=>'sometimes|required|numeric',
+            'agency_destiny_id'=>'sometimes|required|numeric',
+            'agency_departure_id'=>'sometimes|required|numeric',
+            'date'=>'sometimes|string|required',
         ];
     }
 }

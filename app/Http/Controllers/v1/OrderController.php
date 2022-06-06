@@ -17,7 +17,7 @@ class OrderController extends Controller
     public function calculateDiscount(ApiCalculateDiscountRequest $request) {
         $user = UserRepository::findByToken($request->bearerToken());
         $fleet_route = FleetRoute::find($request->fleet_route_id);
-        $departure_agency = Agency::find($request->departure_agency_id);
+        $departure_agency = Agency::find($request->agency_departure_id);
         $agency_destiny = Agency::find($request->agency_destiny_id);
         $date = $request->date;
         $setting = Setting::first();
