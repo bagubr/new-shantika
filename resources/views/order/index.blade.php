@@ -190,6 +190,7 @@ Pemesanan
                                     <th>Total Harga</th>
                                     <th>Status</th>
                                     <th>Keberangkatan -> Kedatangan</th>
+                                    <th>Note Pemesanan</th>
                                     <th>Tanggal Pemesanan</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -227,6 +228,7 @@ Pemesanan
                                     </td>
                                     <td>{{$order->status}}</td>
                                     <td>{{$order->agency?->name}} -> {{$order->agency_destiny?->name}}</td>
+                                    <td>{{$order->note}}</td>
                                     <td>{{date('Y-m-d',strtotime($order->reserve_at))}}</td>
                                     <td>
                                         <a class="btn btn-primary btn-xs"

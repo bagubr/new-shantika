@@ -37,7 +37,8 @@ class OrderController extends Controller
             'time_classification_id'=>$request->time_classification_id,
             'departure_agency_id'=>$request->departure_agency_id,
             'destination_agency_id'=>$request->destination_agency_id,
-            'promo_id' => $request->promo_id
+            'promo_id' => $request->promo_id,
+            'note' => $request->note,
         ]);
         $order = OrderService::create($order, $request);
         DB::commit();

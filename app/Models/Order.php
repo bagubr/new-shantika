@@ -38,7 +38,8 @@ class Order extends Model
         'departure_agency_id',
         'cancelation_reason',
         'nominal_discount',
-        'promo_id'
+        'promo_id',
+        'note'
     ];
     protected $appends = [
         'area_name',

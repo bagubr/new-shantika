@@ -109,6 +109,12 @@ Pesanan
                                 @endif
                             </div>
                         </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Catatan Pemesan</label>
+                                <h5>{{$order->note}}</h5>
+                            </div>
+                        </div>
                     </div>
                     <div class="border-bottom"></div>
                     @if ($order->payment)
