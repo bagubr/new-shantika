@@ -99,7 +99,15 @@ Jadwal Rute {{$area->name}}
                                 <tr>
                                     <td>
                                         {{$fleet_route_price->fleet_route?->fleet_detail?->fleet?->name}}/{{$fleet_route_price->fleet_route?->fleet_detail?->fleet?->fleetclass?->name}}
-                                        ({{$fleet_route_price->fleet_route?->fleet_detail?->nickname}})
+                                        @if ($fleet_route_price?->fleet_route->fleet_detail_without_trash)
+                                            ({{$fleet_route_price?->fleet_route->fleet_detail?->nickname}}) 
+                                            <a href="{{route('fleet_detail.edit',$fleet_route_price?->fleet_route->fleet_detail?->id)}}" class="float-right" target="_blank"><i class="fas fa-edit"></i></a>
+                                        @else
+                                            <strike>
+                                                ({{$fleet_route_price?->fleet_route->fleet_detail?->nickname}}) 
+                                            </strike>
+                                            <a href="#" class="float-right"><i class="fas fa-trash" style="color: red"></i></a>
+                                        @endif
                                     </td>
                                     <td>{{$fleet_route_price->fleet_route?->route?->checkpoints[0]?->agency?->city?->area?->name??'BELUM_ADA'}}</td>
                                     <td>{{$fleet_route_price->fleet_route?->route?->name}}</td>

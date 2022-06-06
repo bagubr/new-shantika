@@ -6,6 +6,10 @@ use App\Http\Middleware\ApiAuthAgentMiddleware;
 use App\Http\Middleware\ApiAuthMiddleware;
 use App\Http\Middleware\ApiAuthUserMiddleware;
 use App\Http\Middleware\ApiKeyMiddleware;
+use App\Jobs\CheckOrderIsExpiredJob;
+use App\Models\Notification;
+use App\Models\User;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
