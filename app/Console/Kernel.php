@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\CheckExpiry;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -13,7 +14,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        CheckExpiry::class
     ];
 
     /**
@@ -24,7 +25,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('check:expiry')->everyMinute()->appendOutputTo('scheduler.log');
+    }
+
+    public function scheduleTimezone()
+    {
+        return 'Asia/Jakarta';
     }
 
     /**
