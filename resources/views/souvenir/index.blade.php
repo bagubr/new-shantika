@@ -37,7 +37,7 @@
                     <tbody>
                         @foreach($souvenirs as $souvenir)
                         <tr>
-                            <td><img src='{{url("storage/".$souvenir->image_name)}}' style="max-width: 200px;"
+                            <td><img src='{{$souvenir->image_name}}' style="max-width: 200px;"
                                     class="img-rounded img-thumbnail" />
                             </td>
                             <td>{{$souvenir->name}}</td>
