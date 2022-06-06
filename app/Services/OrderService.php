@@ -236,20 +236,16 @@ class OrderService
 
     public static function createHistory($user_id, $id_member)
     {
-        $user = User::whereHas('agencies')->where('id', $user_id)->first();
+        $user = User::find($user_id);
         if($id_member){
             $code_member = CodeMember::code($id_member);
             $membership = Membership::where('code_member', $code_member)->where('user_id', '!=', null)->first();
             if(!$membership){
                 (new self)->sendFailedResponse([], 'Maaf user member tidak tersedia');
             }
-            if($user){
-                try {
-                    MembershipService::increment($membership, Setting::find(1)->point_purchase, 'Pembelian Tiket');
-                    MembershipHistory::create(['agency_id'=> $user->id,'customer_id'=> $membership->user_id]);
-                } catch (\Throwable $th) {
-        
-                }
+            if(@$user->agencies){
+                MembershipService::increment($membership, Setting::find(1)->point_purchase, 'Pembelian Tiket');
+                MembershipHistory::create(['agency_id'=> $user->id,'customer_id'=> $membership->user_id]);
             }
         }
     }

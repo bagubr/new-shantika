@@ -25,7 +25,7 @@ class MembershipHistoryController extends Controller
             $query->whereDate('created_at', $request->created_at);
         });
         
-        $membership_histories = $query->paginate(10)->withQueryString();
+        $membership_histories = $query->orderBy('id', 'desc')->paginate(10)->withQueryString();
         $total = $query->count();
         if($request->export){
             return Excel::download(new MembershipHistoryExport($request), 'membership_histories.xlsx');
