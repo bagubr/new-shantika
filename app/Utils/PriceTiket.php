@@ -17,9 +17,9 @@ class PriceTiket {
                 $price -= $fleet_route->fleet_detail->fleet->fleetclass->price_food??0;
             }
             if($area_id == 1){
-                $price += @$agency_destiny->route_prices->sortByDesc('start_at')->first()->price??0;
+                $price += @$agency_destiny->route_prices->sortByDesc('start_at')->last()->price??0;
             }elseif($area_id == 2){
-                $price += @$departure_agency->agency_prices->sortByDesc('start_at')->first()->price??0;
+                $price += @$departure_agency->agency_prices->sortByDesc('start_at')->last()->price??0;
             }
 
         $price += @$fleet_route->prices()
