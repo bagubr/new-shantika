@@ -13,7 +13,7 @@ class PriceTiket {
             $user = UserRepository::findByToken(request()->bearerToken());
             
             $price += $fleet_route->fleet_detail->fleet->fleetclass->price_fleet_class($area_id)??0;
-            if($user->agencies){
+            if(@$user->agencies){
                 $price -= $fleet_route->fleet_detail->fleet->fleetclass->price_food_fleet_class($area_id)??0;
             }
             if($area_id == 1){
