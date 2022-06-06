@@ -44,7 +44,7 @@ class OrderRepository
 
     public static function unionBookingByUserIdAndDate(User $user, $date)
     {
-        $booking = Booking::select('id', 'fleet_route_id', 'user_id', 'booking_at as reserve_at', 'status', 'code_booking as code', 'layout_chair_id', 'destination_agency_id', 'time_classification_id', 'created_at')
+        $booking = Booking::select('id', 'fleet_route_id', 'user_id', 'booking_at as reserve_at', 'status', 'code_booking as code', 'layout_chair_id', 'destination_agency_id', 'time_classification_id')
             ->addSelect(DB::raw("0 as departure_agency_id"))
             ->addSelect(DB::raw("'BOOKING' as type"))
             ->addSelect(DB::raw("(select ap.price from agency_prices ap where ap.agency_id = bookings.destination_agency_id order by ap.start_at desc) as price"))
@@ -52,7 +52,7 @@ class OrderRepository
             ->whereDate('booking_at', date('Y-m-d H:i:s', strtotime($date)))
             ->whereUserId($user->id)
             ->distinct('code_booking');
-        $agen_order =  Order::select('id', 'fleet_route_id', 'user_id', 'reserve_at', 'status', 'code_order as code', 'created_at')
+        $agen_order =  Order::select('id', 'fleet_route_id', 'user_id', 'reserve_at', 'status', 'code_order as code')
             ->addSelect(DB::raw("NULL as layout_chair_id"))
             ->addSelect('destination_agency_id', 'time_classification_id', 'departure_agency_id')
             ->addSelect(DB::raw("'PEMBELIAN' as type"))
@@ -61,7 +61,7 @@ class OrderRepository
             ->where('departure_agency_id', $user->agencies->agent->id)
             ->whereDate('reserve_at', date('Y-m-d H:i:s', strtotime($date)))
             ->union($booking);
-        $user_order =  Order::select('id', 'fleet_route_id', 'user_id', 'reserve_at', 'status', 'code_order as code', 'created_at')
+        $user_order =  Order::select('id', 'fleet_route_id', 'user_id', 'reserve_at', 'status', 'code_order as code')
             ->addSelect(DB::raw("NULL as layout_chair_id"))
             ->addSelect('destination_agency_id', 'time_classification_id', 'departure_agency_id')
             ->addSelect(DB::raw("'EXCHANGE' as type"))
