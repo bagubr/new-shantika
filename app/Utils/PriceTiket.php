@@ -4,13 +4,18 @@ namespace App\Utils;
 
 use App\Models\Agency;
 use App\Models\FleetRoute;
+use App\Repositories\UserRepository;
 
 class PriceTiket {
     public static function priceTiket(FleetRoute $fleet_route, Agency $departure_agency, Agency $agency_destiny, $date) {
         $price = 0;
         $area_id = $departure_agency->city->area_id;
-
+            $user = UserRepository::findByToken(request()->bearerToken());
+            
             $price += $fleet_route->fleet_detail->fleet->fleetclass->price_fleet_class($area_id)??0;
+            if($user->agencies){
+                $price -= $fleet_route->fleet_detail->fleet->fleetclass->price_food_fleet_class($area_id)??0;
+            }
             if($area_id == 1){
                 $price += @$agency_destiny->route_prices->sortByDesc('start_at')->first()->price??0;
             }elseif($area_id == 2){
