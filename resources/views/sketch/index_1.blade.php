@@ -427,7 +427,7 @@ Sketch
                 selectSeat(row,col,which) {
                     this.whichLayout(which)
                     let index = this.getCurrentIndexByRowCol(row, col,which)
-                    if(!this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable && !this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable_customer) {
+                    if(!this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable) {
                         return alert("Pilih kursi yang sudah dibeli!");
                     }
                     if(this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected != true) {

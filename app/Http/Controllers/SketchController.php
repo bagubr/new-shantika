@@ -53,7 +53,7 @@ class SketchController extends Controller
         $fleet_id = $request->fleet_id;
         $orders = Order::select('*')
             ->whereIn('status', Order::STATUS_BOUGHT)
-            ->with('fleet_route.fleet_detail.fleet.fleetclass', 'fleet_route.route')
+            ->with('fleet_route.fleet_detail.fleet.fleetclass', 'fleet_route.route', 'fleet_route')
             ->with('fleet_route.fleet_detail.fleet.layout', 'time_classification')
             ->when($date, function ($query) use ($date) {
                 $query->whereDate('reserve_at', $date);
