@@ -27,7 +27,7 @@ class FleetRoute extends Model
     ];
 
     protected $hidden = [
-        'created_at', 'updated_at'
+        'created_at', 'updated_at', 'agency_name'
     ];
 
     public function fleet_detail()
@@ -61,5 +61,10 @@ class FleetRoute extends Model
 
     public function prices() {
         return $this->hasMany(FleetRoutePrice::class);
+    }
+
+    public function getAgencyNameAttribute()
+    {
+        return '~'.implode('~~', array_merge($this->fleet_detail->fleet->agency_fleet_permanent()->get()->pluck('agency.name')->toArray(), $this->fleet_detail->fleet->agency_fleet()->get()->pluck('agency.name')->toArray())). '~';
     }
 }

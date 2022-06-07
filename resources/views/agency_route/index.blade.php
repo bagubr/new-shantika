@@ -81,9 +81,11 @@ Rute Agen
                                 <tr>
                                     <td>
                                         @foreach ($route->fleet_details??[] as $fleet_detail)
+                                        <li>
                                             {{$fleet_detail->fleet?->name}}
                                             /{{$fleet_detail->fleet?->fleetclass?->name}}
                                             ({{$fleet_detail->nickname}})
+                                        </li>
                                         @endforeach
                                     </td>
                                     <td>{{$route->name}}</td>

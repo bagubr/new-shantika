@@ -107,23 +107,50 @@ Sketch
                 </div>
             </div>
             <div v-for="order in result.orders" class="col-12 col-sm-6 col-lg-4 col-xl-3 pt-2 pb-2">
-                <div class="card h-100 p-2 shadow" data-toggle="modal" data-target="#modal-default"
-                    @click="handleChangeFocusFirstLayout(order.fleet_route_id, order.fleet_route.fleet_id, order.time_classification_id)">
+                <div class="card h-100 p-1 shadow">
                     <div class="card-body">
-                        <div class="row m-1">
-                            <div class="col-md-3 text-center">
-                                <i class="fas fa-bus" style="font-size: 2.5em; color: Mediumslateblue;"></i>
+                        <div class="row">
+                            <div class="col-md-3" data-toggle="modal" data-target="#modal-default"
+                            @click="handleChangeFocusFirstLayout(order.fleet_route_id, order.fleet_route.fleet_id, order.time_classification_id)">
+                                <i class="fas fa-bus shadow" style="font-size: 5em; color: Mediumslateblue;"></i>
                             </div>
-                            <div class="col-md-9">
-                                <b>@{{order.fleet_route?.fleet_detail?.fleet?.name}} / @{{order.fleet_route?.fleet_detail?.nickname}} (@{{order.fleet_route?.fleet_detail?.plate_number}})</b>
-                                <a href="{{route('fleets.index')}}"><i class="fas fa-eyes"></i></a>
+                            <div class="col-md-6">
+                                <b>@{{order.fleet_route?.fleet_detail?.fleet?.name}}
+                                        {{-- / @{{order.fleet_route?.fleet_detail?.nickname}} (@{{order.fleet_route?.fleet_detail?.plate_number}}) --}}
+                                </b>
+                                {{-- <a href="{{route('fleets.index')}}"><i class="fas fa-eyes"></i></a> --}}
                                 <br>
                                 <p>@{{order.time_classification.name}}</p>
-                                <small>Co driver : @{{order.fleet_route?.fleet_detail?.co_driver}} <p class="edit-co-driver"></p></small>
                                 <p>@{{data.date_now}}</p>
-                                <span>@{{order.fleet_route?.fleet_detail?.fleet?.fleetclass?.name}}</span>
                                 <br>
-                                <p style="font-size: 15px;">@{{order.fleet_route?.route?.name}}</p>
+                            </div>
+                            <div class="col-md-3">
+                                <small class="float-right mb-5">
+                                    @{{order.fleet_route?.fleet_detail?.plate_number}} <br>
+                                    @{{order.fleet_route?.fleet_detail?.co_driver??'Tidak ada'}} <a :href="editFleetDetail(order.fleet_route?.fleet_detail?.id)" target="_blank"><p class="fas fa-edit"></p></a>
+                                </small>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="">RUTE</label>
+                            </div>
+                            <div class="col-md-11">
+                                <marquee direction="left" height="20" width="100%" bgcolor="white" onmouseover="this.stop();" onmouseout="this.start();"><p style="font-size: 15px;">@{{order.fleet_route?.fleet_detail?.fleet?.name}} &nbsp;( &nbsp; @{{order.fleet_route?.fleet_detail?.fleet?.fleetclass?.name}}&nbsp;|&nbsp;@{{order.fleet_route?.route?.name}} )</p></marquee>
+                            </div>
+                            <div class="col-md-1">
+                                <a :href="editRoute(order.fleet_route?.route?.id)" target="_blank"><p class="fas fa-edit"></p></a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="">AGEN</label>
+                            </div>
+                            <div class="col-md-11">
+                                <marquee direction="left" height="20" width="100%" bgcolor="white" onmouseover="this.stop();" onmouseout="this.start();"><p style="font-size: 15px;">@{{order.fleet_route?.fleet_detail?.fleet?.name}} &nbsp;( &nbsp; @{{order.fleet_route?.fleet_detail?.fleet?.fleetclass?.name}}&nbsp;|&nbsp;@{{order.fleet_route?.agency_name}} )</p></marquee>
+                            </div>
+                            <div class="col-md-1">
+                                <a :href="editAgent(order.fleet_route?.route?.id)" target="_blank"><p class="fas fa-edit"></p></a>
                             </div>
                         </div>
                         <div class="row mt-4">
@@ -442,7 +469,6 @@ Sketch
                         fleet_route_id: this.secondLayout.fleetRouteId,
                         area_id: this.filter.area_id
                     });
-
                     return `{{url('/sketch/export')}}?${query}`
                 },
                 submit() {
@@ -503,7 +529,19 @@ Sketch
                     }).then(res => res.json()).then(res => {
                         window.location.reload()
                     })
-                }
+                },
+                editFleetDetail(fleetDetailId) {
+                    return `{{url('/fleet_detail/${fleetDetailId}/edit')}}`
+                },
+                editRoute(routeId) {
+                    return `{{url('/routes/${routeId}/edit')}}`
+                },
+                editAgent(routeId) {
+                    let query = new URLSearchParams({
+                        area_id: this.filter.area_id
+                    });
+                    return `{{url('/agency_route_permanent/${routeId}/edit')}}?${query}`
+                },
             },
             mounted() {
                 this.searchOrders()
