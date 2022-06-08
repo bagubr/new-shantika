@@ -333,8 +333,6 @@ Sketch
                     })
                 },
                 getCurrentIndexByRowCol(row, col, which) {
-                    console.log(row)
-                    console.log(col)
                     if(which == 0) {
                         return (((row - 1) * this.firstLayout.data.col) + col) - 1
                     } else {

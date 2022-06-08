@@ -21,11 +21,6 @@ class MembershipPoint extends Model
         'message'
     ];
 
-    protected $casts = [
-        'created_at' => 'datetime:Y-m-d H:i:s',
-        'updated_at' => 'datetime:Y-m-d H:i:s'
-    ];
-
     public function membership()
     {
         return $this->belongsTo(Membership::class, 'membership_id', 'id');
