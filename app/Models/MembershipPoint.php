@@ -25,4 +25,9 @@ class MembershipPoint extends Model
     {
         return $this->belongsTo(Membership::class, 'membership_id', 'id');
     }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return date('Y-m-d H:i:s', strtotime($value));
+    }
 }
