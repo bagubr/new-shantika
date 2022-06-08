@@ -202,6 +202,7 @@ Sketch
                     timeClassifications: {!! $time_classifications !!},
                     fleets: {!! $fleets !!},
                     date_now: "",
+                    is_group:false,
                 },
                 filter: {
                     area_id: {!! $areas->last()->id !!},
@@ -332,6 +333,15 @@ Sketch
                     })
                 },
                 getCurrentIndexByRowCol(row, col, which) {
+                    console.log(row)
+                    console.log(col)
+                    if(which == 0) {
+                        return (((row - 1) * this.firstLayout.data.col) + col) - 1
+                    } else {
+                        return (((row - 1) * this.secondLayout.data.col) + col) - 1
+                    }
+                },
+                getGroupIndexByRowCol(row, col, which) {
                     if(which == 0) {
                         return (((row - 1) * this.firstLayout.data.col) + col) - 1
                     } else {
@@ -342,32 +352,24 @@ Sketch
                     this.whichLayout(which);
 
                     let chair;
-                    if(which == 0) {
-                        let index = this.getCurrentIndexByRowCol(row, col, 0)
-                        chair = this.firstLayout.data.chairs.filter((e, i) =>  i == index)[0]
-                    } else {
-                        let index = this.getCurrentIndexByRowCol(row, col, 1)
-                        chair = this.secondLayout.data.chairs.filter((e, i) =>  i == index)[0]
-                    }
+                    let html;
+                    html = `<marquee>`
+                    
+                    let index = this.getCurrentIndexByRowCol(row, col, which)
+                    chair = this.firstLayout.data.chairs.filter((e, i) =>  i == index)[0]
 
                     if (chair.is_unavailable) {
-                        if(chair.is_selected) {
-                            return `<p class="text-nowrap">${chair.name} | ${chair.code || ''}</p>`
-                        } else if (chair.is_switched) {
-                            return `<p class="text-nowrap">${chair.name} | ${chair.code || ''}</p>`
-                        }
-                        return `<p class="text-nowrap">${chair.name} | ${chair.code || ''}</p>`
+                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.code} |</p>`
                     } else if (chair.is_unavailable_customer){
-                        if(chair.is_selected) {
-                            return `<p class="text-nowrap">${chair.name} | ${chair.code || ''}</p>`
-                        } else if (chair.is_switched) {
-                            return `<p class="text-nowrap">${chair.name} | ${chair.code || ''}</p>`
-                        }
-                        return `<p class="text-nowrap">${chair.name} | ${chair.code || ''}</p>`
+                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.order_detail.user.name} | ${chair.code} |</p>`
+                    } else if (chair.is_unavailable_not_paid_customer) {
+                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.order_detail.user.name} | ${chair.code} |</p>`
+                    } else if (chair.is_unavailable_waiting_customer) {
+                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.order_detail.user.name} | ${chair.code} |</p>`
                     } else if (chair.is_booking) {
-                        return `<p class="text-nowrap">${chair.name} | ${chair.code || ''}</p>`
+                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.code} |</p>`
                     } else if(chair.is_door) {
-                        return `<span><i class="fas fa-door-closed"></i></span>`
+                        return  `<span><i class="fas fa-door-closed"></i></span>`
                     } else if (chair.is_space) {
                         return `<span><i class="fas fa-people-arrows"></i></span>`
                     } else if (chair.is_toilet) {
@@ -375,18 +377,23 @@ Sketch
                     } else {
                         return `<span>${chair.name}</span>`
                     }
+
+                    if(chair.order_detail?.order_detail?.length??0 > 1){
+                        chair.order_detail.order_detail.forEach(function (value, key) {
+                            return html += `(${value.chair_name})`
+                        })
+                    }
+                    html += `</marquee>`
+                    
+                    return html
                 },
                 loadClass(row, col, which) {
                     this.whichLayout(which);
 
                     let chair;
-                    if(which == 0) {
-                        let index = this.getCurrentIndexByRowCol(row, col, 0)
-                        chair = this.firstLayout.data.chairs.filter((e, i) =>  i == index)[0]
-                    } else {
-                        let index = this.getCurrentIndexByRowCol(row, col, 1)
-                        chair = this.secondLayout.data.chairs.filter((e, i) =>  i == index)[0]
-                    }
+                    let index = this.getCurrentIndexByRowCol(row, col, which)
+                    chair = this.firstLayout.data.chairs.filter((e, i) =>  i == index)[0]
+
                     if(chair.is_selected) {
                         return "btn bg-teal"
                     } else if (chair.is_switched) {
@@ -434,7 +441,12 @@ Sketch
                         return alert("Kursi sudah di pindah!");
                     }
                     if(this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected != true) {
-                        this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = true
+                        // if(this.data.is_group == true){
+
+                        //     console.log(this.firstLayout.data.chairs.filter(e => e.index == index)[0])
+                        // }else{
+                            this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = true
+                        // }
                         this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_switched = false
                     } else {
                         this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = false
@@ -448,6 +460,12 @@ Sketch
                         return alert("Pilih kursi yang belum dibeli!");
                     }
                     if (this.secondLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable_customer) {
+                        return alert("Maaf Kursi Yang Anda Pilih Adalah Kursi Customer");
+                    }
+                    if (this.secondLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable_not_paid_customer) {
+                        return alert("Maaf Kursi Yang Anda Pilih Adalah Kursi Customer");
+                    }
+                    if (this.secondLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable_waiting_customer) {
                         return alert("Maaf Kursi Yang Anda Pilih Adalah Kursi Customer");
                     }
                     let value = this.firstLayout.data.chairs.filter(e => e.is_selected == true)[0]
@@ -546,6 +564,14 @@ Sketch
                     });
                     return `{{url('/agency_route_permanent/${routeId}/edit')}}?${query}`
                 },
+                changeIsGroup() {
+                    if(this.data.is_group == true){
+                        this.data.is_group = false
+                    }else{
+                        this.data.is_group = true
+                    }
+                },
+                
             },
             mounted() {
                 this.searchOrders()

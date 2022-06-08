@@ -3,6 +3,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">@{{this.firstLayout.fleet.name}} -> @{{this.secondLayout.fleet.name}}</h4>
+                    <input type="checkbox" name="is_group" @click="changeIsGroup()" class="form-control" id="">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -73,7 +74,7 @@
                                                 <div class="col">
                                                     <span class="font-weight-bold">@{{chair.name}} -
                                                         @{{chair.order_detail.order_detail[0].name}}
-                                                        (@{{chair.order_detail?.user?.agencies?.agent?.name || 'Customer'}})</span>
+                                                        (@{{chair.order_detail?.user?.agencies?.agent?.name}})  (@{{chair.order_detail?.user?.name}})</span>
                                                 </div>
                                                 <div class="col-auto">
                                                     <span class="badge badge">@{{chair.order_detail.status}}</span>
@@ -218,8 +219,23 @@
                 @unlessrole('owner')
 
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-danger" @click="reset()">Reset</button>
-                    <button type="button" class="btn btn-primary" @click="submit()">Save</button>
+                        <button type="button" class="btn btn-danger" @click="reset()">Reset</button>
+                        <button type="button" class="btn btn-primary" @click="submit()">Save</button>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-12">
+                        <p class="badge bg-primary">Kursi Kosong</p>
+                        <p class="badge bg-secondary">Space</p>
+                        <p class="badge bg-warning">Toilet</p>
+                        <p class="badge bg-info">Pintu</p>
+                        <p class="badge bg-green">Pindah</p>
+                        <p class="badge bg-teal">Terpilih</p>
+                        <p class="badge bg-danger">Pembelian Dari Agent</p>
+                        <p class="badge bg-orange">Booking Dari Agent</p>
+                        <p class="badge bg-purple">Pembelian Dari Customer</p>
+                        <p class="badge bg-chocolate">Pembelian Dari Customer Menunggu Pembayaran</p>
+                        <p class="badge bg-chocolate-light">Pembelian Dari Customer Menunggu Konfirmasi</p>
+                    </div>
                 </div>
                 @endunlessrole
             </div>

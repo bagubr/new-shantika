@@ -19,6 +19,10 @@ class OrderDetail extends Model
         'is_member',
     ];
 
+    protected $appends = [
+        'chair_name'
+    ];
+
     public function order()
     {
         return $this->belongsTo(Order::class, 'order_id');
@@ -27,5 +31,10 @@ class OrderDetail extends Model
     public function chair()
     {
         return $this->belongsTo(LayoutChair::class, 'layout_chair_id');
+    }
+
+    public function getChairNameAttribute()
+    {
+        return $this->chair()->first()->name;
     }
 }

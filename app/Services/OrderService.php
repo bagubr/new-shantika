@@ -167,11 +167,6 @@ class OrderService
                 'for_owner_gross' => $total_price['for_owner_gross'],
                 'total_deposit' => $total_price['total_deposit']
             ]);
-            
-            $membership = Membership::where('user_id', $order->user_id)->first();
-            if($membership){
-                MembershipService::increment($membership, Setting::find(1)->point_purchase, 'Pembelian Tiket');
-            }
             DB::commit();
             $order->refresh();
         } catch (\Throwable $th) {
