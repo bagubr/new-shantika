@@ -21,6 +21,7 @@ class MembershipController extends Controller
         Membership::where('code_member', $code_member)->first()?:$this->sendFailedResponse([], 'Kode Membership tidak ditemukan');
         $member = Membership::where('code_member', $code_member)->where('name', 'ilike', '%' . $request->name . '%')->first()
             ?: $this->sendFailedResponse([], 'Nama dengan kode member ' . $code_member . ' Membership tidak ditemukan');
+        $member['email'] = $member->user?->email??'';
 
         return $this->sendSuccessResponse([
             'membership' => $member,

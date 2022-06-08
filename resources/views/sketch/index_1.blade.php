@@ -204,7 +204,7 @@ Sketch
                     date_now: "",
                 },
                 filter: {
-                    area_id: {!! $areas->first()->id !!},
+                    area_id: {!! $areas->last()->id !!},
                     fleet_id:""
                 },
                 result: {
@@ -430,8 +430,12 @@ Sketch
                     if(!this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable) {
                         return alert("Pilih kursi yang sudah dibeli!");
                     }
+                    if(this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_switched == true) {
+                        return alert("Kursi sudah di pindah!");
+                    }
                     if(this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected != true) {
                         this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = true
+                        this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_switched = false
                     } else {
                         this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = false
                     }
