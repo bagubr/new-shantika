@@ -49,7 +49,9 @@ class SouvenirController extends Controller
 
     public function detailRedeem($id)
     {
-        return $this->sendSuccessResponse(['data' => SouvenirRedeem::with(['agency', 'souvenir'])->find($id)->makeHidden(['agency.phone'])], 'Berhasil Menampilkan Detail Redeem Souvenir');
+        $souvenir_reedem = SouvenirRedeem::with(['agency', 'souvenir'])->find($id);
+        $souvenir_reedem->agency->makeHidden('phone');
+        return $this->sendSuccessResponse(['data' => $souvenir_reedem], 'Berhasil Menampilkan Detail Redeem Souvenir');
     }
 
 }
