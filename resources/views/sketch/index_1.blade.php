@@ -354,7 +354,11 @@ Sketch
                     html = `<marquee>`
                     
                     let index = this.getCurrentIndexByRowCol(row, col, which)
-                    chair = this.firstLayout.data.chairs.filter((e, i) =>  i == index)[0]
+                    if(which == 0){
+                        chair = this.firstLayout.data.chairs.filter((e, i) =>  i == index)[0]
+                    }else{
+                        chair = this.secondLayout.data.chairs.filter((e, i) =>  i == index)[0]
+                    }
 
                     if (chair.is_unavailable) {
                         html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.code} |</p>`
@@ -390,7 +394,11 @@ Sketch
 
                     let chair;
                     let index = this.getCurrentIndexByRowCol(row, col, which)
-                    chair = this.firstLayout.data.chairs.filter((e, i) =>  i == index)[0]
+                    if(which == 0){
+                        chair = this.firstLayout.data.chairs.filter((e, i) =>  i == index)[0]
+                    }else{
+                        chair = this.secondLayout.data.chairs.filter((e, i) =>  i == index)[0]
+                    }
 
                     if(chair.is_selected) {
                         return "btn bg-teal"
@@ -432,6 +440,7 @@ Sketch
                 selectSeat(row,col,which) {
                     this.whichLayout(which)
                     let index = this.getCurrentIndexByRowCol(row, col,which)
+                    chair = this.firstLayout.data.chairs.filter((e, i) =>  i == index)[0]
                     if(!this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable) {
                         return alert("Pilih kursi yang sudah dibeli!");
                     }
@@ -439,15 +448,21 @@ Sketch
                         return alert("Kursi sudah di pindah!");
                     }
                     if(this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected != true) {
-                        // if(this.data.is_group == true){
-
-                        //     console.log(this.firstLayout.data.chairs.filter(e => e.index == index)[0])
-                        // }else{
+                        if(this.data.is_group == true){
+                            this.firstLayout.data.chairs.filter(e => e.order_detail?.id == chair.order_detail?.id).forEach(function (value) {
+                                value.is_selected = true
+                            })
+                        }else{
                             this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = true
-                        // }
-                        this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_switched = false
+                        }
                     } else {
-                        this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = false
+                        if(this.data.is_group == true){
+                            this.firstLayout.data.chairs.filter(e => e.order_detail?.id == chair.order_detail?.id).forEach(function (value) {
+                                value.is_selected = false
+                            })
+                        }else{
+                            this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = false
+                        }
                     }
                     this.$forceUpdate()
                 },
@@ -533,6 +548,35 @@ Sketch
                         }
                         return e
                     })
+                },
+                destroy() {
+                    console.log(this.firstLayout.data.chairs.filter(e => e.is_selected == true))
+                    let reason = prompt("Masukan Alasan Penghapusan anda : ", "");
+                    if(reason == ""){
+                        alert("Anda Belum memasukan alasan anda");
+                    }
+                    let password = prompt("Masukan Password anda : ", "");
+                    if(password == ""){
+                        alert("Anda Belum Memasukan Password");
+                        if(!confirm(`Yakin anda akan menghapus order berikut dengan alasan `+reason)){
+                            alert("Konfirmasi di batalkan ");
+                        }
+                    }else{
+                        fetch('{{url("")}}'+`/sketch/destroy`, {
+                            method: 'DELETE',
+                            body: JSON.stringify({
+                                'cencelation_reason':reason,
+                                'password':password,
+                                'data':this.firstLayout.data.chairs.filter(e => e.is_selected == true),
+                            }),
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{csrf_token()}}'
+                            }
+                        }).then(res => res.json()).then(res => {
+                            window.location.reload()
+                        })
+                    }
                 },
                 cancelOrder(orderDetailId, password, reason, isAll) {
                     fetch('{{url("")}}'+`/order/cancelation/${orderDetailId}`, {

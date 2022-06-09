@@ -3,17 +3,13 @@
 namespace App\Http\Controllers\v1\Agent;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\ApiCalculateDiscountRequest;
 use App\Http\Requests\Api\ApiOrderCreateRequest;
 use App\Http\Resources\Order\OrderDetailAgentResource;
 use App\Http\Resources\Order\OrderListAgentResource;
-use App\Http\Resources\OrderDetail\TodayPossibleCustomerResource;
 use App\Http\Resources\OrderDetailSetoranAgentResource;
 use App\Http\Resources\OrderListSetoranAgentResource;
 use App\Http\Resources\OrderSetoranDetailAgentResource;
 use App\Models\Order;
-use App\Models\OrderPriceDistribution;
-use App\Models\Setting;
 use App\Repositories\BookingRepository;
 use App\Repositories\LayoutChairRepository;
 use App\Repositories\OrderDetailRepository;
@@ -63,10 +59,13 @@ class OrderController extends Controller
         } else {
             $order = OrderRepository::findWithDetailWithPayment($id);
         }
-
-        return $this->sendSuccessResponse([
-            'order' => $order instanceof Order ? new OrderDetailAgentResource($order) : OrderDetailAgentResource::collection($order) 
-        ]);
+        if($order){
+            return $this->sendSuccessResponse([
+                'order' => $order instanceof Order ? new OrderDetailAgentResource($order) : OrderDetailAgentResource::collection($order) 
+            ]);
+        }else{
+            return $this->sendFailedResponse([], 'Data tidak di temukan');
+        }
     }
 
     public function exchange(Request $request) {

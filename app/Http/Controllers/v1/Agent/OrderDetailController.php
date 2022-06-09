@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v1\Agent;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\ApiOrderDetailUpdateRequest;
 use App\Http\Resources\OrderDetail\DetailTodayPossibleCustomerResource;
 use App\Http\Resources\OrderDetail\TodayPossibleCustomerResource;
 use App\Models\OrderDetail;
@@ -30,4 +31,14 @@ class OrderDetailController extends Controller
             'order_detail'=>new DetailTodayPossibleCustomerResource($order_detail)
         ]);
     }
+
+    public function editDataPenumpang(ApiOrderDetailUpdateRequest $request, OrderDetail $order_detail)
+    {
+        $data = $request->all();
+        $order_detail->update($data);
+        $order_detail->refresh();
+        return $this->sendSuccessResponse([
+            'order_detail' => $order_detail
+        ], 'Data Berhasil di ubah');
+    }  
 }

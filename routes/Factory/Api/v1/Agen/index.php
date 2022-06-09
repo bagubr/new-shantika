@@ -39,6 +39,7 @@ Route::group([
             Route::get('riwayat/rating/{id}', 'RatingController@show');
             Route::get('riwayat/customer', 'OrderDetailController@possibleCustomer');
             Route::get('riwayat/customer/{id}', 'OrderDetailController@detailPossibleCustomer');
+            Route::post('riwayat/{order_detail}/update', 'OrderDetailController@editDataPenumpang');
 
             Route::get('setoran', 'OrderController@setoran');
             Route::get('setoran/list', 'OrderController@showListSetoran');

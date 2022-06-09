@@ -19,6 +19,7 @@ use App\Repositories\OrderPriceDistributionRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\RoutesRepository;
 use App\Services\OrderService;
+use App\Utils\checkPassword;
 use App\Utils\NotificationMessage;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -213,13 +214,7 @@ class OrderController extends Controller
         $order = $order_detail->order;
         $data               = $request->all();
         $data['status']     = 'CANCELED';
-        $hashed = Auth::user()->password;
-        if (!Hash::check($data['password'], $hashed)) {
-            session()->flash('error', 'Password anda tidak sama');
-            return response([
-                'code' => 0
-            ]);
-        }
+        CheckPassword::checkPassword($data['password']);
         DB::beginTransaction();
         $message = NotificationMessage::orderCanceled($order_detail->order->fleet_route->fleet_detail->fleet->name, $request->cancelation_reason);
         $notification = Notification::build($message[0], $message[1], Notification::TYPE1, $order_detail->order_id, $order_detail->order->user_id);

@@ -3,7 +3,6 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">@{{this.firstLayout.fleet.name}} -> @{{this.secondLayout.fleet.name}}</h4>
-                    <input type="checkbox" name="is_group" @click="changeIsGroup()" class="form-control" id="">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -218,11 +217,18 @@
                 </div>
                 @unlessrole('owner')
 
-                <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-danger" @click="reset()">Reset</button>
-                        <button type="button" class="btn btn-primary" @click="submit()">Save</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary float-left" @click="reset()">Reset</button>
+                    <button type="button" class="btn btn-primary float-right" @click="submit()">Save</button>
+                    <button type="button" class="btn btn-danger float-right" @click="destroy()">Delete</button>
                 </div>
                 <div class="modal-footer">
+                    <div class="col-12 form-group form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" @click="changeIsGroup()">
+                        <label class="form-check-label" for="flexCheckDefault">
+                          Pilih Rombongan
+                        </label>
+                    </div>
                     <div class="col-12">
                         <p class="badge bg-primary">Kursi Kosong</p>
                         <p class="badge bg-secondary">Space</p>

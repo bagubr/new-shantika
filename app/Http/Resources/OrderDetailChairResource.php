@@ -16,6 +16,10 @@ class OrderDetailChairResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'order_detail_id'=>$this->id,
+            'name'=>$this->name,
+            'email'=>$this->email,
+            'phone'=>$this->phone,
             'chair_name'=>$this->chair->name,
             'food'=>$this->is_feed ? 1 : 0,
             'is_member'=>$this->is_member ? "Member" : "Non Member",

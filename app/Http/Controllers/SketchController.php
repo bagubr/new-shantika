@@ -26,6 +26,7 @@ use App\Models\TimeClassification;
 use App\Repositories\BookingRepository;
 use App\Repositories\OrderDetailRepository;
 use App\Repositories\OrderRepository;
+use App\Utils\CheckPassword;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use PDF;
@@ -195,5 +196,24 @@ class SketchController extends Controller
 
         $pdf = \PDF::loadView('excel_export.langsir', $data);
         $pdf->stream('document.pdf');
+    }
+
+    public function destroy(Request $request)
+    {
+        $data = $request->all();
+        Log::info($request);
+        CheckPassword::checkPassword($request->password);
+        foreach ($data['data'] as $key => $value) {
+            if(count($value->order_detail->order_detail) > 1){
+                if($value->order_detail != Order::STATUS4){
+                    $value->order_detail->update([
+                        'cancelation_reason' => $data['reason'],
+                        'status' => Order::STATUS4
+                    ]);
+                }
+            }else{
+
+            }
+        }
     }
 }
