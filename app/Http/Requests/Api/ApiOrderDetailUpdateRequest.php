@@ -6,6 +6,10 @@ use App\Http\Requests\ApiRequest;
 
 class ApiOrderDetailUpdateRequest extends ApiRequest
 {
+    public function authorize()
+    {
+        return true;
+    }
 
     /**
      * Get the validation rules that apply to the request.

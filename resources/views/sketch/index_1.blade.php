@@ -359,15 +359,26 @@ Sketch
                     }else{
                         chair = this.secondLayout.data.chairs.filter((e, i) =>  i == index)[0]
                     }
-
-                    if (chair.is_unavailable) {
-                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.code} |</p>`
+                    
+                    if(chair.order_detail?.order_detail){
+                        user = chair.order_detail?.order_detail?.filter((e, i) => e.layout_chair_id == chair.id)[0]
+                    }
+                    if (chair.is_selected) {
+                        if(which == 0){
+                            html +=  `<p class="text-nowrap d-inline">${chair.name} | ${user.name} | ${chair.code} |</p>`
+                        }else{
+                            return  `<p class="text-nowrap d-inline">${chair.from_name} => ${chair.name}</p>`
+                        }
+                    } else if (chair.is_switched) {
+                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${user.name} | ${chair.code} |</p>`
+                    } else if (chair.is_unavailable) {
+                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${user.name} | ${chair.code} |</p>`
                     } else if (chair.is_unavailable_customer){
-                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.order_detail.user.name} | ${chair.code} |</p>`
+                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${user.name} | ${chair.code} |</p>`
                     } else if (chair.is_unavailable_not_paid_customer) {
-                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.order_detail.user.name} | ${chair.code} |</p>`
+                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${user.name} | ${chair.code} |</p>`
                     } else if (chair.is_unavailable_waiting_customer) {
-                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.order_detail.user.name} | ${chair.code} |</p>`
+                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${user.name} | ${chair.code} |</p>`
                     } else if (chair.is_booking) {
                         html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.code} |</p>`
                     } else if(chair.is_door) {
@@ -469,24 +480,27 @@ Sketch
                 dropSelectedSeat(row,col,which) {
                     this.whichLayout(which)
                     let index = this.getCurrentIndexByRowCol(row, col)
-                    if(this.secondLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable) {
+                    let first = this.firstLayout.data.chairs.filter(e => e.is_selected == true)[0]
+                    let second = this.secondLayout.data.chairs.filter((e, i) => i == index)[0]
+                    if(second.is_unavailable) {
                         return alert("Pilih kursi yang belum dibeli!");
                     }
-                    if (this.secondLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable_customer) {
+                    if (second.is_unavailable_customer) {
                         return alert("Maaf Kursi Yang Anda Pilih Adalah Kursi Customer");
                     }
-                    if (this.secondLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable_not_paid_customer) {
+                    if (second.is_unavailable_not_paid_customer) {
                         return alert("Maaf Kursi Yang Anda Pilih Adalah Kursi Customer");
                     }
-                    if (this.secondLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable_waiting_customer) {
+                    if (second.is_unavailable_waiting_customer) {
                         return alert("Maaf Kursi Yang Anda Pilih Adalah Kursi Customer");
                     }
-                    let value = this.firstLayout.data.chairs.filter(e => e.is_selected == true)[0]
-                    this.firstLayout.data.chairs.filter(e => e.is_selected  == true)[0].is_switched = true
-                    this.firstLayout.data.chairs.filter(e => e.is_selected == true)[0].is_selected = false
+                    first.is_switched = true
+                    first.is_selected = false
 
-                    this.secondLayout.data.chairs.filter((e, i) => i == index)[0].is_unavailable = true
-                    this.secondLayout.data.chairs.filter((e, i) => i == index)[0].is_selected = true
+                    second.is_unavailable = true
+                    second.is_selected = true
+                    second.from_id = first.id
+                    second.from_name = first.name
                     this.$forceUpdate()
                 },
                 printFirstLayout() {
@@ -524,16 +538,18 @@ Sketch
                         }
                     }
 
-                    fetch("{{url('sketch/store')}}", {
-                        method: 'POST',
-                        body: JSON.stringify(form),
-                        headers: {
-                            'X-CSRF-TOKEN': '{{csrf_token()}}',
-                            'Content-Type': 'application/json'
-                        }
-                    }).then(res => res.json()).then(res => {
-                        window.location.reload()
-                    })
+                    console.log(form)
+
+                    // fetch("{{url('sketch/store')}}", {
+                    //     method: 'POST',
+                    //     body: JSON.stringify(form),
+                    //     headers: {
+                    //         'X-CSRF-TOKEN': '{{csrf_token()}}',
+                    //         'Content-Type': 'application/json'
+                    //     }
+                    // }).then(res => res.json()).then(res => {
+                    //     window.location.reload()
+                    // })
                 },
                 reset() {
                     this.firstLayout.data.chairs = this.firstLayout.data.chairs.map(e => {
@@ -550,8 +566,8 @@ Sketch
                     })
                 },
                 destroy() {
-                    console.log(this.firstLayout.data.chairs.filter(e => e.is_selected == true))
                     let reason = prompt("Masukan Alasan Penghapusan anda : ", "");
+                    let chairs = this.firstLayout.data.chairs.filter(e => e.is_selected == true)
                     if(reason == ""){
                         alert("Anda Belum memasukan alasan anda");
                     }
@@ -562,20 +578,24 @@ Sketch
                             alert("Konfirmasi di batalkan ");
                         }
                     }else{
-                        fetch('{{url("")}}'+`/sketch/destroy`, {
-                            method: 'DELETE',
-                            body: JSON.stringify({
-                                'cencelation_reason':reason,
-                                'password':password,
-                                'data':this.firstLayout.data.chairs.filter(e => e.is_selected == true),
-                            }),
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{csrf_token()}}'
-                            }
-                        }).then(res => res.json()).then(res => {
-                            window.location.reload()
-                        })
+                        if(this.data.is_group == true){
+                            fetch('{{url("")}}'+`/sketch/destroy`, {
+                                method: 'DELETE',
+                                body: JSON.stringify({
+                                    'cencelation_reason':reason,
+                                    'password':password,
+                                    'data':data,
+                                }),
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': '{{csrf_token()}}'
+                                }
+                            }).then(res => res.json()).then(res => {
+                                window.location.reload()
+                            })
+                        }else{
+
+                        }
                     }
                 },
                 cancelOrder(orderDetailId, password, reason, isAll) {

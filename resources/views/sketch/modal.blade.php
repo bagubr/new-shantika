@@ -2,17 +2,17 @@
         <div class="modal-dialog modal-xl modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">@{{this.firstLayout.fleet.name}} -> @{{this.secondLayout.fleet.name}}</h4>
+                    <h4 v-if="secondLayout.isLoading == false" class="modal-title">@{{this.firstLayout.fleet.name}} -> @{{this.secondLayout.fleet.name}}</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Memindahkan penumpang dari bis <b>@{{this.firstLayout.fleet.name}}</b> ke
+                    <p v-if="secondLayout.isLoading == false">Memindahkan penumpang dari bis <b>@{{this.firstLayout.fleet.name}}</b> ke
                         <b>@{{this.secondLayout.fleet.name}}</b></p>
                     <div class="row">
                         <div class="col-12 col-lg-6 border-right">
-                            <div class="form-group position-md-sticky bg-white pb-1 pt-1" style="top: -17px">
+                            <div v-if="secondLayout.isLoading == false" class="form-group position-md-sticky bg-white pb-1 pt-1" style="top: -17px">
                                 <div class="row mb-1">
                                     <div class="col-12 text-right">
                                         <a class="btn btn-secondary" :href="printFirstLayout()" target="_blank"><i class="fas fa-print"></i> Print Sketch Langsir</a>
@@ -134,7 +134,7 @@
                             </div>
                         </div>
                         <div class="col-12 col-lg-6 border-right">
-                            <div class="form-group position-md-sticky bg-white pb-1 pt-1" style="top: -17px">
+                            <div v-if="secondLayout.isLoading == false" class="form-group position-md-sticky bg-white pb-1 pt-1" style="top: -17px">
                                 <div class="row mb-1">
                                     <div class="col-12 text-right">
                                         <a class="btn btn-secondary" :href="printSecondLayout()" target="_blank"><i class="fas fa-print"></i> Print Sketch Langsir</a>
@@ -217,12 +217,12 @@
                 </div>
                 @unlessrole('owner')
 
-                <div class="modal-footer">
+                <div v-if="secondLayout.isLoading == false" class="modal-footer">
                     <button type="button" class="btn btn-secondary float-left" @click="reset()">Reset</button>
                     <button type="button" class="btn btn-primary float-right" @click="submit()">Save</button>
                     <button type="button" class="btn btn-danger float-right" @click="destroy()">Delete</button>
                 </div>
-                <div class="modal-footer">
+                <div v-if="secondLayout.isLoading == false" class="modal-footer">
                     <div class="col-12 form-group form-check">
                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" @click="changeIsGroup()">
                         <label class="form-check-label" for="flexCheckDefault">
