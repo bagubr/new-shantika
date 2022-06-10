@@ -188,7 +188,37 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        DB::beginTransaction();
+        try {
+            $order = Order::find($id);
+            $order->update([
+                'cencelation_reason' => $data['cencelation_reason'],
+                'status' => Order::STATUS4
+            ]);
+            $sketch_log = new SketchLogController();
+            $request->merge([
+                'admin_id' => Auth::user()->id,
+                'order_id' => $id, 
+                'from_date' => $order->reserve_at, 
+                'to_date' => $order->reserve_at, 
+                'from_fleet_route_id' => $order->fleet_route_id, 
+                'to_fleet_route_id' => $order->fleet_route_id, 
+                'from_layout_chair_id' => $data['data']['id'], 
+                'to_layout_chair_id' => $data['data']['id'], 
+                'from_time_classification_id' => $order->time_classification_id,
+                'to_time_classification_id' => $order->time_classification_id,
+                'type' => SketchLog::TYPE1
+            ]);
+            $sketch_log->create($request);
+            $order->refresh();
+            DB::commit();
+            return response(['data' => $data, 'code' => 1], 200);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response(['code' => 0, 'message' => 'Something Wrong !!, Check your connection'], 200);
+        }
+
     }
 
     public function update_jadwal(UpdateOrderReserveAtRequest $request, Order $order)
@@ -214,7 +244,10 @@ class OrderController extends Controller
         $order = $order_detail->order;
         $data               = $request->all();
         $data['status']     = 'CANCELED';
-        CheckPassword::checkPassword($data['password']);
+        $validate = CheckPassword::checkPassword($data['password']);
+        if($validate){
+            return $validate;
+        }
         DB::beginTransaction();
         $message = NotificationMessage::orderCanceled($order_detail->order->fleet_route->fleet_detail->fleet->name, $request->cancelation_reason);
         $notification = Notification::build($message[0], $message[1], Notification::TYPE1, $order_detail->order_id, $order_detail->order->user_id);

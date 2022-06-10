@@ -203,6 +203,7 @@ Sketch
                     fleets: {!! $fleets !!},
                     date_now: "",
                     is_group:false,
+                    is_delete_group:false
                 },
                 filter: {
                     area_id: {!! $areas->last()->id !!},
@@ -459,7 +460,14 @@ Sketch
                         return alert("Kursi sudah di pindah!");
                     }
                     if(this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected != true) {
-                        if(this.data.is_group == true){
+                        if(this.data.is_group == true || this.data.is_delete_group == true){
+                            if(this.data.is_delete_group == true){
+                                if(this.firstLayout.data.chairs.filter(e => e.is_selected = true).length > 0){
+                                        this.firstLayout.data.chairs.filter(e => e.is_selected = true).forEach(function (value) {
+                                        value.is_selected = false
+                                    })
+                                }
+                            }
                             this.firstLayout.data.chairs.filter(e => e.order_detail?.id == chair.order_detail?.id).forEach(function (value) {
                                 value.is_selected = true
                             })
@@ -467,7 +475,7 @@ Sketch
                             this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = true
                         }
                     } else {
-                        if(this.data.is_group == true){
+                        if(this.data.is_group == true || this.data.is_delete_group == true){
                             this.firstLayout.data.chairs.filter(e => e.order_detail?.id == chair.order_detail?.id).forEach(function (value) {
                                 value.is_selected = false
                             })
@@ -521,35 +529,87 @@ Sketch
                     return `{{url('/sketch/export')}}?${query}`
                 },
                 submit() {
-                    let form = {
-                        first_fleet_route_id: this.firstLayout.fleetRouteId,
-                        second_fleet_route_id: this.secondLayout.fleetRouteId,
-                        first_fleet_id: this.firstLayout.fleetId,
-                        second_fleet_id: this.secondLayout.fleetId,
-                        first_date: this.firstLayout.date,
-                        second_date: this.secondLayout.date,
-                        data: {
-                            from_date: this.firstLayout.date,
-                            to_date: this.secondLayout.date,
-                            to_time_classification_id: this.firstLayout.timeClassificationId,
-                            from_time_classification_id: this.secondLayout.timeClassificationId,
-                            from_layout_chair_id: this.firstLayout.data.chairs.filter(e => e.is_switched == true),
-                            to_layout_chair_id: this.secondLayout.data.chairs.filter(e => e.is_selected == true),
+                    if(this.data.is_delete_group == true){
+                        let reason = prompt("Masukan Alasan Penghapusan anda : ", "");
+                        if(reason == null || reason == ""){
+                            return alert("Anda Belum memasukan alasan anda");
+                        }else{
+                            let password = prompt("Masukan Password anda : ", "");
+                            if(password == null || password == ""){
+                                return alert("Anda Belum Memasukan Password");
+                            }else{
+                                if(!confirm(`Yakin anda akan menghapus order berikut dengan alasan `+reason)){
+                                    return alert("Konfirmasi di batalkan ");
+                                }else{
+                                    let query = new URLSearchParams({
+                                        password: password,
+                                    });
+                                    fetch(`{{url('/check-password')}}?${query}`, {
+                                        method:'GET'
+                                    })
+                                    .then(res => res.json()).then((res) => {
+                                        if(res.code == 0){
+                                            return alert(res.message);
+                                        }else{
+                                            this.firstLayout.data.chairs.filter(e => e.is_selected == true).forEach(function(value, key) {
+                                                fetch('{{url("")}}'+`/order/`+value.order_detail.id, {
+                                                    method: 'POST',
+                                                    body: JSON.stringify({
+                                                        '_method':'PUT',
+                                                        'cencelation_reason':reason,
+                                                        'data':value,
+                                                    }),
+                                                    headers: {
+                                                        'Content-Type': 'application/json',
+                                                        'X-CSRF-TOKEN': '{{csrf_token()}}'
+                                                    }
+                                                })
+                                                .then(res => res.json()).then((res) => {
+                                                    if(res.code == 0){
+                                                        return alert(res.message);
+                                                    }
+                                                })
+                                                .catch((error) => {
+                                                    return alert('Something Wrong !!, Check your connection');
+                                                })
+                                            })
+                                            this.handleChangeFocusFirstLayout(this.firstLayout.fleetRouteId, this.firstLayout.fleetId, this.firstLayout.timeClassificationId)
+                                            this.searchOrders();
+                                            this.data.is_delete_group = false
+                                            return alert('Data berhasil di hapus');
+                                        }
+                                    })
+                                }
+                            }
                         }
+                    }else{
+                        let form = {
+                                first_fleet_route_id: this.firstLayout.fleetRouteId,
+                                second_fleet_route_id: this.secondLayout.fleetRouteId,
+                                first_fleet_id: this.firstLayout.fleetId,
+                                second_fleet_id: this.secondLayout.fleetId,
+                                first_date: this.firstLayout.date,
+                                second_date: this.secondLayout.date,
+                                data: {
+                                    from_date: this.firstLayout.date,
+                                    to_date: this.secondLayout.date,
+                                    to_time_classification_id: this.firstLayout.timeClassificationId,
+                                    from_time_classification_id: this.secondLayout.timeClassificationId,
+                                    from_layout_chair_id: this.firstLayout.data.chairs.filter(e => e.is_switched == true),
+                                    to_layout_chair_id: this.secondLayout.data.chairs.filter(e => e.is_selected == true),
+                                }
+                            }
+                        fetch("{{url('sketch/store')}}", {
+                            method: 'POST',
+                            body: JSON.stringify(form),
+                            headers: {
+                                'X-CSRF-TOKEN': '{{csrf_token()}}',
+                                'Content-Type': 'application/json'
+                            }
+                        }).then(res => res.json()).then(res => {
+                            window.location.reload()
+                        })
                     }
-
-                    console.log(form)
-
-                    // fetch("{{url('sketch/store')}}", {
-                    //     method: 'POST',
-                    //     body: JSON.stringify(form),
-                    //     headers: {
-                    //         'X-CSRF-TOKEN': '{{csrf_token()}}',
-                    //         'Content-Type': 'application/json'
-                    //     }
-                    // }).then(res => res.json()).then(res => {
-                    //     window.location.reload()
-                    // })
                 },
                 reset() {
                     this.firstLayout.data.chairs = this.firstLayout.data.chairs.map(e => {
@@ -564,39 +624,6 @@ Sketch
                         }
                         return e
                     })
-                },
-                destroy() {
-                    let reason = prompt("Masukan Alasan Penghapusan anda : ", "");
-                    let chairs = this.firstLayout.data.chairs.filter(e => e.is_selected == true)
-                    if(reason == ""){
-                        alert("Anda Belum memasukan alasan anda");
-                    }
-                    let password = prompt("Masukan Password anda : ", "");
-                    if(password == ""){
-                        alert("Anda Belum Memasukan Password");
-                        if(!confirm(`Yakin anda akan menghapus order berikut dengan alasan `+reason)){
-                            alert("Konfirmasi di batalkan ");
-                        }
-                    }else{
-                        if(this.data.is_group == true){
-                            fetch('{{url("")}}'+`/sketch/destroy`, {
-                                method: 'DELETE',
-                                body: JSON.stringify({
-                                    'cencelation_reason':reason,
-                                    'password':password,
-                                    'data':data,
-                                }),
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': '{{csrf_token()}}'
-                                }
-                            }).then(res => res.json()).then(res => {
-                                window.location.reload()
-                            })
-                        }else{
-
-                        }
-                    }
                 },
                 cancelOrder(orderDetailId, password, reason, isAll) {
                     fetch('{{url("")}}'+`/order/cancelation/${orderDetailId}`, {
@@ -631,6 +658,14 @@ Sketch
                         this.data.is_group = false
                     }else{
                         this.data.is_group = true
+                    }
+                },
+                changeIsDeleteGroup() {
+                    if(this.data.is_delete_group == true){
+                        
+                        this.data.is_delete_group = false
+                    }else{
+                        this.data.is_delete_group = true
                     }
                 },
                 

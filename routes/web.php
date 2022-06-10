@@ -69,6 +69,7 @@ use App\Models\FoodRedeemHistory;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Services\OrderService;
+use App\Utils\CheckPassword;
 use App\Utils\NotificationMessage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -112,6 +113,19 @@ Route::get('/test/emial', function () {
         $message->from(env('MAIL_USERNAME'), 'Bagu');
     });
     return 'Alhamdulillah iso ngirim email';
+});
+
+Route::get('/check-password', function ()
+{
+    $check = CheckPassword::checkPassword(request()->password);
+    if($check){
+        return $check;
+    }else{
+        return response([
+            'code' => 1,
+            'message' => 'Password Benar'
+        ]);
+    }
 });
 
 Route::get('_/privacy_policy', [LoginController::class, 'privacyPolicy'])->name('_privacy_policy');
@@ -227,6 +241,7 @@ Route::group(['middleware' => ['auth']], function () {
         'souvenir_redeem' => SouvenirRedeemController::class,
         'promo' => PromoController::class,
         'sketch' => SketchController::class,
+        'sketch_log' => SketchLogController::class,
         'fleet_route' => FleetRouteController::class,
         'status_penumpang' => StatusPenumpangController::class,
         'agency_price' => AgencyPriceController::class,

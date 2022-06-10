@@ -12,7 +12,8 @@ class CheckPassword {
         if (!Hash::check($password, $hashed)) {
             session()->flash('error', 'Password anda tidak sama');
             return response([
-                'code' => 0
+                'code' => 0,
+                'message' => 'Password anda tidak sama'
             ]);
         }
     }
