@@ -189,13 +189,11 @@ class OrderController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
+        
         DB::beginTransaction();
         try {
             $order = Order::find($id);
-            $order->update([
-                'cencelation_reason' => $data['cencelation_reason'],
-                'status' => Order::STATUS4
-            ]);
+            $order->update($data['data_update']);
             $sketch_log = new SketchLogController();
             $request->merge([
                 'admin_id' => Auth::user()->id,
@@ -208,7 +206,7 @@ class OrderController extends Controller
                 'to_layout_chair_id' => $data['data']['id'], 
                 'from_time_classification_id' => $order->time_classification_id,
                 'to_time_classification_id' => $order->time_classification_id,
-                'type' => SketchLog::TYPE1
+                'type' => SketchLog::TYPE2
             ]);
             $sketch_log->create($request);
             $order->refresh();

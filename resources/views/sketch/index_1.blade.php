@@ -461,12 +461,10 @@ Sketch
                     }
                     if(this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected != true) {
                         if(this.data.is_group == true || this.data.is_delete_group == true){
-                            if(this.data.is_delete_group == true){
-                                if(this.firstLayout.data.chairs.filter(e => e.is_selected = true).length > 0){
-                                        this.firstLayout.data.chairs.filter(e => e.is_selected = true).forEach(function (value) {
-                                        value.is_selected = false
-                                    })
-                                }
+                            if(this.firstLayout.data.chairs.filter(e => e.is_selected = true).length > 0){
+                                    this.firstLayout.data.chairs.filter(e => e.is_selected = true).forEach(function (value) {
+                                    value.is_selected = false
+                                })
                             }
                             this.firstLayout.data.chairs.filter(e => e.order_detail?.id == chair.order_detail?.id).forEach(function (value) {
                                 value.is_selected = true
@@ -557,6 +555,10 @@ Sketch
                                                     body: JSON.stringify({
                                                         '_method':'PUT',
                                                         'cencelation_reason':reason,
+                                                        'data_update':{
+                                                            'cencelation_reason':reason,
+                                                            'status':'CANCELED'
+                                                        },
                                                         'data':value,
                                                     }),
                                                     headers: {
@@ -565,13 +567,21 @@ Sketch
                                                     }
                                                 })
                                                 .then(res => res.json()).then((res) => {
-                                                    if(res.code == 0){
-                                                        return alert(res.message);
-                                                    }
+                                                if(res.code == 0){
+                                                    return alert(res.message);
+                                                }
+                                                console.log(res)
                                                 })
                                                 .catch((error) => {
                                                     return alert('Something Wrong !!, Check your connection');
                                                 })
+                                            })
+                                            let query = new URLSearchParams({
+                                                id: this.firstLayout.data.chairs.filter(e => e.is_selected == true)[0].order_detail.id,
+                                                cancelation_reason: reason,
+                                            });
+                                            fetch('{{url("")}}'+`/sketch/log/notification?${query}`, {
+                                                method: 'GET'
                                             })
                                             this.handleChangeFocusFirstLayout(this.firstLayout.fleetRouteId, this.firstLayout.fleetId, this.firstLayout.timeClassificationId)
                                             this.searchOrders();
@@ -583,32 +593,49 @@ Sketch
                             }
                         }
                     }else{
-                        let form = {
-                                first_fleet_route_id: this.firstLayout.fleetRouteId,
-                                second_fleet_route_id: this.secondLayout.fleetRouteId,
-                                first_fleet_id: this.firstLayout.fleetId,
-                                second_fleet_id: this.secondLayout.fleetId,
-                                first_date: this.firstLayout.date,
-                                second_date: this.secondLayout.date,
-                                data: {
-                                    from_date: this.firstLayout.date,
-                                    to_date: this.secondLayout.date,
-                                    to_time_classification_id: this.firstLayout.timeClassificationId,
-                                    from_time_classification_id: this.secondLayout.timeClassificationId,
-                                    from_layout_chair_id: this.firstLayout.data.chairs.filter(e => e.is_switched == true),
-                                    to_layout_chair_id: this.secondLayout.data.chairs.filter(e => e.is_selected == true),
-                                }
-                            }
-                        fetch("{{url('sketch/store')}}", {
-                            method: 'POST',
-                            body: JSON.stringify(form),
-                            headers: {
-                                'X-CSRF-TOKEN': '{{csrf_token()}}',
-                                'Content-Type': 'application/json'
-                            }
-                        }).then(res => res.json()).then(res => {
-                            window.location.reload()
-                        })
+                        let from = this.firstLayout.data.chairs.filter(e => e.is_switched == true)
+                        let to = this.secondLayout.data.chairs.filter(e => e.is_selected == true)
+                        if(from.length <= 0){
+                            return alert('Anda Belum memilih kursi yang akan di pindah')
+                        }
+                        if(to.length <= 0){
+                            return alert('Anda Belum memilih kursi yang akan di tempati')
+                        }
+
+                        if(this.firstLayout.data.chairs.filter(e => e.is_selected == true).length > 0){
+                            return alert('Silahkan pilih kursi dahulu')
+                        }
+                        if(this.data.is_group == true){
+                            
+                        }else{
+
+                        }
+                        // let form = {
+                        //         first_fleet_route_id: this.firstLayout.fleetRouteId,
+                        //         second_fleet_route_id: this.secondLayout.fleetRouteId,
+                        //         first_fleet_id: this.firstLayout.fleetId,
+                        //         second_fleet_id: this.secondLayout.fleetId,
+                        //         first_date: this.firstLayout.date,
+                        //         second_date: this.secondLayout.date,
+                        //         data: {
+                        //             from_date: this.firstLayout.date,
+                        //             to_date: this.secondLayout.date,
+                        //             to_time_classification_id: this.firstLayout.timeClassificationId,
+                        //             from_time_classification_id: this.secondLayout.timeClassificationId,
+                        //             from_layout_chair_id: this.firstLayout.data.chairs.filter(e => e.is_switched == true),
+                        //             to_layout_chair_id: this.secondLayout.data.chairs.filter(e => e.is_selected == true),
+                        //         }
+                        //     }
+                        // fetch("{{url('sketch/store')}}", {
+                        //     method: 'POST',
+                        //     body: JSON.stringify(form),
+                        //     headers: {
+                        //         'X-CSRF-TOKEN': '{{csrf_token()}}',
+                        //         'Content-Type': 'application/json'
+                        //     }
+                        // }).then(res => res.json()).then(res => {
+                        //     window.location.reload()
+                        // })
                     }
                 },
                 reset() {
