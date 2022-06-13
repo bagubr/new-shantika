@@ -34,6 +34,7 @@ class OrderDetailController extends Controller
 
     public function editDataPenumpang(ApiOrderDetailUpdateRequest $request, OrderDetail $order_detail)
     {
+        dd($order_detail);
         $data = $request->all();
         $order_detail->update($data);
         $order_detail->refresh();

@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SendingNotification;
 use App\Exports\SketchLogsExport;
 use App\Models\Admin;
 use App\Models\Agency;
 use App\Models\Fleet;
 use App\Models\FleetRoute;
+use App\Models\Notification;
+use App\Models\Order;
 use App\Models\SketchLog;
+use App\Utils\NotificationMessage;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -47,5 +51,24 @@ class SketchLogController extends Controller
     public function export()
     {
         return Excel::download(new SketchLogsExport(), 'riwayat_sketch_' . date('dmYHis') . '.xlsx');
+    }
+
+    public function create(Request $request)
+    {
+        $data = $request->all();
+        SketchLog::create($data);
+    }
+
+    public function notification(Request $request)
+    {   
+        $order = Order::find($request->id);
+        if($request->status == SketchLog::TYPE2){
+            $message = NotificationMessage::orderCanceled($order->fleet_route->fleet_detail->fleet->name, $request->cancelation_reason);
+        }else{
+            $message = NotificationMessage::scheduleChanged($order->fleet_route?->fleet_detail?->fleet?->name, date('d-m-Y', strtotime($order->created_at)));
+        }
+        $notification = Notification::build($message[0], $message[1], Notification::TYPE1, $order->id, $order->user_id);
+        SendingNotification::dispatch($notification, $order?->user?->fcm_token, true);
+
     }
 }

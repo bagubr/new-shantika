@@ -54,6 +54,7 @@ use App\Http\Controllers\FleetDetailController;
 use App\Http\Controllers\FleetRoutePriceController;
 use App\Http\Controllers\MembershipHistoryController;
 use App\Http\Controllers\MembershipPointController;
+use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\PromoController;
 use App\Http\Controllers\RestaurantBarcodeController;
 use App\Http\Controllers\RestaurantController;
@@ -69,6 +70,7 @@ use App\Models\FoodRedeemHistory;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Services\OrderService;
+use App\Utils\CheckPassword;
 use App\Utils\NotificationMessage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -112,6 +114,19 @@ Route::get('/test/emial', function () {
         $message->from(env('MAIL_USERNAME'), 'Bagu');
     });
     return 'Alhamdulillah iso ngirim email';
+});
+
+Route::get('/check-password', function ()
+{
+    $check = CheckPassword::checkPassword(request()->password);
+    if($check){
+        return $check;
+    }else{
+        return response([
+            'code' => 1,
+            'message' => 'Password Benar'
+        ]);
+    }
 });
 
 Route::get('_/privacy_policy', [LoginController::class, 'privacyPolicy'])->name('_privacy_policy');
@@ -171,6 +186,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('sketch/orders/detail', [SketchController::class, 'getAvailibilityChairs']);
     Route::get('sketch/export', [SketchController::class, 'export']);
     Route::get('sketch/log', [SketchLogController::class, 'index']);
+    Route::get('sketch/log/notification', [SketchLogController::class, 'notification']);
     Route::get('sketch/log/export', [SketchLogController::class, 'export'])->name('sketch_log.export');
     Route::post('sketch/store', [SketchController::class, 'store']);
     Route::delete('sketch/destroy', [SketchController::class, 'destroy']);
@@ -221,12 +237,14 @@ Route::group(['middleware' => ['auth']], function () {
         'province' => ProvinceController::class,
         'city' => CityController::class,
         'order' => OrderController::class,
+        'order_detail' => OrderDetailController::class,
         'member' => MemberController::class,
         'order_price_distribution' => OrderPriceDistributionController::class,
         'outcome' => OutcomeController::class,
         'souvenir_redeem' => SouvenirRedeemController::class,
         'promo' => PromoController::class,
         'sketch' => SketchController::class,
+        'sketch_log' => SketchLogController::class,
         'fleet_route' => FleetRouteController::class,
         'status_penumpang' => StatusPenumpangController::class,
         'agency_price' => AgencyPriceController::class,

@@ -2,17 +2,17 @@
         <div class="modal-dialog modal-xl modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">@{{this.firstLayout.fleet.name}} -> @{{this.secondLayout.fleet.name}}</h4>
+                    <h4 v-if="secondLayout.isLoading == false" class="modal-title">@{{this.firstLayout.fleet.name}} -> @{{this.secondLayout.fleet.name}}</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Memindahkan penumpang dari bis <b>@{{this.firstLayout.fleet.name}}</b> ke
+                    <p v-if="secondLayout.isLoading == false">Memindahkan penumpang dari bis <b>@{{this.firstLayout.fleet.name}}</b> ke
                         <b>@{{this.secondLayout.fleet.name}}</b></p>
                     <div class="row">
-                        <div class="col-12 col-lg-6 border-right">
-                            <div class="form-group position-md-sticky bg-white pb-1 pt-1" style="top: -17px">
+                        <div :class="[data.is_delete_group == false ? 'col-12 col-lg-6 border-right':'col-12 col-lg-12 border-right']">
+                            <div v-if="secondLayout.isLoading == false" class="form-group position-md-sticky bg-white pb-1 pt-1" style="top: -17px">
                                 <div class="row mb-1">
                                     <div class="col-12 text-right">
                                         <a class="btn btn-secondary" :href="printFirstLayout()" target="_blank"><i class="fas fa-print"></i> Print Sketch Langsir</a>
@@ -57,7 +57,7 @@
                                     autoplay></lottie-player>
                             </div>
                             <div v-else>
-                                <div v-if="firstLayout.isShowInGrid" class="overflow-auto">
+                                <div v-if="firstLayout.isShowInGrid" :class="[data.is_delete_group == false ? 'overflow-auto':'overflow-auto m-auto']" :style="{'max-width': data.is_delete_group == true ? '50%' : '100%'}">
                                     <div v-for="i in firstLayout.data.row" class="d-flex">
                                         <div v-for="j in firstLayout.data.col" class="m-1">
                                             <button v-html="loadText(i,j,0)" :class="loadClass(i,j,0)"
@@ -133,8 +133,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-6 border-right">
-                            <div class="form-group position-md-sticky bg-white pb-1 pt-1" style="top: -17px">
+                        <div v-if="data.is_delete_group == false" class="col-12 col-lg-6 border-right">
+                            <div v-if="secondLayout.isLoading == false" class="form-group position-md-sticky bg-white pb-1 pt-1" style="top: -17px">
                                 <div class="row mb-1">
                                     <div class="col-12 text-right">
                                         <a class="btn btn-secondary" :href="printSecondLayout()" target="_blank"><i class="fas fa-print"></i> Print Sketch Langsir</a>
@@ -217,16 +217,21 @@
                 </div>
                 @unlessrole('owner')
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary float-left" @click="reset()">Reset</button>
-                    <button type="button" class="btn btn-primary float-right" @click="submit()">Save</button>
-                    <button type="button" class="btn btn-danger float-right" @click="destroy()">Delete</button>
+                <div v-if="secondLayout.isLoading == false" class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-secondary" @click="reset()">Reset</button>
+                    <button type="button" class="btn btn-primary" @click="submit()">Save</button>
                 </div>
-                <div class="modal-footer">
+                <div v-if="secondLayout.isLoading == false" class="modal-footer">
                     <div class="col-12 form-group form-check">
                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" @click="changeIsGroup()">
                         <label class="form-check-label" for="flexCheckDefault">
                           Pilih Rombongan
+                        </label>
+                    </div>
+                    <div class="col-12 form-group form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" @click="changeIsDeleteGroup()">
+                        <label class="form-check-label" for="flexCheckDefault1">
+                          Hapus Rombongan
                         </label>
                     </div>
                     <div class="col-12">
