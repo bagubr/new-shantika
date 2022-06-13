@@ -33,13 +33,13 @@ Route::group([
             Route::post('booking', 'BookingController@booking');
             Route::post('order_tiket', 'OrderController@order');
             
+            Route::post('riwayat/{order_detail}/update', 'OrderDetailController@editDataPenumpang');
             Route::get('riwayat', 'OrderController@index');
             Route::get('riwayat/{id}', 'OrderController@show')->whereNumber('id');
             Route::get('riwayat/rating', 'RatingController@index');
             Route::get('riwayat/rating/{id}', 'RatingController@show');
             Route::get('riwayat/customer', 'OrderDetailController@possibleCustomer');
             Route::get('riwayat/customer/{id}', 'OrderDetailController@detailPossibleCustomer');
-            Route::post('riwayat/{order_detail}/update', 'OrderDetailController@editDataPenumpang');
 
             Route::get('setoran', 'OrderController@setoran');
             Route::get('setoran/list', 'OrderController@showListSetoran');
