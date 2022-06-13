@@ -61,10 +61,14 @@ class SketchLogController extends Controller
 
     public function notification(Request $request)
     {   
-        return $request->cancelation_reason;
         $order = Order::find($request->id);
-        $message = NotificationMessage::orderCanceled($order->fleet_route->fleet_detail->fleet->name, $request->cancelation_reason);
+        if($request->status == SketchLog::TYPE2){
+            $message = NotificationMessage::orderCanceled($order->fleet_route->fleet_detail->fleet->name, $request->cancelation_reason);
+        }else{
+            $message = NotificationMessage::scheduleChanged($order->fleet_route?->fleet_detail?->fleet?->name, date('d-m-Y', strtotime($order->created_at)));
+        }
         $notification = Notification::build($message[0], $message[1], Notification::TYPE1, $order->id, $order->user_id);
         SendingNotification::dispatch($notification, $order?->user?->fcm_token, true);
+
     }
 }

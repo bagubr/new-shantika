@@ -54,6 +54,7 @@ use App\Http\Controllers\FleetDetailController;
 use App\Http\Controllers\FleetRoutePriceController;
 use App\Http\Controllers\MembershipHistoryController;
 use App\Http\Controllers\MembershipPointController;
+use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\PromoController;
 use App\Http\Controllers\RestaurantBarcodeController;
 use App\Http\Controllers\RestaurantController;
@@ -236,6 +237,7 @@ Route::group(['middleware' => ['auth']], function () {
         'province' => ProvinceController::class,
         'city' => CityController::class,
         'order' => OrderController::class,
+        'order_detail' => OrderDetailController::class,
         'member' => MemberController::class,
         'order_price_distribution' => OrderPriceDistributionController::class,
         'outcome' => OutcomeController::class,

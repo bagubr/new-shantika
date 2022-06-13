@@ -189,7 +189,9 @@ class OrderController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        
+        if(@$data['data_update']['reserve_at']){
+            $data['data_update']['reserve_at'] = date('Y-m-d', strtotime($data['data_update']['reserve_at']));
+        }
         DB::beginTransaction();
         try {
             $order = Order::find($id);
@@ -198,15 +200,15 @@ class OrderController extends Controller
             $request->merge([
                 'admin_id' => Auth::user()->id,
                 'order_id' => $id, 
-                'from_date' => $order->reserve_at, 
-                'to_date' => $order->reserve_at, 
-                'from_fleet_route_id' => $order->fleet_route_id, 
-                'to_fleet_route_id' => $order->fleet_route_id, 
-                'from_layout_chair_id' => $data['data']['id'], 
-                'to_layout_chair_id' => $data['data']['id'], 
-                'from_time_classification_id' => $order->time_classification_id,
-                'to_time_classification_id' => $order->time_classification_id,
-                'type' => SketchLog::TYPE2
+                'from_date' => $data['sketch_log']['first_date'], 
+                'to_date' => $data['sketch_log']['second_date'], 
+                'from_fleet_route_id' => $data['sketch_log']['first_fleet_route_id'], 
+                'to_fleet_route_id' => $data['sketch_log']['second_fleet_route_id'], 
+                'from_layout_chair_id' => $data['sketch_log']['from_id'], 
+                'to_layout_chair_id' => $data['sketch_log']['to_id'], 
+                'from_time_classification_id' => $data['sketch_log']['first_time_classification_id'],
+                'to_time_classification_id' => $data['sketch_log']['second_time_classification_id'],
+                'type' => $data['sketch_log']['status']
             ]);
             $sketch_log->create($request);
             $order->refresh();
