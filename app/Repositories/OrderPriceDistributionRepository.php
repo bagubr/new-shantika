@@ -10,8 +10,9 @@ class OrderPriceDistributionRepository
     public static function getSumDepositOfAgencyByDate($token, $date)
     {
         $user = UserRepository::findByToken($token);
-        return OrderPriceDistribution::whereDate('reserve_at', $date)->
+        return OrderPriceDistribution::
             whereHas('order', function ($query) use ($user, $date) {
+            $query->whereDate('reserve_at', $date);
             $query->where(function($subquery) use ($user, $date) {
                 $subquery->where(function($subsubquery) use ($user) {
                     $subsubquery->where('departure_agency_id', $user->agencies?->agent?->id)
