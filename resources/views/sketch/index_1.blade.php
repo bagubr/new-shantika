@@ -278,8 +278,9 @@ Sketch
                     let fleetName = fleetRoute.fleet_detail.fleet.name
                     let fleetClass = fleetRoute.fleet_detail.fleet.fleetclass.name
                     let routeName = fleetRoute.route.name
+                    let idfleetRoute = fleetRoute.id
 
-                    return `${fleetName} (${fleetClass} | ${routeName})`
+                    return `${fleetName} (${fleetClass} | ${routeName}) ${idfleetRoute}`
                 },
                 selectOptionFirstLayout(event = null) {
                     this.getFirstLayout(event?.currentTarget?.value)
@@ -289,7 +290,6 @@ Sketch
                 },
                 handleChangeFocusFirstLayout(fleetRouteId, fleetId, timeClassificationId) {
                     this.firstLayout.fleetRouteId = fleetRouteId
-                    this.getFleetRoutes(fleetRouteId)
                     this.firstLayout.fleetId = fleetId
                     this.firstLayout.timeClassificationId = timeClassificationId
                     this.getFirstLayout()
@@ -300,6 +300,7 @@ Sketch
                     this.secondLayout.fleetId = fleetId
                     this.secondLayout.timeClassificationId = timeClassificationId
                     this.getSecondLayout()
+                    this.getFleetRoutes(fleetRouteId)
                 },
                 handleDateChange(type) {
                     if(type == 'FIRST') {
@@ -455,6 +456,9 @@ Sketch
                     }
                 },
                 selectSeat(row,col,which) {
+                    if(this.data.is_unit == false && this.data.is_delete_unit == false && this.data.is_delete_group == false && this.data.is_group == false){
+                        return alert("silahkan pilih salah satu checklist!!!");
+                    }
                     this.whichLayout(which)
                     let index = this.getCurrentIndexByRowCol(row, col,which)
                     chair = this.firstLayout.data.chairs.filter((e, i) =>  i == index)[0]
@@ -532,6 +536,10 @@ Sketch
                     return `{{url('/sketch/export')}}?${query}`
                 },
                 submit() {
+                    let from = this.firstLayout.data.chairs.filter(e => e.is_selected == true)
+                    if(from.length <= 0){
+                        return alert('Anda Belum memilih kursi !!!')
+                    }
                     let form = {
                         first_fleet_route_id: this.firstLayout.fleetRouteId,
                         second_fleet_route_id: this.secondLayout.fleetRouteId,
@@ -540,7 +548,16 @@ Sketch
                         first_time_classification_id: this.firstLayout.timeClassificationId,
                         second_time_classification_id: this.secondLayout.timeClassificationId,
                     }
-                    if(this.data.is_delete_group == true){
+                    if(this.data.is_delete_group == true || this.data.is_delete_unit == true){
+                        form.status = 'CANCELED'
+                        let chairs = this.firstLayout.data.chairs.filter(e => e.is_selected == true)
+
+                        if(chairs.length > 1 && this.data.is_delete_unit == true){
+                            return alert('Hanya dapat pilih satu kursi untuk di hapus !!!')
+                        }
+                        if(chairs.length != chairs[0].order_detail.order_detail.length && this.data.is_delete_group == true){
+                            return alert('Data yang akan di hapus tidak sesuai')
+                        }
                         let reason = prompt("Masukan Alasan Penghapusan anda : ", "");
                         if(reason == null || reason == ""){
                             return alert("Anda Belum memasukan alasan anda");
@@ -562,22 +579,41 @@ Sketch
                                         if(res.code == 0){
                                             return alert(res.message);
                                         }else{
-                                            this.firstLayout.data.chairs.filter(e => e.is_selected == true).forEach(function(value, key) {
-                                                form.from_id = value.id
-                                                form.to_id = value.id
-                                                form.status = 'CANCELED'
-                                                fetch('{{url("")}}'+`/order/`+value.order_detail.id, {
-                                                    method: 'POST',
-                                                    body: JSON.stringify({
-                                                        '_method':'PUT',
-                                                        'cancelation_reason':reason,
-                                                        'data_update':{
+                                            if(chairs.length == chairs[0].order_detail.order_detail.length){
+                                                this.firstLayout.data.chairs.filter(e => e.is_selected == true).forEach(function(value, key) {
+                                                    form.from_id = value.id
+                                                    form.to_id = value.id
+                                                    fetch('{{url("")}}'+`/order/`+value.order_detail.id, {
+                                                        method: 'POST',
+                                                        body: JSON.stringify({
+                                                            '_method':'PUT',
                                                             'cancelation_reason':reason,
-                                                            'status':'CANCELED'
-                                                        },
-                                                        'data':value,
-                                                        'sketch_log':form,
-                                                    }),
+                                                            'data_update':{
+                                                                'cancelation_reason':reason,
+                                                                'status':'CANCELED'
+                                                            },
+                                                            'data':value,
+                                                            'sketch_log':form,
+                                                        }),
+                                                        headers: {
+                                                            'Content-Type': 'application/json',
+                                                            'X-CSRF-TOKEN': '{{csrf_token()}}'
+                                                        }
+                                                    })
+                                                    .then(res => res.json()).then((res) => {
+                                                    if(res.code == 0){
+                                                        return alert(res.message);
+                                                    }
+                                                    console.log(res)
+                                                    })
+                                                    .catch((error) => {
+                                                        return alert('Something Wrong !!, Check your connection');
+                                                    })
+                                                })
+                                            }else{
+                                                let order_detail_id = chairs[0].order_detail.order_detail.filter(e => e.layout_chair_id == chairs[0].id)[0].id
+                                                fetch('{{url("")}}'+`/order_detail/`+order_detail_id, {
+                                                    method: "DELETE",
                                                     headers: {
                                                         'Content-Type': 'application/json',
                                                         'X-CSRF-TOKEN': '{{csrf_token()}}'
@@ -592,7 +628,7 @@ Sketch
                                                 .catch((error) => {
                                                     return alert('Something Wrong !!, Check your connection');
                                                 })
-                                            })
+                                            }
                                             let query = new URLSearchParams({
                                                 id: this.firstLayout.data.chairs.filter(e => e.is_selected == true)[0].order_detail.id,
                                                 cancelation_reason: reason,
@@ -611,7 +647,7 @@ Sketch
                             }
                         }
                     }else if(this.data.is_delete_unit == true){
-                        
+
                     }
                     if(this.data.is_group == true){
                         let from = this.firstLayout.data.chairs.filter(e => e.is_switched == true)
@@ -789,6 +825,7 @@ Sketch
                 getFleetRoutes(fleetRouteId) {
                     let query = new URLSearchParams({
                         fleet_route_id: fleetRouteId,
+                        area_id: this.filter.area_id
                     });
                     fetch(`{{url('/fleet_route/get-available-route')}}?${query}`, {
                         method:'GET'
@@ -797,7 +834,6 @@ Sketch
                         if(res.code = 0){
                             return alert(res.message);
                         }
-                        console.log(res.data);
                         this.fleetRoutes = res.data;
                     })
                 }

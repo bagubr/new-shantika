@@ -36,9 +36,9 @@
                                 <label for="">Armada</label>
                                 <div class="row">
                                     <div class="col">
-                                        <select @change="selectOptionFirstLayout($event)" v-model="firstLayout.fleetRouteId" class="form-control" id="">
+                                        <select @change="selectOptionFirstLayout($event)" class="form-control" id="">
                                             <option :value="fleetRoute.id" v-for="fleetRoute in fleetRoutes"
-                                                :key="fleetRoute.id" v-text="setSelectOptionLayoutText(fleetRoute)"></option>
+                                                :key="fleetRoute.id" v-text="setSelectOptionLayoutText(fleetRoute)" :selected="fleetRoute.id == firstLayout.fleetRouteId"></option>
                                         </select>
                                     </div>
                                     <div class="col-auto">
@@ -158,9 +158,9 @@
                                 <label for="">Armada</label>
                                 <div class="row">
                                     <div class="col">
-                                        <select @change="selectOptionSecondLayout($event)" v-model="secondLayout.fleetRouteId" class="form-control" id="">
+                                        <select @change="selectOptionSecondLayout($event)" class="form-control" id="">
                                             <option :value="fleetRoute.id" v-for="fleetRoute in fleetRoutes"
-                                                :key="fleetRoute.id" v-text="setSelectOptionLayoutText(fleetRoute)"></option>
+                                                :key="fleetRoute.id" v-text="setSelectOptionLayoutText(fleetRoute)" :selected="fleetRoute.id == secondLayout.fleetRouteId"></option>
                                         </select>
                                     </div>
                                     <div class="col-auto">
@@ -220,31 +220,33 @@
                     <button type="button" class="btn btn-secondary" @click="reset()">Reset</button>
                     <button type="button" class="btn btn-primary" @click="submit()">Save</button>
                 </div>
-                <div v-if="secondLayout.isLoading == false" class="modal-footer">
-                    <div class="col-3 form-group form-check">
+                <div v-if="secondLayout.isLoading == false" class="modal-footer justify-content-center">
+                    <div class="col-2 form-group form-check">
                         <input class="form-check-input" type="checkbox" v-model="data.is_group" id="flexCheckDefault" @click="changeIsGroup()">
                         <label class="form-check-label" for="flexCheckDefault">
-                          Pilih Kursi Rombongan
+                            Pilih Kursi Rombongan
                         </label>
                     </div>
-                    <div class="col-3 form-group form-check">
+                    <div class="col-2 form-group form-check">
                         <input class="form-check-input" type="checkbox" v-model="data.is_unit" id="flexCheckUnit" @click="changeIsUnit()">
                         <label class="form-check-label" for="flexCheckUnit">
-                          Pilih Kursi
+                            Pilih Kursi
                         </label>
                     </div>
-                    <div class="col-3 form-group form-check">
+                    <div class="col-2 form-group form-check">
                         <input class="form-check-input" type="checkbox" v-model="data.is_delete_group" id="flexCheckDefault1" @click="changeIsDeleteGroup()">
                         <label class="form-check-label" for="flexCheckDefault1">
                             Hapus Kursi Rombongan
                         </label>
                     </div>
-                    <div class="col-3 form-group form-check">
+                    <div class="col-2 form-group form-check">
                         <input class="form-check-input" type="checkbox" v-model="data.is_delete_unit" id="flexCheckDefaultDunit" @click="changeIsDeleteUnit()">
                         <label class="form-check-label" for="flexCheckDefaultDunit">
                           Hapus Kursi
                         </label>
                     </div>
+                </div>
+                <div class="modal-footer">
                     <div class="col-12">
                         <p class="badge bg-primary">Kursi Kosong</p>
                         <p class="badge bg-secondary">Space</p>

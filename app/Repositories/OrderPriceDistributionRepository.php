@@ -10,7 +10,8 @@ class OrderPriceDistributionRepository
     public static function getSumDepositOfAgencyByDate($token, $date)
     {
         $user = UserRepository::findByToken($token);
-        return OrderPriceDistribution::whereHas('order', function ($query) use ($user, $date) {
+        return OrderPriceDistribution::whereDate('reserve_at', $date)->
+            whereHas('order', function ($query) use ($user, $date) {
             $query->where(function($subquery) use ($user, $date) {
                 $subquery->where(function($subsubquery) use ($user) {
                     $subsubquery->where('departure_agency_id', $user->agencies?->agent?->id)
@@ -22,8 +23,7 @@ class OrderPriceDistributionRepository
                     ->whereDoesntHave('user.agencies')
                     ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
                 });
-            })
-            ->whereDate('reserve_at', $date);
+            });
         })->sum('total_deposit');
     }
 

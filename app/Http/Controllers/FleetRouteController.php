@@ -182,7 +182,13 @@ class FleetRouteController extends Controller
     public function getFleetRoutes(Request $request)
     {
         $fleet_route = FleetRoute::find(request()->fleet_route_id);
-        $fleet_routes = FleetRoute::has('fleet_detail_without_trash')->with(['route', 'fleet_detail.fleet.fleetclass'])->where('route_id', $fleet_route->route_id)->get();
+        $area_id = request()->area_id;
+        $fleet_routes = FleetRoute::has('fleet_detail_without_trash')->with(['route', 'fleet_detail.fleet.fleetclass'])
+        ->whereHas('route.checkpoints', function ($q) use ($area_id) {
+            $q->whereHas('agency.city', function ($sq) use ($area_id) {
+                $sq->where('area_id', '!=', $area_id);
+            });
+        })->get();
 
         return response(['data' => $fleet_routes, 'code' => 1], 200);
 

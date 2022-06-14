@@ -15,4 +15,11 @@ class OrderDetailController extends Controller
         $order_detail->refresh();
         return response(['data' => $order_detail, 'code' => 1], 200);
     }
+    
+    public function destroy($id)
+    {
+        $order_detail = OrderDetail::find($id);
+        $order_detail->delete();
+        return response(['message' => 'Data berhasil di hapus', 'code' => 1], 200);
+    }
 }
