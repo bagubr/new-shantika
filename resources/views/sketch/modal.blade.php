@@ -2,7 +2,7 @@
         <div class="modal-dialog modal-xl modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 v-if="secondLayout.isLoading == false" class="modal-title">@{{this.firstLayout.fleet.name}} -> @{{this.secondLayout.fleet.name}}</h4>
+                    <h4 v-if="secondLayout.isLoading == false" class="modal-title">@{{this.firstLayout.fleet.name}} -> @{{this.secondLayout.fleet.name}} <i class="fas fa-retweet float-right" @click="relaodLayout()"></i></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -11,7 +11,7 @@
                     <p v-if="secondLayout.isLoading == false">Memindahkan penumpang dari bis <b>@{{this.firstLayout.fleet.name}}</b> ke
                         <b>@{{this.secondLayout.fleet.name}}</b></p>
                     <div class="row">
-                        <div :class="[data.is_delete_group == false ? 'col-12 col-lg-6 border-right':'col-12 col-lg-12 border-right']">
+                        <div :class="[data.oneLayout == false ? 'col-12 col-lg-6 border-right':'col-12 col-lg-12 border-right']">
                             <div v-if="secondLayout.isLoading == false" class="form-group position-md-sticky bg-white pb-1 pt-1" style="top: -17px">
                                 <div class="row mb-1">
                                     <div class="col-12 text-right">
@@ -57,7 +57,7 @@
                                     autoplay></lottie-player>
                             </div>
                             <div v-else>
-                                <div v-if="firstLayout.isShowInGrid" :class="[data.is_delete_group == false ? 'overflow-auto':'overflow-auto m-auto']" :style="{'max-width': data.is_delete_group == true ? '50%' : '100%'}">
+                                <div v-if="firstLayout.isShowInGrid" :class="[data.oneLayout == false ? 'overflow-auto':'overflow-auto m-auto']" :style="{'max-width': data.oneLayout == true ? '50%' : '100%'}">
                                     <div v-for="i in firstLayout.data.row" class="d-flex">
                                         <div v-for="j in firstLayout.data.col" class="m-1">
                                             <button v-html="loadText(i,j,0)" :class="loadClass(i,j,0)"
@@ -133,7 +133,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div v-if="data.is_delete_group == false" class="col-12 col-lg-6 border-right">
+                        <div v-if="data.oneLayout == false" class="col-12 col-lg-6 border-right">
                             <div v-if="secondLayout.isLoading == false" class="form-group position-md-sticky bg-white pb-1 pt-1" style="top: -17px">
                                 <div class="row mb-1">
                                     <div class="col-12 text-right">
@@ -222,16 +222,28 @@
                     <button type="button" class="btn btn-primary" @click="submit()">Save</button>
                 </div>
                 <div v-if="secondLayout.isLoading == false" class="modal-footer">
-                    <div class="col-12 form-group form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" @click="changeIsGroup()">
+                    <div class="col-3 form-group form-check">
+                        <input class="form-check-input" type="checkbox" v-model="data.is_group" id="flexCheckDefault" @click="changeIsGroup()">
                         <label class="form-check-label" for="flexCheckDefault">
-                          Pilih Rombongan
+                          Pilih Kursi Rombongan
                         </label>
                     </div>
-                    <div class="col-12 form-group form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" @click="changeIsDeleteGroup()">
+                    <div class="col-3 form-group form-check">
+                        <input class="form-check-input" type="checkbox" v-model="data.is_unit" id="flexCheckUnit" @click="changeIsUnit()">
+                        <label class="form-check-label" for="flexCheckUnit">
+                          Pilih Kursi
+                        </label>
+                    </div>
+                    <div class="col-3 form-group form-check">
+                        <input class="form-check-input" type="checkbox" v-model="data.is_delete_group" id="flexCheckDefault1" @click="changeIsDeleteGroup()">
                         <label class="form-check-label" for="flexCheckDefault1">
-                          Hapus Rombongan
+                            Hapus Kursi Rombongan
+                        </label>
+                    </div>
+                    <div class="col-3 form-group form-check">
+                        <input class="form-check-input" type="checkbox" v-model="data.is_delete_unit" id="flexCheckDefaultDunit" @click="changeIsDeleteUnit()">
+                        <label class="form-check-label" for="flexCheckDefaultDunit">
+                          Hapus Kursi
                         </label>
                     </div>
                     <div class="col-12">

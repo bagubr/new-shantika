@@ -202,8 +202,11 @@ Sketch
                     timeClassifications: {!! $time_classifications !!},
                     fleets: {!! $fleets !!},
                     date_now: "",
+                    is_unit:false,
+                    is_delete_unit:false,
                     is_group:false,
-                    is_delete_group:false
+                    is_delete_group:false,
+                    oneLayout:false,
                 },
                 filter: {
                     area_id: {!! $areas->last()->id !!},
@@ -605,7 +608,10 @@ Sketch
                                 }
                             }
                         }
-                    }else{
+                    }else if(this.data.is_delete_unit == true){
+                        
+                    }
+                    if(this.data.is_group == true){
                         let from = this.firstLayout.data.chairs.filter(e => e.is_switched == true)
                         let to = this.secondLayout.data.chairs.filter(e => e.is_selected == true)
                         if(from.length <= 0){
@@ -618,71 +624,72 @@ Sketch
                         if(this.firstLayout.data.chairs.filter(e => e.is_selected == true).length > 0){
                             return alert('Silahkan pilih kursi dahulu')
                         }
-                        if(this.data.is_group == true){
-                            this.secondLayout.data.chairs.filter(e => e.is_selected == true).forEach(function(value, key) {
-                                form.from_id = value.from_id
-                                form.to_id = value.id
-                                form.status = 'CHANGE'
-                                fetch('{{url("")}}'+`/order/`+from[0].order_detail.id, {
-                                    method: 'POST',
-                                    body: JSON.stringify({
-                                        '_method':'PUT',
-                                        'data_update':{
-                                            'reserve_at':form.second_date,
-                                            'fleet_route_id':form.second_fleet_route_id,
-                                            'time_classification_id':form.second_time_classification_id
-                                        },
-                                        'data':value,
-                                        'sketch_log':form,
-                                        }),
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'X-CSRF-TOKEN': '{{csrf_token()}}'
-                                    }
-                                })
-                                .then(res => res.json()).then((res) => {
-                                if(res.code == 0){
-                                    return alert(res.message);
-                                }
-                                    console.log(res)
-                                })
-                                .catch((error) => {
-                                    return alert('Something Wrong !!, Check your connection');
-                                })
-                                fetch('{{url("")}}'+`/order_detail/`+from[0].order_detail.order_detail.filter(e => e.layout_chair_id == form.from_id)[0].id, {
-                                    method: 'POST',
-                                    body: JSON.stringify({
-                                        '_method':'PUT',
-                                        'layout_chair_id':form.to_id,
+                        this.secondLayout.data.chairs.filter(e => e.is_selected == true).forEach(function(value, key) {
+                            form.from_id = value.from_id
+                            form.to_id = value.id
+                            form.status = 'CHANGE'
+                            fetch('{{url("")}}'+`/order/`+from[0].order_detail.id, {
+                                method: 'POST',
+                                body: JSON.stringify({
+                                    '_method':'PUT',
+                                    'data_update':{
+                                        'reserve_at':form.second_date,
+                                        'fleet_route_id':form.second_fleet_route_id,
+                                        'time_classification_id':form.second_time_classification_id
+                                    },
+                                    'data':value,
+                                    'sketch_log':form,
                                     }),
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'X-CSRF-TOKEN': '{{csrf_token()}}'
-                                    }
-                                })
-                                .then(res => res.json()).then((res) => {
-                                if(res.code == 0){
-                                    return alert(res.message);
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': '{{csrf_token()}}'
                                 }
+                            })
+                            .then(res => res.json()).then((res) => {
+                            if(res.code == 0){
+                                return alert(res.message);
+                            }
                                 console.log(res)
-                                })
-                                .catch((error) => {
-                                    return alert('Something Wrong !!, Check your connection');
-                                })
                             })
-                            let query = new URLSearchParams({
-                                id: this.firstLayout.data.chairs.filter(e => e.is_switched == true)[0].order_detail.id,
-                                status: form.status
-                            });
-                            fetch('{{url("")}}'+`/sketch/log/notification?${query}`, {
-                                method: 'GET'
+                            .catch((error) => {
+                                return alert('Something Wrong !!, Check your connection');
                             })
-                            this.searchOrders();
-                            this.handleChangeFocusFirstLayout(this.firstLayout.fleetRouteId, this.firstLayout.fleetId, this.firstLayout.timeClassificationId)
-                            this.data.is_group = false
-                            return alert('Data berhasil di ubah');
-                        }else{
-                            
+                            fetch('{{url("")}}'+`/order_detail/`+from[0].order_detail.order_detail.filter(e => e.layout_chair_id == form.from_id)[0].id, {
+                                method: 'POST',
+                                body: JSON.stringify({
+                                    '_method':'PUT',
+                                    'layout_chair_id':form.to_id,
+                                }),
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': '{{csrf_token()}}'
+                                }
+                            })
+                            .then(res => res.json()).then((res) => {
+                            if(res.code == 0){
+                                return alert(res.message);
+                            }
+                            console.log(res)
+                            })
+                            .catch((error) => {
+                                return alert('Something Wrong !!, Check your connection');
+                            })
+                        })
+                        let query = new URLSearchParams({
+                            id: this.firstLayout.data.chairs.filter(e => e.is_switched == true)[0].order_detail.id,
+                            status: form.status
+                        });
+                        fetch('{{url("")}}'+`/sketch/log/notification?${query}`, {
+                            method: 'GET'
+                        })
+                        this.searchOrders();
+                        this.handleChangeFocusFirstLayout(this.firstLayout.fleetRouteId, this.firstLayout.fleetId, this.firstLayout.timeClassificationId)
+                        this.data.is_group = false
+                        return alert('Data berhasil di ubah');
+                    }else if (this.data.is_unit == true){
+                        let chairs = this.firstLayout.data.chairs.filter(e => e.is_switched == true)
+                        if(chairs.length != chairs[0].order_detail.order_detail.length){
+                            return alert('Maaf Data yang anda pilih tidak sesuai')
                         }
                     }
                 },
@@ -732,17 +739,51 @@ Sketch
                     if(this.data.is_group == true){
                         this.data.is_group = false
                     }else{
+                        this.data.oneLayout = false
+                        this.data.is_delete_unit = false
+                        this.data.is_unit =  false
+                        this.data.is_delete_group =  false
                         this.data.is_group = true
                     }
                 },
                 changeIsDeleteGroup() {
                     if(this.data.is_delete_group == true){
-                        
                         this.data.is_delete_group = false
+                        this.data.oneLayout = false
                     }else{
+                        this.data.is_delete_unit = false
+                        this.data.is_unit =  false
+                        this.data.is_group =  false
+                        this.data.oneLayout = true
                         this.data.is_delete_group = true
                     }
                 },
+                changeIsUnit() {
+                    if(this.data.is_unit ==  true){
+                        this.data.is_unit =  false
+                    }else{
+                        this.data.oneLayout = false
+                        this.data.is_delete_group = false
+                        this.data.is_group = false
+                        this.data.is_delete_unit = false
+                        this.data.is_unit =  true
+                    }
+                },
+                changeIsDeleteUnit() {
+                    if(this.data.is_delete_unit == true){
+                        this.data.is_delete_unit = false
+                        this.data.oneLayout = false
+                    }else{
+                        this.data.is_delete_group = false
+                        this.data.is_group = false
+                        this.data.is_unit = false
+                        this.data.is_delete_unit = true
+                        this.data.oneLayout = true
+                    }
+                },
+                relaodLayout() {
+                    this.handleChangeFocusFirstLayout(this.firstLayout.fleetRouteId, this.firstLayout.fleetId, this.firstLayout.timeClassificationId)
+                }
                 
             },
             mounted() {
