@@ -178,4 +178,13 @@ class FleetRouteController extends Controller
         session()->flash('success', 'Armada Rute berhasil dihapus');
         return redirect()->back();
     }
+
+    public function getFleetRoutes(Request $request)
+    {
+        $fleet_route = FleetRoute::find(request()->fleet_route_id);
+        $fleet_routes = FleetRoute::has('fleet_detail_without_trash')->with(['route', 'fleet_detail.fleet.fleetclass'])->where('route_id', $fleet_route->route_id)->get();
+
+        return response(['data' => $fleet_routes, 'code' => 1], 200);
+
+    }
 }

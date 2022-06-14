@@ -37,8 +37,8 @@
                                 <div class="row">
                                     <div class="col">
                                         <select @change="selectOptionFirstLayout($event)" v-model="firstLayout.fleetRouteId" class="form-control" id="">
-                                            <option :value="order.fleet_route_id" v-for="order in result.orders"
-                                                :key="order.id" v-text="setSelectOptionLayoutText(order)"></option>
+                                            <option :value="fleetRoute.id" v-for="fleetRoute in fleetRoutes"
+                                                :key="fleetRoute.id" v-text="setSelectOptionLayoutText(fleetRoute)"></option>
                                         </select>
                                     </div>
                                     <div class="col-auto">
@@ -158,10 +158,9 @@
                                 <label for="">Armada</label>
                                 <div class="row">
                                     <div class="col">
-                                        <select @change="selectOptionSecondLayout($event)" v-model="secondLayout.fleetRouteId" class="form-control"
-                                            id="">
-                                            <option :value="order.fleet_route_id" v-for="order in result._orders"
-                                                :key="order.id" v-text="setSelectOptionLayoutText(order)"></option>
+                                        <select @change="selectOptionSecondLayout($event)" v-model="secondLayout.fleetRouteId" class="form-control" id="">
+                                            <option :value="fleetRoute.id" v-for="fleetRoute in fleetRoutes"
+                                                :key="fleetRoute.id" v-text="setSelectOptionLayoutText(fleetRoute)"></option>
                                         </select>
                                     </div>
                                     <div class="col-auto">

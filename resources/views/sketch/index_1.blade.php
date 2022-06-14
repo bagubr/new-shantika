@@ -238,6 +238,7 @@ Sketch
                     fleet: {},
                     data: {}
                 },
+                fleetRoutes:[],
 
             },
             methods: {
@@ -273,10 +274,10 @@ Sketch
                         this.result._orders = res.orders
                     })
                 },
-                setSelectOptionLayoutText(order) {
-                    let fleetName = order.fleet_route.fleet_detail.fleet.name
-                    let fleetClass = order.fleet_route.fleet_detail.fleet.fleetclass.name
-                    let routeName = order.fleet_route.route.name
+                setSelectOptionLayoutText(fleetRoute) {
+                    let fleetName = fleetRoute.fleet_detail.fleet.name
+                    let fleetClass = fleetRoute.fleet_detail.fleet.fleetclass.name
+                    let routeName = fleetRoute.route.name
 
                     return `${fleetName} (${fleetClass} | ${routeName})`
                 },
@@ -288,6 +289,7 @@ Sketch
                 },
                 handleChangeFocusFirstLayout(fleetRouteId, fleetId, timeClassificationId) {
                     this.firstLayout.fleetRouteId = fleetRouteId
+                    this.getFleetRoutes(fleetRouteId)
                     this.firstLayout.fleetId = fleetId
                     this.firstLayout.timeClassificationId = timeClassificationId
                     this.getFirstLayout()
@@ -783,6 +785,21 @@ Sketch
                 },
                 relaodLayout() {
                     this.handleChangeFocusFirstLayout(this.firstLayout.fleetRouteId, this.firstLayout.fleetId, this.firstLayout.timeClassificationId)
+                },
+                getFleetRoutes(fleetRouteId) {
+                    let query = new URLSearchParams({
+                        fleet_route_id: fleetRouteId,
+                    });
+                    fetch(`{{url('/fleet_route/get-available-route')}}?${query}`, {
+                        method:'GET'
+                    })
+                    .then(res => res.json()).then((res) => {
+                        if(res.code = 0){
+                            return alert(res.message);
+                        }
+                        console.log(res.data);
+                        this.fleetRoutes = res.data;
+                    })
                 }
                 
             },

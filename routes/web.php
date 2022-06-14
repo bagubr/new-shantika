@@ -178,6 +178,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('routes/search', [RoutesController::class, 'search'])->name('routes.search');
 
     Route::get('fleet_route/search', [FleetRouteController::class, 'search'])->name('fleet_route.search');
+    Route::get('fleet_route/get-available-route', [FleetRouteController::class, 'getFleetRoutes'])->name('fleet_route.get_fleet_routes');
     Route::get('fleet_route/blocked_chair/{fleet_route}', [FleetRouteController::class, 'blockedChairs'])->name('fleet_route.blocked_chair');
     Route::put('fleet_route/block_chair/{fleet_route}/{layout_chair_id}', [FleetRouteController::class, 'updateBlockedChairs']);
     Route::put('fleet_route/update_status/{fleet_route}', [FleetRouteController::class, 'update_status'])->name('fleet_route.update_status');
