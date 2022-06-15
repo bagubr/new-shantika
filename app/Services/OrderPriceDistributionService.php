@@ -49,14 +49,10 @@ class OrderPriceDistributionService {
         $total_price['for_agent'] = -1 * (
             $total_price['ticket_only'] * $setting->commision
         );
-        $total_price['total_deposit'] = (
-            (($for_deposit  * count($order_details)) - ($order_details[0]->is_feed ? $price_food * count($order_details) : 0)) + abs($total_price['for_travel']) - abs($total_price['for_member']) - abs($total_price['for_agent']) + (
-                $order_details[0]->is_feed ? $total_price['for_food'] : $total_price['for_food'] - ($setting->default_food_price * count($order_details))
-            ) 
-        );
-        $total_price['for_owner'] = $total_price['total_deposit'] - abs($total_price['for_travel']) - abs($total_price['for_member']);
-        $total_price['for_owner_with_food'] = $total_price['total_deposit'] - abs($total_price['for_travel']) - abs($total_price['for_member']);
-        $total_price['for_owner_gross'] = $total_price['total_deposit'];           
+        $total_price['for_owner'] = $total_price['ticket_only'] - $total_price['for_agent'];
+        $total_price['total_deposit'] = $total_price['for_owner'];
+        $total_price['for_owner_with_food'] = $total_price['ticket_only'] + $total_price['for_food'];
+        $total_price['for_owner_gross'] = $total_price['ticket_price'] + $total_price['for_agent'];
 
         $is_agent = UserRepository::findUserIsAgent($order->user_id);
         if(!$is_agent && $order->status == Order::STATUS1) {
