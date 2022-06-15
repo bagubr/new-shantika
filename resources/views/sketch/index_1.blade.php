@@ -112,7 +112,7 @@ Sketch
                         <div class="row">
                             <div class="col-md-3" data-toggle="modal" data-target="#modal-default"
                             @click="handleChangeFocusFirstLayout(order.fleet_route_id, order.fleet_route.fleet_id, order.time_classification_id)">
-                                <i class="fas fa-bus" style="font-size: 5em; color: Mediumslateblue;"></i>
+                                <i class="fas fa-bus" style="font-size: 3em; color: Mediumslateblue;"></i>
                             </div>
                             <div class="col-md-6">
                                 <b>@{{order.fleet_route?.fleet_detail?.fleet?.name}}
