@@ -11,16 +11,16 @@ use App\Models\User;
 class FleetRouteRepositories {
     public static function search_fleet($date, $departure_agency, $destination_agency, $time_classification_id, $fleet_class_id)
     {
-        $user = User::find(99);
-        $notification = new Notification([
-            "title"=>'coba',
-            "body"=>'coba',
-            "type"=>Notification::TYPE1,
-            "reference_id"=>$user->id,
-            "user_id"=>$user->id
-        ]);
+        // $user = User::find(99);
+        // $notification = new Notification([
+        //     "title"=>'coba',
+        //     "body"=>'coba',
+        //     "type"=>Notification::TYPE1,
+        //     "reference_id"=>$user->id,
+        //     "user_id"=>$user->id
+        // ]);
         // dd($user->fcm_token);
-        CheckOrderIsExpiredJob::dispatch($notification, $user->fcm_token,false);
+        // CheckOrderIsExpiredJob::dispatch($notification, $user->fcm_token,false);
         return FleetRoute::with(['fleet_detail.fleet.layout', 'route.checkpoints.agency.city', 'route.checkpoints.agency.prices'=>function($query) {
             $query->orderBy('id', 'desc');
           }, 'fleet_detail.fleet.fleetclass.prices', 'prices', 'fleet_detail', 'fleet_detail.fleet.agency_fleet'], 'route.agency_route')
