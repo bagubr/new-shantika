@@ -221,6 +221,12 @@ class OrderController extends Controller
 
     }
 
+    public function updatePrice($id)
+    {
+        $order = Order::find($id);
+        
+    }
+
     public function update_jadwal(UpdateOrderReserveAtRequest $request, Order $order)
     {
         $data = $request->all();

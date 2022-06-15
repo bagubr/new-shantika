@@ -646,8 +646,6 @@ Sketch
                                 }
                             }
                         }
-                    }else if(this.data.is_delete_unit == true){
-
                     }
                     if(this.data.is_group == true){
                         let from = this.firstLayout.data.chairs.filter(e => e.is_switched == true)
