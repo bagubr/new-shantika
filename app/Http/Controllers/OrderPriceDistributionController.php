@@ -143,11 +143,11 @@ class OrderPriceDistributionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(OrderPriceDistribution $order_price_distribution)
+    public function update(Request $request, OrderPriceDistribution $order_price_distribution)
     {
-        $order_price_distribution->update([
-            'deposited_at' => date('Y-m-d'),
-        ]);
+        $data = $request->all();
+        $data['deposited_at'] = date('Y-m-d');
+        $order_price_distribution->update($data);
         session()->flash('success', 'Deposit Berhasil Diupdate');
         return back();
     }

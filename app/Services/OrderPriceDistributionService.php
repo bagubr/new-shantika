@@ -33,9 +33,9 @@ class OrderPriceDistributionService {
             ? $price_food * count($order_details)
             : 0
         );
-        $total_price['for_food'] = $order->agency->city->area_id == 2 
-         ? 0
-         : $total_price['for_food'];
+        // $total_price['for_food'] = $order->agency->city->area_id == 2 
+        //  ? 0
+        //  : $total_price['for_food'];
         $total_price['for_travel'] = (
             $order_details[0]->is_travel
                 ? $setting->travel * count($order_details)
