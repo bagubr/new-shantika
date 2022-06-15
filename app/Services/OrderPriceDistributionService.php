@@ -46,15 +46,15 @@ class OrderPriceDistributionService {
                 ? $setting->member * count($order_details)
                 : 0
         );
-        $total_price['for_agent'] = -1 * (
-            $total_price['ticket_only'] * $setting->commision
-        );
-        $total_price['for_owner'] = $total_price['ticket_only'] + $total_price['for_agent'];
+        $total_price['for_agent'] =   $total_price['ticket_only'] * $setting->commision ;
+        
+        $total_price['for_owner'] = $total_price['ticket_only'] - $total_price['for_agent'];
         $total_price['total_deposit'] = $total_price['for_owner'] + $total_price['for_food'];
-        $total_price['for_owner_with_food'] = $total_price['ticket_only'] + $total_price['for_food'];
-        $total_price['for_owner_gross'] = $total_price['ticket_price'] + $total_price['for_agent'];
+        $total_price['for_owner_with_food'] = $total_price['for_owner'] + $total_price['for_food'];
+        $total_price['for_owner_gross'] = $total_price['ticket_price'] + $total_price['for_agent'] + $total_price['for_agent'];
 
         $is_agent = UserRepository::findUserIsAgent($order->user_id);
+        $total_price['for_agent'] =   -1 * ($total_price['for_agent']);
         if(!$is_agent && $order->status == Order::STATUS1) {
             $total_price['charge'] = $setting->xendit_charge;
             $total_price['for_agent'] = 0;
