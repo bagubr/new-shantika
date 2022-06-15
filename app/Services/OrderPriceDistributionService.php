@@ -47,7 +47,7 @@ class OrderPriceDistributionService {
                 : 0
         );
         $total_price['for_agent'] = -1 * (
-            (($for_deposit - $price_food) * count($order_details)) * $setting->commision
+            $total_price['ticket_only'] * $setting->commision
         );
         $total_price['total_deposit'] = (
             (($for_deposit  * count($order_details)) - ($order_details[0]->is_feed ? $price_food * count($order_details) : 0)) + abs($total_price['for_travel']) - abs($total_price['for_member']) - abs($total_price['for_agent']) + (
