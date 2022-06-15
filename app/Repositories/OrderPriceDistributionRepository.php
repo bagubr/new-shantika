@@ -25,7 +25,7 @@ class OrderPriceDistributionRepository
                     ->whereIn('status', [Order::STATUS5, Order::STATUS8]);
                 });
             });
-        })->get();
+        })->sum('total_deposit');
     }
 
     public static function getSumCommisionOfAgencyByDate($token, $date)
