@@ -538,11 +538,183 @@ Sketch
                     });
                     return `{{url('/sketch/export')}}?${query}`
                 },
-                submit() {
-                    let from = this.firstLayout.data.chairs.filter(e => e.is_selected == true)
-                    if(from.length <= 0){
-                        return alert('Anda Belum memilih kursi !!!')
+                deleteGroup(form, reason){
+                    let value = this.firstLayout.data.chairs.filter(e => e.is_selected == true)[0]
+                    // this.firstLayout.data.chairs.filter(e => e.is_selected == true).forEach(function(value, key) {
+                        form.from_id = value.id
+                        form.to_id = value.id
+                        fetch('{{url("")}}'+`/order/`+value.order_detail.id, {
+                            method: 'POST',
+                            body: JSON.stringify({
+                                '_method':'PUT',
+                                'cancelation_reason':reason,
+                                'data_update':{
+                                    'cancelation_reason':reason,
+                                    'status':'CANCELED'
+                                },
+                                'data':value,
+                                'sketch_log':form,
+                            }),
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{csrf_token()}}'
+                            }
+                        })
+                        .then(res => res.json()).then((res) => {
+                        if(res.code == 0){
+                            return alert(res.message);
+                        }
+                        console.log(res)
+                        })
+                        .catch((error) => {
+                            return alert('Something Wrong !!, Check your connection');
+                        })
+                    // })
+                },
+                deleteUnit(chairs){
+                    let order_detail_id = chairs[0].order_detail.order_detail.filter(e => e.layout_chair_id == chairs[0].id)[0].id
+                    fetch('{{url("")}}'+`/order_detail/`+order_detail_id, {
+                        method: "DELETE",
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{csrf_token()}}'
+                        }
+                    })
+                    .then(res => res.json()).then((res) => {
+                    if(res.code == 0){
+                        return alert(res.message);
                     }
+                    })
+                    .catch((error) => {
+                        return alert('Something Wrong !!, Check your connection');
+                    })
+                },
+                updatePrice(chairs){
+                    fetch('{{url("")}}'+`/order/update_price/`+chairs[0].order_detail.id, {
+                        method: "GET"
+                    })
+                    .then(res => res.json()).then((res) => {
+                    if(res.code == 0){
+                        return alert(res.message);
+                    }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        return alert('Something Wrong !!, Check your connection');
+                    })
+                },
+                sendNotification(form, reason, order_id){
+                    let query = new URLSearchParams({
+                            id: order_id,
+                            cancelation_reason: reason,
+                            status: form.status
+                    });
+                    fetch('{{url("")}}'+`/sketch/log/notification?${query}`, {
+                        method: 'GET'
+                    })
+                },
+                changeOrder(from, form, value){
+                    fetch('{{url("")}}'+`/order/`+from[0].order_detail.id, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            '_method':'PUT',
+                            'data_update':{
+                                'reserve_at':form.second_date,
+                                'fleet_route_id':form.second_fleet_route_id,
+                                'time_classification_id':form.second_time_classification_id
+                            },
+                            'data':value,
+                            'sketch_log':form,
+                            }),
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{csrf_token()}}'
+                        }
+                    })
+                    .then(res => res.json()).then((res) => {
+                    if(res.code == 0){
+                        return alert(res.message);
+                    }
+                        console.log(res)
+                    })
+                    .catch((error) => {
+                        return alert('Something Wrong !!, Check your connection');
+                    })
+                },
+                changeChair(from, form){
+                    fetch('{{url("")}}'+`/order_detail/`+from[0].order_detail.order_detail.filter(e => e.layout_chair_id == form.from_id)[0].id, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            '_method':'PUT',
+                            'layout_chair_id':form.to_id,
+                        }),
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{csrf_token()}}'
+                        }
+                    })
+                    .then(res => res.json()).then((res) => {
+                    if(res.code == 0){
+                        return alert(res.message);
+                    }
+                    console.log(res)
+                    })
+                    .catch((error) => {
+                        return alert('Something Wrong !!, Check your connection');
+                    })
+                },
+                createOrder(from, form){
+                    let order_detail = from[0].order_detail.order_detail.filter(e => e.layout_chair_id == from[0].id)[0]
+                    fetch('{{url("")}}'+`/order`, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            'user_id':from[0].order_detail.user_id,
+                            'reserve_at':form.second_date,
+                            'fleet_route_id':form.second_fleet_route_id,
+                            'time_classification_id':form.second_time_classification_id,
+                            'id_member':from[0].order_detail.id_member,
+                            'status':'PAID',
+                            'departure_agency_id':from[0].order_detail.departure_agency_id,
+                            'destination_agency_id':from[0].order_detail.destination_agency_id,
+                            'promo_id':from[0].order_detail.promo_id,
+                            'note':from[0].order_detail.note,
+                            'detail':{
+                                'layout_chair_id': [order_detail.id],
+                                'total_price': 'oke',
+                                'name': order_detail.name,
+                                'phone': order_detail.phone,
+                                'email': order_detail.email,
+                                'is_feed': order_detail.is_feed,
+                                'is_travel': order_detail.is_travel,
+                                'is_member': order_detail.is_member,
+
+                            }
+                        }),
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{csrf_token()}}'
+                        }
+                    })
+                    .then(res => res.json()).then((res) => {
+                    if(res.code == 0){
+                        return alert(res.message);
+                    }
+                    console.log(res)
+                    })
+                    .catch((error) => {
+                        return alert('Something Wrong !!, Check your connection');
+                    })
+                },
+                changeChairAndOrder(from, form){
+                    this.secondLayout.data.chairs.filter(e => e.is_selected == true).forEach((value) => {
+                        form.from_id = value.from_id
+                        form.to_id = value.id
+                        form.status = 'CHANGE'
+                        this.changeOrder(from, form, value);
+                        this.changeChair(from, form);
+                    })
+                },
+                submit() {
                     let form = {
                         first_fleet_route_id: this.firstLayout.fleetRouteId,
                         second_fleet_route_id: this.secondLayout.fleetRouteId,
@@ -551,9 +723,13 @@ Sketch
                         first_time_classification_id: this.firstLayout.timeClassificationId,
                         second_time_classification_id: this.secondLayout.timeClassificationId,
                     }
+                    let reason
+                    let password
+                    let chairs
+                    let order_id
                     if(this.data.is_delete_group == true || this.data.is_delete_unit == true){
                         form.status = 'CANCELED'
-                        let chairs = this.firstLayout.data.chairs.filter(e => e.is_selected == true)
+                        chairs = this.firstLayout.data.chairs.filter(e => e.is_selected == true)
 
                         if(chairs.length > 1 && this.data.is_delete_unit == true){
                             return alert('Hanya dapat pilih satu kursi untuk di hapus !!!')
@@ -561,108 +737,42 @@ Sketch
                         if(chairs.length != chairs[0].order_detail.order_detail.length && this.data.is_delete_group == true){
                             return alert('Data yang akan di hapus tidak sesuai')
                         }
-                        let reason = prompt("Masukan Alasan Penghapusan anda : ", "");
+                        reason = prompt("Masukan Alasan Penghapusan anda : ", "");
                         if(reason == null || reason == ""){
                             return alert("Anda Belum memasukan alasan anda");
-                        }else{
-                            let password = prompt("Masukan Password anda : ", "");
-                            if(password == null || password == ""){
-                                return alert("Anda Belum Memasukan Password");
-                            }else{
-                                if(!confirm(`Yakin anda akan menghapus order berikut dengan alasan `+reason)){
-                                    return alert("Konfirmasi di batalkan ");
-                                }else{
-                                    let query = new URLSearchParams({
-                                        password: password,
-                                    });
-                                    fetch(`{{url('/check-password')}}?${query}`, {
-                                        method:'GET'
-                                    })
-                                    .then(res => res.json()).then((res) => {
-                                        if(res.code == 0){
-                                            return alert(res.message);
-                                        }else{
-                                            if(chairs.length == chairs[0].order_detail.order_detail.length){
-                                                this.firstLayout.data.chairs.filter(e => e.is_selected == true).forEach(function(value, key) {
-                                                    form.from_id = value.id
-                                                    form.to_id = value.id
-                                                    fetch('{{url("")}}'+`/order/`+value.order_detail.id, {
-                                                        method: 'POST',
-                                                        body: JSON.stringify({
-                                                            '_method':'PUT',
-                                                            'cancelation_reason':reason,
-                                                            'data_update':{
-                                                                'cancelation_reason':reason,
-                                                                'status':'CANCELED'
-                                                            },
-                                                            'data':value,
-                                                            'sketch_log':form,
-                                                        }),
-                                                        headers: {
-                                                            'Content-Type': 'application/json',
-                                                            'X-CSRF-TOKEN': '{{csrf_token()}}'
-                                                        }
-                                                    })
-                                                    .then(res => res.json()).then((res) => {
-                                                    if(res.code == 0){
-                                                        return alert(res.message);
-                                                    }
-                                                    console.log(res)
-                                                    })
-                                                    .catch((error) => {
-                                                        return alert('Something Wrong !!, Check your connection');
-                                                    })
-                                                })
-                                            }else{
-                                                let order_detail_id = chairs[0].order_detail.order_detail.filter(e => e.layout_chair_id == chairs[0].id)[0].id
-                                                fetch('{{url("")}}'+`/order_detail/`+order_detail_id, {
-                                                    method: "DELETE",
-                                                    headers: {
-                                                        'Content-Type': 'application/json',
-                                                        'X-CSRF-TOKEN': '{{csrf_token()}}'
-                                                    }
-                                                })
-                                                .then(res => res.json()).then((res) => {
-                                                if(res.code == 0){
-                                                    return alert(res.message);
-                                                }
-                                                })
-                                                .catch((error) => {
-                                                    return alert('Something Wrong !!, Check your connection');
-                                                })
-                                                console.log(chairs[0].order_detail.id);
-                                                fetch('{{url("")}}'+`/order/update_price/`+chairs[0].order_detail.id, {
-                                                    method: "GET"
-                                                })
-                                                .then(res => res.json()).then((res) => {
-                                                if(res.code == 0){
-                                                    return alert(res.message);
-                                                }
-                                                })
-                                                .catch((error) => {
-                                                    console.log(error);
-                                                    return alert('Something Wrong !!, Check your connection');
-                                                })
-                                            }
-                                            let query = new URLSearchParams({
-                                                id: this.firstLayout.data.chairs.filter(e => e.is_selected == true)[0].order_detail.id,
-                                                cancelation_reason: reason,
-                                                status: form.status
-                                            });
-                                            fetch('{{url("")}}'+`/sketch/log/notification?${query}`, {
-                                                method: 'GET'
-                                            })
-                                            this.searchOrders();
-                                            this.handleChangeFocusFirstLayout(this.firstLayout.fleetRouteId, this.firstLayout.fleetId, this.firstLayout.timeClassificationId)
-                                            this.data.is_delete_group = false
-                                            return alert('Data berhasil di hapus');
-                                        }
-                                    })
-                                }
-                            }
                         }
+                        password = prompt("Masukan Password anda : ", "");
+                        if(password == null || password == ""){
+                            return alert("Anda Belum Memasukan Password");
+                        }
+                        if(!confirm(`Yakin anda akan menghapus order berikut dengan alasan `+reason)){
+                            return alert("Konfirmasi di batalkan ");
+                        }
+                        let query = new URLSearchParams({
+                            password: password,
+                        });
+                        fetch(`{{url('/check-password')}}?${query}`, {
+                            method:'GET'
+                        })
+                        .then(res => res.json()).then((res) => {
+                            if(res.code == 0){
+                                return alert(res.message);
+                            }
+                        })
+                        if(chairs.length == chairs[0].order_detail.order_detail.length){
+                            this.deleteGroup(form, reason)
+                        }else{
+                            this.deleteUnit(chairs)
+                            this.updatePrice(chairs)
+                        }
+                        order_id = this.firstLayout.data.chairs.filter(e => e.is_selected == true)[0].order_detail.id
+                        this.sendNotification(form, reason, order_id);
+                        this.searchOrders();
+                        this.handleChangeFocusFirstLayout(this.firstLayout.fleetRouteId, this.firstLayout.fleetId, this.firstLayout.timeClassificationId)
+                        this.data.is_delete_group = false
+                        return alert('Data berhasil di hapus');
                     }
-                    if(this.data.is_group == true){
+                    if(this.data.is_group == true || this.data.is_unit == true){
                         let from = this.firstLayout.data.chairs.filter(e => e.is_switched == true)
                         let to = this.secondLayout.data.chairs.filter(e => e.is_selected == true)
                         if(from.length <= 0){
@@ -675,73 +785,22 @@ Sketch
                         if(this.firstLayout.data.chairs.filter(e => e.is_selected == true).length > 0){
                             return alert('Silahkan pilih kursi dahulu')
                         }
-                        this.secondLayout.data.chairs.filter(e => e.is_selected == true).forEach(function(value, key) {
-                            form.from_id = value.from_id
-                            form.to_id = value.id
-                            form.status = 'CHANGE'
-                            fetch('{{url("")}}'+`/order/`+from[0].order_detail.id, {
-                                method: 'POST',
-                                body: JSON.stringify({
-                                    '_method':'PUT',
-                                    'data_update':{
-                                        'reserve_at':form.second_date,
-                                        'fleet_route_id':form.second_fleet_route_id,
-                                        'time_classification_id':form.second_time_classification_id
-                                    },
-                                    'data':value,
-                                    'sketch_log':form,
-                                    }),
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': '{{csrf_token()}}'
-                                }
-                            })
-                            .then(res => res.json()).then((res) => {
-                            if(res.code == 0){
-                                return alert(res.message);
+                        if(this.data.is_unit == true){
+                            if(form.first_date == form.second_date && form.first_fleet_route_id == form.second_fleet_route_id && form.first_time_classification_id == form.second_time_classification_id){
+                                this.changeChairAndOrder(from, form);
+                            }else{
+                                this.createOrder(from, form);
+                                console.log(from);
                             }
-                                console.log(res)
-                            })
-                            .catch((error) => {
-                                return alert('Something Wrong !!, Check your connection');
-                            })
-                            fetch('{{url("")}}'+`/order_detail/`+from[0].order_detail.order_detail.filter(e => e.layout_chair_id == form.from_id)[0].id, {
-                                method: 'POST',
-                                body: JSON.stringify({
-                                    '_method':'PUT',
-                                    'layout_chair_id':form.to_id,
-                                }),
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': '{{csrf_token()}}'
-                                }
-                            })
-                            .then(res => res.json()).then((res) => {
-                            if(res.code == 0){
-                                return alert(res.message);
-                            }
-                            console.log(res)
-                            })
-                            .catch((error) => {
-                                return alert('Something Wrong !!, Check your connection');
-                            })
-                        })
-                        let query = new URLSearchParams({
-                            id: this.firstLayout.data.chairs.filter(e => e.is_switched == true)[0].order_detail.id,
-                            status: form.status
-                        });
-                        fetch('{{url("")}}'+`/sketch/log/notification?${query}`, {
-                            method: 'GET'
-                        })
+                        }else{
+                            this.changeChairAndOrder(from, form);
+                        }
+                        order_id = this.firstLayout.data.chairs.filter(e => e.is_switched == true)[0].order_detail.id
+                        this.sendNotification(form, reason, order_id);
                         this.searchOrders();
                         this.handleChangeFocusFirstLayout(this.firstLayout.fleetRouteId, this.firstLayout.fleetId, this.firstLayout.timeClassificationId)
                         this.data.is_group = false
                         return alert('Data berhasil di ubah');
-                    }else if (this.data.is_unit == true){
-                        let chairs = this.firstLayout.data.chairs.filter(e => e.is_switched == true)
-                        if(chairs.length != chairs[0].order_detail.order_detail.length){
-                            return alert('Maaf Data yang anda pilih tidak sesuai')
-                        }
                     }
                 },
                 reset() {
@@ -790,11 +849,13 @@ Sketch
                     if(this.data.is_group == true){
                         this.data.is_group = false
                     }else{
-                        this.data.oneLayout = false
                         this.data.is_delete_unit = false
                         this.data.is_unit =  false
                         this.data.is_delete_group =  false
                         this.data.is_group = true
+                        this.data.oneLayout = false
+
+
                     }
                 },
                 changeIsDeleteGroup() {
@@ -802,10 +863,10 @@ Sketch
                         this.data.is_delete_group = false
                         this.data.oneLayout = false
                     }else{
+                        this.data.oneLayout = true
                         this.data.is_delete_unit = false
                         this.data.is_unit =  false
                         this.data.is_group =  false
-                        this.data.oneLayout = true
                         this.data.is_delete_group = true
                     }
                 },

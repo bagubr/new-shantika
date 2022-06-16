@@ -138,7 +138,10 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        // $order = Order::create($data);
+        return response(['data' => $data, 'code' => 1], 200);
+
     }
 
     public function showByCodeOrder($code_order)
