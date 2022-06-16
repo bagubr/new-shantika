@@ -18,6 +18,7 @@ use App\Repositories\OrderDetailRepository;
 use App\Repositories\OrderPriceDistributionRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\RoutesRepository;
+use App\Services\OrderPriceDistributionService;
 use App\Services\OrderService;
 use App\Utils\checkPassword;
 use App\Utils\NotificationMessage;
@@ -213,18 +214,47 @@ class OrderController extends Controller
             $sketch_log->create($request);
             $order->refresh();
             DB::commit();
-            return response(['data' => $data, 'code' => 1], 200);
+            return response(['data' => [], 'code' => 1], 200);
         } catch (\Throwable $th) {
             DB::rollBack();
             return response(['code' => 0, 'message' => 'Something Wrong !!, Check your connection'], 200);
         }
 
     }
-
-    public function updatePrice($id)
+    
+    public function update_price($id)
     {
-        $order = Order::find($id);
-        
+        $order = Order::with('order_detail')->find($id);
+        $total_chairs = $order->order_detail->count() + 1;
+        $ticket_price = $order->price / $total_chairs;
+        $data['price'] = $ticket_price * $order->order_detail->count();
+        DB::beginTransaction();
+        try {
+            $order->update($data);
+            $order->refresh();
+            $price_food = $order->distribution->for_food / $total_chairs;
+            $total_travel = $order->distribution->total_travel / $total_chairs;
+            $total_member = $order->distribution->total_member / $total_chairs;
+            $total_price = OrderPriceDistributionService::calculateDistribution($order, $order->order_detail, $data['price'], $price_food, $total_travel, $total_member);
+            $order->distribution->update([
+                'for_food' => $total_price['for_food'],
+                'for_travel' => $total_price['for_travel'],
+                'for_member' => $total_price['for_member'],
+                'for_agent' => $total_price['for_agent'],
+                'for_owner' => $total_price['for_owner'],
+                'ticket_only' => $total_price['ticket_only'],
+                'for_owner_with_food' => $total_price['for_owner_with_food'],
+                'for_owner_gross' => $total_price['for_owner_gross'],
+                'total_deposit' => $total_price['total_deposit'],
+                'ticket_price' => $total_price['ticket_price'],
+            ]);
+            DB::commit();
+            return response(['data' => $order, 'code' => 1], 200);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response(['code' => 0, 'message' => 'Something Wrong !!, Check your connection'], 200);
+        }
+
     }
 
     public function update_jadwal(UpdateOrderReserveAtRequest $request, Order $order)

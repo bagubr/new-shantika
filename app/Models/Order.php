@@ -80,6 +80,11 @@ class Order extends Model
         return $this->hasMany(OrderDetail::class, 'order_id', 'id');
     }
 
+    public function order_detail_with_trash()
+    {
+        return $this->hasMany(OrderDetail::class, 'order_id', 'id')->withTrashed();
+    }
+
     public function payment()
     {
         return $this->hasOne(Payment::class, 'order_id', 'id');

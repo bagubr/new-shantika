@@ -479,6 +479,9 @@ Sketch
                                 value.is_selected = true
                             })
                         }else{
+                            this.firstLayout.data.chairs.filter(e => e.is_selected == true).forEach(function (value) {
+                                    value.is_selected = false
+                            })
                             this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = true
                         }
                     } else {
@@ -623,9 +626,21 @@ Sketch
                                                 if(res.code == 0){
                                                     return alert(res.message);
                                                 }
-                                                console.log(res)
                                                 })
                                                 .catch((error) => {
+                                                    return alert('Something Wrong !!, Check your connection');
+                                                })
+                                                console.log(chairs[0].order_detail.id);
+                                                fetch('{{url("")}}'+`/order/update_price/`+chairs[0].order_detail.id, {
+                                                    method: "GET"
+                                                })
+                                                .then(res => res.json()).then((res) => {
+                                                if(res.code == 0){
+                                                    return alert(res.message);
+                                                }
+                                                })
+                                                .catch((error) => {
+                                                    console.log(error);
                                                     return alert('Something Wrong !!, Check your connection');
                                                 })
                                             }
