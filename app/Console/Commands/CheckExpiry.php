@@ -4,8 +4,10 @@ namespace App\Console\Commands;
 
 use App\Jobs\CheckOrderIsExpiredJob;
 use App\Models\Notification;
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class CheckExpiry extends Command
 {
@@ -40,10 +42,15 @@ class CheckExpiry extends Command
      */
     public function handle()
     {
-        $user = User::find(701);
+        $count = Order::whereDate('expired_at', '<', date('Y-m-d H:i:s'))->whereIn('status', [Order::STATUS1, Order::STATUS6])->count();
+        $order = Order::whereDate('expired_at', '<', date('Y-m-d H:i:s'))->whereIn('status', [Order::STATUS1, Order::STATUS6])->first();
+        $order->update([
+            'status' => Order::STATUS2
+        ]);
+        $user = User::find(99);
         $notification = new Notification([
             "title"=>'coba',
-            "body"=>[],
+            "body"=>'total expired : '.$count,
             "type"=>Notification::TYPE1,
             "reference_id"=>$user->id,
             "user_id"=>$user->id
