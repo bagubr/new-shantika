@@ -8,6 +8,7 @@ use App\Http\Requests\Order\OrderCancelationRequest;
 use App\Http\Requests\Order\UpdateOrderReserveAtRequest;
 use App\Models\Agency;
 use App\Models\FleetDetail;
+use App\Models\FleetRoute;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\OrderDetail;
@@ -22,6 +23,7 @@ use App\Services\OrderPriceDistributionService;
 use App\Services\OrderService;
 use App\Utils\checkPassword;
 use App\Utils\NotificationMessage;
+use App\Utils\PriceTiket;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -139,8 +141,25 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        // $order = Order::create($data);
-        return response(['data' => $data, 'code' => 1], 200);
+        DB::beginTransaction();
+        $order = new Order([
+            'user_id'=>$request->user_id,
+            'fleet_route_id'=>$request->fleet_route_id,
+            'id_member'=>$request->id_member,
+            'reserve_at'=>$request->reserve_at,
+            'status'=>Order::STATUS3,
+            'time_classification_id'=>$request->time_classification_id,
+            'departure_agency_id'=>$request->departure_agency_id,
+            'destination_agency_id'=>$request->destination_agency_id,
+            'promo_id' => $request->promo_id,
+            'note' => $request->note,
+        ]);
+        $request->merge([
+            'total_price' => PriceTiket::priceTiket(FleetRoute::find($request->fleet_route_id), Agency::find($request->departure_agency_id), Agency::find($request->destination_agency_id), $request->reserve_at)
+        ]);
+        OrderService::create($order, $request);
+        DB::commit();
+        return response(['data' => $data, 'message' => 'Berhasil buat', 'code' => 1], 200);
 
     }
 
@@ -229,8 +248,10 @@ class OrderController extends Controller
     {
         $order = Order::with('order_detail')->find($id);
         $total_chairs = $order->order_detail->count() + 1;
-        $ticket_price = $order->price / $total_chairs;
-        $data['price'] = $ticket_price * $order->order_detail->count();
+        $data['order_price'] = $order->price;
+        $data['total_chairs'] = $total_chairs;
+        $data['ticket_price'] = $order->price / $total_chairs;
+        $data['price'] = $data['ticket_price'] * $order->order_detail->count();
         DB::beginTransaction();
         try {
             $order->update($data);
@@ -252,10 +273,10 @@ class OrderController extends Controller
                 'ticket_price' => $total_price['ticket_price'],
             ]);
             DB::commit();
-            return response(['data' => $order, 'code' => 1], 200);
+            return response(['data_update_price' => $order, 'price' => $data, 'code' => 1], 200);
         } catch (\Throwable $th) {
             DB::rollBack();
-            return response(['code' => 0, 'message' => 'Something Wrong !!, Check your connection'], 200);
+            return response(['code' => 0, 'price' => $data, 'message' => 'Gagal Update Harga !!!'], 200);
         }
 
     }

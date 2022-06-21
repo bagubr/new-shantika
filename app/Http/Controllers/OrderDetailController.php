@@ -19,7 +19,9 @@ class OrderDetailController extends Controller
     public function destroy($id)
     {
         $order_detail = OrderDetail::find($id);
+        $order_id = $order_detail->order_id;
         $order_detail->delete();
-        return response(['message' => 'Data berhasil di hapus', 'code' => 1], 200);
+        $chairs = OrderDetail::where('order_id', $order_id)->count();
+        return response(['message' => 'Data berhasil di hapus', 'data_delete' => $chairs, 'code' => 1], 200);
     }
 }
