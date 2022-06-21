@@ -598,7 +598,6 @@ Sketch
                     })
                     .then(res => res.json()).then((res) => {
                         if(res.code == 0){
-                            console.log(res)
                             return alert(res.message);
                         }else{
                             if(this.data.is_unit == true){
@@ -610,7 +609,6 @@ Sketch
                         }
                     })
                     .catch((error) => {
-                        console.log(error);
                         return alert('Something Wrong !!, Check your connection');
                     })
                 },
@@ -679,7 +677,6 @@ Sketch
                     let order_detail = from[0].order_detail.order_detail.filter(e => e.layout_chair_id == from[0].id)[0]
                     let to = this.secondLayout.data.chairs.filter(e => e.is_selected == true)
                     let order_detail_to = to[0]
-                    console.log(form.second_date)
                     fetch('{{url("")}}'+`/order`, {
                         method: 'POST',
                         body: JSON.stringify({
@@ -711,7 +708,6 @@ Sketch
                     if(res.code == 0){
                         return alert(res.message);
                     }else{
-                        console.log(res)
                         this.searchOrders();
                         this.handleChangeFocusFirstLayout(this.firstLayout.fleetRouteId, this.firstLayout.fleetId, this.firstLayout.timeClassificationId)
                     }
@@ -799,7 +795,6 @@ Sketch
                             return alert('Silahkan pilih kursi dahulu')
                         }
                         if(this.data.is_unit == true){
-                            console.log(new Date(form.first_date).toDateString() + new Date(form.second_date).toDateString() + form.first_fleet_route_id + form.second_fleet_route_id + form.first_time_classification_id + form.second_time_classification_id)
                             if(new Date(form.first_date).toDateString() == new Date(form.second_date).toDateString() && form.first_fleet_route_id == form.second_fleet_route_id && form.first_time_classification_id == form.second_time_classification_id){
                                 this.changeChairAndOrder(from, form);
                             }else{
