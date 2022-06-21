@@ -21,7 +21,7 @@ class PaymentService
     use Response;
     public static function createOrderPayment(Order $order, $payment_type_id = null)
     {
-        $expired_duration = self::getExpiredDuration(Setting::find(1)->time_expired, $order->reserve_at);
+        $expired_duration = self::getExpiredDuration(Setting::find(1)->time_expired);
         if ($payment_type_id == null) {
             $payment_type_id  = PaymentType::first()->id;
         }
@@ -81,8 +81,9 @@ class PaymentService
         $send_at = now()->diffInMinutes(date('Y-m-d H:i:s', $time));
         $payload = NotificationMessage::paymentExpired(date("d-M-Y", strtotime($invoice->order->reserve_at)));
         $notification = Notification::build($payload[0], $payload[1], Notification::TYPE1, $invoice->order_id);
+        $expired_duration = self::getExpiredDuration(Setting::find(1)->time_expired);
         PaymentExpiredReminderJob::dispatch($notification, $invoice->order?->user?->fcm_token, false, $invoice->order->id)
-            ->delay(now()->addMinutes(5));
+            ->delay(now()->addMinutes(gmdate("m", $expired_duration)));
     }
 
     public static function getSecretAttribute(Payment $payment)
@@ -152,7 +153,7 @@ class PaymentService
         return $payment;
     }
 
-    public static function getExpiredDuration($time, $reserve_at)
+    public static function getExpiredDuration($time)
     {
         // Menentukan Expired dari menentukan jam dan menit pada hari reservesi
         // $hour = date("H", strtotime($time));
