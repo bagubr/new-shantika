@@ -25,7 +25,7 @@ class PaymentLastThirtyMinuteReminderJob implements ShouldQueue
         public Notification $notification,
         public string|array|null $fcm_token,
         public bool $is_saved,
-        public Order $order
+        public $order
     ) {}
 
     /**
