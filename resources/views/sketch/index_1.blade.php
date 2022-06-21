@@ -541,36 +541,36 @@ Sketch
                 },
                 deleteGroup(form, reason){
                     let value = this.firstLayout.data.chairs.filter(e => e.is_selected == true)[0]
-                    // this.firstLayout.data.chairs.filter(e => e.is_selected == true).forEach(function(value, key) {
-                        form.from_id = value.id
-                        form.to_id = value.id
-                        fetch('{{url("")}}'+`/order/`+value.order_detail.id, {
-                            method: 'POST',
-                            body: JSON.stringify({
-                                '_method':'PUT',
+                    form.from_id = value.id
+                    form.to_id = value.id
+                    fetch('{{url("")}}'+`/order/`+value.order_detail.id, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            '_method':'PUT',
+                            'cancelation_reason':reason,
+                            'data_update':{
                                 'cancelation_reason':reason,
-                                'data_update':{
-                                    'cancelation_reason':reason,
-                                    'status':'CANCELED'
-                                },
-                                'data':value,
-                                'sketch_log':form,
-                            }),
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{csrf_token()}}'
-                            }
-                        })
-                        .then(res => res.json()).then((res) => {
-                        if(res.code == 0){
-                            return alert(res.message);
+                                'status':'CANCELED'
+                            },
+                            'data':value,
+                            'sketch_log':form,
+                        }),
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{csrf_token()}}'
                         }
-                        console.log(res)
-                        })
-                        .catch((error) => {
-                            return alert('Something Wrong !!, Check your connection');
-                        })
-                    // })
+                    })
+                    .then(res => res.json()).then((res) => {
+                    if(res.code == 0){
+                        return alert(res.message);
+                    }else{
+                        this.searchOrders();
+                        this.handleChangeFocusFirstLayout(this.firstLayout.fleetRouteId, this.firstLayout.fleetId, this.firstLayout.timeClassificationId)
+                    }
+                    })
+                    .catch((error) => {
+                        return alert('Something Wrong !!, Check your connection');
+                    })
                 },
                 deleteUnit(chairs, form){
                     let order_detail_id = chairs[0].order_detail.order_detail.filter(e => e.layout_chair_id == chairs[0].id)[0].id
@@ -585,7 +585,6 @@ Sketch
                     if(res.code == 0){
                         return alert(res.message);
                     }else{
-                        console.log(res);
                         this.updatePrice(chairs, form)
                     }
                     })
@@ -602,9 +601,11 @@ Sketch
                             console.log(res)
                             return alert(res.message);
                         }else{
-                            console.log(res)
                             if(this.data.is_unit == true){
                                 this.createOrder(chairs, form);
+                            }else{
+                                this.searchOrders();
+                                this.handleChangeFocusFirstLayout(this.firstLayout.fleetRouteId, this.firstLayout.fleetId, this.firstLayout.timeClassificationId)
                             }
                         }
                     })
@@ -665,8 +666,10 @@ Sketch
                     .then(res => res.json()).then((res) => {
                     if(res.code == 0){
                         return alert(res.message);
+                    }else{
+                        this.searchOrders();
+                        this.handleChangeFocusFirstLayout(this.firstLayout.fleetRouteId, this.firstLayout.fleetId, this.firstLayout.timeClassificationId)
                     }
-                    console.log(res)
                     })
                     .catch((error) => {
                         return alert('Something Wrong !!, Check your connection');
@@ -676,6 +679,7 @@ Sketch
                     let order_detail = from[0].order_detail.order_detail.filter(e => e.layout_chair_id == from[0].id)[0]
                     let to = this.secondLayout.data.chairs.filter(e => e.is_selected == true)
                     let order_detail_to = to[0]
+                    console.log(form.second_date)
                     fetch('{{url("")}}'+`/order`, {
                         method: 'POST',
                         body: JSON.stringify({
@@ -706,8 +710,11 @@ Sketch
                     .then(res => res.json()).then((res) => {
                     if(res.code == 0){
                         return alert(res.message);
+                    }else{
+                        console.log(res)
+                        this.searchOrders();
+                        this.handleChangeFocusFirstLayout(this.firstLayout.fleetRouteId, this.firstLayout.fleetId, this.firstLayout.timeClassificationId)
                     }
-                    console.log(res)
                     })
                     .catch((error) => {
                         return alert('Something Wrong !!, Check your connection');
@@ -773,11 +780,9 @@ Sketch
                             this.deleteUnit(chairs, form)
                         }
                         order_id = this.firstLayout.data.chairs.filter(e => e.is_selected == true)[0].order_detail.id
+                        this.firstLayout.isLoading = true
+                        this.secondLayout.isLoading = true
                         this.sendNotification(form, reason, order_id);
-                        this.searchOrders();
-                        this.handleChangeFocusFirstLayout(this.firstLayout.fleetRouteId, this.firstLayout.fleetId, this.firstLayout.timeClassificationId)
-                        this.data.is_delete_group = false
-                        this.data.is_delete_unit = false
                         return alert('Data berhasil di hapus');
                     }
                     if(this.data.is_group == true || this.data.is_unit == true){
@@ -794,6 +799,7 @@ Sketch
                             return alert('Silahkan pilih kursi dahulu')
                         }
                         if(this.data.is_unit == true){
+                            console.log(new Date(form.first_date).toDateString() + new Date(form.second_date).toDateString() + form.first_fleet_route_id + form.second_fleet_route_id + form.first_time_classification_id + form.second_time_classification_id)
                             if(new Date(form.first_date).toDateString() == new Date(form.second_date).toDateString() && form.first_fleet_route_id == form.second_fleet_route_id && form.first_time_classification_id == form.second_time_classification_id){
                                 this.changeChairAndOrder(from, form);
                             }else{
@@ -803,11 +809,9 @@ Sketch
                             this.changeChairAndOrder(from, form);
                         }
                         order_id = this.firstLayout.data.chairs.filter(e => e.is_switched == true)[0].order_detail.id
+                        this.firstLayout.isLoading = true
+                        this.secondLayout.isLoading = true
                         this.sendNotification(form, reason, order_id);
-                        this.searchOrders();
-                        this.handleChangeFocusFirstLayout(this.firstLayout.fleetRouteId, this.firstLayout.fleetId, this.firstLayout.timeClassificationId)
-                        this.data.is_group = false
-                        this.data.is_unit = false
                         return alert('Data berhasil di ubah');
                     }
                 },

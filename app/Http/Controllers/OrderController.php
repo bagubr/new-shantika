@@ -146,7 +146,7 @@ class OrderController extends Controller
             'user_id'=>$request->user_id,
             'fleet_route_id'=>$request->fleet_route_id,
             'id_member'=>$request->id_member,
-            'reserve_at'=>$request->reserve_at,
+            'reserve_at'=> date('Y-m-d H:i:s', strtotime($request->reserve_at)),
             'status'=>Order::STATUS3,
             'time_classification_id'=>$request->time_classification_id,
             'departure_agency_id'=>$request->departure_agency_id,
@@ -159,7 +159,7 @@ class OrderController extends Controller
         ]);
         OrderService::create($order, $request);
         DB::commit();
-        return response(['data' => $data, 'message' => 'Berhasil buat', 'code' => 1], 200);
+        return response(['data' => $data, 'order' => $order, 'message' => 'Berhasil buat', 'code' => 1], 200);
 
     }
 
