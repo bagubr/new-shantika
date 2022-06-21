@@ -44,19 +44,21 @@ class CheckExpiry extends Command
     public function handle()
     {
         $order = Order::whereDate('expired_at', '<', date('Y-m-d H:i:s'))->whereIn('status', [Order::STATUS1, Order::STATUS6])->first();
-        $order->update([
-            'status' => Order::STATUS2
-        ]);
-        NotificationMessage::OrderExpired($order->reserve_at);
-        $user = User::find($order->user_id);
-        $notification = new Notification([
-            "title"=>'coba',
-            "body"=>'',
-            "type"=>Notification::TYPE1,
-            "reference_id"=>$user->id,
-            "user_id"=>$user->id
-        ]);
-        CheckOrderIsExpiredJob::dispatch($notification, $user->fcm_token,false);
+        if($order){
+            $order->update([
+                'status' => Order::STATUS2
+            ]);
+            NotificationMessage::OrderExpired($order->reserve_at);
+            $user = User::find($order->user_id);
+            $notification = new Notification([
+                "title"=>'coba',
+                "body"=>'',
+                "type"=>Notification::TYPE1,
+                "reference_id"=>$user->id,
+                "user_id"=>$user->id
+            ]);
+            CheckOrderIsExpiredJob::dispatch($notification, $user->fcm_token,false);
+        }
         $this->info('Check successfully!');
     }
 }
