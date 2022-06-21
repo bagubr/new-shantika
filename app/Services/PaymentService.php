@@ -81,9 +81,8 @@ class PaymentService
         $send_at = now()->diffInMinutes(date('Y-m-d H:i:s', $time));
         $payload = NotificationMessage::paymentExpired(date("d-M-Y", strtotime($invoice->order->reserve_at)));
         $notification = Notification::build($payload[0], $payload[1], Notification::TYPE1, $invoice->order_id);
-        $expired_duration = self::getExpiredDuration(Setting::find(1)->time_expired);
         PaymentExpiredReminderJob::dispatch($notification, $invoice->order?->user?->fcm_token, false, $invoice->order->id)
-            ->delay(now()->addMinutes(gmdate("m", $expired_duration)));
+            ->delay(now()->addMinutes(date('m', Setting::find(1)->time_expired)));
     }
 
     public static function getSecretAttribute(Payment $payment)
