@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Events\ExpiredNotificationEvent;
 use App\Events\SendingNotification;
 use App\Events\SendingNotificationToAdmin;
 use App\Events\SendingNotificationToTopic;
+use App\Listeners\ExpiredNotificationListener;
 use App\Listeners\SendNotification;
 use App\Listeners\SendNotificationToAdmin;
 use App\Listeners\SendNotificationToTopic;
@@ -26,6 +28,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         SendingNotification::class => [
             SendNotification::class
+        ],
+        ExpiredNotificationEvent::class => [
+            ExpiredNotificationListener::class
         ],
         SendingNotificationToTopic::class => [
             SendNotificationToTopic::class

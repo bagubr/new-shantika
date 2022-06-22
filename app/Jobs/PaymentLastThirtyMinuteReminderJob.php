@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\ExpiredNotificationEvent;
 use App\Events\SendingNotification;
 use App\Models\Notification;
 use App\Models\Order;
@@ -35,8 +36,6 @@ class PaymentLastThirtyMinuteReminderJob implements ShouldQueue
      */
     public function handle()
     {
-        if($this->order->status == Order::STATUS1){
-            SendingNotification::dispatch($this->notification, $this->fcm_token, false);
-        }
+        ExpiredNotificationEvent::dispatch($this->notification, $this->fcm_token, false);
     }
 }
