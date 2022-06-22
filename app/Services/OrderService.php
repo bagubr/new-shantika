@@ -237,6 +237,7 @@ class OrderService
 
     public static function getExpiredAt()
     {
-        return date('Y-m-d H:i:s', strtotime("+1 day"));
+        $expired_duration = PaymentService::getExpiredDuration(Setting::find(1)->time_expired);
+        return date('Y-m-d H:i:s', time() + $expired_duration);
     }
 }
