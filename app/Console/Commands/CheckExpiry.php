@@ -44,7 +44,7 @@ class CheckExpiry extends Command
      */
     public function handle()
     {
-        $order = Order::whereDate('expired_at', '<', date('Y-m-d H:i:s'))->whereIn('status', [Order::STATUS1, Order::STATUS6])->first();
+        $order = Order::where('expired_at', '<', date('Y-m-d H:i:s'))->whereIn('status', [Order::STATUS1, Order::STATUS6])->first();
         if($order){
             $order->update([
                 'status' => Order::STATUS2
