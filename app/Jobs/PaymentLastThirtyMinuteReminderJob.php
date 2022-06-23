@@ -12,6 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class PaymentLastThirtyMinuteReminderJob implements ShouldQueue
 {
@@ -37,6 +38,7 @@ class PaymentLastThirtyMinuteReminderJob implements ShouldQueue
     public function handle()
     {
         $order = Order::find($this->order_id);
+        Log::info('ayo jalan'.now());
         if($order->status == Order::STATUS1){
             ExpiredNotificationEvent::dispatch($this->notification, $this->fcm_token, false, [], $this->order_id);
         }
