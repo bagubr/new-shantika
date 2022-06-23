@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Events\ExpiredNotificationEvent;
 use App\Events\SendingNotification;
+use App\Models\Article;
 use App\Models\Notification;
 use App\Models\Order;
 use Illuminate\Bus\Queueable;
@@ -38,7 +39,11 @@ class PaymentLastThirtyMinuteReminderJob implements ShouldQueue
     public function handle()
     {
         $order = Order::find($this->order_id);
-        Log::info('ayo jalan'.now());
+        Article::create([
+            'name' => 'oke',
+            'image' => '20',
+            'description' => 'coba'
+        ]);
         if($order->status == Order::STATUS1){
             ExpiredNotificationEvent::dispatch($this->notification, $this->fcm_token, false, [], $this->order_id);
         }
