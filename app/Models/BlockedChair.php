@@ -12,6 +12,6 @@ class BlockedChair extends Model
     protected $table = 'blocked_chairs';
 
     protected $fillable = [
-        'fleet_route_id', 'layout_chair_id'
+        'fleet_route_id', 'layout_chair_id', 'blocked_date'
     ];
 }

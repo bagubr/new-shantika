@@ -379,6 +379,8 @@ Sketch
                         }
                     } else if (chair.is_switched) {
                         html +=  `<p class="text-nowrap d-inline">${chair.name} | ${user.name} | ${chair.code} |</p>`
+                    } else if(chair.is_blocked) {
+                        html +=  `<p class="text-nowrap d-inline">${chair.name}</p>`
                     } else if (chair.is_unavailable) {
                         html +=  `<p class="text-nowrap d-inline">${chair.name} | ${user.name} | ${chair.code} |</p>`
                     } else if (chair.is_unavailable_customer){
@@ -423,6 +425,8 @@ Sketch
                         return "btn bg-teal"
                     } else if (chair.is_switched) {
                         return "btn bg-green"
+                    } else if (chair.is_blocked) {
+                        return "btn btn-dark"
                     } else if (chair.is_unavailable) {
                         return "btn btn-danger"
                     } else if (chair.is_unavailable_customer){

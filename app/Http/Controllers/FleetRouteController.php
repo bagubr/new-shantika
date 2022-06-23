@@ -14,6 +14,8 @@ use App\Models\Layout;
 use App\Models\Order;
 use App\Models\Route;
 use App\Repositories\FleetRepository;
+use App\Repositories\LayoutRepository;
+use App\Services\LayoutService;
 use Illuminate\Http\Request;
 
 class FleetRouteController extends Controller
@@ -137,32 +139,34 @@ class FleetRouteController extends Controller
 
     public function blockedChairs(FleetRoute $fleet_route)
     {
+        $date = request()->blocked_date??date('Y-m-d');
+        $data['blocked_date'] = $date;
         $fleet_route->load('fleet_detail.fleet.layout.chairs');
-        $data['blocked_chairs'] = BlockedChair::where('fleet_route_id', $fleet_route->id)->get();
-        $data['layout'] = $fleet_route->fleet_detail?->fleet?->layout;
-        $data['layout']->chairs = $data['layout']->chairs->map(function ($e) use ($data) {
-            $e->is_blocked = in_array($e->id, $data['blocked_chairs']->pluck('layout_chair_id')->toArray());
-            return $e;
-        });
+        $data['layout'] = LayoutRepository::findByFleetRoute($fleet_route);
+        $data['layout'] = LayoutService::getAvailibilityChairsDetail($data['layout'], $fleet_route, $date);
         $data['fleet_route'] = $fleet_route;
         return view('fleetroute.blocked_chairs', $data);
     }
 
-    public function updateBlockedChairs(FleetRoute $fleet_route, int $layout_chair_id)
+    public function updateBlockedChairs(Request $request, FleetRoute $fleet_route, int $layout_chair_id)
     {
-        $block_chair = BlockedChair::where('fleet_route_id', $fleet_route->id)->where('layout_chair_id', $layout_chair_id)->first();
+        $data = $request->all();
+        $blocked_date = date('Y-m-d', strtotime($data['blocked_date']));
+        $block_chair = BlockedChair::where('fleet_route_id', $fleet_route->id)->where('layout_chair_id', $layout_chair_id)->whereDate('blocked_date', $blocked_date)->first();
 
         if (empty($block_chair)) {
             BlockedChair::create([
                 'fleet_route_id' => $fleet_route->id,
-                'layout_chair_id' => $layout_chair_id
+                'layout_chair_id' => $layout_chair_id,
+                'blocked_date' => $blocked_date
             ]);
         } else {
             $block_chair->delete();
         }
 
         $this->sendSuccessResponse([
-            'is_blocked' => BlockedChair::where('fleet_route_id', $fleet_route->id)->where('layout_chair_id', $layout_chair_id)->exists()
+            'is_blocked' => BlockedChair::where('fleet_route_id', $fleet_route->id)->where('layout_chair_id', $layout_chair_id)->exists(),
+            'date' => $data
         ]);
     }
 
