@@ -27,8 +27,13 @@ class LayoutService
         $unavailable_customer = OrderRepository::getAtDateByFleetRouteIdCustomer($date, $fleet_route->id, $time_classification_id);
         $unavailable_not_paid_customer = OrderRepository::getAtDateByFleetRouteNotPaidIdCustomer($date, $fleet_route->id, $time_classification_id);
         $unavailable_waiting_customer = OrderRepository::getAtDateByFleetRouteWaitingIdCustomer($date, $fleet_route->id, $time_classification_id);
+        $is_blocked = BlockedChair::where('fleet_route_id', $fleet_route->id)->get();
 
-        $layout->chairs = $layout->chairs->map(function ($item) use ($fleet_route, $unavailable, $booking, $user_id, $unavailable_customer, $unavailable_not_paid_customer, $unavailable_waiting_customer) {
+        $layout->chairs = $layout->chairs->map(function ($item) use ($fleet_route, $unavailable, $booking, $user_id, $unavailable_customer, $unavailable_not_paid_customer, $unavailable_waiting_customer, $is_blocked, $date) {
+            $item->is_blocked = $is_blocked->filter(function ($e) use ($item, $date)
+            {
+                return $e->where('layout_chair_id', $item->id)->whereDate('blocked_date', $date)->first();
+            })->isNotEmpty();
             $item->is_booking = $booking->where('layout_chair_id', $item->id)->isNotEmpty();
             $item->is_unavailable_customer = $unavailable_customer->filter(function ($e) use ($item) {
                 return $e->order_detail->where('layout_chair_id', $item->id)->first();
