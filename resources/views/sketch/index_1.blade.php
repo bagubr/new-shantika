@@ -823,6 +823,10 @@ Sketch
                         }
                         return e
                     })
+                    this.data.is_unit = false;
+                    this.data.is_group = false;
+                    this.data.is_delete_group = false;
+                    this.data.is_delete_unit = false;
                 },
                 cancelOrder(orderDetailId, password, reason, isAll) {
                     fetch('{{url("")}}'+`/order/cancelation/${orderDetailId}`, {
