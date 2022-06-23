@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Jobs\CheckOrderIsExpiredJob;
+use App\Jobs\PaymentExpiredReminderJob;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\User;
@@ -48,16 +49,10 @@ class CheckExpiry extends Command
             $order->update([
                 'status' => Order::STATUS2
             ]);
-            NotificationMessage::OrderExpired($order->reserve_at);
-            $user = User::find($order->user_id);
-            $notification = new Notification([
-                "title"=>'coba',
-                "body"=>'',
-                "type"=>Notification::TYPE1,
-                "reference_id"=>$user->id,
-                "user_id"=>$user->id
-            ]);
-            CheckOrderIsExpiredJob::dispatch($notification, $user->fcm_token,false);
+            $order->refresh();
+            $payload = NotificationMessage::paymentExpired(date("d-M-Y", strtotime($order->reserve_at)));
+            $notification = Notification::build($payload[0], $payload[1], Notification::TYPE1, $order->id);
+            PaymentExpiredReminderJob::dispatch($notification, $order?->user?->fcm_token, false, $order->id);
         }
         $this->info('Check successfully!');
     }
