@@ -74,7 +74,6 @@ class PaymentService
         $send_at = now()->diffInMinutes(date('Y-m-d H:i:s', $time));
         $payload = NotificationMessage::paymentWillExpired();
         $notification = Notification::build($payload[0], $payload[1], Notification::TYPE1, $invoice->order_id);
-        PaymentLastThirtyMinuteReminderJob::dispatch($notification, $invoice->order?->user?->fcm_token, false, $invoice->order->id)->delay(now()->addMinutes(2));
         PaymentLastThirtyMinuteReminderJob::dispatchIf(self::paymentStatus($invoice->order->id), $notification, $invoice->order?->user?->fcm_token, false, $invoice->order->id)->delay(now()->addMinutes(2));
 
         $time = strtotime($invoice->expired_at);
