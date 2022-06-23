@@ -97,28 +97,6 @@
                                             <br>
                                             <span>@{{chair.order_detail.code_order}}</span>
                                             <br>
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <form autocomplete="off" @submit.prevent="cancelOrder(chair.order_detail.order_detail.filter(e => e.layout_chair_id == chair.id)[0].id, chair.password, chair.cancelation_reason, chair.isAll)" class="w-100">
-                                                        <div class="form-group">
-                                                            <label for="">Alasan Penolakan</label>
-                                                            <input type="text" autocomplete="off" v-model="chair.cancelation_reason" class="form-control">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="">Password</label>
-                                                            <input type="password" autocomplete="new-password" v-model="chair.password" class="form-control" id="">
-                                                        </div>
-                                                        <div class="form-check">
-                                                            <input type="checkbox" v-model="chair.is_all" class="form-check-input" id="">
-                                                            <label class="form-check-label">&nbsp; Batalkan 1 rombongan ini</label>
-                                                        </div>
-                                                        <div class="form-group text-right">
-                                                            <button class="btn btn-primary" type="submit">Submit</button>
-                                                            <button class="btn btn-secondary" type="button" @click="chair.is_show_cancel_order = false">Close</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
                                         </div>
                                         <div v-if="chair.booking_detail != undefined" class="border-top border-bottom">
                                             <p class="font-weight-bold text-warning">@{{chair.name}} -
@@ -190,14 +168,35 @@
                                 </div>
                                 <div v-else>
                                     <div v-for="chair in secondLayout.data.chairs" class="w-100">
-                                        <div v-if="chair.order_detail != undefined" class="border-top border-bottom">
-                                            <p class="font-weight-bold">@{{chair.name}} -
-                                                @{{chair.order_detail.order_detail[0].name}}
-                                                (@{{chair.order_detail?.user?.agencies?.agent?.name || 'Customer'}})</p>
-                                            <a :href="'https://wa.me/'+chair.order_detail.order_detail[0].phone"
-                                                target="_blank">@{{chair.order_detail.order_detail[0].phone}}</a>
-                                            <p>Status Pembelian Tiket: @{{chair.order_detail.status}}</p>
-                                            <p>@{{chair.order_detail.code_order}}</p>
+                                        <div v-if="chair.order_detail != undefined" class="border-top border-bottom pt-3 pb-3">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <span class="font-weight-bold">@{{chair.name}} -
+                                                        @{{chair.order_detail.order_detail[0].name}}
+                                                        (@{{chair.order_detail?.user?.agencies?.agent?.name}})  (@{{chair.order_detail?.user?.name}})</span>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <span class="badge badge">@{{chair.order_detail.status}}</span>
+                                                </div>
+                                            </div>
+                                            <span target="_blank">
+                                                @{{chair.order_detail.order_detail[0].phone}} |
+                                                <a :href="'https://wa.me/'+chair.order_detail.order_detail[0].phone">
+                                                    <i class="fab fa-whatsapp"></i>
+                                                    Whatsapp
+                                                </a> |
+                                                <a :href="'tel:'+chair.order_detail.order_detail[0].phone">
+                                                    <i class="fas fa-phone"></i>
+                                                    Telepon
+                                                </a>
+                                            </span>
+                                            <br>
+                                            <span>Agen Keberangkatan: @{{chair.order_detail.agency?.name}}</span>
+                                            <br>
+                                            <span>Agen Tujuan: @{{chair.order_detail.agency_destiny?.name}}</span>
+                                            <br>
+                                            <span>@{{chair.order_detail.code_order}}</span>
+                                            <br>
                                         </div>
                                         <div v-if="chair.booking_detail != undefined" class="border-top border-bottom">
                                             <p class="font-weight-bold text-warning">@{{chair.name}} -
@@ -220,6 +219,7 @@
                     <button type="button" class="btn btn-secondary" @click="reset()">Reset</button>
                     <button type="button" class="btn btn-primary" @click="submit()">Save</button>
                 </div>
+                <div style="color:red;">* Pilih Salah Satu</div>
                 <div v-if="secondLayout.isLoading == false" class="modal-footer justify-content-center">
                     <div class="col-2 form-group form-check">
                         <input class="form-check-input" type="checkbox" v-model="data.is_group" id="flexCheckDefault" @click="changeIsGroup()">
