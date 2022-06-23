@@ -4,7 +4,6 @@ namespace App\Http\Controllers\v1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Layout\LayoutResource;
 use App\Models\FleetRoute;
-use App\Models\Route;
 use App\Repositories\LayoutRepository;
 use App\Services\LayoutService;
 use Illuminate\Http\Request;

@@ -249,6 +249,7 @@
                 <div class="modal-footer">
                     <div class="col-12">
                         <p class="badge bg-primary">Kursi Kosong</p>
+                        <p class="badge bg-dark">Kursi Di Blokir</p>
                         <p class="badge bg-secondary">Space</p>
                         <p class="badge bg-warning">Toilet</p>
                         <p class="badge bg-info">Pintu</p>
