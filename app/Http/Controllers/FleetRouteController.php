@@ -160,14 +160,16 @@ class FleetRouteController extends Controller
                 'layout_chair_id' => $layout_chair_id,
                 'blocked_date' => $blocked_date
             ]);
+            $this->sendSuccessResponse([
+                'is_blocked' => true,
+            ]);
         } else {
             $block_chair->delete();
+            $this->sendSuccessResponse([
+                'is_blocked' => false,
+            ]);
         }
 
-        $this->sendSuccessResponse([
-            'is_blocked' => BlockedChair::where('fleet_route_id', $fleet_route->id)->where('layout_chair_id', $layout_chair_id)->exists(),
-            'date' => $data
-        ]);
     }
 
     /**
