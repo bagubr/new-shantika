@@ -42,12 +42,12 @@ class NotifyExpiry extends Command
      */
     public function handle()
     {
-        $date = OrderService::getExpiredAt(300);
-        $order = Order::whereStatus(Order::STATUS1)->whereDate('expired_at', '>', $date)->get();
-        foreach ($order as $key => $value) {
+        $order = Order::whereStatus(Order::STATUS1)->whereDate('expired_at', '>', date('Y-m-d H:i:s'))->each(function ($item)
+        {
             $payload = NotificationMessage::paymentWillExpired();
-            $notification = Notification::build($payload[0], $payload[1], Notification::TYPE1, $value->id);
-            PaymentLastThirtyMinuteReminderJob::dispatch(self::paymentStatus($value->id), $notification, $value->user?->fcm_token, false, $value->id);
-        }
+            $notification = Notification::build($payload[0], $payload[1], Notification::TYPE1, $item->id);
+            PaymentLastThirtyMinuteReminderJob::dispatch(self::paymentStatus($item->id), $notification, $item->user?->fcm_token, false, $item->id)->now();   
+        });
+        $this->info('Notify successfully!');
     }
 }
