@@ -27,8 +27,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('check:expiry')->everyMinute();
-        $schedule->command('notif:expiry')->everyMinute();
+        $schedule->command('check:expiry')->everyMinute()->appendOutputTo('scheduler.log');
+        $schedule->command('notif:expiry')->everyMinute()->appendOutputTo('scheduler.log');
     }
 
     public function scheduleTimezone()
