@@ -39,11 +39,6 @@ class PaymentLastThirtyMinuteReminderJob implements ShouldQueue
     public function handle()
     {
         $order = Order::find($this->order_id);
-        Article::create([
-            'name' => 'oke',
-            'image' => '20',
-            'description' => 'coba'
-        ]);
         if($order->status == Order::STATUS1){
             ExpiredNotificationEvent::dispatch($this->notification, $this->fcm_token, false, [], $this->order_id);
         }

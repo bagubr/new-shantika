@@ -235,9 +235,9 @@ class OrderService
         return 'NS' . str_pad($id, 8, '0', STR_PAD_LEFT);
     }
 
-    public static function getExpiredAt()
+    public static function getExpiredAt($reduce = 0)
     {
         $expired_duration = PaymentService::getExpiredDuration(Setting::find(1)->time_expired);
-        return date('Y-m-d H:i:s', time() + $expired_duration);
+        return date('Y-m-d H:i:s', time() + $expired_duration - $reduce);
     }
 }
