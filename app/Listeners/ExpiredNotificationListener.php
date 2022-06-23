@@ -29,24 +29,26 @@ class ExpiredNotificationListener
      */
     public function handle(ExpiredNotificationEvent $event)
     {
-        $order = Order::find($event->notification->reference_id);
-        if($order->status == Order::STATUS1){
-            if(gettype(json_decode($event->fcm_token)) == 'array') {
-                foreach(json_decode($event->fcm_token) as $fcm_token) {
+        if($event->order_id){
+            $order = Order::find($event->order_id);
+            if($order->status == Order::STATUS1){
+                if(gettype(json_decode($event->fcm_token)) == 'array') {
+                    foreach(json_decode($event->fcm_token) as $fcm_token) {
+                        Firebase::sendNotification([
+                            'title'=>$event->notification->title,
+                            'body'=>$event->notification->body,
+                        ], $fcm_token, $event->data);
+                    }
+                } else {
                     Firebase::sendNotification([
                         'title'=>$event->notification->title,
                         'body'=>$event->notification->body,
-                    ], $fcm_token, $event->data);
+                    ], $event->fcm_token, $event->data);
                 }
-            } else {
-                Firebase::sendNotification([
-                    'title'=>$event->notification->title,
-                    'body'=>$event->notification->body,
-                ], $event->fcm_token, $event->data);
-            }
-            
-            if($event->is_saved && !empty($event->notification->user_id)) {
-                Notification::create($event->notification->toArray());
+                
+                if($event->is_saved && !empty($event->notification->user_id)) {
+                    Notification::create($event->notification->toArray());
+                }
             }
         }
     }

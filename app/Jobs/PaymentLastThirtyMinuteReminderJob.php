@@ -26,7 +26,7 @@ class PaymentLastThirtyMinuteReminderJob implements ShouldQueue
         public Notification $notification,
         public string|array|null $fcm_token,
         public bool $is_saved,
-        public $order
+        public $order_id
     ) {}
 
     /**
@@ -36,9 +36,9 @@ class PaymentLastThirtyMinuteReminderJob implements ShouldQueue
      */
     public function handle()
     {
-        $order = Order::find($this->notification->reference_id);
+        $order = Order::find($this->order_id);
         if($order->status == Order::STATUS1){
-            ExpiredNotificationEvent::dispatch($this->notification, $this->fcm_token, false);
+            ExpiredNotificationEvent::dispatch($this->notification, $this->fcm_token, false, [], $this->order_id);
         }
     }
 }
