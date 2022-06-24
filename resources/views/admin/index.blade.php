@@ -39,6 +39,7 @@ Admin
                                     <th>Nama</th>
                                     <th>Email</th>
                                     <th>Role</th>
+                                    <th>Area</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -51,6 +52,7 @@ Admin
                                         {{$role->name}}
                                         @endforeach
                                     </td>
+                                    <td>{{$admin->area?->name??'Semua Area'}}</td>
                                     <td><a href="{{route('admin.edit',$admin->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         @if (Auth::user()->id != $admin->id)
