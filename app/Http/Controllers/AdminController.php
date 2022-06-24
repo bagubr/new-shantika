@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Admin\CreateAdminRequest;
 use App\Http\Requests\Admin\UpdateAdminRequest;
 use App\Models\Admin;
+use App\Models\Area;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -31,7 +32,8 @@ class AdminController extends Controller
     public function create()
     {
         $roles = Role::all();
-        return view('admin.create', compact('roles'));
+        $areas = Area::all();
+        return view('admin.create', compact('roles', 'areas'));
     }
 
     /**
@@ -71,7 +73,8 @@ class AdminController extends Controller
     public function edit(Admin $admin)
     {
         $roles = Role::all();
-        return view('admin.create', compact('admin', 'roles'));
+        $areas = Area::all();
+        return view('admin.create', compact('admin', 'roles', 'areas'));
     }
 
     /**
@@ -83,7 +86,7 @@ class AdminController extends Controller
      */
     public function update(UpdateAdminRequest $request, Admin $admin)
     {
-        $data   = $request->only('name', 'email');
+        $data   = $request->only('name', 'email', 'area_id');
         if ($request->password) {
             $data['password']   = Hash::make($request['password']);
         }

@@ -27,6 +27,7 @@ class UpdateAdminRequest extends FormRequest
             'name'      => 'required',
             'email'     => 'required|unique:admins,email,' . $this->admin->id,
             'password'  => 'nullable|confirmed',
+            'area_id'   => 'sometimes',
         ];
     }
     public function messages()

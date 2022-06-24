@@ -63,6 +63,19 @@ Admin
                             </select>
                         </div>
                         <div class="form-group">
+                            <label>Area</label>
+                            <select name="area_id" class="form-control" required>
+                                <option value="">Pilih Area</option>
+                                @foreach ($areas as $area)
+                                @if (isset($admin) )
+                                <option value="{{$area->id}}" {{($area->id == $admin->area_id)?'selected':''}}>{{$area->name}}</option>
+                                @else
+                                <option value="{{$area->id}}">{{$area->name}}</option>
+                                @endif
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <div class="form-row">
                                 <div class="col">
                                     <label>Password</label>

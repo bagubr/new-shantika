@@ -27,6 +27,7 @@ class CreateAdminRequest extends FormRequest
             'name'      => 'required',
             'email'     => 'required|unique:admins,email',
             'password'  => 'required|min:8|confirmed',
+            'area_id'   => 'sometimes',
         ];
     }
     public function messages()

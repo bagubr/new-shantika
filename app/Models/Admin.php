@@ -12,8 +12,14 @@ class Admin extends Authenticatable
 {
     use HasFactory, HasRoles, SoftDeletes;
     protected $fillable = [
-        'name', 'email', 'password'
+        'name', 'email', 'password', 'area_id'
     ];
+    
+    public function area()
+    {
+        return $this->belongsTo(Area::class);
+    }
+
     public function restaurant_admin()
     {
         return $this->belongsTo(RestaurantAdmin::class, 'id', 'admin_id');
