@@ -54,7 +54,7 @@ Sketch
                     <div class="row">
                         <div class="form-group col-3">
                             <label>Pilih Area</label>
-                            <select v-model="filter.area_id" name="area_id" class="form-control" id="">
+                            <select v-model="filter.area_id" name="area_id" class="form-control" id="" {{(Auth::user()->area_id)?'disabled':''}}>
                                 <option value="" selected>--PILIH--</option>
                                 <option v-for="area in data.areas" :key="area.id" :value="area.id">
                                     @{{area.name}}
@@ -210,7 +210,7 @@ Sketch
                     ticketPrice:0,
                 },
                 filter: {
-                    area_id: {!! $areas->last()->id !!},
+                    area_id: {!! $area_id !!},
                     fleet_id:""
                 },
                 result: {

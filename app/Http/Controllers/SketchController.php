@@ -39,10 +39,12 @@ class SketchController extends Controller
         $areas = Area::get();
         $time_classifications = TimeClassification::all();
         $fleets = Fleet::select('id', 'name')->get();
+        $area_id = Auth::user()->area_id??$areas->first()->id;
         return view('sketch.index_1', [
             'areas' => $areas,
             'time_classifications' => $time_classifications,
             'fleets' => $fleets,
+            'area_id' => $area_id,
         ]);
     }
 
