@@ -64,7 +64,7 @@ Admin
                         </div>
                         <div class="form-group">
                             <label>Area</label>
-                            <select name="area_id" class="form-control" required>
+                            <select name="area_id" class="form-control">
                                 <option value="">Pilih Area</option>
                                 @foreach ($areas as $area)
                                 @if (isset($admin) )

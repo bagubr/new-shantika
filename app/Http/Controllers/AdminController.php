@@ -87,6 +87,9 @@ class AdminController extends Controller
     public function update(UpdateAdminRequest $request, Admin $admin)
     {
         $data   = $request->only('name', 'email', 'area_id');
+        if(empty($data['area_id'])){
+            $data['area_id'] = null;
+        }
         if ($request->password) {
             $data['password']   = Hash::make($request['password']);
         }
