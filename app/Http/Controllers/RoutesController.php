@@ -14,6 +14,7 @@ use App\Models\FleetDetail;
 use App\Models\FleetRoute;
 use App\Models\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RoutesController extends Controller
 {
@@ -24,7 +25,7 @@ class RoutesController extends Controller
      */
     public function index(Request $request)
     {
-        $area_id = $request->area_id;
+        $area_id = Auth::user()->area_id??$request->area_id;
         
         $areas = Area::all();
         
