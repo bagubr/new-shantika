@@ -112,7 +112,7 @@ class OrderService
     public static function createDetail($order, $layout_chairs, $detail, $price)
     {
         $order_details = [];
-        $blocked_chairs = BlockedChair::where('fleet_route_id', $order->fleet_route_id)->pluck('layout_chair_id')->toArray();
+        $blocked_chairs = BlockedChair::where('fleet_route_id', $order->fleet_route_id)->whereDate('blocked_date', date('Y-m-d', strtotime($order->reserve_at)))->pluck('layout_chair_id')->toArray();
         foreach ($layout_chairs as $layout_chair_id) {
             if (in_array($layout_chair_id, $blocked_chairs)) {
                 (new self)->sendFailedResponse([], 'Kursi ada yang sudah diblokir, silahkan refresh dan pilih kembali');
