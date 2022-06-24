@@ -113,7 +113,16 @@ class RestaurantController extends Controller
     }
     public function history_restaurant()
     {
-        $food_reddem_histories = FoodRedeemHistory::all();
+        $area_id = Auth::user()->area_id;
+        $food_reddem_histories = FoodRedeemHistory::
+        when($area_id, function ($query) use ($area_id)
+        {
+            $query->whereHas('order_detail.order.fleet_route.route.checkpoints.agency.city', function ($query) use ($area_id)
+            {
+                $query->where('area_id', $area_id);
+            });
+        })
+        ->get();
         $restaurants = Restaurant::all();
         return view('restaurant.history', compact('food_reddem_histories', 'restaurants'));
     }
