@@ -17,6 +17,7 @@ use App\Repositories\FleetRepository;
 use App\Repositories\LayoutRepository;
 use App\Services\LayoutService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FleetRouteController extends Controller
 {
@@ -27,14 +28,14 @@ class FleetRouteController extends Controller
      */
     public function index(Request $request)
     {
-        $area_id = $request->area_id;
+        $area_id = Auth::user()->area_id??$request->area_id;
         $fleet_id = $request->fleet_id;
 
         $fleet_routes = FleetRoute::when($area_id, function ($query) use ($area_id)
         {
             $query->whereHas('route.checkpoints', function ($q) use ($area_id) {
                 $q->whereHas('agency.city', function ($sq) use ($area_id) {
-                    $sq->where('area_id', '!=', $area_id);
+                    $sq->where('area_id', $area_id);
                 });
             });
         })->when($fleet_id, function ($query) use ($fleet_id)

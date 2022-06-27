@@ -41,6 +41,7 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
+        $area_id = Auth::user()->area_id;
         $name_search = $request->name;
         $name_non_search = $request->name_non_search;
         $routes_search = $request->route_id;
@@ -52,10 +53,38 @@ class OrderController extends Controller
         $fleet_detail_id = $request->fleet_detail_id;
         $agency_id = $request->agency_id;
 
-        $routes = RoutesRepository::getIdName();
+        $routes = Route::select('id', 'name')
+        ->when($area_id, function ($query) use ($area_id)
+        {
+            $query->whereHas('checkpoints.agency.city', function ($query) use ($area_id)
+            {
+                $query->where('area_id', $area_id);
+            });
+        })
+        ->get()->toArray();
+        // $routes = RoutesRepository::getIdName();
         $orders = Order::query();
-        $fleet_details = FleetDetail::has('fleet_route')->get();
-        $agencies = Agency::orderBy('name', 'asc')->get();
+        $orders->when($area_id, function ($query) use ($area_id)
+        {
+            $query->whereHas('fleet_route.route.checkpoints.agency.city', function ($query) use ($area_id)
+            {
+                $query->where('area_id', $area_id);
+            });
+        });
+        $fleet_details = FleetDetail::has('fleet_route')->when($area_id, function ($query) use ($area_id)
+        {
+            $query->whereHas('fleet_route.route.checkpoints.agency.city', function ($query) use ($area_id)
+            {
+                $query->where('area_id', $area_id);
+            });
+        })->get();
+        $agencies = Agency::when($area_id, function ($query) use ($area_id)
+        {
+            $query->whereHas('city', function ($query) use ($area_id)
+            {
+                $query->where('area_id', $area_id);
+            });
+        })->orderBy('name', 'asc')->get();
         $status = ['PENDING', 'EXCHANGED', 'PAID', 'CANCELED', 'EXPIRED', 'WAITING_CONFIRMATION'];
         $agent = ['AGENT', 'UMUM'];
 
@@ -108,14 +137,13 @@ class OrderController extends Controller
             }
             $orders = $orders->where('reserve_at', '>=', $date_from_search);
         }
-        $test = $request->flash();
         $orders = $orders->orderBy('id', 'desc')->paginate(10);
         if (!$orders->isEmpty()) {
             session()->flash('success', 'Data Order Berhasil Ditemukan');
         } else {
             session()->flash('error', 'Tidak Ada Data Ditemukan');
         }
-        return view('order.index', compact('orders', 'routes', 'status', 'test', 'agent', 'fleet_details', 'agencies'));
+        return view('order.index', compact('orders', 'routes', 'status', 'agent', 'fleet_details', 'agencies'));
     }
     public function export()
     {

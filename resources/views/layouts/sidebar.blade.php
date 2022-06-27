@@ -206,6 +206,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         @foreach (\App\Models\Area::get() as $area)
+                        @if(Auth::user()->area_id && Auth::user()->area_id == $area->id || Auth::user()->area_id == null)
                         <li class="nav-item">
                             <a href="{{route('fleet_route_prices.index', ['area_id' => $area->id])}}"
                                 class="nav-link @if (Request::routeIs('fleet_route_prices*') && $area->id == request()->area_id)
@@ -217,6 +218,7 @@
                                 </p>
                             </a>
                         </li>
+                        @endif
                         @endforeach
                     </ul>
                 </li>
@@ -255,6 +257,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         @foreach (\App\Models\Area::get() as $area)
+                        @if(Auth::user()->area_id && Auth::user()->area_id == $area->id || Auth::user()->area_id == null)
                         <li class="nav-item">
                             <a href="{{route('agency_route.index', ['area_id' => $area->id])}}"
                                 class="nav-link @if (Request::routeIs('agency_route*') && $area->id == request()->area_id)
@@ -264,8 +267,10 @@
                                 <p>Rute {{$area->name}}</p>
                             </a>
                         </li>
+                        @endif
                         @endforeach
                         @foreach (\App\Models\Area::get() as $area)
+                        @if(Auth::user()->area_id && Auth::user()->area_id == $area->id || Auth::user()->area_id == null)
                         <li class="nav-item">
                             <a href="{{route('agency_fleet.index', ['area_id' => $area->id])}}"
                                 class="nav-link @if (Request::routeIs('agency_fleet*') && $area->id == request()->area_id) active @endif">
@@ -273,6 +278,7 @@
                                 <p>Armada {{$area->name}}</p>
                             </a>
                         </li>
+                        @endif
                         @endforeach
                     </ul>
                 </li>

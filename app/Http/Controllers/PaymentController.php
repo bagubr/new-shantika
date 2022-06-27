@@ -15,6 +15,7 @@ use App\Services\MembershipService;
 use App\Services\OrderPriceDistributionService;
 use App\Utils\NotificationMessage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
@@ -25,20 +26,28 @@ class PaymentController extends Controller
      */
     public function index(Request $request)
     {
+        $area_id            = Auth::user()->area_id;
         $status = $request->status;
         $payment_type_id = $request->payment_type_id;
 
         $payment_types = PaymentType::all();
-        $payments = Payment::when($status, function ($q) use ($status) {
+        $payments = Payment::
+        when($area_id, function ($query) use ($area_id)
+        {
+            $query->whereHas('order.fleet_route.route.checkpoints.agency.city', function ($query) use ($area_id)
+            {
+                $query->where('area_id', $area_id);
+            });
+        })
+        ->when($status, function ($q) use ($status) {
             $q->where('status', $status);
         })->when($payment_type_id, function ($q) use ($payment_type_id) {
             $q->where('payment_type_id', $payment_type_id);
         })->orderBy('id', 'desc')->paginate(10);
 
         $statuses = [Payment::STATUS1, Payment::STATUS2, Payment::STATUS3];
-        $test = $request->flash();
 
-        return view('payment.index', compact('payments', 'payment_types', 'statuses', 'test'));
+        return view('payment.index', compact('payments', 'payment_types', 'statuses'));
     }
 
     /**

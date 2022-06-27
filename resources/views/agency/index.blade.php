@@ -29,10 +29,10 @@ Agen
                         <div class="card-body">
                             <div class="form-group">
                                 <label>Cari Area</label>
-                                <select name="area_id" class="form-control">
+                                <select name="area_id" class="form-control" {{($area_id)?'disabled':''}}>
                                     <option value="">--PILIH AREA--</option>
                                     @foreach ($areas as $area)
-                                    @if (old('area_id') == $area->id)
+                                    @if ($area_id == $area->id)
                                     <option value="{{$area->id}}" selected>{{$area->name}}</option>
                                     @else
                                     <option value="{{$area->id}}">{{$area->name}}</option>

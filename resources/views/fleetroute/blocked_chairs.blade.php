@@ -219,7 +219,29 @@
                 toggleBlock(row, col) {
                     let index = this.getCurrentIndexByRowCol(row, col);
                     let chair = this.layout.chairs.filter((e, i) => i == index)[0]
-                    console.log(this.blocked_date)
+                    
+                    if(chair.is_unavailable){
+                        return alert('Silahkan Pilih Kursi yang kosong')
+                    }
+                    if(chair.is_unavailable_customer){
+                        return alert('Silahkan Pilih Kursi yang kosong')
+                    }
+                    if(chair.is_unavailable_not_paid_customer){
+                        return alert('Silahkan Pilih Kursi yang kosong')
+                    }
+                    if(chair.is_unavailable_waiting_customer){
+                        return alert('Silahkan Pilih Kursi yang kosong')
+                    }
+                    if(chair.is_door){
+                        return alert('Silahkan Pilih Kursi yang kosong')
+                    }
+                    if(chair.is_space){
+                        return alert('Silahkan Pilih Kursi yang kosong')
+                    }
+                    if(chair.is_booking){
+                        return alert('Silahkan Pilih Kursi yang kosong')
+                    }
+                    
                     fetch(`{{url('fleet_route/block_chair/${this.fleetRoute.id}/${chair.id}')}}`, {
                         method: 'PUT',
                         body:JSON.stringify({
@@ -231,7 +253,6 @@
                         }
                     }).then(res => res.json()).then(res => {
                         this.layout.chairs.filter((e, i) => i == index)[0].is_blocked = res.is_blocked
-                        console.log(res)
                         this.$forceUpdate()
                         toastr.success("Berhasil mengubah status blokir kursi")
                     }).catch(() => {
