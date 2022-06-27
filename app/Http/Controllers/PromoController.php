@@ -79,6 +79,7 @@ class PromoController extends Controller
     public function show($id)
     {
         $promo_histories = PromoHistory::wherePromoId($id)->orderBy('id', 'desc')->paginate(10)->withQueryString();
-        return view('promo.history', compact('promo_histories'));
+        $nominal = PromoHistory::has('order')->wherePromoId($id)->get()->sum('order.nominal_discount');
+        return view('promo.history', compact('promo_histories', 'nominal'));
     }
 }

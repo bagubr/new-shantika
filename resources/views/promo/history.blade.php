@@ -28,8 +28,8 @@ Promo History
                     <div class="card-header">
                         <div class="text-right">
                             {{-- <button class="btn btn-primary btn-sm" type="submit" name="export" value="1">Export</button> --}}
-                            {{-- <a href="#" class="btn btn-outline-primary btn-sm">Total Data Membership History {{ $total }}</a> --}}
-                            {{-- <a href="#" class="btn btn-outline-primary btn-sm">Total Potongan Membership Rp. {{number_format($nominal)}}</a> --}}
+                            <a href="#" class="btn btn-outline-primary btn-sm">Total Promo History {{ count($promo_histories) }}</a>
+                            <a href="#" class="btn btn-outline-primary btn-sm">Total Potongan Promo Rp. {{number_format($nominal)}}</a>
                         </div>
                     </div>
                     <div class="card-body">
