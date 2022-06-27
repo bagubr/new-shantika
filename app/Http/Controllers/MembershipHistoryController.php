@@ -29,9 +29,10 @@ class MembershipHistoryController extends Controller
         
         $membership_histories = $query->orderBy('id', 'desc')->paginate(10)->withQueryString();
         $total = $query->count();
+        $nominal = $query->has('order.distribution')->get()->sum('order.distribution.for_member');
         if($request->export){
             return Excel::download(new MembershipHistoryExport($request), 'membership_histories.xlsx');
         }
-        return view('membership_history.index', compact('membership_histories', 'start_date', 'total', 'end_date'));
+        return view('membership_history.index', compact('membership_histories', 'start_date', 'total', 'end_date', 'nominal'));
     }
 }
