@@ -71,6 +71,7 @@ Membership History
                                     <th>Nomor Hp</th>
                                     <th>Email</th>
                                     <th>Agent</th>
+                                    <th>Total Potongan</th>
                                     <th>Tanggal Penggunaan</th>
                                 </tr>
                             </thead>
@@ -88,6 +89,7 @@ Membership History
                                     <td>{{$membership_history->customer->phone ?? ''}}</td>
                                     <td>{{$membership_history->customer->email ?? ''}}</td>
                                     <td>{{$membership_history->agency->name ?? ''}}</td>
+                                    <td>Rp. {{number_format(@$membership_history->order?->distribution?->for_member ?? 0)}}</td>
                                     <td>{{$membership_history->created_at ?? ''}}</td>
                                 </tr>
                                 @endforeach

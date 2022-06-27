@@ -17,6 +17,11 @@ class MembershipHistory extends Model
         return $this->belongsTo(User::class, 'customer_id');
     }
 
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
     public function agency()
     {
         return $this->belongsTo(User::class, 'agency_id');
