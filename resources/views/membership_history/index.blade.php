@@ -89,7 +89,7 @@ Membership History
                                     <td>{{$membership_history->customer->phone ?? ''}}</td>
                                     <td>{{$membership_history->customer->email ?? ''}}</td>
                                     <td>{{$membership_history->agency->name ?? ''}}</td>
-                                    <td>{{$membership_history->order?->distribution?->for_member ?? 'Tidak di temukan'}}</td>
+                                    <td>Rp. {{number_format(@$membership_history->order?->distribution?->for_member ?? 0)}}</td>
                                     <td>{{$membership_history->created_at ?? ''}}</td>
                                 </tr>
                                 @endforeach
