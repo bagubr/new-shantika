@@ -11,8 +11,18 @@ class FleetController extends Controller
 {
     public function index(Request $request)
     {
+        
         $this->sendSuccessResponse([
-            'fleet'=>FleetRepository::allWithRoute($request->search, $request->fleet_class_id)
+            'fleet_detail'=>FleetRepository::allWithRoute($request->search, $request->fleet_class_id)
+        ]);
+    }
+
+    public function fleet_list(Request $request)
+    {
+        $fleet = FleetRepository::allWithRoute($request->search, $request->fleet_class_id);
+        $fleet_detail = self::show($fleet[0]->id);
+        $this->sendSuccessResponse([
+            'fleet_detail'=>$fleet_detail
         ]);
     }
     
