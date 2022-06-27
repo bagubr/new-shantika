@@ -21,7 +21,7 @@ class FleetController extends Controller
     {
         $fleet = FleetRepository::allWithRoute($request->search, $request->fleet_class_id);
         $fleet_detail = new FleetDetailResource(Fleet::find($fleet[0]->id));
-        $fleet_detail->image = $fleet->where('image', '!=', url('storage'))->pluck('image')->toArray()[0];
+        $fleet_detail->image = @$fleet->where('image', '!=', url('storage'))->pluck('image')->toArray()[0]??'';
         $fleet_detail->images = [];
         foreach($fleet->where('image', '!=', url('storage'))->pluck('image')->toArray() as $image){
             $fleet_detail->images[] = $image;
