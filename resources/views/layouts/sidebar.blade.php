@@ -553,6 +553,15 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{route('broadcast_message.index')}}"
+                        class="nav-link {{Request::routeIs('broadcast_message.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-bullhorn"></i>
+                        <p>
+                            Broadcast Message
+                        </p>
+                    </a>
+                </li>
                 @endrole
                 <li class="nav-item">
                     <a href="{{ route('logout') }}" onclick="event.preventDefault();
