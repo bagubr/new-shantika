@@ -19,10 +19,12 @@ class MembershipHistoryController extends Controller
      */
     public function index(Request $request)
     {
-        $created_at = $request->created_at;
-        $query = MembershipHistory::when($request->created_at, function ($query) use ($request)
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $query = MembershipHistory::when($request->start_date && $request->end_date, function ($query) use ($request)
         {
-            $query->whereDate('created_at', $request->created_at);
+            $query->whereDate('created_at', '>=', $request->start_date);
+            $query->whereDate('created_at', '<=', $request->end_date);
         });
         
         $membership_histories = $query->orderBy('id', 'desc')->paginate(10)->withQueryString();
@@ -30,6 +32,6 @@ class MembershipHistoryController extends Controller
         if($request->export){
             return Excel::download(new MembershipHistoryExport($request), 'membership_histories.xlsx');
         }
-        return view('membership_history.index', compact('membership_histories', 'created_at', 'total'));
+        return view('membership_history.index', compact('membership_histories', 'start_date', 'total', 'end_date'));
     }
 }
