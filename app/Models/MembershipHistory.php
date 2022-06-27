@@ -9,7 +9,7 @@ class MembershipHistory extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'customer_id', 'agency_id'
+        'customer_id', 'agency_id', 'code_order', 'order_id'
     ];
 
     public function customer()

@@ -60,13 +60,13 @@ class OrderService
         }
         $for_deposit = $price;
         $data->price = $price;
-        if ($detail->is_member) {
-            self::createHistory($data->user_id, $detail->id_member);
-        }
         if (!$data->code_order) $data->code_order = self::generateCodeOrder($data->id);
         if (!$data->expired_at) $data->expired_at = self::getExpiredAt();
         $order = Order::create($data->toArray());
         $code_order = self::generateCodeOrder($order->id);
+        if ($detail->is_member) {
+            self::createHistory($data->user_id, $detail->id_member, $code_order, $order->id);
+        }
         $order->update([
             'code_order' => $code_order
         ]);
@@ -214,7 +214,7 @@ class OrderService
         }
     }
 
-    public static function createHistory($user_id, $id_member)
+    public static function createHistory($user_id, $id_member, $code_order, $order_id)
     {
         $user = User::find($user_id);
         if($id_member){
@@ -225,7 +225,12 @@ class OrderService
             }
             if(@$user->agencies){
                 MembershipService::increment($membership, Setting::find(1)->point_purchase, 'Pembelian Tiket');
-                MembershipHistory::create(['agency_id'=> $user->id,'customer_id'=> $membership->user_id]);
+                MembershipHistory::create([
+                    'agency_id'=> $user->id,
+                    'customer_id'=> $membership->user_id,
+                    'code_order'=> $code_order,
+                    'order_id'=> $order_id,
+                ]);
             }
         }
     }
