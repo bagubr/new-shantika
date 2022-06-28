@@ -44,21 +44,6 @@ class CheckpointController extends Controller
     public function store(CreateCheckpointRequest $request)
     {
         $data = $request->all();
-<<<<<<< HEAD
-        $data['route_id'] = $request->route_id;
-        Checkpoint::create($data);
-        $checkpoint = Checkpoint::where('route_id', $request->route_id)->orderBy('order', 'ASC')->get();
-        $route = Route::whereId($request->route_id)->first();
-        $checkpoints = '';
-        foreach ($checkpoint as $c) {
-            $checkpoints .= '~' . $c->agency()->first()->name . '~';
-        }
-        $route->update([
-            'name' => $checkpoints,
-        ]);
-        session()->flash('success', 'Checkpoint Berhasil Ditambahkan');
-        return redirect(route('routes.show', $request->route_id));
-=======
         $checkpoint = Checkpoint::create($data);
         $route = Route::find($data['route_id']);
         $route->name .= '~' . Agency::find($request->agency_id)->name . '~';
@@ -67,7 +52,6 @@ class CheckpointController extends Controller
         ]);
         session()->flash('success', 'Route Berhasil Ditambahkan');
         return redirect()->back();
->>>>>>> rilisv1
     }
 
     /**
@@ -123,10 +107,6 @@ class CheckpointController extends Controller
             'name' => $checkpoints,
         ]);
         session()->flash('success', 'Checkpoint Berhasil Dihapus');
-<<<<<<< HEAD
-        return back();
-=======
         return redirect()->back();
->>>>>>> rilisv1
     }
 }

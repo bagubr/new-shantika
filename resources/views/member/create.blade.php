@@ -41,21 +41,6 @@ Member
                         @method('PUT')
                         @endisset
                         <div class="form-group">
-<<<<<<< HEAD
-                            <label>Agent</label>
-                            <select name="agency_id" class="form-control select2" id="">
-                                <option value="">Pilih Agent</option>
-                                @foreach ($agencies as $agency)
-                                <option value="{{$agency->id}}" @isset($member) @if ($member->agency_id == $agency->id)
-                                    selected
-                                    @endif
-                                    @endisset>{{$agency->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-=======
->>>>>>> rilisv1
                             <label>Nama</label><span class="text-danger">*</span>
                             <input type="text" class="form-control" name="name" required
                                 value="{{isset($member)? $member->name : ''}}" id="">

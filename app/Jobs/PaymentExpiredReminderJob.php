@@ -2,15 +2,10 @@
 
 namespace App\Jobs;
 
-<<<<<<< HEAD
-use App\Events\SendingNotification;
-use App\Models\Notification;
-=======
 use App\Events\ExpiredNotificationEvent;
 use App\Events\SendingNotification;
 use App\Models\Notification;
 use App\Models\Order;
->>>>>>> rilisv1
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -30,12 +25,8 @@ class PaymentExpiredReminderJob implements ShouldQueue
     public function __construct(
         public Notification $notification,
         public string|array|null $fcm_token,
-<<<<<<< HEAD
-        public bool $is_saved
-=======
         public bool $is_saved,
         public $order_id
->>>>>>> rilisv1
     ) {}
 
     /**
@@ -45,13 +36,9 @@ class PaymentExpiredReminderJob implements ShouldQueue
      */
     public function handle()
     {
-<<<<<<< HEAD
-        SendingNotification::dispatch($this->notification, $this->fcm_token, false);
-=======
         $order = Order::find($this->notification->reference_id);
         if($order->status == Order::STATUS1){
             ExpiredNotificationEvent::dispatch($this->notification, $this->fcm_token, false);
         }
->>>>>>> rilisv1
     }
 }

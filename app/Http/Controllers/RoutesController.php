@@ -13,14 +13,8 @@ use App\Models\Fleet;
 use App\Models\FleetDetail;
 use App\Models\FleetRoute;
 use App\Models\Route;
-<<<<<<< HEAD
-use App\Repositories\RoutesRepository;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route as FacadesRoute;
-=======
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
->>>>>>> rilisv1
 
 class RoutesController extends Controller
 {
@@ -29,37 +23,6 @@ class RoutesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-<<<<<<< HEAD
-    public function index()
-    {
-        $routes = RoutesRepository::all();
-        $areas = Area::all();
-        return view('routes.index', compact('routes', 'areas'));
-    }
-    public function search(Request $request)
-    {
-        $area_id = $request->area_id;
-        $areas = Area::get();
-        $routes = Route::query();
-
-        if (!empty($area_id)) {
-            $routes = $routes->whereHas('checkpoints.agency', function ($q) use ($area_id) {
-                $q->whereHas('city', function ($sq) use ($area_id) {
-                    $sq->where('area_id', '!=', $area_id);
-                });
-            });
-        }
-        $test     = $request->flash();
-        $routes   = $routes->get();
-        if (!$routes->isEmpty()) {
-            session()->flash('success', 'Data Berhasil Ditemukan');
-        } else {
-            session()->flash('error', 'Tidak Ada Data Ditemukan');
-        }
-        return view('routes.index', compact('routes', 'areas', 'test'));
-    }
-
-=======
     public function index(Request $request)
     {
         $area_id = Auth::user()->area_id??$request->area_id;
@@ -78,23 +41,11 @@ class RoutesController extends Controller
         return view('routes.index', compact('routes', 'areas', 'area_id'));
     }
     
->>>>>>> rilisv1
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-<<<<<<< HEAD
-    public function create()
-    {
-        $name = FacadesRoute::currentRouteName();
-        $areas = Area::all();
-        $cities = City::all();
-        $fleets = FleetDetail::all();
-        return view('routes.create', compact('cities', 'areas', 'fleets', 'name'));
-    }
-
-=======
     public function create(Request $request)
     {
         $area_id = $request->area_id;
@@ -110,7 +61,6 @@ class RoutesController extends Controller
         return view('routes.create', compact('areas', 'agencies', 'area_id'));
     }
     
->>>>>>> rilisv1
     /**
      * Store a newly created resource in storage.
      *
@@ -119,37 +69,6 @@ class RoutesController extends Controller
      */
     public function store(CreateRoutesRequest $request)
     {
-<<<<<<< HEAD
-        $data = $request->all();
-        $route = Route::create($data);
-
-        $agencies = $request['agency_id'];
-
-        $i = 1;
-        $checkpoints = '';
-        // foreach ($request->fleet_detail_id as $key => $value) {
-        //     FleetRoute::create([
-        //         'route_id' => $route->id,
-        //         'fleet_detail_id' => $value,
-        //         'price' => $request->price[$key]
-        //     ]);
-        // }
-        foreach ($agencies as $key => $agency) {
-            $checkpoint = Checkpoint::create([
-                'route_id' => $route->id,
-                'agency_id' => $agency,
-                'order' => $i++
-            ]);
-            $checkpoints .= '~' . $checkpoint->agency()->first()->name . '~';
-        }
-        $route->update([
-            'name' => $checkpoints,
-        ]);
-        session()->flash('success', 'Route Berhasil Ditambahkan');
-        return redirect(route('routes.show', $route->id));
-    }
-
-=======
         $areas = Area::all();
         $area_id = $request->area_id;
         if($request->route_id){
@@ -183,7 +102,6 @@ class RoutesController extends Controller
         return view('routes.create', compact('areas', 'agencies', 'area_id', 'route'));
     }
     
->>>>>>> rilisv1
     /**
      * Display the specified resource.
      *
@@ -193,16 +111,12 @@ class RoutesController extends Controller
     public function show(Route $route)
     {
         $checkpoints = Checkpoint::where('route_id', $route->id)->orderBy('order')->get();
-<<<<<<< HEAD
-        $checkpoint_id = Checkpoint::where('route_id', $route->id)->get(['agency_id'])->toArray();
-=======
         return view('routes.show', compact('route', 'checkpoints'));
     }
 
     public function duplicate(Route $route, Request $request)
     {
         
->>>>>>> rilisv1
         if ($route->checkpoints->count() == 0) {
             $agencies = Agency::all();
         } else {
@@ -210,12 +124,6 @@ class RoutesController extends Controller
                 $q->where('area_id', $route->checkpoints[0]?->agency?->city?->area?->id);
             })->get();
         }
-<<<<<<< HEAD
-        $fleets = FleetDetail::orderBy('fleet_id', 'ASC')->get();
-        $route_fleets = FleetRoute::where('route_id', $route->id)->get();
-        $statuses = Agency::status();
-        return view('routes.show', compact('route', 'agencies', 'checkpoints', 'fleets', 'route_fleets', 'statuses'));
-=======
         
         $fleets = FleetDetail::orderBy('fleet_id', 'ASC')->get();
         $statuses = Agency::status();
@@ -243,7 +151,6 @@ class RoutesController extends Controller
         }
         session()->flash('success', 'Route Berhasil Ditambahkan');
         return redirect()->back();
->>>>>>> rilisv1
     }
 
     /**
@@ -254,12 +161,6 @@ class RoutesController extends Controller
      */
     public function edit(Route $route)
     {
-<<<<<<< HEAD
-        $areas = Area::all();
-        $cities = City::all();
-        $fleets = Fleet::all();
-        return view('routes.create', compact('areas', 'cities', 'route', 'fleets'));
-=======
         $checkpoints = Checkpoint::where('route_id', $route->id)->orderBy('order')->get();
         $checkpoint_id = Checkpoint::where('route_id', $route->id)->get(['agency_id'])->toArray();
         if ($route->checkpoints->count() == 0) {
@@ -272,7 +173,6 @@ class RoutesController extends Controller
             ->get();
         }
         return view('routes.edit', compact('route', 'agencies', 'checkpoints'));
->>>>>>> rilisv1
     }
 
     /**
@@ -309,12 +209,6 @@ class RoutesController extends Controller
      */
     public function destroy(Route $route)
     {
-<<<<<<< HEAD
-        $route->checkpoints()->delete();
-        $route->delete();
-        session()->flash('success', 'Route Berhasil Dihapus');
-        return redirect(route('routes.index'));
-=======
         try {
             $route->checkpoints()->delete();
             $route->delete();
@@ -323,6 +217,5 @@ class RoutesController extends Controller
         }
         // session()->flash('success', 'Route Berhasil Dihapus');
         // return redirect()->back();
->>>>>>> rilisv1
     }
 }

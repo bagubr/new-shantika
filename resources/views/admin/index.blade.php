@@ -39,10 +39,7 @@ Admin
                                     <th>Nama</th>
                                     <th>Email</th>
                                     <th>Role</th>
-<<<<<<< HEAD
-=======
                                     <th>Area</th>
->>>>>>> rilisv1
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -55,10 +52,7 @@ Admin
                                         {{$role->name}}
                                         @endforeach
                                     </td>
-<<<<<<< HEAD
-=======
                                     <td>{{$admin->area?->name??'Semua Area'}}</td>
->>>>>>> rilisv1
                                     <td><a href="{{route('admin.edit',$admin->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
                                         @if (Auth::user()->id != $admin->id)
@@ -70,12 +64,9 @@ Admin
                                 @endforeach
                             </tbody>
                         </table>
-<<<<<<< HEAD
-=======
                         <div class="float-right mt-2">
                             {{$admins->links()}}
                         </div>
->>>>>>> rilisv1
                     </div>
                     <!-- /.card-body -->
                 </div>

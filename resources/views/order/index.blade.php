@@ -190,10 +190,7 @@ Pemesanan
                                     <th>Total Harga</th>
                                     <th>Status</th>
                                     <th>Keberangkatan -> Kedatangan</th>
-<<<<<<< HEAD
-=======
                                     <th>Note Pemesanan</th>
->>>>>>> rilisv1
                                     <th>Tanggal Pemesanan</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -203,17 +200,6 @@ Pemesanan
                                 <tr>
                                     <td>
                                         @if ($order->user?->agencies)
-<<<<<<< HEAD
-                                        <a href="{{route('user_agent.show',$order->user?->id)}}">
-                                            {{$order->user?->name_agent}}
-                                        </a>
-                                        @elseif ($order->user)
-                                        <a href="{{route('user.edit',$order->user?->id)}}">
-                                            {{$order->user?->name}}
-                                        </a>
-                                        @else
-                                        {{$order->order_detail[0]->name}}
-=======
                                         <a href="{{route('user_agent.show',$order->user?->id)}}" target="_blank">
                                             {{$order->user?->name_agent}}
                                         </a>
@@ -223,7 +209,6 @@ Pemesanan
                                         </a>
                                         @else
                                         {{$order?->order_detail[0]?->name??''}}
->>>>>>> rilisv1
                                         @endif
                                     </td>
                                     <td>{{$order->code_order}}</td>
@@ -243,10 +228,7 @@ Pemesanan
                                     </td>
                                     <td>{{$order->status}}</td>
                                     <td>{{$order->agency?->name}} -> {{$order->agency_destiny?->name}}</td>
-<<<<<<< HEAD
-=======
                                     <td>{{$order->note}}</td>
->>>>>>> rilisv1
                                     <td>{{date('Y-m-d',strtotime($order->reserve_at))}}</td>
                                     <td>
                                         <a class="btn btn-primary btn-xs"

@@ -7,10 +7,7 @@ use App\Models\Membership;
 use App\Models\MembershipPoint;
 use App\Models\User;
 use App\Models\Order;
-<<<<<<< HEAD
-=======
 use App\Repositories\MembershipRepository;
->>>>>>> rilisv1
 use App\Repositories\UserRepository;
 use App\Utils\Image;
 use App\Utils\Response;
@@ -22,12 +19,7 @@ class UserService {
     public static function register(array $data, array $order_id = []) {
         Image::uploadFile($data['avatar'], 'avatar');
         $user = User::create($data);
-<<<<<<< HEAD
-        $membership = Membership::create(['user_id' => $user->id]);
-        MembershipPoint::create(['membership_id' => $membership->id, 'value' => 0, 'status' => 'create']);
-=======
         MembershipService::create($user->id);
->>>>>>> rilisv1
         // compile order sebelum login jadi riwayat
         if($order_id && !empty($order_id)){
             Order::whereIn('id', $order_id)->update([

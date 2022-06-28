@@ -4,21 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Payment\UpdatePaymentRequest;
 use App\Jobs\PaymentAcceptedNotificationJob;
-<<<<<<< HEAD
-=======
 use App\Models\Membership;
->>>>>>> rilisv1
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\PaymentType;
-<<<<<<< HEAD
-use App\Repositories\PaymentTypeRepository;
-use App\Services\OrderPriceDistributionService;
-use App\Utils\NotificationMessage;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
-=======
 use App\Models\Setting;
 use App\Repositories\PaymentTypeRepository;
 use App\Services\MembershipService;
@@ -26,7 +16,6 @@ use App\Services\OrderPriceDistributionService;
 use App\Utils\NotificationMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
->>>>>>> rilisv1
 
 class PaymentController extends Controller
 {
@@ -37,17 +26,11 @@ class PaymentController extends Controller
      */
     public function index(Request $request)
     {
-<<<<<<< HEAD
-=======
         $area_id            = Auth::user()->area_id;
->>>>>>> rilisv1
         $status = $request->status;
         $payment_type_id = $request->payment_type_id;
 
         $payment_types = PaymentType::all();
-<<<<<<< HEAD
-        $payments = Payment::when($status, function ($q) use ($status) {
-=======
         $payments = Payment::
         when($area_id, function ($query) use ($area_id)
         {
@@ -57,21 +40,14 @@ class PaymentController extends Controller
             });
         })
         ->when($status, function ($q) use ($status) {
->>>>>>> rilisv1
             $q->where('status', $status);
         })->when($payment_type_id, function ($q) use ($payment_type_id) {
             $q->where('payment_type_id', $payment_type_id);
         })->orderBy('id', 'desc')->paginate(10);
 
         $statuses = [Payment::STATUS1, Payment::STATUS2, Payment::STATUS3];
-<<<<<<< HEAD
-        $test = $request->flash();
-
-        return view('payment.index', compact('payments', 'payment_types', 'statuses', 'test'));
-=======
 
         return view('payment.index', compact('payments', 'payment_types', 'statuses'));
->>>>>>> rilisv1
     }
 
     /**
@@ -157,13 +133,10 @@ class PaymentController extends Controller
                 $order_id->id,
                 $order_id->user_id
             );
-<<<<<<< HEAD
-=======
             $membership = Membership::where('user_id', $order_id->user_id)->first();
             if($membership){
                 MembershipService::increment($membership, Setting::find(1)->point_purchase, 'Pembelian Tiket');
             }
->>>>>>> rilisv1
             PaymentAcceptedNotificationJob::dispatchAfterResponse($notification, $order_id->user?->fcm_token, true);
         } else if ($request->status == Order::STATUS7) {
             $payload = NotificationMessage::paymentDeclined($order_id->code_order, $order_id->payment->proof_decline_reason);

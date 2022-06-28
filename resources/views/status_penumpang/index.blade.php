@@ -27,20 +27,6 @@ Status Penumpang
                 <div class="card">
                     <form action="" method="get">
                         <div class="card-body">
-<<<<<<< HEAD
-                            <div class="form-group">
-                                <label>Pilih Area</label>
-                                <select name="area_id" class="form-control">
-                                    <option value="">--PILIH AREA--</option>
-                                    @foreach ($areas as $area)
-                                    @if (old('area_id') == $area->id)
-                                    <option value="{{$area->id}}" selected>{{$area->name}}</option>
-                                    @else
-                                    <option value="{{$area->id}}">{{$area->name}}</option>
-                                    @endif
-                                    @endforeach
-                                </select>
-=======
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -69,7 +55,6 @@ Status Penumpang
                                         <input type="text" name="code_order" id="" value="{{$code_order}}" class="form-control">
                                     </div>
                                 </div>
->>>>>>> rilisv1
                             </div>
                         </div>
                         <div class="text-right m-2">
@@ -134,11 +119,7 @@ Status Penumpang
                                         Tanpa Akun
                                         @endif
                                     </td>
-<<<<<<< HEAD
-                                    <td>{{$order->order_detail[0]->name}}</td>
-=======
                                     <td>{{$order?->order_detail[0]?->name??''}}</td>
->>>>>>> rilisv1
                                     <td>
                                         @if ($order->payment)
                                         {{$order->payment?->payment_type->name}}
@@ -186,8 +167,4 @@ Status Penumpang
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
 </script>
-<<<<<<< HEAD
 @endpush
-=======
-@endpush
->>>>>>> rilisv1

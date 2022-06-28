@@ -103,11 +103,7 @@ User Agen
                     </div>
                 </div>
                 <div class="card-body" style="display: block;">
-<<<<<<< HEAD
-                    <table id="example1" class="table table-bordered table-striped">
-=======
                     <table id="example1" class="table table-bordered table-striped table-responsive">
->>>>>>> rilisv1
                         <thead>
                             <tr>
                                 <th>Kode Order</th>

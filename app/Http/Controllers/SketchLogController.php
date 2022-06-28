@@ -2,23 +2,16 @@
 
 namespace App\Http\Controllers;
 
-<<<<<<< HEAD
-=======
 use App\Events\SendingNotification;
->>>>>>> rilisv1
 use App\Exports\SketchLogsExport;
 use App\Models\Admin;
 use App\Models\Agency;
 use App\Models\Fleet;
 use App\Models\FleetRoute;
-<<<<<<< HEAD
-use App\Models\SketchLog;
-=======
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\SketchLog;
 use App\Utils\NotificationMessage;
->>>>>>> rilisv1
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -59,8 +52,6 @@ class SketchLogController extends Controller
     {
         return Excel::download(new SketchLogsExport(), 'riwayat_sketch_' . date('dmYHis') . '.xlsx');
     }
-<<<<<<< HEAD
-=======
 
     public function create(Request $request)
     {
@@ -80,5 +71,4 @@ class SketchLogController extends Controller
         SendingNotification::dispatch($notification, $order?->user?->fcm_token, true);
 
     }
->>>>>>> rilisv1
 }

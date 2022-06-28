@@ -144,9 +144,6 @@ class Agency extends Model
     {
         return $this->hasMany(AgencyFleetPermanent::class, 'agency_id', 'id');
     }
-<<<<<<< HEAD
-=======
-
     public function agency_route()
     {
         return $this->hasMany(AgencyRoute::class, 'agency_id', 'id');
@@ -156,5 +153,4 @@ class Agency extends Model
     {
         return $this->hasMany(AgencyRoutePermanent::class, 'agency_id', 'id');
     }
->>>>>>> rilisv1
 }

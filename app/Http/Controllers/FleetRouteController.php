@@ -8,14 +8,6 @@ use App\Models\Agency;
 use App\Models\Area;
 use App\Models\BlockedChair;
 use App\Models\Fleet;
-<<<<<<< HEAD
-use App\Models\FleetRoute;
-use App\Models\Layout;
-use App\Models\Order;
-use App\Repositories\FleetRepository;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-=======
 use App\Models\FleetDetail;
 use App\Models\FleetRoute;
 use App\Models\Layout;
@@ -26,7 +18,6 @@ use App\Repositories\LayoutRepository;
 use App\Services\LayoutService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
->>>>>>> rilisv1
 
 class FleetRouteController extends Controller
 {
@@ -35,48 +26,6 @@ class FleetRouteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-<<<<<<< HEAD
-    public function index()
-    {
-        $fleet_routes = FleetRoute::withCount('blocked_chairs')->get();
-        $fleets = FleetRepository::all();
-        $statuses = Agency::status();
-        $areas = Area::get();
-        return view('fleetroute.index', compact('fleet_routes', 'statuses', 'areas', 'fleets'));
-    }
-
-    public function search(Request $request)
-    {
-        $area_id = $request->area_id;
-        $fleet_id = $request->fleet_id;
-
-        $areas = Area::get();
-        $fleet_routes = FleetRoute::query();
-        $fleets = FleetRepository::all();
-
-        if (!empty($area_id)) {
-            $fleet_routes = $fleet_routes->whereHas('route.checkpoints', function ($q) use ($area_id) {
-                $q->whereHas('agency.city', function ($sq) use ($area_id) {
-                    $sq->where('area_id', '!=', $area_id);
-                });
-            });
-        }
-        if (!empty($fleet_id)) {
-            $fleet_routes = $fleet_routes->whereHas('fleet_detail.fleet', function ($q) use ($fleet_id) {
-                $q->where('fleet_id', $fleet_id);
-            });
-        }
-        $test           = $request->flash();
-        $fleet_routes   = $fleet_routes->get();
-
-        $statuses = Agency::status();
-        if (!$fleet_routes->isEmpty()) {
-            session()->flash('success', 'Data Berhasil Ditemukan');
-        } else {
-            session()->flash('error', 'Tidak Ada Data Ditemukan');
-        }
-        return view('fleetroute.index', compact('fleet_routes', 'statuses', 'areas', 'test', 'fleets'));
-=======
     public function index(Request $request)
     {
         $area_id = Auth::user()->area_id??$request->area_id;
@@ -106,7 +55,6 @@ class FleetRouteController extends Controller
     public function search(Request $request)
     {
 
->>>>>>> rilisv1
     }
 
     /**
@@ -116,14 +64,10 @@ class FleetRouteController extends Controller
      */
     public function create()
     {
-<<<<<<< HEAD
-        //
-=======
         $routes = Route::all();
         $fleet_details = FleetDetail::all();
         $statuses = Agency::status();
         return view('fleetroute.create', compact('fleet_details', 'routes', 'statuses'));
->>>>>>> rilisv1
     }
 
     /**
@@ -135,11 +79,8 @@ class FleetRouteController extends Controller
     public function store(CreateFleetRouteRequest $request)
     {
         $data = $request->all();
-<<<<<<< HEAD
-=======
         FleetRoute::create($data);
         return redirect()->route('fleet_route.index')->with('success', 'Data berhasil ditambahkan');
->>>>>>> rilisv1
     }
 
     /**
@@ -150,11 +91,7 @@ class FleetRouteController extends Controller
      */
     public function show(FleetRoute $fleet_route)
     {
-<<<<<<< HEAD
-        $orders = Order::where('fleet_route_id', $fleet_route->id)->get();
-=======
         $orders = Order::where('fleet_route_id', $fleet_route->id)->paginate(10);
->>>>>>> rilisv1
         $statuses = Agency::status();
         return view('fleetroute.show', compact('fleet_route', 'statuses', 'orders'));
     }
@@ -203,51 +140,24 @@ class FleetRouteController extends Controller
 
     public function blockedChairs(FleetRoute $fleet_route)
     {
-<<<<<<< HEAD
-        $fleet_route->load('fleet_detail.fleet.layout.chairs');
-        $data['blocked_chairs'] = BlockedChair::where('fleet_route_id', $fleet_route->id)->get();
-        $data['layout'] = $fleet_route->fleet_detail?->fleet?->layout;
-        $data['layout']->chairs = $data['layout']->chairs->map(function ($e) use ($data) {
-            $e->is_blocked = in_array($e->id, $data['blocked_chairs']->pluck('layout_chair_id')->toArray());
-            return $e;
-        });
-=======
         $date = request()->blocked_date??date('Y-m-d');
         $data['blocked_date'] = $date;
         $fleet_route->load('fleet_detail.fleet.layout.chairs');
         $data['layout'] = LayoutRepository::findByFleetRoute($fleet_route);
         $data['layout'] = LayoutService::getAvailibilityChairsDetail($data['layout'], $fleet_route, $date);
->>>>>>> rilisv1
         $data['fleet_route'] = $fleet_route;
         return view('fleetroute.blocked_chairs', $data);
     }
 
-<<<<<<< HEAD
-    public function updateBlockedChairs(FleetRoute $fleet_route, int $layout_chair_id)
-    {
-        $block_chair = BlockedChair::where('fleet_route_id', $fleet_route->id)->where('layout_chair_id', $layout_chair_id)->first();
-=======
     public function updateBlockedChairs(Request $request, FleetRoute $fleet_route, int $layout_chair_id)
     {
         $data = $request->all();
         $blocked_date = date('Y-m-d', strtotime($data['blocked_date']));
         $block_chair = BlockedChair::where('fleet_route_id', $fleet_route->id)->where('layout_chair_id', $layout_chair_id)->whereDate('blocked_date', $blocked_date)->first();
->>>>>>> rilisv1
 
         if (empty($block_chair)) {
             BlockedChair::create([
                 'fleet_route_id' => $fleet_route->id,
-<<<<<<< HEAD
-                'layout_chair_id' => $layout_chair_id
-            ]);
-        } else {
-            $block_chair->delete();
-        }
-
-        $this->sendSuccessResponse([
-            'is_blocked' => BlockedChair::where('fleet_route_id', $fleet_route->id)->where('layout_chair_id', $layout_chair_id)->exists()
-        ]);
-=======
                 'layout_chair_id' => $layout_chair_id,
                 'blocked_date' => $blocked_date
             ]);
@@ -261,7 +171,6 @@ class FleetRouteController extends Controller
             ]);
         }
 
->>>>>>> rilisv1
     }
 
     /**
@@ -276,8 +185,6 @@ class FleetRouteController extends Controller
         session()->flash('success', 'Armada Rute berhasil dihapus');
         return redirect()->back();
     }
-<<<<<<< HEAD
-=======
 
     public function getFleetRoutes(Request $request)
     {
@@ -293,5 +200,4 @@ class FleetRouteController extends Controller
         return response(['data' => $fleet_routes, 'code' => 1], 200);
 
     }
->>>>>>> rilisv1
 }

@@ -21,11 +21,7 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row justify-content-start">
-<<<<<<< HEAD
-            <div class="col-md-6">
-=======
             <div class="col">
->>>>>>> rilisv1
                 <div class="card">
                     <div class="card-header">Merubah Souvenir</div>
                     <div class="card-body">
@@ -48,11 +44,7 @@
                                     id="point">
                             </div>
                             <div class="form-group mb-3">
-<<<<<<< HEAD
-                                <label for="quantity">Kuantitas Souvenir</label>
-=======
                                 <label for="quantity">Kuota</label>
->>>>>>> rilisv1
                                 <input type="text" class="form-control" value="{{ $data->quantity }}" name="quantity"
                                     id="quantity">
                             </div>
@@ -67,13 +59,8 @@
                                 <input type="file" class="form-control-file" name="image_name" id="image_name"
                                     accept=".jpg,.jpeg,.png">
                             </div>
-<<<<<<< HEAD
-                            <div class="row justify-content-center">
-                                <input type="submit" value="Update Souvenir" class="btn btn-primary">
-=======
                             <div class="row float-right">
                                 <input type="submit" value="Update" class="btn btn-primary">
->>>>>>> rilisv1
                             </div>
                         </form>
                     </div>

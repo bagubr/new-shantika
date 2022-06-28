@@ -44,10 +44,6 @@ class PromoController extends Controller
 
     public function update(Request $request, Promo $promo)
     {
-<<<<<<< HEAD
-=======
-        // dd($request);
->>>>>>> rilisv1
         if ($request->hasFile('image')) {
             $image = $request->image->store('promo', 'public');
             $promo->deleteImage();
@@ -61,14 +57,11 @@ class PromoController extends Controller
             $data['is_public'] = true;
             unset($data['user_id']);
         }
-<<<<<<< HEAD
-=======
         if(@$data['is_public']){
             $data['user_id'] = null;
         }else{
             $data['is_public'] = false;
         }
->>>>>>> rilisv1
         $promo->update($data);
         session()->flash('success', 'Promo Berhasil Diubah');
         return redirect(route('promo.index'));

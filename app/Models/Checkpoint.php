@@ -19,14 +19,9 @@ class Checkpoint extends Model
         'name_city',
         'name_agent',
     ];
-
-<<<<<<< HEAD
-=======
     protected $attributes = [
         'order' => 1
     ];
-
->>>>>>> rilisv1
     public function getNameCityAttribute()
     {
         return $this->agency()->first()?->city()->first()?->name;

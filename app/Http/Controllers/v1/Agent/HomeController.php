@@ -27,12 +27,8 @@ class HomeController extends Controller
         $this->sendSuccessResponse([
             'testimonials'=>$testis,
             'unread_notifs'=>$unread_notifs,
-<<<<<<< HEAD
-            'articles'=>$articles
-=======
             'articles'=>$articles,
             'user' => $user
->>>>>>> rilisv1
         ]);
     }
 }

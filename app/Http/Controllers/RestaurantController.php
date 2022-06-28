@@ -4,10 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Restaurant\AssignRestaurantUserRequest;
 use App\Http\Requests\Restaurant\CreateRestaurantRequest;
-<<<<<<< HEAD
-=======
 use App\Http\Requests\Restaurant\UpdateRestaurantRequest;
->>>>>>> rilisv1
 use App\Models\Admin;
 use App\Models\FoodRedeemHistory;
 use App\Models\Restaurant;
@@ -16,11 +13,8 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-<<<<<<< HEAD
-=======
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
->>>>>>> rilisv1
 
 class RestaurantController extends Controller
 {
@@ -68,10 +62,6 @@ class RestaurantController extends Controller
         } else {
             $data['phone'] = $number;
         }
-<<<<<<< HEAD
-
-        Restaurant::create($data);
-=======
         $data_admin['name'] = $data['username'];
         $data_admin['password'] = Hash::make($data['password']);
         $data_admin['email'] = $data['email'];
@@ -92,7 +82,6 @@ class RestaurantController extends Controller
             session()->flash('error', 'Restoran Gagal Ditambahkan');
         }
         
->>>>>>> rilisv1
         session()->flash('success', 'Restoran Berhasil Ditambahkan');
         return redirect(route('restaurant.index'));
     }
@@ -110,25 +99,13 @@ class RestaurantController extends Controller
         })->whereDoesntHave('restaurant_admin')->get();
         $restaurant_admin = Admin::whereHas('restaurant_admin', function ($q) use ($restaurant) {
             $q->where('restaurant_id', $restaurant->id);
-<<<<<<< HEAD
-        })->get();
-=======
         })->orderBy('id', 'desc')->get();
->>>>>>> rilisv1
         return view('restaurant.show', compact('restaurant', 'admins', 'restaurant_admin'));
     }
 
     public function show_restaurant_detail()
     {
         $user = Auth::user()->restaurant_admin;
-<<<<<<< HEAD
-        $restaurant = Restaurant::where('id', $user->restaurant_id)->first();
-        return view('restaurant.show_user', compact('restaurant'));
-    }
-    public function history_restaurant()
-    {
-        $food_reddem_histories = FoodRedeemHistory::all();
-=======
         if(isset($user->restaurant_id)){
             $restaurant = Restaurant::findOrFail($user->restaurant_id);
             return view('restaurant.show_user', compact('restaurant'));
@@ -146,7 +123,6 @@ class RestaurantController extends Controller
             });
         })
         ->get();
->>>>>>> rilisv1
         $restaurants = Restaurant::all();
         return view('restaurant.history', compact('food_reddem_histories', 'restaurants'));
     }
@@ -221,13 +197,10 @@ class RestaurantController extends Controller
      */
     public function edit(Restaurant $restaurant)
     {
-<<<<<<< HEAD
-=======
         $restaurant->username = $restaurant->admin[0]?->name??'';
         $restaurant->email = $restaurant->admin[0]?->email??'';
         $restaurant->admin_id = $restaurant->admin[0]?->id??0;
         $restaurant->restaurant_id = $restaurant->id;
->>>>>>> rilisv1
         return view('restaurant.create', compact('restaurant'));
     }
 
@@ -243,12 +216,9 @@ class RestaurantController extends Controller
         } else {
             $data['phone'] = $number;
         }
-<<<<<<< HEAD
-=======
         $admin = Admin::create($data);
         $admin->assignRole('restaurant');
         $data['admin_id'] = $admin->id;
->>>>>>> rilisv1
         RestaurantAdmin::create($data);
         session()->flash('success', 'Admin Restoran Berhasil Ditambahkan');
         return back();
@@ -261,11 +231,7 @@ class RestaurantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-<<<<<<< HEAD
-    public function update(CreateRestaurantRequest $request, Restaurant $restaurant)
-=======
     public function update(UpdateRestaurantRequest $request, Restaurant $restaurant)
->>>>>>> rilisv1
     {
         $data = $request->all();
         $number = $request->phone;
@@ -282,10 +248,6 @@ class RestaurantController extends Controller
             $restaurant->deleteImage();
             $data['image'] = $image;
         };
-<<<<<<< HEAD
-
-        $restaurant->update($data);
-=======
         if($request->password){
             $password = Hash::make($request->password);
         }
@@ -314,7 +276,6 @@ class RestaurantController extends Controller
             //throw $th;
         }
         
->>>>>>> rilisv1
         session()->flash('success', 'Restoran Berhasil Diperbarui');
         return redirect(route('restaurant.index'));
     }

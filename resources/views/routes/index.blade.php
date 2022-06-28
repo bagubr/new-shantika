@@ -25,27 +25,16 @@ Route
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-<<<<<<< HEAD
-                    <form action="{{route('routes.search')}}" method="get">
-=======
                     <form action="{{route('routes.index')}}" method="get">
->>>>>>> rilisv1
                         <div class="card-body">
                             <div class="form-row">
                                 <div class="col">
                                     <div class="form-group">
                                         <label>Cari Area</label>
-<<<<<<< HEAD
-                                        <select name="area_id" class="form-control">
-                                            <option value="">--PILIH AREA--</option>
-                                            @foreach ($areas as $area)
-                                            @if (old('area_id') == $area->id)
-=======
                                         <select name="area_id" class="form-control" {{(Auth::user()->area_id)?'disabled':''}}>
                                             <option value="">--PILIH AREA--</option>
                                             @foreach ($areas as $area)
                                             @if ($area_id == $area->id)
->>>>>>> rilisv1
                                             <option value="{{$area->id}}" selected>{{$area->name}}</option>
                                             @else
                                             <option value="{{$area->id}}">{{$area->name}}</option>
@@ -67,16 +56,10 @@ Route
                     <div class="card-header">
                         <h3 class="card-title">Table Route</h3>
                         @unlessrole('owner')
-<<<<<<< HEAD
-
-                        <div class="text-right">
-                            <a href="{{route('routes.create')}}" class="btn btn-primary btn-sm">Tambah</a>
-=======
                         <div class="text-right">
                         @foreach (\App\Models\Area::get() as $area)
                             <a href="{{route('routes.create', ['area_id' => $area->id])}}" class="btn btn-primary btn-sm">Tambah Rute {{$area->name}}</a>
                         @endforeach
->>>>>>> rilisv1
                         </div>
                         @endunlessrole
                     </div>
@@ -85,25 +68,15 @@ Route
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-<<<<<<< HEAD
-                                    <th>Nama</th>
-                                    <th>Tujuan</th>
-=======
-                                    <th>ID</th>
                                     <th>Nama</th>
                                     <th>Tujuan</th>
                                     <th>Armada</th>
->>>>>>> rilisv1
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($routes as $route)
                                 <tr>
-<<<<<<< HEAD
-=======
-                                    <td>{{$route->id}}</td>
->>>>>>> rilisv1
                                     <td>{{$route->name}}</td>
                                     <td>
                                         @if ($route->checkpoints->count() > 0)
@@ -111,20 +84,6 @@ Route
                                         @endif
                                     </td>
                                     <td>
-<<<<<<< HEAD
-                                        <a class="btn btn-primary btn-xs" href="{{route('routes.show',$route->id)}}"
-                                            target="_blank">Detail</a>
-                                        {{-- <form action="{{route('routes.destroy',$route->id)}}" class="d-inline"
-                                            method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger btn-xs"
-                                                onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
-                                                type="submit">Delete</button>
-                                        </form> --}}
-                                        @unlessrole('owner')
-
-=======
                                         @foreach ($route->fleet_routes as $fleet_route )
                                         <li>
                                             {{$fleet_route->fleet_detail?->fleet?->name}}/{{$fleet_route->fleet_detail?->fleet?->fleetclass?->name}}
@@ -137,7 +96,6 @@ Route
                                         <a class="btn btn-primary btn-xs" href="{{route('routes.show',$route->id)}}">Detail</a>
                                         <a class="btn btn-success btn-xs" href="{{route('routes.duplicate',[$route->id, 'duplicate' => 1])}}">Duplicate</a>
                                         @unlessrole('owner')
->>>>>>> rilisv1
                                         <a class="btn btn-danger btn-xs button-delete"
                                             data-id="{{$route->id}}">Delete</a>
                                         @endunlessrole

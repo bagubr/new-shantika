@@ -3,10 +3,7 @@
 namespace App\Services;
 
 use App\Events\SendingNotification;
-<<<<<<< HEAD
-=======
 use App\Http\Controllers\v1\OrderController;
->>>>>>> rilisv1
 use App\Jobs\Admin\NewOrderNotification;
 use App\Jobs\Notification\TicketExchangedJob;
 use App\Models\Admin;
@@ -14,24 +11,6 @@ use App\Models\AdminNotification;
 use App\Models\Agency;
 use App\Models\BlockedChair;
 use App\Models\FleetRoute;
-<<<<<<< HEAD
-use App\Models\Notification;
-use App\Models\Order;
-use App\Models\OrderDetail;
-use App\Models\OrderPriceDistribution;
-use App\Models\Payment;
-use App\Models\PromoHistory;
-use App\Models\Route;
-use App\Models\Setting;
-use App\Repositories\BookingRepository;
-use App\Repositories\OrderRepository;
-use App\Repositories\PromoRepository;
-use App\Utils\Response;
-use App\Repositories\UserRepository;
-use App\Utils\NotificationMessage;
-use App\Utils\PriceTiket;
-use Exception;
-=======
 use App\Models\Membership;
 use App\Models\MembershipHistory;
 use App\Models\Notification;
@@ -48,7 +27,6 @@ use App\Utils\CodeMember;
 use App\Utils\Response;
 use App\Utils\NotificationMessage;
 use App\Utils\PriceTiket;
->>>>>>> rilisv1
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -56,11 +34,7 @@ class OrderService
 {
     use Response;
 
-<<<<<<< HEAD
-    public static function create(Order $data, $detail, $payment_type_id = null)
-=======
     public static function create(Order $data, $detail)
->>>>>>> rilisv1
     {
         FleetRoute::find($data->fleet_route_id) ?? (new self)->sendFailedResponse([], 'Rute perjalanan tidak ditemukan');
         $order_exists = OrderRepository::isOrderUnavailable($data->fleet_route_id, $data->reserve_at, $detail->layout_chair_id, $data->time_classification_id);
@@ -71,15 +45,9 @@ class OrderService
         if ($booking_exists) {
             (new self)->sendFailedResponse([], "Maaf, kursi anda telah dibooking terlebih dahulu oleh orang lain");
         }
-<<<<<<< HEAD
-        $setting = Setting::first();
-
-        $price  = PriceTiket::priceTiket(FleetRoute::find($data->fleet_route_id), Agency::find($data->departure_agency_id), Agency::find($data->destination_agency_id), $data->reserve_at);
-=======
 
         $price = $detail->total_price;
         
->>>>>>> rilisv1
 
         if (isset($data->promo_id) && $data->promo_id) {
             $promo_exists = PromoRepository::isAvailable($data->promo_id, $data->user_id);
@@ -87,33 +55,6 @@ class OrderService
                 (new self)->sendFailedResponse([], 'Maaf, promo tidak di temukan atau sudah habis');
             }
             $promo = PromoRepository::getWithNominalDiscount($price, $data->promo_id);
-<<<<<<< HEAD
-            $price -= $promo->nominal_discount;
-            $data->nominal_discount = $promo->nominal_discount;
-            PromoHistory::create($data->only('user_id', 'promo_id'));
-        }
-        $for_deposit = $price;
-        $ticket_price_with_food = $detail->is_feed
-            ? $price * count($detail->layout_chair_id)
-            : ($price - $setting->default_food_price) * count($detail->layout_chair_id);
-        $data->price = $ticket_price_with_food;
-
-        if ($detail->is_travel) {
-            $price_travel = $setting->travel * count($detail->layout_chair_id);
-            $data->price += $price_travel;
-        }
-        if ($detail->is_member) {
-            $price_member = $setting->member * count($detail->layout_chair_id);
-            $data->price -= $price_member;
-        }
-        if (!$data->code_order) $data->code_order = self::generateCodeOrder($data->id);
-        if (!$data->expired_at) $data->expired_at = self::getExpiredAt();
-
-        //CHARGE CUTOMER
-        if (empty($data->user->agencies)) {
-            $data->price += $setting->xendit_charge;
-        }
-=======
             PromoHistory::create($data->only('user_id', 'promo_id'));
             $data->nominal_discount = $promo->nominal_discount;
         }
@@ -124,7 +65,6 @@ class OrderService
         }
         if (!$data->code_order) $data->code_order = self::generateCodeOrder($data->id);
         if (!$data->expired_at) $data->expired_at = self::getExpiredAt();
->>>>>>> rilisv1
         $order = Order::create($data->toArray());
         $code_order = self::generateCodeOrder($order->id);
         $order->update([
@@ -172,11 +112,7 @@ class OrderService
     public static function createDetail($order, $layout_chairs, $detail, $price)
     {
         $order_details = [];
-<<<<<<< HEAD
-        $blocked_chairs = BlockedChair::where('fleet_route_id', $order->fleet_route_id)->pluck('layout_chair_id')->toArray();
-=======
         $blocked_chairs = BlockedChair::where('fleet_route_id', $order->fleet_route_id)->whereDate('blocked_date', date('Y-m-d', strtotime($order->reserve_at)))->pluck('layout_chair_id')->toArray();
->>>>>>> rilisv1
         foreach ($layout_chairs as $layout_chair_id) {
             if (in_array($layout_chair_id, $blocked_chairs)) {
                 (new self)->sendFailedResponse([], 'Kursi ada yang sudah diblokir, silahkan refresh dan pilih kembali');
@@ -216,23 +152,6 @@ class OrderService
             (new self)->sendFailedResponse([], 'Maaf, penumpang / customer harus membayar terlebih dahulu');
         }
         DB::beginTransaction();
-<<<<<<< HEAD
-        $order->update([
-            'status' => Order::STATUS5,
-            'exchanged_at' => date('Y-m-d H:i:s')
-        ]);
-        $for_deposit = PriceTiket::priceTiket(FleetRoute::find($order->fleet_route_id), Agency::find($order->departure_agency_id), Agency::find($order->destination_agency_id), $order->reserve_at);
-        $total_price = OrderPriceDistributionService::calculateDistribution($order, $order->order_detail, $for_deposit);
-        $order->distribution()->update([
-            'for_agent' => $total_price['for_agent'],
-            'for_owner' => $total_price['for_owner'],
-            'for_owner_with_food' => $total_price['for_owner_with_food'],
-            'for_owner_gross' => $total_price['for_owner_gross'],
-            'total_deposit' => $total_price['total_deposit']
-        ]);
-        DB::commit();
-        $order->refresh();
-=======
         try {
             $order->update([
                 'status' => Order::STATUS5,
@@ -253,7 +172,6 @@ class OrderService
             DB::rollBack();
             (new self)->sendFailedResponse([], 'Penukaran gagal di lakukan silahkan coba kembali');
         }
->>>>>>> rilisv1
 
         TicketExchangedJob::dispatch($order);
         return $order;
@@ -296,8 +214,6 @@ class OrderService
         }
     }
 
-<<<<<<< HEAD
-=======
     public static function createHistory($user_id, $id_member)
     {
         $user = User::find($user_id);
@@ -314,21 +230,14 @@ class OrderService
         }
     }
 
->>>>>>> rilisv1
     public static function generateCodeOrder($id)
     {
         return 'NS' . str_pad($id, 8, '0', STR_PAD_LEFT);
     }
 
-<<<<<<< HEAD
-    public static function getExpiredAt()
-    {
-        return date('Y-m-d H:i:s', strtotime("+1 day"));
-=======
     public static function getExpiredAt($reduce = 0)
     {
         $expired_duration = PaymentService::getExpiredDuration(Setting::find(1)->time_expired);
         return date('Y-m-d H:i:s', time() + $expired_duration - $reduce);
->>>>>>> rilisv1
     }
 }

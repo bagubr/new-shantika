@@ -5,10 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-<<<<<<< HEAD
-=======
 use Illuminate\Support\Facades\Request;
->>>>>>> rilisv1
 
 class FleetClass extends Model
 {
@@ -35,8 +32,6 @@ class FleetClass extends Model
         return $this->prices()->where('area_id', 2)->whereDate('start_at', '<=',date(now()))->orderBy('id', 'desc')->first()?->price??0;
     }
 
-<<<<<<< HEAD
-=======
     public function price_fleet_class($area_id)
     {
         return $this->prices()->where('area_id', $area_id)->whereDate('start_at', '<=',date(now()))->orderBy('id', 'desc')->first()?->price??0;
@@ -46,8 +41,6 @@ class FleetClass extends Model
     {
         return $this->prices()->where('area_id', $area_id)->whereDate('start_at', '<=',date(now()))->orderBy('id', 'desc')->first()?->price_food??0;
     }
-
->>>>>>> rilisv1
     public function fleets() {
         return $this->hasMany(Fleet::class, 'fleet_class_id', 'id');
     }

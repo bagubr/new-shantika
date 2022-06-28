@@ -20,40 +20,6 @@
 <!-- /.content-header -->
 <div class="content">
     <div class="container-fluid">
-<<<<<<< HEAD
-        <div class="row">
-            {{-- <div class="col-6">
-                <a href="{{route('souvenir.create')}}" class="btn btn-primary mb-2">Buat Souvenir Baru</a>
-            </div> --}}
-            <div class="col-md-12">
-                <table class="table table-striped text-center">
-                    <thead>
-                        <th>No</th>
-                        <th>Nama Member</th>
-                        <th>Nama Souvenir</th>
-                        <th>Jumlah Tukar</th>
-                        <th>Status</th>
-                        <th>Catatan</th>
-                        <th>Action</th>
-                    </thead>
-                    <tbody>
-                        @foreach($data as $each)
-                        <tr>
-                            <td>{{ ($data ->currentpage()-1) * $data ->perpage() + $loop->index + 1
-                                }}</td>
-                            <td>{{ $each->membership->user->name ?? '' }}</td>
-                            <td>{{ $each->souvenir_name }}</td>
-                            <td>{{ $each->quantity }}</td>
-                            <td class="row justify-content-center"><span
-                                    class="col w-50 text-center badge bg-{{ $each->status == 'WAITING' ? 'success' : ($each->status == 'ON PROCESS' ? 'warning' : ($each->status == 'DELIVERED' ? 'info' : 'danger'))}}">
-                                    {{ $each->status }}
-                                </span>
-                            </td>
-                            <td>{{ $each->note ?? '' }}</td>
-                            <td>
-                                <a href="{{ route('souvenir_redeem.edit', ['souvenir_redeem' => $each->id]) }}"
-                                    class="btn btn-primary shadow border">Update Status</a>
-=======
         <div class="card">
             <div class="card-header">
                 Pencarian
@@ -112,20 +78,15 @@
                             <td>
                                 <a href="{{ route('souvenir_redeem.edit', ['souvenir_redeem' => $souvenir_redeem->id]) }}"
                                     class="btn btn-primary btn-xs">Update</a>
->>>>>>> rilisv1
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
-<<<<<<< HEAD
-                {{$data -> links("pagination::bootstrap-4")}}
-=======
                 <br>
                 <div class="float-right">
                     {{$souvenir_redeems->appends(Request::all())->links() }}
                 </div>
->>>>>>> rilisv1
             </div>
         </div>
     </div>

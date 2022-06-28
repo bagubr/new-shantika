@@ -36,13 +36,10 @@ class NotificationMessage {
         return ["Tagihan telah kadaluwarsa", "Tagihan Anda untuk keberangkatan tanggal ".$datetime." sudah kadaluwarsa"];
     }
 
-<<<<<<< HEAD
-=======
     public static function OrderExpired($datetime) {
         return ["Order telah kadaluwarsa", "Pesanan Anda untuk keberangkatan tanggal ".$datetime." sudah kadaluwarsa"];
     }
 
->>>>>>> rilisv1
     public static function bookingExpired(array $chair, $fleet_name = null) {
         $chair = implode(", ", $chair);
         $fleet_name = $fleet_name ?? 'Armada';

@@ -8,11 +8,8 @@ use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\AgencyFleetController;
 use App\Http\Controllers\AgencyFleetPermanentController;
 use App\Http\Controllers\AgencyPriceController;
-<<<<<<< HEAD
-=======
 use App\Http\Controllers\AgencyRouteController;
 use App\Http\Controllers\AgencyRoutePermanentController;
->>>>>>> rilisv1
 use App\Http\Controllers\AreaController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Auth\LoginController;
@@ -55,13 +52,9 @@ use App\Http\Controllers\SketchController;
 use App\Http\Controllers\StatusPenumpangController;
 use App\Http\Controllers\FleetDetailController;
 use App\Http\Controllers\FleetRoutePriceController;
-<<<<<<< HEAD
-use App\Http\Controllers\MembershipPointController;
-=======
 use App\Http\Controllers\MembershipHistoryController;
 use App\Http\Controllers\MembershipPointController;
 use App\Http\Controllers\OrderDetailController;
->>>>>>> rilisv1
 use App\Http\Controllers\PromoController;
 use App\Http\Controllers\RestaurantBarcodeController;
 use App\Http\Controllers\RestaurantController;
@@ -77,10 +70,7 @@ use App\Models\FoodRedeemHistory;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Services\OrderService;
-<<<<<<< HEAD
-=======
 use App\Utils\CheckPassword;
->>>>>>> rilisv1
 use App\Utils\NotificationMessage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -126,8 +116,6 @@ Route::get('/test/emial', function () {
     return 'Alhamdulillah iso ngirim email';
 });
 
-<<<<<<< HEAD
-=======
 Route::get('/check-password', function ()
 {
     $check = CheckPassword::checkPassword(request()->password);
@@ -141,7 +129,6 @@ Route::get('/check-password', function ()
     }
 });
 
->>>>>>> rilisv1
 Route::get('_/privacy_policy', [LoginController::class, 'privacyPolicy'])->name('_privacy_policy');
 Route::post('admin/store/fcm_token', [LoginController::class, 'storeFcmToken']);
 
@@ -157,10 +144,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('schedule_not_operate/search', [ScheduleNotOperateController::class, 'search'])->name('schedule_not_operate.search');
 
     Route::put('order/update_jadwal/{order}', [OrderController::class, 'update_jadwal'])->name('order.update_jadwal');
-<<<<<<< HEAD
-=======
     Route::get('order/update_price/{order}', [OrderController::class, 'update_price'])->name('order.update_price');
->>>>>>> rilisv1
     Route::put('order/cancelation/{order_detail}', [OrderController::class, 'cancelation'])->name('order.cancelation');
     Route::get('order/search', [OrderController::class, 'search'])->name('order.search');
     Route::get('order/export', [OrderController::class, 'export'])->name('order.export');
@@ -195,10 +179,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('routes/search', [RoutesController::class, 'search'])->name('routes.search');
 
     Route::get('fleet_route/search', [FleetRouteController::class, 'search'])->name('fleet_route.search');
-<<<<<<< HEAD
-=======
     Route::get('fleet_route/get-available-route', [FleetRouteController::class, 'getFleetRoutes'])->name('fleet_route.get_fleet_routes');
->>>>>>> rilisv1
     Route::get('fleet_route/blocked_chair/{fleet_route}', [FleetRouteController::class, 'blockedChairs'])->name('fleet_route.blocked_chair');
     Route::put('fleet_route/block_chair/{fleet_route}/{layout_chair_id}', [FleetRouteController::class, 'updateBlockedChairs']);
     Route::put('fleet_route/update_status/{fleet_route}', [FleetRouteController::class, 'update_status'])->name('fleet_route.update_status');
@@ -207,26 +188,18 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('sketch/orders/detail', [SketchController::class, 'getAvailibilityChairs']);
     Route::get('sketch/export', [SketchController::class, 'export']);
     Route::get('sketch/log', [SketchLogController::class, 'index']);
-<<<<<<< HEAD
-    Route::get('sketch/log/export', [SketchLogController::class, 'export'])->name('sketch_log.export');
-    Route::post('sketch/store', [SketchController::class, 'store']);
-=======
     Route::get('sketch/log/notification', [SketchLogController::class, 'notification']);
     Route::get('sketch/log/export', [SketchLogController::class, 'export'])->name('sketch_log.export');
     Route::post('sketch/store', [SketchController::class, 'store']);
     Route::delete('sketch/destroy', [SketchController::class, 'destroy']);
->>>>>>> rilisv1
 
     Route::post('routes/fleet/store/', [RoutesController::class, 'store_fleet'])->name('route.fleet.store');
 
     Route::post('member/import', [MemberController::class, 'import'])->name('member.import');
     Route::get('member/search', [MemberController::class, 'search'])->name('member.search');
-<<<<<<< HEAD
-=======
     // History Membership
     Route::get('membership_histories', [MembershipHistoryController::class, 'index'])->name('membership_histories.index');
     Route::post('membership_histories/export', [MembershipHistoryController::class, 'export'])->name('membership_histories.export');
->>>>>>> rilisv1
 
     // DASHBOARD
     Route::get('first_bulan', [DashboardController::class, 'first_bulan'])->name('first_bulan');
@@ -238,16 +211,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('restaurant/history/all', [RestaurantController::class, 'history_restaurant'])->name('r.history_restaurant');
     Route::get('restaurant/history/all/search', [RestaurantController::class, 'history_restaurant_search'])->name('r.history_restaurant_search');
     // end of restaurant
-<<<<<<< HEAD
-
-    Route::resources([
-=======
     Route::get('routes/duplicate/{route}', [RoutesController::class, 'duplicate'])->name('routes.duplicate');
 
     Route::resources([
         'agency_route_permanent' => AgencyRoutePermanentController::class,
         'agency_route' => AgencyRouteController::class,
->>>>>>> rilisv1
         'agency_fleet' => AgencyFleetController::class,
         'agency_fleet_permanent' => AgencyFleetPermanentController::class,
         'time_change_route' => TimeChangeRouteController::class,
@@ -271,20 +239,14 @@ Route::group(['middleware' => ['auth']], function () {
         'province' => ProvinceController::class,
         'city' => CityController::class,
         'order' => OrderController::class,
-<<<<<<< HEAD
-=======
         'order_detail' => OrderDetailController::class,
->>>>>>> rilisv1
         'member' => MemberController::class,
         'order_price_distribution' => OrderPriceDistributionController::class,
         'outcome' => OutcomeController::class,
         'souvenir_redeem' => SouvenirRedeemController::class,
         'promo' => PromoController::class,
         'sketch' => SketchController::class,
-<<<<<<< HEAD
-=======
         'sketch_log' => SketchLogController::class,
->>>>>>> rilisv1
         'fleet_route' => FleetRouteController::class,
         'status_penumpang' => StatusPenumpangController::class,
         'agency_price' => AgencyPriceController::class,

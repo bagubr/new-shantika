@@ -1,30 +1,18 @@
 @extends('layouts.main')
 @section('title')
-<<<<<<< HEAD
-Harga Rute Armada
-=======
 Jadwal Rute {{$area->name}}
->>>>>>> rilisv1
 @endsection
 @section('content')
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-<<<<<<< HEAD
-                <h1>Harga Rute Armada Form</h1>
-=======
                 <h1>Jadwal Rute {{$area->name}} Form</h1>
->>>>>>> rilisv1
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-<<<<<<< HEAD
-                    <li class="breadcrumb-item active">Harga Rute Armada</li>
-=======
                     <li class="breadcrumb-item active">Jadwal Rute {{$area->name}}</li>
->>>>>>> rilisv1
                 </ol>
             </div>
         </div>
@@ -46,11 +34,7 @@ Jadwal Rute {{$area->name}}
                     @include('partials.error')
                     <form action="@isset($fleet_route_price)
                         {{route('fleet_route_prices.update', $fleet_route_price->id)}}
-<<<<<<< HEAD
-                    @endisset @empty($fleet_route_price) {{route('fleet_route_prices.store')}} @endempty"
-=======
                     @endisset @empty($fleet_route_price) {{route('fleet_route_prices.store', ['area_id' => @request()->area_id])}} @endempty"
->>>>>>> rilisv1
                         method="POST">
                         @csrf
                         @isset($fleet_route_price)
@@ -76,11 +60,7 @@ Jadwal Rute {{$area->name}}
                             <label>Rute Armada</label>
                             <select id="" class="select2 form-control" @empty($fleet_route_price) multiple
                                 name="fleet_route_id[]" @endempty @isset($fleet_route_price) name="fleet_route_id"
-<<<<<<< HEAD
-                                @endisset required>
-=======
                                 @endisset required @isset($fleet_route_price) disabled @endisset>
->>>>>>> rilisv1
                                 @foreach ($fleet_routes as $fleet_route)
                                 <option value="{{$fleet_route->id}}" @isset($fleet_route_price) @if($fleet_route_price->
                                     fleet_route_id == $fleet_route->id)

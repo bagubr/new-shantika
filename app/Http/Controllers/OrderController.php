@@ -8,10 +8,7 @@ use App\Http\Requests\Order\OrderCancelationRequest;
 use App\Http\Requests\Order\UpdateOrderReserveAtRequest;
 use App\Models\Agency;
 use App\Models\FleetDetail;
-<<<<<<< HEAD
-=======
 use App\Models\FleetRoute;
->>>>>>> rilisv1
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\OrderDetail;
@@ -22,16 +19,11 @@ use App\Repositories\OrderDetailRepository;
 use App\Repositories\OrderPriceDistributionRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\RoutesRepository;
-<<<<<<< HEAD
-use App\Services\OrderService;
-use App\Utils\NotificationMessage;
-=======
 use App\Services\OrderPriceDistributionService;
 use App\Services\OrderService;
 use App\Utils\checkPassword;
 use App\Utils\NotificationMessage;
 use App\Utils\PriceTiket;
->>>>>>> rilisv1
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -49,10 +41,7 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-<<<<<<< HEAD
-=======
         $area_id = Auth::user()->area_id;
->>>>>>> rilisv1
         $name_search = $request->name;
         $name_non_search = $request->name_non_search;
         $routes_search = $request->route_id;
@@ -64,12 +53,6 @@ class OrderController extends Controller
         $fleet_detail_id = $request->fleet_detail_id;
         $agency_id = $request->agency_id;
 
-<<<<<<< HEAD
-        $routes = RoutesRepository::getIdName();
-        $orders = Order::query();
-        $fleet_details = FleetDetail::has('fleet_route')->get();
-        $agencies = Agency::orderBy('name', 'asc')->get();
-=======
         $routes = Route::select('id', 'name')
         ->when($area_id, function ($query) use ($area_id)
         {
@@ -102,7 +85,6 @@ class OrderController extends Controller
                 $query->where('area_id', $area_id);
             });
         })->orderBy('name', 'asc')->get();
->>>>>>> rilisv1
         $status = ['PENDING', 'EXCHANGED', 'PAID', 'CANCELED', 'EXPIRED', 'WAITING_CONFIRMATION'];
         $agent = ['AGENT', 'UMUM'];
 
@@ -155,21 +137,13 @@ class OrderController extends Controller
             }
             $orders = $orders->where('reserve_at', '>=', $date_from_search);
         }
-<<<<<<< HEAD
-        $test = $request->flash();
-=======
->>>>>>> rilisv1
         $orders = $orders->orderBy('id', 'desc')->paginate(10);
         if (!$orders->isEmpty()) {
             session()->flash('success', 'Data Order Berhasil Ditemukan');
         } else {
             session()->flash('error', 'Tidak Ada Data Ditemukan');
         }
-<<<<<<< HEAD
-        return view('order.index', compact('orders', 'routes', 'status', 'test', 'agent', 'fleet_details', 'agencies'));
-=======
         return view('order.index', compact('orders', 'routes', 'status', 'agent', 'fleet_details', 'agencies'));
->>>>>>> rilisv1
     }
     public function export()
     {
@@ -194,9 +168,6 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-<<<<<<< HEAD
-        //
-=======
         $data = $request->all();
         DB::beginTransaction();
         $order = new Order([
@@ -217,8 +188,6 @@ class OrderController extends Controller
         OrderService::create($order, $request);
         DB::commit();
         return response(['data' => $data, 'order' => $order, 'message' => 'Berhasil buat', 'code' => 1], 200);
-
->>>>>>> rilisv1
     }
 
     public function showByCodeOrder($code_order)
@@ -269,9 +238,6 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-<<<<<<< HEAD
-        //
-=======
         $data = $request->all();
         if(@$data['data_update']['reserve_at']){
             $data['data_update']['reserve_at'] = date('Y-m-d', strtotime($data['data_update']['reserve_at']));
@@ -340,7 +306,6 @@ class OrderController extends Controller
             return response(['code' => 0, 'price' => $data, 'message' => 'Gagal Update Harga !!!'], 200);
         }
 
->>>>>>> rilisv1
     }
 
     public function update_jadwal(UpdateOrderReserveAtRequest $request, Order $order)
@@ -366,18 +331,9 @@ class OrderController extends Controller
         $order = $order_detail->order;
         $data               = $request->all();
         $data['status']     = 'CANCELED';
-<<<<<<< HEAD
-        $hashed = Auth::user()->password;
-        if (!Hash::check($data['password'], $hashed)) {
-            session()->flash('error', 'Password anda tidak sama');
-            return response([
-                'code' => 0
-            ]);
-=======
         $validate = CheckPassword::checkPassword($data['password']);
         if($validate){
             return $validate;
->>>>>>> rilisv1
         }
         DB::beginTransaction();
         $message = NotificationMessage::orderCanceled($order_detail->order->fleet_route->fleet_detail->fleet->name, $request->cancelation_reason);
@@ -417,11 +373,7 @@ class OrderController extends Controller
             if (!$is_reverting) return response([
                 'code' => 0
             ], 500);
-<<<<<<< HEAD
-            $order_detail->delete();
-=======
             // $order_detail->delete();
->>>>>>> rilisv1
             SketchLog::create([
                 'admin_id' => Auth::user()->id,
                 'order_id' => $order_detail->order_id,

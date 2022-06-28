@@ -22,16 +22,10 @@ use Illuminate\Support\Facades\DB;
 class BookingController extends Controller
 {
     public function booking(ApiBookingRequest $request) {
-<<<<<<< HEAD
-        $booking = [];
-        DB::beginTransaction();
-        $user = UserRepository::findByToken($request->bearerToken());
-=======
 
         $booking = [];
         $user = UserRepository::findByToken($request->bearerToken());
         // dd($user);
->>>>>>> rilisv1
         $is_exist = BookingRepository::isBooked($request->fleet_route_id, $user->id, $request->layout_chair_id, $request->booking_at, $request->time_classification_id);
         if($is_exist) {
             return $this->sendFailedResponse([], 'Maaf kursi ini sudah dibooking');
@@ -40,23 +34,6 @@ class BookingController extends Controller
         if($is_exist) {
             return $this->sendFailedResponse([], "Maaf kursi ini sudah dipesan");
         }
-<<<<<<< HEAD
-
-        $code_booking = 'BO-'.date('Ymdhis').'-'.strtoupper(uniqid());
-        foreach($request->layout_chair_id as $layout_chair_id) {
-            $_booking = new Booking([
-                'code_booking'=>$code_booking,
-                'fleet_route_id'=>$request->fleet_route_id,
-                'time_classification_id'=>$request->time_classification_id,
-                'destination_agency_id'=>$request->destination_agency_id,
-                'layout_chair_id'=>$layout_chair_id,
-                'booking_at'=>$request->booking_at,
-                'user_id'=>$user->id
-            ]);
-            $booking[] = BookingService::create($_booking);
-        }
-        DB::commit();
-=======
         
         DB::beginTransaction();
         try {
@@ -78,7 +55,6 @@ class BookingController extends Controller
             return $this->sendSuccessResponse([], 'Gagal melakukan booking, coba lagi nanti');
             DB::rollBack();
         }
->>>>>>> rilisv1
     
         return $this->sendSuccessResponse([
             'booking'=>$booking

@@ -28,14 +28,11 @@ class Souvenir extends Model
         return $this->hasMany(SouvenirRedeem::class, 'souvenir_id', 'id');
     }
 
-<<<<<<< HEAD
-=======
     public function getImageNameAttribute($value)
     {
         return url('storage/' . $value);
     }
 
->>>>>>> rilisv1
     public function deleteImage()
     {
         Storage::disk('public')->delete($this->attributes['image_name']);

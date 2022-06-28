@@ -7,10 +7,7 @@ use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\Agency;
 use App\Models\Notification;
-<<<<<<< HEAD
-=======
 use App\Models\Order;
->>>>>>> rilisv1
 use App\Models\User;
 use App\Models\UserAgent;
 use App\Repositories\CityRepository;
@@ -74,16 +71,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-<<<<<<< HEAD
-    public function show($id)
-    {
-        //
-=======
     public function show(User $user)
     {
         $orders = Order::where('user_id', $user->id)->get();
         return view('user.show', compact('user', 'orders'));
->>>>>>> rilisv1
     }
 
     /**

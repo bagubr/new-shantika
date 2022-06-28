@@ -46,51 +46,11 @@ Sketch
         </div>
     </div>
 </div>
-<<<<<<< HEAD
-<div class="content" id="app-sketch" v-scroll="onScroll">
-=======
 <div class="content" id="app-sketch">
->>>>>>> rilisv1
     <div class="container-fluid">
         <div class="card sticky " style="z-index: 1000">
             <div class="row p-2">
                 <div class="col-md-12">
-<<<<<<< HEAD
-                    <div class="form-group">
-                        <label>Pilih Area</label>
-                        <select v-model="filter.area_id" name="area_id" class="form-control" id="">
-                            <option value="" selected>--PILIH--</option>
-                            <option v-for="area in data.areas" :key="area.id" :value="area.id">
-                                @{{area.name}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Pilih Shift</label>
-                        <select v-model="firstLayout.timeClassificationId" name="time_classification"
-                            class="form-control" id="">
-                            <option value="" selected>--PILIH--</option>
-                            <option v-for="time_classification in data.timeClassifications"
-                                :key="time_classification.id" :value="time_classification.id">
-                                @{{time_classification.name}}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Pilih Armada</label>
-                        {{-- <v-select v-model="firstLayout.fleetId" input-class="form-control" id="" :options=""> --}}
-                            <v-select label="name" :reduce="(option) => option.id" :options="data.fleets"
-                                input-class="form-control" id="">
-                                <option value="selected">--PILIH--</option>
-                            </v-select>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="">Tanggal</label>
-                        <vuejs-datepicker v-model="firstLayout.date" input-class="form-control bg-white"
-                            format="yyyy-MM-dd" />
-=======
                     <div class="row">
                         <div class="form-group col-3">
                             <label>Pilih Area</label>
@@ -124,7 +84,6 @@ Sketch
                             <vuejs-datepicker v-model="firstLayout.date" input-class="form-control bg-white"
                                     format="yyyy-MM-dd" />
                         </div>
->>>>>>> rilisv1
                     </div>
                 </div>
             </div>
@@ -140,26 +99,6 @@ Sketch
                     <h3>
                         Data tidak di temukan
                     </h3>
-<<<<<<< HEAD
-                </div>
-            </div>
-            <div v-for="order in result.orders" class="col-12 col-sm-6 col-lg-4 col-xl-3 pt-2 pb-2">
-                <div class="card h-100 p-2 shadow" data-toggle="modal" data-target="#modal-default"
-                    @click="handleChangeFocusFirstLayout(order.fleet_route_id, order.fleet_route.fleet_id, order.time_classification_id)">
-                    <div class="card-body">
-                        <div class="row m-1">
-                            <div class="col-md-3 text-center">
-                                <i class="fas fa-bus" style="font-size: 2.5em; color: Mediumslateblue;"></i>
-                            </div>
-                            <div class="col-md-9">
-                                <b>@{{order.fleet_route?.fleet_detail?.fleet?.name}}</b>
-                                <br>
-                                <p>@{{order.time_classification.name}}</p>
-                                <p>@{{data.date_now}}</p>
-                                <span>@{{order.fleet_route?.fleet_detail?.fleet?.fleetclass?.name}}</span>
-                                <br>
-                                <p style="font-size: 15px;">@{{order.fleet_route?.route?.name}}</p>
-=======
                     <div v-if="result.isLoading" class="w-100 row justify-content-center">
                         <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_Stt1R6.json"
                             background="transparent" speed="1" style="width: 100px; height: 100px;" loop
@@ -212,7 +151,6 @@ Sketch
                             </div>
                             <div class="col-md-1">
                                 <a :href="editAgent(order.fleet_route?.route?.id)" target="_blank"><p class="fas fa-edit"></p></a>
->>>>>>> rilisv1
                             </div>
                         </div>
                         <div class="row mt-4">
@@ -255,12 +193,7 @@ Sketch
     var app = new Vue({
             el: '#app-sketch',
             components: {
-<<<<<<< HEAD
-                vuejsDatepicker,
-                // vSelect,
-=======
                 vuejsDatepicker
->>>>>>> rilisv1
             },
             data: {
                 csrf_token: '{{ csrf_token() }}',
@@ -269,15 +202,6 @@ Sketch
                     timeClassifications: {!! $time_classifications !!},
                     fleets: {!! $fleets !!},
                     date_now: "",
-<<<<<<< HEAD
-                },
-                filter: {
-                    area_id: {!! $areas->first()->id !!}
-                },
-                result: {
-                    orders: [],
-                    _orders: []
-=======
                     is_unit:false,
                     is_delete_unit:false,
                     is_group:false,
@@ -294,7 +218,6 @@ Sketch
                     orders: [],
                     _orders: [],
                     fleetDetailId:''
->>>>>>> rilisv1
                 },
                 firstLayout: {
                     date: new Date().toDateString(),
@@ -316,12 +239,6 @@ Sketch
                     fleet: {},
                     data: {}
                 },
-<<<<<<< HEAD
-
-            },
-            methods: {
-                searchOrders() {
-=======
                 fleetRoutes:[],
 
             },
@@ -338,7 +255,6 @@ Sketch
                 searchOrders() {
                     this.result.isLoading = true
                     this.result.orders = []
->>>>>>> rilisv1
                     let params = new URLSearchParams({
                         ...this.filter,
                         date: new Date(this.firstLayout.date).toDateString(),
@@ -347,10 +263,7 @@ Sketch
                     fetch("{{url('/')}}/sketch/orders?"+params).then(res => res.json()).then(res => {
                         this.result.orders = res.orders
                         this.data.date_now = new Date(this.firstLayout.date).toDateString()
-<<<<<<< HEAD
-=======
                         this.result.isLoading = false
->>>>>>> rilisv1
                     })
                 },
                 search_orders() {
@@ -362,14 +275,6 @@ Sketch
                         this.result._orders = res.orders
                     })
                 },
-<<<<<<< HEAD
-                setSelectOptionLayoutText(order) {
-                    let fleetName = order.fleet_route.fleet_detail.fleet.name
-                    let fleetClass = order.fleet_route.fleet_detail.fleet.fleetclass.name
-                    let routeName = order.fleet_route.route.name
-
-                    return `${fleetName} (${fleetClass} | ${routeName})`
-=======
                 setSelectOptionLayoutText(fleetRoute) {
                     let fleetName = fleetRoute.fleet_detail.fleet.name
                     let fleetClass = fleetRoute.fleet_detail.fleet.fleetclass.name
@@ -377,7 +282,6 @@ Sketch
                     let idfleetRoute = fleetRoute.id
 
                     return `${fleetName} (${fleetClass} | ${routeName}) ${idfleetRoute}`
->>>>>>> rilisv1
                 },
                 selectOptionFirstLayout(event = null) {
                     this.getFirstLayout(event?.currentTarget?.value)
@@ -397,10 +301,7 @@ Sketch
                     this.secondLayout.fleetId = fleetId
                     this.secondLayout.timeClassificationId = timeClassificationId
                     this.getSecondLayout()
-<<<<<<< HEAD
-=======
                     this.getFleetRoutes(fleetRouteId)
->>>>>>> rilisv1
                 },
                 handleDateChange(type) {
                     if(type == 'FIRST') {
@@ -446,8 +347,6 @@ Sketch
                         return (((row - 1) * this.secondLayout.data.col) + col) - 1
                     }
                 },
-<<<<<<< HEAD
-=======
                 getGroupIndexByRowCol(row, col, which) {
                     if(which == 0) {
                         return (((row - 1) * this.firstLayout.data.col) + col) - 1
@@ -455,39 +354,10 @@ Sketch
                         return (((row - 1) * this.secondLayout.data.col) + col) - 1
                     }
                 },
->>>>>>> rilisv1
                 loadText(row, col, which) {
                     this.whichLayout(which);
 
                     let chair;
-<<<<<<< HEAD
-                    if(which == 0) {
-                        let index = this.getCurrentIndexByRowCol(row, col, 0)
-                        chair = this.firstLayout.data.chairs.filter((e, i) =>  i == index)[0]
-                    } else {
-                        let index = this.getCurrentIndexByRowCol(row, col, 1)
-                        chair = this.secondLayout.data.chairs.filter((e, i) =>  i == index)[0]
-                    }
-
-                    if (chair.is_unavailable) {
-                        if(chair.is_selected) {
-                            return `<p class="text-nowrap">${chair.name} | ${chair.code || ''}</p>`
-                        } else if (chair.is_switched) {
-                            return `<p class="text-nowrap">${chair.name} | ${chair.code || ''}</p>`
-                        }
-                        return `<p class="text-nowrap">${chair.name} | ${chair.code || ''}</p>`
-                    } else if (chair.is_unavailable_customer){
-                        if(chair.is_selected) {
-                            return `<p class="text-nowrap">${chair.name} | ${chair.code || ''}</p>`
-                        } else if (chair.is_switched) {
-                            return `<p class="text-nowrap">${chair.name} | ${chair.code || ''}</p>`
-                        }
-                        return `<p class="text-nowrap">${chair.name} | ${chair.code || ''}</p>`
-                    } else if (chair.is_booking) {
-                        return `<p class="text-nowrap">${chair.name} | ${chair.code || ''}</p>`
-                    } else if(chair.is_door) {
-                        return `<span><i class="fas fa-door-closed"></i></span>`
-=======
                     let html;
                     html = `<marquee>`
                     
@@ -523,7 +393,6 @@ Sketch
                         html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.code} |</p>`
                     } else if(chair.is_door) {
                         return  `<span><i class="fas fa-door-closed"></i></span>`
->>>>>>> rilisv1
                     } else if (chair.is_space) {
                         return `<span><i class="fas fa-people-arrows"></i></span>`
                     } else if (chair.is_toilet) {
@@ -531,9 +400,6 @@ Sketch
                     } else {
                         return `<span>${chair.name}</span>`
                     }
-<<<<<<< HEAD
-=======
-
                     if(chair.order_detail?.order_detail?.length??0 > 1){
                         chair.order_detail.order_detail.forEach(function (value, key) {
                             return html += `(${value.chair_name})`
@@ -542,21 +408,11 @@ Sketch
                     html += `</marquee>`
                     
                     return html
->>>>>>> rilisv1
                 },
                 loadClass(row, col, which) {
                     this.whichLayout(which);
 
                     let chair;
-<<<<<<< HEAD
-                    if(which == 0) {
-                        let index = this.getCurrentIndexByRowCol(row, col, 0)
-                        chair = this.firstLayout.data.chairs.filter((e, i) =>  i == index)[0]
-                    } else {
-                        let index = this.getCurrentIndexByRowCol(row, col, 1)
-                        chair = this.secondLayout.data.chairs.filter((e, i) =>  i == index)[0]
-                    }
-=======
                     let index = this.getCurrentIndexByRowCol(row, col, which)
                     if(which == 0){
                         chair = this.firstLayout.data.chairs.filter((e, i) =>  i == index)[0]
@@ -564,16 +420,12 @@ Sketch
                         chair = this.secondLayout.data.chairs.filter((e, i) =>  i == index)[0]
                     }
 
->>>>>>> rilisv1
                     if(chair.is_selected) {
                         return "btn bg-teal"
                     } else if (chair.is_switched) {
                         return "btn bg-green"
-<<<<<<< HEAD
-=======
                     } else if (chair.is_blocked) {
                         return "btn btn-dark"
->>>>>>> rilisv1
                     } else if (chair.is_unavailable) {
                         return "btn btn-danger"
                     } else if (chair.is_unavailable_customer){
@@ -608,17 +460,6 @@ Sketch
                     }
                 },
                 selectSeat(row,col,which) {
-<<<<<<< HEAD
-                    this.whichLayout(which)
-                    let index = this.getCurrentIndexByRowCol(row, col,which)
-                    if(!this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable && !this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable_customer) {
-                        return alert("Pilih kursi yang sudah dibeli!");
-                    }
-                    if(this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected != true) {
-                        this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = true
-                    } else {
-                        this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = false
-=======
                     if(this.data.is_unit == false && this.data.is_delete_unit == false && this.data.is_delete_group == false && this.data.is_group == false){
                         return alert("silahkan pilih salah satu checklist!!!");
                     }
@@ -655,27 +496,12 @@ Sketch
                         }else{
                             this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = false
                         }
->>>>>>> rilisv1
                     }
                     this.$forceUpdate()
                 },
                 dropSelectedSeat(row,col,which) {
                     this.whichLayout(which)
                     let index = this.getCurrentIndexByRowCol(row, col)
-<<<<<<< HEAD
-                    if(this.secondLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable) {
-                        return alert("Pilih kursi yang belum dibeli!");
-                    }
-                    if (this.secondLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable_customer) {
-                        return alert("Maaf Kursi Yang Anda Pilih Adalah Kursi Customer");
-                    }
-                    let value = this.firstLayout.data.chairs.filter(e => e.is_selected == true)[0]
-                    this.firstLayout.data.chairs.filter(e => e.is_selected  == true)[0].is_switched = true
-                    this.firstLayout.data.chairs.filter(e => e.is_selected == true)[0].is_selected = false
-
-                    this.secondLayout.data.chairs.filter((e, i) => i == index)[0].is_unavailable = true
-                    this.secondLayout.data.chairs.filter((e, i) => i == index)[0].is_selected = true
-=======
                     let first = this.firstLayout.data.chairs.filter(e => e.is_selected == true)[0]
                     let second = this.secondLayout.data.chairs.filter((e, i) => i == index)[0]
                     if(second.is_unavailable) {
@@ -697,7 +523,6 @@ Sketch
                     second.is_selected = true
                     second.from_id = first.id
                     second.from_name = first.name
->>>>>>> rilisv1
                     this.$forceUpdate()
                 },
                 printFirstLayout() {
@@ -715,11 +540,6 @@ Sketch
                         fleet_route_id: this.secondLayout.fleetRouteId,
                         area_id: this.filter.area_id
                     });
-<<<<<<< HEAD
-
-                    return `{{url('/sketch/export')}}?${query}`
-                },
-=======
                     return `{{url('/sketch/export')}}?${query}`
                 },
                 deleteGroup(form, reason){
@@ -908,37 +728,10 @@ Sketch
                         this.changeChair(from, form);
                     })
                 },
->>>>>>> rilisv1
                 submit() {
                     let form = {
                         first_fleet_route_id: this.firstLayout.fleetRouteId,
                         second_fleet_route_id: this.secondLayout.fleetRouteId,
-<<<<<<< HEAD
-                        first_fleet_id: this.firstLayout.fleetId,
-                        second_fleet_id: this.secondLayout.fleetId,
-                        first_date: this.firstLayout.date,
-                        second_date: this.secondLayout.date,
-                        data: {
-                            from_date: this.firstLayout.date,
-                            to_date: this.secondLayout.date,
-                            to_time_classification_id: this.firstLayout.timeClassificationId,
-                            from_time_classification_id: this.secondLayout.timeClassificationId,
-                            from_layout_chair_id: this.firstLayout.data.chairs.filter(e => e.is_switched == true),
-                            to_layout_chair_id: this.secondLayout.data.chairs.filter(e => e.is_selected == true),
-                        }
-                    }
-
-                    fetch("{{url('sketch/store')}}", {
-                        method: 'POST',
-                        body: JSON.stringify(form),
-                        headers: {
-                            'X-CSRF-TOKEN': '{{csrf_token()}}',
-                            'Content-Type': 'application/json'
-                        }
-                    }).then(res => res.json()).then(res => {
-                        window.location.reload()
-                    })
-=======
                         first_date: this.firstLayout.date,
                         second_date: this.secondLayout.date,
                         first_time_classification_id: this.firstLayout.timeClassificationId,
@@ -1019,7 +812,6 @@ Sketch
                         this.sendNotification(form, reason, order_id);
                         return alert('Data berhasil di ubah');
                     }
->>>>>>> rilisv1
                 },
                 reset() {
                     this.firstLayout.data.chairs = this.firstLayout.data.chairs.map(e => {
@@ -1034,13 +826,10 @@ Sketch
                         }
                         return e
                     })
-<<<<<<< HEAD
-=======
                     this.data.is_unit = false;
                     this.data.is_group = false;
                     this.data.is_delete_group = false;
                     this.data.is_delete_unit = false;
->>>>>>> rilisv1
                 },
                 cancelOrder(orderDetailId, password, reason, isAll) {
                     fetch('{{url("")}}'+`/order/cancelation/${orderDetailId}`, {
@@ -1057,9 +846,6 @@ Sketch
                     }).then(res => res.json()).then(res => {
                         window.location.reload()
                     })
-<<<<<<< HEAD
-                }
-=======
                 },
                 editFleetDetail(fleetDetailId) {
                     return `{{url('/fleet_detail/${fleetDetailId}/edit')}}`
@@ -1140,7 +926,6 @@ Sketch
                     })
                 }
                 
->>>>>>> rilisv1
             },
             mounted() {
                 this.searchOrders()

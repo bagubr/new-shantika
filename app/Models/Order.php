@@ -38,12 +38,8 @@ class Order extends Model
         'departure_agency_id',
         'cancelation_reason',
         'nominal_discount',
-<<<<<<< HEAD
-        'promo_id'
-=======
         'promo_id',
         'note'
->>>>>>> rilisv1
     ];
     protected $appends = [
         'area_name',
@@ -84,14 +80,11 @@ class Order extends Model
         return $this->hasMany(OrderDetail::class, 'order_id', 'id');
     }
 
-<<<<<<< HEAD
-=======
     public function order_detail_with_trash()
     {
         return $this->hasMany(OrderDetail::class, 'order_id', 'id')->withTrashed();
     }
 
->>>>>>> rilisv1
     public function payment()
     {
         return $this->hasOne(Payment::class, 'order_id', 'id');

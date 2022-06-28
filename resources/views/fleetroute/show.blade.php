@@ -41,10 +41,7 @@ Rute Armada
                         @endisset
                         <div class="form-group">
                             <label>Route</label>
-<<<<<<< HEAD
-=======
                             <a href="{{route('routes.edit',$fleet_route->route_id)}}" class="float-right" target="_blank"><i class="fas fa-edit"></i></a>
->>>>>>> rilisv1
                             <select name="route_id" class="form-control" readonly>
                                 <option value="{{$fleet_route->route_id}}">{{$fleet_route->route?->name}}
                                 </option>
@@ -52,10 +49,7 @@ Rute Armada
                         </div>
                         <div class="form-group">
                             <label>Armada</label>
-<<<<<<< HEAD
-=======
                             <a href="{{route('fleet_detail.edit',$fleet_route->fleet_detail_id)}}" class="float-right" target="_blank"><i class="fas fa-edit"></i></a>
->>>>>>> rilisv1
                             <select name="fleet_id" class="form-control" readonly>
                                 <option value="{{$fleet_route->fleet_detail_id}}">
                                     {{$fleet_route->fleet_detail?->fleet?->name}}/{{$fleet_route->fleet_detail?->fleet?->fleetclass?->name}}
@@ -152,12 +146,9 @@ Rute Armada
                             @endforeach
                         </tbody>
                     </table>
-<<<<<<< HEAD
-=======
                     <p>
                         {{$orders->appends(Request::all())->links() }}
                     </p>
->>>>>>> rilisv1
                 </div>
             </div>
         </div>
@@ -175,14 +166,4 @@ Rute Armada
     })
 
 </script>
-<<<<<<< HEAD
-<script>
-    $(function () {
-      $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    });
-</script>
-=======
->>>>>>> rilisv1
 @endpush

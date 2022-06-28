@@ -52,10 +52,6 @@ class OrderRepository
             ->whereDate('booking_at', date('Y-m-d H:i:s', strtotime($date)))
             ->whereUserId($user->id)
             ->distinct('code_booking');
-<<<<<<< HEAD
-=======
-        // dd($booking);
->>>>>>> rilisv1
         $agen_order =  Order::select('id', 'fleet_route_id', 'user_id', 'reserve_at', 'status', 'code_order as code')
             ->addSelect(DB::raw("NULL as layout_chair_id"))
             ->addSelect('destination_agency_id', 'time_classification_id', 'departure_agency_id')
@@ -75,11 +71,7 @@ class OrderRepository
             ->whereIn('status', [Order::STATUS5, Order::STATUS8])
             ->whereDate('reserve_at', date('Y-m-d H:i:s', strtotime($date)))
             ->union($agen_order)
-<<<<<<< HEAD
-            ->get();
-=======
             ->get()->sortByDesc('id');
->>>>>>> rilisv1
         return $user_order;
     }
 
@@ -290,20 +282,6 @@ class OrderRepository
         })->get();
     }
 
-<<<<<<< HEAD
-    public static function getAtDateAndFleetDetail($date, $fleet_detail)
-    {
-        if (!$fleet_detail || $fleet_detail == 'WITH_TYPE') {
-            return [];
-        }
-        return Order::where(function ($query) use ($date, $fleet_detail) {
-            $query->where('status', Order::STATUS3);
-            $query->whereDate('reserve_at', $date);
-            $query->whereHas('fleet_route', function ($q) use ($fleet_detail) {
-                $q->whereFleetDetailId($fleet_detail);
-            });
-        })->get();
-=======
     public static function getAtDateAndFleetDetail($date, $fleet_detail = null)
     {
         return Order::where(function ($query) use ($date, $fleet_detail) {
@@ -318,6 +296,5 @@ class OrderRepository
         })
         ->distinct(['fleet_route_id', 'time_classification_id'])
         ->get();
->>>>>>> rilisv1
     }
 }

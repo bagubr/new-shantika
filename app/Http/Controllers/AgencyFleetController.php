@@ -12,11 +12,6 @@ use Illuminate\Http\Request;
 
 class AgencyFleetController extends Controller
 {
-<<<<<<< HEAD
-    public function index()
-    {
-        $fleets = Fleet::get();
-=======
     public function index(Request $request)
     {
         $fleets = Fleet::when($request->area_id, function ($query) use ($request)
@@ -26,7 +21,6 @@ class AgencyFleetController extends Controller
                 $query->where('area_id', $request->area_id);
             } );
         })->get();
->>>>>>> rilisv1
         $areas = Area::all();
         return view('agency_fleet.index', compact('fleets'));
     }
@@ -52,17 +46,12 @@ class AgencyFleetController extends Controller
             if($agency_fleet){
                 session()->flash('error', 'Data sudah Ditambahkan');
             }else{
-<<<<<<< HEAD
-                AgencyFleet::create($data);
-                session()->flash('success', 'Data Berhasil Ditambahkan');
-=======
                 if(AgencyFleetPermanent::whereFleetId($request->fleet_id)->count() <= 0){
                     session()->flash('error', 'Tambahkan setidaknya 1 agent permanent untuk menggunakan fitur temporary');
                 }else{
                     AgencyFleet::create($data);
                     session()->flash('success', 'Data Berhasil Ditambahkan');
                 }
->>>>>>> rilisv1
             }
         }
         return redirect()->back();

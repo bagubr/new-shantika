@@ -16,20 +16,12 @@ Rute
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-<<<<<<< HEAD
-                <h1>Route Form</h1>
-=======
                 <h1>Rute Form {{\App\Models\Area::find($area_id)->name}}</h1>
->>>>>>> rilisv1
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
-<<<<<<< HEAD
-                    <li class="breadcrumb-item active">Route</li>
-=======
                     <li class="breadcrumb-item active">Rute</li>
->>>>>>> rilisv1
                 </ol>
             </div>
         </div>
@@ -49,48 +41,6 @@ Rute
                 </div>
                 <div class="card-body" style="display: block;">
                     @include('partials.error')
-<<<<<<< HEAD
-                    <form action="@isset($route)
-                        {{route('routes.update', $route->id)}}
-                    @endisset @empty($route) {{route('routes.store')}} @endempty" method="POST">
-                        @csrf
-                        @isset($route)
-                        @method('PUT')
-                        @endisset
-                        @isset($route)
-                        <div class="form-group">
-                            <label>Nama Rute</label>
-                            <input type="text" class="form-control" disabled
-                                value="{{isset($route)? $route->name : ""}}">
-                        </div>
-                        @endisset
-                        <div class="form-group">
-                            <label>Pilih Tujuan</label>
-                            <select name="area_id" class="form-control myselect" id="area_id">
-                                <option value="">--PILIH TUJUAN--</option>
-                                @foreach(\App\Models\Area::get() as $area)
-                                <option value="{{ $area->id }}">{{ $area->name }}</option>
-                                @endforeach
-                            </select>
-                            <small class="text-danger d-none" id="refresh"><i class="fas fa-info-circle"></i> Refresh
-                                halaman
-                                jika ingin
-                                mengganti Tujuan</small>
-                        </div>
-                        <div>
-                            <label>Pilih Line</label>
-                            <div id="container" class="mb-3"></div>
-                            <div id="container2"></div>
-                            <button type="button" class="btn btn-outline-primary mb-5" id="addRow">
-                                Tambah Rute
-                            </button>
-                        </div>
-                        <div class="mt-3">
-                            <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
-                            <input type="submit" value="Submit" class="btn btn-success float-right">
-                        </div>
-                    </form>
-=======
                     <div class="row">
                         <div class="col-md-6">
                             <form action="{{route('routes.store', ['area_id'=>$area_id])}}" method="POST"> @csrf
@@ -162,7 +112,6 @@ Rute
                     <div class="mt-3">
                         <a href="{{route('routes.index', ['area_id' => $area_id])}}" class="btn btn-secondary">Batal</a>
                     </div>
->>>>>>> rilisv1
                 </div>
                 <!-- /.card-body -->
             </div>

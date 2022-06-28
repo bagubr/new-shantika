@@ -10,10 +10,7 @@ use App\Repositories\UserRepository;
 use App\Services\AuthService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
-<<<<<<< HEAD
-=======
 use Illuminate\Support\Facades\DB;
->>>>>>> rilisv1
 
 class AuthController extends BaseAuthController
 {
@@ -37,9 +34,6 @@ class AuthController extends BaseAuthController
     }
 
     public function registerCustomer(ApiRegisterCustomerRequest $request) {
-<<<<<<< HEAD
-        $user = UserService::register($request->all(), $request->order_id??[]);
-=======
         DB::beginTransaction();
         try {
             $user = UserService::register($request->all(), $request->order_id??[]);
@@ -48,7 +42,6 @@ class AuthController extends BaseAuthController
             return $this->failedResponse([], 'Something error , please try again latter');
             DB::rollBack();
         }
->>>>>>> rilisv1
         return $this->sendSuccessResponse([
             'user'=>$user,
             'token'=>$user->token??''

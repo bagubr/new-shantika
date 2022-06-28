@@ -41,16 +41,11 @@ Kelas Armada
                                 <tr>
                                     <th>Nama</th>
                                     <th>Harga Makanan</th>
-<<<<<<< HEAD
-                                    <th>Harga Jawa Kelas Armada</th>
-                                    <th>Harga Jabodetabek Kelas Armada</th>
-=======
                                     @foreach ( \App\Models\Area::get() as $area )
                                         <th>
                                             Harga Tiket (Harga Total) {{$area->name}}
                                         </th>
                                     @endforeach
->>>>>>> rilisv1
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -59,14 +54,9 @@ Kelas Armada
                                 <tr>
                                     <td>{{$fleetclass->name}}</td>
                                     <td>Rp. {{number_format($fleetclass->price_food)}}</td>
-<<<<<<< HEAD
-                                    <td>Rp. {{number_format($fleetclass->price_fleet_class1)}}</td>
-                                    <td>Rp. {{number_format($fleetclass->price_fleet_class2)}}</td>
-=======
                                     @foreach ( \App\Models\Area::get() as $area )
                                         <td>Rp. {{number_format($fleetclass->price_fleet_class($area->id) - $fleetclass->price_food)}} (Rp. {{number_format($fleetclass->price_fleet_class($area->id))}})</td>
                                     @endforeach
->>>>>>> rilisv1
                                     <td>
                                         @unlessrole('owner')
 

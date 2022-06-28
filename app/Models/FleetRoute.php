@@ -30,26 +30,20 @@ class FleetRoute extends Model
         'created_at', 'updated_at'
     ];
 
-<<<<<<< HEAD
-=======
     protected $appends = [
         'agency_name'
     ];
 
->>>>>>> rilisv1
     public function fleet_detail()
     {
         return $this->belongsTo(FleetDetail::class, 'fleet_detail_id', 'id')->withTrashed();
     }
 
-<<<<<<< HEAD
-=======
     public function fleet_detail_without_trash()
     {
         return $this->belongsTo(FleetDetail::class, 'fleet_detail_id', 'id');
     }
 
->>>>>>> rilisv1
     public function route()
     {
         return $this->belongsTo(Route::class, 'route_id', 'id');
@@ -72,12 +66,8 @@ class FleetRoute extends Model
     public function prices() {
         return $this->hasMany(FleetRoutePrice::class);
     }
-<<<<<<< HEAD
-=======
-
     public function getAgencyNameAttribute()
     {
         return '~'.implode('~~', array_merge($this->fleet_detail->fleet->agency_fleet_permanent()->get()->pluck('agency.name')->toArray(), $this->fleet_detail->fleet->agency_fleet()->get()->pluck('agency.name')->toArray(), $this->route->agency_route()->get()->pluck('agency.name')->toArray(), $this->route->agency_route_permanent()->get()->pluck('agency.name')->toArray())). '~';
     }
->>>>>>> rilisv1
 }

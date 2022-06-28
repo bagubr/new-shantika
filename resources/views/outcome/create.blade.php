@@ -20,46 +20,10 @@ Pengeluran
 </section>
 <section class="content">
     <div class="row">
-<<<<<<< HEAD
-        <div class="col-md-6">
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">Form Pengeluaran</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="card-body" style="display: block;">
-                    @include('partials.error')
-                    <form action="{{route('outcome.store')}}" method="POST">
-                        @csrf
-                        <label for="">Tanggal Pengeluaran</label>
-                        <input type="date" class="form-control" name="reported_at"
-                                        value="{{((isset($reported_at))?$reported_at:date('Y-m-d'))}}">
-                        <input type="hidden" name="fleet_detail_id" value="{{@$fleet_detail_id}}">
-                        @include('outcome.form')
-                        <br>
-                        <button type="button" name="add" id="dynamic-ar" class="btn btn-info">Tambah
-                            Pengeluaran
-                        </button>
-                        <input type="submit" value="Submit" class="btn btn-success float-right">
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Cari Pemesan</h3>
-=======
-        
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Pilih Armada</h3>
->>>>>>> rilisv1
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                             <i class="fas fa-minus"></i>
@@ -105,18 +69,12 @@ Pengeluran
                             </div>
                         </div>
                         <div class="text-right">
-<<<<<<< HEAD
-                            <button class="btn btn-success d-none" id="button-cari" type="submit">Cari</button>
-=======
                             <button class="btn btn-success" type="submit">Cari</button>
->>>>>>> rilisv1
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-<<<<<<< HEAD
-=======
         <div class="col-md-6">
             <div class="card card-primary">
                 <div class="card-header">
@@ -147,7 +105,6 @@ Pengeluran
                 </div>
             </div>
         </div>
->>>>>>> rilisv1
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
@@ -155,11 +112,7 @@ Pengeluran
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-<<<<<<< HEAD
-                    <table id="example1" class="table table-bordered table-striped">
-=======
                     <table id="example1" class="table table-bordered table-striped table-responsive">
->>>>>>> rilisv1
                         <thead>
                             <tr>
                                 <th>Pemesan</th>
@@ -261,18 +214,4 @@ Pengeluran
         $(this).parents('.t').remove();
     });
 </script>
-<<<<<<< HEAD
-<script>
-    $('#select-armada').on('change', function() {
-        var rute = this.value;
-        if(rute == 'WITH_TYPE'){
-            console.log(rute);
-            $('#button-cari').addClass('d-none');
-        }else{
-            $('#button-cari').removeClass('d-none');
-        }
-    });
-</script>
-=======
->>>>>>> rilisv1
 @endpush

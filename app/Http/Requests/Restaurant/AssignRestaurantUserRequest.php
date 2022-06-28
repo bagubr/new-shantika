@@ -24,17 +24,11 @@ class AssignRestaurantUserRequest extends FormRequest
     public function rules()
     {
         return [
-<<<<<<< HEAD
-            'admin_id' => 'required|exists:admins,id',
-            'restaurant_id' => 'required',
-            'phone' => 'required'
-=======
             'restaurant_id' => 'required',
             'phone' => 'required',
             'email' => 'required',
             'name' => 'required',
             'password' => 'required|confirmed',
->>>>>>> rilisv1
         ];
     }
 }

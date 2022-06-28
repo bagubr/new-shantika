@@ -56,11 +56,7 @@ Promo
                         </div>
                         <div class="form-group">
                             <label>Gambar</label>
-<<<<<<< HEAD
-                            <input type="file" class="form-control" name="image" accept="image/*">
-=======
-                            <input type="file" class="form-control" name="image" accept="image/*" @if(!$promo) required @endif>
->>>>>>> rilisv1
+                            <input type="file" class="form-control" name="image" accept="image/*" @if(isset($promo)) required @endif>
                             <small class="text-danger"><i class="fas fa-info-circle"></i> Pastikan ukuran gambar 445x236(72)dpi, agar hasil maksimal</small>
                             <br>
                             @isset($promo)
@@ -77,15 +73,6 @@ Promo
                         </div>
                         <div class="form-group">
                             <label>Pilih User</label>
-<<<<<<< HEAD
-                            <select name="user_id" class="form-control select2" id="user_id">
-                                <option value="">--PILIH USER--</option>
-                                @foreach($users as $key => $name)
-                                <option value="{{ $key }}">{{ $name }}</option>
-                                @endforeach
-                            </select>
-                            <small class="text-danger" id="refresh"><i class="fas fa-info-circle"></i> Dapat di Kosongkan jika ingin ditujukan ke semua user</small>
-=======
                             @if (isset($promo) && $promo->user)
                                 <form action="{{route('promo.update',$promo->id)}}" class="d-inline"
                                     method="POST">
@@ -107,10 +94,9 @@ Promo
                                 @endisset>{{ $name }}</option>
                                 @endforeach
                             </select>
-                            @if (!$promo)
+                            @if (isset($promo))
                                 <small class="text-danger" id="refresh"><i class="fas fa-info-circle"></i> Dapat di Kosongkan jika ingin ditujukan ke semua user</small>
                             @endif
->>>>>>> rilisv1
                         </div>
                         <div class="form-row">
                             <div class="col">

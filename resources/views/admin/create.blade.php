@@ -7,11 +7,7 @@ Admin
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-<<<<<<< HEAD
-                <h1>Admin Form</h1>
-=======
                 <h1>Admin </h1>
->>>>>>> rilisv1
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -55,16 +51,6 @@ Admin
                         </div>
                         <div class="form-group">
                             <label>Role</label>
-<<<<<<< HEAD
-                            <select name="role" class="form-control select2">
-                                <option value="">Pilih Role</option>
-                                @foreach ($roles as $role)
-                                <option value="{{$role->name}}" @isset($admin) @if ($role->name ===
-                                    $admin->roles[0]->name)
-                                    selected
-                                    @endif
-                                    @endisset>{{$role->name}}</option>
-=======
                             <select name="role" class="form-control" required>
                                 <option value="">Pilih Role</option>
                                 @foreach ($roles as $role)
@@ -86,7 +72,6 @@ Admin
                                 @else
                                 <option value="{{$area->id}}">{{$area->name}}</option>
                                 @endif
->>>>>>> rilisv1
                                 @endforeach
                             </select>
                         </div>
@@ -94,14 +79,9 @@ Admin
                             <div class="form-row">
                                 <div class="col">
                                     <label>Password</label>
-<<<<<<< HEAD
-                                    <input type="password" name="password" class="form-control" @empty($admin) required
-                                        @endempty>
-=======
                                     <small style="color: red">isi jika ingin di ubah</small>
                                     <input type="password" name="password" class="form-control" @empty($admin) required
                                     @endempty>
->>>>>>> rilisv1
                                 </div>
                                 <div class="col">
                                     <label>Konfirmasi Password</label>
@@ -111,11 +91,7 @@ Admin
                             </div>
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
-<<<<<<< HEAD
-                        <input type="submit" value="Tambah" class="btn btn-success float-right">
-=======
                         <input type="submit" value="Submit" class="btn btn-success float-right">
->>>>>>> rilisv1
                     </form>
                 </div>
                 <!-- /.card-body -->

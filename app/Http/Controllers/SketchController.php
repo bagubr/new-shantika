@@ -26,10 +26,7 @@ use App\Models\TimeClassification;
 use App\Repositories\BookingRepository;
 use App\Repositories\OrderDetailRepository;
 use App\Repositories\OrderRepository;
-<<<<<<< HEAD
-=======
 use App\Utils\CheckPassword;
->>>>>>> rilisv1
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use PDF;
@@ -42,18 +39,12 @@ class SketchController extends Controller
         $areas = Area::get();
         $time_classifications = TimeClassification::all();
         $fleets = Fleet::select('id', 'name')->get();
-<<<<<<< HEAD
-=======
         $area_id = Auth::user()->area_id??$areas->first()->id;
->>>>>>> rilisv1
         return view('sketch.index_1', [
             'areas' => $areas,
             'time_classifications' => $time_classifications,
             'fleets' => $fleets,
-<<<<<<< HEAD
-=======
             'area_id' => $area_id,
->>>>>>> rilisv1
         ]);
     }
 
@@ -65,11 +56,7 @@ class SketchController extends Controller
         $fleet_id = $request->fleet_id;
         $orders = Order::select('*')
             ->whereIn('status', Order::STATUS_BOUGHT)
-<<<<<<< HEAD
-            ->with('fleet_route.fleet_detail.fleet.fleetclass', 'fleet_route.route')
-=======
             ->with('fleet_route.fleet_detail.fleet.fleetclass', 'fleet_route.route', 'fleet_route')
->>>>>>> rilisv1
             ->with('fleet_route.fleet_detail.fleet.layout', 'time_classification')
             ->when($date, function ($query) use ($date) {
                 $query->whereDate('reserve_at', $date);
@@ -81,14 +68,11 @@ class SketchController extends Controller
                     });
                 });
             })
-<<<<<<< HEAD
-=======
             ->when($fleet_id && $fleet_id != 'null', function ($query) use ($fleet_id) {
                 $query->whereHas('fleet_route.fleet_detail.fleet', function ($subquery) use ($fleet_id) {
                     $subquery->where('id', $fleet_id);
                 });
             })
->>>>>>> rilisv1
             ->when($request->time_classification_id, function ($query) use ($time_classification_id) {
                 $query->where('time_classification_id', $time_classification_id);
             })
@@ -215,8 +199,4 @@ class SketchController extends Controller
         $pdf = \PDF::loadView('excel_export.langsir', $data);
         $pdf->stream('document.pdf');
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> rilisv1
 }

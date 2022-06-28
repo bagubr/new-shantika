@@ -11,10 +11,7 @@ use App\Models\User;
 use App\Models\UserAgent;
 use App\Repositories\AgencyRepository;
 use Illuminate\Http\Request;
-<<<<<<< HEAD
-=======
 use Illuminate\Support\Facades\Auth;
->>>>>>> rilisv1
 
 class UserAgentController extends Controller
 {
@@ -25,13 +22,6 @@ class UserAgentController extends Controller
      */
     public function index()
     {
-<<<<<<< HEAD
-        $users = User::whereHas('agencies')->get();
-        $agencies = AgencyRepository::all_order();
-        $areas = Area::all();
-        $statuses = Agency::status();
-        return view('user_agent.index', compact('users', 'agencies', 'areas', 'statuses'));
-=======
         $area_id = Auth::user()->area_id;
         $users = User::whereHas('agencies')->when($area_id, function ($query) use ($area_id)
         {
@@ -50,7 +40,6 @@ class UserAgentController extends Controller
         $areas = Area::all();
         $statuses = Agency::status();
         return view('user_agent.index', compact('users', 'agencies', 'areas', 'statuses', 'area_id'));
->>>>>>> rilisv1
     }
     public function search(Request $request)
     {

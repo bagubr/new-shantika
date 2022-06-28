@@ -17,15 +17,9 @@ class OrderListCustomerResource extends JsonResource
      */
     public function toArray($request)
     {
-<<<<<<< HEAD
-        $fleet_route = $this->fleet_route;
-        $route = $fleet_route->route;
-        $fleet = $fleet_route->fleet_detail->fleet;
-=======
         $fleet_route = $this->fleet_route_with_trash;
         $route = @$fleet_route->route;
         $fleet = @$fleet_route->fleet_detail->fleet;
->>>>>>> rilisv1
         $agency_destiny = $this->agency_destiny;
         $agent_start = $this->agency;
         return [

@@ -17,16 +17,6 @@ class StatusPenumpangController extends Controller
      */
     public function index(Request $request)
     {
-<<<<<<< HEAD
-        $area_id = $request->area_id;
-        $areas = Area::get();
-        $orders = Order::with('fleet_route.route')->when($area_id, function ($q) use ($area_id) {
-            $q->whereHas('agency.city', function ($sq) use ($area_id) {
-                $sq->where('area_id', $area_id);
-            });
-        })->paginate(10);
-        $test = $request->flash();
-=======
         $area_id = $request->area_id??'';
         $reserve_at = $request->reserve_at??'';
         $code_order = $request->code_order??'';
@@ -44,18 +34,13 @@ class StatusPenumpangController extends Controller
             $q->where('code_order', $code_order);
         })
         ->paginate(10);
->>>>>>> rilisv1
 
         if (!$orders->isEmpty()) {
             session()->flash('success', 'Data Order Berhasil Ditemukan');
         } else {
             session()->flash('error', 'Tidak Ada Data Ditemukan');
         }
-<<<<<<< HEAD
-        return view('status_penumpang.index', compact('orders', 'areas', 'test'));
-=======
         return view('status_penumpang.index', compact('orders', 'areas', 'reserve_at', 'area_id', 'code_order'));
->>>>>>> rilisv1
     }
     public function export()
     {

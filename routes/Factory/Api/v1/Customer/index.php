@@ -2,10 +2,7 @@
 
 use App\Http\Controllers\v1\Customer\MembershipController;
 use App\Http\Controllers\v1\Customer\PromoController;
-<<<<<<< HEAD
-=======
 use App\Http\Controllers\v1\Customer\SouvenirController;
->>>>>>> rilisv1
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -29,17 +26,10 @@ Route::group([
         Route::post('review','ReviewController@create');
         Route::get('membership', [MembershipController::class, 'index']);
         Route::get('membership/pointhistory', [MembershipController::class, 'pointHistory']);
-<<<<<<< HEAD
-        Route::get('souvenir', [MembershipController::class, 'listSouvenir']);
-        Route::post('souvenir/redeem', [MembershipController::class, 'redeem']);
-	 Route::get('souvenir/redeem/{id}/detail', [MembershipController::class, 'detailRedeem']);
-        Route::get('souvenir/{id}', [MembershipController::class, 'showSouvenir']);
-=======
         Route::get('souvenir', [SouvenirController::class, 'listSouvenir']);
         Route::post('souvenir/redeem', [SouvenirController::class, 'redeem']);
 	    Route::get('souvenir/redeem/{id}/detail', [SouvenirController::class, 'detailRedeem']);
         Route::get('souvenir/{id}', [SouvenirController::class, 'showSouvenir']);
->>>>>>> rilisv1
         Route::get('promo', [PromoController::class, 'index']);
     });
     Route::get('agencies','AgencyController@getAllAgen');

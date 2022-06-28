@@ -3,10 +3,7 @@
 namespace App\Http\Controllers\v1\Agent;
 
 use App\Http\Controllers\Controller;
-<<<<<<< HEAD
-=======
 use App\Http\Requests\Api\ApiOrderDetailUpdateRequest;
->>>>>>> rilisv1
 use App\Http\Resources\OrderDetail\DetailTodayPossibleCustomerResource;
 use App\Http\Resources\OrderDetail\TodayPossibleCustomerResource;
 use App\Models\OrderDetail;
@@ -34,8 +31,6 @@ class OrderDetailController extends Controller
             'order_detail'=>new DetailTodayPossibleCustomerResource($order_detail)
         ]);
     }
-<<<<<<< HEAD
-=======
 
     public function editDataPenumpang(ApiOrderDetailUpdateRequest $request, OrderDetail $order_detail)
     {
@@ -46,5 +41,4 @@ class OrderDetailController extends Controller
             'order_detail' => $order_detail
         ], 'Data Berhasil di ubah');
     }  
->>>>>>> rilisv1
 }

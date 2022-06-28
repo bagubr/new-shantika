@@ -29,17 +29,10 @@ Agen
                         <div class="card-body">
                             <div class="form-group">
                                 <label>Cari Area</label>
-<<<<<<< HEAD
-                                <select name="area_id" class="form-control">
-                                    <option value="">--PILIH AREA--</option>
-                                    @foreach ($areas as $area)
-                                    @if (old('area_id') == $area->id)
-=======
                                 <select name="area_id" class="form-control" {{($area_id)?'disabled':''}}>
                                     <option value="">--PILIH AREA--</option>
                                     @foreach ($areas as $area)
                                     @if ($area_id == $area->id)
->>>>>>> rilisv1
                                     <option value="{{$area->id}}" selected>{{$area->name}}</option>
                                     @else
                                     <option value="{{$area->id}}">{{$area->name}}</option>
@@ -70,11 +63,7 @@ Agen
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-<<<<<<< HEAD
-                        <table id="example1" class="table table-bordered table-striped">
-=======
                         <table id="example1" class="table table-striped table-responsive">
->>>>>>> rilisv1
                             <thead>
                                 <tr>
                                     <th>Nama</th>
@@ -130,11 +119,7 @@ Agen
                                     @if($agency->is_agent)
                                         <td>Ya</td>
                                     @else
-<<<<<<< HEAD
-                                        <td>Tidak Tidak</td>
-=======
                                         <td>Tidak</td>
->>>>>>> rilisv1
                                     @endif
                                     @if($agency->is_route)
                                         <td>Ya</td>
@@ -190,13 +175,9 @@ Agen
                                 @endforeach
                             </tbody>
                         </table>
-<<<<<<< HEAD
-                        {{$agencies->appends(request()->query())->links("pagination::bootstrap-4")}}
-=======
                         <div class="float-right mt-3">
                             {{$agencies->appends(request()->query())->links("pagination::bootstrap-4")}}
                         </div>
->>>>>>> rilisv1
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -212,11 +193,7 @@ Agen
 <script>
     $(function () {
       $("#example1").DataTable({
-<<<<<<< HEAD
-        "searching": false, "responsive": true, "lengthChange": false, "autoWidth": false,
-=======
         "responsive": true, "lengthChange": false, "autoWidth": false, "paging":false, "searching":false
->>>>>>> rilisv1
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
 </script>

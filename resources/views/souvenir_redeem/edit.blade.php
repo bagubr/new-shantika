@@ -21,11 +21,7 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row justify-content-start">
-<<<<<<< HEAD
-            <div class="col-md-6">
-=======
             <div class="col-md-12">
->>>>>>> rilisv1
                 <div class="card">
                     <div class="card-header">Merubah Souvenir Redeem</div>
                     <div class="card-body">
@@ -36,20 +32,6 @@
                             <div class="form-group mb-3">
                                 <label for="name">Nama Member</label>
                                 <input type="text" class="form-control"
-<<<<<<< HEAD
-                                    value="{{ $data->membership->user->name ?? '' }}" id="name">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="point">Nama Souvenir</label>
-                                <input type="text" class="form-control" value="{{ $data->souvenir_name }}" id="point">
-                            </div>
-                            <div class="form-group mb-3">
-                                <label for="status">Status</label>
-                                <select class="form-control" name="status" id="status">
-                                    <option value="ON PROCESS">ON PROCESS</option>
-                                    <option value="DECLINED">DECLINED</option>
-                                    <option value="DELIVERED">DELIVERED</option>
-=======
                                     value="{{ $data->membership->user->name ?? '' }}" id="name" disabled>
                             </div>
                             <div class="form-group mb-3">
@@ -80,7 +62,6 @@
                                     <option value="ON_PROCESS" @if ($data->status == "ON_PROCESS") selected @endif>ON PROCESS</option>
                                     <option value="DECLINED" @if ($data->status == "DECLINED") selected @endif>DECLINED</option>
                                     <option value="DELIVERED" @if ($data->status == "DELIVERED") selected @endif>DELIVERED</option>
->>>>>>> rilisv1
                                 </select>
                             </div>
                             <div class="form-group mb-3">
@@ -88,13 +69,8 @@
                                 <textarea name="note" class="form-control" id="note" cols="30"
                                     rows="2">{{ $data->note }}</textarea>
                             </div>
-<<<<<<< HEAD
-                            <div class="row justify-content-center">
-                                <input type="submit" value="Update Status" class="btn btn-primary">
-=======
                             <div class="row float-right">
                                 <input type="submit" value="Update" class="btn btn-primary">
->>>>>>> rilisv1
                             </div>
                         </form>
                     </div>
