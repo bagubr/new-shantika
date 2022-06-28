@@ -182,7 +182,6 @@ Armada Rute
                             </tbody>
                         </table>
                         <div class="float-right">
-                            {{$fleet_routes->appends(Request::all())->links() }}
                         </div>
                     </div>
                     <!-- /.card-body -->
@@ -203,7 +202,7 @@ Armada Rute
 <script>
     $(function () {
       $("#example1").DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false, "paging":false
+        "responsive": true, "lengthChange": false, "autoWidth": false
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
 </script>

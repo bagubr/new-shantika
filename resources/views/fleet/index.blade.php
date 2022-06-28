@@ -56,18 +56,11 @@ Armada
                                     <td>{{$fleet->name}}</td>
                                     <td>
                                         @foreach ($fleet->fleet_detail as $detail)
-<<<<<<< HEAD
-                                        <li>
-                                            {{$detail->nickname}} ({{$detail->plate_number}})
-                                        </li>
-=======
-                                        
                                         <a href="{{route('fleet_detail.edit',$detail->id)}}" target="_blank">
                                         <li>
                                             {{$detail->nickname}} ({{$detail->plate_number}})
                                         </li>
                                         </a>
->>>>>>> rilisv1
                                         @endforeach
                                     </td>
                                     <td>
@@ -103,11 +96,8 @@ Armada
                                                 onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
                                                 type="submit">Delete</button>
                                         </form>
-<<<<<<< HEAD
-=======
                                         <a href="{{route('fleet_detail.create', ['fleet_id' => $fleet->id])}}"
                                             class="btn btn-outline-primary btn-xs">Tambah Unit</a>
->>>>>>> rilisv1
                                         @endunlessrole
                                     </td>
                                 </tr>

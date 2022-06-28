@@ -7,11 +7,7 @@ Edit Detail Armada
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-<<<<<<< HEAD
-                <h1>Edit Detail Armada Form</h1>
-=======
                 <h1>Edit Detail Armada For1m</h1>
->>>>>>> rilisv1
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -52,14 +48,11 @@ Edit Detail Armada
                                 placeholder="Masukkan Nomor Plat" value="{{$fleet_detail->plate_number}}">
                         </div>
                         <div class="form-group">
-<<<<<<< HEAD
-=======
                             <label for="inputCoDriver">Co Driver</label>
                             <input type="text" id="inputCoDriver" class="form-control" name="co_driver"
                                 placeholder="Masukkan Co Driver" value="{{$fleet_detail->co_driver}}">
                         </div>
                         <div class="form-group">
->>>>>>> rilisv1
                             <label for="inputName">Shift</label>
                             <select name="time_classification_id" class="form-control" id="">
                                 @foreach ($time_classifications as $item)

@@ -77,12 +77,8 @@ Armada
                             </select>
                         </div>
                         <div class="form-group">
-<<<<<<< HEAD
-                            <label for="">Gambar</label>
-=======
                             <label for="">Gambar</label><br>
                             <i style="color: red">Max 2 mb</i>
->>>>>>> rilisv1
                             <input type="file" accept="image/*" class="form-control" name="image">
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>

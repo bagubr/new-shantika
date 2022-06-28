@@ -43,7 +43,7 @@ class FleetRouteController extends Controller
             $query->whereHas('fleet_detail.fleet', function ($q) use ($fleet_id) {
                 $q->where('fleet_id', $fleet_id);
             });
-        })->withCount('blocked_chairs')->orderBy('id', 'desc')->paginate(10);
+        })->withCount('blocked_chairs')->orderBy('id', 'desc')->get();
         
         $areas = Area::get();
         $statuses = Agency::status();
