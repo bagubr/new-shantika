@@ -46,6 +46,9 @@ class AdminController extends Controller
     {
         $data               = $request->all();
         $data['password']   = Hash::make($request['password']);
+        if(empty($data['area_id'])){
+            $data['area_id'] = null;
+        }
         $admin              = Admin::create($data);
         $admin->assignRole($request->role);
 
