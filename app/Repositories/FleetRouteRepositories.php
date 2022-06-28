@@ -39,20 +39,20 @@ class FleetRouteRepositories {
                     });
                 })
                 ->whereHas('route', function ($query) use ($date, $destination_agency, $departure_agency, $time_classification_id) {
-                    $query->whereHas('agency_route_permanent', function ($query) use ($departure_agency)
-                        {
-                            $query->where('agency_id', $departure_agency->id);
-                        });
-                    $query->orDoesnthave('agency_route_permanent');
-                    $query->orWhere(function ($que) use($departure_agency, $date)
-                    {
-                        $que->whereHas('agency_route', function ($query) use ($departure_agency, $date)
-                            {
-                                $query->whereDate('start_at', '<=', $date)->whereDate('end_at', '>=', $date);
-                                $query->where('agency_id', $departure_agency->id);
-                            });
-                        $que->orDoesnthave('agency_route');
-                    });
+                    // $query->whereHas('agency_route_permanent', function ($query) use ($departure_agency)
+                    //     {
+                    //         $query->where('agency_id', $departure_agency->id);
+                    //     });
+                    // $query->orDoesnthave('agency_route_permanent');
+                    // $query->orWhere(function ($que) use($departure_agency, $date)
+                    // {
+                    //     $que->whereHas('agency_route', function ($query) use ($departure_agency, $date)
+                    //         {
+                    //             $query->whereDate('start_at', '<=', $date)->whereDate('end_at', '>=', $date);
+                    //             $query->where('agency_id', $departure_agency->id);
+                    //         });
+                    //     $que->orDoesnthave('agency_route');
+                    // });
                     $query->whereHas('checkpoints', function ($query) use ($date, $destination_agency, $departure_agency, $time_classification_id) {
                         $time_start = TimeClassification::find($time_classification_id)->time_start;
                         $time_end = TimeClassification::find($time_classification_id)->time_end;
@@ -81,28 +81,33 @@ class FleetRouteRepositories {
                 })
                 ->where(function ($query) use ($time_classification_id, $departure_agency, $date, $fleet_class_id)
                 {
-                    $query->whereDoesntHave('time_change_route', function ($que2) use ( $time_classification_id)
+                    $query->whereHas('fleet_detail', function ($que4) use ($time_classification_id, $fleet_class_id)
                     {
-                        $que2->whereHas('fleet_route.fleet_detail', function ($que4) use ($time_classification_id)
+                        $que4->where('time_classification_id', $time_classification_id);
+                        $que4->whereHas('fleet', function ($que5) use ( $fleet_class_id)
                         {
-                            $que4->where('time_classification_id', $time_classification_id);
+                            $que5->where('fleet_class_id', $fleet_class_id);
                         });
-                    })->orWhereHas('time_change_route', function ($que2) use ($date, $time_classification_id, $fleet_class_id, $departure_agency)
-                    {
-                        $que2->where(function ($que3) use ($date, $time_classification_id, $fleet_class_id, $departure_agency)
-                        {
-                            $que3->whereDate('date', $date);
-                            $que3->where('time_classification_id', $time_classification_id);
-                            $que3->whereHas('fleet_route.fleet_detail.fleet', function ($que4) use ( $fleet_class_id)
-                            {
-                                $que4->where('fleet_class_id', $fleet_class_id);
-                            });
-                            $que3->whereHas('fleet_route.route.checkpoints.agency.city', function ($subsubquery) use ($departure_agency) {
-                                $subsubquery->where('area_id', '!=', $departure_agency->city->area_id);
-                            });
-                        })
-                        ->orWhereDate('date', '!=', $date);
                     });
+                    // $query->whereDoesntHave('time_change_route', function ($que2) use ( $time_classification_id, $fleet_class_id)
+                    // {
+                    // });
+                    // $query->orWhereHas('time_change_route', function ($que2) use ($date, $time_classification_id, $fleet_class_id, $departure_agency)
+                    // {
+                    //     $que2->where(function ($que3) use ($date, $time_classification_id, $fleet_class_id, $departure_agency)
+                    //     {
+                    //         $que3->whereDate('date', $date);
+                    //         $que3->where('time_classification_id', $time_classification_id);
+                    //         $que3->whereHas('fleet_route.fleet_detail.fleet', function ($que4) use ( $fleet_class_id)
+                    //         {
+                    //             $que4->where('fleet_class_id', $fleet_class_id);
+                    //         });
+                    //         $que3->whereHas('fleet_route.route.checkpoints.agency.city', function ($subsubquery) use ($departure_agency) {
+                    //             $subsubquery->where('area_id', '!=', $departure_agency->city->area_id);
+                    //         });
+                    //     })
+                    //     ->orWhereDate('date', '!=', $date);
+                    // });
                 })
         ->get();
     }
