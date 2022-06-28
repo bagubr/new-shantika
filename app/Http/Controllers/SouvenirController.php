@@ -17,8 +17,13 @@ class SouvenirController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD
         $data = Souvenir::paginate(10);
         return view('souvenir.index', compact('data'));
+=======
+        $souvenirs = Souvenir::orderBy('id', 'desc')->paginate(10);
+        return view('souvenir.index', compact('souvenirs'));
+>>>>>>> rilisv1
     }
 
     /**

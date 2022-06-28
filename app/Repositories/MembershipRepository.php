@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+<<<<<<< HEAD
 use App\Models\Membership;
 use App\Models\MembershipPoint;
 use App\Models\User;
@@ -116,5 +117,19 @@ class MembershipRepository {
     public function SouvenirRepository()
     {
         return new SouvenirRepository;
+=======
+use App\Models\User;
+use App\Services\MembershipService;
+
+class MembershipRepository {
+    
+    public static function getByUserId($user_id = null)
+    {
+        $user = User::has('membership')->where('id', $user_id)->first();
+        if(!$user){
+            return MembershipService::create($user_id);
+        }
+        return $user->membership;
+>>>>>>> rilisv1
     }
 }

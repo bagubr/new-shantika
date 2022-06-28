@@ -85,7 +85,11 @@ Armada
         <div class="col-md-6">
             <div class="card card-primary">
                 <div class="card-header">
+<<<<<<< HEAD
                     <h3 class="card-title">Detail Armada </h3>
+=======
+                    <h3 class="card-title">Tambah Unit Armada </h3>
+>>>>>>> rilisv1
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -100,15 +104,31 @@ Armada
                         <div id="dynamic_field">
                             <div class="form-group">
                                 <label for="inputName">Nama Julukan</label>
+<<<<<<< HEAD
                                 <input type="text" id="inputName" class="form-control" name="nickname[]"
+=======
+                                <input type="text" id="inputName" class="form-control" name="nickname"
+>>>>>>> rilisv1
                                     placeholder="Masukkan Nama Julukan">
                             </div>
                             <div class="form-group">
                                 <label for="inputName">Nomor Plat</label>
+<<<<<<< HEAD
                                 <input type="text" id="inputName" class="form-control" name="plate_number[]"
                                     placeholder="Masukkan Nomor Plat">
                             </div>
                             <div class="form-group">
+=======
+                                <input type="text" id="inputName" class="form-control" name="plate_number"
+                                    placeholder="Masukkan Nomor Plat">
+                            </div>
+                            <div class="form-group">
+                                <label for="inputCoDriver">Co Driver</label>
+                                <input type="text" id="inputCoDriver" class="form-control" name="co_driver" placeholder="Masukkan Co Driver"
+                                    value="{{isset($fleet) ? $fleet->co_driver : ''}}">
+                            </div>
+                            <div class="form-group">
+>>>>>>> rilisv1
                                 <label for="">Shift</label>
                                 <select name="time_classification_id" class="form-control">
                                     @foreach($time_classifications as $item)
@@ -118,7 +138,11 @@ Armada
                             </div>
                             <div class="form-group">
                                 <label>Armada</label>
+<<<<<<< HEAD
                                 <select class="form-control select2" name="fleet_id[]" style="width: 100%;" disabled>
+=======
+                                <select class="form-control select2" name="fleet_id" style="width: 100%;" disabled>
+>>>>>>> rilisv1
                                     <option value="">Pilih Armada</option>
                                     @foreach ($fleets as $fleet_now)
                                     <option value="{{$fleet_now->id}}" @isset($fleet) @if ($fleet_now->id ===
@@ -131,7 +155,10 @@ Armada
                             </div>
                         </div>
                         @unlessrole('owner')
+<<<<<<< HEAD
                         <button type="button" name="add" id="add" class="btn btn-success d-inline">Add More</button>
+=======
+>>>>>>> rilisv1
                         <input type="submit" value="Submit" class="btn btn-success float-right">
                         @endunlessrole
                     </form>
@@ -145,7 +172,11 @@ Armada
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
+<<<<<<< HEAD
                     <h3 class="card-title">Table Detail Armada</h3>
+=======
+                    <h3 class="card-title">Table Unit Armada</h3>
+>>>>>>> rilisv1
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -155,6 +186,10 @@ Armada
                                 <th>Kode Armada</th>
                                 <th>Julukan Armada</th>
                                 <th>Plat Nomor</th>
+<<<<<<< HEAD
+=======
+                                <th>Co Driver</th>
+>>>>>>> rilisv1
                                 <th>Shift</th>
                                 <th>Aksi</th>
                             </tr>
@@ -165,6 +200,10 @@ Armada
                                 <td>{{$fleet_detail->fleet->name}}</td>
                                 <td>{{$fleet_detail->nickname}}</td>
                                 <td>{{$fleet_detail->plate_number}}</td>
+<<<<<<< HEAD
+=======
+                                <td>{{$fleet_detail->co_driver}}</td>
+>>>>>>> rilisv1
                                 <td>{{$fleet_detail->time_classification?->name ?? '-'}}</td>
                                 <td>
                                     @unlessrole('owner')

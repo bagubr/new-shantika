@@ -23,9 +23,14 @@ class Membership extends Model
     ];
 
     protected $appends = [
+<<<<<<< HEAD
         'sum_point_in',
         'sum_point_out',
         'code_member_stk'
+=======
+        'code_member_stk',
+        'point'
+>>>>>>> rilisv1
     ];
 
     protected $casts = [
@@ -53,6 +58,7 @@ class Membership extends Model
         return 'SNTK' . sprintf('%08d', $this->code_member);
     }
 
+<<<<<<< HEAD
     public function getSumPointInAttribute()
     {
         return $this->membership_point()->where('status', 'purchase')->sum('value');
@@ -61,6 +67,11 @@ class Membership extends Model
     public function getSumPointOutAttribute()
     {
         return $this->membership_point()->where('status', 'redeem')->sum('value');
+=======
+    public function getPointAttribute()
+    {
+        return $this->sum_point;
+>>>>>>> rilisv1
     }
 
     public function souvenir_redeem()

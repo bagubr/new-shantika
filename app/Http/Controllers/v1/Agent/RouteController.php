@@ -8,6 +8,10 @@ use App\Http\Resources\Route\AvailableRoutesResource;
 use App\Models\FleetRoute;
 use App\Models\TimeClassification;
 use App\Repositories\AgencyRepository;
+<<<<<<< HEAD
+=======
+use App\Repositories\FleetRouteRepositories;
+>>>>>>> rilisv1
 use App\Repositories\UserRepository;
 
 class RouteController extends BaseRouteController
@@ -20,12 +24,17 @@ class RouteController extends BaseRouteController
         $destination_agency = AgencyRepository::findWithCity($request->agency_id);
         $time_classification_id = $request->time_classification_id;
         $fleet_class_id = $request->fleet_class_id;
+<<<<<<< HEAD
+=======
+
+>>>>>>> rilisv1
         if (empty($destination_agency->is_active)) {
             return $this->sendFailedResponse([], 'Agen tujuan tidak aktif, mohon coba agen yang lain');
         }
         if (empty($departure_agency->is_active)) {
             return $this->sendFailedResponse([], 'Akun agen anda dinonaktifkan, segera lakukan setoran atau kontak admin');
         }
+<<<<<<< HEAD
         $routes = FleetRoute::with(['fleet_detail.fleet.layout', 'route.checkpoints.agency.city', 'route.checkpoints.agency.prices'=>function($query) {
             $query->orderBy('id', 'desc');
           }, 'fleet_detail.fleet.fleetclass.prices', 'prices', 'fleet_detail', 'fleet_detail.fleet.agency_fleet'])
@@ -100,6 +109,10 @@ class RouteController extends BaseRouteController
                     $que->orDoesnthave('fleet_detail.fleet.agency_fleet');
                 })
         ->get();
+=======
+        $routes = FleetRouteRepositories::search_fleet($date, $departure_agency, $destination_agency, $time_classification_id, $fleet_class_id);
+        
+>>>>>>> rilisv1
         foreach ($routes as $route) {
             $found = false;
             $checkpoints = $route->route->checkpoints->filter(function ($item, $key) use ($request, &$route, &$found) {

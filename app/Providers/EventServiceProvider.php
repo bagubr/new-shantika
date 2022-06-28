@@ -2,9 +2,17 @@
 
 namespace App\Providers;
 
+<<<<<<< HEAD
 use App\Events\SendingNotification;
 use App\Events\SendingNotificationToAdmin;
 use App\Events\SendingNotificationToTopic;
+=======
+use App\Events\ExpiredNotificationEvent;
+use App\Events\SendingNotification;
+use App\Events\SendingNotificationToAdmin;
+use App\Events\SendingNotificationToTopic;
+use App\Listeners\ExpiredNotificationListener;
+>>>>>>> rilisv1
 use App\Listeners\SendNotification;
 use App\Listeners\SendNotificationToAdmin;
 use App\Listeners\SendNotificationToTopic;
@@ -24,6 +32,21 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+<<<<<<< HEAD
+=======
+        SendingNotification::class => [
+            SendNotification::class
+        ],
+        ExpiredNotificationEvent::class => [
+            ExpiredNotificationListener::class
+        ],
+        SendingNotificationToTopic::class => [
+            SendNotificationToTopic::class
+        ],
+        SendingNotificationToAdmin::class => [
+            SendNotificationToAdmin::class
+        ]
+>>>>>>> rilisv1
     ];
 
     /**
@@ -33,6 +56,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+<<<<<<< HEAD
         Event::listen(
             SendingNotification::class,
             [SendNotification::class, 'handle']
@@ -47,5 +71,21 @@ class EventServiceProvider extends ServiceProvider
             SendingNotificationToAdmin::class,
             [SendNotificationToAdmin::class, 'handle']
         );
+=======
+        // Event::listen(
+        //     SendingNotification::class,
+        //     [SendNotification::class, 'handle']
+        // );
+
+        // Event::listen(
+        //     SendingNotificationToTopic::class,
+        //     [SendNotificationToTopic::class, 'handle']
+        // );
+
+        // Event::listen(
+        //     SendingNotificationToAdmin::class,
+        //     [SendNotificationToAdmin::class, 'handle']
+        // );
+>>>>>>> rilisv1
     }
 }

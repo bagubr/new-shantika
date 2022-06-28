@@ -9,6 +9,10 @@ use App\Models\TimeClassification;
 use App\Repositories\FleetClassRepository;
 use App\Repositories\FleetRepository;
 use App\Repositories\LayoutRepository;
+<<<<<<< HEAD
+=======
+use Illuminate\Support\Facades\Auth;
+>>>>>>> rilisv1
 
 class FleetController extends Controller
 {
@@ -19,7 +23,20 @@ class FleetController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD
         $fleets = FleetRepository::getWithLayout();
+=======
+        $area_id            = Auth::user()->area_id;
+        $fleets =  Fleet::with('layout')
+        ->when($area_id, function ($query) use ($area_id)
+        {
+            $query->whereHas('fleet_detail.fleet_route.route.checkpoints.agency.city', function ($query) use ($area_id)
+            {
+                $query->where('area_id', $area_id);
+            });
+        })
+        ->get();
+>>>>>>> rilisv1
         return view('fleet.index', compact('fleets'));
     }
 

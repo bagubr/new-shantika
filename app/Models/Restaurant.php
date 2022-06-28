@@ -26,6 +26,14 @@ class Restaurant extends Model
     {
         return $this->hasMany(RestaurantAdmin::class, 'restaurant_id', 'id');
     }
+<<<<<<< HEAD
+=======
+
+    public function admin()
+    {
+        return $this->belongsToMany(Admin::class, 'restaurant_admins', 'restaurant_id', 'admin_id', 'id', 'id', 'admin')->withPivot('phone');
+    }
+>>>>>>> rilisv1
     public function food_reddem_histories()
     {
         return $this->hasMany(FoodRedeemHistory::class, 'restaurant_id', 'id');

@@ -31,6 +31,10 @@ class ApiOrderCreateRequest extends ApiRequest
             'is_travel'=>'sometimes|required|boolean',
             'is_feed'=>'sometimes|required|boolean',
             'promo_id'=>'sometimes|numeric',
+<<<<<<< HEAD
+=======
+            'note'=>'sometimes|string',
+>>>>>>> rilisv1
         ];
     }
 }

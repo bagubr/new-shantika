@@ -19,6 +19,7 @@ class FleetDetailController extends Controller
     {
         $data = $this->validate($request, [
             'fleet_id'                  => 'required|exists:fleets,id',
+<<<<<<< HEAD
             'plate_number'              => 'required|array',
             'nickname'                  => 'required|array',
             'time_classification_id'    => 'required',
@@ -35,16 +36,33 @@ class FleetDetailController extends Controller
             FleetDetail::create($fleet_detail);
         }
         return redirect()->back()->with('success', 'Data berhasil di tambahkan');
+=======
+            'plate_number'              => 'required|string',
+            'nickname'                  => 'required|string',
+            'time_classification_id'    => 'required',
+            'co_driver'                 => 'string'
+        ]);
+        FleetDetail::create($data);
+        return redirect()->route('fleets.index')->with('success', 'Data berhasil di tambahkan');
+>>>>>>> rilisv1
     }
     
     public function update(Request $request, $id)
     {
         $fleet_detail = FleetDetail::find($id);
         $data = $this->validate($request, [
+<<<<<<< HEAD
         'fleet_id'                      => 'required|exists:fleets,id',
             'plate_number'              => 'required|string',
             'nickname'                  => 'required|string',
             'time_classification_id'    => 'required'
+=======
+            'fleet_id'                  => 'required|exists:fleets,id',
+            'plate_number'              => 'required|string',
+            'nickname'                  => 'required|string',
+            'time_classification_id'    => 'required',
+            'co_driver'                 => 'string'
+>>>>>>> rilisv1
         ]);
         $fleet_detail->update($data);
         return redirect('fleets/'.$fleet_detail->fleet_id)->with('success', 'Data berhasil di update');
@@ -55,6 +73,7 @@ class FleetDetailController extends Controller
         $fleet_detail = FleetDetail::find($id);
         $time_classifications = TimeClassification::get();
         $fleets = Fleet::orderBy('id', 'desc')->get();
+<<<<<<< HEAD
         return view('fleet.edit_fleet_detail', compact('fleet_detail', 'fleets', 'time_classifications'));
     }
 
@@ -63,6 +82,17 @@ class FleetDetailController extends Controller
         $fleet = Fleet::orderBy('id', 'desc')->get();
         $time_classifications = TimeClassification::get();
         return view('fleet_detail', compact('fleet'));
+=======
+        return view('fleet_detail.edit', compact('fleet_detail', 'fleets', 'time_classifications'));
+    }
+
+    public function create(Request $request)
+    {
+        $fleets = Fleet::orderBy('id', 'desc')->get();
+        $time_classifications = TimeClassification::get();
+        $fleet_id = $request->fleet_id;
+        return view('fleet_detail.create', compact('fleets', 'time_classifications', 'fleet_id'));
+>>>>>>> rilisv1
     }
 
     public function destroy($id)

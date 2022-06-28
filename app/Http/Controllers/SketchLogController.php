@@ -2,12 +2,23 @@
 
 namespace App\Http\Controllers;
 
+<<<<<<< HEAD
+=======
+use App\Events\SendingNotification;
+>>>>>>> rilisv1
 use App\Exports\SketchLogsExport;
 use App\Models\Admin;
 use App\Models\Agency;
 use App\Models\Fleet;
 use App\Models\FleetRoute;
+<<<<<<< HEAD
 use App\Models\SketchLog;
+=======
+use App\Models\Notification;
+use App\Models\Order;
+use App\Models\SketchLog;
+use App\Utils\NotificationMessage;
+>>>>>>> rilisv1
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -48,4 +59,26 @@ class SketchLogController extends Controller
     {
         return Excel::download(new SketchLogsExport(), 'riwayat_sketch_' . date('dmYHis') . '.xlsx');
     }
+<<<<<<< HEAD
+=======
+
+    public function create(Request $request)
+    {
+        $data = $request->all();
+        SketchLog::create($data);
+    }
+
+    public function notification(Request $request)
+    {   
+        $order = Order::find($request->id);
+        if($request->status == SketchLog::TYPE2){
+            $message = NotificationMessage::orderCanceled($order->fleet_route->fleet_detail->fleet->name, $request->cancelation_reason);
+        }else{
+            $message = NotificationMessage::scheduleChanged($order->fleet_route?->fleet_detail?->fleet?->name, date('d-m-Y', strtotime($order->created_at)));
+        }
+        $notification = Notification::build($message[0], $message[1], Notification::TYPE1, $order->id, $order->user_id);
+        SendingNotification::dispatch($notification, $order?->user?->fcm_token, true);
+
+    }
+>>>>>>> rilisv1
 }

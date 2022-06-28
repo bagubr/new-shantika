@@ -78,7 +78,11 @@ Member
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
+<<<<<<< HEAD
                         <table class="table table-bordered table-striped">
+=======
+                        <table class="table table-bordered table-striped table-responsive">
+>>>>>>> rilisv1
                             <thead>
                                 <tr>
                                     <th>Kode</th>
@@ -109,14 +113,22 @@ Member
                                         <a href="{{route('membership_point.index', ['membership_id' => $member->id])}}"
                                             class="btn btn-outline-primary btn-xs">History Point</a>
                                         @endif
+<<<<<<< HEAD
                                         <form action="{{route('member.destroy',$member->id)}}" class="d-inline"
+=======
+                                        {{-- <form action="{{route('member.destroy',$member->id)}}" class="d-inline"
+>>>>>>> rilisv1
                                             method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger btn-xs"
                                                 onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
                                                 type="submit">Delete</button>
+<<<<<<< HEAD
                                         </form>
+=======
+                                        </form> --}}
+>>>>>>> rilisv1
                                         @endunlessrole
                                     </td>
                                 </tr>

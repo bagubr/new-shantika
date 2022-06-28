@@ -2,17 +2,29 @@
         <div class="modal-dialog modal-xl modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
+<<<<<<< HEAD
                     <h4 class="modal-title">@{{this.firstLayout.fleet.name}} -> @{{this.secondLayout.fleet.name}}</h4>
+=======
+                    <h4 v-if="secondLayout.isLoading == false" class="modal-title">@{{this.firstLayout.fleet.name}} -> @{{this.secondLayout.fleet.name}} <i class="fas fa-retweet float-right" @click="relaodLayout()"></i></h4>
+>>>>>>> rilisv1
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
+<<<<<<< HEAD
                     <p>Memindahkan penumpang dari bis <b>@{{this.firstLayout.fleet.name}}</b> ke
                         <b>@{{this.secondLayout.fleet.name}}</b></p>
                     <div class="row">
                         <div class="col-12 col-lg-6 border-right">
                             <div class="form-group position-md-sticky bg-white pb-1 pt-1" style="top: -17px">
+=======
+                    <p v-if="secondLayout.isLoading == false">Memindahkan penumpang dari bis <b>@{{this.firstLayout.fleet.name}}</b> ke
+                        <b>@{{this.secondLayout.fleet.name}}</b></p>
+                    <div class="row">
+                        <div :class="[data.oneLayout == false ? 'col-12 col-lg-6 border-right':'col-12 col-lg-12 border-right']">
+                            <div v-if="secondLayout.isLoading == false" class="form-group position-md-sticky bg-white pb-1 pt-1" style="top: -17px">
+>>>>>>> rilisv1
                                 <div class="row mb-1">
                                     <div class="col-12 text-right">
                                         <a class="btn btn-secondary" :href="printFirstLayout()" target="_blank"><i class="fas fa-print"></i> Print Sketch Langsir</a>
@@ -36,9 +48,15 @@
                                 <label for="">Armada</label>
                                 <div class="row">
                                     <div class="col">
+<<<<<<< HEAD
                                         <select @change="selectOptionFirstLayout($event)" v-model="firstLayout.fleetRouteId" class="form-control" id="">
                                             <option :value="order.fleet_route_id" v-for="order in result.orders"
                                                 :key="order.id" v-text="setSelectOptionLayoutText(order)"></option>
+=======
+                                        <select @change="selectOptionFirstLayout($event)" class="form-control" id="">
+                                            <option :value="fleetRoute.id" v-for="fleetRoute in fleetRoutes"
+                                                :key="fleetRoute.id" v-text="setSelectOptionLayoutText(fleetRoute)" :selected="fleetRoute.id == firstLayout.fleetRouteId"></option>
+>>>>>>> rilisv1
                                         </select>
                                     </div>
                                     <div class="col-auto">
@@ -57,7 +75,11 @@
                                     autoplay></lottie-player>
                             </div>
                             <div v-else>
+<<<<<<< HEAD
                                 <div v-if="firstLayout.isShowInGrid" class="overflow-auto">
+=======
+                                <div v-if="firstLayout.isShowInGrid" :class="[data.oneLayout == false ? 'overflow-auto':'overflow-auto m-auto']" :style="{'max-width': data.oneLayout == true ? '50%' : '100%'}">
+>>>>>>> rilisv1
                                     <div v-for="i in firstLayout.data.row" class="d-flex">
                                         <div v-for="j in firstLayout.data.col" class="m-1">
                                             <button v-html="loadText(i,j,0)" :class="loadClass(i,j,0)"
@@ -73,7 +95,11 @@
                                                 <div class="col">
                                                     <span class="font-weight-bold">@{{chair.name}} -
                                                         @{{chair.order_detail.order_detail[0].name}}
+<<<<<<< HEAD
                                                         (@{{chair.order_detail?.user?.agencies?.agent?.name || 'Customer'}})</span>
+=======
+                                                        (@{{chair.order_detail?.user?.agencies?.agent?.name}})  (@{{chair.order_detail?.user?.name}})</span>
+>>>>>>> rilisv1
                                                 </div>
                                                 <div class="col-auto">
                                                     <span class="badge badge">@{{chair.order_detail.status}}</span>
@@ -97,6 +123,7 @@
                                             <br>
                                             <span>@{{chair.order_detail.code_order}}</span>
                                             <br>
+<<<<<<< HEAD
                                             <div class="row">
                                                 <div class="col-12">
                                                     <form autocomplete="off" @submit.prevent="cancelOrder(chair.order_detail.order_detail.filter(e => e.layout_chair_id == chair.id)[0].id, chair.password, chair.cancelation_reason, chair.isAll)" class="w-100">
@@ -119,6 +146,8 @@
                                                     </form>
                                                 </div>
                                             </div>
+=======
+>>>>>>> rilisv1
                                         </div>
                                         <div v-if="chair.booking_detail != undefined" class="border-top border-bottom">
                                             <p class="font-weight-bold text-warning">@{{chair.name}} -
@@ -133,8 +162,13 @@
                                 </div>
                             </div>
                         </div>
+<<<<<<< HEAD
                         <div class="col-12 col-lg-6 border-right">
                             <div class="form-group position-md-sticky bg-white pb-1 pt-1" style="top: -17px">
+=======
+                        <div v-if="data.oneLayout == false" class="col-12 col-lg-6 border-right">
+                            <div v-if="secondLayout.isLoading == false" class="form-group position-md-sticky bg-white pb-1 pt-1" style="top: -17px">
+>>>>>>> rilisv1
                                 <div class="row mb-1">
                                     <div class="col-12 text-right">
                                         <a class="btn btn-secondary" :href="printSecondLayout()" target="_blank"><i class="fas fa-print"></i> Print Sketch Langsir</a>
@@ -158,10 +192,16 @@
                                 <label for="">Armada</label>
                                 <div class="row">
                                     <div class="col">
+<<<<<<< HEAD
                                         <select @change="selectOptionSecondLayout($event)" v-model="secondLayout.fleetRouteId" class="form-control"
                                             id="">
                                             <option :value="order.fleet_route_id" v-for="order in result._orders"
                                                 :key="order.id" v-text="setSelectOptionLayoutText(order)"></option>
+=======
+                                        <select @change="selectOptionSecondLayout($event)" class="form-control" id="">
+                                            <option :value="fleetRoute.id" v-for="fleetRoute in fleetRoutes"
+                                                :key="fleetRoute.id" v-text="setSelectOptionLayoutText(fleetRoute)" :selected="fleetRoute.id == secondLayout.fleetRouteId"></option>
+>>>>>>> rilisv1
                                         </select>
                                     </div>
                                     <div class="col-auto">
@@ -191,6 +231,7 @@
                                 </div>
                                 <div v-else>
                                     <div v-for="chair in secondLayout.data.chairs" class="w-100">
+<<<<<<< HEAD
                                         <div v-if="chair.order_detail != undefined" class="border-top border-bottom">
                                             <p class="font-weight-bold">@{{chair.name}} -
                                                 @{{chair.order_detail.order_detail[0].name}}
@@ -199,6 +240,37 @@
                                                 target="_blank">@{{chair.order_detail.order_detail[0].phone}}</a>
                                             <p>Status Pembelian Tiket: @{{chair.order_detail.status}}</p>
                                             <p>@{{chair.order_detail.code_order}}</p>
+=======
+                                        <div v-if="chair.order_detail != undefined" class="border-top border-bottom pt-3 pb-3">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <span class="font-weight-bold">@{{chair.name}} -
+                                                        @{{chair.order_detail.order_detail[0].name}}
+                                                        (@{{chair.order_detail?.user?.agencies?.agent?.name}})  (@{{chair.order_detail?.user?.name}})</span>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <span class="badge badge">@{{chair.order_detail.status}}</span>
+                                                </div>
+                                            </div>
+                                            <span target="_blank">
+                                                @{{chair.order_detail.order_detail[0].phone}} |
+                                                <a :href="'https://wa.me/'+chair.order_detail.order_detail[0].phone">
+                                                    <i class="fab fa-whatsapp"></i>
+                                                    Whatsapp
+                                                </a> |
+                                                <a :href="'tel:'+chair.order_detail.order_detail[0].phone">
+                                                    <i class="fas fa-phone"></i>
+                                                    Telepon
+                                                </a>
+                                            </span>
+                                            <br>
+                                            <span>Agen Keberangkatan: @{{chair.order_detail.agency?.name}}</span>
+                                            <br>
+                                            <span>Agen Tujuan: @{{chair.order_detail.agency_destiny?.name}}</span>
+                                            <br>
+                                            <span>@{{chair.order_detail.code_order}}</span>
+                                            <br>
+>>>>>>> rilisv1
                                         </div>
                                         <div v-if="chair.booking_detail != undefined" class="border-top border-bottom">
                                             <p class="font-weight-bold text-warning">@{{chair.name}} -
@@ -217,10 +289,60 @@
                 </div>
                 @unlessrole('owner')
 
+<<<<<<< HEAD
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-danger" @click="reset()">Reset</button>
                     <button type="button" class="btn btn-primary" @click="submit()">Save</button>
                 </div>
+=======
+                <div v-if="secondLayout.isLoading == false" class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-secondary" @click="reset()">Reset</button>
+                    <button type="button" class="btn btn-primary" @click="submit()">Save</button>
+                </div>
+                <div style="color:red;">* Pilih Salah Satu</div>
+                <div v-if="secondLayout.isLoading == false" class="modal-footer justify-content-center">
+                    <div class="col-2 form-group form-check">
+                        <input class="form-check-input" type="checkbox" v-model="data.is_group" id="flexCheckDefault" @click="changeIsGroup()">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Pilih Kursi Rombongan
+                        </label>
+                    </div>
+                    <div class="col-2 form-group form-check">
+                        <input class="form-check-input" type="checkbox" v-model="data.is_unit" id="flexCheckUnit" @click="changeIsUnit()">
+                        <label class="form-check-label" for="flexCheckUnit">
+                            Pilih Kursi
+                        </label>
+                    </div>
+                    <div class="col-2 form-group form-check">
+                        <input class="form-check-input" type="checkbox" v-model="data.is_delete_group" id="flexCheckDefault1" @click="changeIsDeleteGroup()">
+                        <label class="form-check-label" for="flexCheckDefault1">
+                            Hapus Kursi Rombongan
+                        </label>
+                    </div>
+                    <div class="col-2 form-group form-check">
+                        <input class="form-check-input" type="checkbox" v-model="data.is_delete_unit" id="flexCheckDefaultDunit" @click="changeIsDeleteUnit()">
+                        <label class="form-check-label" for="flexCheckDefaultDunit">
+                          Hapus Kursi
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-12">
+                        <p class="badge bg-primary">Kursi Kosong</p>
+                        <p class="badge bg-dark">Kursi Di Blokir</p>
+                        <p class="badge bg-secondary">Space</p>
+                        <p class="badge bg-warning">Toilet</p>
+                        <p class="badge bg-info">Pintu</p>
+                        <p class="badge bg-green">Pindah</p>
+                        <p class="badge bg-teal">Terpilih</p>
+                        <p class="badge bg-danger">Pembelian Dari Agent</p>
+                        <p class="badge bg-orange">Booking Dari Agent</p>
+                        <p class="badge bg-purple">Pembelian Dari Customer</p>
+                        <p class="badge bg-chocolate">Pembelian Dari Customer Menunggu Pembayaran</p>
+                        <p class="badge bg-chocolate-light">Pembelian Dari Customer Menunggu Konfirmasi</p>
+                    </div>
+                </div>
+>>>>>>> rilisv1
                 @endunlessrole
             </div>
         </div>

@@ -10,6 +10,10 @@ use App\Models\FleetRoute;
 use App\Models\Route;
 use App\Models\TimeClassification;
 use App\Repositories\AgencyRepository;
+<<<<<<< HEAD
+=======
+use App\Repositories\FleetRouteRepositories;
+>>>>>>> rilisv1
 use App\Repositories\TimeClassificationRepository;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -29,6 +33,7 @@ class RouteController extends Controller
         if (empty($departure_agency->is_active)) {
             return $this->sendFailedResponse([], 'Akun agen keberangkatan anda dinonaktifkan, mohon coba agen yang lain');
         }
+<<<<<<< HEAD
 
         $routes = FleetRoute::with(['fleet_detail.fleet.layout', 'route.checkpoints.agency.city', 'route.checkpoints.agency.prices'=>function($query) {
             $query->orderBy('id', 'desc');
@@ -112,6 +117,9 @@ class RouteController extends Controller
                     $que->orDoesnthave('fleet_detail.fleet.agency_fleet_permanent');
                 })
         ->get();
+=======
+        $routes = FleetRouteRepositories::search_fleet($date, $departure_agency, $destination_agency, $time_classification_id, $fleet_class_id);
+>>>>>>> rilisv1
 
         foreach ($routes as $route) {
             $found = false;

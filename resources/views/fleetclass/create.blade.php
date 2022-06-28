@@ -81,11 +81,19 @@ Fleet
                         </div>
                         <div class="form-group">
                             <label for="">Harga</label>
+<<<<<<< HEAD
+=======
+                            <small style="color: red">* Masukan harga setelah di tambahkan harga makan</small>
+>>>>>>> rilisv1
                             <input type="text" name="price" class="form-control" id="">
                         </div>
                         <div class="form-group">
                             <label for="">Dimulai Tanggal</label>
+<<<<<<< HEAD
                             <input type="datetime-local" name="start_at" class="form-control" id="">
+=======
+                            <input type="date" name="start_at" class="form-control" id="">
+>>>>>>> rilisv1
                         </div>
                         <div class="form-group text-right">
                             <button type="submit" class="btn btn-primary">Submit</button>
@@ -96,7 +104,12 @@ Fleet
                         <thead>
                             <tr>
                                 <th>Area</th>
+<<<<<<< HEAD
                                 <th>Harga</th>
+=======
+                                <th>Harga Tiket + Makan</th>
+                                <th>Harga Tiket</th>
+>>>>>>> rilisv1
                                 <th>Berlaku dari</th>
                                 <th>Aksi</th>
                             </tr>
@@ -106,6 +119,10 @@ Fleet
                             <tr>
                                 <td>{{$price->area->name}}</td>
                                 <td>Rp. {{number_format($price->price, 2)}}</td>
+<<<<<<< HEAD
+=======
+                                <td>Rp. {{number_format($price->price - $fleetclass->price_food, 2)}}</td>
+>>>>>>> rilisv1
                                 <td>{{date('l, d F Y', strtotime($price->start_at))}}</td>
                                 <td>
                                     <form action="{{route('fleet_class_price.destroy', $price->id)}}" method="POST">

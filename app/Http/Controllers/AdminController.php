@@ -5,7 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Admin\CreateAdminRequest;
 use App\Http\Requests\Admin\UpdateAdminRequest;
 use App\Models\Admin;
+<<<<<<< HEAD
 use Illuminate\Http\Request;
+=======
+use App\Models\Area;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+>>>>>>> rilisv1
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
@@ -18,7 +24,11 @@ class AdminController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD
         $admins = Admin::all();
+=======
+        $admins = Admin::orderBy('id', 'desc')->paginate(10);
+>>>>>>> rilisv1
         return view('admin.index', compact('admins'));
     }
 
@@ -30,7 +40,12 @@ class AdminController extends Controller
     public function create()
     {
         $roles = Role::all();
+<<<<<<< HEAD
         return view('admin.create', compact('roles'));
+=======
+        $areas = Area::all();
+        return view('admin.create', compact('roles', 'areas'));
+>>>>>>> rilisv1
     }
 
     /**
@@ -70,7 +85,12 @@ class AdminController extends Controller
     public function edit(Admin $admin)
     {
         $roles = Role::all();
+<<<<<<< HEAD
         return view('admin.create', compact('admin', 'roles'));
+=======
+        $areas = Area::all();
+        return view('admin.create', compact('admin', 'roles', 'areas'));
+>>>>>>> rilisv1
     }
 
     /**
@@ -82,12 +102,25 @@ class AdminController extends Controller
      */
     public function update(UpdateAdminRequest $request, Admin $admin)
     {
+<<<<<<< HEAD
         $data   = $request->only('name', 'email');
+=======
+        $data   = $request->only('name', 'email', 'area_id');
+        if(empty($data['area_id'])){
+            $data['area_id'] = null;
+        }
+>>>>>>> rilisv1
         if ($request->password) {
             $data['password']   = Hash::make($request['password']);
         }
         $admin->update($data);
+<<<<<<< HEAD
         $admin->syncRoles($request->role);
+=======
+        if($request->role){
+            $admin->syncRoles($request->role);
+        }
+>>>>>>> rilisv1
 
         session()->flash('success', 'Akun Berhasil Diubah');
         return redirect(route('admin.index'));

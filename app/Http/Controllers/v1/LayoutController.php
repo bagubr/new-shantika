@@ -4,7 +4,10 @@ namespace App\Http\Controllers\v1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Layout\LayoutResource;
 use App\Models\FleetRoute;
+<<<<<<< HEAD
 use App\Models\Route;
+=======
+>>>>>>> rilisv1
 use App\Repositories\LayoutRepository;
 use App\Services\LayoutService;
 use Illuminate\Http\Request;

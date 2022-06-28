@@ -11,6 +11,10 @@ use App\Models\TimeClassification;
 use App\Repositories\AgencyRepository;
 use App\Repositories\CityRepository;
 use Illuminate\Http\Request;
+<<<<<<< HEAD
+=======
+use Illuminate\Support\Facades\Auth;
+>>>>>>> rilisv1
 
 class AgencyController extends Controller
 {
@@ -21,12 +25,27 @@ class AgencyController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD
         $agencies = Agency::with(['prices'=>function($query) {
+=======
+        $area_id = Auth::user()->area_id;
+        $agencies = Agency::when($area_id, function ($query) use ($area_id)
+        {
+            $query->whereHas('city', function ($query) use ($area_id)
+            {
+                $query->where('area_id', $area_id);
+            });
+        })->with(['prices'=>function($query) {
+>>>>>>> rilisv1
             $query->whereDate('start_at', '<=', date('Y-m-d'));
         }])->orderBy('id')->paginate(10);
         $statuses = Agency::status();
         $areas = Area::get();
+<<<<<<< HEAD
         return view('agency.index', compact('agencies', 'statuses', 'areas'));
+=======
+        return view('agency.index', compact('agencies', 'statuses', 'areas', 'area_id'));
+>>>>>>> rilisv1
     }
     public function search(Request $request)
     {
@@ -165,6 +184,10 @@ class AgencyController extends Controller
                 'departure_at' => $data['departure_at'][$key]
             ]);
         }
+<<<<<<< HEAD
+=======
+        $agency->update($data);
+>>>>>>> rilisv1
         session()->flash('success', 'Agency Berhasil Diperbarui');
         return redirect(route('agency.index'));
     }

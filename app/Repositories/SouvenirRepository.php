@@ -10,6 +10,7 @@ class SouvenirRepository {
 
     private $id;
 
+<<<<<<< HEAD
     public static function create($data)
     {
         $Souvenir = new SouvenirRepository;
@@ -87,10 +88,17 @@ class SouvenirRepository {
     {
         $SR = new SouvenirRepository;
         return $SR->Souvenir()->take(10)->get();
+=======
+    
+    public static function getListSouvenir()
+    {
+        return Souvenir::where('quantity', '>', 0)->take(10)->orderBy('id', 'desc')->get();
+>>>>>>> rilisv1
     }
 
     public static function getFullListSouvenir()
     {
+<<<<<<< HEAD
         $SR = new SouvenirRepository;
         return $SR->Souvenir()->get();
     }
@@ -109,5 +117,8 @@ class SouvenirRepository {
     public function deleteSouvenir($id)
     {
         return $this->Souvenir()->find($id)->get();
+=======
+        return Souvenir::where('quantity', '>', 0)->orderBy('id', 'desc')->get();
+>>>>>>> rilisv1
     }
 }

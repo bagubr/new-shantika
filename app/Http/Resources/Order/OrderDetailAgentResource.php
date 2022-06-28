@@ -25,7 +25,11 @@ class OrderDetailAgentResource extends JsonResource
             $this->agency = $this->load('user.agencies.agent')->user->agencies->agent;
         }
 
+<<<<<<< HEAD
         $fleet_route = $this->fleet_route_with_trash;
+=======
+        $fleet_route = $this->fleet_route;
+>>>>>>> rilisv1
         $distribution = $this->distribution;
         $route = $fleet_route->route;
         $checkpoints = $route->checkpoints;
@@ -59,10 +63,18 @@ class OrderDetailAgentResource extends JsonResource
             'price_travel'              =>$price_travel,
             'price_feed'                =>$price_feed,
             'id_member'                 =>$this->id_member,
+<<<<<<< HEAD
             'price'                     =>$distribution?->ticket_only,
             'total_price'               =>$this->price,
             'commision'                 =>$distribution?->for_agent,
             'review'                    =>$this->review
+=======
+            'price'                     =>$distribution?->ticket_only + $distribution?->for_member - $distribution?->for_travel,
+            'total_price'               =>$this->price,
+            'commision'                 =>$distribution?->for_agent,
+            'review'                    =>$this->review,
+            'note'                    =>$this->note
+>>>>>>> rilisv1
         ];
     }
 

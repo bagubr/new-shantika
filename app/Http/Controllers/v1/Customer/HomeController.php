@@ -8,6 +8,10 @@ use App\Repositories\SliderRepository;
 use App\Repositories\ArticleRepository;
 use App\Repositories\TestimonialRepository;
 use App\Repositories\CustomerMenuRepository;
+<<<<<<< HEAD
+=======
+use App\Repositories\MembershipRepository;
+>>>>>>> rilisv1
 use App\Repositories\UserRepository;
 use App\Services\UserService;
 use App\Repositories\PromoRepository;
@@ -26,6 +30,10 @@ class HomeController extends Controller
             if(!$user->is_active) {
                 return $this->sendFailedResponse([], 'Maaf, akun anda tidak aktif');
             }       
+<<<<<<< HEAD
+=======
+            $data['membership'] = MembershipRepository::getByUserId($user->id);
+>>>>>>> rilisv1
             UserService::updateFcmToken($user, $request->token);
         }
         $this->sendSuccessResponse($data);

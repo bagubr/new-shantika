@@ -7,6 +7,10 @@ use App\Models\Area;
 use App\Models\City;
 use App\Models\Province;
 use Illuminate\Http\Request;
+<<<<<<< HEAD
+=======
+use Illuminate\Support\Facades\Auth;
+>>>>>>> rilisv1
 
 class CityController extends Controller
 {
@@ -17,7 +21,16 @@ class CityController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD
         $cities = City::all();
+=======
+        $area_id = Auth::user()->area_id;
+        $cities = City::when($area_id, function ($query) use ($area_id)
+        {
+            $query->where('area_id', $area_id);
+        })
+        ->get();
+>>>>>>> rilisv1
         return view('city.index', compact('cities'));
     }
 

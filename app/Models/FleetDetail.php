@@ -10,7 +10,11 @@ class FleetDetail extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = [
+<<<<<<< HEAD
         'fleet_id', 'time_classification_id', 'plate_number', 'nickname'
+=======
+        'fleet_id', 'time_classification_id', 'plate_number', 'nickname', 'co_driver'
+>>>>>>> rilisv1
     ];
 
     public function fleet()

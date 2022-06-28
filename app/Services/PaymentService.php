@@ -21,7 +21,11 @@ class PaymentService
     use Response;
     public static function createOrderPayment(Order $order, $payment_type_id = null)
     {
+<<<<<<< HEAD
         $expired_duration = self::getExpiredDuration(Setting::find(1)->time_expired, $order->reserve_at);
+=======
+        $expired_duration = self::getExpiredDuration(Setting::find(1)->time_expired);
+>>>>>>> rilisv1
         if ($payment_type_id == null) {
             $payment_type_id  = PaymentType::first()->id;
         }
@@ -66,6 +70,7 @@ class PaymentService
 
     public static function sendNotificationAlmostExpiry($invoice)
     {
+<<<<<<< HEAD
         if ($invoice->order->status != Order::STATUS1) {
             return;
         }
@@ -83,6 +88,33 @@ class PaymentService
         $notification = Notification::build($payload[0], $payload[1], Notification::TYPE1, $invoice->order_id);
         PaymentExpiredReminderJob::dispatch($notification, $invoice->order?->user?->fcm_token, false)
             ->delay(now()->addMinutes(5));
+=======
+        // if ($invoice->order->status != Order::STATUS1) {
+        //     return;
+        // }
+
+        // $time = strtotime($invoice->expired_at) - (30 * 60);
+        // $send_at = now()->diffInMinutes(date('Y-m-d H:i:s', $time));
+        // $payload = NotificationMessage::paymentWillExpired();
+        // $notification = Notification::build($payload[0], $payload[1], Notification::TYPE1, $invoice->order_id);
+        // PaymentLastThirtyMinuteReminderJob::dispatchIf(self::paymentStatus($invoice->order->id), $notification, $invoice->order?->user?->fcm_token, false, $invoice->order->id)->delay(now()->addMinutes(2));
+
+        // $time = strtotime($invoice->expired_at);
+        // $payload = NotificationMessage::paymentExpired(date("d-M-Y", strtotime($invoice->order->reserve_at)));
+        // $notification = Notification::build($payload[0], $payload[1], Notification::TYPE1, $invoice->order_id);
+        // PaymentExpiredReminderJob::dispatch($notification, $invoice->order?->user?->fcm_token, false, $invoice->order->id)
+        //     ->delay(now()->addMinutes(date('i', strtotime(Setting::find(1)->time_expired))));
+    }
+
+    public static function paymentStatus($id)
+    {
+        $order = Order::find($id);
+        if($order->status == Order::STATUS1){
+            return true;
+        }else{
+            return false;
+        }
+>>>>>>> rilisv1
     }
 
     public static function getSecretAttribute(Payment $payment)
@@ -152,7 +184,11 @@ class PaymentService
         return $payment;
     }
 
+<<<<<<< HEAD
     public static function getExpiredDuration($time, $reserve_at)
+=======
+    public static function getExpiredDuration($time)
+>>>>>>> rilisv1
     {
         // Menentukan Expired dari menentukan jam dan menit pada hari reservesi
         // $hour = date("H", strtotime($time));

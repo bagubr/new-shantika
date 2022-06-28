@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Checkpoint\CreateCheckpointRequest;
+<<<<<<< HEAD
+=======
+use App\Models\Agency;
+>>>>>>> rilisv1
 use App\Models\Checkpoint;
 use App\Models\Route;
 use Illuminate\Http\Request;
@@ -40,6 +44,7 @@ class CheckpointController extends Controller
     public function store(CreateCheckpointRequest $request)
     {
         $data = $request->all();
+<<<<<<< HEAD
         $data['route_id'] = $request->route_id;
         Checkpoint::create($data);
         $checkpoint = Checkpoint::where('route_id', $request->route_id)->orderBy('order', 'ASC')->get();
@@ -53,6 +58,16 @@ class CheckpointController extends Controller
         ]);
         session()->flash('success', 'Checkpoint Berhasil Ditambahkan');
         return redirect(route('routes.show', $request->route_id));
+=======
+        $checkpoint = Checkpoint::create($data);
+        $route = Route::find($data['route_id']);
+        $route->name .= '~' . Agency::find($request->agency_id)->name . '~';
+        $route->update([
+            'name' => $route->name
+        ]);
+        session()->flash('success', 'Route Berhasil Ditambahkan');
+        return redirect()->back();
+>>>>>>> rilisv1
     }
 
     /**
@@ -108,6 +123,10 @@ class CheckpointController extends Controller
             'name' => $checkpoints,
         ]);
         session()->flash('success', 'Checkpoint Berhasil Dihapus');
+<<<<<<< HEAD
         return back();
+=======
+        return redirect()->back();
+>>>>>>> rilisv1
     }
 }

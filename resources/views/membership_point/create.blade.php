@@ -43,8 +43,13 @@ Membership Point
                             <label>Select</label>
                             <select name="status" class="form-control" required>
                                 <option value="">Pilih Status</option>
+<<<<<<< HEAD
                                 <option value="purchase">Tambah</option>
                                 <option value="redeem">Kurang</option>
+=======
+                                <option value="1">Tambah</option>
+                                <option value="0">Kurang</option>
+>>>>>>> rilisv1
                             </select>
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>

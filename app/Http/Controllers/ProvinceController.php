@@ -6,6 +6,10 @@ use App\Http\Requests\Province\CreateProvinceRequest;
 use App\Http\Requests\Province\UpdateProvinceRequest;
 use App\Models\Province;
 use Illuminate\Http\Request;
+<<<<<<< HEAD
+=======
+use Illuminate\Support\Facades\Auth;
+>>>>>>> rilisv1
 
 class ProvinceController extends Controller
 {
@@ -16,7 +20,19 @@ class ProvinceController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD
         $provinces = Province::all();
+=======
+        $area_id = Auth::user()->area_id;
+        $provinces = Province::when($area_id, function ($query) use ($area_id)
+        {
+            $query->whereHas('cities', function ($query) use ($area_id)
+            {
+                $query->where('area_id', $area_id);
+            });
+        })
+        ->get();
+>>>>>>> rilisv1
         return view('province.index', compact('provinces'));
     }
 

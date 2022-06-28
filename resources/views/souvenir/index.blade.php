@@ -20,6 +20,7 @@
 <!-- /.content-header -->
 <div class="content">
     <div class="container-fluid">
+<<<<<<< HEAD
         <div class="row">
             <div class="col-6">
                 <a href="{{route('souvenir.create')}}" class="btn btn-primary mb-2">Buat Souvenir Baru</a>
@@ -52,19 +53,64 @@
                                         class="btn btn-primary col-md-4 mx-1 my-1">Edit</a>
                                     <input id="{{$each->id}}" class="btn btn-danger button-delete col-md-4 mx-1 my-1"
                                         value="Delete">
+=======
+        <div class="card">
+            <div class="card-header">
+                <a href="{{route('souvenir.create')}}" class="btn btn-primary mb-2 float-right">Tambah</a>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped text-center">
+                    <thead>
+                        <th>Gambar</th>
+                        <th>Nama</th>
+                        <th>Deskripsi</th>
+                        <th>Poin</th>
+                        <th>Kuota</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody>
+                        @foreach($souvenirs as $souvenir)
+                        <tr>
+                            <td><img src='{{$souvenir->image_name}}' style="max-width: 200px;"
+                                    class="img-rounded img-thumbnail" />
+                            </td>
+                            <td>{{$souvenir->name}}</td>
+                            <td>{{$souvenir->description}}</td>
+                            <td>{{$souvenir->point}}</td>
+                            <td>{{$souvenir->quantity}}</td>
+                            <td>
+                                <div class="row justify-content-center">
+                                    <a href="{{route('souvenir.edit',$souvenir->id)}}"
+                                        class="btn btn-warning btn-xs">Edit</a> &nbsp;
+                                    <form action="{{route('souvenir.destroy',$souvenir->id)}}" class="d-inline"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger btn-xs"
+                                            onclick="return confirm('Apakah Anda Yakin  Menghapus Data Ini??')"
+                                            type="submit">Delete</button>
+                                    </form>
+>>>>>>> rilisv1
                                 </div>
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
+<<<<<<< HEAD
                 {{$data -> links("pagination::bootstrap-4")}}
+=======
+                <div class="text-right">
+                    {{$souvenirs->links()}}
+                </div>
+>>>>>>> rilisv1
             </div>
         </div>
     </div>
 </div>
 @endsection
 @push('script')
+<<<<<<< HEAD
 <script>
     $(document).on('click', '.button-delete', function (e) {
         e.preventDefault();
@@ -109,4 +155,6 @@
     });
 
 </script>
+=======
+>>>>>>> rilisv1
 @endpush

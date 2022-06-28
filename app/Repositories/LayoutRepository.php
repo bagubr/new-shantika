@@ -2,12 +2,17 @@
 
 namespace App\Repositories;
 
+<<<<<<< HEAD
 use App\Http\Resources\Layout\LayoutResource;
 use App\Models\FleetRoute;
 use App\Models\Layout;
 use App\Models\Route;
 use App\Services\LayoutService;
 use Database\Seeders\LayoutSeeder;
+=======
+use App\Models\FleetRoute;
+use App\Models\Layout;
+>>>>>>> rilisv1
 
 class LayoutRepository
 {

@@ -48,6 +48,7 @@ Route
             </div>
             <!-- /.card -->
         </div>
+<<<<<<< HEAD
         <div class="col-md-5">
             <div class="card card-success">
                 <div class="card-header">
@@ -220,6 +221,12 @@ Route
             <div class="card card-warning">
                 <div class="card-header">
                     <h3 class="card-title">Line</h3>
+=======
+        <div class="col-md-12">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Checkpoint</h3>
+>>>>>>> rilisv1
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -234,7 +241,10 @@ Route
                             <tr>
                                 <th>Urutan</th>
                                 <th>Agen</th>
+<<<<<<< HEAD
                                 <th>Aksi</th>
+=======
+>>>>>>> rilisv1
                             </tr>
                         </thead>
                         <tbody>
@@ -244,6 +254,7 @@ Route
                                 <td><a
                                         href="{{route('agency.edit',$checkpoint->agency_id)}}">{{$checkpoint->agency?->city?->name}}/{{$checkpoint->agency?->name}}</a>
                                 </td>
+<<<<<<< HEAD
                                 <td>
                                     @unlessrole('owner')
 
@@ -257,6 +268,8 @@ Route
                                     </form>
                                     @endunlessrole
                                 </td>
+=======
+>>>>>>> rilisv1
                             </tr>
                             @endforeach
                         </tbody>

@@ -171,8 +171,13 @@
                         </li>
                     </ul>
                 </li>
+<<<<<<< HEAD
                 <li class="nav-item {{Request::routeIs('routes.*','fleet_route.*') ? 'menu-open' : ''}}">
                     <a href="#" class="nav-link {{Request::routeIs('routes.*','fleet_route.*') ? 'active' : ''}}">
+=======
+                <li class="nav-item {{Request::routeIs('routes.*','fleet_route.*', 'fleet_route_prices.*') ? 'menu-open' : ''}}">
+                    <a href="#" class="nav-link {{Request::routeIs('routes.*','fleet_route.*', 'fleet_route_prices.*') ? 'active' : ''}}">
+>>>>>>> rilisv1
                         <i class="nav-icon fas fa-route"></i>
                         <p>
                             Rute
@@ -196,6 +201,7 @@
                         </li>
                     </ul>
                 </li>
+<<<<<<< HEAD
                 <li class="nav-item">
                     <a href="{{route('fleet_route_prices.index')}}"
                         class="nav-link {{Request::routeIs('fleet_route_prices.*') ? 'active' : ''}}">
@@ -204,6 +210,33 @@
                             Harga Rute Armada
                         </p>
                     </a>
+=======
+                <li class="nav-item {{Request::routeIs('fleet_route_prices.*') ? 'menu-open' : ''}}">
+                    <a href="#" class="nav-link {{Request::routeIs('fleet_route_prices.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-calendar"></i>
+                        <p>
+                            Jadwal
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        @foreach (\App\Models\Area::get() as $area)
+                        @if(Auth::user()->area_id && Auth::user()->area_id == $area->id || Auth::user()->area_id == null)
+                        <li class="nav-item">
+                            <a href="{{route('fleet_route_prices.index', ['area_id' => $area->id])}}"
+                                class="nav-link @if (Request::routeIs('fleet_route_prices*') && $area->id == request()->area_id)
+                                    active
+                                @endif">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Jadwal {{$area->name}}
+                                </p>
+                            </a>
+                        </li>
+                        @endif
+                        @endforeach
+                    </ul>
+>>>>>>> rilisv1
                 </li>
                 <li class=" nav-item {{Request::routeIs('agency.*','user_agent.*') ? 'menu-open' : ''}}">
                     <a href="#" class="nav-link {{Request::routeIs('agency.*','user_agent.*') ? 'active' : ''}}">
@@ -228,6 +261,7 @@
                                 <p>Akun Agen</p>
                             </a>
                         </li>
+<<<<<<< HEAD
                         <li class="nav-item">
                             <a href="{{route('agency_fleet.index')}}"
                                 class="nav-link {{Request::routeIs('agency_fleet.*') ? 'active' : ''}}">
@@ -241,6 +275,127 @@
                     class="nav-item {{Request::routeIs('user.*','status_penumpang.*','souvenir.*','souvenir_redeem.*','member.*') ? 'menu-open' : ''}}">
                     <a href="#"
                         class="nav-link {{Request::routeIs('user.*','status_penumpang.*','souvenir.*','souvenir_redeem.*','member.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Penumpang
+=======
+                    </ul>
+                </li>
+                <li class="nav-item {{Request::routeIs('agency_route.*', 'agency_fleet.*') ? 'menu-open' : ''}}">
+                    <a href="#" class="nav-link {{Request::routeIs('agency_route.*', 'agency_fleet.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-user-cog"></i>
+                        <p>
+                            Agen Setting
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        @foreach (\App\Models\Area::get() as $area)
+                        @if(Auth::user()->area_id && Auth::user()->area_id == $area->id || Auth::user()->area_id == null)
+                        <li class="nav-item">
+                            <a href="{{route('agency_route.index', ['area_id' => $area->id])}}"
+                                class="nav-link @if (Request::routeIs('agency_route*') && $area->id == request()->area_id)
+                                active
+                                @endif">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Rute {{$area->name}}</p>
+                            </a>
+                        </li>
+                        @endif
+                        @endforeach
+                        @foreach (\App\Models\Area::get() as $area)
+                        @if(Auth::user()->area_id && Auth::user()->area_id == $area->id || Auth::user()->area_id == null)
+                        <li class="nav-item">
+                            <a href="{{route('agency_fleet.index', ['area_id' => $area->id])}}"
+                                class="nav-link @if (Request::routeIs('agency_fleet*') && $area->id == request()->area_id) active @endif">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Armada {{$area->name}}</p>
+                            </a>
+                        </li>
+                        @endif
+                        @endforeach
+                    </ul>
+                </li>
+                <li class="nav-item {{Request::routeIs('membership_histories.*', 'member.*', 'promo.*') ? 'menu-open' : ''}}">
+                    <a href="#"
+                        class="nav-link {{Request::routeIs('membership_histories.*', 'member.*', 'promo.*') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Membership dan Promo
+>>>>>>> rilisv1
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+<<<<<<< HEAD
+                            <a href="{{route('status_penumpang.index')}}"
+                                class="nav-link {{Request::routeIs('status_penumpang.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Status Pembayaran</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('user.index')}}"
+                                class="nav-link {{Request::routeIs('user.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Akun Penumpang</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('member.index')}}"
+                                class="nav-link {{Request::routeIs('member.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Member</p>
+=======
+                            <a href="{{route('member.index')}}"
+                                class="nav-link {{Request::routeIs('member.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Membership</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('membership_histories.index')}}"
+                                class="nav-link {{Request::routeIs('membership_histories.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Membership History</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('promo.index')}}"
+                                class="nav-link {{Request::routeIs('promo.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Promo</p>
+>>>>>>> rilisv1
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('souvenir.index')}}"
+                                class="nav-link {{Request::routeIs('souvenir.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Daftar Souvenir</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('souvenir_redeem.index')}}"
+                                class="nav-link {{Request::routeIs('souvenir_redeem.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Souvenir Redeem</p>
+                            </a>
+                        </li>
+<<<<<<< HEAD
+                        <li class="nav-item">
+                            <a href="{{route('promo.index')}}"
+                                class="nav-link {{Request::routeIs('promo.*') ? 'active' : ''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Promo</p>
+=======
+                    </ul>
+                </li>
+                <li
+                    class="nav-item {{Request::routeIs('user.*','status_penumpang.*','souvenir.*','souvenir_redeem.*') ? 'menu-open' : ''}}">
+                    <a href="#"
+                        class="nav-link {{Request::routeIs('user.*','status_penumpang.*','souvenir.*','souvenir_redeem.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Penumpang
@@ -260,34 +415,7 @@
                                 class="nav-link {{Request::routeIs('user.*') ? 'active' : ''}}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Akun Penumpang</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('member.index')}}"
-                                class="nav-link {{Request::routeIs('member.*') ? 'active' : ''}}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Member</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('souvenir.index')}}"
-                                class="nav-link {{Request::routeIs('souvenir.*') ? 'active' : ''}}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Daftar Souvenir</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('souvenir_redeem.index')}}"
-                                class="nav-link {{Request::routeIs('souvenir_redeem.*') ? 'active' : ''}}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Souvenir Redeem</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('promo.index')}}"
-                                class="nav-link {{Request::routeIs('promo.*') ? 'active' : ''}}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Promo</p>
+>>>>>>> rilisv1
                             </a>
                         </li>
                     </ul>

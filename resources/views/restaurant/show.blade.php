@@ -38,7 +38,19 @@ Restoran
                         </div>
                         <div class="col">
                             <label>Nomor HP</label>
+<<<<<<< HEAD
                             <h5>{{$restaurant->phone}}</h5>
+=======
+                            @foreach ($restaurant->admin as $admin)
+                                <h5>{{$admin->pivot->phone}}</h5>
+                            @endforeach
+                        </div>
+                        <div class="col">
+                            <label>Email</label>
+                            @foreach ($restaurant->admin as $admin)
+                                <h5>{{$admin->email}}</h5>
+                            @endforeach
+>>>>>>> rilisv1
                         </div>
                     </div>
                     <div class="form-group">
@@ -64,7 +76,11 @@ Restoran
         <div class="col-md-6">
             <div class="card card-primary">
                 <div class="card-header">
+<<<<<<< HEAD
                     <h3 class="card-title">Form Restoran Admin</h3>
+=======
+                    <h3 class="card-title">Form Tambah Admin</h3>
+>>>>>>> rilisv1
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -72,10 +88,15 @@ Restoran
                     </div>
                 </div>
                 <div class="card-body" style="display: block;">
+<<<<<<< HEAD
+=======
+                    @include('partials.error')
+>>>>>>> rilisv1
                     <form action="{{route('restaurant.assign_user')}}" method="POST">
                         @csrf
                         <input type="text" name="restaurant_id" value="{{$restaurant->id}}" class="d-none">
                         <div class="form-group">
+<<<<<<< HEAD
                             <label>Akun User</label>
                             <select class="form-control select2" name="admin_id" required>
                                 <option value="">Pilih User</option>
@@ -88,6 +109,36 @@ Restoran
                             <label>Nomor HP</label>
                             <input type="text" name="phone" class="form-control" required>
                         </div>
+=======
+                            <label>Username</label>
+                            <small style="color: red">*</small>
+                            <input type="text" name="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Nomor HP</label>
+                            <small style="color: red">*</small>
+                            <input type="text" name="phone" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <small style="color: red">*</small>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Password</label>
+                                    <small style="color: red">*</small>
+                                    <input type="password" name="password" class="form-control" required>
+                                </div>
+                                <div class="col">
+                                    <label>Konfirmasi Password</label>
+                                    <small style="color: red">*</small>
+                                    <input type="password" name="password_confirmation" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+>>>>>>> rilisv1
                         <div class="text-right">
                             <input class="btn btn-success" type="submit" value="Submit" />
                         </div>
@@ -110,6 +161,10 @@ Restoran
                         <thead>
                             <tr>
                                 <th>Nama</th>
+<<<<<<< HEAD
+=======
+                                <th>Email</th>
+>>>>>>> rilisv1
                                 <th>Nomor HP</th>
                                 <th>Aksi</th>
                             </tr>
@@ -118,6 +173,10 @@ Restoran
                             @foreach ($restaurant_admin as $r)
                             <tr>
                                 <td>{{$r->name}}</td>
+<<<<<<< HEAD
+=======
+                                <td>{{$r->email}}</td>
+>>>>>>> rilisv1
                                 <td>{{$r->restaurant_admin->phone}}</td>
                                 <td>
                                     <form action="{{route('restaurant.destroy_admin',$r->restaurant_admin?->id)}}"
@@ -143,7 +202,11 @@ Restoran
 <script>
     $(function () {
       $("#example1").DataTable({
+<<<<<<< HEAD
         "responsive": true, "lengthChange": false, "autoWidth": false,
+=======
+        "responsive": true, "lengthChange": false, "autoWidth": false, "paging":false
+>>>>>>> rilisv1
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
 </script>

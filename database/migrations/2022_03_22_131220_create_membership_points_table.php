@@ -17,7 +17,11 @@ class CreateMembershipPointsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('membership_id');
             $table->bigInteger('value');
+<<<<<<< HEAD
             $table->string('status');
+=======
+            $table->boolean('status');
+>>>>>>> rilisv1
             $table->timestamps();
         });
     }

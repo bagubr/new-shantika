@@ -33,6 +33,10 @@ Route::group([
             Route::post('booking', 'BookingController@booking');
             Route::post('order_tiket', 'OrderController@order');
             
+<<<<<<< HEAD
+=======
+            Route::post('riwayat/{order_detail}/update', 'OrderDetailController@editDataPenumpang');
+>>>>>>> rilisv1
             Route::get('riwayat', 'OrderController@index');
             Route::get('riwayat/{id}', 'OrderController@show')->whereNumber('id');
             Route::get('riwayat/rating', 'RatingController@index');
@@ -49,6 +53,10 @@ Route::group([
             Route::post('exchange_ticket', 'OrderController@exchange');
             Route::post('exchange_ticket/confirm', 'OrderController@exchangeConfirm');
             Route::get('promo', 'PromoController@index');
+<<<<<<< HEAD
+=======
+            Route::get('scan_qr_code', 'MembershipController@getData');
+>>>>>>> rilisv1
         });
     });
 });

@@ -17,16 +17,29 @@ class MembershipPoint extends Model
     protected $fillable = [
         'membership_id',
         'value',
+<<<<<<< HEAD
         'status'
     ];
 
     protected $casts = [
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s'
+=======
+        'status',
+        'message'
+>>>>>>> rilisv1
     ];
 
     public function membership()
     {
         return $this->belongsTo(Membership::class, 'membership_id', 'id');
     }
+<<<<<<< HEAD
+=======
+
+    public function getCreatedAtAttribute($value)
+    {
+        return date('Y-m-d H:i:s', strtotime($value));
+    }
+>>>>>>> rilisv1
 }

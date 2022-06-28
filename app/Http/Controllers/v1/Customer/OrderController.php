@@ -54,11 +54,20 @@ class OrderController extends Controller
             'status'=>Order::STATUS1,
             'departure_agency_id'=>$request->departure_agency_id,
             'destination_agency_id'=>$request->destination_agency_id,
+<<<<<<< HEAD
             'promo_id' => $request->promo_id
         ]);
         $request['is_travel'] = false;
         $request['is_feed'] = true;
         $order = OrderService::create($order, $request, $request->payment_type_id);
+=======
+            'promo_id' => $request->promo_id,
+            'note' => $request->note,
+        ]);
+        $request['is_travel'] = false;
+        $request['is_feed'] = true;
+        $order = OrderService::create($order, $request);
+>>>>>>> rilisv1
 
         $this->createPayment($order->id, $request->payment_type_id);
         DB::commit();

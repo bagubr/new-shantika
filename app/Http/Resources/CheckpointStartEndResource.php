@@ -30,12 +30,19 @@ class CheckpointStartEndResource extends JsonResource
     public function toArray($request)
     {
         $checkpoint_max_index = count($this->checkpoints) - 1;
+<<<<<<< HEAD
         // dd($checkpoint_max_index);
         // dd($this->checkpoints[7]);
         return [
             'start'         => $this->when($this->start_agent, new AgencyResource($this->start_agent), (object) []),
             'destination'   => $this->when($this->destination_agent != null, new AgencyResource($this->destination_agent), (object) []),
             'end'           => new CheckpointResource(@$this->checkpoints[$checkpoint_max_index])??'',
+=======
+        return [
+            'start'         => $this->when($this->start_agent, new AgencyResource($this->start_agent), (object) []),
+            'destination'   => $this->when($this->destination_agent != null, new AgencyResource($this->destination_agent), (object) []),
+            'end'           => new CheckpointResource($this->checkpoints[$checkpoint_max_index]),
+>>>>>>> rilisv1
         ];
     }
 }

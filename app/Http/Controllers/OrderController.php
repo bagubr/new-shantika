@@ -8,6 +8,10 @@ use App\Http\Requests\Order\OrderCancelationRequest;
 use App\Http\Requests\Order\UpdateOrderReserveAtRequest;
 use App\Models\Agency;
 use App\Models\FleetDetail;
+<<<<<<< HEAD
+=======
+use App\Models\FleetRoute;
+>>>>>>> rilisv1
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\OrderDetail;
@@ -18,8 +22,16 @@ use App\Repositories\OrderDetailRepository;
 use App\Repositories\OrderPriceDistributionRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\RoutesRepository;
+<<<<<<< HEAD
 use App\Services\OrderService;
 use App\Utils\NotificationMessage;
+=======
+use App\Services\OrderPriceDistributionService;
+use App\Services\OrderService;
+use App\Utils\checkPassword;
+use App\Utils\NotificationMessage;
+use App\Utils\PriceTiket;
+>>>>>>> rilisv1
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -37,6 +49,10 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
+<<<<<<< HEAD
+=======
+        $area_id = Auth::user()->area_id;
+>>>>>>> rilisv1
         $name_search = $request->name;
         $name_non_search = $request->name_non_search;
         $routes_search = $request->route_id;
@@ -48,10 +64,45 @@ class OrderController extends Controller
         $fleet_detail_id = $request->fleet_detail_id;
         $agency_id = $request->agency_id;
 
+<<<<<<< HEAD
         $routes = RoutesRepository::getIdName();
         $orders = Order::query();
         $fleet_details = FleetDetail::has('fleet_route')->get();
         $agencies = Agency::orderBy('name', 'asc')->get();
+=======
+        $routes = Route::select('id', 'name')
+        ->when($area_id, function ($query) use ($area_id)
+        {
+            $query->whereHas('checkpoints.agency.city', function ($query) use ($area_id)
+            {
+                $query->where('area_id', $area_id);
+            });
+        })
+        ->get()->toArray();
+        // $routes = RoutesRepository::getIdName();
+        $orders = Order::query();
+        $orders->when($area_id, function ($query) use ($area_id)
+        {
+            $query->whereHas('fleet_route.route.checkpoints.agency.city', function ($query) use ($area_id)
+            {
+                $query->where('area_id', $area_id);
+            });
+        });
+        $fleet_details = FleetDetail::has('fleet_route')->when($area_id, function ($query) use ($area_id)
+        {
+            $query->whereHas('fleet_route.route.checkpoints.agency.city', function ($query) use ($area_id)
+            {
+                $query->where('area_id', $area_id);
+            });
+        })->get();
+        $agencies = Agency::when($area_id, function ($query) use ($area_id)
+        {
+            $query->whereHas('city', function ($query) use ($area_id)
+            {
+                $query->where('area_id', $area_id);
+            });
+        })->orderBy('name', 'asc')->get();
+>>>>>>> rilisv1
         $status = ['PENDING', 'EXCHANGED', 'PAID', 'CANCELED', 'EXPIRED', 'WAITING_CONFIRMATION'];
         $agent = ['AGENT', 'UMUM'];
 
@@ -104,14 +155,21 @@ class OrderController extends Controller
             }
             $orders = $orders->where('reserve_at', '>=', $date_from_search);
         }
+<<<<<<< HEAD
         $test = $request->flash();
+=======
+>>>>>>> rilisv1
         $orders = $orders->orderBy('id', 'desc')->paginate(10);
         if (!$orders->isEmpty()) {
             session()->flash('success', 'Data Order Berhasil Ditemukan');
         } else {
             session()->flash('error', 'Tidak Ada Data Ditemukan');
         }
+<<<<<<< HEAD
         return view('order.index', compact('orders', 'routes', 'status', 'test', 'agent', 'fleet_details', 'agencies'));
+=======
+        return view('order.index', compact('orders', 'routes', 'status', 'agent', 'fleet_details', 'agencies'));
+>>>>>>> rilisv1
     }
     public function export()
     {
@@ -136,7 +194,31 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+<<<<<<< HEAD
         //
+=======
+        $data = $request->all();
+        DB::beginTransaction();
+        $order = new Order([
+            'user_id'=>$request->user_id,
+            'fleet_route_id'=>$request->fleet_route_id,
+            'id_member'=>$request->id_member,
+            'reserve_at'=> date('Y-m-d H:i:s', strtotime($request->reserve_at)),
+            'status'=>Order::STATUS3,
+            'time_classification_id'=>$request->time_classification_id,
+            'departure_agency_id'=>$request->departure_agency_id,
+            'destination_agency_id'=>$request->destination_agency_id,
+            'promo_id' => $request->promo_id,
+            'note' => $request->note,
+        ]);
+        $request->merge([
+            'total_price' => PriceTiket::priceTiket(FleetRoute::find($request->fleet_route_id), Agency::find($request->departure_agency_id), Agency::find($request->destination_agency_id), $request->reserve_at)
+        ]);
+        OrderService::create($order, $request);
+        DB::commit();
+        return response(['data' => $data, 'order' => $order, 'message' => 'Berhasil buat', 'code' => 1], 200);
+
+>>>>>>> rilisv1
     }
 
     public function showByCodeOrder($code_order)
@@ -187,7 +269,78 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
+<<<<<<< HEAD
         //
+=======
+        $data = $request->all();
+        if(@$data['data_update']['reserve_at']){
+            $data['data_update']['reserve_at'] = date('Y-m-d', strtotime($data['data_update']['reserve_at']));
+        }
+        DB::beginTransaction();
+        try {
+            $order = Order::find($id);
+            $order->update($data['data_update']);
+            $sketch_log = new SketchLogController();
+            $request->merge([
+                'admin_id' => Auth::user()->id,
+                'order_id' => $id, 
+                'from_date' => $data['sketch_log']['first_date'], 
+                'to_date' => $data['sketch_log']['second_date'], 
+                'from_fleet_route_id' => $data['sketch_log']['first_fleet_route_id'], 
+                'to_fleet_route_id' => $data['sketch_log']['second_fleet_route_id'], 
+                'from_layout_chair_id' => $data['sketch_log']['from_id'], 
+                'to_layout_chair_id' => $data['sketch_log']['to_id'], 
+                'from_time_classification_id' => $data['sketch_log']['first_time_classification_id'],
+                'to_time_classification_id' => $data['sketch_log']['second_time_classification_id'],
+                'type' => $data['sketch_log']['status']
+            ]);
+            $sketch_log->create($request);
+            $order->refresh();
+            DB::commit();
+            return response(['data' => [], 'code' => 1], 200);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response(['code' => 0, 'message' => 'Something Wrong !!, Check your connection'], 200);
+        }
+
+    }
+    
+    public function update_price($id)
+    {
+        $order = Order::with('order_detail')->find($id);
+        $total_chairs = $order->order_detail->count() + 1;
+        $data['order_price'] = $order->price;
+        $data['total_chairs'] = $total_chairs;
+        $data['ticket_price'] = $order->price / $total_chairs;
+        $data['price'] = $data['ticket_price'] * $order->order_detail->count();
+        DB::beginTransaction();
+        try {
+            $order->update($data);
+            $order->refresh();
+            $price_food = $order->distribution->for_food / $total_chairs;
+            $total_travel = $order->distribution->total_travel / $total_chairs;
+            $total_member = $order->distribution->total_member / $total_chairs;
+            $total_price = OrderPriceDistributionService::calculateDistribution($order, $order->order_detail, $data['price'], $price_food, $total_travel, $total_member);
+            $order->distribution->update([
+                'for_food' => $total_price['for_food'],
+                'for_travel' => $total_price['for_travel'],
+                'for_member' => $total_price['for_member'],
+                'for_agent' => $total_price['for_agent'],
+                'for_owner' => $total_price['for_owner'],
+                'ticket_only' => $total_price['ticket_only'],
+                'for_owner_with_food' => $total_price['for_owner_with_food'],
+                'for_owner_gross' => $total_price['for_owner_gross'],
+                'total_deposit' => $total_price['total_deposit'],
+                'ticket_price' => $total_price['ticket_price'],
+            ]);
+            DB::commit();
+            return response(['data_update_price' => $order, 'price' => $data, 'code' => 1], 200);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response(['code' => 0, 'price' => $data, 'message' => 'Gagal Update Harga !!!'], 200);
+        }
+
+>>>>>>> rilisv1
     }
 
     public function update_jadwal(UpdateOrderReserveAtRequest $request, Order $order)
@@ -213,12 +366,18 @@ class OrderController extends Controller
         $order = $order_detail->order;
         $data               = $request->all();
         $data['status']     = 'CANCELED';
+<<<<<<< HEAD
         $hashed = Auth::user()->password;
         if (!Hash::check($data['password'], $hashed)) {
             session()->flash('error', 'Password anda tidak sama');
             return response([
                 'code' => 0
             ]);
+=======
+        $validate = CheckPassword::checkPassword($data['password']);
+        if($validate){
+            return $validate;
+>>>>>>> rilisv1
         }
         DB::beginTransaction();
         $message = NotificationMessage::orderCanceled($order_detail->order->fleet_route->fleet_detail->fleet->name, $request->cancelation_reason);
@@ -258,7 +417,11 @@ class OrderController extends Controller
             if (!$is_reverting) return response([
                 'code' => 0
             ], 500);
+<<<<<<< HEAD
             $order_detail->delete();
+=======
+            // $order_detail->delete();
+>>>>>>> rilisv1
             SketchLog::create([
                 'admin_id' => Auth::user()->id,
                 'order_id' => $order_detail->order_id,

@@ -6,11 +6,19 @@ use App\Jobs\BookingExpiryReminderJob;
 use App\Models\Booking;
 use App\Models\Notification;
 use App\Models\Setting;
+<<<<<<< HEAD
+=======
+use App\Notifications\BookingDelayNotification;
+>>>>>>> rilisv1
 use App\Repositories\BookingRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\ScheduleUnavailableBookingRepository;
 use App\Utils\NotificationMessage;
 use App\Utils\Response;
+<<<<<<< HEAD
+=======
+use Carbon\Carbon;
+>>>>>>> rilisv1
 
 class BookingService {
     use Response;
@@ -58,7 +66,11 @@ class BookingService {
             "user_id"=>$booking->user_id
         ]);
         $expired_time = Setting::first()->booking_expired_duration;
+<<<<<<< HEAD
         BookingExpiryReminderJob::dispatch($notification, $booking->user->fcm_token, false)->delay(now()->addMinutes($expired_time));
+=======
+        BookingExpiryReminderJob::dispatch($notification, $booking->user->fcm_token, false)->delay(Carbon::now()->addMinutes($expired_time));
+>>>>>>> rilisv1
     }
 
     public static function deleteByCodeBooking($code_booking) {

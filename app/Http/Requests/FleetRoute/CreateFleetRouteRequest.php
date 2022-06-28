@@ -26,7 +26,11 @@ class CreateFleetRouteRequest extends FormRequest
     public function rules()
     {
         return [
+<<<<<<< HEAD
             'fleet_detail_id' => ['required'],
+=======
+            'fleet_detail_id' => 'required|exists:fleet_details,id',
+>>>>>>> rilisv1
             'route_id' => 'required|exists:routes,id',
         ];
     }

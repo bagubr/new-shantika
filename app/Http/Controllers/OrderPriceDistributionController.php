@@ -12,6 +12,10 @@ use App\Models\OutcomeDetail;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\SetoranExport;
+<<<<<<< HEAD
+=======
+use Illuminate\Support\Facades\Auth;
+>>>>>>> rilisv1
 
 class OrderPriceDistributionController extends Controller
 {
@@ -25,16 +29,79 @@ class OrderPriceDistributionController extends Controller
         $date_search        = $request->date_search;
         $fleet_detail_id    = $request->fleet_detail_id;
         $agency_id          = $request->agency_id;
+<<<<<<< HEAD
 
         $fleet_details = FleetDetail::has('fleet_route')->get();
 
         $fleet_routes = FleetRoute::get();
         $agencies = Agency::all();
+=======
+        $area_id            = Auth::user()->area_id;
+        $fleet_details = FleetDetail::has('fleet_route')
+        ->when($area_id, function ($query) use ($area_id)
+        {
+            $query->whereHas('fleet_route.route.checkpoints.agency.city', function ($query) use ($area_id)
+            {
+                $query->where('area_id', $area_id);
+            });
+        })
+        ->get();
+
+        $fleet_routes = FleetRoute::
+        when($area_id, function ($query) use ($area_id)
+        {
+            $query->whereHas('route.checkpoints.agency.city', function ($query) use ($area_id)
+            {
+                $query->where('area_id', $area_id);
+            });
+        })
+        ->get();
+        $agencies = Agency::
+        when($area_id, function ($query) use ($area_id)
+        {
+            $query->whereHas('city', function ($query) use ($area_id)
+            {
+                $query->where('area_id', $area_id);
+            });
+        })->get();
+>>>>>>> rilisv1
 
         $order_price_distributions  = OrderPriceDistribution::query();
         $outcome_details            = OutcomeDetail::query();
         $order_details              = OrderDetail::query();
         $tiket_price                = Order::query();
+<<<<<<< HEAD
+=======
+        
+        $order_price_distributions->when($area_id, function ($query) use ($area_id)
+        {
+            $query->whereHas('order.fleet_route.route.checkpoints.agency.city', function ($query) use ($area_id)
+            {
+                $query->where('area_id', $area_id);
+            });
+        });
+        $outcome_details->when($area_id, function ($query) use ($area_id)
+        {
+            $query->whereHas('outcome.fleet_detail.fleet_route.route.checkpoints.agency.city', function ($query) use ($area_id)
+            {
+                $query->where('area_id', $area_id);
+            });
+        });
+        $order_details->when($area_id, function ($query) use ($area_id)
+        {
+            $query->whereHas('order.fleet_route.route.checkpoints.agency.city', function ($query) use ($area_id)
+            {
+                $query->where('area_id', $area_id);
+            });
+        });
+        $tiket_price->when($area_id, function ($query) use ($area_id)
+        {
+            $query->whereHas('fleet_route.route.checkpoints.agency.city', function ($query) use ($area_id)
+            {
+                $query->where('area_id', $area_id);
+            });
+        });
+>>>>>>> rilisv1
 
         if (!empty($fleet_detail_id)) {
             $order_price_distributions = $order_price_distributions->whereHas('order', function ($q) use ($fleet_detail_id) {
@@ -143,11 +210,19 @@ class OrderPriceDistributionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+<<<<<<< HEAD
     public function update(OrderPriceDistribution $order_price_distribution)
     {
         $order_price_distribution->update([
             'deposited_at' => date('Y-m-d'),
         ]);
+=======
+    public function update(Request $request, OrderPriceDistribution $order_price_distribution)
+    {
+        $data = $request->all();
+        $data['deposited_at'] = date('Y-m-d');
+        $order_price_distribution->update($data);
+>>>>>>> rilisv1
         session()->flash('success', 'Deposit Berhasil Diupdate');
         return back();
     }

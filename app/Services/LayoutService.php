@@ -27,6 +27,7 @@ class LayoutService
         $unavailable_customer = OrderRepository::getAtDateByFleetRouteIdCustomer($date, $fleet_route->id, $time_classification_id);
         $unavailable_not_paid_customer = OrderRepository::getAtDateByFleetRouteNotPaidIdCustomer($date, $fleet_route->id, $time_classification_id);
         $unavailable_waiting_customer = OrderRepository::getAtDateByFleetRouteWaitingIdCustomer($date, $fleet_route->id, $time_classification_id);
+<<<<<<< HEAD
 
         $layout->chairs = $layout->chairs->map(function ($item) use ($fleet_route, $unavailable, $booking, $user_id, $unavailable_customer, $unavailable_not_paid_customer, $unavailable_waiting_customer) {
             $item->is_booking = $booking->where('layout_chair_id', $item->id)->isNotEmpty();
@@ -42,6 +43,28 @@ class LayoutService
             $item->is_unavailable_waiting_customer = $unavailable_waiting_customer->filter(function ($e) use ($item) {
                 return $e->order_detail->where('layout_chair_id', $item->id)->first();
             })->isNotEmpty() || BlockedChair::where('fleet_route_id', $fleet_route->id)->where('layout_chair_id', $item->id)->exists();
+=======
+        $is_blocked = BlockedChair::where('fleet_route_id', $fleet_route->id)->get();
+
+        $layout->chairs = $layout->chairs->map(function ($item) use ($fleet_route, $unavailable, $booking, $user_id, $unavailable_customer, $unavailable_not_paid_customer, $unavailable_waiting_customer, $is_blocked, $date) {
+            $item->is_blocked = $is_blocked->filter(function ($e) use ($item, $date)
+            {
+                return $e->where('layout_chair_id', $item->id)->whereDate('blocked_date', $date)->first();
+            })->isNotEmpty();
+            $item->is_booking = $booking->where('layout_chair_id', $item->id)->isNotEmpty();
+            $item->is_unavailable_customer = $unavailable_customer->filter(function ($e) use ($item) {
+                return $e->order_detail->where('layout_chair_id', $item->id)->first();
+            })->isNotEmpty();
+            $item->is_unavailable = $unavailable->filter(function ($e) use ($item) {
+                return $e->order_detail->where('layout_chair_id', $item->id)->first();
+            })->isNotEmpty();
+            $item->is_unavailable_not_paid_customer = $unavailable_not_paid_customer->filter(function ($e) use ($item) {
+                return $e->order_detail->where('layout_chair_id', $item->id)->first();
+            })->isNotEmpty();
+            $item->is_unavailable_waiting_customer = $unavailable_waiting_customer->filter(function ($e) use ($item) {
+                return $e->order_detail->where('layout_chair_id', $item->id)->first();
+            })->isNotEmpty();
+>>>>>>> rilisv1
             $item->is_mine = $unavailable->filter(function ($e) use ($item, $user_id) {
                 return $e->order_detail->where('layout_chair_id', $item->id)->isNotEmpty() && $e->user_id == $user_id && $e->user_id != null;
             })->isNotEmpty();
@@ -61,6 +84,7 @@ class LayoutService
         $unavailable_customer = OrderRepository::getAtDateByFleetRouteIdCustomer($date, $fleet_route->id, $time_classification_id);
         $unavailable_not_paid_customer = OrderRepository::getAtDateByFleetRouteNotPaidIdCustomer($date, $fleet_route->id, $time_classification_id);
         $unavailable_waiting_customer = OrderRepository::getAtDateByFleetRouteWaitingIdCustomer($date, $fleet_route->id, $time_classification_id);
+<<<<<<< HEAD
 
         $layout->chairs = $layout->chairs->map(function ($item) use ($fleet_route, $date, $layout, $unavailable, $booking, $unavailable_customer, $unavailable_not_paid_customer, $unavailable_waiting_customer) {
             $item->is_booking = $booking->where('layout_chair_id', $item->id)->isNotEmpty();
@@ -79,6 +103,31 @@ class LayoutService
             $item->is_unavailable_waiting_customer = $unavailable_waiting_customer->filter(function ($e) use ($item) {
                 return $e->order_detail->where('layout_chair_id', $item->id)->first();
             })->isNotEmpty() || BlockedChair::where('fleet_route_id', $fleet_route->id)->where('layout_chair_id', $item->id)->exists();
+=======
+        $is_blocked = BlockedChair::where('fleet_route_id', $fleet_route->id)->get();
+
+        $layout->chairs = $layout->chairs->map(function ($item) use ($fleet_route, $date, $layout, $unavailable, $booking, $unavailable_customer, $unavailable_not_paid_customer, $unavailable_waiting_customer, $is_blocked) {
+            $item->is_blocked = $is_blocked->filter(function ($e) use ($item, $date)
+            {
+                return $e->where('layout_chair_id', $item->id)->whereDate('blocked_date', $date)->first();
+            })->isNotEmpty();
+            $item->is_booking = $booking->where('layout_chair_id', $item->id)->isNotEmpty();
+            $item->is_unavailable = $unavailable->filter(function ($e) use ($item) {
+                return $e->order_detail->where('layout_chair_id', $item->id)->first();
+            })->isNotEmpty();
+
+            $item->is_unavailable_customer = $unavailable_customer->filter(function ($e) use ($item) {
+                return $e->order_detail->where('layout_chair_id', $item->id)->first();
+            })->isNotEmpty();
+
+            $item->is_unavailable_not_paid_customer = $unavailable_not_paid_customer->filter(function ($e) use ($item) {
+                return $e->order_detail->where('layout_chair_id', $item->id)->first();
+            })->isNotEmpty();
+
+            $item->is_unavailable_waiting_customer = $unavailable_waiting_customer->filter(function ($e) use ($item) {
+                return $e->order_detail->where('layout_chair_id', $item->id)->first();
+            })->isNotEmpty();
+>>>>>>> rilisv1
 
             if ($item->is_booking) {
                 $item->booking_detail = $booking->filter(function ($value) use ($item) {
