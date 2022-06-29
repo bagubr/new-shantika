@@ -95,7 +95,10 @@ class FleetRouteRepositories {
                             $subsubquery->where('area_id', '!=', $departure_agency->city->area_id);
                         });
                     });
-                    $query->whereHas('time_change_route', function ($que2) use ($date, $time_classification_id, $fleet_class_id, $departure_agency)
+                })
+                ->where(function ($query) use ($time_classification_id, $date)
+                {
+                    $query->whereHas('time_change_route', function ($que2) use ($date, $time_classification_id)
                     {
                         $que2->whereDate('date', $date);
                         $que2->where('time_classification_id', $time_classification_id);
