@@ -83,7 +83,7 @@ class FleetRouteRepositories {
                 {
                     $query->whereDoesntHave('time_change_route', function ($que2) use ( $time_classification_id, $fleet_class_id)
                     {
-                        $que2->whereHas('fleet_detail', function ($que4) use ($time_classification_id, $fleet_class_id)
+                        $que2->whereHas('fleet_route.fleet_detail', function ($que4) use ($time_classification_id, $fleet_class_id)
                         {
                             $que4->where('time_classification_id', $time_classification_id);
                             $que4->whereHas('fleet', function ($que5) use ( $fleet_class_id)
