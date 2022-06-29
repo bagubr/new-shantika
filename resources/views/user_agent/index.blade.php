@@ -32,10 +32,10 @@ User Agent
                         <form action="{{route('user_agent.search')}}" method="GET">
                             <div class="form-group">
                                 <label>Cari Area</label>
-                                <select name="area_id" class="form-control" {{($area_id)?'disabled':''}}>
+                                <select name="area_id" class="form-control" {{(isset($area_id))?'disabled':''}}>
                                     <option value="">--PILIH AREA--</option>
                                     @foreach ($areas as $area)
-                                    @if ($area_id == $area->id)
+                                    @if (isset($area_id) && $area_id == $area->id)
                                     <option value="{{$area->id}}" selected>{{$area->name}}</option>
                                     @else
                                     <option value="{{$area->id}}">{{$area->name}}</option>
