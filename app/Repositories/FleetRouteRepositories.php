@@ -40,9 +40,9 @@ class FleetRouteRepositories {
                 })
                 ->whereHas('route', function ($query) use ($date, $destination_agency, $departure_agency, $time_classification_id) {
                     $query->whereHas('agency_route_permanent', function ($query) use ($departure_agency)
-                        {
-                            $query->where('agency_id', $departure_agency->id);
-                        });
+                    {
+                        $query->where('agency_id', $departure_agency->id);
+                    });
                     $query->orDoesnthave('agency_route_permanent');
                     $query->orWhere(function ($que) use($departure_agency, $date)
                     {
@@ -53,6 +53,8 @@ class FleetRouteRepositories {
                             });
                         $que->orDoesnthave('agency_route');
                     });
+                })
+                ->whereHas('route', function ($query) use ($date, $destination_agency, $departure_agency, $time_classification_id) {
                     $query->whereHas('checkpoints', function ($query) use ($date, $destination_agency, $departure_agency, $time_classification_id) {
                         $time_start = TimeClassification::find($time_classification_id)->time_start;
                         $time_end = TimeClassification::find($time_classification_id)->time_end;
