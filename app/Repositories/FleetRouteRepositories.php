@@ -83,7 +83,7 @@ class FleetRouteRepositories {
                 {
                     $query->where(function ($query) use ($date, $time_classification_id, $fleet_class_id, $departure_agency)
                     {
-                        $query->whereHas('fleet_route.fleet_detail', function ($query) use ($time_classification_id, $fleet_class_id)
+                        $query->whereHas('fleet_detail', function ($query) use ($time_classification_id, $fleet_class_id)
                         {
                             $query->where('time_classification_id', $time_classification_id);
                             $query->whereHas('fleet', function ($query) use ( $fleet_class_id)
