@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ApiOrderDetailUpdateRequest;
 use App\Http\Resources\OrderDetail\DetailTodayPossibleCustomerResource;
 use App\Http\Resources\OrderDetail\TodayPossibleCustomerResource;
+use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\User;
 use App\Repositories\OrderDetailRepository;
@@ -40,5 +41,11 @@ class OrderDetailController extends Controller
         return $this->sendSuccessResponse([
             'order_detail' => $order_detail
         ], 'Data Berhasil di ubah');
-    }  
+    }
+
+    public function update(Request $request, $id)
+    {
+        $order = Order::find($id);
+        
+    }
 }
