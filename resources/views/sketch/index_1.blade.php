@@ -319,6 +319,7 @@ Sketch
                         date: new Date(this.firstLayout.date).toDateString()
                     })
                     fetch("{{url('/')}}/sketch/orders/detail?"+params).then(res => res.json()).then(res => {
+                        console.log(res.data)
                         this.firstLayout.data = res.data
                         this.firstLayout.fleet = res.fleet
                     }).finally(() => {

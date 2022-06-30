@@ -13,14 +13,16 @@ class PriceTiket {
         $area_id = $departure_agency->city->area_id;
             $user = UserRepository::findByToken(request()->bearerToken());
             
-            $price += $fleet_route->fleet_detail->fleet->fleetclass->price_fleet_class($area_id)??0;
+            if($area_id == 1){
+                $price = @$agency_destiny->route_prices->sortByDesc('start_at')->last()->price??0;
+            }elseif($area_id == 2){
+                $price = @$departure_agency->agency_prices->sortByDesc('start_at')->last()->price??0;
+            }
+            if($price <= 0){
+                $price += $fleet_route->fleet_detail->fleet->fleetclass->price_fleet_class($area_id)??0;
+            }
             if(@$user->agencies){
                 $price -= $fleet_route->fleet_detail->fleet->fleetclass->price_food??0;
-            }
-            if($area_id == 1){
-                $price += @$agency_destiny->route_prices->sortByDesc('start_at')->last()->price??0;
-            }elseif($area_id == 2){
-                $price += @$departure_agency->agency_prices->sortByDesc('start_at')->last()->price??0;
             }
 
         $price += @$fleet_route->prices()

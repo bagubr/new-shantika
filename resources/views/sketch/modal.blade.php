@@ -36,7 +36,7 @@
                                 <label for="">Armada</label>
                                 <div class="row">
                                     <div class="col">
-                                        <select @change="selectOptionFirstLayout($event)" class="form-control" id="">
+                                        <select @change="selectOptionFirstLayout($event)" class="form-control" id="" v-model="firstLayout.fleetRouteId">
                                             <option :value="fleetRoute.id" v-for="fleetRoute in fleetRoutes"
                                                 :key="fleetRoute.id" v-text="setSelectOptionLayoutText(fleetRoute)" :selected="fleetRoute.id == firstLayout.fleetRouteId"></option>
                                         </select>
@@ -136,7 +136,7 @@
                                 <label for="">Armada</label>
                                 <div class="row">
                                     <div class="col">
-                                        <select @change="selectOptionSecondLayout($event)" class="form-control" id="">
+                                        <select @change="selectOptionSecondLayout($event)" class="form-control" id="" v-model="secondLayout.fleetRouteId">
                                             <option :value="fleetRoute.id" v-for="fleetRoute in fleetRoutes"
                                                 :key="fleetRoute.id" v-text="setSelectOptionLayoutText(fleetRoute)" :selected="fleetRoute.id == secondLayout.fleetRouteId"></option>
                                         </select>

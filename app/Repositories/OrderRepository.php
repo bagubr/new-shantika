@@ -155,9 +155,13 @@ class OrderRepository
         return @$order;
     }
 
-    public static function getAtDateByFleetRouteId($date, $fleet_route_id)
+    public static function getAtDateByFleetRouteId($date, $fleet_route_id, $time_classification_id = null)
     {
         return Order::with(['order_detail', 'user.agencies.agent', 'agency', 'agency_destiny'])->whereHas('user.agencies')
+            ->when($time_classification_id, function ($query) use ($time_classification_id)
+            {
+                $query->where('time_classification_id', $time_classification_id);
+            })
             ->where(function ($query) use ($date) {
                 $query->whereIn('status', Order::STATUS_BOUGHT)
                     ->whereDate('reserve_at', $date);
@@ -166,10 +170,14 @@ class OrderRepository
             ->get();
     }
 
-    public static function getAtDateByFleetRouteIdCustomer($date, $fleet_route_id)
+    public static function getAtDateByFleetRouteIdCustomer($date, $fleet_route_id, $time_classification_id = null)
     {
 
         $order = Order::with(['order_detail', 'user', 'agency', 'agency_destiny'])
+            ->when($time_classification_id, function ($query) use ($time_classification_id)
+            {
+                $query->where('time_classification_id', $time_classification_id);
+            })
             ->whereDoesntHave('user.agencies')->where(function ($query) use ($date) {
                 $query->whereIn('status', Order::STATUS_PAID_CUST)
                     ->whereDate('reserve_at', $date);
@@ -178,10 +186,14 @@ class OrderRepository
             ->get();
         return $order;
     }
-    public static function getAtDateByFleetRouteNotPaidIdCustomer($date, $fleet_route_id)
+    public static function getAtDateByFleetRouteNotPaidIdCustomer($date, $fleet_route_id, $time_classification_id = null)
     {
 
         $order = Order::with(['order_detail', 'user', 'agency', 'agency_destiny'])
+            ->when($time_classification_id, function ($query) use ($time_classification_id)
+            {
+                $query->where('time_classification_id', $time_classification_id);
+            })
             ->whereDoesntHave('user.agencies')->where(function ($query) use ($date) {
                 $query->whereIn('status', Order::STATUS_NOT_PAID_CUST)
                     ->whereDate('reserve_at', $date);
@@ -190,10 +202,14 @@ class OrderRepository
             ->get();
         return $order;
     }
-    public static function getAtDateByFleetRouteWaitingIdCustomer($date, $fleet_route_id)
+    public static function getAtDateByFleetRouteWaitingIdCustomer($date, $fleet_route_id, $time_classification_id = null)
     {
 
         $order = Order::with(['order_detail', 'user', 'agency', 'agency_destiny'])
+            ->when($time_classification_id, function ($query) use ($time_classification_id)
+            {
+                $query->where('time_classification_id', $time_classification_id);
+            })
             ->whereDoesntHave('user.agencies')->where(function ($query) use ($date) {
                 $query->whereIn('status', Order::STATUS_WAITING_CUST)
                     ->whereDate('reserve_at', $date);
