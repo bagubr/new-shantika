@@ -7,10 +7,7 @@ use App\Models\Area;
 use App\Models\City;
 use App\Models\Province;
 use Illuminate\Http\Request;
-<<<<<<< HEAD
-=======
 use Illuminate\Support\Facades\Auth;
->>>>>>> rilisv1
 
 class CityController extends Controller
 {

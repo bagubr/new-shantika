@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Checkpoint\CreateCheckpointRequest;
-<<<<<<< HEAD
-=======
 use App\Models\Agency;
->>>>>>> rilisv1
 use App\Models\Checkpoint;
 use App\Models\Route;
 use Illuminate\Http\Request;
