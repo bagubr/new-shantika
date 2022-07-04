@@ -31,9 +31,9 @@ class AvailableRoutesResource extends JsonResource
         $route = $this->route;
         
         $price = PriceTiket::priceTiket(FleetRoute::find($this->id), $departure_agency, $agency_destiny, $request->date);
-        if(UserRepository::findByToken(request()->bearerToken())->agencies){
-            $price += $this->fleet_detail->fleet->fleetclass->price_food??0;
-        }
+        // if(UserRepository::findByToken(request()->bearerToken())->agencies){
+        //     $price += $this->fleet_detail->fleet->fleetclass->price_food??0;
+        // }
         return [
             'id'                        => $this->id,
             'layout_id'                 => $this->fleet_detail->fleet->layout->id,
