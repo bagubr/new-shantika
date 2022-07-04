@@ -68,7 +68,7 @@ class OrderRepository
             ->addSelect(DB::raw("(select o.ticket_price from order_price_distributions o where o.order_id = orders.id) as price"))
             ->where('departure_agency_id', $user->agencies->agent->id)
             ->whereDoesntHave('user.agencies')
-            ->whereIn('status', [Order::STATUS5, Order::STATUS8])
+            ->whereIn('status', [Order::STATUS5, Order::STATUS8, Order::STATUS3])
             ->whereDate('reserve_at', date('Y-m-d H:i:s', strtotime($date)))
             ->union($agen_order)
             ->get()->sortByDesc('id');
