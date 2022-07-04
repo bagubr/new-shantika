@@ -27,11 +27,7 @@ class PriceTiket {
                 $price = $fleet_route->fleet_detail->fleet->fleetclass->price_fleet_class($area_id)??0;
             }
             if(@$user->agencies){
-                if($is_food){
-                    $price -= $fleet_route->fleet_detail->fleet->fleetclass->price_food??0;
-                }else{
-                    $price += Setting::first()->default_food_price??0;
-                }
+                $price -= $fleet_route->fleet_detail->fleet->fleetclass->price_food??0;
             }
 
         $price += @$fleet_route->prices()
