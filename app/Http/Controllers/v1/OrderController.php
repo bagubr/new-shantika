@@ -21,7 +21,7 @@ class OrderController extends Controller
         $agency_destiny = Agency::find($request->agency_destiny_id);
         $date = $request->date;
         $setting = Setting::first();
-        $price_food = ($request->is_food) ? ($fleet_route->fleet_detail?->fleet?->fleetclass?->price_food) * $request->seat_count : ($fleet_route->fleet_detail?->fleet?->fleetclass?->price_food - Setting::first()->default_food_price) * $request->seat_count;
+        $price_food = ($request->is_food) ? ($fleet_route->fleet_detail?->fleet?->fleetclass?->price_food) * $request->seat_count : Setting::first()->default_food_price * $request->seat_count;
         $total_travel = $request->is_travel ? $setting->travel * $request->seat_count : 0;
         $total_member = $request->is_member ? -($setting->member) * $request->seat_count : 0;
 
