@@ -25,9 +25,9 @@ class PriceTiket {
             if($fleet_route->fleet_detail->fleet->fleetclass->id_fleet_class($area_id) != 2){
                 $price = $fleet_route->fleet_detail->fleet->fleetclass->price_fleet_class($area_id)??0;
             }
-            // if(@$user->agencies){
-            //     $price -= $fleet_route->fleet_detail->fleet->fleetclass->price_food??0;
-            // }
+            if(@$user->agencies){
+                $price -= $fleet_route->fleet_detail->fleet->fleetclass->price_food??0;
+            }
 
         $price += @$fleet_route->prices()
             ->whereDate('start_at', '<=', $date)
