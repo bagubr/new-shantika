@@ -17,10 +17,11 @@ class MembershipController extends Controller
         // 'SNTK00018006'
         $code_member = $request->code_member ?? $this->sendFailedResponse([], 'ID Member belum diisi');
         $code_member = CodeMember::code($code_member);
-        
         Membership::where('code_member', $code_member)->first()?:$this->sendFailedResponse([], 'Kode Membership tidak ditemukan');
-        $member = Membership::where('code_member', $code_member)->first()
-            ?: $this->sendFailedResponse([], 'Nama dengan kode member ' . $code_member . ' Membership tidak ditemukan');
+        $member = Membership::where('code_member', $code_member)->first();
+        if(!$member){
+            $this->sendFailedResponse([], 'Nama dengan kode member ' . $code_member . ' Membership tidak ditemukan');
+        }
         $member['email'] = $member->user?->email??'';
 
         return $this->sendSuccessResponse([

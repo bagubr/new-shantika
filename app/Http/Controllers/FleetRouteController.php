@@ -43,7 +43,7 @@ class FleetRouteController extends Controller
             $query->whereHas('fleet_detail.fleet', function ($q) use ($fleet_id) {
                 $q->where('fleet_id', $fleet_id);
             });
-        })->withCount('blocked_chairs')->orderBy('id', 'desc')->paginate(10);
+        })->withCount('blocked_chairs')->orderBy('id', 'desc')->get();
         
         $areas = Area::get();
         $statuses = Agency::status();
@@ -190,12 +190,12 @@ class FleetRouteController extends Controller
     {
         $fleet_route = FleetRoute::find(request()->fleet_route_id);
         $area_id = request()->area_id;
-        $fleet_routes = FleetRoute::has('fleet_detail')->with(['route', 'fleet_detail.fleet.fleetclass'])
+        $fleet_routes = FleetRoute::has('fleet_detail.fleet')->with(['route', 'fleet_detail.fleet.fleetclass'])
         ->whereHas('route.checkpoints', function ($q) use ($area_id) {
             $q->whereHas('agency.city', function ($sq) use ($area_id) {
                 $sq->where('area_id', '!=', $area_id);
             });
-        })->get();
+        })->get()->makeHidden('agency_name');
 
         return response(['data' => $fleet_routes, 'code' => 1], 200);
 

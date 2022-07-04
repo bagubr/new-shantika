@@ -47,7 +47,6 @@ class SouvenirRedeem extends Model
     {
         return $this->belongsTo(Souvenir::class, 'souvenir_id', 'id');
     }
-
     public function agency()
     {
         return $this->belongsTo(Agency::class, 'agency_id', 'id');

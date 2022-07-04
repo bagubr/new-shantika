@@ -22,7 +22,6 @@ class FleetClassController extends Controller
     }
 
     public function available(ApiAvailableFleetClassRequest $request) {
-
         $time_classification_id = $request->time_classification_id;
         $date = $request->date;
         $agency_id = $request->agency_id;

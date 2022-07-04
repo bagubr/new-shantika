@@ -21,7 +21,6 @@ class RouteController extends BaseRouteController
         $destination_agency = AgencyRepository::findWithCity($request->agency_id);
         $time_classification_id = $request->time_classification_id;
         $fleet_class_id = $request->fleet_class_id;
-
         if (empty($destination_agency->is_active)) {
             return $this->sendFailedResponse([], 'Agen tujuan tidak aktif, mohon coba agen yang lain');
         }

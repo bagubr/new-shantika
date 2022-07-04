@@ -199,5 +199,4 @@ class SketchController extends Controller
         $pdf = \PDF::loadView('excel_export.langsir', $data);
         $pdf->stream('document.pdf');
     }
-
 }

@@ -147,7 +147,7 @@ Sketch
                                 <label for="">AGEN</label>
                             </div>
                             <div class="col-md-11">
-                                <marquee direction="left" height="20" width="100%" bgcolor="white" onmouseover="this.stop();" onmouseout="this.start();"><p style="font-size: 15px;">@{{order.fleet_route?.fleet_detail?.fleet?.name}} &nbsp;( &nbsp; @{{order.fleet_route?.fleet_detail?.fleet?.fleetclass?.name}}&nbsp;|&nbsp;@{{order.fleet_route?.agency_name}} )</p></marquee>
+                                <marquee direction="left" height="20" width="100%" bgcolor="white" onmouseover="this.stop();" onmouseout="this.start();"><p style="font-size: 15px;">@{{order.fleet_route?.fleet_detail?.fleet?.name}} &nbsp;( &nbsp; @{{order.fleet_route?.fleet_detail?.fleet?.fleetclass?.name}}&nbsp;|&nbsp;@{{order.fleet_route?.route?.name}} )</p></marquee>
                             </div>
                             <div class="col-md-1">
                                 <a :href="editAgent(order.fleet_route?.route?.id)" target="_blank"><p class="fas fa-edit"></p></a>
@@ -187,7 +187,6 @@ Sketch
 
 <script src="https://unpkg.com/vue-select@3.0.0"></script>
 <link rel="stylesheet" href="https://unpkg.com/vue-select@3.0.0/dist/vue-select.css">
-
 <script>
     Vue.component('v-select', VueSelect.VueSelect)
     var app = new Vue({
@@ -319,6 +318,7 @@ Sketch
                         date: new Date(this.firstLayout.date).toDateString()
                     })
                     fetch("{{url('/')}}/sketch/orders/detail?"+params).then(res => res.json()).then(res => {
+                        console.log(res.data)
                         this.firstLayout.data = res.data
                         this.firstLayout.fleet = res.fleet
                     }).finally(() => {
@@ -359,7 +359,7 @@ Sketch
 
                     let chair;
                     let html;
-                    html = `<marquee>`
+                    html = `<div style=" display: inline-block; text-align: center; font-size: 10px;">`
                     
                     let index = this.getCurrentIndexByRowCol(row, col, which)
                     if(which == 0){
@@ -400,13 +400,12 @@ Sketch
                     } else {
                         return `<span>${chair.name}</span>`
                     }
-
                     if(chair.order_detail?.order_detail?.length??0 > 1){
                         chair.order_detail.order_detail.forEach(function (value, key) {
                             return html += `(${value.chair_name})`
                         })
                     }
-                    html += `</marquee>`
+                    html += `</div>`
                     
                     return html
                 },
@@ -933,5 +932,9 @@ Sketch
             }
         });
     // app.components('v-select', VueSelect.VueSelect);
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
 </script>
+
 @endpush

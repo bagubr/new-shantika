@@ -56,7 +56,6 @@ Armada
                                     <td>{{$fleet->name}}</td>
                                     <td>
                                         @foreach ($fleet->fleet_detail as $detail)
-                                        
                                         <a href="{{route('fleet_detail.edit',$detail->id)}}" target="_blank">
                                         <li>
                                             {{$detail->nickname}} ({{$detail->plate_number}})

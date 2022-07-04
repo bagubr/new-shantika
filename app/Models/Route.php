@@ -45,7 +45,7 @@ class Route extends Model
     {
         return $this->hasManyThrough(OrderDetail::class, Order::class);
     }
-
+    
     public function agency_route()
     {
         return $this->hasMany(AgencyRoute::class, 'route_id', 'id');

@@ -68,7 +68,6 @@ Route
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
                                     <th>Nama</th>
                                     <th>Tujuan</th>
                                     <th>Armada</th>
@@ -78,7 +77,6 @@ Route
                             <tbody>
                                 @foreach ($routes as $route)
                                 <tr>
-                                    <td>{{$route->id}}</td>
                                     <td>{{$route->name}}</td>
                                     <td>
                                         @if ($route->checkpoints->count() > 0)
