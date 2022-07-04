@@ -22,8 +22,9 @@ class OrderDetailChairResource extends JsonResource
             'phone'=>$this->phone,
             'chair_name'=>$this->chair->name,
             'food'=>$this->is_feed ? 1 : 0,
-            'is_member'=>$this->is_member ? "Member" : "Non Member",
-            'is_travel'=>$this->is_travel ? "Travel" : "Non Travel",
+            'is_member'=>$this->is_member,
+            'is_travel'=>$this->is_travel,
+            'is_feed'=>$this->is_feed,
             "price"=>$this->order->distribution->ticket_only
         ];
     }

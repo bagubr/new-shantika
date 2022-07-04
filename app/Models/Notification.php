@@ -19,6 +19,7 @@ class Notification extends Model
     const TYPE5 = 'CHAIR_CHANGE';
     const TYPE6 = 'TIME_CHANGE';
     const TYPE7 = 'PROMO';
+    const TYPE8 = 'BROADCAST';
 
     protected $fillable = [
         'user_id', 'reference_id', 'title', 'body', 'type', 'is_seen'

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Promo;
+use App\Models\PromoHistory;
 use App\Models\User;
 use App\Services\PromoService;
 use Illuminate\Http\Request;
@@ -72,5 +73,12 @@ class PromoController extends Controller
         $promo->delete();
         session()->flash('success', 'Promo Berhasil Dihapus');
         return redirect(route('promo.index'));
+    }
+
+    public function show($id)
+    {
+        $promo_histories = PromoHistory::wherePromoId($id)->orderBy('id', 'desc')->paginate(10)->withQueryString();
+        $nominal = PromoHistory::has('order')->wherePromoId($id)->get()->sum('order.nominal_discount');
+        return view('promo.history', compact('promo_histories', 'nominal'));
     }
 }

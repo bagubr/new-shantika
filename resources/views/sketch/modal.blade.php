@@ -38,7 +38,7 @@
                                     <div class="col">
                                         <select @change="selectOptionFirstLayout($event)" class="form-control" id="" v-model="firstLayout.fleetRouteId">
                                             <option :value="fleetRoute.id" v-for="fleetRoute in fleetRoutes"
-                                                :key="fleetRoute.id" v-text="setSelectOptionLayoutText(fleetRoute)" :selected="fleetRoute.id == firstLayout.fleetRouteId"></option>
+                                                :key="fleetRoute.id" v-text="setSelectOptionLayoutText(fleetRoute)"></option>
                                         </select>
                                     </div>
                                     <div class="col-auto">
@@ -61,8 +61,8 @@
                                     <div v-for="i in firstLayout.data.row" class="d-flex">
                                         <div v-for="j in firstLayout.data.col" class="m-1">
                                             <button v-html="loadText(i,j,0)" :class="loadClass(i,j,0)"
-                                                style="width: 100px; height: 45px" ref="btn-first-layout"
-                                                @click="selectSeat(i,j,0)"></button>
+                                                style="width: 100px; height: 45px;" ref="btn-first-layout"
+                                                @click="selectSeat(i,j,0)" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></button>
                                         </div>
                                     </div>
                                 </div>
@@ -161,7 +161,7 @@
                                     <div v-for="i in secondLayout.data.row" class="d-flex">
                                         <div v-for="j in secondLayout.data.col" class="m-1">
                                             <button v-html="loadText(i,j,1)" :class="loadClass(i,j,1)"
-                                                style="width: 100px; height: 45px" ref="btn-second-layout"
+                                                style="width: 100px; height: 45px;" ref="btn-second-layout"
                                                 @click="dropSelectedSeat(i,j,1)"></button>
                                         </div>
                                     </div>

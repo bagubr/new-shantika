@@ -55,18 +55,23 @@ class OrderService
                 (new self)->sendFailedResponse([], 'Maaf, promo tidak di temukan atau sudah habis');
             }
             $promo = PromoRepository::getWithNominalDiscount($price, $data->promo_id);
-            PromoHistory::create($data->only('user_id', 'promo_id'));
+            $promo_histories = PromoHistory::create($data->only('user_id', 'promo_id'));
             $data->nominal_discount = $promo->nominal_discount;
         }
         $for_deposit = $price;
         $data->price = $price;
-        if ($detail->is_member) {
-            self::createHistory($data->user_id, $detail->id_member);
-        }
         if (!$data->code_order) $data->code_order = self::generateCodeOrder($data->id);
         if (!$data->expired_at) $data->expired_at = self::getExpiredAt();
         $order = Order::create($data->toArray());
         $code_order = self::generateCodeOrder($order->id);
+        if ($detail->is_member) {
+            self::createHistory($data->user_id, $detail->id_member, $code_order, $order->id);
+        }
+        if(isset($promo_histories)){
+            $promo_histories->update([
+                'order_id' => $order->id
+            ]);
+        }
         $order->update([
             'code_order' => $code_order
         ]);
@@ -214,7 +219,7 @@ class OrderService
         }
     }
 
-    public static function createHistory($user_id, $id_member)
+    public static function createHistory($user_id, $id_member, $code_order, $order_id)
     {
         $user = User::find($user_id);
         if($id_member){
@@ -225,7 +230,12 @@ class OrderService
             }
             if(@$user->agencies){
                 MembershipService::increment($membership, Setting::find(1)->point_purchase, 'Pembelian Tiket');
-                MembershipHistory::create(['agency_id'=> $user->id,'customer_id'=> $membership->user_id]);
+                MembershipHistory::create([
+                    'agency_id'=> $user->id,
+                    'customer_id'=> $membership->user_id,
+                    'code_order'=> $code_order,
+                    'order_id'=> $order_id,
+                ]);
             }
         }
     }

@@ -24,8 +24,9 @@ class CityController extends Controller
             {
                 $query->where('area_id', $request->area_id);
             })
-            ->when($agency, function($query) use ($agency) {
-                $query->where('area_id',"!=",$agency->city->area_id);
+            ->when($request->province_id, function ($query) use ($request)
+            {
+                $query->where('province_id', $request->province_id);
             })->get()
         ]);
     }
