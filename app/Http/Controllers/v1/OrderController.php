@@ -27,6 +27,10 @@ class OrderController extends Controller
 
         $price_ticket = PriceTiket::priceTiket($fleet_route, $departure_agency, $agency_destiny, $date, $request->is_food);
 
+        if(UserRepository::findByToken(request()->bearerToken())->agencies){
+            $price_ticket += $fleet_route->fleet_detail->fleet->fleetclass->price_food??0;
+        }
+
         // $price_food = @$user?->agencies?->agent?->city?->area_id == 2 
         // ? 0
         // : $price_food;
