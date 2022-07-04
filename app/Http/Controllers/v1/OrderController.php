@@ -43,9 +43,9 @@ class OrderController extends Controller
         ];
         $price_with_food = $price_ticket * $request->seat_count;
 
-        if(@$user->agencies){
-            $price_with_food += $price_food;
-        }
+        // if(@$user->agencies){
+        //     $price_with_food += $price_food;
+        // }
         
         $xendit_charge = function() use ($setting, $user) : int {
             if(empty($user?->agencies)) {
