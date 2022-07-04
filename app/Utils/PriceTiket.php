@@ -4,10 +4,11 @@ namespace App\Utils;
 
 use App\Models\Agency;
 use App\Models\FleetRoute;
+use App\Models\Setting;
 use App\Repositories\UserRepository;
 
 class PriceTiket {
-    public static function priceTiket(FleetRoute $fleet_route, Agency $departure_agency, Agency $agency_destiny, $date) {
+    public static function priceTiket(FleetRoute $fleet_route, Agency $departure_agency, Agency $agency_destiny, $date, $is_food = null) {
         $price = 0;
 
         $area_id = $departure_agency->city->area_id;
@@ -26,7 +27,11 @@ class PriceTiket {
                 $price = $fleet_route->fleet_detail->fleet->fleetclass->price_fleet_class($area_id)??0;
             }
             if(@$user->agencies){
-                $price -= $fleet_route->fleet_detail->fleet->fleetclass->price_food??0;
+                if($is_food){
+                    $price -= $fleet_route->fleet_detail->fleet->fleetclass->price_food??0;
+                }else{
+                    $price -= Setting::first()->default_food_price??0;
+                }
             }
 
         $price += @$fleet_route->prices()
