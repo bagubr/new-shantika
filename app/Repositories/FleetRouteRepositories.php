@@ -106,6 +106,14 @@ class FleetRouteRepositories {
                         $que2->where('time_classification_id', $time_classification_id);
                     })->orDoesnthave('time_change_route');
                 })
+                ->where(function ($query) use ($time_classification_id, $date)
+                {
+                    $query->whereHas('time_change_route', function ($que2) use ($date, $time_classification_id)
+                    {
+                        $que2->whereDate('date', $date);
+                        $que2->where('time_classification_id', $time_classification_id);
+                    })->orDoesnthave('time_change_route');
+                })
         ->get();
     }
 }

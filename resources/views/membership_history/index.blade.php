@@ -30,10 +30,16 @@ Membership History
                     </div>
                     <div class="card-body">
                         <form action="{{route('membership_histories.index')}}" method="get">
-                            <div class="form-group">
-                                <label>Date</label>
-                                <input type="date" class="form-control" name="created_at" value="{{@$created_at}}">
-                            </div>
+                            <diV class="row">
+                                <div class="form-group col-6">
+                                    <label>Awal Tanggal</label>
+                                    <input type="date" class="form-control" name="start_date" value="{{@$start_date}}">
+                                </div>
+                                <div class="form-group col-6">
+                                    <label>Akhir Tanggal</label>
+                                    <input type="date" class="form-control" name="end_date" value="{{@$end_date}}">
+                                </div>
+                            </diV>
                             <div class="text-right">
                                 <button class="btn btn-success" type="submit">Cari</button>
                             </div>
@@ -51,6 +57,7 @@ Membership History
                             <div class="text-right">
                                 <button class="btn btn-primary btn-sm" type="submit" name="export" value="1">Export</button>
                                 <a href="#" class="btn btn-outline-primary btn-sm">Total Data Membership History {{ $total }}</a>
+                                <a href="#" class="btn btn-outline-primary btn-sm">Total Potongan Membership Rp. {{number_format($nominal)}}</a>
                             </div>
                             @endunlessrole
                         </form>
@@ -59,21 +66,32 @@ Membership History
                         <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
+                                    <th>Kode Order</th>
                                     <th>Kode Member</th>
                                     <th>Name</th>
                                     <th>Nomor Hp</th>
                                     <th>Email</th>
                                     <th>Agent</th>
+                                    <th>Total Potongan</th>
+                                    <th>Tanggal Penggunaan</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($membership_histories as $membership_history)
                                 <tr>
+                                    @if ($membership_history->order_id)
+                                        
+                                    <td><a href="{{url('order')}}/{{$membership_history->order_id}}">{{$membership_history->code_order}}</a></td>
+                                    @else
+                                    <td>Tidak di temukan</td>
+                                    @endif
                                     <td>{{$membership_history->membership->code_member ?? ''}}</td>
                                     <td>{{$membership_history->customer->name ?? ''}}</td>
                                     <td>{{$membership_history->customer->phone ?? ''}}</td>
                                     <td>{{$membership_history->customer->email ?? ''}}</td>
                                     <td>{{$membership_history->agency->name ?? ''}}</td>
+                                    <td>Rp. {{number_format(@$membership_history->order?->distribution?->for_member ?? 0)}}</td>
+                                    <td>{{$membership_history->created_at ?? ''}}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

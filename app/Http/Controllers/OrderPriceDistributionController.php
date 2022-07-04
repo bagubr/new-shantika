@@ -60,11 +60,32 @@ class OrderPriceDistributionController extends Controller
         $order_details              = OrderDetail::query();
         $tiket_price                = Order::query();
         
-        $order_price_distributions->when($area_id, function ($query) use ($area_id)
+        $order_price_distributions->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED'])
+        ->when($area_id, function ($query) use ($area_id)
         {
             $query->whereHas('order.fleet_route.route.checkpoints.agency.city', function ($query) use ($area_id)
             {
                 $query->where('area_id', $area_id);
+            });
+        })
+        ->when($fleet_detail_id, function ($query) use ($fleet_detail_id)
+        {
+            $query->whereHas('order', function ($q) use ($fleet_detail_id) {
+                $q->whereHas('fleet_route', function ($sq) use ($fleet_detail_id) {
+                    $sq->where('fleet_detail_id', $fleet_detail_id);
+                });
+            });
+        })
+        ->when($date_search, function ($query) use ($date_search)
+        {
+            $query->whereHas('order', function ($q) use ($date_search) {
+                $q->whereDate('reserve_at', $date_search);
+            });
+        })
+        ->when($agency_id, function ($query) use ($agency_id)
+        {
+            $query->whereHas('order', function ($q) use ($agency_id) {
+                $q->where('departure_agency_id', $agency_id);
             });
         });
         $outcome_details->when($area_id, function ($query) use ($area_id)
@@ -90,11 +111,6 @@ class OrderPriceDistributionController extends Controller
         });
 
         if (!empty($fleet_detail_id)) {
-            $order_price_distributions = $order_price_distributions->whereHas('order', function ($q) use ($fleet_detail_id) {
-                $q->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED'])->whereHas('fleet_route', function ($sq) use ($fleet_detail_id) {
-                    $sq->where('fleet_detail_id', $fleet_detail_id);
-                });
-            });
             $order_details      = $order_details->whereHas('order.fleet_route', function ($q) use ($fleet_detail_id) {
                 $q->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED'])->where('fleet_detail_id', $fleet_detail_id);
             });
@@ -106,9 +122,6 @@ class OrderPriceDistributionController extends Controller
             });
         }
         if (!empty($date_search)) {
-            $order_price_distributions  = $order_price_distributions->whereHas('order', function ($q) use ($date_search) {
-                $q->whereDate('reserve_at', $date_search)->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
-            });
             $order_details              = $order_details->whereHas('order', function ($q) use ($date_search) {
                 $q->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED'])->whereDate('reserve_at', $date_search);
             });
@@ -119,9 +132,6 @@ class OrderPriceDistributionController extends Controller
         }
 
         if (!empty($agency_id)) {
-            $order_price_distributions  = $order_price_distributions->whereHas('order', function ($q) use ($agency_id) {
-                $q->where('departure_agency_id', $agency_id)->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
-            });
             $order_details              = $order_details->whereHas('order', function ($q) use ($agency_id) {
                 $q->where('departure_agency_id', $agency_id)->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
             });

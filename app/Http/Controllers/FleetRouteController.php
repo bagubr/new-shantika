@@ -195,7 +195,7 @@ class FleetRouteController extends Controller
             $q->whereHas('agency.city', function ($sq) use ($area_id) {
                 $sq->where('area_id', '!=', $area_id);
             });
-        })->get();
+        })->get()->makeHidden('agency_name');
 
         return response(['data' => $fleet_routes, 'code' => 1], 200);
 
