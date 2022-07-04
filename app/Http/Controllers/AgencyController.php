@@ -38,7 +38,7 @@ class AgencyController extends Controller
     }
     public function search(Request $request)
     {
-        $area_id  = $request->area_id;
+        $area_id  = Auth::user()->area_id??$request->area_id;
         $search  = $request->search;
         $agencies   = Agency::query();
         $statuses = Agency::status();
@@ -66,7 +66,7 @@ class AgencyController extends Controller
         $test       = $request->flash();
         $agencies   = $agencies->orderBy('id')->paginate(10);
 
-        return view('agency.index', compact('agencies', 'statuses', 'test', 'areas', 'search'));
+        return view('agency.index', compact('agencies', 'statuses', 'test', 'areas', 'search', 'area_id'));
     }
     public function get_agency(Request $request)
     {

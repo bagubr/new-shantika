@@ -318,6 +318,7 @@ Sketch
                         date: new Date(this.firstLayout.date).toDateString()
                     })
                     fetch("{{url('/')}}/sketch/orders/detail?"+params).then(res => res.json()).then(res => {
+                        console.log(res.data)
                         this.firstLayout.data = res.data
                         this.firstLayout.fleet = res.fleet
                     }).finally(() => {
@@ -399,7 +400,6 @@ Sketch
                     } else {
                         return `<span>${chair.name}</span>`
                     }
-
                     if(chair.order_detail?.order_detail?.length??0 > 1){
                         chair.order_detail.order_detail.forEach(function (value, key) {
                             return html += `(${value.chair_name})`

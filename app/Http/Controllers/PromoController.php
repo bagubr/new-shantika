@@ -45,7 +45,6 @@ class PromoController extends Controller
 
     public function update(Request $request, Promo $promo)
     {
-        // dd($request);
         if ($request->hasFile('image')) {
             $image = $request->image->store('promo', 'public');
             $promo->deleteImage();

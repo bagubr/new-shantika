@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Console;
-
 use App\Console\Commands\CheckExpiry;
 use App\Console\Commands\NotifyExpiry;
 use Illuminate\Console\Scheduling\Schedule;

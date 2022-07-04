@@ -14,9 +14,9 @@ class ApiOrderDetailUpdateRequest extends ApiRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
-            'email' => 'required|string',
-            'phone' => 'required|string',
+            'name' => 'sometimes|string',
+            'email' => 'sometimes|string',
+            'phone' => 'sometimes|string',
         ];
     }
 }

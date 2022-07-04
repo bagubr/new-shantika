@@ -188,7 +188,6 @@ class OrderController extends Controller
         OrderService::create($order, $request);
         DB::commit();
         return response(['data' => $data, 'order' => $order, 'message' => 'Berhasil buat', 'code' => 1], 200);
-
     }
 
     public function showByCodeOrder($code_order)

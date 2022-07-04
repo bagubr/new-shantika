@@ -52,7 +52,6 @@ class OrderRepository
             ->whereDate('booking_at', date('Y-m-d H:i:s', strtotime($date)))
             ->whereUserId($user->id)
             ->distinct('code_booking');
-        // dd($booking);
         $agen_order =  Order::select('id', 'fleet_route_id', 'user_id', 'reserve_at', 'status', 'code_order as code')
             ->addSelect(DB::raw("NULL as layout_chair_id"))
             ->addSelect('destination_agency_id', 'time_classification_id', 'departure_agency_id')
@@ -188,7 +187,7 @@ class OrderRepository
             ->get();
         return $order;
     }
-    public static function getAtDateByFleetRouteNotPaidIdCustomer($date, $fleet_route_id,$time_classification_id = null)
+    public static function getAtDateByFleetRouteNotPaidIdCustomer($date, $fleet_route_id, $time_classification_id = null)
     {
 
         $order = Order::with(['order_detail', 'user', 'agency', 'agency_destiny'])

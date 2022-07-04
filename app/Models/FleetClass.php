@@ -41,7 +41,6 @@ class FleetClass extends Model
     {
         return $this->prices()->where('area_id', $area_id)->whereDate('start_at', '<=',date(now()))->orderBy('id', 'desc')->first()?->price_food??0;
     }
-
     public function fleets() {
         return $this->hasMany(Fleet::class, 'fleet_class_id', 'id');
     }

@@ -55,7 +55,7 @@ Jadwal Rute {{$area->name}}
                             </div>
                             <div class="form-group">
                                 <label>Cari Area</label>
-                                <select name="area_id" class="form-control" disabled>
+                                <select name="area_id" class="form-control">
                                     <option value="">--PILIH AREA--</option>
                                     @foreach ($areas as $area)
                                     @if (isset($area_id) && $area_id == $area->id)

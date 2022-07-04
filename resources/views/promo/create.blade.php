@@ -56,7 +56,7 @@ Promo
                         </div>
                         <div class="form-group">
                             <label>Gambar</label>
-                            <input type="file" class="form-control" name="image" accept="image/*" @if(!$promo) required @endif>
+                            <input type="file" class="form-control" name="image" accept="image/*" @if(isset($promo)) required @endif>
                             <small class="text-danger"><i class="fas fa-info-circle"></i> Pastikan ukuran gambar 445x236(72)dpi, agar hasil maksimal</small>
                             <br>
                             @isset($promo)
@@ -94,7 +94,7 @@ Promo
                                 @endisset>{{ $name }}</option>
                                 @endforeach
                             </select>
-                            @if (!$promo)
+                            @if (isset($promo))
                                 <small class="text-danger" id="refresh"><i class="fas fa-info-circle"></i> Dapat di Kosongkan jika ingin ditujukan ke semua user</small>
                             @endif
                         </div>

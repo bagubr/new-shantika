@@ -206,7 +206,6 @@ class OutcomeController extends Controller
         }
         DB::beginTransaction();
         try {
-            dd($data);
             $outcome = Outcome::create($data);
             foreach ($data['outcome_details'] as $key => $value) {
                 unset($data['fleet_detail_id'], $data['reported_at']);

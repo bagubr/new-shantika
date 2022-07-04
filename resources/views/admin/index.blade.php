@@ -79,6 +79,16 @@ Admin
 @endsection
 @push('script')
 <script>
+<<<<<<< HEAD
+    $(function () {
+      $("#example1").DataTable({
+        "responsive": true, "lengthChange": false, "autoWidth": false,
+      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
+</script>
+<script>
+=======
+>>>>>>> rilisv1
     $(document).on('click', '.button-delete', function (e) {
         e.preventDefault();
         var id = $(this).data('id');

@@ -9,6 +9,7 @@ use App\Repositories\UserRepository;
 class PriceTiket {
     public static function priceTiket(FleetRoute $fleet_route, Agency $departure_agency, Agency $agency_destiny, $date) {
         $price = 0;
+
         $area_id = $departure_agency->city->area_id;
             $user = UserRepository::findByToken(request()->bearerToken());
             

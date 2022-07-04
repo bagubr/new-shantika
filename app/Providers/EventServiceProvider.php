@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Providers;
-
-use App\Events\ExpiredNotificationEvent;
 use App\Events\SendingNotification;
 use App\Events\SendingNotificationToAdmin;
 use App\Events\SendingNotificationToTopic;
+use App\Events\ExpiredNotificationEvent;
 use App\Listeners\ExpiredNotificationListener;
 use App\Listeners\SendNotification;
 use App\Listeners\SendNotificationToAdmin;
