@@ -30,7 +30,7 @@ class PriceTiket {
                 if($is_food){
                     $price -= $fleet_route->fleet_detail->fleet->fleetclass->price_food??0;
                 }else{
-                    $price -= Setting::first()->default_food_price??0;
+                    $price += Setting::first()->default_food_price??0;
                 }
             }
 
