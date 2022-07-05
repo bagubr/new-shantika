@@ -60,7 +60,7 @@ Pengaturan Global
                                 value="{{$config_setting->xendit_charge}}">
                         </div>
                         <div class="form-group">
-                            <label>Default Food Price (Rp)</label>
+                            <label>Pengurangan Biaya Tiket Tanpa Makan (Rp)</label>
                             <input type="integer" class="form-control" name="default_food_price"
                                 value="{{$config_setting->default_food_price}}">
                         </div>
