@@ -60,6 +60,11 @@ Pengaturan Global
                                 value="{{$config_setting->xendit_charge}}">
                         </div>
                         <div class="form-group">
+                            <label>Default Food Price (Rp)</label>
+                            <input type="integer" class="form-control" name="default_food_price"
+                                value="{{$config_setting->default_food_price}}">
+                        </div>
+                        <div class="form-group">
                             <label>Set Time Expired (Hours:Minute)</label>
                             <input type="time" class="form-control" name="time_expired"
                                 value="{{$config_setting->time_expired}}">
