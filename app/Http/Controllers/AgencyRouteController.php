@@ -27,7 +27,7 @@ class AgencyRouteController extends Controller
         if (!empty($area_id)) {
             $routes = $routes->whereHas('checkpoints.agency', function ($q) use ($area_id) {
                 $q->whereHas('city', function ($sq) use ($area_id) {
-                    $sq->where('area_id', $area_id);
+                    $sq->where('area_id', '!=', $area_id);
                 });
             });
         }

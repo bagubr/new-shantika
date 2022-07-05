@@ -18,7 +18,7 @@ class AgencyFleetController extends Controller
         {
             $query->whereHas('fleet_detail.fleet_route.route.checkpoints.agency.city', function ($query) use ($request)
             {
-                $query->where('area_id', $request->area_id);
+                $query->where('area_id', '!=', $request->area_id);
             } );
         })->get();
         $areas = Area::all();
