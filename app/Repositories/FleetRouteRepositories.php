@@ -75,34 +75,37 @@ class FleetRouteRepositories {
                         $que2->where('time_classification_id', $time_classification_id);
                     })->orDoesnthave('time_change_route');
                 })
-                ->whereHas('fleet_detail.fleet.agency_fleet_permanent', function ($query) use ($departure_agency)
+                ->where(function ($query) use ($departure_agency, $date)
                 {
-                    $query->where('agency_id', $departure_agency->id);
-                })
-                ->orDoesnthave('fleet_detail.fleet.agency_fleet_permanent')
-                ->orWhere(function ($que) use($departure_agency, $date)
-                {
-                    $que->whereHas('fleet_detail.fleet.agency_fleet', function ($query_when) use ($departure_agency, $date)
-                    {
-                        $query_when->where('agency_id', $departure_agency->id);
-                        $query_when->whereDate('start_at', '<=', $date)->whereDate('end_at', '>=', $date);
-                    });
-                    $que->orDoesnthave('fleet_detail.fleet.agency_fleet');
-                })
-                ->whereHas('route', function ($query) use ($date, $departure_agency) {
-                    $query->whereHas('agency_route_permanent', function ($query) use ($departure_agency)
+                    $query->whereHas('fleet_detail.fleet.agency_fleet_permanent', function ($query) use ($departure_agency)
                     {
                         $query->where('agency_id', $departure_agency->id);
-                    });
-                    $query->orDoesnthave('agency_route_permanent');
-                    $query->orWhere(function ($que) use($departure_agency, $date)
+                    })
+                    ->orDoesnthave('fleet_detail.fleet.agency_fleet_permanent')
+                    ->orWhere(function ($que) use($departure_agency, $date)
                     {
-                        $que->whereHas('agency_route', function ($query) use ($departure_agency, $date)
-                            {
-                                $query->whereDate('start_at', '<=', $date)->whereDate('end_at', '>=', $date);
-                                $query->where('agency_id', $departure_agency->id);
-                            });
-                        $que->orDoesnthave('agency_route');
+                        $que->whereHas('fleet_detail.fleet.agency_fleet', function ($query_when) use ($departure_agency, $date)
+                        {
+                            $query_when->where('agency_id', $departure_agency->id);
+                            $query_when->whereDate('start_at', '<=', $date)->whereDate('end_at', '>=', $date);
+                        });
+                        $que->orDoesnthave('fleet_detail.fleet.agency_fleet');
+                    })
+                    ->whereHas('route', function ($query) use ($date, $departure_agency) {
+                        $query->whereHas('agency_route_permanent', function ($query) use ($departure_agency)
+                        {
+                            $query->where('agency_id', $departure_agency->id);
+                        });
+                        $query->orDoesnthave('agency_route_permanent');
+                        $query->orWhere(function ($que) use($departure_agency, $date)
+                        {
+                            $que->whereHas('agency_route', function ($query) use ($departure_agency, $date)
+                                {
+                                    $query->whereDate('start_at', '<=', $date)->whereDate('end_at', '>=', $date);
+                                    $query->where('agency_id', $departure_agency->id);
+                                });
+                            $que->orDoesnthave('agency_route');
+                        });
                     });
                 })
         ->get();

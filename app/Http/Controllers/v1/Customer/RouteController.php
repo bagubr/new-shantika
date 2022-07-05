@@ -31,7 +31,6 @@ class RouteController extends Controller
             return $this->sendFailedResponse([], 'Akun agen keberangkatan anda dinonaktifkan, mohon coba agen yang lain');
         }
         $routes = FleetRouteRepositories::search_fleet($date, $departure_agency, $destination_agency, $time_classification_id, $fleet_class_id);
-
         foreach ($routes as $route) {
             $found = false;
             $checkpoints = $route->route->checkpoints->filter(function ($item, $key) use ($request, &$route, &$found) {
