@@ -53,11 +53,11 @@ Rute Agen Temporary
                                 </div>
                                 <div class="form-group col-4">
                                     <label for="">Mulai Dari</label>
-                                    <input type="date" name="start_at" class="form-control" id="">
+                                    <input type="date" name="start_at" class="form-control" id="" required>
                                 </div>
                                 <div class="form-group col-4">
                                     <label for="">Selesai</label>
-                                    <input type="date" name="end_at" class="form-control" id="">
+                                    <input type="date" name="end_at" class="form-control" id="" required>
                                 </div>
                             </div>
                         </div>

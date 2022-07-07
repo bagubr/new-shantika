@@ -9,7 +9,7 @@ class AgencyRoutePermanent extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'agency_id', 'route_id'
+        'agency_id', 'route_id', 'start_at', 'end_at'
     ];
 
     public function agency()

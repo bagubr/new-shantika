@@ -52,7 +52,7 @@ class AgencyFleetPermanentController extends Controller
             $query->where('fleet_id', $id);
         })
         ->get();
-        $agency_fleet_permanents = AgencyFleetPermanent::where('fleet_id', $id)->get();
+        $agency_fleet_permanents = AgencyFleetPermanent::where('fleet_id', $id)->where('start_at', null)->where('end_at', null)->get();
         return view('agency_fleet.create-permanent', compact('agency_fleet_permanents', 'agencies', 'fleet'));
     }
 
