@@ -87,7 +87,7 @@ Pengaturan Global
                             <br>
                             @isset($config_setting->membership_background_card)
                             <a href="{{$config_setting->membership_background_card}}" data-toggle="lightbox">
-                                <img src="{{isset($config_setting) ? $config_setting->icon : ''}}" class="img-thumbnail"
+                                <img src="{{isset($config_setting) ? $config_setting->membership_background_card : ''}}" class="img-thumbnail"
                                     style="height: 100px" alt="">
                             </a>
                             @endisset
