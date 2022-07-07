@@ -59,8 +59,8 @@ class OrderDetailAgentResource extends JsonResource
             'price_travel'              =>$price_travel,
             'price_feed'                =>$price_feed,
             'id_member'                 =>$this->id_member,
-            'price'                     =>$distribution?->ticket_only + $distribution?->for_member - $distribution?->for_travel,
-            'total_price'               =>$this->price,
+            'price'                     =>$distribution?->ticket_price,
+            'total_price'               =>$distribution?->ticket_only + $distribution?->for_member - $distribution?->for_travel,
             'commision'                 =>$distribution?->for_agent,
             'review'                    =>$this->review,
             'note'                    =>$this->note
