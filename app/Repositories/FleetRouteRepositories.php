@@ -82,9 +82,14 @@ class FleetRouteRepositories {
                             $query->whereHas('agency_fleet_permanent', function ($query) use ($departure_agency, $date)
                             {
                                 $query->where('agency_id', $departure_agency->id);
+                                $query->whereNull('start_at');
+                                $query->whereNull('end_at');
+                            });
+                            $query->orWhereHas('agency_fleet_permanent', function ($query) use ($departure_agency, $date)
+                            {
                                 $query->whereDate('start_at', '<=', $date)->whereDate('end_at', '>=', $date);
-                                $query->orwhereNull('start_at');
-                                $query->orwhereNull('end_at');
+                                $query->whereNotNull('start_at');
+                                $query->whereNotNull('end_at');
                             });
                             $query->orDoesnthave('agency_fleet_permanent');
                         });
@@ -97,9 +102,14 @@ class FleetRouteRepositories {
                             $query->whereHas('agency_route_permanent', function ($query) use ($departure_agency, $date)
                             {
                                 $query->where('agency_id', $departure_agency->id);
+                                $query->whereNull('start_at');
+                                $query->whereNull('end_at');
+                            });
+                            $query->orWhereHas('agency_route_permanent', function ($query) use ($departure_agency, $date)
+                            {
                                 $query->whereDate('start_at', '<=', $date)->whereDate('end_at', '>=', $date);
-                                $query->orwhereNull('start_at');
-                                $query->orwhereNull('end_at');
+                                $query->whereNotNull('start_at');
+                                $query->whereNotNull('end_at');
                             });
                             $query->orDoesnthave('agency_route_permanent');
                         });
