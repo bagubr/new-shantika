@@ -96,8 +96,8 @@ Rute Agen
                                         BELUM ADA
                                         @endif
                                     </td>
-                                    <td>{{implode(', ',$route->agency_route_permanent->pluck('agency.name')->toArray())}}</td>
-                                    <td>{!! implode(', ',$route->agency_route->transform(function ($item)
+                                    <td>{{implode(', ',$route->agency_route_permanent->where('start_at', null)->where('end_at', null)->pluck('agency.name')->toArray())}}</td>
+                                    <td>{!! implode(', ',$route->agency_route_permanent->where('start_at', '!=', null)->where('end_at', '!=', null)->transform(function ($item)
                                         {
                                             if(strtotime($item->start_at) <= strtotime(date('Y-m-d')) && strtotime($item->end_at) >= strtotime(date('Y-m-d'))){
                                                 return $item->agency->name;
