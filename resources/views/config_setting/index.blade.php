@@ -32,7 +32,7 @@ Pengaturan Global
                 </div>
                 <div class="card-body" style="display: block;">
                     @include('partials.error')
-                    <form action="{{route('config_setting.store')}}" method="POST">
+                    <form action="{{route('config_setting.store')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label>Nominal Member</label>
@@ -73,6 +73,24 @@ Pengaturan Global
                             <label>Get Point After Purchase</label>
                             <input type="integer" class="form-control" name="point_purchase"
                                 value="{{$config_setting->point_purchase}}">
+                        </div>
+                        <div class="form-group">
+                            <label>Get Point After Purchase</label>
+                            <input type="integer" class="form-control" name="point_purchase"
+                                value="{{$config_setting->point_purchase}}">
+                        </div>
+                        <div class="form-group">
+                            <label>Backgroud Card</label>
+                            <input type="file" class="form-control" name="membership_background_card" accept="image/*">
+                            <small class="text-danger"><i class="fas fa-info-circle"></i> Pastikan ukuran gambar
+                                500x270 px, agar hasil maksimal</small>
+                            <br>
+                            @isset($config_setting->membership_background_card)
+                            <a href="{{$config_setting->membership_background_card}}" data-toggle="lightbox">
+                                <img src="{{isset($config_setting) ? $config_setting->icon : ''}}" class="img-thumbnail"
+                                    style="height: 100px" alt="">
+                            </a>
+                            @endisset
                         </div>
                         <a href="{{URL::previous()}}" class="btn btn-secondary">Batal</a>
                         <input type="submit" value="Submit" class="btn btn-success float-right">
