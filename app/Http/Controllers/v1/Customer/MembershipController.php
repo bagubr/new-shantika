@@ -19,7 +19,7 @@ class MembershipController extends Controller
             ?? $this->sendFailedResponse([], 'Anda sepertinya perlu login ulang / anda perlu regis ulang');
         $data['data'] = MembershipRepository::getByUserId($user->id);
         $data['data']['code_member'] = implode("|", [$data['data']['code_member'], $user->id]);
-        $data['data']['membership_background_card'] = Setting::fisrt()->membership_background_card;
+        $data['data']['membership_background_card'] = Setting::first()->membership_background_card;
         $data['redeem_history'] = SouvenirReedemRepository::getByUserId($data['data']['id']);
         $data['list_souvenir'] = SouvenirRepository::getListSouvenir();
         return $this->sendSuccessResponse($data, 'Berhasil Menampilkan Data');
