@@ -64,7 +64,7 @@ class AgencyRouteController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $agency_route = AgencyRoute::where('agency_id', $request->agency_id)->where('route_id', $request->route_id)->first();
+        $agency_route = AgencyRoutePermanent::where('agency_id', $request->agency_id)->where('route_id', $request->route_id)->first();
         $agency_route_permanent = AgencyRoutePermanent::where('agency_id', $request->agency_id)->where('route_id', $request->route_id)->first();
         if($agency_route_permanent){
             session()->flash('error', 'Data sudah Ditambahkan');
@@ -72,7 +72,7 @@ class AgencyRouteController extends Controller
             if($agency_route){
                 session()->flash('error', 'Data sudah Ditambahkan');
             }else{
-                AgencyRoute::create($data);
+                AgencyRoutePermanent::create($data);
                 session()->flash('success', 'Data Berhasil Ditambahkan');
             }
         }
@@ -113,7 +113,7 @@ class AgencyRouteController extends Controller
             $query->where('id', '!=', $area_id);
         })
         ->get();
-        $agency_routes = AgencyRoute::where('route_id', $id)->get();
+        $agency_routes = AgencyRoutePermanent::where('start_at', '!=', null)->where('end_at', '!=', null)->where('route_id', $id)->get();
         return view('agency_route.create', compact('agency_routes', 'agencies', 'route'));
     }
 
@@ -124,7 +124,7 @@ class AgencyRouteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AgencyRoute $agency_route)
+    public function update(Request $request, AgencyRoutePermanent $agency_route)
     {
         $data = $request->all();
         $agency_route->update($data);
@@ -138,7 +138,7 @@ class AgencyRouteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AgencyRoute $agency_route)
+    public function destroy(AgencyRoutePermanent $agency_route)
     {
         $agency_route->delete();
         session()->flash('success', 'Data Berhasil Dihapus');

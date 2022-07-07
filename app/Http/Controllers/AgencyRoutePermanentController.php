@@ -88,7 +88,7 @@ class AgencyRoutePermanentController extends Controller
             $query->where('id', '!=', $area_id);
         })
         ->get();
-        $agency_route_permanents = AgencyRoutePermanent::where('route_id', $id)->get();
+        $agency_route_permanents = AgencyRoutePermanent::where('route_id', $id)->where('start_at', null)->where('end_at', null)->get();
         return view('agency_route.create-permanent', compact('agency_route_permanents', 'agencies', 'route'));
     }
 

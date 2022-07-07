@@ -38,7 +38,7 @@ class AgencyFleetController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $agency_fleet = AgencyFleet::where('agency_id', $request->agency_id)->where('fleet_id', $request->fleet_id)->first();
+        $agency_fleet = AgencyFleetPermanent::where('agency_id', $request->agency_id)->where('fleet_id', $request->fleet_id)->first();
         $agency_fleet_permanent = AgencyFleetPermanent::where('agency_id', $request->agency_id)->where('fleet_id', $request->fleet_id)->first();
         if($agency_fleet_permanent){
             session()->flash('error', 'Data sudah Ditambahkan');
@@ -49,7 +49,7 @@ class AgencyFleetController extends Controller
                 if(AgencyFleetPermanent::whereFleetId($request->fleet_id)->count() <= 0){
                     session()->flash('error', 'Tambahkan setidaknya 1 agent permanent untuk menggunakan fitur temporary');
                 }else{
-                    AgencyFleet::create($data);
+                    AgencyFleetPermanent::create($data);
                     session()->flash('success', 'Data Berhasil Ditambahkan');
                 }
             }
@@ -69,11 +69,11 @@ class AgencyFleetController extends Controller
             $query->where('fleet_id', $id);
         })
         ->get();
-        $agency_fleets = AgencyFleet::where('fleet_id', $id)->get();
+        $agency_fleets = AgencyFleetPermanent::where('start_at', '!=', null)->where('end_at', '!=', null)->where('fleet_id', $id)->get();
         return view('agency_fleet.create', compact('agency_fleets', 'agencies', 'fleet'));
     }
 
-    public function update(Request $request, AgencyFleet $agency_fleet)
+    public function update(Request $request, AgencyFleetPermanent $agency_fleet)
     {
         $data = $request->all();
         $agency_fleet->update($data);
@@ -81,7 +81,7 @@ class AgencyFleetController extends Controller
         return redirect(route('agency_fleet.index'));
     }
 
-    public function destroy(AgencyFleet $agency_fleet)
+    public function destroy(AgencyFleetPermanent $agency_fleet)
     {
         $agency_fleet->delete();
         session()->flash('success', 'Data Berhasil Dihapus');
