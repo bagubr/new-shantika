@@ -59,7 +59,7 @@ class AgencyController extends Controller
             });
             $query->where('name', 'ilike', '%'.$search.'%');
         }])
-        ->where('name', 'ilike', '%'.$search.'%')
+        ->orWhere('name', 'ilike', '%'.$search.'%')
         ->orWhere('code', 'ilike', '%'.$search.'%')
         ->orWhere('phone', 'ilike', '%'.$search.'%')
         ->orWhere('address', 'ilike', '%'.$search.'%');
