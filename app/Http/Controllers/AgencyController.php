@@ -57,8 +57,11 @@ class AgencyController extends Controller
             {
                 $que->where('area_id', $area_id);
             });
-            $query->where('name', 'ilike', '%'.$search.'%');
         }])
+        ->whereHas('city', function ($que) use ($search)
+        {
+            $que->where('name', 'ilike', '%'.$search.'%');
+        })
         ->orWhere('name', 'ilike', '%'.$search.'%')
         ->orWhere('code', 'ilike', '%'.$search.'%')
         ->orWhere('phone', 'ilike', '%'.$search.'%')
