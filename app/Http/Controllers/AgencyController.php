@@ -57,6 +57,7 @@ class AgencyController extends Controller
             {
                 $que->where('area_id', $area_id);
             });
+            $query->where('name', 'ilike', '%'.$search.'%');
         }])
         ->where('name', 'ilike', '%'.$search.'%')
         ->orWhere('code', 'ilike', '%'.$search.'%')
