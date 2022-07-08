@@ -38,17 +38,29 @@ class OrderDetailController extends Controller
     public function editDataPenumpang(ApiOrderDetailUpdateRequest $request, OrderDetail $order_detail)
     {
         $data = $request->all();
-        // if($order_detail->is_feed != $data['is_feed']){
-        //     $is_feed = $data['is_feed'];
-        // }
-        // if($order_detail->is_member != $data['is_member']){
-        //     $is_member = $data['is_member'];
-        // }
-        // if($order_detail->is_travel != $data['is_travel']){
-        //     $is_travel = $data['is_travel'];
-        // }
+        if($order_detail->is_feed != $data['is_feed']){
+            $is_feed = $data['is_feed'];
+        }
+        if($order_detail->is_member != $data['is_member']){
+            $is_member = $data['is_member'];
+        }
+        if($order_detail->is_travel != $data['is_travel']){
+            $is_travel = $data['is_travel'];
+        }
         $order_detail->update($data);
         $order_detail->refresh();
+
+        if(isset($is_member)){
+            if($is_member == 0){
+                $order_detail->order->distribution->update([
+                    'for_member' => $order_detail->order->distribution->for_member - ($order_detail->order->distribution->for_member / $order_detail->order->order_detail->count()) 
+                ]);
+            }elseif($is_member == 1){
+                $order_detail->order->distribution->update([
+                    'for_member' => $order_detail->order->distribution->for_member + ($order_detail->order->distribution->for_member / $order_detail->order->order_detail->count()) 
+                ]);
+            }
+        }
 
         // $data['price'] = $order_detail->order->price;
         // $data['chairs'] = count($order_detail->order->order_detail);
