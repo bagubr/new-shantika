@@ -29,7 +29,7 @@ class MembershipController extends Controller
             ?? $this->sendFailedResponse([], 'Anda sepertinya perlu login ulang / anda perlu regis ulang');
         $membership = MembershipRepository::getByUserId($user->id);
         return $this->sendSuccessResponse([
-            'data' => MembershipPoint::where('membership_id', $membership->id)->orderBy('id', 'desc')->get()
+            'data' => MembershipPoint::where('membership_id', $membership->id)->where('status', '!=', 'create')->orderBy('id', 'desc')->get()
         ], 'Berhasil Menampilkan History Point');
     }
 }

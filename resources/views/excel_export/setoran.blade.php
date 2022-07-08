@@ -53,7 +53,11 @@
                 @endif
             </td>
             <td data-col="7">
+                @if($order_price_distribution->ticket_price <= 0)
+                Rp.{{$order_price_distribution->ticket_price}}
+                @else
                 Rp.{{number_format($order_price_distribution->ticket_price/ $order_price_distribution->order?->order_detail?->count())}}
+                @endif
             </td>
             <td data-col="8">
                 Rp.{{number_format($order_price_distribution->ticket_price)}}

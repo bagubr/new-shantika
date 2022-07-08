@@ -67,8 +67,8 @@ Armada Agen
                                             @endforeach
                                         @endforeach
                                     </td>
-                                    <td>{{implode(', ',$fleet->agency_fleet_permanent->pluck('agency.name')->toArray())}}</td>
-                                    <td>{!! implode(', ',$fleet->agency_fleet->transform(function ($item)
+                                    <td>{{implode(', ',$fleet->agency_fleet_permanent->where('start_at', null)->where('end_at', null)->pluck('agency.name')->toArray())}}</td>
+                                    <td>{!! implode(', ',$fleet->agency_fleet->where('start_at', '!=', null)->where('end_at', '!=', null)->transform(function ($item)
                                         {
                                             if(strtotime($item->start_at) <= strtotime(date('Y-m-d')) && strtotime($item->end_at) >= strtotime(date('Y-m-d'))){
                                                 return $item->agency->name;
