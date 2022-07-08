@@ -158,6 +158,16 @@ class AgencyController extends Controller
     public function update(UpdateAgencyRequest $request, Agency $agency)
     {
         $data = $request->all();
+        $data['is_agent_route'] = false;
+        $data['is_route'] = false;
+        $data['is_agent'] = false;
+        if(isset($data['is_type']) && $data['is_type'] == 'is_agent_route'){
+            $data['is_agent_route'] = true;
+        }elseif(isset($data['is_type']) && $data['is_type'] == 'is_route'){
+            $data['is_route'] = true;
+        }elseif(isset($data['is_type']) && $data['is_type'] == 'is_agent'){
+            $data['is_agent'] = true;
+        }
         if ($request->hasFile('avatar')) {
             $avatar = $request->avatar->store('avatar', 'public');
             $agency->deleteAvatar();

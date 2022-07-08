@@ -79,6 +79,7 @@ Agen
                                     <th>Harga Sbg Rute</th>
                                     <th>Agent</th>
                                     <th>Rute</th>
+                                    <th>Agent & Rute</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -122,6 +123,11 @@ Agen
                                         <td>Tidak</td>
                                     @endif
                                     @if($agency->is_route)
+                                        <td>Ya</td>
+                                    @else
+                                        <td>Tidak</td>
+                                    @endif
+                                    @if($agency->is_agent_route)
                                         <td>Ya</td>
                                     @else
                                         <td>Tidak</td>
