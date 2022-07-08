@@ -38,15 +38,15 @@ class OrderDetailController extends Controller
     public function editDataPenumpang(ApiOrderDetailUpdateRequest $request, OrderDetail $order_detail)
     {
         $data = $request->all();
-        if($order_detail->is_feed != $data['is_feed']){
-            $is_feed = $data['is_feed'];
-        }
-        if($order_detail->is_member != $data['is_member']){
-            $is_member = $data['is_member'];
-        }
-        if($order_detail->is_travel != $data['is_travel']){
-            $is_travel = $data['is_travel'];
-        }
+        // if($order_detail->is_feed != $data['is_feed']){
+        //     $is_feed = $data['is_feed'];
+        // }
+        // if($order_detail->is_member != $data['is_member']){
+        //     $is_member = $data['is_member'];
+        // }
+        // if($order_detail->is_travel != $data['is_travel']){
+        //     $is_travel = $data['is_travel'];
+        // }
         $order_detail->update($data);
         $order_detail->refresh();
 
