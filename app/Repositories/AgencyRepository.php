@@ -50,17 +50,14 @@ class AgencyRepository
         return Agency::when(($request->city_id), function ($q) use ($request) {
                 $q->whereHas('city', function ($query) use ($request) {
                     $query->where('id', $request->city_id);
-                    $query->where('is_agent', true);
-                    $query->where('is_route', false);
-                    $query->orWhere('is_agent_route', true);
                 });
+                $q->where('is_route', false);
             })
             ->when($request->agency_id, function($q) use ($agency) {
                 $q->whereHas('city', function($query) use ($agency) {
-                    $query->where('is_route', true);
-                    $query->where('is_agent', false);
-                    $query->orWhere('is_agent_route', true);
+                    $query->where('area_id', '!=', $agency->city->area_id);
                 });
+                $q->where('is_agent', false);
             })
             ->orderBy('name')->get();
     }
