@@ -37,7 +37,7 @@ class OrderPriceDistributionService {
         if(empty($order->user->agencies)) $total_price['ticket_price'] -= $setting->xendit_charge; 
         
         $total_price['for_food'] = $price_food * $order->order_detail->where('is_feed', 1)->count();
-        $total_price['ticket_only'] = $for_deposit - $total_price['for_food'];
+        $total_price['ticket_only'] = $for_deposit;
         // $total_price['for_food'] = $order->agency->city->area_id == 2 
         //  ? 0
         //  : $total_price['for_food'];
