@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Repositories\OrderDetailRepository;
 use App\Repositories\UserRepository;
 use App\Services\OrderPriceDistributionService;
+use App\Utils\FoodPrice;
 use Illuminate\Http\Request;
 
 class OrderDetailController extends Controller
@@ -49,30 +50,40 @@ class OrderDetailController extends Controller
         }
         $order_detail->update($data);
         $order_detail->refresh();
-
+        $price = 0;
         if(isset($is_member)){
+            $price += Setting::first()->member;
             if($is_member == 0){
                 $order_detail->order->distribution->update([
-                    'for_member' => $order_detail->order->distribution->for_member - Setting::first()->member
+                    'for_member' => $order_detail->order->distribution->for_member - $price
                 ]);
             }elseif($is_member == 1){
                 $order_detail->order->distribution->update([
-                    'for_member' => $order_detail->order->distribution->for_member + Setting::first()->member
+                    'for_member' => $order_detail->order->distribution->for_member + $price
                 ]);
             }
         }
 
         if(isset($is_travel)){
+            $price += Setting::first()->travel;
             if($is_travel == 0){
                 $order_detail->order->distribution->update([
-                    'for_travel' => $order_detail->order->distribution->for_travel - Setting::first()->travel
+                    'for_travel' => $order_detail->order->distribution->for_travel - $price
                 ]);
             }elseif($is_travel == 1){
                 $order_detail->order->distribution->update([
-                    'for_travel' => $order_detail->order->distribution->for_travel + Setting::first()->travel
+                    'for_travel' => $order_detail->order->distribution->for_travel + $price
                 ]);
             }
         }
+        
+        if(isset($is_feed)){
+            $price += FoodPrice::foodPrice($order_detail->order->fleet_route, $is_feed);
+        }
+
+        $order_detail->order->distribution->update([
+            'ticket_only' => $order_detail->order->distribution->ticket_only + $price
+        ]);
 
         // $data['price'] = $order_detail->order->price;
         // $data['chairs'] = count($order_detail->order->order_detail);
