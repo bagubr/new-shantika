@@ -17,7 +17,7 @@ class OrderDetailChairResource extends JsonResource
      */
     public function toArray($request)
     {
-        $price = $this->order->distribution->ticket_price - (($this->is_member == 1)?Setting::first()->member:0) + (($this->is_travel == 1)?Setting::first()->travel:0) + (($this->is_travel == 1)?Setting::first()->travel:0) + FoodPrice::foodPrice($this->order->fleet_route, $this->is_feed, 1);
+        $price = $this->order->distribution->ticket_price - (($this->is_member == 1)?Setting::first()->member:0) + (($this->is_travel == 1)?Setting::first()->travel:0) + FoodPrice::foodPrice($this->order->fleet_route, $this->is_feed, 1);
         return [
             'order_detail_id'=>$this->id,
             'name'=>$this->name,
