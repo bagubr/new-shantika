@@ -45,7 +45,7 @@ class OrderService
         if ($booking_exists) {
             (new self)->sendFailedResponse([], "Maaf, kursi anda telah dibooking terlebih dahulu oleh orang lain");
         }
-
+        
         $price = $detail->total_price;
         
 
