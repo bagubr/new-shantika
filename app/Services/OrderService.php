@@ -45,7 +45,7 @@ class OrderService
         if ($booking_exists) {
             (new self)->sendFailedResponse([], "Maaf, kursi anda telah dibooking terlebih dahulu oleh orang lain");
         }
-        
+
         $price = $detail->total_price;
         
 
@@ -58,8 +58,8 @@ class OrderService
             $promo_histories = PromoHistory::create($data->only('user_id', 'promo_id'));
             $data->nominal_discount = $promo->nominal_discount;
         }
-        $for_deposit = PriceTiket::priceTiket(FleetRoute::find($data->fleet_route_id), Agency::find($data->departure_agency_id), Agency::find($data->destination_agency_id), $data->reserve_at);
-        $data->price = $price;
+        $for_deposit = $price;
+        $data->price = PriceTiket::priceTiket(FleetRoute::find($data->fleet_route_id), Agency::find($data->departure_agency_id), Agency::find($data->destination_agency_id), $data->reserve_at) * count($detail->layout_chair_id);;
         if (!$data->code_order) $data->code_order = self::generateCodeOrder($data->id);
         if (!$data->expired_at) $data->expired_at = self::getExpiredAt();
         $order = Order::create($data->toArray());
