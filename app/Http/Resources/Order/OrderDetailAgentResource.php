@@ -38,6 +38,7 @@ class OrderDetailAgentResource extends JsonResource
         $price_feed = $distribution?->for_food;
         $price_travel = $distribution?->for_travel;
         $price_member = $distribution?->for_member;
+        $total_member_unit = $price_member / $this->order_detail->count();
 
         return [
             'id'                        =>$this->id,
@@ -64,7 +65,8 @@ class OrderDetailAgentResource extends JsonResource
             'total_price'               =>$distribution?->ticket_only + $distribution?->for_food - $distribution?->for_member - $distribution?->for_travel ,
             'commision'                 =>$distribution?->for_agent,
             'review'                    =>$this->review,
-            'note'                      =>$this->note
+            'note'                      =>$this->note,
+            '$total_member_unit'        =>$total_member_unit
         ];
     }
 

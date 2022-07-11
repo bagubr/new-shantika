@@ -55,8 +55,6 @@ class OrderPriceDistributionController extends Controller
             });
         })->get();
 
-        // dd($area_id);
-
         $order_price_distributions  = OrderPriceDistribution::whereHas('order', function ($query)
         {
             $query->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
