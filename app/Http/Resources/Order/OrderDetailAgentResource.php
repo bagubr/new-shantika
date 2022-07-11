@@ -59,6 +59,7 @@ class OrderDetailAgentResource extends JsonResource
             'price_member'              =>abs($price_member),
             'price_travel'              =>$price_travel,
             'price_feed'                =>$price_feed,
+            'price_non_feed'            => $this->getSumNonFood($order_detail),
             'price_member_unit'         =>($price_member <= 0 || $order_detail->where('is_member', 1)->count() <= 0)?$price_member : $price_member / $order_detail->where('is_member', 1)->count(),
             'id_member'                 =>$this->id_member,
             'price'                     =>$distribution?->ticket_price,
@@ -74,5 +75,14 @@ class OrderDetailAgentResource extends JsonResource
             return OrderDetailChairResource::collection($order_detail);
         }
         return [];
+    }
+
+    private function getSumNonFood($order_detail) {
+        $data =  OrderDetailChairResource::collection($order_detail)->toArray(request());
+        $price_feed = 0;
+        foreach($data as $d){
+            $price_feed += $d['price_feed'];
+        }
+        return $price_feed;
     }
 }
