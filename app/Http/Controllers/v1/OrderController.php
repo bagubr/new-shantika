@@ -9,6 +9,7 @@ use App\Models\FleetRoute;
 use App\Models\Route;
 use App\Models\Setting;
 use App\Repositories\UserRepository;
+use App\Utils\FoodPrice;
 use App\Utils\PriceTiket;
 use Illuminate\Http\Request;
 
@@ -21,7 +22,7 @@ class OrderController extends Controller
         $agency_destiny = Agency::find($request->agency_destiny_id);
         $date = $request->date;
         $setting = Setting::first();
-        $price_food = ($request->is_food) ? ($fleet_route->fleet_detail?->fleet?->fleetclass?->price_food) * $request->seat_count : - (Setting::first()->default_food_price) * $request->seat_count;
+        $price_food = FoodPrice::foodPrice($fleet_route, $request->is_food, $request->seat_count);
         $total_travel = $request->is_travel ? $setting->travel * $request->seat_count : 0;
         $total_member = $request->is_member ? -($setting->member) * $request->seat_count : 0;
 
