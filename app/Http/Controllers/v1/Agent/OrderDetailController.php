@@ -52,12 +52,13 @@ class OrderDetailController extends Controller
         $order_detail->refresh();
         $price = 0;
         if(isset($is_member)){
-            $price += Setting::first()->member;
             if($is_member == 0){
+                $price -= Setting::first()->member;
                 $order_detail->order->distribution->update([
                     'for_member' => $order_detail->order->distribution->for_member - $price
                 ]);
             }elseif($is_member == 1){
+                $price += Setting::first()->member;
                 $order_detail->order->distribution->update([
                     'for_member' => $order_detail->order->distribution->for_member + $price
                 ]);
@@ -65,12 +66,13 @@ class OrderDetailController extends Controller
         }
 
         if(isset($is_travel)){
-            $price += Setting::first()->travel;
             if($is_travel == 0){
+                $price -= Setting::first()->travel;
                 $order_detail->order->distribution->update([
                     'for_travel' => $order_detail->order->distribution->for_travel - $price
                 ]);
             }elseif($is_travel == 1){
+                $price += Setting::first()->travel;
                 $order_detail->order->distribution->update([
                     'for_travel' => $order_detail->order->distribution->for_travel + $price
                 ]);
@@ -79,7 +81,7 @@ class OrderDetailController extends Controller
         
         if(isset($is_feed)){
             if($is_feed == 1){
-                $price += FoodPrice::foodPrice($order_detail->order->fleet_route, false, 1);
+                $price -= FoodPrice::foodPrice($order_detail->order->fleet_route, false);
             }else{
                 $price += FoodPrice::foodPrice($order_detail->order->fleet_route, false);
             }
