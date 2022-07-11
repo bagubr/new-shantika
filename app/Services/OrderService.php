@@ -47,7 +47,7 @@ class OrderService
         }
 
         // $price = $detail->total_price;
-        $price = PriceTiket::priceTiket(FleetRoute::find($data->fleet_route_id), Agency::find($data->departure_agency_id), Agency::find($data->destination_agency_id), $data->reserve_at) * count($detail);
+        $price = PriceTiket::priceTiket(FleetRoute::find($data->fleet_route_id), Agency::find($data->departure_agency_id), Agency::find($data->destination_agency_id), $data->reserve_at) * count($detail->layout_chair_id);
         
 
         if (isset($data->promo_id) && $data->promo_id) {
