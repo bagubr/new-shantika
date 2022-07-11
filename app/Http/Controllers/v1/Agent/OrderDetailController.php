@@ -62,6 +62,18 @@ class OrderDetailController extends Controller
             }
         }
 
+        if(isset($is_travel)){
+            if($is_travel == 0){
+                $order_detail->order->distribution->update([
+                    'for_travel' => $order_detail->order->distribution->for_travel - Setting::first()->travel
+                ]);
+            }elseif($is_travel == 1){
+                $order_detail->order->distribution->update([
+                    'for_travel' => $order_detail->order->distribution->for_travel + Setting::first()->travel
+                ]);
+            }
+        }
+
         // $data['price'] = $order_detail->order->price;
         // $data['chairs'] = count($order_detail->order->order_detail);
         
