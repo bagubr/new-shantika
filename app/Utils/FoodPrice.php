@@ -10,7 +10,11 @@ use App\Repositories\UserRepository;
 class FoodPrice {
     public static function foodPrice(FleetRoute $fleet_route, $is_food = false, $seat_count = 1) {
         if($is_food){
-            return $fleet_route->fleet_detail?->fleet?->fleetclass?->price_food * $seat_count;
+            if($seat_count > 1){
+                return $fleet_route->fleet_detail?->fleet?->fleetclass?->price_food * $seat_count;
+            }else{
+                return 0;
+            }
         }else{
             return - Setting::first()->default_food_price * $seat_count;
         }
