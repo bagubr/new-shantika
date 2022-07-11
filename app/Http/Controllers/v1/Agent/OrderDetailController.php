@@ -78,7 +78,11 @@ class OrderDetailController extends Controller
         }
         
         if(isset($is_feed)){
-            $price += FoodPrice::foodPrice($order_detail->order->fleet_route, $is_feed);
+            if($is_feed == 1){
+                $price += FoodPrice::foodPrice($order_detail->order->fleet_route, false, 1);
+            }else{
+                $price += FoodPrice::foodPrice($order_detail->order->fleet_route, false);
+            }
         }
 
         $order_detail->order->distribution->update([
