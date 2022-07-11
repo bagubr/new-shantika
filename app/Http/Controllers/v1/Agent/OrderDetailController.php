@@ -53,11 +53,11 @@ class OrderDetailController extends Controller
         if(isset($is_member)){
             if($is_member == 0){
                 $order_detail->order->distribution->update([
-                    'for_member' => $order_detail->order->distribution->for_member - ($order_detail->order->distribution->for_member / $order_detail->order->order_detail->count()) 
+                    'for_member' => $order_detail->order->distribution->for_member - Setting::first()->member
                 ]);
             }elseif($is_member == 1){
                 $order_detail->order->distribution->update([
-                    'for_member' => $order_detail->order->distribution->for_member + ($order_detail->order->distribution->for_member / $order_detail->order->order_detail->count()) 
+                    'for_member' => $order_detail->order->distribution->for_member + Setting::first()->member
                 ]);
             }
         }
