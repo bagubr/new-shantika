@@ -27,6 +27,7 @@ class OrderDetailChairResource extends JsonResource
             'food'=>$this->is_feed ? 1 : 0,
             'is_member'=>$this->is_member,
             'is_travel'=>$this->is_travel,
+            'note'=>$this->note,
             'is_feed'=>$this->is_feed,
             'price_member'=>$this->price_member,
             'price_feed'=>FoodPrice::foodPrice($this->order->fleet_route, $this->is_feed),
