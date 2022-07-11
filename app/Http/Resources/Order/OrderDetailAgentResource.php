@@ -6,6 +6,7 @@ use App\Http\Resources\CheckpointResource;
 use App\Http\Resources\CheckpointStartEndResource;
 use App\Http\Resources\OrderDetailChairResource;
 use App\Http\Resources\OrderDetailSetoranAgentResource;
+use App\Models\Setting;
 use App\Repositories\CheckpointRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -38,7 +39,7 @@ class OrderDetailAgentResource extends JsonResource
         $price_feed = $distribution?->for_food;
         $price_travel = $distribution?->for_travel;
         $price_member = $distribution?->for_member;
-        $total_member_unit = $price_member / $this->order_detail->count();
+        $total_member_unit = Setting::first()->member;
 
         return [
             'id'                        =>$this->id,
