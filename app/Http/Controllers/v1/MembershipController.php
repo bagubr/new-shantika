@@ -20,7 +20,7 @@ class MembershipController extends Controller
         Membership::where('code_member', $code_member)->first()?:$this->sendFailedResponse([], 'Kode Membership tidak ditemukan');
         $member = Membership::where('code_member', $code_member)->when($request->name, function ($query) use ($request)
         {
-            $query->where('name', 'ilike', '%'.$request->name.'%');
+            $query->where('name', $request->name);
         })->first();
         if(!$member){
             $this->sendFailedResponse([], 'Nama dengan kode member ' . $code_member . ' Membership tidak ditemukan');
