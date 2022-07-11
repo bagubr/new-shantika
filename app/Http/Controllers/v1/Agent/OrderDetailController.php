@@ -89,6 +89,7 @@ class OrderDetailController extends Controller
             'ticket_only' => $order_detail->order->distribution->ticket_only + $price
         ]);
 
+        
         // $data['price'] = $order_detail->order->price;
         // $data['chairs'] = count($order_detail->order->order_detail);
         
