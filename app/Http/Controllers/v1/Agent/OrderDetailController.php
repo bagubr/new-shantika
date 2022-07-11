@@ -53,12 +53,12 @@ class OrderDetailController extends Controller
         $price = 0;
         if(isset($is_member)){
             if($is_member == 0){
-                $price -= Setting::first()->member;
+                $price += Setting::first()->member;
                 $order_detail->order->distribution->update([
                     'for_member' => $order_detail->order->distribution->for_member - $price
                 ]);
             }elseif($is_member == 1){
-                $price += Setting::first()->member;
+                $price -= Setting::first()->member;
                 $order_detail->order->distribution->update([
                     'for_member' => $order_detail->order->distribution->for_member + $price
                 ]);
