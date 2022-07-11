@@ -63,7 +63,7 @@ class OrderDetailAgentResource extends JsonResource
             'price_member_unit'         =>($price_member <= 0 || $order_detail->where('is_member', 1)->count() <= 0)?$price_member : $price_member / $order_detail->where('is_member', 1)->count(),
             'id_member'                 =>$this->id_member,
             'price'                     =>$distribution?->ticket_price,
-            'total_price'               =>$distribution?->ticket_only + $distribution?->for_food - $distribution?->for_member - $distribution?->for_travel ,
+            'total_price'               =>$distribution?->ticket_only,
             'commision'                 =>$distribution?->for_agent,
             'review'                    =>$this->review,
             'note'                      =>$this->note,
