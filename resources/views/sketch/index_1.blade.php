@@ -293,6 +293,7 @@ Sketch
                     this.firstLayout.fleetId = fleetId
                     this.firstLayout.timeClassificationId = timeClassificationId
                     this.getFirstLayout()
+                    this.getFleetRoutes(fleetRouteId, this.firstLayout.date)
                     this.handleChangeFocusSecondLayout(fleetRouteId, fleetId, timeClassificationId)
                 },
                 handleChangeFocusSecondLayout(fleetRouteId, fleetId, timeClassificationId) {
@@ -300,7 +301,7 @@ Sketch
                     this.secondLayout.fleetId = fleetId
                     this.secondLayout.timeClassificationId = timeClassificationId
                     this.getSecondLayout()
-                    this.getFleetRoutes(fleetRouteId)
+                    this.getFleetRoutes(fleetRouteId, this.secondLayout.date)
                 },
                 handleDateChange(type) {
                     if(type == 'FIRST') {
@@ -910,10 +911,11 @@ Sketch
                 relaodLayout() {
                     this.handleChangeFocusFirstLayout(this.firstLayout.fleetRouteId, this.firstLayout.fleetId, this.firstLayout.timeClassificationId)
                 },
-                getFleetRoutes(fleetRouteId) {
+                getFleetRoutes(fleetRouteId, date) {
                     let query = new URLSearchParams({
                         fleet_route_id: fleetRouteId,
-                        area_id: this.filter.area_id
+                        area_id: this.filter.area_id,
+                        date: date
                     });
                     fetch(`{{url('/fleet_route/get-available-route')}}?${query}`, {
                         method:'GET'
