@@ -27,7 +27,9 @@ class PaymentController extends Controller
         $payment = PaymentService::receiveCallback($payment, $request->status);
         try {
             $code_member = $payment?->order?->id_member;
-            MembershipService::increment(Membership::where('code_member', $code_member)->first(), Setting::find(1)->point_purchase * count($payment?->order?->order_detail), 'Pembelian Tiket');
+            if($request->status == 'PAID'){
+                MembershipService::increment(Membership::where('code_member', $code_member)->first(), Setting::find(1)->point_purchase * count($payment?->order?->order_detail), 'Pembelian Tiket');
+            }
         } catch (\Throwable $th) {
 
         }
