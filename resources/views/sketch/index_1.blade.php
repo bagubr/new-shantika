@@ -318,7 +318,6 @@ Sketch
                         date: new Date(this.firstLayout.date).toDateString()
                     })
                     fetch("{{url('/')}}/sketch/orders/detail?"+params).then(res => res.json()).then(res => {
-                        console.log(res.data)
                         this.firstLayout.data = res.data
                         this.firstLayout.fleet = res.fleet
                     }).finally(() => {
@@ -466,37 +465,37 @@ Sketch
                     this.whichLayout(which)
                     let index = this.getCurrentIndexByRowCol(row, col,which)
                     chair = this.firstLayout.data.chairs.filter((e, i) =>  i == index)[0]
-                    if(!this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable) {
-                        console.log(this.firstLayout.data.chairs)
-                        return alert("Pilih kursi yang sudah dibeli!");
-                    }
-                    if(this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_switched == true) {
-                        return alert("Kursi sudah di pindah!");
-                    }
-                    if(this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected != true) {
-                        if(this.data.is_group == true || this.data.is_delete_group == true){
-                            if(this.firstLayout.data.chairs.filter(e => e.is_selected = true).length > 0){
-                                    this.firstLayout.data.chairs.filter(e => e.is_selected = true).forEach(function (value) {
+                    if(this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable || this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable_customer) {
+                        if(this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_switched == true) {
+                            return alert("Kursi sudah di pindah!");
+                        }
+                        if(this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected != true) {
+                            if(this.data.is_group == true || this.data.is_delete_group == true){
+                                if(this.firstLayout.data.chairs.filter(e => e.is_selected = true).length > 0){
+                                        this.firstLayout.data.chairs.filter(e => e.is_selected = true).forEach(function (value) {
+                                        value.is_selected = false
+                                    })
+                                }
+                                this.firstLayout.data.chairs.filter(e => e.order_detail?.id == chair.order_detail?.id).forEach(function (value) {
+                                    value.is_selected = true
+                                })
+                            }else{
+                                this.firstLayout.data.chairs.filter(e => e.is_selected == true).forEach(function (value) {
+                                        value.is_selected = false
+                                })
+                                this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = true
+                            }
+                        } else {
+                            if(this.data.is_group == true || this.data.is_delete_group == true){
+                                this.firstLayout.data.chairs.filter(e => e.order_detail?.id == chair.order_detail?.id).forEach(function (value) {
                                     value.is_selected = false
                                 })
+                            }else{
+                                this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = false
                             }
-                            this.firstLayout.data.chairs.filter(e => e.order_detail?.id == chair.order_detail?.id).forEach(function (value) {
-                                value.is_selected = true
-                            })
-                        }else{
-                            this.firstLayout.data.chairs.filter(e => e.is_selected == true).forEach(function (value) {
-                                    value.is_selected = false
-                            })
-                            this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = true
                         }
-                    } else {
-                        if(this.data.is_group == true || this.data.is_delete_group == true){
-                            this.firstLayout.data.chairs.filter(e => e.order_detail?.id == chair.order_detail?.id).forEach(function (value) {
-                                value.is_selected = false
-                            })
-                        }else{
-                            this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = false
-                        }
+                    }else{
+                        return alert("Pilih kursi yang sudah dibeli!");
                     }
                     this.$forceUpdate()
                 },

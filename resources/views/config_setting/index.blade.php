@@ -75,12 +75,7 @@ Pengaturan Global
                                 value="{{$config_setting->point_purchase}}">
                         </div>
                         <div class="form-group">
-                            <label>Get Point After Purchase</label>
-                            <input type="integer" class="form-control" name="point_purchase"
-                                value="{{$config_setting->point_purchase}}">
-                        </div>
-                        <div class="form-group">
-                            <label>Backgroud Card</label>
+                            <label>Background Card</label>
                             <input type="file" class="form-control" name="membership_background_card" accept="image/*">
                             <small class="text-danger"><i class="fas fa-info-circle"></i> Pastikan ukuran gambar
                                 500x270 px, agar hasil maksimal</small>
