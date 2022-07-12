@@ -51,11 +51,13 @@ class AgencyRepository
                 $q->whereHas('city', function ($query) use ($request) {
                     $query->where('id', $request->city_id);
                 });
+                $q->where('is_route', false);
             })
             ->when($request->agency_id, function($q) use ($agency) {
                 $q->whereHas('city', function($query) use ($agency) {
                     $query->where('area_id', '!=', $agency->city->area_id);
                 });
+                $q->where('is_agent', false);
             })
             ->orderBy('name')->get();
     }

@@ -360,7 +360,7 @@ Sketch
 
                     let chair;
                     let html;
-                    html = `<marquee>`
+                    html = `<div style=" display: inline-block; text-align: center; font-size: 15px; text-align: center;">`
                     
                     let index = this.getCurrentIndexByRowCol(row, col, which)
                     if(which == 0){
@@ -374,22 +374,22 @@ Sketch
                     }
                     if (chair.is_selected) {
                         if(which == 0){
-                            html +=  `<p class="text-nowrap d-inline">${chair.name} | ${user.name} | ${chair.code} |</p>`
+                            html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.code} |</p>`
                         }else{
                             return  `<p class="text-nowrap d-inline">${chair.from_name} => ${chair.name}</p>`
                         }
                     } else if (chair.is_switched) {
-                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${user.name} | ${chair.code} |</p>`
+                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.code} |</p>`
                     } else if(chair.is_blocked) {
                         html +=  `<p class="text-nowrap d-inline">${chair.name}</p>`
                     } else if (chair.is_unavailable) {
-                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${user.name} | ${chair.code} |</p>`
+                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.code} |</p>`
                     } else if (chair.is_unavailable_customer){
-                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${user.name} | ${chair.code} |</p>`
+                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.code} |</p>`
                     } else if (chair.is_unavailable_not_paid_customer) {
-                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${user.name} | ${chair.code} |</p>`
+                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.code} |</p>`
                     } else if (chair.is_unavailable_waiting_customer) {
-                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${user.name} | ${chair.code} |</p>`
+                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.code} |</p>`
                     } else if (chair.is_booking) {
                         html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.code} |</p>`
                     } else if(chair.is_door) {
@@ -406,7 +406,7 @@ Sketch
                             return html += `(${value.chair_name})`
                         })
                     }
-                    html += `</marquee>`
+                    html += `</div>`
                     
                     return html
                 },

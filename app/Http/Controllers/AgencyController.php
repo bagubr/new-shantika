@@ -58,7 +58,11 @@ class AgencyController extends Controller
                 $que->where('area_id', $area_id);
             });
         }])
-        ->where('name', 'ilike', '%'.$search.'%')
+        ->whereHas('city', function ($que) use ($search)
+        {
+            $que->where('name', 'ilike', '%'.$search.'%');
+        })
+        ->orWhere('name', 'ilike', '%'.$search.'%')
         ->orWhere('code', 'ilike', '%'.$search.'%')
         ->orWhere('phone', 'ilike', '%'.$search.'%')
         ->orWhere('address', 'ilike', '%'.$search.'%');
@@ -104,6 +108,16 @@ class AgencyController extends Controller
     public function store(CreateAgencyRequest $request)
     {
         $data = $request->all();
+        $data['is_agent_route'] = false;
+        $data['is_route'] = false;
+        $data['is_agent'] = false;
+        if(isset($data['is_type']) && $data['is_type'] == 'is_agent_route'){
+            $data['is_agent_route'] = true;
+        }elseif(isset($data['is_type']) && $data['is_type'] == 'is_route'){
+            $data['is_route'] = true;
+        }elseif(isset($data['is_type']) && $data['is_type'] == 'is_agent'){
+            $data['is_agent'] = true;
+        }
         $data['is_active'] = 1;
         if ($request->hasFile('avatar')) {
             $data['avatar'] = $request->avatar->store('avatar', 'public');
@@ -158,6 +172,16 @@ class AgencyController extends Controller
     public function update(UpdateAgencyRequest $request, Agency $agency)
     {
         $data = $request->all();
+        $data['is_agent_route'] = false;
+        $data['is_route'] = false;
+        $data['is_agent'] = false;
+        if(isset($data['is_type']) && $data['is_type'] == 'is_agent_route'){
+            $data['is_agent_route'] = true;
+        }elseif(isset($data['is_type']) && $data['is_type'] == 'is_route'){
+            $data['is_route'] = true;
+        }elseif(isset($data['is_type']) && $data['is_type'] == 'is_agent'){
+            $data['is_agent'] = true;
+        }
         if ($request->hasFile('avatar')) {
             $avatar = $request->avatar->store('avatar', 'public');
             $agency->deleteAvatar();

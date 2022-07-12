@@ -14,7 +14,7 @@ class Agency extends Model
     protected $table = 'agencies';
 
     protected $fillable = [
-        'name', 'code', 'city_id', 'lat', 'lng', 'address', 'avatar', 'is_active', 'phone', 'is_agent', 'is_route'
+        'name', 'code', 'city_id', 'lat', 'lng', 'address', 'avatar', 'is_active', 'phone', 'is_agent', 'is_route', 'is_agent_route'
     ];
 
     protected $appends = [

@@ -83,6 +83,7 @@ Armada Rute
                             <thead>
                                 <tr>
                                     <th>Armada</th>
+                                    <th>Unit Armada</th>
                                     <th>Tujuan</th>
                                     <th>Rute</th>
                                     <th>Status</th>
@@ -93,17 +94,13 @@ Armada Rute
                             <tbody>
                                 @foreach ($fleet_routes as $fleet_route)
                                 <tr>
+                                    <td>{{$fleet_route->fleet_detail?->fleet?->name}}</td>
                                     <td>
-                                        {{$fleet_route->fleet_detail?->fleet?->name}}/{{$fleet_route->fleet_detail?->fleet?->fleetclass?->name}}
-                                        @if ($fleet_route->fleet_detail_without_trash)
-                                            ({{$fleet_route->fleet_detail?->nickname}}) 
-                                            <a href="{{route('fleet_detail.edit',$fleet_route->fleet_detail?->id)}}" class="float-right" target="_blank"><i class="fas fa-edit"></i></a>
-                                        @else
-                                            <strike>
-                                                ({{$fleet_route->fleet_detail?->nickname}}) 
-                                            </strike>
-                                            <a href="#" class="float-right"><i class="fas fa-trash" style="color: red"></i></a>
-                                        @endif
+                                        @foreach ($fleet_route->fleet_detail?->fleet?->fleet_detail??[] as $detail)
+                                        <li>
+                                            {{$detail->nickname}} ({{$detail->plate_number}})
+                                        </li>
+                                        @endforeach
                                     </td>
                                     <td>
                                         {{@$fleet_route->route?->checkpoints[0]?->agency?->city?->area?->name}}

@@ -130,17 +130,21 @@ Agen
 
                         <div class="form-row">
                             <div class="form-group col">
-                                <label>Agen</label>
+                                <label>Agen Keberangkatan</label>
                                 <div class="form-check">
-                                    <input class="form-control" type="checkbox" class="form-check-input" id="checkbox-agent"  {{(isset($agency) && $agency->is_agent) ? 'checked' : ''}} value="{{isset($agency)?$agency->is_agent: 0}}">
-                                    <input id="checkbox-value-agent" type="hidden" name="is_agent">
+                                    <input class="form-control" type="radio" class="form-check-input" id="radio"  {{(isset($agency) && $agency->is_agent) ? 'checked' : ''}} value="is_agent" name="is_type">
                                 </div>
                             </div>
                             <div class="form-group col">
                                 <label>Rute Pemberhentian</label>
                                 <div class="form-check">
-                                    <input class="form-control" type="checkbox" class="form-check-input" id="checkbox-route"  {{(isset($agency) && $agency->is_route) ? 'checked' : ''}} value="{{isset($agency)?$agency->is_route: 0}}">
-                                    <input id="checkbox-value-route" type="hidden" name="is_route">
+                                    <input class="form-control" type="radio" class="form-check-input" id="radio"  {{(isset($agency) && $agency->is_route) ? 'checked' : ''}} value="is_route" name="is_type">
+                                </div>
+                            </div>
+                            <div class="form-group col">
+                                <label>Rute Pemberhentian dan Agen Keberangkatan</label>
+                                <div class="form-check">
+                                    <input class="form-control" type="radio" class="form-check-input" id="radio"  {{(isset($agency) && $agency->is_agent_route) ? 'checked' : ''}} value="is_agent_route" name="is_type">
                                 </div>
                             </div>
                         </div>
@@ -156,30 +160,6 @@ Agen
 </section>
 @endsection
 @push('script')
-<script>
-    $('#checkbox-value-route').val($('#checkbox-route').val());
-
-    $("#checkbox-route").on('change', function() {
-    if ($(this).is(':checked')) {
-        $(this).val(1);
-    } else {
-        $(this).val(0);
-    }
-    $('#checkbox-value-route').val($('#checkbox-route').val());
-    });
-</script>
-<script>
-    $('#checkbox-value-agent').val($('#checkbox-agent').val());
-
-    $("#checkbox-agent").on('change', function() {
-    if ($(this).is(':checked')) {
-        $(this).val(1);
-    } else {
-        $(this).val(0);
-    }
-    $('#checkbox-value-agent').val($('#checkbox-agent').val());
-    });
-</script>
 <script>
     $(function () {
         $('.select2').select2()

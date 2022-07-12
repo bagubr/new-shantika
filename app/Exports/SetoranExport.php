@@ -35,7 +35,7 @@ class SetoranExport implements FromView, ShouldAutoSize
         {
             $query->whereHas('order.fleet_route.route.checkpoints.agency.city', function ($query) use ($area_id)
             {
-                $query->where('area_id', $area_id);
+                $query->where('area_id', '!=', $area_id);
             });
         })
         ->when($fleet_detail_id, function ($query) use ($fleet_detail_id)
