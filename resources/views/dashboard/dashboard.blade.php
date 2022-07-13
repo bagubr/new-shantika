@@ -61,7 +61,9 @@ Dashboard
                     <div class="form-group">
                         <label>Tahun</label>
                         <select name="year" class="form-control change-statistic-sum">
-                            @for ($x = 0; $x <= 5; $x++) <option>{{ date('Y', strtotime("-$x years")) }}</option>
+                            @for ($x = -10; $x <= 10; $x++) <option @if (date('Y', strtotime("$x years")) == date('Y'))
+                                selected
+                            @endif>{{ date('Y', strtotime("$x years")) }}</option>
                                 @endfor
                         </select>
                     </div>
@@ -71,18 +73,18 @@ Dashboard
                         <label>Bulan</label>
                         <select name="month" class="form-control change-statistic-sum" id="">
                             <option value selected>--PILIH BULAN--</option>
-                            <option value="01">Januari</option>
-                            <option value="02">Februari</option>
-                            <option value="03">Maret</option>
-                            <option value="04">April</option>
-                            <option value="05">Mei</option>
-                            <option value="06">Juni</option>
-                            <option value="07">Juli</option>
-                            <option value="08">Agustus</option>
-                            <option value="09">September</option>
-                            <option value="10">Oktober</option>
-                            <option value="11">November</option>
-                            <option value="12">Desember</option>
+                            <option value="01" @if ('01' == date('m')) selected @endif>Januari</option>
+                            <option value="02" @if ('02' == date('m')) selected @endif>Februari</option>
+                            <option value="03" @if ('03' == date('m')) selected @endif>Maret</option>
+                            <option value="04" @if ('04' == date('m')) selected @endif>April</option>
+                            <option value="05" @if ('05' == date('m')) selected @endif>Mei</option>
+                            <option value="06" @if ('06' == date('m')) selected @endif>Juni</option>
+                            <option value="07" @if ('07' == date('m')) selected @endif>Juli</option>
+                            <option value="08" @if ('08' == date('m')) selected @endif>Agustus</option>
+                            <option value="09" @if ('09' == date('m')) selected @endif>September</option>
+                            <option value="10" @if ('10' == date('m')) selected @endif>Oktober</option>
+                            <option value="11" @if ('11' == date('m')) selected @endif>November</option>
+                            <option value="12" @if ('12' == date('m')) selected @endif>Desember</option>
                         </select>
                     </div>
                 </div>
@@ -207,6 +209,18 @@ Dashboard
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="card card-success">
+        <div class="card-header">
+            <h3 class="card-title">Statistik Penjualan Tiket Agen</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">            
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
@@ -223,7 +237,9 @@ Dashboard
                     <div class="form-group">
                         <label>Tahun</label>
                         <select name="year" class="form-control change-statistic-area">
-                            @for ($x = 0; $x <= 5; $x++) <option>{{ date('Y', strtotime("-$x years")) }}</option>
+                            @for ($x = -10; $x <= 10; $x++) <option @if (date('Y', strtotime("$x years")) == date('Y'))
+                            selected
+                        @endif>{{ date('Y', strtotime("$x years")) }}</option>
                                 @endfor
                         </select>
                     </div>
@@ -233,18 +249,18 @@ Dashboard
                         <label>Bulan</label>
                         <select name="month" class="form-control change-statistic-area" id="">
                             <option value selected>--PILIH BULAN--</option>
-                            <option value="01">Januari</option>
-                            <option value="02">Februari</option>
-                            <option value="03">Maret</option>
-                            <option value="04">April</option>
-                            <option value="05">Mei</option>
-                            <option value="06">Juni</option>
-                            <option value="07">Juli</option>
-                            <option value="08">Agustus</option>
-                            <option value="09">September</option>
-                            <option value="10">Oktober</option>
-                            <option value="11">November</option>
-                            <option value="12">Desember</option>
+                            <option value="01" @if ('01' == date('m')) selected @endif>Januari</option>
+                            <option value="02" @if ('02' == date('m')) selected @endif>Februari</option>
+                            <option value="03" @if ('03' == date('m')) selected @endif>Maret</option>
+                            <option value="04" @if ('04' == date('m')) selected @endif>April</option>
+                            <option value="05" @if ('05' == date('m')) selected @endif>Mei</option>
+                            <option value="06" @if ('06' == date('m')) selected @endif>Juni</option>
+                            <option value="07" @if ('07' == date('m')) selected @endif>Juli</option>
+                            <option value="08" @if ('08' == date('m')) selected @endif>Agustus</option>
+                            <option value="09" @if ('09' == date('m')) selected @endif>September</option>
+                            <option value="10" @if ('10' == date('m')) selected @endif>Oktober</option>
+                            <option value="11" @if ('11' == date('m')) selected @endif>November</option>
+                            <option value="12" @if ('12' == date('m')) selected @endif>Desember</option>
                         </select>
                     </div>
                 </div>
