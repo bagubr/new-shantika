@@ -17,9 +17,23 @@
             indexAxis: 'y',
             elements: {
                 bar: {
-                    borderWidth: 2,
+                    borderWidth: 10,
                 }
             },
+            scaleShowValues: true,
+            scales: {
+                y: {
+                    ticks: {
+                    autoSkip: false,
+                    }
+                },
+                yAxes: [{
+                    position: 'top',
+                    ticks: {
+                        padding: 10
+                    }
+                }],
+            }
         },
     };
     window.ChartAgent = new Chart(
