@@ -188,6 +188,7 @@ Pemesanan
                                     <th>Rute</th>
                                     <th>Armada</th>
                                     <th>Total Harga</th>
+                                    <th>Total Yang Dibayarkan</th>
                                     <th>Status</th>
                                     <th>Keberangkatan -> Kedatangan</th>
                                     <th>Note Pemesanan</th>
@@ -225,6 +226,9 @@ Pemesanan
                                     </td>
                                     <td>
                                         Rp. {{number_format($order->price,2)}}
+                                    </td>
+                                    <td>
+                                        Rp. {{number_format($order->distribution?->ticket_only,2)}}
                                     </td>
                                     <td>{{$order->status}}</td>
                                     <td>{{$order->agency?->name}} -> {{$order->agency_destiny?->name}}</td>
