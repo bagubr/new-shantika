@@ -187,8 +187,8 @@ Pemesanan
                                     <th>Kode Order</th>
                                     <th>Rute</th>
                                     <th>Armada</th>
-                                    <th>Total Harga</th>
-                                    <th>Total Yang Dibayarkan</th>
+                                    <th>Total Harga Awal</th>
+                                    <th>Total Harga Akhir*</th>
                                     <th>Status</th>
                                     <th>Keberangkatan -> Kedatangan</th>
                                     <th>Note Pemesanan</th>
