@@ -67,6 +67,7 @@ class OrderDetailAgentResource extends JsonResource
             'commision'                 =>$distribution?->for_agent,
             'review'                    =>$this->review,
             'note'                      =>$this->note,
+            'charge'                    =>$this->charge,
         ];
     }
 
