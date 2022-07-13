@@ -17,7 +17,7 @@ class FoodPrice {
             }
         }else{
             if($seat_count > 0){
-                return Setting::first()->default_food_price * $seat_count;
+                return - Setting::first()->default_food_price * $seat_count;
             }else{
                 return - Setting::first()->default_food_price;
             }

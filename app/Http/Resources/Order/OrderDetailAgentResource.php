@@ -72,7 +72,11 @@ class OrderDetailAgentResource extends JsonResource
 
     private function getChairs($order_detail) {
         if ($order_detail != null) {
-            return OrderDetailChairResource::collection($order_detail);
+            $data = OrderDetailChairResource::collection($order_detail)->toArray(request());
+            usort($data, function($a, $b) {
+                return $a['order_detail_id'] <=> $b['order_detail_id'];
+            });
+            return $data;
         }
         return [];
     }
