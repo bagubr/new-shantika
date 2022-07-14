@@ -29,7 +29,7 @@ class OrderSetoranDetailAgentResource extends JsonResource
             'fleet_name'=>$this[0]->fleet_route?->fleet_detail?->fleet?->name,
             'chair_count'=>$this->chair_count,
             'commision'=>abs($this->sum("distribution.for_agent")),
-            'earning'=>$this->sum('distribution.ticket_price') - abs($this->sum("distribution.for_agent")),
+            'earning'=>$this->total_price - abs($this->sum("distribution.for_agent")),
             'checkpoint_destination'=>new CheckpointResource($this[0]->fleet_route->route?->checkpoints()->where('agency_id', $this[0]->destination_agency_id)->first()),
             'price_sum'=> $this->total_price,
             'member_count'=>$coll_table_chairs->where('is_member', '==', 'Member')->count(),
