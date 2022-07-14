@@ -9,12 +9,13 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class OrderSetoranDetailAgentResource extends JsonResource
 {
-    public function __construct($resource, $chairs, $total_price, $food_price)
+    public function __construct($resource, $chairs, $total_price, $food_price, $non_food)
     {
         parent::__construct($resource);
         $this->chair_count = $chairs;
         $this->total_price = $total_price;
         $this->food_price = $food_price;
+        $this->non_food = $non_food;
     }
     /**
      * Transform the resource into an array.
@@ -33,6 +34,7 @@ class OrderSetoranDetailAgentResource extends JsonResource
             'earning'=>$this->total_price - abs($this->sum("distribution.for_agent")),
             'checkpoint_destination'=>new CheckpointResource($this[0]->fleet_route->route?->checkpoints()->where('agency_id', $this[0]->destination_agency_id)->first()),
             'price_sum'=> $this->total_price,
+            'non_food'=> $this->non_food,
             'member_count'=>$coll_table_chairs->where('is_member', '==', 'Member')->count(),
             'travel_count'=>$coll_table_chairs->where('is_travel', '==', 'Travel')->count(),
             'food_price_sum'=>$this->food_price,

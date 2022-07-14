@@ -19,6 +19,7 @@ class OrderDetailSetoranAgentResource extends JsonResource
             'chair_name'=>$this->chair->name,
             'price'=>$this->order->distribution->ticket_price / $this->order->order_detail->count(),
             'food'=> FoodPrice::foodPrice($this->order->fleet_route, true, 1),
+            'non_food'=> ($this->is_feed == false)?FoodPrice::foodPrice($this->order->fleet_route, false, 1):0,
             'is_member'=>$this->is_member ? "Member" : "Non Member",
             'is_travel'=>$this->is_travel ? "Travel" : "Non Travel",
             'customer_name'=>$this->name,

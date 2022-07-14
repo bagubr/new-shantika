@@ -116,14 +116,16 @@ class OrderController extends Controller
         $data = OrderDetailSetoranAgentResource::collection($chairs)->toArray(request());
         $food = 0;
         $price = 0;
+        $non_food = 0;
         foreach($data as $values) {
             $food += $values[ 'food' ];
             $price += $values[ 'price' ];
+            $non_food += $values[ 'non_food' ];
         }
         $total_price = $price - $food;
         return $this->sendSuccessResponse([
             'chairs'=> OrderDetailSetoranAgentResource::collection($chairs),
-            'order'=>new OrderSetoranDetailAgentResource($order, count($chairs), $total_price, $food)
+            'order'=>new OrderSetoranDetailAgentResource($order, count($chairs), $total_price, $food, $non_food)
         ]);
     }
 }
