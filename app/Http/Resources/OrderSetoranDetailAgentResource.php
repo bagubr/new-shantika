@@ -40,7 +40,7 @@ class OrderSetoranDetailAgentResource extends JsonResource
             'member_count'=>$coll_table_chairs->where('is_member', '==', 'Member')->count(),
             'travel_count'=>$coll_table_chairs->where('is_travel', '==', 'Travel')->count(),
             'food_price_sum'=>$this->food_price,
-            'member_price_sum'=>$this->sum('distribution.for_member'),
+            'member_price_sum'=> - $this->sum('distribution.for_member'),
             'travel_price_sum'=>$this->sum('distribution.for_travel'),
             'total_deposit'=>$earning + $this->food_price + $this->non_food - $this->sum('distribution.for_member') + $this->sum('distribution.for_travel')
             // 'total_deposit'=>$this->sum('distribution.total_deposit')
