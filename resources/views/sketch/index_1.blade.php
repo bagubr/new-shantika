@@ -359,7 +359,7 @@ Sketch
 
                     let chair;
                     let html;
-                    html = `<div style=" display: inline-block; text-align: center; font-size: 10px;">`
+                    html = `<div style=" display: inline-block; text-align: center; font-size: 15px; text-align: center;">`
                     
                     let index = this.getCurrentIndexByRowCol(row, col, which)
                     if(which == 0){
