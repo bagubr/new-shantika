@@ -48,7 +48,7 @@ class OrderPriceDistributionService {
         $total_price['total_deposit'] = $total_price['for_owner'] + $total_price['for_food'];
         if($order->agency->city->area_id == 2){
             $total_price['for_agent'] =   $total_price['ticket_price'] * $setting->commision ;
-            $total_price['for_owner'] = $total_price['ticket_price'] - $total_price['for_agent'];
+            $total_price['for_owner'] = $total_price['ticket_only'] - $total_price['for_agent'];
             $total_price['total_deposit'] = $total_price['for_owner'];
         }
         
