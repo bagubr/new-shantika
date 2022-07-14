@@ -113,9 +113,17 @@ class OrderController extends Controller
                 'chairs'=>[],
             ], 'Data riwayat tidak ditemukan');
         }
+        $data = OrderDetailSetoranAgentResource::collection($chairs)->toArray(request());
+        $food = 0;
+        $price = 0;
+        foreach($data as $values) {
+            $food += $values[ 'food' ];
+            $price += $values[ 'price' ];
+        }
+        $total_price = $price - $food;
         return $this->sendSuccessResponse([
             'chairs'=> OrderDetailSetoranAgentResource::collection($chairs),
-            'order'=>new OrderSetoranDetailAgentResource($order, count($chairs))
+            'order'=>new OrderSetoranDetailAgentResource($order, count($chairs), $total_price)
         ]);
     }
 }
