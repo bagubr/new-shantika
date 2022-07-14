@@ -6,7 +6,6 @@ use App\Models\Agency;
 use App\Models\FleetDetail;
 use App\Models\FleetRoute;
 use App\Models\Order;
-use App\Models\Area;
 use App\Models\OrderDetail;
 use App\Models\OrderPriceDistribution;
 use App\Models\OutcomeDetail;
