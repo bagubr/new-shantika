@@ -27,11 +27,12 @@ class OrderSetoranDetailAgentResource extends JsonResource
     {
         $table_chairs = $this->getDetailChairs($this, $this->pluck('order_detail'));
         $coll_table_chairs = collect($table_chairs);
+        $earning = $this->total_price - abs($this->sum("distribution.for_agent"));
         return [
             'fleet_name'=>$this[0]->fleet_route?->fleet_detail?->fleet?->name,
             'chair_count'=>$this->chair_count,
             'commision'=>abs($this->sum("distribution.for_agent")),
-            'earning'=>$this->total_price - abs($this->sum("distribution.for_agent")),
+            'earning'=>$earning,
             'checkpoint_destination'=>new CheckpointResource($this[0]->fleet_route->route?->checkpoints()->where('agency_id', $this[0]->destination_agency_id)->first()),
             'price_sum'=> $this->total_price,
             'non_food'=> $this->non_food,
@@ -41,7 +42,8 @@ class OrderSetoranDetailAgentResource extends JsonResource
             'food_price_sum'=>$this->food_price,
             'member_price_sum'=>$this->sum('distribution.for_member'),
             'travel_price_sum'=>$this->sum('distribution.for_travel'),
-            'total_deposit'=>$this->sum('distribution.total_deposit')
+            'total_deposit'=>$earning + $this->food_price + $this->non_food - $this->sum('distribution.for_member') + $this->sum('distribution.for_travel')
+            // 'total_deposit'=>$this->sum('distribution.total_deposit')
         ];
     }
 
