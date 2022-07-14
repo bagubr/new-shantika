@@ -92,23 +92,6 @@ Setoran
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Area</label>
-                                        <select name="area_id" class="form-control">
-                                            <option value="">--PILIH AREA--</option>
-                                            @foreach ($areas as $area)
-                                            @if ($area_id == $area->id)
-                                            <option value="{{$area->id}}" selected>{{$area->name}}
-                                            </option>
-                                            @else
-                                            <option value="{{$area->id}}">{{$area->name}}
-                                            </option>
-                                            @endif
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
                             </div>
                             <div class="text-right">
                                 <button class="btn btn-success" type="submit">Cari</button>

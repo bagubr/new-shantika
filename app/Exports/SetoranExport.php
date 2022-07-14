@@ -9,6 +9,7 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromView;
 use Illuminate\Contracts\View\View;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
 class SetoranExport implements FromView, ShouldAutoSize
 {
@@ -16,6 +17,14 @@ class SetoranExport implements FromView, ShouldAutoSize
     {
         $this->request  = $request;
     }
+
+    public function columnFormats(): array
+    {
+        return [
+            'B' => NumberFormat::FORMAT_NUMBER,
+        ];
+    }
+
     /**
      * @return \Illuminate\Support\Collection
      */
