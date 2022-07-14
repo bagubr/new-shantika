@@ -123,7 +123,7 @@ class OrderController extends Controller
         $total_price = $price - $food;
         return $this->sendSuccessResponse([
             'chairs'=> OrderDetailSetoranAgentResource::collection($chairs),
-            'order'=>new OrderSetoranDetailAgentResource($order, count($chairs), $total_price)
+            'order'=>new OrderSetoranDetailAgentResource($order, count($chairs), $total_price, $food)
         ]);
     }
 }
