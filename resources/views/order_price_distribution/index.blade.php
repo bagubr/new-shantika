@@ -32,7 +32,7 @@ Setoran
                                     <div class="form-group">
                                         <label>Pilih Tanggal</label>
                                         <input type="date" name="date_search" class="form-control"
-                                        value="{{old('date_search') }}">
+                                        value="{{$date_search }}">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -41,7 +41,7 @@ Setoran
                                         <select name="fleet_detail_id" class="form-control select2">
                                             <option value="">--PILIH ARMADA--</option>
                                             @foreach ($fleet_details as $fleet_detail)
-                                            @if (old('fleet_detail_id') == $fleet_detail->id)
+                                            @if ($fleet_detail_id == $fleet_detail->id)
                                             <option value="{{$fleet_detail->id}}" selected>
                                                 {{$fleet_detail->fleet?->name}}/{{$fleet_detail->fleet?->fleetclass?->name}}
                                                 ({{$fleet_detail->nickname}})
@@ -58,11 +58,28 @@ Setoran
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
+                                        <label>Area</label>
+                                        <select name="area_id" class="form-control">
+                                            <option value="">--PILIH AREA--</option>
+                                            @foreach ($areas as $area)
+                                            @if ($area_id == $area->id)
+                                            <option value="{{$area->id}}" selected>{{$area->name}}
+                                            </option>
+                                            @else
+                                            <option value="{{$area->id}}">{{$area->name}}
+                                            </option>
+                                            @endif
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
                                         <label>Agen</label>
                                         <select name="agency_id" class="form-control select2">
                                             <option value="">--PILIH AGEN--</option>
                                             @foreach ($agencies as $agency)
-                                            @if (old('agency_id') == $agency->id)
+                                            @if ($agency_id == $agency->id)
                                             <option value="{{$agency->id}}" selected>
                                                 {{$agency->city?->name}}/{{$agency->name}}
                                             </option>

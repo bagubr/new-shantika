@@ -18,6 +18,7 @@ class OrderDetail extends Model
         'is_feed', 
         'is_travel', 
         'is_member',
+        'note',
     ];
 
     protected $appends = [

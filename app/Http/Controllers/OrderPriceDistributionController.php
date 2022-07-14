@@ -13,6 +13,7 @@ use App\Models\OutcomeDetail;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\SetoranExport;
+use App\Models\Area;
 use Illuminate\Support\Facades\Auth;
 
 class OrderPriceDistributionController extends Controller
@@ -251,4 +252,5 @@ class OrderPriceDistributionController extends Controller
         session()->flash('success', 'Setoran Berhasil Dihapus');
         return back();
     }
+
 }

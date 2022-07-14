@@ -58,7 +58,7 @@ Jadwal Rute {{$area->name}}
                                 <select name="area_id" class="form-control">
                                     <option value="">--PILIH AREA--</option>
                                     @foreach ($areas as $area)
-                                    @if (@$area_id == $area->id)
+                                    @if (isset($area_id) && $area_id == $area->id)
                                     <option value="{{$area->id}}" selected>{{$area->name}}</option>
                                     @else
                                     <option value="{{$area->id}}">{{$area->name}}</option>
@@ -77,7 +77,7 @@ Jadwal Rute {{$area->name}}
                         <h3 class="card-title">Table</h3>
                         @unlessrole('owner')
                         <div class="text-right">
-                            <a href="{{route('fleet_route_prices.create', ['area_id' => $area_id])}}" class="btn btn-primary btn-sm">Tambah</a>
+                            <a href="{{route('fleet_route_prices.create', ['area_id' => @$area_id])}}" class="btn btn-primary btn-sm">Tambah</a>
                         </div>
                         @endunlessrole
                     </div>

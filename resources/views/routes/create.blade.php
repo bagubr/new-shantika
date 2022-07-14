@@ -1,10 +1,6 @@
 @extends('layouts.main')
 @section('title')
-<<<<<<< HEAD
-Route
-=======
 Rute
->>>>>>> rilisv1
 @endsection
 <style>
     select {

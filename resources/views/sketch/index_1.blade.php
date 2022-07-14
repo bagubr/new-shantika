@@ -147,7 +147,7 @@ Sketch
                                 <label for="">AGEN</label>
                             </div>
                             <div class="col-md-11">
-                                <marquee direction="left" height="20" width="100%" bgcolor="white" onmouseover="this.stop();" onmouseout="this.start();"><p style="font-size: 15px;">@{{order.fleet_route?.fleet_detail?.fleet?.name}} &nbsp;( &nbsp; @{{order.fleet_route?.fleet_detail?.fleet?.fleetclass?.name}}&nbsp;|&nbsp;@{{order.fleet_route?.agency_name}} )</p></marquee>
+                                <marquee direction="left" height="20" width="100%" bgcolor="white" onmouseover="this.stop();" onmouseout="this.start();"><p style="font-size: 15px;">@{{order.fleet_route?.fleet_detail?.fleet?.name}} &nbsp;( &nbsp; @{{order.fleet_route?.fleet_detail?.fleet?.fleetclass?.name}}&nbsp;|&nbsp;@{{order.fleet_route?.route?.name}} )</p></marquee>
                             </div>
                             <div class="col-md-1">
                                 <a :href="editAgent(order.fleet_route?.route?.id)" target="_blank"><p class="fas fa-edit"></p></a>
@@ -187,7 +187,6 @@ Sketch
 
 <script src="https://unpkg.com/vue-select@3.0.0"></script>
 <link rel="stylesheet" href="https://unpkg.com/vue-select@3.0.0/dist/vue-select.css">
-
 <script>
     Vue.component('v-select', VueSelect.VueSelect)
     var app = new Vue({
@@ -294,6 +293,7 @@ Sketch
                     this.firstLayout.fleetId = fleetId
                     this.firstLayout.timeClassificationId = timeClassificationId
                     this.getFirstLayout()
+                    this.getFleetRoutes(fleetRouteId, this.firstLayout.date)
                     this.handleChangeFocusSecondLayout(fleetRouteId, fleetId, timeClassificationId)
                 },
                 handleChangeFocusSecondLayout(fleetRouteId, fleetId, timeClassificationId) {
@@ -301,7 +301,7 @@ Sketch
                     this.secondLayout.fleetId = fleetId
                     this.secondLayout.timeClassificationId = timeClassificationId
                     this.getSecondLayout()
-                    this.getFleetRoutes(fleetRouteId)
+                    this.getFleetRoutes(fleetRouteId, this.secondLayout.date)
                 },
                 handleDateChange(type) {
                     if(type == 'FIRST') {
@@ -319,7 +319,6 @@ Sketch
                         date: new Date(this.firstLayout.date).toDateString()
                     })
                     fetch("{{url('/')}}/sketch/orders/detail?"+params).then(res => res.json()).then(res => {
-                        console.log(res.data)
                         this.firstLayout.data = res.data
                         this.firstLayout.fleet = res.fleet
                     }).finally(() => {
@@ -467,36 +466,37 @@ Sketch
                     this.whichLayout(which)
                     let index = this.getCurrentIndexByRowCol(row, col,which)
                     chair = this.firstLayout.data.chairs.filter((e, i) =>  i == index)[0]
-                    if(!this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable) {
-                        return alert("Pilih kursi yang sudah dibeli!");
-                    }
-                    if(this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_switched == true) {
-                        return alert("Kursi sudah di pindah!");
-                    }
-                    if(this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected != true) {
-                        if(this.data.is_group == true || this.data.is_delete_group == true){
-                            if(this.firstLayout.data.chairs.filter(e => e.is_selected = true).length > 0){
-                                    this.firstLayout.data.chairs.filter(e => e.is_selected = true).forEach(function (value) {
+                    if(this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable || this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable_customer) {
+                        if(this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_switched == true) {
+                            return alert("Kursi sudah di pindah!");
+                        }
+                        if(this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected != true) {
+                            if(this.data.is_group == true || this.data.is_delete_group == true){
+                                if(this.firstLayout.data.chairs.filter(e => e.is_selected = true).length > 0){
+                                        this.firstLayout.data.chairs.filter(e => e.is_selected = true).forEach(function (value) {
+                                        value.is_selected = false
+                                    })
+                                }
+                                this.firstLayout.data.chairs.filter(e => e.order_detail?.id == chair.order_detail?.id).forEach(function (value) {
+                                    value.is_selected = true
+                                })
+                            }else{
+                                this.firstLayout.data.chairs.filter(e => e.is_selected == true).forEach(function (value) {
+                                        value.is_selected = false
+                                })
+                                this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = true
+                            }
+                        } else {
+                            if(this.data.is_group == true || this.data.is_delete_group == true){
+                                this.firstLayout.data.chairs.filter(e => e.order_detail?.id == chair.order_detail?.id).forEach(function (value) {
                                     value.is_selected = false
                                 })
+                            }else{
+                                this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = false
                             }
-                            this.firstLayout.data.chairs.filter(e => e.order_detail?.id == chair.order_detail?.id).forEach(function (value) {
-                                value.is_selected = true
-                            })
-                        }else{
-                            this.firstLayout.data.chairs.filter(e => e.is_selected == true).forEach(function (value) {
-                                    value.is_selected = false
-                            })
-                            this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = true
                         }
-                    } else {
-                        if(this.data.is_group == true || this.data.is_delete_group == true){
-                            this.firstLayout.data.chairs.filter(e => e.order_detail?.id == chair.order_detail?.id).forEach(function (value) {
-                                value.is_selected = false
-                            })
-                        }else{
-                            this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = false
-                        }
+                    }else{
+                        return alert("Pilih kursi yang sudah dibeli!");
                     }
                     this.$forceUpdate()
                 },
@@ -911,10 +911,11 @@ Sketch
                 relaodLayout() {
                     this.handleChangeFocusFirstLayout(this.firstLayout.fleetRouteId, this.firstLayout.fleetId, this.firstLayout.timeClassificationId)
                 },
-                getFleetRoutes(fleetRouteId) {
+                getFleetRoutes(fleetRouteId, date) {
                     let query = new URLSearchParams({
                         fleet_route_id: fleetRouteId,
-                        area_id: this.filter.area_id
+                        area_id: this.filter.area_id,
+                        date: date
                     });
                     fetch(`{{url('/fleet_route/get-available-route')}}?${query}`, {
                         method:'GET'
@@ -933,5 +934,9 @@ Sketch
             }
         });
     // app.components('v-select', VueSelect.VueSelect);
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
 </script>
+
 @endpush

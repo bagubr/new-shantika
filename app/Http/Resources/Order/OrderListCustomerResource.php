@@ -29,7 +29,7 @@ class OrderListCustomerResource extends JsonResource
             'fleet_class'=>@$fleet->fleetclass?->name??'Tidak Ditemukan',
             'created_at'=>date('Y-m-d H:i:s', strtotime($this->created_at)),
             'departure_at'  => $this->agency->agency_departure_times->where('time_classification_id', $this->time_classification_id)->first()?->departure_at,
-            'price'=>$this->price,
+            'price'=>$this->distribution?->ticket_only,
             'status'=>$this->status,
             'checkpoints'        => new CheckpointStartEndResource($route, $agency_destiny, $agent_start),
         ];

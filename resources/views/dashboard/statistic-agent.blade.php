@@ -17,9 +17,23 @@
             indexAxis: 'y',
             elements: {
                 bar: {
-                    borderWidth: 2,
+                    borderWidth: 10,
                 }
             },
+            scaleShowValues: true,
+            scales: {
+                y: {
+                    ticks: {
+                    autoSkip: false,
+                    }
+                },
+                yAxes: [{
+                    position: 'top',
+                    ticks: {
+                        padding: 10
+                    }
+                }],
+            }
         },
     };
     window.ChartAgent = new Chart(
@@ -56,7 +70,7 @@
             success: function (data) {
                 console.log(data);
                 window.ChartAgent.data.labels = data['agencies_area'];
-                window.ChartAgent.data.datasets[0].data = @data['agent']['data'] || [];
+                window.ChartAgent.data.datasets[0].data = data['agent']['data'] || [];
                 window.ChartAgent.update();
             },
             beforeSend: function() {

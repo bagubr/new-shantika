@@ -44,8 +44,6 @@ class OrderController extends Controller
 
     public function store(ApiOrderCreateRequest $request)
     {
-        
-        return $this->sendFailedResponse([], 'Maaf aplikasi sedang dalam perbaikan');
         DB::beginTransaction();
         $order = new Order([
             'user_id'=>UserRepository::findByToken($request->bearerToken())?->id,

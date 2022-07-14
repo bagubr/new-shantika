@@ -47,6 +47,7 @@ class OrderDetailCustomerResource extends JsonResource
             'payment_type' => $this->payment?->payment_type?->name,
             'payment_charge'=>$this->distribution->charge,
             'price' => $this->price,
+            'total_price' => $this->distribution?->ticket_only,
             'review' => $this->review ?? (object) [],
             'promo' => $this->promo ?? (object) [],
             'nominal_discount' => $this->nominal_discount
