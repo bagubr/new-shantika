@@ -35,6 +35,7 @@ class OrderSetoranDetailAgentResource extends JsonResource
             'checkpoint_destination'=>new CheckpointResource($this[0]->fleet_route->route?->checkpoints()->where('agency_id', $this[0]->destination_agency_id)->first()),
             'price_sum'=> $this->total_price,
             'non_food'=> $this->non_food,
+            'non_food_count'=>$coll_table_chairs->where('is_feed', '==', false)->count(),
             'member_count'=>$coll_table_chairs->where('is_member', '==', 'Member')->count(),
             'travel_count'=>$coll_table_chairs->where('is_travel', '==', 'Travel')->count(),
             'food_price_sum'=>$this->food_price,
@@ -52,6 +53,7 @@ class OrderSetoranDetailAgentResource extends JsonResource
                     'chair_name'=>$order_detail->chair?->name,
                     'price'=>$this->getTruePrice($order_detail->order, $order_detail->order->distribution),
                     'food'=>$order_detail->order->distribution->for_food,
+                    'is_feed'=>$order_detail->is_feed,
                     'is_member'=>$order_detail->is_member ? "Member" : "Non Member",
                     'is_travel'=>$order_detail->is_travel ? "Travel" : "Non Travel"
                 ];
