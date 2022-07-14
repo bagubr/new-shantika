@@ -45,7 +45,7 @@ class PaymentService
                 'external_id' => $order->id . uniqid(),
                 'payer_email' => 'devnewshantika@gmail.com',
                 'description' => 'Pembayaran Tiket Armada',
-                'amount' => $order->price,
+                'amount' => $order->distribution?->ticket_only,
                 'invoice_duration' => $expired_duration
             ];
             $invoice = \Xendit\Invoice::create($payload);

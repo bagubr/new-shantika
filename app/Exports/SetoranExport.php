@@ -22,31 +22,42 @@ class SetoranExport implements FromView, ShouldAutoSize
     public function view(): View
     {
         parse_str(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_QUERY), $queries);
-        $fleet_detail_id = $queries['fleet_detail_id'];
-        $date_search = $queries['date_search'];
-        $agency_id = $queries['agency_id'];
+        $fleet_detail_id = $queries['fleet_detail_id']??null;
+        $date_search = $queries['date_search']??null;
+        $agency_id = $queries['agency_id']??null;
+        $area_id = $queries['area_id']??null;
 
-        $order_price_distributions = OrderPriceDistribution::query();
-
-        if (!empty($fleet_detail_id)) {
-            $order_price_distributions = $order_price_distributions->whereHas('order', function ($q) use ($fleet_detail_id) {
-                $q->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED'])->whereHas('fleet_route', function ($sq) use ($fleet_detail_id) {
+        $order_price_distributions  = OrderPriceDistribution::whereHas('order', function ($query)
+        {
+            $query->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
+        })
+        ->when($area_id, function ($query) use ($area_id)
+        {
+            $query->whereHas('order.fleet_route.route.checkpoints.agency.city', function ($query) use ($area_id)
+            {
+                $query->where('area_id', '!=', $area_id);
+            });
+        })
+        ->when($fleet_detail_id, function ($query) use ($fleet_detail_id)
+        {
+            $query->whereHas('order', function ($q) use ($fleet_detail_id) {
+                $q->whereHas('fleet_route', function ($sq) use ($fleet_detail_id) {
                     $sq->where('fleet_detail_id', $fleet_detail_id);
                 });
             });
-        }
-        if (!empty($date_search)) {
-            $order_price_distributions = $order_price_distributions->whereHas('order', function ($q) use ($date_search) {
-                $q->where('reserve_at', $date_search)->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
+        })
+        ->when($date_search, function ($query) use ($date_search)
+        {
+            $query->whereHas('order', function ($q) use ($date_search) {
+                $q->whereDate('reserve_at', $date_search);
             });
-        }
-
-        if (!empty($agency_id)) {
-            $order_price_distributions = $order_price_distributions->whereHas('order', function ($q) use ($agency_id) {
-                $q->where('departure_agency_id', $agency_id)->whereIn('status', ['PAID', 'EXCHANGED', 'FINSIHED']);
+        })
+        ->when($agency_id, function ($query) use ($agency_id)
+        {
+            $query->whereHas('order', function ($q) use ($agency_id) {
+                $q->where('departure_agency_id', $agency_id);
             });
-        }
-        $order_price_distributions = $order_price_distributions->get();
+        })->get();
         return view('excel_export.setoran', [
             'order_price_distributions' => $order_price_distributions,
         ]);

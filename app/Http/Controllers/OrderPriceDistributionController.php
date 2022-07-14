@@ -12,6 +12,7 @@ use App\Models\OutcomeDetail;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\SetoranExport;
+use App\Models\Area;
 use Illuminate\Support\Facades\Auth;
 
 class OrderPriceDistributionController extends Controller
@@ -26,12 +27,13 @@ class OrderPriceDistributionController extends Controller
         $date_search        = $request->date_search;
         $fleet_detail_id    = $request->fleet_detail_id;
         $agency_id          = $request->agency_id;
-        $area_id            = Auth::user()->area_id;
+        $area_id            = $request->area_id??Auth::user()->area_id;
+        $areas              = Area::get();
         $fleet_details = FleetDetail::has('fleet_route')->when($area_id, function ($query) use ($area_id)
         {
             $query->whereHas('fleet_route.route.checkpoints.agency.city', function ($query) use ($area_id)
             {
-                $query->where('area_id', $area_id);
+                $query->where('area_id', '!=', $area_id);
             });
         })
         ->get();
@@ -40,7 +42,7 @@ class OrderPriceDistributionController extends Controller
         {
             $query->whereHas('route.checkpoints.agency.city', function ($query) use ($area_id)
             {
-                $query->where('area_id', $area_id);
+                $query->where('area_id', '!=', $area_id);
             });
         })
         ->get();
@@ -61,7 +63,7 @@ class OrderPriceDistributionController extends Controller
         {
             $query->whereHas('order.fleet_route.route.checkpoints.agency.city', function ($query) use ($area_id)
             {
-                $query->where('area_id', $area_id);
+                $query->where('area_id', '!=', $area_id);
             });
         })
         ->when($fleet_detail_id, function ($query) use ($fleet_detail_id)
@@ -94,7 +96,7 @@ class OrderPriceDistributionController extends Controller
         {
             $query->whereHas('order.fleet_route.route.checkpoints.agency.city', function ($query) use ($area_id)
             {
-                $query->where('area_id', $area_id);
+                $query->where('area_id', '!=', $area_id);
             });
         })
         ->when($fleet_detail_id, function ($query) use ($fleet_detail_id)
@@ -123,7 +125,7 @@ class OrderPriceDistributionController extends Controller
         {
             $query->whereHas('fleet_route.route.checkpoints.agency.city', function ($query) use ($area_id)
             {
-                $query->where('area_id', $area_id);
+                $query->where('area_id', '!=', $area_id);
             });
         })
         ->when($fleet_detail_id, function ($query) use ($fleet_detail_id)
@@ -146,7 +148,7 @@ class OrderPriceDistributionController extends Controller
         {
             $query->whereHas('outcome.fleet_detail.fleet_route.route.checkpoints.agency.city', function ($query) use ($area_id)
             {
-                $query->where('area_id', $area_id);
+                $query->where('area_id', '!=', $area_id);
             });
         })
         ->when($fleet_detail_id, function ($query) use ($fleet_detail_id)
@@ -170,7 +172,7 @@ class OrderPriceDistributionController extends Controller
         $count_pendapatan_bersih    = $order_price_distributions->pluck('for_owner')->sum();
         $count_ticket               = $order->pluck('price')->sum();
         $count_seat                 = $order_details->count();
-        return view('order_price_distribution.index', compact('count_ticket', 'order_price_distributions', 'fleet_details', 'outcome_details', 'fleet_routes', 'count_income', 'agencies', 'count_outcome', 'count_pendapatan_bersih', 'count_seat', 'total_deposit', 'agency_id', 'date_search', 'fleet_detail_id'));
+        return view('order_price_distribution.index', compact('count_ticket', 'order_price_distributions', 'fleet_details', 'outcome_details', 'fleet_routes', 'count_income', 'agencies', 'count_outcome', 'count_pendapatan_bersih', 'count_seat', 'total_deposit', 'agency_id', 'date_search', 'fleet_detail_id', 'areas', 'area_id'));
     }
     public function export(Request $request)
     {

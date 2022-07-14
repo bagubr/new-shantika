@@ -293,6 +293,7 @@ Sketch
                     this.firstLayout.fleetId = fleetId
                     this.firstLayout.timeClassificationId = timeClassificationId
                     this.getFirstLayout()
+                    this.getFleetRoutes(fleetRouteId, this.firstLayout.date)
                     this.handleChangeFocusSecondLayout(fleetRouteId, fleetId, timeClassificationId)
                 },
                 handleChangeFocusSecondLayout(fleetRouteId, fleetId, timeClassificationId) {
@@ -300,7 +301,7 @@ Sketch
                     this.secondLayout.fleetId = fleetId
                     this.secondLayout.timeClassificationId = timeClassificationId
                     this.getSecondLayout()
-                    this.getFleetRoutes(fleetRouteId)
+                    this.getFleetRoutes(fleetRouteId, this.secondLayout.date)
                 },
                 handleDateChange(type) {
                     if(type == 'FIRST') {
@@ -318,7 +319,6 @@ Sketch
                         date: new Date(this.firstLayout.date).toDateString()
                     })
                     fetch("{{url('/')}}/sketch/orders/detail?"+params).then(res => res.json()).then(res => {
-                        console.log(res.data)
                         this.firstLayout.data = res.data
                         this.firstLayout.fleet = res.fleet
                     }).finally(() => {
@@ -373,22 +373,22 @@ Sketch
                     }
                     if (chair.is_selected) {
                         if(which == 0){
-                            html +=  `<p class="text-nowrap d-inline">${chair.name} | ${user.name} | ${chair.code} |</p>`
+                            html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.code} |</p>`
                         }else{
                             return  `<p class="text-nowrap d-inline">${chair.from_name} => ${chair.name}</p>`
                         }
                     } else if (chair.is_switched) {
-                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${user.name} | ${chair.code} |</p>`
+                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.code} |</p>`
                     } else if(chair.is_blocked) {
                         html +=  `<p class="text-nowrap d-inline">${chair.name}</p>`
                     } else if (chair.is_unavailable) {
-                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${user.name} | ${chair.code} |</p>`
+                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.code} |</p>`
                     } else if (chair.is_unavailable_customer){
-                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${user.name} | ${chair.code} |</p>`
+                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.code} |</p>`
                     } else if (chair.is_unavailable_not_paid_customer) {
-                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${user.name} | ${chair.code} |</p>`
+                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.code} |</p>`
                     } else if (chair.is_unavailable_waiting_customer) {
-                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${user.name} | ${chair.code} |</p>`
+                        html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.code} |</p>`
                     } else if (chair.is_booking) {
                         html +=  `<p class="text-nowrap d-inline">${chair.name} | ${chair.code} |</p>`
                     } else if(chair.is_door) {
@@ -466,36 +466,37 @@ Sketch
                     this.whichLayout(which)
                     let index = this.getCurrentIndexByRowCol(row, col,which)
                     chair = this.firstLayout.data.chairs.filter((e, i) =>  i == index)[0]
-                    if(!this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable) {
-                        return alert("Pilih kursi yang sudah dibeli!");
-                    }
-                    if(this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_switched == true) {
-                        return alert("Kursi sudah di pindah!");
-                    }
-                    if(this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected != true) {
-                        if(this.data.is_group == true || this.data.is_delete_group == true){
-                            if(this.firstLayout.data.chairs.filter(e => e.is_selected = true).length > 0){
-                                    this.firstLayout.data.chairs.filter(e => e.is_selected = true).forEach(function (value) {
+                    if(this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable || this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_unavailable_customer) {
+                        if(this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_switched == true) {
+                            return alert("Kursi sudah di pindah!");
+                        }
+                        if(this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected != true) {
+                            if(this.data.is_group == true || this.data.is_delete_group == true){
+                                if(this.firstLayout.data.chairs.filter(e => e.is_selected = true).length > 0){
+                                        this.firstLayout.data.chairs.filter(e => e.is_selected = true).forEach(function (value) {
+                                        value.is_selected = false
+                                    })
+                                }
+                                this.firstLayout.data.chairs.filter(e => e.order_detail?.id == chair.order_detail?.id).forEach(function (value) {
+                                    value.is_selected = true
+                                })
+                            }else{
+                                this.firstLayout.data.chairs.filter(e => e.is_selected == true).forEach(function (value) {
+                                        value.is_selected = false
+                                })
+                                this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = true
+                            }
+                        } else {
+                            if(this.data.is_group == true || this.data.is_delete_group == true){
+                                this.firstLayout.data.chairs.filter(e => e.order_detail?.id == chair.order_detail?.id).forEach(function (value) {
                                     value.is_selected = false
                                 })
+                            }else{
+                                this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = false
                             }
-                            this.firstLayout.data.chairs.filter(e => e.order_detail?.id == chair.order_detail?.id).forEach(function (value) {
-                                value.is_selected = true
-                            })
-                        }else{
-                            this.firstLayout.data.chairs.filter(e => e.is_selected == true).forEach(function (value) {
-                                    value.is_selected = false
-                            })
-                            this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = true
                         }
-                    } else {
-                        if(this.data.is_group == true || this.data.is_delete_group == true){
-                            this.firstLayout.data.chairs.filter(e => e.order_detail?.id == chair.order_detail?.id).forEach(function (value) {
-                                value.is_selected = false
-                            })
-                        }else{
-                            this.firstLayout.data.chairs.filter(e => e.index == index)[0].is_selected = false
-                        }
+                    }else{
+                        return alert("Pilih kursi yang sudah dibeli!");
                     }
                     this.$forceUpdate()
                 },
@@ -910,10 +911,11 @@ Sketch
                 relaodLayout() {
                     this.handleChangeFocusFirstLayout(this.firstLayout.fleetRouteId, this.firstLayout.fleetId, this.firstLayout.timeClassificationId)
                 },
-                getFleetRoutes(fleetRouteId) {
+                getFleetRoutes(fleetRouteId, date) {
                     let query = new URLSearchParams({
                         fleet_route_id: fleetRouteId,
-                        area_id: this.filter.area_id
+                        area_id: this.filter.area_id,
+                        date: date
                     });
                     fetch(`{{url('/fleet_route/get-available-route')}}?${query}`, {
                         method:'GET'

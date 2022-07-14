@@ -135,7 +135,7 @@ class PaymentController extends Controller
             );
             $membership = Membership::where('user_id', $order_id->user_id)->first();
             if($membership){
-                MembershipService::increment($membership, Setting::find(1)->point_purchase, 'Pembelian Tiket');
+                MembershipService::increment($membership, Setting::find(1)->point_purchase * count($order_id?->order_detail), 'Pembelian Tiket');
             }
             PaymentAcceptedNotificationJob::dispatchAfterResponse($notification, $order_id->user?->fcm_token, true);
         } else if ($request->status == Order::STATUS7) {

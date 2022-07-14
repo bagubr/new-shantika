@@ -17,6 +17,10 @@ class ApiOrderDetailUpdateRequest extends ApiRequest
             'name' => 'sometimes|string',
             'email' => 'sometimes|string',
             'phone' => 'sometimes|string',
+            'is_member' => 'sometimes|integer',
+            'is_feed' => 'sometimes|integer',
+            'is_travel' => 'sometimes|integer',
+            'note' => 'sometimes|string',
         ];
     }
 }

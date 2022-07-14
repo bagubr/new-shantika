@@ -41,7 +41,9 @@ class ConfigSettingController extends Controller
     {
         $config_setting = Setting::whereId(1)->first();
         $data = $request->all();
-        $data['membership_background_card'] = $data['membership_background_card']->store('membership_background_card', 'public');
+        if(isset($data['membership_background_card'])){
+            $data['membership_background_card'] = $data['membership_background_card']->store('membership_background_card', 'public');
+        }
         $data['commision'] = $request->commision / 100;
         $config_setting->update($data);
         session()->flash('success', 'Data Berhasil Diubah');

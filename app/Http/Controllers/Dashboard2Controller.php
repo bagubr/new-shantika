@@ -58,6 +58,7 @@ class Dashboard2Controller extends Controller
                $subquery->where('area_id', $request->area_id);
             });
         })
+        ->where('is_route', false)
         ->withCount('order_details')
         ->whereHas('order_details')
         ->get();

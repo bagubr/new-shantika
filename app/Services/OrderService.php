@@ -46,8 +46,7 @@ class OrderService
             (new self)->sendFailedResponse([], "Maaf, kursi anda telah dibooking terlebih dahulu oleh orang lain");
         }
 
-        // $price = $detail->total_price;
-        $price = PriceTiket::priceTiket(FleetRoute::find($data->fleet_route_id), Agency::find($data->departure_agency_id), Agency::find($data->destination_agency_id), $data->reserve_at);
+        $price = $detail->total_price;
         
 
         if (isset($data->promo_id) && $data->promo_id) {
@@ -60,13 +59,13 @@ class OrderService
             $data->nominal_discount = $promo->nominal_discount;
         }
         $for_deposit = $price;
-        $data->price = $price;
+        $data->price = PriceTiket::priceTiket(FleetRoute::find($data->fleet_route_id), Agency::find($data->departure_agency_id), Agency::find($data->destination_agency_id), $data->reserve_at) * count($detail->layout_chair_id);
         if (!$data->code_order) $data->code_order = self::generateCodeOrder($data->id);
         if (!$data->expired_at) $data->expired_at = self::getExpiredAt();
         $order = Order::create($data->toArray());
         $code_order = self::generateCodeOrder($order->id);
         if ($detail->is_member) {
-            self::createHistory($data->user_id, $detail->id_member, $code_order, $order->id);
+            self::createHistory($data->user_id, $detail->id_member, $code_order, $order->id, count($detail->layout_chair_id));
         }
         if(isset($promo_histories)){
             $promo_histories->update([
@@ -220,7 +219,7 @@ class OrderService
         }
     }
 
-    public static function createHistory($user_id, $id_member, $code_order, $order_id)
+    public static function createHistory($user_id, $id_member, $code_order, $order_id, $seat_count = 1)
     {
         $user = User::find($user_id);
         if($id_member){
@@ -230,7 +229,7 @@ class OrderService
                 (new self)->sendFailedResponse([], 'Maaf user member tidak tersedia');
             }
             if(@$user->agencies){
-                MembershipService::increment($membership, Setting::find(1)->point_purchase, 'Pembelian Tiket');
+                MembershipService::increment($membership, Setting::find(1)->point_purchase * $seat_count, 'Pembelian Tiket');
                 MembershipHistory::create([
                     'agency_id'=> $user->id,
                     'customer_id'=> $membership->user_id,
