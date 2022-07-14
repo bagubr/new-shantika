@@ -123,6 +123,9 @@ class OrderController extends Controller
             $non_food += $values[ 'non_food' ];
         }
         $total_price = $price - $food;
+        if($user->agencies->agent->city->area_id == 2){
+            $total_price = $price;
+        }
         return $this->sendSuccessResponse([
             'chairs'=> OrderDetailSetoranAgentResource::collection($chairs),
             'order'=>new OrderSetoranDetailAgentResource($order, count($chairs), $total_price, $food, $non_food)
