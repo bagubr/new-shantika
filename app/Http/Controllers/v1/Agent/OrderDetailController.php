@@ -67,15 +67,15 @@ class OrderDetailController extends Controller
 
         if(isset($is_travel)){
             if($is_travel == 0){
+                $order_detail->order->distribution->update([
+                    'for_travel' => $order_detail->order->distribution->for_travel - Setting::first()->travel
+                ]);
                 $price -= Setting::first()->travel;
-                $order_detail->order->distribution->update([
-                    'for_travel' => $order_detail->order->distribution->for_travel - $price
-                ]);
             }elseif($is_travel == 1){
-                $price += Setting::first()->travel;
                 $order_detail->order->distribution->update([
-                    'for_travel' => $order_detail->order->distribution->for_travel + $price
+                    'for_travel' => $order_detail->order->distribution->for_travel + Setting::first()->travel
                 ]);
+                $price += Setting::first()->travel;
             }
         }
         
