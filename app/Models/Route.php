@@ -21,6 +21,10 @@ class Route extends Model
         'created_at', 'updated_at', 'deleted_at'
     ];
 
+    protected $appends = [
+        'agency_name'
+    ];
+
     public function fleet_detail()
     {
         return $this->hasManyThrough(Fleet::class, FleetRoute::class, 'fleet_id', 'id');
@@ -54,5 +58,10 @@ class Route extends Model
     public function agency_route_permanent()
     {
         return $this->hasMany(AgencyRoutePermanent::class, 'route_id', 'id');
+    }
+
+    public function getAgencyNameAttribute()
+    {
+        return $this->agency_route_permanent()->get()->pluck('agency.name');
     }
 }

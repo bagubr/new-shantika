@@ -147,7 +147,7 @@ Sketch
                                 <label for="">AGEN</label>
                             </div>
                             <div class="col-md-11">
-                                <marquee direction="left" height="20" width="100%" bgcolor="white" onmouseover="this.stop();" onmouseout="this.start();"><p style="font-size: 15px;">@{{order.fleet_route?.fleet_detail?.fleet?.name}} &nbsp;( &nbsp; @{{order.fleet_route?.fleet_detail?.fleet?.fleetclass?.name}}&nbsp;|&nbsp;@{{order.fleet_route?.route?.name}} )</p></marquee>
+                                <marquee direction="left" height="20" width="100%" bgcolor="white" onmouseover="this.stop();" onmouseout="this.start();"><p style="font-size: 15px;">@{{order.fleet_route?.fleet_detail?.fleet?.name}} &nbsp;( &nbsp; @{{order.fleet_route?.fleet_detail?.fleet?.fleetclass?.name}}&nbsp;|&nbsp;@{{order.fleet_route?.route?.agency_name}} )</p></marquee>
                             </div>
                             <div class="col-md-1">
                                 <a :href="editAgent(order.fleet_route?.route?.id)" target="_blank"><p class="fas fa-edit"></p></a>
