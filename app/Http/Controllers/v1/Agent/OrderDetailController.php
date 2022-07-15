@@ -88,7 +88,8 @@ class OrderDetailController extends Controller
         }
 
         $order_detail->order->distribution->update([
-            'ticket_only' => $order_detail->order->distribution->ticket_only + $price
+            'ticket_only' => $order_detail->order->distribution->ticket_only + $price,
+            'total_deposit' => $order_detail->order->distribution->total_deposit + $price
         ]);
         
         return $this->sendSuccessResponse([
