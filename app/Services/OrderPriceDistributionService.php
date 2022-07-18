@@ -21,7 +21,13 @@ class OrderPriceDistributionService {
 
 
     public static function calculateDistribution($order, $order_details, $for_deposit, $price_food = null, $total_travel = null, $total_member = null) {
+        $is_agent = UserRepository::findUserIsAgent($order->user_id);
         $setting = Setting::first();
+        if(!$is_agent && $order->status == Order::STATUS1) {
+            $total_price['charge'] = $setting->xendit_charge;
+        }else{
+            $total_price['charge'] = 0;
+        }
         if($total_travel == null){
             $total_travel = $setting->travel;
         }
@@ -56,11 +62,9 @@ class OrderPriceDistributionService {
         $total_price['for_owner_with_food'] = $total_price['for_owner'] + $total_price['for_food'];
         $total_price['for_owner_gross'] = ($total_price['ticket_only'] - $total_price['for_food']) + $total_price['for_agent'];
 
-        $is_agent = UserRepository::findUserIsAgent($order->user_id);
         $total_price['for_agent'] =   -1 * ($total_price['for_agent']);
 
         if(!$is_agent && $order->status == Order::STATUS1) {
-            $total_price['charge'] = $setting->xendit_charge;
             $total_price['for_agent'] = 0;
             $total_price['for_owner'] = 0;
             $total_price['for_owner_with_food'] = 0;
