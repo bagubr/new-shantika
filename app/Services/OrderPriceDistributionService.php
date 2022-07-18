@@ -40,7 +40,7 @@ class OrderPriceDistributionService {
 
 
         $total_price['ticket_price'] = $order->price;
-        if(empty($order->user->agencies)) $total_price['ticket_price'] -= $setting->xendit_charge; 
+        if(empty($order->user->agencies)) $total_price['ticket_price'] -= $total_price['charge']; 
         $total_price['for_travel'] = $total_travel * $order->order_detail->where('is_travel', 1)->count();
         if(empty($order->user->agencies)) $total_price['ticket_price'] -= $total_price['for_travel'];
         
@@ -50,11 +50,11 @@ class OrderPriceDistributionService {
         //  ? 0
         //  : $total_price['for_food'];
         $total_price['for_member'] = $total_member * $order->order_detail->where('is_member', 1)->count();
-        $total_price['for_agent'] =   (($total_price['ticket_price'] + $setting->xendit_charge) - $total_price['for_food']) * $setting->commision ;
+        $total_price['for_agent'] =   (($total_price['ticket_price'] + $total_price['charge']) - $total_price['for_food']) * $setting->commision ;
         $total_price['for_owner'] = ($total_price['ticket_only'] - $total_price['for_food']) - $total_price['for_agent'];
         $total_price['total_deposit'] = $total_price['for_owner'] + $total_price['for_food'];
         if($order->agency->city->area_id == 2){
-            $total_price['for_agent'] =   ($total_price['ticket_price'] + $setting->xendit_charge) * $setting->commision ;
+            $total_price['for_agent'] =   ($total_price['ticket_price'] + $total_price['charge']) * $setting->commision ;
             $total_price['for_owner'] = $total_price['ticket_only'] - $total_price['for_agent'];
             $total_price['total_deposit'] = $total_price['for_owner'];
         }
