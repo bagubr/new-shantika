@@ -101,9 +101,10 @@ Riwayat Kupon Makan
                                     <td>{{$food_reddem_history->order_detail?->name}}</td>
                                     <td>{{$food_reddem_history->order_detail?->order?->code_order}}</td>
                                     <td>{{$food_reddem_history->order_detail?->chair?->name}}</td>
-                                    <td>{{$food_reddem_history->order_detail?->order?->fleet_route?->fleet_detail?->fleet?->name}}
+                                    <td>{{$food_reddem_history->order_detail?->order->fleet_route_with_trash->fleet_detail->fleet_with_trash->name}}
+                                    </td>
                                     <td>Rp.
-                                        {{number_format($food_reddem_history->order_detail?->order?->fleet_route?->fleet_detail?->fleet?->fleetclass?->price_food)}}
+                                        {{number_format($food_reddem_history->order_detail?->order?->fleet_route_with_trash->fleet_detail->fleet_with_trash->fleetclass?->price_food)}}
                                     </td>
                                 </tr>
                                 @endforeach

@@ -17,6 +17,12 @@ class FleetDetail extends Model
     {
         return $this->belongsTo(Fleet::class, 'fleet_id');
     }
+
+    public function fleet_with_trash()
+    {
+        return $this->belongsTo(Fleet::class, 'fleet_id')->withTrashed();
+    }
+
     public function fleet_route()
     {
         return $this->hasMany(FleetRoute::class, 'fleet_detail_id', 'id');
