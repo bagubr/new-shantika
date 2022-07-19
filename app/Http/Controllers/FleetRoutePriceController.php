@@ -33,7 +33,7 @@ class FleetRoutePriceController extends Controller
         })->when($area_id, function ($query) use ($area_id)
         {
             $query->whereHas('fleet_route.route.checkpoints.agency.city', function ($q) use ($area_id) {
-                $q->where('area_id', $area_id);
+                $q->where('area_id', '!=', $area_id);
             });
         })->when($date_search, function ($query) use ($date_search)
         {
