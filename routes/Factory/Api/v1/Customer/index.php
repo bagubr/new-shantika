@@ -43,7 +43,6 @@ Route::group([
 
 
         Route::group(['namespace' => 'Customer'], function() {
-            Route::get('test','TestimonialController@index');
             Route::get('profile', 'UserController@show');
             Route::post('update', 'UserController@update');
         });

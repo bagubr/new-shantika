@@ -10,7 +10,7 @@ class TimeChangeRoute extends Model
     use HasFactory;
 
     protected $fillable = [
-        'time_classification_id', 'fleet_route_id', 'date'
+        'time_classification_id', 'fleet_route_id', 'date', 'fleet_detail_id'
     ];
 
     protected $appends = [
@@ -25,6 +25,11 @@ class TimeChangeRoute extends Model
     public function fleet_route()
     {
         return $this->belongsTo(FleetRoute::class);
+    }
+
+    public function fleet_detail()
+    {
+        return $this->belongsTo(FleetDetail::class);
     }
 
     public function time_classification()

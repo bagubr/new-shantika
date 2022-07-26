@@ -31,7 +31,9 @@ class TimeChangeRouteController extends Controller
             session()->flash('error', 'Data sudah ada');
             return redirect(route('time_change_route.index'));
         }
-        TimeChangeService::create($request->all());
+        $data = $request->all();
+        $data['fleet_detail_id'] = FleetRoute::find($request->fleet_route_id)->fleet_detail_id;
+        TimeChangeService::create($data);
         session()->flash('success', 'Waktu Berhasil Ditambahkan');
         return redirect(route('time_change_route.index'));
     }
@@ -46,6 +48,7 @@ class TimeChangeRouteController extends Controller
     public function update(Request $request, TimeChangeRoute $time_change_route)
     {
         $data = $request->all();
+        $data['fleet_detail_id'] = FleetRoute::find($request->fleet_route_id)->fleet_detail_id;
         TimeChangeService::update($time_change_route, $data);
 
         session()->flash('success', 'Waktu Berhasil Dirubah');
