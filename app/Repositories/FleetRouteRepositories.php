@@ -63,7 +63,7 @@ class FleetRouteRepositories {
                         $query->whereHas('time_change_route', function ($query) use ($time_classification_id, $date)
                         {
                             $query->where('time_classification_id', $time_classification_id);
-                            $query->whereDate('date', $date);
+                            $query->whereDate('date', date('Y-m-d', strtotime($date)));
                         });
                     });
                 })

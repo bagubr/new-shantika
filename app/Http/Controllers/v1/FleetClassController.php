@@ -29,21 +29,6 @@ class FleetClassController extends Controller
         $fleet_class = FleetClass::has('fleets.fleet_detail.fleet_route.prices')->select('id', 'name', 'price_food')
         ->whereHas('fleets.fleet_detail', function ($query) use ($time_classification_id, $date, $agency_id, $agency)
         {
-            $query->where(function ($query) use ($time_classification_id, $date)
-                {
-                $query->where(function ($query) use ($time_classification_id)
-                {
-                    $query->where('time_classification_id', $time_classification_id);
-                });
-                $query->orWhere(function ($query) use ($time_classification_id, $date)
-                {
-                    $query->whereHas('time_change_route', function ($query) use ($time_classification_id, $date)
-                    {
-                        $query->where('time_classification_id', $time_classification_id);
-                        $query->whereDate('date', $date);
-                    });
-                });
-            });
             $query->whereHas('fleet_route', function ($query) use ($date, $agency_id, $agency, $time_classification_id)
             {
                 $query->where('is_active', true);
