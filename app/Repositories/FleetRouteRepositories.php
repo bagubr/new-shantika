@@ -43,7 +43,7 @@ class FleetRouteRepositories {
                 ->whereHas('prices', function($query) use ($date) {
                     $query->whereDate('start_at', '<=', $date)->whereDate('end_at', '>=', $date);
                 })
-                ->where(function ($query) use ($time_classification_id, $departure_agency, $date, $fleet_class_id)
+                ->where(function ($query) use ($departure_agency)
                 {
                     $query->whereHas('route.checkpoints.agency.city', function ($subsubquery) use ($departure_agency) {
                         $subsubquery->where('area_id', '!=', $departure_agency->city->area_id);
@@ -60,9 +60,6 @@ class FleetRouteRepositories {
                     });
                     $query->orWhere(function ($query) use ($time_classification_id, $date)
                     {
-                        // $query->whereHas('fleet_detail', function ($query) use ($time_classification_id, $date)
-                        // {
-                        // });
                         $query->whereHas('time_change_route', function ($query) use ($time_classification_id, $date)
                         {
                             $query->where('time_classification_id', $time_classification_id);
