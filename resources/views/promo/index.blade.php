@@ -82,6 +82,8 @@ Promo
                                     <td>
                                         <a href="{{route('promo.edit',$promo->id)}}"
                                             class="btn btn-warning btn-xs">Edit</a>
+                                        <a href="{{route('promo.show',$promo->id)}}"
+                                            class="btn btn-primary btn-xs">History Promo</a>
                                         <form action="{{route('promo.destroy',$promo->id)}}" class="d-inline"
                                             method="POST">
                                             @csrf

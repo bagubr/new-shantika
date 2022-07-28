@@ -54,22 +54,22 @@
             </td>
             <td data-col="7">
                 @if($order_price_distribution->ticket_price <= 0)
-                Rp.{{$order_price_distribution->ticket_price}}
+                {{number_format($order_price_distribution->ticket_price, 2, '.')}}
                 @else
-                Rp.{{number_format($order_price_distribution->ticket_price/ $order_price_distribution->order?->order_detail?->count())}}
+                {{number_format($order_price_distribution->ticket_price/ $order_price_distribution->order?->order_detail?->count(), 2, '.')}}
                 @endif
             </td>
             <td data-col="8">
-                Rp.{{number_format($order_price_distribution->ticket_price)}}
+                {{number_format($order_price_distribution->ticket_price, 2, '.')}}
             </td>
-            <td data-col="9">Rp.
-                {{number_format($order_price_distribution->order?->fleet_route?->price * $order_price_distribution->order?->order_detail?->count())}}
+            <td data-col="9">
+                {{number_format($order_price_distribution->order?->fleet_route?->price * $order_price_distribution->order?->order_detail?->count(), 2, '.')}}
             </td>
-            <td data-col="10">Rp. {{number_format($order_price_distribution->for_food,2)}}</td>
-            <td data-col="11">Rp. {{number_format($order_price_distribution->for_travel,2)}}</td>
-            <td data-col="12">Rp. {{number_format($order_price_distribution->for_member,2)}}</td>
-            <td data-col="13">Rp. {{number_format($order_price_distribution->for_agent,2)}}</td>
-            <td data-col="14">Rp. {{number_format($order_price_distribution->for_owner,2)}}</td>
+            <td data-col="10"> {{number_format($order_price_distribution->for_food,2, '.')}}</td>
+            <td data-col="11"> {{number_format($order_price_distribution->for_travel,2, '.')}}</td>
+            <td data-col="12"> {{number_format($order_price_distribution->for_member,2, '.')}}</td>
+            <td data-col="13"> {{number_format($order_price_distribution->for_agent,2, '.')}}</td>
+            <td data-col="14"> {{number_format($order_price_distribution->for_owner,2, '.')}}</td>
             <td data-col="15">
                 @if ($order_price_distribution->deposited_at)
                 {{date('Y-m-d', strtotime($order_price_distribution->deposited_at))}}

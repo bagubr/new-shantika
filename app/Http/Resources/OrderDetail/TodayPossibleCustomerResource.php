@@ -31,7 +31,8 @@ class TodayPossibleCustomerResource extends JsonResource
             'food'=>$distribution->for_food,
             'member'=>$distribution->for_member,
             'id_member'=>$order->id_member,
-            'where_ticket_bought'=>$this->getWhereTicketBought($order)
+            'where_ticket_bought'=>$this->getWhereTicketBought($order),
+            'note'=>$this->note,
         ];
     }
 

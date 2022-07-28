@@ -28,6 +28,7 @@ class CreateConfigSettingRequest extends FormRequest
             'travel' => 'required',
             'booking_expired_duration' => 'required',
             'commision' => 'required',
+            'membership_background_card' => 'sometimes',
         ];
     }
 }

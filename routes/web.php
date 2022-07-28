@@ -14,6 +14,7 @@ use App\Http\Controllers\AreaController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BankAccountController;
+use App\Http\Controllers\BroadcastMessageController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CheckpointController;
 use App\Http\Controllers\CityController;
@@ -59,6 +60,7 @@ use App\Http\Controllers\PromoController;
 use App\Http\Controllers\RestaurantBarcodeController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RouteSettingController;
 use App\Http\Controllers\SketchLogController;
 use App\Http\Controllers\SouvenirController;
 use App\Http\Controllers\SouvenirRedeemController;
@@ -216,6 +218,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resources([
         'agency_route_permanent' => AgencyRoutePermanentController::class,
         'agency_route' => AgencyRouteController::class,
+        'route_setting' => RouteSettingController::class,
         'agency_fleet' => AgencyFleetController::class,
         'agency_fleet_permanent' => AgencyFleetPermanentController::class,
         'time_change_route' => TimeChangeRouteController::class,
@@ -250,7 +253,8 @@ Route::group(['middleware' => ['auth']], function () {
         'fleet_route' => FleetRouteController::class,
         'status_penumpang' => StatusPenumpangController::class,
         'agency_price' => AgencyPriceController::class,
-        'membership_point' => MembershipPointController::class
+        'membership_point' => MembershipPointController::class,
+        'broadcast_message' => BroadcastMessageController::class
     ]);
     Route::post('route_price', [AgencyPriceController::class, 'storeRoute'])->name('route_price.store');
     Route::delete('route_price/{id}', [AgencyPriceController::class, 'destroyRoute'])->name('route_price.destroy');

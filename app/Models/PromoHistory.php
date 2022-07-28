@@ -11,7 +11,7 @@ class PromoHistory extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'user_id', 'promo_id'
+        'user_id', 'promo_id', 'order_id'
     ];
 
     public function user()
@@ -22,5 +22,10 @@ class PromoHistory extends Model
     public function promo()
     {
         return $this->belongsTo(Promo::class);
+    }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
     }
 }

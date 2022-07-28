@@ -9,6 +9,7 @@ use App\Models\FleetRoute;
 use App\Models\Route;
 use App\Models\Setting;
 use App\Repositories\UserRepository;
+use App\Utils\FoodPrice;
 use App\Utils\PriceTiket;
 use Illuminate\Http\Request;
 
@@ -21,11 +22,15 @@ class OrderController extends Controller
         $agency_destiny = Agency::find($request->agency_destiny_id);
         $date = $request->date;
         $setting = Setting::first();
-        $price_food = ($request->is_food) ? $fleet_route->fleet_detail?->fleet?->fleetclass?->price_food * $request->seat_count : 0;
+        $price_food = FoodPrice::foodPrice($fleet_route, $request->is_food, $request->seat_count);
         $total_travel = $request->is_travel ? $setting->travel * $request->seat_count : 0;
         $total_member = $request->is_member ? -($setting->member) * $request->seat_count : 0;
 
-        $price_ticket = PriceTiket::priceTiket($fleet_route, $departure_agency, $agency_destiny, $date);
+        $price_ticket = PriceTiket::priceTiket($fleet_route, $departure_agency, $agency_destiny, $date, $request->is_food);
+
+        // if(UserRepository::findByToken(request()->bearerToken())->agencies){
+        //     $price_ticket += $fleet_route->fleet_detail->fleet->fleetclass->price_food??0;
+        // }
 
         // $price_food = @$user?->agencies?->agent?->city?->area_id == 2 
         // ? 0
@@ -33,14 +38,15 @@ class OrderController extends Controller
 
         
         $data = [
-            'total_food'=> $price_food,
+            'total_food'=>  $price_food,
             'total_travel'=>$total_travel,
             'total_member'=>$total_member
         ];
         $price_with_food = $price_ticket * $request->seat_count;
-
-        if(@$user->agencies){
-            $price_with_food += $price_food;
+        if(!$request->is_food){
+            if(@$user->agencies){
+                $price_with_food += $price_food;
+            }
         }
         
         $xendit_charge = function() use ($setting, $user) : int {

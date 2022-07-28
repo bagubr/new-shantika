@@ -56,7 +56,7 @@ Promo
                         </div>
                         <div class="form-group">
                             <label>Gambar</label>
-                            <input type="file" class="form-control" name="image" accept="image/*" @if(isset($promo)) required @endif>
+                            <input type="file" class="form-control" name="image" accept="image/*">
                             <small class="text-danger"><i class="fas fa-info-circle"></i> Pastikan ukuran gambar 445x236(72)dpi, agar hasil maksimal</small>
                             <br>
                             @isset($promo)

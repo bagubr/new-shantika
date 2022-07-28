@@ -26,6 +26,6 @@ class FoodRedeemHistory extends Model
     }
     public function getPriceFoodAttribute()
     {
-        return $this->order_detail?->order?->fleet_route?->fleet_detail?->fleet?->fleetclass?->price_food;
+        return $this->order_detail?->order?->fleet_route_with_trash->fleet_detail->fleet_with_trash?->fleetclass?->price_food;
     }
 }

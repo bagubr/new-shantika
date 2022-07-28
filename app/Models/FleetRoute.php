@@ -31,7 +31,7 @@ class FleetRoute extends Model
     ];
 
     protected $appends = [
-        'agency_name'
+        'agency_name', 'route_name'
     ];
 
     public function fleet_detail()
@@ -54,6 +54,11 @@ class FleetRoute extends Model
         return $this->belongsTo(TimeChangeRoute::class, 'id', 'fleet_route_id');
     }
 
+    public function route_setting()
+    {
+        return $this->hasMany(RouteSetting::class, 'fleet_route_id', 'id');
+    }
+
     public function orders()
     {
         return $this->hasMany(Order::class, 'fleet_route_id', 'id');
@@ -68,6 +73,11 @@ class FleetRoute extends Model
     }
     public function getAgencyNameAttribute()
     {
-        return '~'.implode('~~', array_merge($this->fleet_detail->fleet->agency_fleet_permanent()->get()->pluck('agency.name')->toArray(), $this->fleet_detail->fleet->agency_fleet()->get()->pluck('agency.name')->toArray(), $this->route->agency_route()->get()->pluck('agency.name')->toArray(), $this->route->agency_route_permanent()->get()->pluck('agency.name')->toArray())). '~';
+        return '~'.implode('~~', array_merge($this->fleet_detail?->fleet?->agency_fleet_permanent()?->get()->pluck('agency.name')->toArray(), $this->route?->agency_route_permanent()?->get()->pluck('agency.name')->toArray())). '~';
+    }
+
+    public function getRouteNameAttribute()
+    {
+        return $this->route->name .'~'. implode('~~', $this->route_setting->pluck('agency.name')->toArray());
     }
 }

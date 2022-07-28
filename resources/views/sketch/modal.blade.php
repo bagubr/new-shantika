@@ -38,7 +38,7 @@
                                     <div class="col">
                                         <select @change="selectOptionFirstLayout($event)" class="form-control" id="" v-model="firstLayout.fleetRouteId">
                                             <option :value="fleetRoute.id" v-for="fleetRoute in fleetRoutes"
-                                                :key="fleetRoute.id" v-text="setSelectOptionLayoutText(fleetRoute)" :selected="fleetRoute.id == firstLayout.fleetRouteId"></option>
+                                                :key="fleetRoute.id" v-text="setSelectOptionLayoutText(fleetRoute)"></option>
                                         </select>
                                     </div>
                                     <div class="col-auto">

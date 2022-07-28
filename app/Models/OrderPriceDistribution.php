@@ -17,4 +17,9 @@ class OrderPriceDistribution extends Model
     {
         return $this->hasOne(Order::class, 'id', 'order_id');
     }
+
+    public function order_detail()
+    {
+        return $this->hasManyThrough(Order::class,  OrderDetail::class, 'order_id', 'id', 'order_id', 'id');
+    }
 }

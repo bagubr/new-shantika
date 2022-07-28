@@ -18,7 +18,10 @@ class MembershipController extends Controller
         $code_member = $request->code_member ?? $this->sendFailedResponse([], 'ID Member belum diisi');
         $code_member = CodeMember::code($code_member);
         Membership::where('code_member', $code_member)->first()?:$this->sendFailedResponse([], 'Kode Membership tidak ditemukan');
-        $member = Membership::where('code_member', $code_member)->first();
+        $member = Membership::where('code_member', $code_member)->when($request->name, function ($query) use ($request)
+        {
+            $query->orWhere('name', $request->name);
+        })->first();
         if(!$member){
             $this->sendFailedResponse([], 'Nama dengan kode member ' . $code_member . ' Membership tidak ditemukan');
         }

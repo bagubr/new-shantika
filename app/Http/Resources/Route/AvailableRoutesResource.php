@@ -11,6 +11,7 @@ use App\Models\Layout;
 use App\Models\OrderDetail;
 use App\Models\TimeChangeRoute;
 use App\Repositories\AgencyRepository;
+use App\Repositories\UserRepository;
 use App\Utils\PriceTiket;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -30,9 +31,12 @@ class AvailableRoutesResource extends JsonResource
         $route = $this->route;
         
         $price = PriceTiket::priceTiket(FleetRoute::find($this->id), $departure_agency, $agency_destiny, $request->date);
-
+        // if(UserRepository::findByToken(request()->bearerToken())->agencies){
+        //     $price += $this->fleet_detail->fleet->fleetclass->price_food??0;
+        // }
         return [
             'id'                        => $this->id,
+            'route_setting'                        => $this->route_setting,
             'layout_id'                 => $this->fleet_detail->fleet->layout->id,
             'route_name'                => $route->name,
             'fleet_name'                => $this->fleet_detail->fleet->name ?? "",
