@@ -57,7 +57,12 @@ class RouteSettingController extends Controller
      */
     public function store(Request $request)
     {
+
         $data = $request->all();
+        $route_setting = RouteSetting::where('fleet_route_id', $data['fleet_route_id'])->where('agency_id', $data['agency_id'])->first();
+        if($route_setting){
+            return redirect()->back()->with('success', 'Data sudah ditambahkan');
+        }
         RouteSetting::create($data);
         return redirect()->back()->with('success', 'Data berhasil ditambahkan');
     }
@@ -83,7 +88,6 @@ class RouteSettingController extends Controller
     {
         $fleet_route = FleetRoute::find($id);
         $agencies = Agency::whereDoesntHave('route_setting')
-        ->whereNotIn('id', $fleet_route->route->checkpoints->pluck('agency.id')->toArray())
         ->whereHas('city', function ($query) use ($fleet_route)
         {
             $query->where('area_id', $fleet_route->route->checkpoints[0]->agency->city->area_id);

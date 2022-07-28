@@ -91,11 +91,9 @@ Rute Setting
                                 <tr>
                                     <td>{{$fleet_route->fleet_detail?->fleet?->name}}</td>
                                     <td>
-                                        @foreach ($fleet_route->fleet_detail?->fleet?->fleet_detail??[] as $detail)
                                         <li>
-                                            {{$detail->nickname}} ({{$detail->plate_number}})
+                                            {{$fleet_route->fleet_detail?->nickname}} ({{$fleet_route->fleet_detail?->plate_number}})
                                         </li>
-                                        @endforeach
                                     </td>
                                     <td>
                                         {{@$fleet_route->route?->checkpoints[0]?->agency?->city?->area?->name}}
