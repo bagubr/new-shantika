@@ -24,8 +24,7 @@ class FleetRouteRepositories {
                             $subquery->where('departure_at', '>', $time_start)->orWhere('departure_at', '<', $time_end);
                         });
                         $query->where(function($subquery) use ($date, $destination_agency, $departure_agency) {
-                            $subquery->where('agency_id', $destination_agency->id)
-                                ->whereHas('agency', function($subsubquery) use ($date, $departure_agency) {
+                            $subquery->whereHas('agency', function($subsubquery) use ($date, $departure_agency) {
                                 $subsubquery->where('is_active', true)
                                 ->when($departure_agency->city->area_id == 1, function ($subsubsubquery) use ($date)
                                 {
@@ -39,6 +38,21 @@ class FleetRouteRepositories {
                             });
                         });
                     });
+                })
+                ->where(function ($query) use ($destination_agency, $date)
+                {
+                    $query->whereHas('route.checkpoints', function ($query) use ($destination_agency, $date)
+                    {
+                        $query->where('agency_id', $destination_agency->id);    
+                    });                    
+                    $query->orWhere(function ($query) use ($destination_agency, $date)
+                    {
+                        $query->whereHas('route_setting', function ($query) use ($destination_agency, $date)
+                        {
+                            $query->where('agency_id', $destination_agency->id);
+                            $query->whereDate('start_at', '<=', $date)->whereDate('end_at', '>=', $date);
+                        });
+                    });                    
                 })
                 ->whereHas('prices', function($query) use ($date) {
                     $query->whereDate('start_at', '<=', $date)->whereDate('end_at', '>=', $date);

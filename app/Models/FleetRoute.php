@@ -31,7 +31,7 @@ class FleetRoute extends Model
     ];
 
     protected $appends = [
-        'agency_name'
+        'agency_name', 'route_name'
     ];
 
     public function fleet_detail()
@@ -74,5 +74,10 @@ class FleetRoute extends Model
     public function getAgencyNameAttribute()
     {
         return '~'.implode('~~', array_merge($this->fleet_detail?->fleet?->agency_fleet_permanent()?->get()->pluck('agency.name')->toArray(), $this->route?->agency_route_permanent()?->get()->pluck('agency.name')->toArray())). '~';
+    }
+
+    public function getRouteNameAttribute()
+    {
+        return $this->route->name .'~'. implode('~~', $this->route_setting->pluck('agency.name')->toArray());
     }
 }

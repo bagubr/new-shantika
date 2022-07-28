@@ -36,6 +36,7 @@ class AvailableRoutesResource extends JsonResource
         // }
         return [
             'id'                        => $this->id,
+            'route_setting'                        => $this->route_setting,
             'layout_id'                 => $this->fleet_detail->fleet->layout->id,
             'route_name'                => $route->name,
             'fleet_name'                => $this->fleet_detail->fleet->name ?? "",
