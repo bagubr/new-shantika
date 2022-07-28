@@ -171,8 +171,8 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item {{Request::routeIs('routes.*','fleet_route.*', 'fleet_route_prices.*') ? 'menu-open' : ''}}">
-                    <a href="#" class="nav-link {{Request::routeIs('routes.*','fleet_route.*', 'fleet_route_prices.*') ? 'active' : ''}}">
+                <li class="nav-item {{Request::routeIs('routes.*','fleet_route.*', 'fleet_route_prices.*', 'route_setting.*') ? 'menu-open' : ''}}">
+                    <a href="#" class="nav-link {{Request::routeIs('routes.*','fleet_route.*', 'fleet_route_prices.*', 'route_setting.*') ? 'active' : ''}}">
                         <i class="nav-icon fas fa-route"></i>
                         <p>
                             Rute
@@ -194,6 +194,19 @@
                                 <p>Rute Armada</p>
                             </a>
                         </li>
+                        @foreach (\App\Models\Area::get() as $area)
+                        @if(Auth::user()->area_id && Auth::user()->area_id == $area->id || Auth::user()->area_id == null)
+                        <li class="nav-item">
+                            <a href="{{route('route_setting.index', ['area_id' => $area->id])}}"
+                                class="nav-link @if (Request::routeIs('route_setting*') && $area->id == request()->area_id)
+                                active
+                                @endif">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Rute {{$area->name}}</p>
+                            </a>
+                        </li>
+                        @endif
+                        @endforeach
                     </ul>
                 </li>
                 <li class="nav-item {{Request::routeIs('fleet_route_prices.*') ? 'menu-open' : ''}}">

@@ -60,6 +60,7 @@ use App\Http\Controllers\PromoController;
 use App\Http\Controllers\RestaurantBarcodeController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RouteSettingController;
 use App\Http\Controllers\SketchLogController;
 use App\Http\Controllers\SouvenirController;
 use App\Http\Controllers\SouvenirRedeemController;
@@ -217,6 +218,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resources([
         'agency_route_permanent' => AgencyRoutePermanentController::class,
         'agency_route' => AgencyRouteController::class,
+        'route_setting' => RouteSettingController::class,
         'agency_fleet' => AgencyFleetController::class,
         'agency_fleet_permanent' => AgencyFleetPermanentController::class,
         'time_change_route' => TimeChangeRouteController::class,

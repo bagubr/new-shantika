@@ -68,6 +68,11 @@ class Agency extends Model
         return $this->hasMany(AgencyPrice::class);
     }
 
+    public function route_setting()
+    {
+        return $this->hasMany(RouteSetting::class);
+    }
+
     public function route_prices()
     {
         return $this->hasMany(RoutePrice::class);
