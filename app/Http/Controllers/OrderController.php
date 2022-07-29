@@ -116,15 +116,12 @@ class OrderController extends Controller
         }
         if (!empty($status_agent)) {
             if ($status_agent == 'AGENT') {
+                dd('oke');
                 $orders = $orders->whereHas('user', function ($q) {
                     $q->has('agencies');
                 });
             } elseif ($status_agent == 'UMUM') {
-                if (empty($name_non_search)) {
-                    $orders = $orders->whereDoesntHave('user');
-                }else if(empty($name_search)){
-                    $orders = $orders->whereDoesntHave('user.agencies');
-                }
+                $orders = $orders->doesntHave('user.agencies');
             }
         }
 
@@ -133,9 +130,10 @@ class OrderController extends Controller
         }
         if (!empty($date_from_search)) {
             if (!empty($date_from_to)) {
-                $orders = $orders->where('reserve_at', '>=', $date_from_search)->where('reserve_at', '<=', $date_from_to);
+                $orders = $orders->where('reserve_at', '>=', date('Y-m-d', strtotime($date_from_search)))->where('reserve_at', '<=', date('Y-m-d', strtotime($date_from_to)));
+            }else{
+                $orders = $orders->where('reserve_at', '>=', date('Y-m-d', strtotime($date_from_search)));
             }
-            $orders = $orders->where('reserve_at', '>=', $date_from_search);
         }
         $orders = $orders->orderBy('id', 'desc')->paginate(10);
         if (!$orders->isEmpty()) {
@@ -143,7 +141,7 @@ class OrderController extends Controller
         } else {
             session()->flash('error', 'Tidak Ada Data Ditemukan');
         }
-        return view('order.index', compact('orders', 'routes', 'status', 'agent', 'fleet_details', 'agencies'));
+        return view('order.index', compact('name_search', 'name_non_search', 'date_from_search', 'date_from_to', 'code_order_search', 'orders', 'routes', 'status', 'agent', 'fleet_details', 'agencies', 'status_search', 'status_agent', 'fleet_detail_id', 'agency_id'));
     }
     public function export()
     {
