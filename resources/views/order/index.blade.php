@@ -39,14 +39,14 @@ Pemesanan
                                 <div class="col">
                                     <div class="form-group">
                                         <label>Cari Nama Pelanggan</label>
-                                        <input type="text" name="name" class="form-control" value="{{old('name')}}"
+                                        <input type="text" name="name" class="form-control" value="{{$name_search}}"
                                             placeholder="Cari Nama Pelanggan">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
                                         <label>Cari Nama Non Akun</label>
-                                        <input type="text" name="name_non_search" class="form-control" value="{{old('name_non_search')}}"
+                                        <input type="text" name="name_non_search" class="form-control" value="{{$name_non_search}}"
                                             placeholder="Cari Nama Non Akun">
                                     </div>
                                 </div>
@@ -54,7 +54,7 @@ Pemesanan
                                     <div class="form-group">
                                         <label>Cari Kode Order</label>
                                         <input type="text" name="code_order" class="form-control"
-                                            value="{{old('code_order')}}" placeholder="Cari Kode Order">
+                                            value="{{$code_order_search}}" placeholder="Cari Kode Order">
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +81,7 @@ Pemesanan
                                         <select name="status" class="form-control">
                                             <option value="">--Semua Status--</option>
                                             @foreach ($status as $s)
-                                            @if (old('status') == $s)
+                                            @if ($status_search == $s)
                                             <option value="{{$s}}" selected>{{$s}}</option>
                                             @else
                                             <option value="{{$s}}">{{$s}}</option>
@@ -96,7 +96,7 @@ Pemesanan
                                         <select name="agent" class="form-control">
                                             <option value="">--Semua Pemesan--</option>
                                             @foreach ($agent as $a)
-                                            @if (old('agent') == $a)
+                                            @if ($status_agent == $a)
                                             <option value="{{$a}}" selected>{{$a}}</option>
                                             @else
                                             <option value="{{$a}}">{{$a}}</option>
@@ -113,7 +113,7 @@ Pemesanan
                                         <select name="fleet_detail_id" class="form-control select2">
                                             <option value="">--PILIH ARMADA--</option>
                                             @foreach ($fleet_details as $fleet_detail)
-                                            @if (old('fleet_detail_id') == $fleet_detail->id)
+                                            @if ($fleet_detail_id == $fleet_detail->id)
                                             <option value="{{$fleet_detail->id}}" selected>
                                                 {{$fleet_detail->fleet?->name}}/{{$fleet_detail->fleet?->fleetclass?->name}}
                                                 ({{$fleet_detail->nickname}})
@@ -134,7 +134,7 @@ Pemesanan
                                         <select class="form-control select2" name="agency_id">
                                             <option value="">--PILIH AGEN--</option>
                                             @foreach ($agencies as $agency)
-                                            @if (old('agency_id') == $agency->id)
+                                            @if ($agency_id == $agency->id)
                                             <option value="{{$agency->id}}" selected>
                                                 {{$agency->name}}
                                             </option>
@@ -153,14 +153,14 @@ Pemesanan
                                     <div class="form-group">
                                         <label>Mulai Dari</label>
                                         <input type="date" class="form-control" name="date_from"
-                                            value="{{old('date_from')}}">
+                                            value="{{$date_from_search}}">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
                                         <label>Sampai Dengan</label>
                                         <input type="date" class="form-control" name="date_to"
-                                            value="{{old('date_to')}}">
+                                            value="{{$date_from_search}}">
                                     </div>
                                 </div>
                             </div>
