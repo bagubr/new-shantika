@@ -73,7 +73,7 @@ class FleetRoute extends Model
     }
     public function getAgencyNameAttribute()
     {
-        return '~'.implode('~~', array_merge($this->fleet_detail?->fleet?->agency_fleet_permanent()?->get()->pluck('agency.name')->toArray(), $this->route?->agency_route_permanent()?->get()->pluck('agency.name')->toArray())). '~';
+        return '~'.implode('~~', array_merge(@$this->fleet_detail?->fleet?->agency_fleet_permanent()?->get()->pluck('agency.name')->toArray()??[], @$this->route?->agency_route_permanent()?->get()->pluck('agency.name')->toArray())??[]). '~';
     }
 
     public function getRouteNameAttribute()

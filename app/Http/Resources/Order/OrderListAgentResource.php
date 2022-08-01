@@ -42,7 +42,7 @@ class OrderListAgentResource extends JsonResource
             'code'                      => $this->code,
             'name_fleet'                => $fleet?->name ?? "",
             'fleet_class'               => $fleet?->fleetclass?->name ?? "",
-            'chairs'                    => @OrderDetailChairResource::collection($this->order_detail),
+            // 'chairs'                    => $this->order_detail,
             'price'                     => PriceTiket::priceTiket($fleet_route, $agent_start, $agency_destiny, $this->reserve_at),
             'time_classification_id'    => $this->time_classification_id,
             'reserve_at'                => $this->reserve_at,
