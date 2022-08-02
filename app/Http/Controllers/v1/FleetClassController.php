@@ -77,6 +77,7 @@ class FleetClassController extends Controller
             });
         })
         ->get()->makeHidden(['price_fleet_class1', 'price_fleet_class2']);
+        $fleet_classses = [];
         foreach($fleet_class as $key => $value){
             $user = UserRepository::findByToken($request->bearerToken());
             $agency_id = $request->agency_departure_id??$user->agencies->agency_id;
