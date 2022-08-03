@@ -64,9 +64,13 @@ class OrderDetailController extends Controller
                 $order_detail->order->distribution->update([
                     'for_member' => $order_detail->order->distribution->for_member + Setting::first()->member
                 ]);
-                $membership = Membership::where('code_member', CodeMember::code($order_detail->order->id_member))->first();
-                if($membership){
-                    MembershipService::increment($membership, Setting::find(1)->point_purchase, 'Pembelian Tiket');
+                try {
+                    $membership = Membership::where('code_member', CodeMember::code($request->id_member))->first();
+                    if($membership){
+                        MembershipService::increment($membership, Setting::find(1)->point_purchase, 'Pembelian Tiket');
+                    }
+                } catch (\Throwable $th) {
+                    //throw $th;
                 }
                 $price -= Setting::first()->member;
             }
