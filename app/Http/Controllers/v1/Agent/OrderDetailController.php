@@ -6,13 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\ApiOrderDetailUpdateRequest;
 use App\Http\Resources\OrderDetail\DetailTodayPossibleCustomerResource;
 use App\Http\Resources\OrderDetail\TodayPossibleCustomerResource;
+use App\Models\Membership;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Setting;
 use App\Models\User;
 use App\Repositories\OrderDetailRepository;
 use App\Repositories\UserRepository;
+use App\Services\MembershipService;
 use App\Services\OrderPriceDistributionService;
+use App\Utils\CodeMember;
 use App\Utils\FoodPrice;
 use Illuminate\Http\Request;
 
@@ -61,6 +64,10 @@ class OrderDetailController extends Controller
                 $order_detail->order->distribution->update([
                     'for_member' => $order_detail->order->distribution->for_member + Setting::first()->member
                 ]);
+                $membership = Membership::where('code_member', CodeMember::code($order_detail->order->id_member))->first();
+                if($membership){
+                    MembershipService::increment($membership, Setting::find(1)->point_purchase, 'Pembelian Tiket');
+                }
                 $price -= Setting::first()->member;
             }
         }
