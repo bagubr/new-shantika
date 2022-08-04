@@ -7,6 +7,7 @@ use App\Models\Checkpoint;
 use App\Models\Membership;
 use App\Models\Route;
 use App\Models\Setting;
+use App\Models\User;
 use App\Utils\CodeMember;
 use Illuminate\Http\Request;
 
@@ -25,15 +26,12 @@ class MembershipController extends Controller
         if(!$member){
             $this->sendFailedResponse([], 'Nama dengan kode member ' . $code_member . ' Membership tidak ditemukan');
         }
-        if(!$member->user){
-            $member['user'] = [
-                'name' => $member->name,
-                'phone' => $member->phone,
-                'email' => $member->email??'',
-            ];
-        }else{
-            $member['email'] = $member->user?->email??'';
-        }
+        $array = [
+            'name' => $member->name,
+            'phone' => $member->phone,
+            'email' => User::find($member->user_id)->email??'',
+        ];
+        $member->user = (object) $array;
 
         return $this->sendSuccessResponse([
             'membership' => $member,
