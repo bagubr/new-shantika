@@ -25,7 +25,15 @@ class MembershipController extends Controller
         if(!$member){
             $this->sendFailedResponse([], 'Nama dengan kode member ' . $code_member . ' Membership tidak ditemukan');
         }
-        $member['email'] = $member->user?->email??'';
+        if(!$member->user){
+            $member['user'] = [
+                'name' => $member->name,
+                'phone' => $member->phone,
+                'email' => $member->email??'',
+            ];
+        }else{
+            $member['email'] = $member->user?->email??'';
+        }
 
         return $this->sendSuccessResponse([
             'membership' => $member,
