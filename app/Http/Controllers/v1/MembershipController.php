@@ -28,7 +28,7 @@ class MembershipController extends Controller
         }
         $array = [
             'name' => $member->name,
-            'phone' => User::find($member->user_id)->phone??$member->phone,
+            'phone' => User::find($member->user_id)->phone??'',
             'email' => User::find($member->user_id)->email??'',
         ];
         $member->user = (object) $array;
