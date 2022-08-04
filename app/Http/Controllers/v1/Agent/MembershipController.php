@@ -13,7 +13,7 @@ class MembershipController extends Controller
     {
         try {
             $data = explode("|", $request->code_member);
-            $membership =  Membership::where('code_member', $data[0])->where('user_id', $data[1])->first();
+            $membership =  Membership::where('code_member', $data[0])->first();
             
             if(!$membership){
                 return $this->failedResponse([], 'Data Member tidak di temukan');
