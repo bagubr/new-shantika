@@ -87,7 +87,8 @@ class RouteSettingController extends Controller
     public function edit($id)
     {
         $fleet_route = FleetRoute::find($id);
-        $agencies = Agency::whereDoesntHave('route_setting')
+        $agency_id = $fleet_route->route_setting->pluck('agency_id')->toArray();
+        $agencies = Agency::whereNotIn('id', $agency_id)
         ->whereHas('city', function ($query) use ($fleet_route)
         {
             $query->where('area_id', $fleet_route->route->checkpoints[0]->agency->city->area_id);
