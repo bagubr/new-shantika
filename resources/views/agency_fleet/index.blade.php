@@ -58,12 +58,14 @@ Armada Agen
                                     <td>
                                         @foreach ($fleet->fleet_detail as $detail)
                                             @foreach ($detail->fleet_route??[] as $fleet_routes)
+                                            @if($fleet_routes->route?->checkpoints[0]?->agency?->city?->area_id == request()->area_id)
                                             <li>
                                                 {{$fleet_routes->route?->name??''}}
                                                 (
                                                     {{$fleet_routes->route?->checkpoints[0]?->agency?->city?->area?->name??'BELUM ADA'}}
                                                     )
                                                 </li>
+                                            @endif
                                             @endforeach
                                         @endforeach
                                     </td>
