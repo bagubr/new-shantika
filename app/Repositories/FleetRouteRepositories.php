@@ -88,12 +88,20 @@ class FleetRouteRepositories {
                         $query->where(function ($query) use($departure_agency, $date) {
                             $query->whereHas('agency_fleet_permanent', function ($query) use ($departure_agency)
                             {
+                                $query->whereHas('agency.city', function ($query)
+                                {
+                                    $query->where('area_id', 2);
+                                });
                                 $query->where('agency_id', $departure_agency->id);
                                 $query->whereNull('start_at');
                                 $query->whereNull('end_at');
                             });
                             $query->orWhereHas('agency_fleet_permanent', function ($query) use ($date)
                             {
+                                $query->whereHas('agency.city', function ($query)
+                                {
+                                    $query->where('area_id', 2);
+                                });
                                 $query->whereDate('start_at', '<=', $date)->whereDate('end_at', '>=', $date);
                                 $query->whereNotNull('start_at');
                                 $query->whereNotNull('end_at');
