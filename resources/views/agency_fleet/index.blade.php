@@ -47,11 +47,14 @@ Armada Agen
                             <tbody>
                                 @foreach ($fleets as $fleet)
                                 <tr>
-                                    <td>{{$fleet->name}}</td>
+                                    <td>
+                                        {{$fleet->name}}
+                                        ({{$fleet->fleetclass->name}})
+                                    </td>
                                     <td>
                                         @foreach ($fleet->fleet_detail as $detail)
                                         <li>
-                                            {{$detail->nickname}} ({{$detail->plate_number}})
+                                            {{$detail->nickname}} ({{$detail->plate_number}})({{$detail->time_classification->name}})
                                         </li>
                                         @endforeach
                                     </td>
