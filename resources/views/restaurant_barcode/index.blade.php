@@ -29,13 +29,12 @@ Scan Barcode
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Table Scan Barcode</h3>
+                        <h3 class="card-title">Scan Barcode</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12">
-
                                 <div class="form-row">
                                     <div class="col">
                                         <label>Nama</label>
@@ -51,8 +50,23 @@ Scan Barcode
                                     <h5>{{$restaurant->address}}</h5>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div id="qr-reader" class="mx-auto"></div>
+                            <div class="col-md-6 pt-2"  style="border: 1px dashed;">
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <div id="qr-reader" class="mx-auto"></div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-auto">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="giftPermission()">Permission</button>
+                                    </div>
+                                    <div class="col-auto">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="stopCamera()">Stop Kamera</button>
+                                    </div>
+                                    <div class="col-auto">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="scanBackCamera()">Mulai Scan</button>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-row">
@@ -87,13 +101,13 @@ Scan Barcode
 </div>
 @endsection
 @push('script')
-<script>
+<!-- <script>
     $(function () {
       $("#example1").DataTable({
         "responsive": true, "lengthChange": false, "autoWidth": false,
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
-</script>
+</script> -->
 <script src="https://unpkg.com/html5-qrcode@2.0.9/dist/html5-qrcode.min.js"></script>
 <script>
     function beep() {
@@ -152,12 +166,41 @@ Scan Barcode
         });
 
     }
-    var html5QrcodeScanner = new Html5QrcodeScanner(
-        "qr-reader", {
-            fps: 10,
-            qrbox: 250
-        });
-    html5QrcodeScanner.render(onScanSuccess);
+    // var html5QrcodeScanner = new Html5QrcodeScanner(
+    //     "qr-reader", {
+    //         fps: 10,
+    //         qrbox: 250,
+    //         facingMode: "environment"
+    //     });
+    // html5QrcodeScanner.render(onScanSuccess);
+const html5QrCode = new Html5Qrcode("qr-reader");
+const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+    alert('sukses')
+};
+const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+
+function scanBackCamera(){
+    html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+}
+function giftPermission(){
+    Html5Qrcode.getCameras().then(devices => {
+    if (devices && devices.length) {
+        var cameraId = devices[0].id;
+        toastr.success('Permission kamera berhasil dapatkan')
+    }
+    }).catch(err => {
+        toastr.error('Gagal meminta permission kamera')
+    });
+}
+function stopCamera(){
+    html5QrCode.stop().then((ignore) => {
+
+    }).catch((err) => {
+
+    });
+}
+
+
 </script>
 <script>
     $("#check_manually").click(function (e) {
